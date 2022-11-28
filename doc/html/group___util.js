@@ -1,0 +1,57 @@
+var group___util =
+[
+    [ "Util", "class_util.html", [
+      [ "setInterval", "class_util.html#a51f3e6f28fcf7573aea7e594aaaa4f55", null ],
+      [ "clearInterval", "class_util.html#ad40fc6b6223136ab3657fb87bae823e9", null ],
+      [ "setTimeout", "class_util.html#a2ee7ec14a4081f9504b7035f025e420e", null ],
+      [ "clearTimeout", "class_util.html#a1332b466a54214e80f6d2e215d7f2af5", null ],
+      [ "stateUpdate", "class_util.html#a2cf950bfc5052cbbf322b6d7be9d16df", null ],
+      [ "stateUpdate", "class_util.html#a378fc40a72bd64f5239d182a97835b4e", null ],
+      [ "stateUpdateById", "class_util.html#a09367c45a1d07d860f634c6ec11154a4", null ],
+      [ "stateCreate", "class_util.html#ab442c2ecdc886e1acaeaffee5a66d5d1", null ],
+      [ "stateRemove", "class_util.html#a47d3899cdf1d22e4665fa876f83f6dad", null ],
+      [ "choiceUpdate", "class_util.html#a52cf9583963ac64f428333851653d547", null ],
+      [ "connectorUpdate", "class_util.html#aff57e640681fa473d2015b999aa3a0db", null ],
+      [ "showNotification", "class_util.html#aca3dfd89f76afe1c86069f7924fd678a", null ],
+      [ "env", "class_util.html#a81494737245e9fc0778dccd788ff1259", null ],
+      [ "env", "class_util.html#a30e4f6307280325b0905ca989ccd02bc", null ],
+      [ "env", "class_util.html#a0b3180f05674af3c9eaed8efd4ecb15f", null ],
+      [ "envPut", "class_util.html#a13b2eec25a8a7a1e459913424da79d25", null ],
+      [ "envUnset", "class_util.html#ae25e0276f0ba37ec7f209a08e12b06fc", null ],
+      [ "envIsSet", "class_util.html#a715917f656b13ea48660ffeda7d50914", null ],
+      [ "include", "class_util.html#ac8fa42cb02df6f81092f7fd0d9defd1e", null ],
+      [ "appendLine", "class_util.html#a7fc68a4334499e6475078e274df04ca5", null ],
+      [ "getLines", "class_util.html#a547c82f12e0c4d6a0143816b1d5a5501", null ],
+      [ "btoa", "class_util.html#afff4d7e695ee5e59f1cc88c2b8b099d1", null ],
+      [ "toBase64", "class_util.html#a5aa2103028ae310076e9c7b4d9c56ea0", null ],
+      [ "atob", "class_util.html#a163d977234715dacc7e3ec5d507b7d83", null ],
+      [ "fromBase64", "class_util.html#a34ccd082ddee43568137f3418df8238e", null ]
+    ] ],
+    [ "Qt", "class_qt.html", [
+      [ "locale", "class_qt.html#a7054cb6bbc5daa104eec29dd4a5f0588", null ],
+      [ "platform", "class_qt.html#a143ac8282b962741ee0ff02af007d640", null ],
+      [ "atob", "class_qt.html#ab0c3556d491b0be42f6e5768a9dca7b9", null ],
+      [ "btoa", "class_qt.html#a168d5913a20d8ef5099db892cb9505ce", null ],
+      [ "md5", "class_qt.html#a16bd92d628234ca275cba3d4747e13c6", null ],
+      [ "openUrlExternally", "class_qt.html#a13a874f59fdfa4394bfd28f64396c1c6", null ]
+    ] ],
+    [ "Color", "class_color.html", [
+      [ "argb", "class_color.html#a7d8f4ccc7a2b5948b19c3f93b5e045e3", null ],
+      [ "mix", "class_color.html#a3e32bf312e0c39dbb0a853d929f0605a", null ],
+      [ "mixWith", "class_color.html#ae07b8254db57a444acc32e446e6fb218", null ],
+      [ "tint", "class_color.html#a8fc004088e75e937fa38926bf70617ec", null ],
+      [ "shade", "class_color.html#a06c1adfd2c9e4ae067f1a2f3bec3f7c8", null ],
+      [ "polyad", "class_color.html#adfb086b470804a4f7dc911d2dd148cab", null ],
+      [ "isDarkerThan", "class_color.html#a0fb05e209fb1735a580f46c4de5a134b", null ],
+      [ "isLighterThan", "class_color.html#a25aece80595eb76d1887e79e5ea32518", null ],
+      [ "isWarm", "class_color.html#a151247ebab3660fe828e9fbfd74b773c", null ],
+      [ "isCool", "class_color.html#a8ae8f3c5fb6a29c6f5ff433b2a293232", null ],
+      [ "isWarmerThan", "class_color.html#abbcf97ad083904642363abe9a6a767ca", null ],
+      [ "isCoolerThan", "class_color.html#aa5da9f1b50792fd0e6dbd8a82041e979", null ],
+      [ "saturation", "class_color.html#a83d919d62cd11c587e38408fd4bb39da", null ],
+      [ "isDarker", "class_color.html#a15e22cf7196bd871990772acae335805", null ],
+      [ "isLighter", "class_color.html#ad80848a56dab735fe5f3fc50b7742fb9", null ],
+      [ "isWarmer", "class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a", null ],
+      [ "isCooler", "class_color.html#aedfdb92aa8271d5629c1bcc18dbc7b7e", null ]
+    ] ]
+];
