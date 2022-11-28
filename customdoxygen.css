@@ -18,12 +18,17 @@ html {
 	padding-right: 6px !important;
 }
 
+#nav-tree-contents {
+	margin-top: 12px;
+}
+
 .ui-resizable-e {
 	width: 6px !important;
 }
 
-#titlearea {
-	margin-right: 30px;
+#titlearea {  
+	padding-top: 4px;
+  padding-bottom: 13px;
 }
 
 #projectlogo img
@@ -33,16 +38,35 @@ html {
 	margin-right: revert;
 }
 
-td#projectalign {
+/*td#projectalign {
 	vertical-align: bottom;
-}
+	display: block;
+	position: relative;
+	right: 14px;
+	top: 59px;
+	width: 93%;
+}*/
 
 #projectname
 {
 	/*font: bold 280% Tahoma, Arial,sans-serif;*/
 	/*margin: 0px;*/
-	padding: 2px 2px 0px 0px;
+	/*padding: 2px 2px 0px 0px;*/
 	/* font-variant: small-caps; */
+	display: block;
+	position: absolute;
+	width: 340px;
+	top: 67px;
+	left: 0;
+	text-align: right;
+}
+
+#projectnumber {
+	font-size: 50% !important;
+}
+
+div.textblock {
+	padding: 0px 3%;
 }
 
 a.el, a.elRef {
