@@ -9,10 +9,8 @@ for use with [Touch Portal](https://www.touch-portal.com/) macro launcher softwa
 
 ----------
 <div class="darkmode_inverted_image">
-<img align="right" src="https://mpaperno.github.io/DSEP4TP/images/logo/banner_540x135.png">
+<img align="right" src="https://mpaperno.github.io/DSEP4TP/images/logo/banner_420x105.png">
 </div>
-
-[TOC]
 
 <div class="hide-on-site">
 
