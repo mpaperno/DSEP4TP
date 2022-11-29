@@ -9,9 +9,7 @@ var searchData=
   ['addmonths_6',['addMonths',['../class_date.html#a1e81f800f0d8633cae99e3290f12ca54',1,'Date']]],
   ['addseconds_7',['addSeconds',['../class_date.html#a0405b26df049c4ac868b41005cd0d5df',1,'Date']]],
   ['addyears_8',['addYears',['../class_date.html#a2af53c3e326239c0bd7ba6b730d34a3d',1,'Date']]],
-  ['appendline_9',['appendLine',['../class_util.html#a7fc68a4334499e6475078e274df04ca5',1,'Util']]],
-  ['arg_10',['arg',['../class_string.html#a15c6d638aa8030c022876d6338220f7d',1,'String']]],
-  ['argb_11',['argb',['../class_color.html#a7d8f4ccc7a2b5948b19c3f93b5e045e3',1,'Color']]],
-  ['atime_12',['atime',['../class_file.html#a08400507894207938743b0f812a18a17',1,'File']]],
-  ['atob_13',['atob',['../class_util.html#a163d977234715dacc7e3ec5d507b7d83',1,'Util::atob()'],['../class_qt.html#ab0c3556d491b0be42f6e5768a9dca7b9',1,'Qt::atob()']]]
+  ['arg_9',['arg',['../class_string.html#a15c6d638aa8030c022876d6338220f7d',1,'String']]],
+  ['atime_10',['atime',['../class_file.html#a08400507894207938743b0f812a18a17',1,'File']]],
+  ['atob_11',['atob',['../class_global_object.html#aaac1708acf0bef57d9d26fe7ed5bf629',1,'GlobalObject::atob()'],['../class_qt.html#ab0c3556d491b0be42f6e5768a9dca7b9',1,'Qt::atob()']]]
 ];

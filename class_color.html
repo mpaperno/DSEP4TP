@@ -117,13 +117,38 @@ $(document).ready(function(){initNavTree('class_color.html',''); initResizable()
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p >Provides functions for working with color. </p>
+<p >New instances can be created with <code>new <a class="el" href="class_color.html" title="Provides functions for working with color.">Color(input)</a></code> or just <code><a class="el" href="class_color.html" title="Provides functions for working with color.">Color(input)</a></code>. Static functions are invoked with <code><a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a>.</code> qualifier.</p>
 <p >Library originally from <a href="https://github.com/bgrins/TinyColor" target="_blank">TinyColor</a>. This object can also be invoked with <code>tinycolor()</code>.</p>
-<p >The library has been extended with extra functions described below. For the rest of the documentation, please see original reference at <a href="https://github.com/bgrins/TinyColor#usage">https://github.com/bgrins/TinyColor#usage</a> </p>
+<p >The library has been extended with extra functions described below. For the rest of the documentation, with examples, please see original reference at <a href="https://github.com/bgrins/TinyColor#usage">https://github.com/bgrins/TinyColor#usage</a><br  />
+ There is also a basic demo page with some more details at <a href="http://bgrins.github.io/TinyColor/">http://bgrins.github.io/TinyColor/</a></p>
+<p >The following methods are aliases of their longer counterparts (unlinked ones are documented at TinyColor site):</p>
+<ul>
+<li><code>originalInput()</code> = getOriginalInput();</li>
+<li><code>format()</code> = getFormat();</li>
+<li><code>alpha()</code> = getAlpha();</li>
+<li><code>brightness()</code> = getBrightness();</li>
+<li><code>luminance()</code> = getLuminance();</li>
+<li><code>saturation()</code> = <a class="el" href="class_color.html#a45d3734fd6c897723acd3cb8e5e6fa3b" title="Returns the saturation value of this color.">getSaturation()</a>;</li>
+<li><code>hsv()</code> = toHsvString();</li>
+<li><code>hsl()</code> = toHslString();</li>
+<li><code>hex()</code> = toHexString();</li>
+<li><code>rgba()</code> = toHex8String();</li>
+<li><code>argb()</code> = <a class="el" href="class_color.html#a31c6fb63b3f241f7809c38e9a55633fa" title="Returns color formatted in #AARRGGBB format.">toArgbHexString()</a>;</li>
+<li><code>rgb()</code> = toRgbString();</li>
+<li><code>prgb()</code> = toPercentageRgbString();</li>
+</ul>
+<p >In addition, the <code>toString()</code> method is extended with "argb" and "hex8a" format specifiers (both are analogous), see <code><a class="el" href="class_color.html#a31c6fb63b3f241f7809c38e9a55633fa" title="Returns color formatted in #AARRGGBB format.">toArgbHexString()</a></code>. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7d8f4ccc7a2b5948b19c3f93b5e045e3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a7d8f4ccc7a2b5948b19c3f93b5e045e3">argb</a> ()</td></tr>
-<tr class="separator:a7d8f4ccc7a2b5948b19c3f93b5e045e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7a57ec62f370d92e749c92e43e62f68"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#af7a57ec62f370d92e749c92e43e62f68">tpcolor</a> ()</td></tr>
+<tr class="separator:af7a57ec62f370d92e749c92e43e62f68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4569b96c0298ecd4296dddbc68306ca1"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a4569b96c0298ecd4296dddbc68306ca1">toArgbHex</a> ()</td></tr>
+<tr class="separator:a4569b96c0298ecd4296dddbc68306ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31c6fb63b3f241f7809c38e9a55633fa"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a31c6fb63b3f241f7809c38e9a55633fa">toArgbHexString</a> ()</td></tr>
+<tr class="separator:a31c6fb63b3f241f7809c38e9a55633fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45d3734fd6c897723acd3cb8e5e6fa3b"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a45d3734fd6c897723acd3cb8e5e6fa3b">getSaturation</a> ()</td></tr>
+<tr class="separator:a45d3734fd6c897723acd3cb8e5e6fa3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e32bf312e0c39dbb0a853d929f0605a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a3e32bf312e0c39dbb0a853d929f0605a">mix</a> (<a class="el" href="class_color.html">Color</a> color1, <a class="el" href="class_color.html">Color</a> color2, number amount)</td></tr>
 <tr class="separator:a3e32bf312e0c39dbb0a853d929f0605a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae07b8254db57a444acc32e446e6fb218"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#ae07b8254db57a444acc32e446e6fb218">mixWith</a> (<a class="el" href="class_color.html">Color</a> color2, number amount)</td></tr>
@@ -146,8 +171,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abbcf97ad083904642363abe9a6a767ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5da9f1b50792fd0e6dbd8a82041e979"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#aa5da9f1b50792fd0e6dbd8a82041e979">isCoolerThan</a> (<a class="el" href="class_color.html">Color</a> secondColor)</td></tr>
 <tr class="separator:aa5da9f1b50792fd0e6dbd8a82041e979"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83d919d62cd11c587e38408fd4bb39da"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a83d919d62cd11c587e38408fd4bb39da">saturation</a> ()</td></tr>
-<tr class="separator:a83d919d62cd11c587e38408fd4bb39da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15e22cf7196bd871990772acae335805"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a15e22cf7196bd871990772acae335805">isDarker</a> (<a class="el" href="class_color.html">Color</a> color1, <a class="el" href="class_color.html">Color</a> color2)</td></tr>
 <tr class="separator:a15e22cf7196bd871990772acae335805"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad80848a56dab735fe5f3fc50b7742fb9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#ad80848a56dab735fe5f3fc50b7742fb9">isLighter</a> (<a class="el" href="class_color.html">Color</a> color1, <a class="el" href="class_color.html">Color</a> color2)</td></tr>
@@ -158,14 +181,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aedfdb92aa8271d5629c1bcc18dbc7b7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a7d8f4ccc7a2b5948b19c3f93b5e045e3" name="a7d8f4ccc7a2b5948b19c3f93b5e045e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d8f4ccc7a2b5948b19c3f93b5e045e3">&#9670;&nbsp;</a></span>argb()</h2>
+<a id="af7a57ec62f370d92e749c92e43e62f68" name="af7a57ec62f370d92e749c92e43e62f68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7a57ec62f370d92e749c92e43e62f68">&#9670;&nbsp;</a></span>tpcolor()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string argb </td>
+          <td class="memname">string tpcolor </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -174,6 +197,67 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns color formatted in <code>#AARRGGBB</code> format (this is suitable for use with Touch Portal's "Set Text/Background color from plug-in state" action). </p>
+<p ><br  />
+ Same as <code>argb()</code> and <code><a class="el" href="class_color.html#a31c6fb63b3f241f7809c38e9a55633fa" title="Returns color formatted in #AARRGGBB format.">toArgbHexString()</a></code>. </p>
+
+</div>
+</div>
+<a id="a4569b96c0298ecd4296dddbc68306ca1" name="a4569b96c0298ecd4296dddbc68306ca1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4569b96c0298ecd4296dddbc68306ca1">&#9670;&nbsp;</a></span>toArgbHex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string toArgbHex </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns color formatted in <code>AARRGGBB</code> format. </p>
+
+</div>
+</div>
+<a id="a31c6fb63b3f241f7809c38e9a55633fa" name="a31c6fb63b3f241f7809c38e9a55633fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31c6fb63b3f241f7809c38e9a55633fa">&#9670;&nbsp;</a></span>toArgbHexString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string toArgbHexString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns color formatted in <code>#AARRGGBB</code> format. </p>
+<p >Alias: <code>argb()</code>, <code><a class="el" href="class_color.html#af7a57ec62f370d92e749c92e43e62f68" title="Returns color formatted in #AARRGGBB format (this is suitable for use with Touch Portal&#39;s &quot;Set Text/B...">tpcolor()</a></code> </p><dl class="section user"><dt></dt><dd>In addition, the <code>toString()</code> method is extended with "argb" and "hex8a" format specifiers (both are analogous). </dd></dl>
+
+</div>
+</div>
+<a id="a45d3734fd6c897723acd3cb8e5e6fa3b" name="a45d3734fd6c897723acd3cb8e5e6fa3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45d3734fd6c897723acd3cb8e5e6fa3b">&#9670;&nbsp;</a></span>getSaturation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">number getSaturation </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the saturation value of this color. </p>
+<p >Alias: <code>saturation()</code> </p>
 
 </div>
 </div>
@@ -210,8 +294,8 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns a new color with <code>color1</code> and <code>color2</code> mixed by <code>amount</code>. </p>
-<p ><code>amount</code> should be in range of 0-100.</p>
-<p >This is a static function. Use it like <code><a class="el" href="class_color.html#a3e32bf312e0c39dbb0a853d929f0605a" title="Returns a new color with color1 and color2 mixed by amount.">Color.mix</a>("red", "blue", 50)</code> </p>
+<p ><code>amount</code> should be in range of 0-100. <br  />
+ This is a static function. Use it like <code><a class="el" href="class_color.html#a3e32bf312e0c39dbb0a853d929f0605a" title="Returns a new color with color1 and color2 mixed by amount.">Color.mix</a>("red", "blue", 50)</code> </p>
 
 </div>
 </div>
@@ -325,6 +409,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns an array of up to <code>n</code> complimentary colors. </p>
+<p >Same as <code>triad()</code> and <code>tetrad()</code> when called with values 3 and 4, respectively. </p>
 
 </div>
 </div>
@@ -444,25 +529,6 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Return the opposite value of <a class="el" href="class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a" title="Returns true if the color is warmer i.e.">isWarmer()</a>. </p>
-
-</div>
-</div>
-<a id="a83d919d62cd11c587e38408fd4bb39da" name="a83d919d62cd11c587e38408fd4bb39da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83d919d62cd11c587e38408fd4bb39da">&#9670;&nbsp;</a></span>saturation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">number saturation </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the saturation value of this color. </p>
 
 </div>
 </div>
@@ -593,7 +659,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_color.html">Color</a></li>
-    <li class="footer">Generated on Mon Nov 28 2022 08:07:14 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Tue Nov 29 2022 08:57:15 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

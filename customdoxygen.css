@@ -8,11 +8,12 @@ html {
     --note-color-darker: #3d2e01; */
 }
 
-/* html.dark-mode {
-    --note-color: #969696;
+ html.dark-mode {
+		--primary-color: #7cb7e3;
+/*    --note-color: #969696;
     --note-color-dark: #634b03;
-    --note-color-darker: #3d2e01;
-} */
+    --note-color-darker: #3d2e01;*/
+} 
 
 #side-nav {
 	padding-right: 6px !important;
@@ -65,7 +66,7 @@ html {
 	font-size: 50% !important;
 }
 
-div.textblock {
+div.contents {
 	padding: 0px 3%;
 }
 

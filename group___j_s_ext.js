@@ -7,6 +7,10 @@ var group___j_s_ext =
       [ "DSE_INSTANCE_STATE_ID", "class_global_object.html#a4177350adc58accb6b9fd8ebdbb85cd9", null ],
       [ "DSE_INSTANCE_DEFAULT_VALUE", "class_global_object.html#a8f9de602d8c0658e6c9af7bb65fa624c", null ],
       [ "DSE_INSTANCE_TYPE", "class_global_object.html#a289c4ce80a32de88b69598b6334b72df", null ],
+      [ "DSE_SCRIPTS_BASE_DIR", "class_global_object.html#a1d869d6a3a2dbe4c445205e9354dab32", null ],
+      [ "atob", "class_global_object.html#aaac1708acf0bef57d9d26fe7ed5bf629", null ],
+      [ "btoa", "class_global_object.html#a168d5913a20d8ef5099db892cb9505ce", null ],
+      [ "include", "class_global_object.html#a9313c34613ad2b236e45fab688689612", null ],
       [ "Format", "class_global_object.html#acd5e884df6b19a0c00b5747908e20d5d", null ],
       [ "sprintf", "class_global_object.html#a4bdf4eafc63766384d4e1a6d604ab9b5", null ]
     ] ],
@@ -32,13 +36,13 @@ var group___j_s_ext =
       [ "toRadians", "class_math.html#ae2bb26e91a408a5abe89cd02a2bb4445", null ]
     ] ],
     [ "Number", "class_number.html", [
-      [ "round", "class_number.html#a2976963ff8c410133040d33ae41a46d6", null ],
-      [ "clamp", "class_number.html#a8f0d6997c92633ddeaae0a783c2c7790", null ],
-      [ "constrain", "class_number.html#ac9ed786aaf1627057ba774f4af4775af", null ],
       [ "format", "class_number.html#a3be6b4afd282be1b08ed226cc97ff34a", null ],
       [ "fromLocaleString", "class_number.html#a5b095bc6784cbd874b4e32020d13edb2", null ],
       [ "toLocaleCurrencyString", "class_number.html#a1adaf4614fa7d1c79552bf0816f07530", null ],
-      [ "toLocaleString", "class_number.html#ae3b0479a975b36c5ef3adfd4622110d3", null ]
+      [ "toLocaleString", "class_number.html#ae3b0479a975b36c5ef3adfd4622110d3", null ],
+      [ "round", "class_number.html#a2976963ff8c410133040d33ae41a46d6", null ],
+      [ "clamp", "class_number.html#a8f0d6997c92633ddeaae0a783c2c7790", null ],
+      [ "constrain", "class_number.html#ac9ed786aaf1627057ba774f4af4775af", null ]
     ] ],
     [ "String", "class_string.html", [
       [ "arg", "class_string.html#a15c6d638aa8030c022876d6338220f7d", null ],

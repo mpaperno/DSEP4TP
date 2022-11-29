@@ -52,14 +52,14 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Scripting Syntax and Caveats", "scripting.html", [
-      [ "JavaScript Syntax Rules", "scripting.html#autotoc_md72", null ],
-      [ "Escaping Problem Characters", "scripting.html#autotoc_md73", null ]
+      [ "JavaScript Syntax Rules", "scripting.html#autotoc_md75", null ],
+      [ "Escaping Problem Characters", "scripting.html#autotoc_md76", null ]
     ] ],
     [ "Status and Logging", "status.html", [
-      [ "Introduction", "status.html#autotoc_md74", [
-        [ "Status States", "status.html#autotoc_md75", null ],
-        [ "\"Console\" Log", "status.html#autotoc_md76", null ],
-        [ "Plugin Log", "status.html#autotoc_md77", null ]
+      [ "Introduction", "status.html#autotoc_md77", [
+        [ "Status States", "status.html#autotoc_md78", null ],
+        [ "\"Console\" Log", "status.html#autotoc_md79", null ],
+        [ "Plugin Log", "status.html#autotoc_md80", null ]
       ] ]
     ] ],
     [ "JavaScript Library Reference", "modules.html", "modules" ]
@@ -69,7 +69,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "actions.html",
-"class_util.html#a51f3e6f28fcf7573aea7e594aaaa4f55"
+"group___touch_portal.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

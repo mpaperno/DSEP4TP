@@ -142,6 +142,8 @@ Function Properties</h3>
 </ul>
 <h3><a class="anchor" id="autotoc_md31"></a>
 Constructor Properties</h3>
+<p >Note: Some object may only offer partial support for latest standards. Details of which properties/functions are supported per object type are shown after this list.</p>
+<p >In some cases the standard objects are also extended (<a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a>, <a class="el" href="class_math.html" title="Math Object Extensions.">Math</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a>, <a class="el" href="class_string.html" title="Extends String object.">String</a>), as is the <a class="el" href="class_global_object.html" title="Extends Global Object object with convenience properties and functions.">GlobalObject</a>. Check below and the rest of the documentation for details. Green links are to internal documentation, blue links are external (MDN).</p>
 <h4><a class="anchor" id="autotoc_md32"></a>
 Fundamental objects</h4>
 <ul>
@@ -202,8 +204,17 @@ Error objects</h4>
 <h4><a class="anchor" id="autotoc_md39"></a>
 Web API</h4>
 <ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/console" target="_blank">console</a> (subset supported)</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank">XMLHttpRequest</a> (subset supported)</li>
+<li>Global Functions:<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout" target="_blank">setTimeout()</a> - Overloads with extra params after the delay are <em>not</em> supported.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout" target="_blank">clearTimeout()</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/setInterval" target="_blank">setInterval()</a> - Overloads with extra params after the delay are <em>not</em> supported.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/clearInterval" target="_blank">clearInterval()</a></li>
+<li><a class="el" href="class_global_object.html#aaac1708acf0bef57d9d26fe7ed5bf629" title="Decodes data bytes of base-64 encoded plain text and returns it as binary data (&quot;ascii to binary&quot;) in...">atob()</a> - See notes at link.</li>
+<li><a class="el" href="class_global_object.html#a168d5913a20d8ef5099db892cb9505ce" title="Returns data bytes as base-64 encoded plain text (&quot;binary to ascii&quot;).">btoa()</a> - See notes at link.</li>
+</ul>
+</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/console" target="_blank">console</a> (subset supported, see details <a class="el" href="group___e_c_m_a_std.html#autotoc_md72">below</a>)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank">XMLHttpRequest</a> (subset supported, see details <a class="el" href="group___e_c_m_a_std.html#autotoc_md74">below</a>)</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md40"></a>
 Details by object type</h1>
@@ -241,7 +252,7 @@ Object Prototype</h3>
 Function Properties</h4>
 <ul>
 <li>toString()</li>
-<li><a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530" title="Converts the Date to a string containing the date and time suitable for the specified locale in the s...">toLocaleString()</a></li>
+<li><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a></li>
 <li>valueOf()</li>
 <li>hasOwnProperty(V)</li>
 <li>isPrototypeOf(V)</li>
@@ -266,7 +277,7 @@ Array Objects</h2>
 Array Prototype Object</h3>
 <ul>
 <li>toString()</li>
-<li><a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530" title="Converts the Date to a string containing the date and time suitable for the specified locale in the s...">toLocaleString()</a></li>
+<li><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a></li>
 <li>concat([item1 [, item2 [, ...]]])</li>
 <li>copyWithin([item1 [, item2 [, ...]]])</li>
 <li>entries()</li>
@@ -345,7 +356,7 @@ Number Objects</h2>
 Number Prototype Object</h3>
 <ul>
 <li>toString(radix)</li>
-<li><a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530" title="Converts the Date to a string containing the date and time suitable for the specified locale in the s...">toLocaleString()</a></li>
+<li><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a></li>
 <li>valueOf()</li>
 <li>toFixed(fractionDigits)</li>
 <li>toExponential(fractionDigits)</li>
@@ -437,7 +448,7 @@ Date Prototype Object</h3>
 <li>toString()</li>
 <li>toDateString()</li>
 <li>toTimeString()</li>
-<li><a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530" title="Converts the Date to a string containing the date and time suitable for the specified locale in the s...">toLocaleString()</a></li>
+<li><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a></li>
 <li><a class="el" href="class_date.html#a67693e617c60d42721089779a3234249" title="Converts the Date to a string containing the date suitable for the specified locale in the specified ...">toLocaleDateString()</a></li>
 <li><a class="el" href="class_date.html#aaf4d76848df0c99e3da763375c86d6ee" title="Converts the Date to a string containing the time suitable for the specified locale in the specified ...">toLocaleTimeString()</a></li>
 <li>valueOf()</li>
@@ -511,14 +522,101 @@ The JSON Object</h2>
 Function Properties</h4>
 <ul>
 <li>parse(text [, reviver])</li>
-<li>stringify(value [, replacer [, space]]) </li>
+<li>stringify(value [, replacer [, space]])</li>
 </ul>
+<h2><a class="anchor" id="autotoc_md72"></a>
+console</h2>
+<h3><a class="anchor" id="autotoc_md73"></a>
+Instance Methods</h3>
+<ul>
+<li>console.log() - same as console.debug()</li>
+<li>console.debug()</li>
+<li>console.info()</li>
+<li>console.warn()</li>
+<li>console.error()</li>
+<li>console.assert()</li>
+<li>console.time()</li>
+<li>console.timeEnd()</li>
+<li>console.trace()</li>
+<li>console.count()</li>
+<li>console.profile()</li>
+<li>console.profileEnd()</li>
+<li>console.exception() - like error() but prints stack trace.</li>
+<li>print() - same as console.log()</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md74"></a>
+XMLHttpRequest</h2>
+<p >The XMLHttpRequest object, which can be used to asynchronously obtain data from over a network.</p>
+<p >The XMLHttpRequest API implements the same <a href="http://www.w3.org/TR/XMLHttpRequest/">W3C standard</a> as many popular web browsers with following exceptions: XMLHttpRequest does not enforce the same origin policy.</p>
+<p >Additionally, the <code>responseXML</code> XML DOM tree currently supported by DSE is a reduced subset of the <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Level 3 Core</a> API supported in a web browser. The following objects and properties are supported by the DSE implementation:</p>
+<table class="doxtable">
+<tr>
+<th><b>Node</b></th><th><b>Document</b></th><th><b>Element</b></th><th><b>Attr</b></th><th><b>CharacterData</b></th><th><b>Text</b> </th></tr>
+<tr valign="top">
+<td><ul>
+<li>
+nodeName </li>
+<li>
+nodeValue </li>
+<li>
+nodeType </li>
+<li>
+parentNode </li>
+<li>
+childNodes </li>
+<li>
+firstChild </li>
+<li>
+lastChild </li>
+<li>
+previousSibling </li>
+<li>
+nextSibling </li>
+<li>
+attributes </li>
+</ul>
+</td><td><ul>
+<li>
+xmlVersion </li>
+<li>
+xmlEncoding </li>
+<li>
+xmlStandalone </li>
+<li>
+documentElement </li>
+</ul>
+</td><td><ul>
+<li>
+tagName </li>
+</ul>
+</td><td><ul>
+<li>
+name </li>
+<li>
+value </li>
+<li>
+ownerElement </li>
+</ul>
+</td><td><ul>
+<li>
+data </li>
+<li>
+length </li>
+</ul>
+</td><td><ul>
+<li>
+isElementContentWhitespace </li>
+<li>
+wholeText </li>
+</ul>
+</td></tr>
+</table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Nov 28 2022 08:07:14 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Tue Nov 29 2022 08:57:15 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

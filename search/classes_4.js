@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['math_0',['Math',['../class_math.html',1,'']]]
+  ['globalobject_0',['GlobalObject',['../class_global_object.html',1,'']]]
 ];

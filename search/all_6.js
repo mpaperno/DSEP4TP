@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['getlines_0',['getLines',['../class_util.html#a547c82f12e0c4d6a0143816b1d5a5501',1,'Util']]],
+  ['getsaturation_0',['getSaturation',['../class_color.html#a45d3734fd6c897723acd3cb8e5e6fa3b',1,'Color']]],
   ['globalobject_1',['GlobalObject',['../class_global_object.html',1,'']]]
 ];

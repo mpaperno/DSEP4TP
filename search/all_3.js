@@ -8,5 +8,6 @@ var searchData=
   ['dse_5finstance_5ftype_5',['DSE_INSTANCE_TYPE',['../class_global_object.html#a289c4ce80a32de88b69598b6334b72df',1,'GlobalObject']]],
   ['dse_5fplugin_5fversion_5fnum_6',['DSE_PLUGIN_VERSION_NUM',['../class_global_object.html#a52a94eeba482965c54405c3b7f253d8c',1,'GlobalObject']]],
   ['dse_5fplugin_5fversion_5fstr_7',['DSE_PLUGIN_VERSION_STR',['../class_global_object.html#a24a69ac7163e8a78517c1e848bbaa827',1,'GlobalObject']]],
-  ['dynamic_20script_20engine_20plugin_20for_20touch_20portal_8',['Dynamic Script Engine Plugin for Touch Portal',['../index.html',1,'']]]
+  ['dse_5fscripts_5fbase_5fdir_8',['DSE_SCRIPTS_BASE_DIR',['../class_global_object.html#a1d869d6a3a2dbe4c445205e9354dab32',1,'GlobalObject']]],
+  ['dynamic_20script_20engine_20plugin_20for_20touch_20portal_9',['Dynamic Script Engine Plugin for Touch Portal',['../index.html',1,'']]]
 ];

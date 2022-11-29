@@ -142,7 +142,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns a copy of this string with the lowest numbered place marker replaced by value, i.e., %1, %2, ..., %99. </p>
+<p>Returns a copy of this string with the lowest numbered place marker replaced by value. </p>
+<p >Place markers begin with a <code>%</code> symbol followed by a number in the 1 through 99 range, i.e. %1, %2, ..., %99.</p>
 <p >The following example prints "There are 20 items": </p><div class="fragment"><div class="line">var message = <span class="stringliteral">&quot;There are %1 items&quot;</span></div>
 <div class="line">var count = 20</div>
 <div class="line">console.log(message.arg(count))</div>
@@ -194,10 +195,10 @@ Public Member Functions</h2></td></tr>
 <div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods.</div></div>
 <div class="ttc" id="aclass_string_html"><div class="ttname"><a href="class_string.html">String</a></div><div class="ttdoc">Extends String object.</div></div>
 <div class="ttc" id="aclass_string_html_a45f4c919dfa7b9606e5879d216ab416d"><div class="ttname"><a href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String::format</a></div><div class="ttdeci">string format(format, args)</div><div class="ttdoc">Formats format string using the provided arguments in args, if any.</div></div>
-</div><!-- fragment --><p >There is also a convenience global function available as an alias, named simply <code><a class="el" href="class_global_object.html#acd5e884df6b19a0c00b5747908e20d5d" title="Equivalent to String.format().">Format()</a></code>. It works identically to <code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any.">String.format()</a></code> but is shorter to type.</p>
+</div><!-- fragment --><p >There is also a convenience global function available as an alias, named simply <code><a class="el" href="class_global_object.html#acd5e884df6b19a0c00b5747908e20d5d" title="Equivalent to the String.format() extension method.">Format()</a></code>. It works identically to <code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any.">String.format()</a></code> but is shorter to type.</p>
 <p >See formatting string reference at <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings#standard-format-specifiers">https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings#standard-format-specifiers</a></p>
 <p >This extension is originally from the <a href="https://github.com/dmester/sffjs" target="_blank">String.format for JavaScript</a> project. There are some examples and references available at that site. The original <code>sffjs</code> object referenced in their documentation is available in this script engine as <code>Sffjs</code>.</p>
-<dl class="section see"><dt>See also</dt><dd><code><a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this number according the specified format string. See formatting string reference at https:/...">Number.format()</a></code>, <code><a class="el" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this date according the specified format string. See formatting string reference at https://l...">Date.format()</a></code>, and <code><a class="el" href="class_global_object.html#a4bdf4eafc63766384d4e1a6d604ab9b5" title="For formatting strings, works like to the classic C printf() function.">sprintf()</a></code> for "printf-style" string formatting. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><code><a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this number according the specified format string.">Number.format()</a></code>, <code><a class="el" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this date according the specified format string. See formatting string reference at https://l...">Date.format()</a></code>, and <code><a class="el" href="class_global_object.html#a4bdf4eafc63766384d4e1a6d604ab9b5" title="For formatting strings, works like to the classic C printf() function.">sprintf()</a></code> for "printf-style" string formatting. </dd></dl>
 
 </div>
 </div>
@@ -207,7 +208,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_string.html">String</a></li>
-    <li class="footer">Generated on Mon Nov 28 2022 08:07:14 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Tue Nov 29 2022 08:57:15 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

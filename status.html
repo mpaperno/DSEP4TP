@@ -113,19 +113,19 @@ $(document).ready(function(){initNavTree('status.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md74">Introduction</a><ul><li class="level2"><a href="#autotoc_md75">Status States</a></li>
-<li class="level2"><a href="#autotoc_md76">&quot;Console&quot; Log</a></li>
-<li class="level2"><a href="#autotoc_md77">Plugin Log</a></li>
+<ul><li class="level1"><a href="#autotoc_md77">Introduction</a><ul><li class="level2"><a href="#autotoc_md78">Status States</a></li>
+<li class="level2"><a href="#autotoc_md79">&quot;Console&quot; Log</a></li>
+<li class="level2"><a href="#autotoc_md80">Plugin Log</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_doc_pages_03_Status"></a></p>
-<h1><a class="anchor" id="autotoc_md74"></a>
+<h1><a class="anchor" id="autotoc_md77"></a>
 Introduction</h1>
 <p >Inevitably, writing scripting expressions of any complexity beyond basic "2 + 2" is going to cause an error sooner or later. Maybe due to syntax or some unexpected value being passed to a function. It happens.</p>
 <p >The plugin has a number of ways to provide feedback about errors and facilitate debugging.</p>
-<h2><a class="anchor" id="autotoc_md75"></a>
+<h2><a class="anchor" id="autotoc_md78"></a>
 Status States</h2>
 <p >First, the plugin provides two permanent States which reflect scripting errors as they happen:</p><ul>
 <li><b>Cumulative script error count</b> - A running count of script errors which increments on each exception. This is useful as a trigger for some Touch Portal event which would notify you that a new error occurred. A button that turns red or something.</li>
@@ -133,7 +133,7 @@ Status States</h2>
 <li><b>List of created named instances</b> - This state contains a list of all the dynamic expression/script instances created by the plugin. It may be useful to check (visually or with a conditional expression) whether an instance exists, for example to indicate an error condition if it doesn't or only create a new instance inside an Event if it doesn't already exist.</li>
 </ul>
 <p >Check the examples in the main project repository for a script/button combination which will store and display the last few errors received.</p>
-<h2><a class="anchor" id="autotoc_md76"></a>
+<h2><a class="anchor" id="autotoc_md79"></a>
 "Console" Log</h2>
 <p >Scripting errors are logged to their own file. You can also write your own debug messages to this log by using the typical JavaScript <code>console.log()</code> (and family) of functions. The log is kept in the plugin's installation folder:</p>
 <ul>
@@ -142,7 +142,7 @@ Status States</h2>
 </ul>
 <p >The log is rotated daily, just after local midnight, and by default the last 3 historical logs are kept.</p>
 <p >Check the examples in the main project repository for a script/button combination which will "tail" the console log on demand (that is, show the last few lines of the log and update whenever the log changes). Though in practice if you have another way to tail a file (eg. via console or app), that's probably more efficient. :-)</p>
-<h2><a class="anchor" id="autotoc_md77"></a>
+<h2><a class="anchor" id="autotoc_md80"></a>
 Plugin Log</h2>
 <p >There is a 2nd log file in the same <code>logs</code> folder as the <em>console.log</em>, named <code>plugin.log</code>. This is also includes script engine errors (same ones as <em>console.log</em>), but also any "operational" messages from the plugin itself. Generally this is just information about the Touch Portal connection status or when a "noteworthy" event occurs like a <a href="Actions.md#plugin-actions" target="_blank">Plugin Action</a>. Any errors or warnings not directly related to the scripts/expressions being evaluated will be reported here. </p>
 </div></div><!-- contents -->
@@ -151,7 +151,7 @@ Plugin Log</h2>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Nov 28 2022 08:07:14 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Tue Nov 29 2022 08:57:15 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

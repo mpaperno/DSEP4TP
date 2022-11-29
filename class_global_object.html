@@ -133,9 +133,17 @@ Properties</h2></td></tr>
 <tr class="separator:a8f9de602d8c0658e6c9af7bb65fa624c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a289c4ce80a32de88b69598b6334b72df"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_global_object.html#a289c4ce80a32de88b69598b6334b72df">DSE_INSTANCE_TYPE</a></td></tr>
 <tr class="separator:a289c4ce80a32de88b69598b6334b72df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d869d6a3a2dbe4c445205e9354dab32"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_global_object.html#a1d869d6a3a2dbe4c445205e9354dab32">DSE_SCRIPTS_BASE_DIR</a></td></tr>
+<tr class="separator:a1d869d6a3a2dbe4c445205e9354dab32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:aaac1708acf0bef57d9d26fe7ed5bf629"><td class="memItemLeft" align="right" valign="top">ArrayBuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_global_object.html#aaac1708acf0bef57d9d26fe7ed5bf629">atob</a> (data)</td></tr>
+<tr class="separator:aaac1708acf0bef57d9d26fe7ed5bf629"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a168d5913a20d8ef5099db892cb9505ce"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_global_object.html#a168d5913a20d8ef5099db892cb9505ce">btoa</a> (data)</td></tr>
+<tr class="separator:a168d5913a20d8ef5099db892cb9505ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9313c34613ad2b236e45fab688689612"><td class="memItemLeft" align="right" valign="top">undefined&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_global_object.html#a9313c34613ad2b236e45fab688689612">include</a> (string fileName)</td></tr>
+<tr class="separator:a9313c34613ad2b236e45fab688689612"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd5e884df6b19a0c00b5747908e20d5d"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_global_object.html#acd5e884df6b19a0c00b5747908e20d5d">Format</a> (format)</td></tr>
 <tr class="separator:acd5e884df6b19a0c00b5747908e20d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bdf4eafc63766384d4e1a6d604ab9b5"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_global_object.html#a4bdf4eafc63766384d4e1a6d604ab9b5">sprintf</a> (format, args)</td></tr>
@@ -289,7 +297,96 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a1d869d6a3a2dbe4c445205e9354dab32" name="a1d869d6a3a2dbe4c445205e9354dab32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d869d6a3a2dbe4c445205e9354dab32">&#9670;&nbsp;</a></span>DSE_SCRIPTS_BASE_DIR</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string DSE_SCRIPTS_BASE_DIR</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The base directory path for script files. </p>
+<p >This is either the path specified in the plugin's "Script Files Base Directory" setting (in Touch Portal), or the plugin's current working directory (which is the default when nothing is specified in the setting). </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="aaac1708acf0bef57d9d26fe7ed5bf629" name="aaac1708acf0bef57d9d26fe7ed5bf629"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaac1708acf0bef57d9d26fe7ed5bf629">&#9670;&nbsp;</a></span>atob()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ArrayBuffer atob </td>
+          <td>(</td>
+          <td class="paramtype">data&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Decodes <code>data</code> bytes of base-64 encoded plain text and returns it as binary data ("ascii to binary") in a <code>ArrayBuffer</code> container. </p>
+<p ><code>data</code> can be a string or <code>ArrayBuffer</code> (or similar collection of ASCII bytes). Note that strings are automatically converted to ASCII (Latin 1 encoding). To avoid any conversion, pass an <code>ArrayBuffer</code> (or similar). </p>
+
+</div>
+</div>
+<a id="a168d5913a20d8ef5099db892cb9505ce" name="a168d5913a20d8ef5099db892cb9505ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a168d5913a20d8ef5099db892cb9505ce">&#9670;&nbsp;</a></span>btoa()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string btoa </td>
+          <td>(</td>
+          <td class="paramtype">data&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns <code>data</code> bytes as base-64 encoded plain text ("binary to ascii"). </p>
+<p ><code>data</code> can be a <code>ArrayBuffer</code> or a string. Note that <code>data</code> strings are automatically converted to UTF-8 text before decoding. To avoid any conversion, pass an ArrayBuffer (or similar raw collection of bytes). </p>
+
+</div>
+</div>
+<a id="a9313c34613ad2b236e45fab688689612" name="a9313c34613ad2b236e45fab688689612"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9313c34613ad2b236e45fab688689612">&#9670;&nbsp;</a></span>include()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">undefined include </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>fileName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read and evaluate <code>fileName</code> as JavaScript in the current scripting engine context (global object) at the location of this function call. </p>
+<p >Any errors produced by the script are raised and reported into the current context. Throws an <code>Error</code> type object if file loading fails (file not found/etc).</p>
+<p >To get just the contents of a file, w/out evaluating it, use <code><a class="el" href="class_file.html#a0cf82261c5b3190528e723f53f84742c" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read()</a></code>. </p>
+
+</div>
+</div>
 <a id="acd5e884df6b19a0c00b5747908e20d5d" name="acd5e884df6b19a0c00b5747908e20d5d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acd5e884df6b19a0c00b5747908e20d5d">&#9670;&nbsp;</a></span>Format()</h2>
 
@@ -306,7 +403,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Equivalent to <code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any.">String.format()</a></code>. </p>
+<p>Equivalent to the <code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any.">String.format()</a></code> extension method. </p>
+<p >Provides .NET style string formatting. </p>
 
 </div>
 </div>
@@ -385,7 +483,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_global_object.html">GlobalObject</a></li>
-    <li class="footer">Generated on Mon Nov 28 2022 08:07:14 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Tue Nov 29 2022 08:57:15 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>
