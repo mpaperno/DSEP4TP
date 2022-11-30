@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['include_0',['include',['../class_global_object.html#a9313c34613ad2b236e45fab688689612',1,'GlobalObject']]],
+  ['include_0',['include',['../classglobal.html#acd56068e20565d17344debdff28608b1',1,'global']]],
   ['isabs_1',['isAbs',['../class_file_handle.html#aada9beac6936f17002edb1cf65ad811f',1,'FileHandle::isAbs()'],['../class_dir.html#a206b0772876f741042c960de4aae1969',1,'Dir::isAbs()'],['../class_file.html#ad34d77865d8ca31c52d64bf87516850b',1,'File::isAbs()']]],
   ['iscool_2',['isCool',['../class_color.html#a8ae8f3c5fb6a29c6f5ff433b2a293232',1,'Color']]],
   ['iscooler_3',['isCooler',['../class_color.html#aedfdb92aa8271d5629c1bcc18dbc7b7e',1,'Color']]],

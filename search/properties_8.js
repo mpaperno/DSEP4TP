@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['name_0',['name',['../class_file_handle.html#a8ccf841cb59e451791bcb2e1ac4f1edc',1,'FileHandle']]],
-  ['normfilepath_1',['normFilePath',['../class_file_handle.html#aa977ef8306ee8b26cfdc9c2717057c05',1,'FileHandle']]],
-  ['normpath_2',['normPath',['../class_file_handle.html#a1ca71ae638479da00feed373d63ec0df',1,'FileHandle']]]
+  ['measurementsystem_0',['measurementSystem',['../class_locale.html#a0b5e43403a18f8d5e10b60bfe31b4e8d',1,'Locale']]],
+  ['mtime_1',['mtime',['../class_file_handle.html#a8e5657c3c79b6b819b736a51d33ac3d7',1,'FileHandle']]]
 ];

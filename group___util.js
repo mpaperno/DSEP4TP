@@ -1,17 +1,43 @@
 var group___util =
 [
-    [ "Qt", "class_qt.html", [
-      [ "locale", "class_qt.html#a7054cb6bbc5daa104eec29dd4a5f0588", null ],
-      [ "platform", "class_qt.html#a143ac8282b962741ee0ff02af007d640", null ],
-      [ "atob", "class_qt.html#ab0c3556d491b0be42f6e5768a9dca7b9", null ],
-      [ "btoa", "class_qt.html#a168d5913a20d8ef5099db892cb9505ce", null ],
-      [ "md5", "class_qt.html#a16bd92d628234ca275cba3d4747e13c6", null ],
-      [ "openUrlExternally", "class_qt.html#a13a874f59fdfa4394bfd28f64396c1c6", null ]
+    [ "Locale", "class_locale.html", [
+      [ "uiLanguages", "class_locale.html#aa5222e5c47400c81ffbf5ef2900a423b", null ],
+      [ "firstDayOfWeek", "class_locale.html#a589a1e52720250ea571191d4c23f1800", null ],
+      [ "textDirection", "class_locale.html#a738218087da5da8d051150348282c11f", null ],
+      [ "weekDays", "class_locale.html#af0531a1293e29f89cef153c01aeab766", null ],
+      [ "measurementSystem", "class_locale.html#a0b5e43403a18f8d5e10b60bfe31b4e8d", null ],
+      [ "name", "class_locale.html#a896fdc48e8d7fbfbf8425e635461b169", null ],
+      [ "nativeLanguageName", "class_locale.html#af60424e59077546558cde609196f32f0", null ],
+      [ "nativeCountryName", "class_locale.html#a0e8c1b45ea1f94e17a9b8b6b54fc3740", null ],
+      [ "decimalPoint", "class_locale.html#a3b2fd96995dc451e119568129f533852", null ],
+      [ "groupSeparator", "class_locale.html#a120a55ce2c5f60a06a1187d1cad627d9", null ],
+      [ "percent", "class_locale.html#a977e89f8fb6c8188636c212ead1f0965", null ],
+      [ "zeroDigit", "class_locale.html#aef9cc40f904c25b0590e5d58f490236f", null ],
+      [ "negativeSign", "class_locale.html#aeb0f29e6a5072ce5c8bce0a7ddacc99c", null ],
+      [ "positiveSign", "class_locale.html#a6d6ec64f0f0c2a78b8ec2b381ac35ca3", null ],
+      [ "exponential", "class_locale.html#a2738ac4e61a90725e26c0389ad57d0b4", null ],
+      [ "amText", "class_locale.html#a404bbaddc4c4fddb14f570b673df770f", null ],
+      [ "pmText", "class_locale.html#a15264e3f20b7b43e3885e10b13f18a9f", null ],
+      [ "name", "class_locale.html#a896fdc48e8d7fbfbf8425e635461b169", null ],
+      [ "NumberOption", "class_locale.html#ab4407da2673a1328b79a729b6b417605", null ],
+      [ "dateTimeFormat", "class_locale.html#aaab8ccc537a26a566c846f79e93738ba", null ],
+      [ "dateFormat", "class_locale.html#afaec6b8d1866f042061955c2f4f4270a", null ],
+      [ "timeFormat", "class_locale.html#a50bc6a85d0b5c9cc75928d2cac3bc5bc", null ],
+      [ "monthName", "class_locale.html#ab9018cfa91bbfec0d9479574cef01457", null ],
+      [ "standaloneMonthName", "class_locale.html#ac2b179fc78edb113d7add8bb72a497f5", null ],
+      [ "dayName", "class_locale.html#a2091d4a3f19f8f636b2f498a88aedea3", null ],
+      [ "standaloneDayName", "class_locale.html#a54854d33a8b46c52448a6b5ad2a7a3fc", null ],
+      [ "currencySymbol", "class_locale.html#a07c73389e109490daa698168bc817ca5", null ]
     ] ],
-    [ "Env", "class_env.html", [
-      [ "Env", "class_env.html#a34b0da82037de8cadad91b4c194565e4", null ],
-      [ "Env", "class_env.html#a9236b2e7f10f289f79ab8978916dc52c", null ],
-      [ "Env", "class_env.html#a51137634233f13f3a0acdf18a3f50aab", null ]
+    [ "TP", "class_t_p.html", [
+      [ "stateUpdate", "class_t_p.html#aa24f3ff439abf4cba4b8a3a7a5ca26a2", null ],
+      [ "stateUpdate", "class_t_p.html#abc0abd3f222addf0228f9a73c54445be", null ],
+      [ "stateUpdateById", "class_t_p.html#a92d7f5a27d028cf5e274407039671725", null ],
+      [ "stateCreate", "class_t_p.html#ae20e0c99825e13ada7d2e4aad64099cf", null ],
+      [ "stateRemove", "class_t_p.html#a93c51d0992482428e82f12f5f8463daa", null ],
+      [ "choiceUpdate", "class_t_p.html#a3244b24648e4f7b917083370e1dd2763", null ],
+      [ "connectorUpdate", "class_t_p.html#af6f92f65a7cd4207dc6b2520b83d4fc7", null ],
+      [ "showNotification", "class_t_p.html#a10d4d2b0569c6569fbcfe3bf2380bec2", null ]
     ] ],
     [ "Color", "class_color.html", [
       [ "tpcolor", "class_color.html#af7a57ec62f370d92e749c92e43e62f68", null ],
@@ -33,5 +59,10 @@ var group___util =
       [ "isLighter", "class_color.html#ad80848a56dab735fe5f3fc50b7742fb9", null ],
       [ "isWarmer", "class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a", null ],
       [ "isCooler", "class_color.html#aedfdb92aa8271d5629c1bcc18dbc7b7e", null ]
+    ] ],
+    [ "Env", "class_env.html", [
+      [ "Env", "class_env.html#a34b0da82037de8cadad91b4c194565e4", null ],
+      [ "Env", "class_env.html#a9236b2e7f10f289f79ab8978916dc52c", null ],
+      [ "Env", "class_env.html#a51137634233f13f3a0acdf18a3f50aab", null ]
     ] ]
 ];

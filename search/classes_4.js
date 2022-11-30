@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['globalobject_0',['GlobalObject',['../class_global_object.html',1,'']]]
+  ['global_0',['global',['../classglobal.html',1,'']]]
 ];

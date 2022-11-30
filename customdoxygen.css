@@ -3,16 +3,16 @@ html {
 		--content-maxwidth: auto;
 		--side-nav-arrow-opacity: 0.6;
 		--side-nav-fixed-width: 350px;
-    /* --note-color: #969696;
-    --note-color-dark: #634b03;
-    --note-color-darker: #3d2e01; */
+    --note-color: rgba(202, 217, 251, 0.25);
+    --note-color-dark: #7a9ae5;
+    --note-color-darker: #3d2e01; 
 }
 
  html.dark-mode {
 		--primary-color: #7cb7e3;
-/*    --note-color: #969696;
-    --note-color-dark: #634b03;
-    --note-color-darker: #3d2e01;*/
+    --note-color: rgba(202, 217, 251, 0.25);
+    --note-color-dark: #7a9ae5;
+    --note-color-darker: var(--page-foreground-color);
 } 
 
 #side-nav {
@@ -121,6 +121,11 @@ p.definition {	font-size: 11px !important; }
 table.memname tr { display: inline-table; }
 table.memname td { padding: 1px 0; }
 td.memname { font-weight: bold; }
+
+table.doxtable th {
+	font-size: revert;
+	color: #D5D1D1;
+}
 
 /* hide brief descriptions in member list, but not for parent class */
 /*tr[class^="memdesc"] { display: none; }*/

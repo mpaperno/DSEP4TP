@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['name_0',['name',['../class_file.html#a2607728007dd72745c7c332950646bfd',1,'File']]],
-  ['normalize_1',['normalize',['../class_dir.html#ac6ec4ef64ad2d2a3eb1a77c79d7d1193',1,'Dir']]],
-  ['normfilepath_2',['normFilePath',['../class_file.html#a642f76573d9d07ed7a41c19aa6cf0e8c',1,'File']]],
-  ['normpath_3',['normPath',['../class_file.html#a85ab9b5ebeaa332667e85e58d9396883',1,'File']]]
+  ['mix_0',['mix',['../class_color.html#a3e32bf312e0c39dbb0a853d929f0605a',1,'Color']]],
+  ['mixwith_1',['mixWith',['../class_color.html#ae07b8254db57a444acc32e446e6fb218',1,'Color']]],
+  ['mkdir_2',['mkdir',['../class_dir.html#a5be08f2bf6c33f3e86612be7f48cfb90',1,'Dir']]],
+  ['mkpath_3',['mkpath',['../class_dir.html#a724ba95f4add0b0c0db8e30479da0362',1,'Dir']]],
+  ['monthname_4',['monthName',['../class_locale.html#ab9018cfa91bbfec0d9479574cef01457',1,'Locale']]],
+  ['mtime_5',['mtime',['../class_file.html#a951c22a247bcb6ca4aa1a2051defd853',1,'File']]]
 ];

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.4"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Dynamic Script Engine Plugin for Touch Portal: Touch Portal Interaction (TP)</title>
+<title>Dynamic Script Engine Plugin for Touch Portal: TP</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -90,7 +90,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('group___touch_portal.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('class_t_p.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -110,36 +110,37 @@ $(document).ready(function(){initNavTree('group___touch_portal.html',''); initRe
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">Touch Portal Interaction (TP)</div></div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="class_t_p-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">TP<div class="ingroups"><a class="el" href="group___util.html">Utilities</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<p >Functions for interacting with Touch Portal directly, such as updating state values or sending notifications. </p>
-<p >These functions are part of the global <code>TP</code> object, used with <code>TP.</code> qualifier, eg. <code>TP.stateUpdate("Hello!");</code>. </p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:gaa24f3ff439abf4cba4b8a3a7a5ca26a2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___touch_portal.html#gaa24f3ff439abf4cba4b8a3a7a5ca26a2">stateUpdate</a> (string value)</td></tr>
-<tr class="separator:gaa24f3ff439abf4cba4b8a3a7a5ca26a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabc0abd3f222addf0228f9a73c54445be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___touch_portal.html#gabc0abd3f222addf0228f9a73c54445be">stateUpdate</a> (string name, string value)</td></tr>
-<tr class="separator:gabc0abd3f222addf0228f9a73c54445be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga92d7f5a27d028cf5e274407039671725"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___touch_portal.html#ga92d7f5a27d028cf5e274407039671725">stateUpdateById</a> (string id, string value)</td></tr>
-<tr class="separator:ga92d7f5a27d028cf5e274407039671725"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae20e0c99825e13ada7d2e4aad64099cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___touch_portal.html#gae20e0c99825e13ada7d2e4aad64099cf">stateCreate</a> (string id, string parentGroup, string desc=&quot;&quot;, string defaultValue=&quot;&quot;)</td></tr>
-<tr class="separator:gae20e0c99825e13ada7d2e4aad64099cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga93c51d0992482428e82f12f5f8463daa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___touch_portal.html#ga93c51d0992482428e82f12f5f8463daa">stateRemove</a> (string id)</td></tr>
-<tr class="separator:ga93c51d0992482428e82f12f5f8463daa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3244b24648e4f7b917083370e1dd2763"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___touch_portal.html#ga3244b24648e4f7b917083370e1dd2763">choiceUpdate</a> (string id, array&lt; string &gt; values)</td></tr>
-<tr class="separator:ga3244b24648e4f7b917083370e1dd2763"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf6f92f65a7cd4207dc6b2520b83d4fc7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___touch_portal.html#gaf6f92f65a7cd4207dc6b2520b83d4fc7">connectorUpdate</a> (string connectorId, int value)</td></tr>
-<tr class="separator:gaf6f92f65a7cd4207dc6b2520b83d4fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga10d4d2b0569c6569fbcfe3bf2380bec2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___touch_portal.html#ga10d4d2b0569c6569fbcfe3bf2380bec2">showNotification</a> (string notificationId, string title, string message, array&lt; object &gt; options=[])</td></tr>
-<tr class="separator:ga10d4d2b0569c6569fbcfe3bf2380bec2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<div class="textblock"><p >Functions for interacting with Touch Portal directly, such as updating state values or sending notifications. </p>
+<p >These functions are part of the global <code><a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a></code> object, used with <code><a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a>.</code> qualifier, eg. <code><a class="el" href="class_t_p.html#aa24f3ff439abf4cba4b8a3a7a5ca26a2" title="Send a State update to Touch Portal with given value for the current script instance.">TP.stateUpdate</a>("Hello!");</code>. </p>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:aa24f3ff439abf4cba4b8a3a7a5ca26a2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#aa24f3ff439abf4cba4b8a3a7a5ca26a2">stateUpdate</a> (string value)</td></tr>
+<tr class="separator:aa24f3ff439abf4cba4b8a3a7a5ca26a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc0abd3f222addf0228f9a73c54445be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#abc0abd3f222addf0228f9a73c54445be">stateUpdate</a> (string name, string value)</td></tr>
+<tr class="separator:abc0abd3f222addf0228f9a73c54445be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92d7f5a27d028cf5e274407039671725"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#a92d7f5a27d028cf5e274407039671725">stateUpdateById</a> (string id, string value)</td></tr>
+<tr class="separator:a92d7f5a27d028cf5e274407039671725"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae20e0c99825e13ada7d2e4aad64099cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#ae20e0c99825e13ada7d2e4aad64099cf">stateCreate</a> (string id, string parentGroup, string desc=&quot;&quot;, string defaultValue=&quot;&quot;)</td></tr>
+<tr class="separator:ae20e0c99825e13ada7d2e4aad64099cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93c51d0992482428e82f12f5f8463daa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#a93c51d0992482428e82f12f5f8463daa">stateRemove</a> (string id)</td></tr>
+<tr class="separator:a93c51d0992482428e82f12f5f8463daa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3244b24648e4f7b917083370e1dd2763"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#a3244b24648e4f7b917083370e1dd2763">choiceUpdate</a> (string id, array&lt; string &gt; values)</td></tr>
+<tr class="separator:a3244b24648e4f7b917083370e1dd2763"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6f92f65a7cd4207dc6b2520b83d4fc7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#af6f92f65a7cd4207dc6b2520b83d4fc7">connectorUpdate</a> (string connectorId, int value)</td></tr>
+<tr class="separator:af6f92f65a7cd4207dc6b2520b83d4fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10d4d2b0569c6569fbcfe3bf2380bec2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#a10d4d2b0569c6569fbcfe3bf2380bec2">showNotification</a> (string notificationId, string title, string message, array&lt; object &gt; options=[])</td></tr>
+<tr class="separator:a10d4d2b0569c6569fbcfe3bf2380bec2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="gaa24f3ff439abf4cba4b8a3a7a5ca26a2" name="gaa24f3ff439abf4cba4b8a3a7a5ca26a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa24f3ff439abf4cba4b8a3a7a5ca26a2">&#9670;&nbsp;</a></span>stateUpdate() <span class="overload">[1/2]</span></h2>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa24f3ff439abf4cba4b8a3a7a5ca26a2" name="aa24f3ff439abf4cba4b8a3a7a5ca26a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa24f3ff439abf4cba4b8a3a7a5ca26a2">&#9670;&nbsp;</a></span>stateUpdate() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -155,12 +156,12 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Send a State update to Touch Portal with given <code>value</code> for the current script instance. </p>
-<p >This only works with instances in a <code>Private</code> script engine. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group___touch_portal.html#gabc0abd3f222addf0228f9a73c54445be" title="Send a State update to Touch Portal for a DSE instance named name with given value.">stateUpdate(string, string)</a> </dd></dl>
+<p >This only works with instances in a <code>Private</code> script engine. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_t_p.html#abc0abd3f222addf0228f9a73c54445be" title="Send a State update to Touch Portal for a DSE instance named name with given value.">stateUpdate(string, string)</a> </dd></dl>
 
 </div>
 </div>
-<a id="gabc0abd3f222addf0228f9a73c54445be" name="gabc0abd3f222addf0228f9a73c54445be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gabc0abd3f222addf0228f9a73c54445be">&#9670;&nbsp;</a></span>stateUpdate() <span class="overload">[2/2]</span></h2>
+<a id="abc0abd3f222addf0228f9a73c54445be" name="abc0abd3f222addf0228f9a73c54445be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc0abd3f222addf0228f9a73c54445be">&#9670;&nbsp;</a></span>stateUpdate() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -186,12 +187,12 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Send a State update to Touch Portal for a DSE instance named <code>name</code> with given <code>value</code>. </p>
-<p >This works with any type of engine instance, <code>Shared</code> or <code>Private</code>. The <code>name</code> will be turned into a fully qualified state ID as necessary (adding the required prefix to match default DSE state IDs). </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group___touch_portal.html#gaa24f3ff439abf4cba4b8a3a7a5ca26a2" title="Send a State update to Touch Portal with given value for the current script instance.">stateUpdate(string)</a> </dd></dl>
+<p >This works with any type of engine instance, <code>Shared</code> or <code>Private</code>. The <code>name</code> will be turned into a fully qualified state ID as necessary (adding the required prefix to match default DSE state IDs). </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_t_p.html#aa24f3ff439abf4cba4b8a3a7a5ca26a2" title="Send a State update to Touch Portal with given value for the current script instance.">stateUpdate(string)</a> </dd></dl>
 
 </div>
 </div>
-<a id="ga92d7f5a27d028cf5e274407039671725" name="ga92d7f5a27d028cf5e274407039671725"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga92d7f5a27d028cf5e274407039671725">&#9670;&nbsp;</a></span>stateUpdateById()</h2>
+<a id="a92d7f5a27d028cf5e274407039671725" name="a92d7f5a27d028cf5e274407039671725"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92d7f5a27d028cf5e274407039671725">&#9670;&nbsp;</a></span>stateUpdateById()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -217,13 +218,13 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Send a State update to Touch Portal for any arbitrary state/value matching the <code>id</code>, with given <code>value</code>. </p>
-<dl class="section note"><dt>Note</dt><dd>This can be used to update other plugins' states and even TP global Values (at least as of TP 3.1.x). </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group___touch_portal.html#gaa24f3ff439abf4cba4b8a3a7a5ca26a2" title="Send a State update to Touch Portal with given value for the current script instance.">stateUpdate()</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This can be used to update other plugins' states and even <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> global Values (at least as of <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> 3.1.x). </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_t_p.html#aa24f3ff439abf4cba4b8a3a7a5ca26a2" title="Send a State update to Touch Portal with given value for the current script instance.">stateUpdate()</a> </dd></dl>
 
 </div>
 </div>
-<a id="gae20e0c99825e13ada7d2e4aad64099cf" name="gae20e0c99825e13ada7d2e4aad64099cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae20e0c99825e13ada7d2e4aad64099cf">&#9670;&nbsp;</a></span>stateCreate()</h2>
+<a id="ae20e0c99825e13ada7d2e4aad64099cf" name="ae20e0c99825e13ada7d2e4aad64099cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae20e0c99825e13ada7d2e4aad64099cf">&#9670;&nbsp;</a></span>stateCreate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -263,20 +264,20 @@ Functions</h2></td></tr>
 <p>Create a new Touch Portal dynamic State (if it doesn't already exist). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">id</td><td>Must be a fully qualified state ID (meaning it is not changed in any way and must be unique in TP). </td></tr>
+    <tr><td class="paramname">id</td><td>Must be a fully qualified state ID (meaning it is not changed in any way and must be unique in <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a>). </td></tr>
     <tr><td class="paramname">parentGroup</td><td>Sets or creates the sorting category into which the state is placed in the user interface (it will show up as a child of this plugin's states list). </td></tr>
-    <tr><td class="paramname">desc</td><td>This text will be used in the Touch Portal interface to represent the new state (optional if you don't need it selectable in TP UI). </td></tr>
+    <tr><td class="paramname">desc</td><td>This text will be used in the Touch Portal interface to represent the new state (optional if you don't need it selectable in <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> UI). </td></tr>
     <tr><td class="paramname">defaultValue</td><td>An optional default value for the state, meaning it's initial value.</td></tr>
   </table>
   </dd>
 </dl>
-<p>Note that if you do not want/need a state to be available in the UI, then any <code><a class="el" href="group___touch_portal.html#ga92d7f5a27d028cf5e274407039671725" title="Send a State update to Touch Portal for any arbitrary state/value matching the id,...">stateUpdateById()</a></code> call will also work (the state will be created if needed but not accessible via the UI). <br  />
- Also note that there's currently a bug in TP (&lt;= v3.1) that prevents state change events from being detected based on a default value. </p>
+<p>Note that if you do not want/need a state to be available in the UI, then any <code><a class="el" href="class_t_p.html#a92d7f5a27d028cf5e274407039671725" title="Send a State update to Touch Portal for any arbitrary state/value matching the id,...">stateUpdateById()</a></code> call will also work (the state will be created if needed but not accessible via the UI). <br  />
+ Also note that there's currently a bug in <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> (&lt;= v3.1) that prevents state change events from being detected based on a default value. </p>
 
 </div>
 </div>
-<a id="ga93c51d0992482428e82f12f5f8463daa" name="ga93c51d0992482428e82f12f5f8463daa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga93c51d0992482428e82f12f5f8463daa">&#9670;&nbsp;</a></span>stateRemove()</h2>
+<a id="a93c51d0992482428e82f12f5f8463daa" name="a93c51d0992482428e82f12f5f8463daa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93c51d0992482428e82f12f5f8463daa">&#9670;&nbsp;</a></span>stateRemove()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -296,8 +297,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga3244b24648e4f7b917083370e1dd2763" name="ga3244b24648e4f7b917083370e1dd2763"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3244b24648e4f7b917083370e1dd2763">&#9670;&nbsp;</a></span>choiceUpdate()</h2>
+<a id="a3244b24648e4f7b917083370e1dd2763" name="a3244b24648e4f7b917083370e1dd2763"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3244b24648e4f7b917083370e1dd2763">&#9670;&nbsp;</a></span>choiceUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -327,8 +328,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gaf6f92f65a7cd4207dc6b2520b83d4fc7" name="gaf6f92f65a7cd4207dc6b2520b83d4fc7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf6f92f65a7cd4207dc6b2520b83d4fc7">&#9670;&nbsp;</a></span>connectorUpdate()</h2>
+<a id="af6f92f65a7cd4207dc6b2520b83d4fc7" name="af6f92f65a7cd4207dc6b2520b83d4fc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6f92f65a7cd4207dc6b2520b83d4fc7">&#9670;&nbsp;</a></span>connectorUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -354,12 +355,12 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sends a connector (slider) update with given <code>value</code> which should be an integer in the range of 0 - 100. </p>
-<p >The <code>connectorId</code> must be fully qualified "long ID" as described in TP API docs. </p>
+<p >The <code>connectorId</code> must be fully qualified "long ID" as described in <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> API docs. </p>
 
 </div>
 </div>
-<a id="ga10d4d2b0569c6569fbcfe3bf2380bec2" name="ga10d4d2b0569c6569fbcfe3bf2380bec2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga10d4d2b0569c6569fbcfe3bf2380bec2">&#9670;&nbsp;</a></span>showNotification()</h2>
+<a id="a10d4d2b0569c6569fbcfe3bf2380bec2" name="a10d4d2b0569c6569fbcfe3bf2380bec2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10d4d2b0569c6569fbcfe3bf2380bec2">&#9670;&nbsp;</a></span>showNotification()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -397,7 +398,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Creates or raises a user notification in the Touch Portal window. </p>
-<p >See TP API docs for details on notifications. </p><dl class="params"><dt>Parameters</dt><dd>
+<p >See <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> API docs for details on notifications. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">notificationId</td><td>should be a unique string, if the user has already responded to a notification with the same <code>notificationId</code> then nothing will be shown. </td></tr>
     <tr><td class="paramname">title</td><td>This will be shown at the top of the notification window. </td></tr>
@@ -414,7 +415,8 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 08:57:15 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="navelem"><a class="el" href="class_t_p.html">TP</a></li>
+    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

@@ -69,7 +69,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "actions.html",
-"group___touch_portal.html"
+"class_number.html#ac9ed786aaf1627057ba774f4af4775af"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

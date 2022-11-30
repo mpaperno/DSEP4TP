@@ -1,18 +1,14 @@
 var group___j_s_ext =
 [
-    [ "GlobalObject", "class_global_object.html", [
-      [ "DSE_PLUGIN_VERSION_NUM", "class_global_object.html#a52a94eeba482965c54405c3b7f253d8c", null ],
-      [ "DSE_PLUGIN_VERSION_STR", "class_global_object.html#a24a69ac7163e8a78517c1e848bbaa827", null ],
-      [ "DSE_INSTANCE_NAME", "class_global_object.html#a5d5111dd96bfddb2373b9eddb12603a3", null ],
-      [ "DSE_INSTANCE_STATE_ID", "class_global_object.html#a4177350adc58accb6b9fd8ebdbb85cd9", null ],
-      [ "DSE_INSTANCE_DEFAULT_VALUE", "class_global_object.html#a8f9de602d8c0658e6c9af7bb65fa624c", null ],
-      [ "DSE_INSTANCE_TYPE", "class_global_object.html#a289c4ce80a32de88b69598b6334b72df", null ],
-      [ "DSE_SCRIPTS_BASE_DIR", "class_global_object.html#a1d869d6a3a2dbe4c445205e9354dab32", null ],
-      [ "atob", "class_global_object.html#aaac1708acf0bef57d9d26fe7ed5bf629", null ],
-      [ "btoa", "class_global_object.html#a168d5913a20d8ef5099db892cb9505ce", null ],
-      [ "include", "class_global_object.html#a9313c34613ad2b236e45fab688689612", null ],
-      [ "Format", "class_global_object.html#acd5e884df6b19a0c00b5747908e20d5d", null ],
-      [ "sprintf", "class_global_object.html#a4bdf4eafc63766384d4e1a6d604ab9b5", null ]
+    [ "global", "classglobal.html", [
+      [ "DSE", "classglobal.html#ada9832af11f06e57ebafad4138d0957e", null ],
+      [ "atob", "classglobal.html#aaac1708acf0bef57d9d26fe7ed5bf629", null ],
+      [ "btoa", "classglobal.html#a168d5913a20d8ef5099db892cb9505ce", null ],
+      [ "hash", "classglobal.html#a3e87983cdba0f10fe30d2f5c5986027c", null ],
+      [ "include", "classglobal.html#acd56068e20565d17344debdff28608b1", null ],
+      [ "locale", "classglobal.html#a7054cb6bbc5daa104eec29dd4a5f0588", null ],
+      [ "Format", "classglobal.html#acd5e884df6b19a0c00b5747908e20d5d", null ],
+      [ "sprintf", "classglobal.html#a4bdf4eafc63766384d4e1a6d604ab9b5", null ]
     ] ],
     [ "Date", "class_date.html", [
       [ "clone", "class_date.html#aeeb148b5688e69f7b6fd92fab0445957", null ],

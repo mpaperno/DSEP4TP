@@ -266,7 +266,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a new object instance with given <code>fileName</code>. The file name could be empty and specified later by setting the <code>fileName</code> property. The name can have no path, a relative path, or an absolute path. Relative paths are based on current application directory (see <code><a class="el" href="class_dir.html#a4b69d9dff5aafb800a2e457923f06194" title="Returns the absolute path of the application&#39;s current directory. The current directory is the direct...">Dir.cwd()</a></code>). Note that the directory separator "/" works for all operating systems. </p>
+<p>Creates a new object instance with given <code>fileName</code>. The file name could be empty and specified later by setting the <code>fileName</code> property. The name can have no path, a relative path, or an absolute path. Relative paths are based on current application directory (see <code><a class="el" href="class_dir.html#a4b69d9dff5aafb800a2e457923f06194" title="Returns the absolute path of the application&#39;s current directory. The current directory is the direct...">Dir.cwd()</a></code>). <br  />
+ <b>Note</b> that the directory separator "/" works for all operating systems. On Windows backslash ("\") can also be used but must be escaped as "\". </p>
 
 </div>
 </div>
@@ -292,7 +293,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Name of current file, as set in constructor or using this property. This property can also set the name of the file (eg. <code>fh.fileName = "myfile.txt"</code>). The name can have no path, a relative path, or an absolute path. Relative paths are based on current application directory (see <code><a class="el" href="class_dir.html#a4b69d9dff5aafb800a2e457923f06194" title="Returns the absolute path of the application&#39;s current directory. The current directory is the direct...">Dir.cwd()</a></code>). </p>
-<dl class="section note"><dt>Note</dt><dd>The directory separator "/" works for all operating systems. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The directory separator "/" works for all operating systems. On Windows the backslash ("\") can also be used but must be escaped in string literals as "\\". </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Do not set this property if the file has already been opened. </dd></dl>
 
 </div>
@@ -1077,7 +1078,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the file time specified by <code>time</code>. If the time cannot be determined this function returns an invalid <code><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a></code> object. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file_handle.html#a264ba3f4987576812cc58c6004cf590e" title="Returns the date and time when the current file was created / born. If the file birth time is not ava...">btime</a>, <a class="el" href="class_file_handle.html#a8e5657c3c79b6b819b736a51d33ac3d7" title="Returns the date and local time when the current file was last modified. If the file is not available...">mtime</a>, <a class="el" href="class_file_handle.html#a3be165bdd65782ed3e6a65d5fcd89ba6" title="Returns the date and local time when the current file was last accessed. If the file is not available...">atime</a>, <a class="el" href="class_f_s.html#a55d4b2656702692f47a3a4c5d7e09f74" title="File date/time enumerations for fileTime() and setFileTime(). The names are meant to follow GNU/POSIX...">FS.FileTime</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file_handle.html#a264ba3f4987576812cc58c6004cf590e" title="Returns the date and time when the current file was created / born. If the file birth time is not ava...">btime</a>, <a class="el" href="class_file_handle.html#a8e5657c3c79b6b819b736a51d33ac3d7" title="Returns the date and local time when the current file was last modified. If the file is not available...">mtime</a>, <a class="el" href="class_file_handle.html#a3be165bdd65782ed3e6a65d5fcd89ba6" title="Returns the date and local time when the current file was last accessed. If the file is not available...">atime</a>, <a class="el" href="class_f_s.html#a55d4b2656702692f47a3a4c5d7e09f74" title="File date/time enumerations for FileHandle.fileTime() and FileHandle.setFileTime()....">FS.FileTime</a> </dd></dl>
 
 </div>
 </div>
@@ -1107,7 +1108,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sets the file time specified by <code>fileTime</code> to <code>newDate</code> on the current file, returning <code>true</code> if successful; otherwise returns <code>false</code>. <b>Note:</b> The file must be open to use this function. </p>
+<p>Sets the file time specified by <code>fileTime</code> to <code>newDate</code> on the current file, returning <code>true</code> if successful; otherwise returns <code>false</code>. <br  />
+ <b>Note:</b> The file must be open to use this function. </p>
 
 </div>
 </div>
@@ -1127,7 +1129,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Copies the current (<code>fileName</code>) file to a file called <code>newName</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. Note that if a file with the name <code>newName</code> already exists, <code><a class="el" href="class_file_handle.html#a112056b38e1fe6c7f32a6a489c4fbe81" title="Copies the current (fileName) file to a file called newName. Returns true if successful; otherwise re...">copy()</a></code> returns <code>false</code>. The source file is closed before it is copied. </p>
+<p>Copies the current (<a class="el" href="class_file_handle.html#a71f006e8d6ac2a5d94354155a0da69f8">fileName</a>) file to a file called <code>newName</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. Note that if a file with the name <code>newName</code> already exists, <code><a class="el" href="class_file_handle.html#a112056b38e1fe6c7f32a6a489c4fbe81" title="Copies the current (fileName) file to a file called newName. Returns true if successful; otherwise re...">copy()</a></code> returns <code>false</code>. The source file is closed before it is copied. </p>
 
 </div>
 </div>
@@ -1147,7 +1149,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Creates a link named linkName that points to the file currently specified by <code>. What a link is depends on the underlying file system. This function will not overwrite an already existing entity in the file system; in this case,</code><a class="el" href="class_file_handle.html#abe4e43b1f0ed7418c20853128f6dcef3" title="Creates a link named linkName that points to the file currently specified by . What a link is depends...">link()</a><code>will return false and set</code>error<code>to return</code>RenameError`. </p>
+<p>Creates a link named <code>linkName</code> that points to the file currently specified by <a class="el" href="class_file_handle.html#a71f006e8d6ac2a5d94354155a0da69f8">fileName</a>. What a link is depends on the underlying file system. This function will not overwrite an already existing entity in the file system; in this case, <code><a class="el" href="class_file_handle.html#abe4e43b1f0ed7418c20853128f6dcef3" title="Creates a link named linkName that points to the file currently specified by fileName....">link()</a></code> will return false and set <code>error</code> to return <code>RenameError</code>. </p>
 
 </div>
 </div>
@@ -1167,7 +1169,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Copies the current (<code>fileName</code>) file to a file called <code>newName</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. Note that if a file with the name <code>newName</code> already exists, <code><a class="el" href="class_file_handle.html#ae7e2b3287aea47346f2f458a8ef45c32" title="Copies the current (fileName) file to a file called newName. Returns true if successful; otherwise re...">rename()</a></code> returns <code>false</code>. The source file is closed before it is copied. </p>
+<p>Copies the current (<a class="el" href="class_file_handle.html#a71f006e8d6ac2a5d94354155a0da69f8">fileName</a>) file to a file called <code>newName</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. Note that if a file with the name <code>newName</code> already exists, <code><a class="el" href="class_file_handle.html#ae7e2b3287aea47346f2f458a8ef45c32" title="Copies the current (fileName) file to a file called newName. Returns true if successful; otherwise re...">rename()</a></code> returns <code>false</code>. The source file is closed before it is copied. </p>
 
 </div>
 </div>
@@ -1186,7 +1188,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Removes the file specified by <code>fileName</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. The file is closed before it is removed. </p>
+<p>Removes the file specified by <a class="el" href="class_file_handle.html#a71f006e8d6ac2a5d94354155a0da69f8">fileName</a>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. The file is closed before it is removed. </p>
 
 </div>
 </div>
@@ -1517,7 +1519,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_file_handle.html">FileHandle</a></li>
-    <li class="footer">Generated on Tue Nov 29 2022 08:57:15 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

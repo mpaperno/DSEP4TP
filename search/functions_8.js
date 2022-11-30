@@ -1,5 +1,20 @@
 var searchData=
 [
-  ['link_0',['link',['../class_file.html#ac6677a9b1a451962bd9d4c4e8d682c27',1,'File::link()'],['../class_file_handle.html#abe4e43b1f0ed7418c20853128f6dcef3',1,'FileHandle::link()']]],
-  ['locale_1',['locale',['../class_qt.html#a7054cb6bbc5daa104eec29dd4a5f0588',1,'Qt']]]
+  ['include_0',['include',['../classglobal.html#acd56068e20565d17344debdff28608b1',1,'global']]],
+  ['isabs_1',['isAbs',['../class_dir.html#a206b0772876f741042c960de4aae1969',1,'Dir::isAbs()'],['../class_file.html#ad34d77865d8ca31c52d64bf87516850b',1,'File::isAbs()']]],
+  ['iscool_2',['isCool',['../class_color.html#a8ae8f3c5fb6a29c6f5ff433b2a293232',1,'Color']]],
+  ['iscooler_3',['isCooler',['../class_color.html#aedfdb92aa8271d5629c1bcc18dbc7b7e',1,'Color']]],
+  ['iscoolerthan_4',['isCoolerThan',['../class_color.html#aa5da9f1b50792fd0e6dbd8a82041e979',1,'Color']]],
+  ['isdarker_5',['isDarker',['../class_color.html#a15e22cf7196bd871990772acae335805',1,'Color']]],
+  ['isdarkerthan_6',['isDarkerThan',['../class_color.html#a0fb05e209fb1735a580f46c4de5a134b',1,'Color']]],
+  ['isdir_7',['isDir',['../class_file.html#a391e9dfea962836d922ee488b75d6c58',1,'File']]],
+  ['isexec_8',['isExec',['../class_file.html#aa75258b1c3d7bdbc7d08f01f134fafff',1,'File']]],
+  ['isfile_9',['isFile',['../class_file.html#a18f645763bfae56a70c7624833863b55',1,'File']]],
+  ['islighter_10',['isLighter',['../class_color.html#ad80848a56dab735fe5f3fc50b7742fb9',1,'Color']]],
+  ['islighterthan_11',['isLighterThan',['../class_color.html#a25aece80595eb76d1887e79e5ea32518',1,'Color']]],
+  ['isreadable_12',['isReadable',['../class_file.html#a6910344def72514e929c6787fb24d765',1,'File']]],
+  ['iswarm_13',['isWarm',['../class_color.html#a151247ebab3660fe828e9fbfd74b773c',1,'Color']]],
+  ['iswarmer_14',['isWarmer',['../class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a',1,'Color']]],
+  ['iswarmerthan_15',['isWarmerThan',['../class_color.html#abbcf97ad083904642363abe9a6a767ca',1,'Color']]],
+  ['iswritable_16',['isWritable',['../class_file.html#a6e32c0a55413ef4a490844d2298a246b',1,'File']]]
 ];

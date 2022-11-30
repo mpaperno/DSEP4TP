@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['home_0',['home',['../class_dir.html#a899cb9f92065b5b189dc2482bb0a03f6',1,'Dir']]]
+  ['getsaturation_0',['getSaturation',['../class_color.html#a45d3734fd6c897723acd3cb8e5e6fa3b',1,'Color']]]
 ];

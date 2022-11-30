@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <hr  />
  <div class="darkmode_inverted_image"> <img src="https://mpaperno.github.io/DSEP4TP/images/logo/banner_420x105.png" alt="" align="right" class="inline"/> </div><div class="hide-on-site"></div><div class="hide-on-site"><b>Visit <a href="https://mpaperno.github.io/DSEP4TP/" target="_blank">https://mpaperno.github.io/DSEP4TP/</a> for all details, including this README.</b></div><div class="hide-on-site"></div><h1><a class="anchor" id="autotoc_md2"></a>
 Features</h1>
-<p ><b>This plugin evaluates expressions using a JavaScript "engine" and returns results as a Touch Portal <em>State</em>.</b><br  />
+<p ><b>This plugin evaluates expressions using a JavaScript "engine" and (optionally) returns results as a Touch Portal <em>State</em>.</b><br  />
  (If you're not familiar, Touch Portal uses states to display information to the user and/or trigger events.)</p>
 <p >You can send other dynamic state/values to this plugin as part of the expressions it evaluates, for example to do some math on a numeric value, or to format a piece of text in a particular way. It can evaluate anything from basic math to complex JavaScript modules.</p>
 <p >You do <b>not</b> need to understand JavaScript to start using the basic features of this plugin.<br  />
@@ -164,7 +164,7 @@ One-liner Expressions</h2>
 </ul>
 </li>
 <li>Send an image to use as a Touch Portal button icon. E.g. with dynamic image name:<ul>
-<li>&lsquo;Util.toBase64(<a class="el" href="class_file.html#a0cf82261c5b3190528e723f53f84742c" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("images/status_icon_${value:MyVariable}.png", 'b&rsquo;))`</li>
+<li>&lsquo;btoa(<a class="el" href="class_file.html#a0cf82261c5b3190528e723f53f84742c" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("images/status_icon_${value:MyVariable}.png", 'b&rsquo;))`</li>
 </ul>
 </li>
 <li>Read any number of lines from a file, starting from beginning, end, or a specific line number. E.g. read the last 5 lines of a log with a dynamic name:<ul>
@@ -175,38 +175,42 @@ One-liner Expressions</h2>
 <li><code>JSON.parse(<a class="el" href="class_file.html#a0cf82261c5b3190528e723f53f84742c" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("data.json")).myProperty</code></li>
 </ul>
 </li>
+<li>Update any State or Value in Touch Portal:<ul>
+<li><code><a class="el" href="class_t_p.html#a92d7f5a27d028cf5e274407039671725" title="Send a State update to Touch Portal for any arbitrary state/value matching the id,...">TP.stateUpdateById</a>("MyVariable", ${value:MyVariable} * 25)</code></li>
+</ul>
+</li>
 <li>Send yourself a notification via Touch Portal:<ul>
-<li><code>TP.showNotification("myNotififyId", "Something Happened", "Hey, something happened, check it out!")</code></li>
+<li><code><a class="el" href="class_t_p.html#a10d4d2b0569c6569fbcfe3bf2380bec2" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification</a>("myNotififyId", "Something Happened", "Hey, something happened, check it out!")</code></li>
 </ul>
 </li>
 </ul>
 <h2><a class="anchor" id="autotoc_md4"></a>
 Scripts</h2>
 <ul>
-<li>JavaScript scripts of any complexity can be loaded from file(s) and functions within those scripts can be invoked with dynamic arguments (eg. from TP states/values).</li>
+<li>JavaScript scripts of any complexity can be loaded from file(s) and functions within those scripts can be invoked with dynamic arguments (eg. from <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> states/values).</li>
 <li>Use simple "standalone" scripts or full <b>JS modules</b>, which can import other modules and are also cached between uses for excellent performance.</li>
-<li>An <code><a class="el" href="class_global_object.html#a9313c34613ad2b236e45fab688689612" title="Read and evaluate fileName as JavaScript in the current scripting engine context (global object) at t...">include()</a></code> function is available to read an evaluate any block of code from another file, for easy code re-use within standalone scripts or modules.</li>
+<li>An <code><a class="el" href="classglobal.html#acd56068e20565d17344debdff28608b1" title="Read and evaluate scriptFile as JavaScript in the current scripting engine context (global object) at...">include()</a></code> function is available to read an evaluate any block of code from another file, for easy code re-use within standalone scripts or modules.</li>
 <li>Full <code>console.log()</code> (and family) support for debugging/etc; output is sent to a separate plugin log file dedicated for scripting output and errors.</li>
 <li>Scripts can run independently and in the background, for example processing timed events or callbacks from asynchronous processes (eg. a network request or file system watcher).</li>
-<li>Scripts can send state updates to Touch Portal at any time, and they can also create and remove states, among other things (you can literally write a simple TP "plugin" using the scripting engine itself).</li>
+<li>Scripts can send state updates to Touch Portal at any time, and they can also create and remove states, among other things (you can literally write a simple <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> "plugin" using the scripting engine itself).</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md5"></a>
 Overall</h2>
 <ul>
 <li>Extensive support for <b>ECMAScript level 7</b>, plus custom extensions:<ul>
 <li><b><a class="el" href="class_file.html" title="The File class provides access to... files. Shocking.">File</a> system</b> interaction, from one-line read/write utilities to full byte-by-byte access.</li>
-<li>Flexible <b>string, date, and number formatting</b> with .NET <a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String.Format style</a> or <a class="el" href="class_global_object.html#a4bdf4eafc63766384d4e1a6d604ab9b5">&quot;printf&quot;</a> style functions.</li>
+<li>Flexible <b>string, date, and number formatting</b> with .NET <a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String.Format style</a> or <a class="el" href="classglobal.html#a4bdf4eafc63766384d4e1a6d604ab9b5">&quot;printf&quot;</a> style functions.</li>
 <li>Support for <b>timed/recurring operations</b> with <code>setTimeout()</code>/<code>setInterval()</code>.</li>
 <li><b>Network requests</b> supported via the familiar (if awkwardly named) <code>XMLHttpRequest</code> object.</li>
-<li><b>Touch Portal interaction</b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and more.</li>
+<li><b>Touch Portal <a class="el" href="class_t_p.html">interaction</a></b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and more.</li>
 <li><b><a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> manipulation</b>/utility library.</li>
 <li>Lots of convenience extensions to built-in JS objects like <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a>, <a class="el" href="class_math.html" title="Math Object Extensions.">Math</a> and <a class="el" href="class_string.html" title="Extends String object.">String</a>.</li>
-<li>Other <a class="el" href="group___util.html">utilities</a>, eg. for encoding/decoding <b>base-64 data</b>, <b>environment variable</b> access, <b>URL parsing</b>, <b>string extraction</b>, and more.</li>
+<li>Other <a class="el" href="classglobal.html">global</a> object extensions and <a class="el" href="group___util.html">utilities</a>, eg. for encoding/decoding <b>base-64 data</b>, <b>environment variable</b> access, <b>locale data</b>, <b>hashing algorithms</b>, and more.</li>
 <li>Infinitely <b>extensible</b> via either JavaScript libraries/modules <em>or</em> C++ integration.</li>
 </ul>
 </li>
 <li>Any expression/script action can be <b>saved to persistent settings</b> and re-created automatically when Touch Portal (or the plugin) starts up, with a number of options for what the default should be (fixed value, custom expression, etc).</li>
-<li>Expressions and scripts can run in either a single shared scripting engine instance or in separated <b>private engine instances</b> to keep environments isolated (each engine instance has its own global 'this' scope).</li>
+<li>Expressions and scripts can run in either a single Shared scripting engine instance or in separated <b>Private engine instances</b> to keep environments isolated (each engine instance has its own global 'this' scope). Instances are <em>persistent</em> throughout the life of the plugin (or until deleted explicitly).</li>
 <li>Written in <b>optimized C++</b> for high performance.</li>
 <li><b>Multi-threaded</b> for quick response times and non-blocking behavior (long-running scripts will not prevent other scripts from running).</li>
 <li>Runs on <b>Windows, MacOS, or Linux</b>.</li>
@@ -214,6 +218,7 @@ Overall</h2>
 <hr  />
  <h1><a class="anchor" id="autotoc_md7"></a>
 Download and Install</h1>
+<p ><b>COMING SOON!</b></p>
 <p >Note: As with all plugins, this requires the Touch Portal Pro (paid) version to function. Use the latest available Touch Portal version for best results.</p>
 <ol type="1">
 <li>Get the latest version of this plugin for your operating system from the <a href="https://github.com/mpaperno/DSEP4TP/releases" target="_blank">Releases</a> page.</li>
@@ -249,8 +254,8 @@ Support and Discussion</h1>
 Troubleshooting</h1>
 <p >The most likely cause of something not working right is going to be scripting syntax errors or data being passed to functions in unexpected format (eg. un-escaped backslashes).</p>
 <p >The plugin uses 2 Touch Portal States to notify you of errors in scripts:</p><ul>
-<li>The "Cumulative script error count" state is a running count of script errors which increments on each exception. This is useful as a trigger for some TP event which would notify you that a new error occurred.</li>
-<li>The "Last script instance error" state will update with the text of the last error message. This could be shown somewhere in a TP page for example.</li>
+<li>The "Cumulative script error count" state is a running count of script errors which increments on each exception. This is useful as a trigger for some <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> event which would notify you that a new error occurred.</li>
+<li>The "Last script instance error" state will update with the text of the last error message. This could be shown somewhere in a <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> page for example.</li>
 </ul>
 <p >See the Status and Logging documentation page for more details on script error reporting.</p>
 <p >The plugin also logs message to a file. Two, actually. They are both located in your Touch Portal configuration folder, in the 'plugins' section; the path looks like:<br  />
@@ -298,7 +303,7 @@ Copyright, License, and Disclaimer</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 08:57:15 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mtime_0',['mtime',['../class_file_handle.html#a8e5657c3c79b6b819b736a51d33ac3d7',1,'FileHandle']]]
+  ['length_0',['length',['../class_file_handle.html#a9f59b34b1f25fe00023291b678246bcc',1,'FileHandle']]]
 ];

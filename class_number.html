@@ -185,7 +185,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Returns a <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> by parsing number using the conventions of the supplied locale. </p>
 <p >If locale is not supplied the default locale will be used.</p>
-<p >For example, using the German locale: </p><div class="fragment"><div class="line">var german = <a class="code hl_class" href="class_qt.html">Qt</a>.<a class="code hl_function" href="class_qt.html#a7054cb6bbc5daa104eec29dd4a5f0588">locale</a>(<span class="stringliteral">&quot;de_DE&quot;</span>);</div>
+<p >For example, using the German locale: </p><div class="fragment"><div class="line">var german = locale(<span class="stringliteral">&quot;de_DE&quot;</span>);</div>
 <div class="line">var d;</div>
 <div class="line">d = <a class="code hl_class" href="class_number.html">Number</a>.<a class="code hl_function" href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2">fromLocaleString</a>(german, <span class="stringliteral">&quot;1234,56&quot;</span>)   <span class="comment">// d == 1234.56</span></div>
 <div class="line">d = <a class="code hl_class" href="class_number.html">Number</a>.<a class="code hl_function" href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2">fromLocaleString</a>(german, <span class="stringliteral">&quot;1.234,56&quot;</span>) <span class="comment">// d == 1234.56</span></div>
@@ -193,8 +193,6 @@ Public Member Functions</h2></td></tr>
 <div class="line">d = <a class="code hl_class" href="class_number.html">Number</a>.<a class="code hl_function" href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2">fromLocaleString</a>(german, <span class="stringliteral">&quot;1.234&quot;</span>)    <span class="comment">// d == 1234.0</span></div>
 <div class="ttc" id="aclass_number_html"><div class="ttname"><a href="class_number.html">Number</a></div><div class="ttdoc">A few convenience methods to extend Number prototype.</div></div>
 <div class="ttc" id="aclass_number_html_a5b095bc6784cbd874b4e32020d13edb2"><div class="ttname"><a href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2">Number::fromLocaleString</a></div><div class="ttdeci">Date fromLocaleString(locale, number)</div><div class="ttdoc">Returns a Number by parsing number using the conventions of the supplied locale.</div></div>
-<div class="ttc" id="aclass_qt_html"><div class="ttname"><a href="class_qt.html">Qt</a></div><div class="ttdoc">Built-in object provided by the underlying Qt C++ library running the script engine.</div></div>
-<div class="ttc" id="aclass_qt_html_a7054cb6bbc5daa104eec29dd4a5f0588"><div class="ttname"><a href="class_qt.html#a7054cb6bbc5daa104eec29dd4a5f0588">Qt::locale</a></div><div class="ttdeci">Locale locale(name)</div><div class="ttdoc">Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...</div></div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -271,12 +269,12 @@ Public Member Functions</h2></td></tr>
 <p >If the format is not specified 'f' will be used.</p>
 <p >If locale is not specified, the default locale will be used.</p>
 <p >The following example shows a number formatted for the German locale:</p>
-<div class="fragment"><div class="line"><span class="stringliteral">&quot;The value is: &quot;</span> + <a class="code hl_class" href="class_number.html">Number</a>(4742378.423).<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(<a class="code hl_class" href="class_qt.html">Qt</a>.<a class="code hl_function" href="class_qt.html#a7054cb6bbc5daa104eec29dd4a5f0588">locale</a>(<span class="stringliteral">&quot;de_DE&quot;</span>))</div>
+<div class="fragment"><div class="line"><span class="stringliteral">&quot;The value is: &quot;</span> + <a class="code hl_class" href="class_number.html">Number</a>(4742378.423).<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>))</div>
 <div class="ttc" id="aclass_number_html_ae3b0479a975b36c5ef3adfd4622110d3"><div class="ttname"><a href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">Number::toLocaleString</a></div><div class="ttdeci">string toLocaleString(locale, format, precision)</div><div class="ttdoc">Converts the Number to a string suitable for the specified locale in the specified format,...</div></div>
 </div><!-- fragment --><p >You can apply <a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a> directly to constants, provided the decimal is included in the constant, e.g.</p>
-<div class="fragment"><div class="line">123.0.<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(<a class="code hl_class" href="class_qt.html">Qt</a>.<a class="code hl_function" href="class_qt.html#a7054cb6bbc5daa104eec29dd4a5f0588">locale</a>(<span class="stringliteral">&quot;de_DE&quot;</span>)) <span class="comment">// OK</span></div>
-<div class="line">123..<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(<a class="code hl_class" href="class_qt.html">Qt</a>.<a class="code hl_function" href="class_qt.html#a7054cb6bbc5daa104eec29dd4a5f0588">locale</a>(<span class="stringliteral">&quot;de_DE&quot;</span>))  <span class="comment">// OK</span></div>
-<div class="line">123.toLocaleString(<a class="code hl_class" href="class_qt.html">Qt</a>.<a class="code hl_function" href="class_qt.html#a7054cb6bbc5daa104eec29dd4a5f0588">locale</a>(<span class="stringliteral">&quot;de_DE&quot;</span>))   <span class="comment">// fails</span></div>
+<div class="fragment"><div class="line">123.0.<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>)) <span class="comment">// OK</span></div>
+<div class="line">123..<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>))  <span class="comment">// OK</span></div>
+<div class="line">123.toLocaleString(locale(<span class="stringliteral">&quot;de_DE&quot;</span>))   <span class="comment">// fails</span></div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -366,7 +364,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_number.html">Number</a></li>
-    <li class="footer">Generated on Tue Nov 29 2022 08:57:15 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

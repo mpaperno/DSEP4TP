@@ -11,5 +11,5 @@ var searchData=
   ['addyears_8',['addYears',['../class_date.html#a2af53c3e326239c0bd7ba6b730d34a3d',1,'Date']]],
   ['arg_9',['arg',['../class_string.html#a15c6d638aa8030c022876d6338220f7d',1,'String']]],
   ['atime_10',['atime',['../class_file.html#a08400507894207938743b0f812a18a17',1,'File']]],
-  ['atob_11',['atob',['../class_global_object.html#aaac1708acf0bef57d9d26fe7ed5bf629',1,'GlobalObject::atob()'],['../class_qt.html#ab0c3556d491b0be42f6e5768a9dca7b9',1,'Qt::atob()']]]
+  ['atob_11',['atob',['../classglobal.html#aaac1708acf0bef57d9d26fe7ed5bf629',1,'global']]]
 ];
