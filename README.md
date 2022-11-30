@@ -19,7 +19,7 @@ for use with [Touch Portal](https://www.touch-portal.com/) macro launcher softwa
 </div>
 
 ## Features
-**This plugin evaluates expressions using a JavaScript "engine" and returns results as a Touch Portal _State_.**<br />
+**This plugin evaluates expressions using a JavaScript "engine" and (optionally) returns results as a Touch Portal _State_.**<br />
 (If you're not familiar, Touch Portal uses states to display information to the user and/or trigger events.)
 
 You can send other dynamic state/values to this plugin as part of the expressions it evaluates, for example to do some math on a numeric value,
@@ -52,11 +52,13 @@ global Value or a plugin State and will be replaced by Touch Portal with the act
 * Calculate a color and use it in a Touch Portal button:
   * `Color("#FF000088").spin(${value:MyVariable} * 3.6).argb()`
 * Send an image to use as a Touch Portal button icon. E.g. with dynamic image name:
-  * `Util.toBase64(File.read("images/status_icon_${value:MyVariable}.png", 'b'))`
+  * `btoa(File.read("images/status_icon_${value:MyVariable}.png", 'b'))`
 * Read any number of lines from a file, starting from beginning, end, or a specific line number. E.g. read the last 5 lines of a log with a dynamic name:
   * `` File.readLines(`../logs/console-${new Date().format("yyyyMMdd")}.log`, 5, -1)) ``
 * Extract a value from a JSON object in a file:
   * `JSON.parse(File.read("data.json")).myProperty`
+* Update any State or Value in Touch Portal:
+  * `TP.stateUpdateById("MyVariable", ${value:MyVariable} * 25)`
 * Send yourself a notification via Touch Portal:
   * `TP.showNotification("myNotififyId", "Something Happened", "Hey, something happened, check it out!")`
 
@@ -78,18 +80,20 @@ global Value or a plugin State and will be replaced by Touch Portal with the act
   * **Touch Portal [interaction](@ref TP)**: update any State or global Value, create and remove States, change Slider positions, send Notifications, and more.
   * **Color manipulation**/utility library.
   * Lots of convenience extensions to built-in JS objects like Date, Number, Math and String.
-  * Other [utilities](@ref Util), eg. for encoding/decoding **base-64 data**, **environment variable** access, **URL parsing**, **string extraction**, and more.
+  * Other global object extensions and [utilities](@ref Util), eg. for encoding/decoding **base-64 data**, **environment variable** access, **locale data**, **hashing algorithms**, and more.
   * Infinitely **extensible** via either JavaScript libraries/modules _or_ C++ integration.
 * Any expression/script action can be **saved to persistent settings** and re-created automatically when Touch Portal (or the plugin) starts up,
   with a number of options for what the default should be (fixed value, custom expression, etc).
-* Expressions and scripts can run in either a single shared scripting engine instance or in separated **private engine instances** to keep environments isolated
-  (each engine instance has its own global 'this' scope).
+* Expressions and scripts can run in either a single Shared scripting engine instance or in separated **Private engine instances** to keep environments isolated
+  (each engine instance has its own global 'this' scope). Instances are _persistent_ throughout the life of the plugin (or until deleted explicitly).
 * Written in **optimized C++** for high performance.
 * **Multi-threaded** for quick response times and non-blocking behavior (long-running scripts will not prevent other scripts from running).
 * Runs on **Windows, MacOS, or Linux**.
 
 -------------
 ## Download and Install
+
+**COMING SOON!**
 
 Note: As with all plugins, this requires the Touch Portal Pro (paid) version to function. Use the latest available Touch Portal version for best results.
 
