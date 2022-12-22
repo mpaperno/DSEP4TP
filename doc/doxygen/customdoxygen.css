@@ -1,0 +1,226 @@
+
+html {
+		--content-maxwidth: auto;
+		--side-nav-arrow-opacity: 0.6;
+		--side-nav-fixed-width: 350px;
+    --note-color: rgba(202, 217, 251, 0.25);
+    --note-color-dark: #7a9ae5;
+    --note-color-darker: #3d2e01; 
+}
+
+ html.dark-mode {
+		--primary-color: #7cb7e3;
+    --note-color: rgba(202, 217, 251, 0.25);
+    --note-color-dark: #7a9ae5;
+    --note-color-darker: var(--page-foreground-color);
+} 
+
+#side-nav {
+	padding-right: 6px !important;
+}
+
+#nav-tree-contents {
+	margin-top: 12px;
+}
+
+.ui-resizable-e {
+	width: 6px !important;
+}
+
+#titlearea {  
+	padding-top: 4px;
+  padding-bottom: 13px;
+}
+
+#projectlogo img
+{
+	/* max-height: 56px; */
+	max-height: revert;
+	margin-right: revert;
+}
+
+/*td#projectalign {
+	vertical-align: bottom;
+	display: block;
+	position: relative;
+	right: 14px;
+	top: 59px;
+	width: 93%;
+}*/
+
+#projectname
+{
+	/*font: bold 280% Tahoma, Arial,sans-serif;*/
+	/*margin: 0px;*/
+	/*padding: 2px 2px 0px 0px;*/
+	/* font-variant: small-caps; */
+	display: block;
+	position: absolute;
+	width: 340px;
+	top: 67px;
+	left: 0;
+	text-align: right;
+}
+
+#projectnumber {
+	font-size: 50% !important;
+}
+
+div.contents {
+	padding: 0px 3%;
+}
+
+a.el, a.elRef {
+	color: #009b00 !important;
+	font-weight: normal;
+}
+
+a.el:visited, a.elRef:visited {
+	color: #007800 !important;
+	font-weight: normal;
+}
+
+html.dark-mode a.el, a.elRef {
+	color: #06d206 !important;
+	font-weight: normal;
+}
+
+html.dark-mode a.el:visited, html.dark-mode a.elRef:visited {
+	color: #01b501 !important;
+	font-weight: normal;
+}
+
+/*a[target=_blank] {
+	color: #0059b3 !important;
+}*/
+
+.navpath li.navelem a {
+	font-weight: bold
+}
+div.fragment {
+	padding: 5px;
+}
+
+/*div.line {
+	padding: 2px 0;
+	text-indent: 0;
+}*/
+
+/*div.memproto {
+	border-top-left-radius: 4px;
+	background-color: #EBEBEE;
+}*/
+
+/* smaller "Definition at line ..." */
+p.definition {	font-size: 11px !important; }
+
+/* hide large title block over each member details */
+/*h2.memtitle { display: none; }*/
+
+/* prettify detailed member titles */
+table.memname tr { display: inline-table; }
+table.memname td { padding: 1px 0; }
+td.memname { font-weight: bold; }
+
+/* labels on right side of member headers are hard to read in dark mode */
+html.dark-mode span.mlabel { background: #1779c4;  }
+
+table.doxtable th {
+	font-size: revert;
+	color: #D5D1D1;
+}
+
+.image { text-align: revert; }
+
+/* hide brief descriptions in member list, but not for parent class */
+/*tr[class^="memdesc"] { display: none; }*/
+
+.hide-on-site { display: none; }
+
+h1:has(> #autotoc_md10) {
+  visibility: hidden;
+}
+
+img[align="right"] {
+  margin-left: 30px;
+}
+img[align="left"] {
+  margin-right: 30px;
+}
+
+.github-corner svg {
+    width: 63px;
+    height: 63px;
+		position: absolute;
+		top: 0px;
+		/*left: 300px;*/
+		right: 0px;
+    /* fill: var(--primary-light-color); */
+    color: var(--page-background-color);
+		/* transform: scaleX(-1); */
+		z-index: 99;
+}
+.github-corner svg .first-stop {
+    stop-color: #00B4FF;
+}
+.github-corner svg .last-stop {
+    stop-color: #008AC6;
+}
+
+@media screen and (max-width: 767px) {
+    .github-corner svg {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+.next_section_button {
+    display: block;
+    float: right;
+    padding: var(--spacing-large) 0 var(--spacing-small) 0;
+    color: var(--page-background-color);
+    user-select: none;
+}
+
+.next_section_button::after {
+    /* clearfix */
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.next_section_button a {
+    overflow: hidden;
+    float: right;
+    border: 1px solid var(--separator-color);
+    padding: var(--spacing-medium) calc(var(--spacing-large) / 2) var(--spacing-medium) var(--spacing-large);
+    border-radius: var(--border-radius-medium);
+    color: var(--page-secondary-foreground-color) !important;
+    text-decoration: none;
+    background-color: var(--page-background-color);
+    transition: color .08s ease-in-out, background-color .1s ease-in-out;
+}
+
+.next_section_button a:hover {
+    color: var(--page-foreground-color) !important;
+    background-color: var(--odd-color);
+}
+
+.next_section_button a::after {
+    content: '〉';
+    color: var(--page-secondary-foreground-color) !important;
+    padding-left: var(--spacing-large);
+    display: inline-block;
+    transition: color .08s ease-in-out, transform .09s ease-in-out;
+}
+
+.next_section_button a:hover::after {
+    color: var(--page-foreground-color) !important;
+    transform: translateX(3px);
+}
+
+
+html:not(.dark-mode) .darkmode_inverted_image img, /* < doxygen 1.9.3 */
+html:not(.dark-mode) .darkmode_inverted_image object[type="image/svg+xml"] /* doxygen 1.9.3 */ {
+    filter: brightness(87%) hue-rotate(180deg) invert();
+}

@@ -1,0 +1,265 @@
+# Doxyfile 1.9.4
+
+@INCLUDE = ./Doxyfile.version
+
+PROJECT_LOGO           = "Logo.png"
+BRIEF_MEMBER_DESC      = NO
+ABBREVIATE_BRIEF       = _dummy_
+FULL_PATH_NAMES        = YES
+STRIP_FROM_PATH        = ../
+ALWAYS_DETAILED_SEC    = YES
+JAVADOC_AUTOBRIEF      = YES
+QT_AUTOBRIEF           = YES
+MULTILINE_CPP_IS_BRIEF = YES
+TAB_SIZE               = 2
+OPTIMIZE_OUTPUT_JAVA   = NO
+MARKDOWN_SUPPORT       = YES
+TOC_INCLUDE_HEADINGS   = 5
+AUTOLINK_SUPPORT       = YES
+BUILTIN_STL_SUPPORT    = YES
+CPP_CLI_SUPPORT        = NO
+DISTRIBUTE_GROUP_DOC   = NO
+GROUP_NESTED_COMPOUNDS = YES
+INLINE_GROUPED_CLASSES = NO
+INLINE_SIMPLE_STRUCTS  = YES
+TYPEDEF_HIDES_STRUCT   = NO
+EXTENSION_MAPPING      = js=JavaScript
+ALIASES                = \
+                         "default{1}=\n<b>Default</b> value is \c \1.\n" \
+                         "reimp{1}=Reimplemented from \c \1." \
+                         "reimp=Reimplemented from superclass." \
+                         "default=<b>Default</b> value:" \
+                         "pacc=\par Access functions:^^" \
+                         "psig=\par Notifier signal:^^" \
+                         "intern=\par<b>Internal use only.</b>" \
+                         "qflags{2}=<p>The \ref \1 type stores an OR combination of \ref \2 values.</p>"
+
+#---------------------------------------------------------------------------
+# Build related configuration options
+#---------------------------------------------------------------------------
+
+EXTRACT_ALL            = NO
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = NO
+HIDE_UNDOC_MEMBERS     = YES
+HIDE_UNDOC_CLASSES     = YES
+HIDE_FRIEND_COMPOUNDS  = YES
+HIDE_SCOPE_NAMES       = YES
+HIDE_COMPOUND_REFERENCE = YES
+FORCE_LOCAL_INCLUDES   = YES
+INLINE_INFO            = NO
+SORT_MEMBER_DOCS       = NO
+SORT_BRIEF_DOCS        = NO
+SORT_MEMBERS_CTORS_1ST = YES
+SORT_GROUP_NAMES       = NO
+SORT_BY_SCOPE_NAME     = YES
+SHOW_INCLUDE_FILES     = NO
+SHOW_HEADERFILE        = NO
+SHOW_USED_FILES        = NO
+SHOW_FILES             = NO
+SHOW_NAMESPACES        = NO
+LAYOUT_FILE            = DoxygenLayout.xml
+
+#---------------------------------------------------------------------------
+# Configuration options related to warning and progress messages
+#---------------------------------------------------------------------------
+
+QUIET                  = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_DOC_ERROR      = NO
+WARN_NO_PARAMDOC       = NO
+WARN_AS_ERROR          = NO
+
+#---------------------------------------------------------------------------
+# Configuration options related to the input files
+#---------------------------------------------------------------------------
+
+INPUT                  = \
+                         ../../README.md \
+                         ../pages \
+                         ../jsref \
+                         ../../src/resources/scripts \
+                         ../../src/ScriptingLibrary \
+                         ../../resources/examples \
+
+##                         ../../CHANGELOG.md \
+
+USE_MDFILE_AS_MAINPAGE = ../../README.md
+
+RECURSIVE              = YES
+FILE_PATTERNS          = *.c \
+                         *.cc \
+                         *.cxx \
+                         *.cpp \
+                         *.c++ \
+                         *.cs \
+                         *.d \
+                         *.dox \
+                         *.f \
+                         *.for \
+                         *.h \
+                         *.hh \
+                         *.hxx \
+                         *.hpp \
+                         *.h++ \
+                         *.inc \
+                         *.java \
+                         *.js \
+                         *.m \
+                         *.markdown \
+                         *.md \
+                         *.mm \
+                         *.ddl \
+                         *.odl \
+                         *.py \
+                         *.qml \
+                         *.qsf \
+                         *.tcl \
+                         *.txt \
+                         *.vhd \
+                         *.vhdl \
+                         *.ucf \
+
+EXCLUDE                = ../../src/ScriptingLibrary/XmlHttpRequest.cpp
+EXCLUDE_PATTERNS       = \
+                         .* \
+                         _*.* \
+                         */.git/* \
+                         */cmake/* \
+                         */CMakeFiles/* \
+                         CMakeLists.txt \
+                         CMakeCache.txt \
+                         */doc?/* \
+                         moc_*.* \
+                         *-?Copy*.* \
+                         */*test* \
+                         *_p.cpp \
+                         *_p.h \
+                         *.min.js
+
+EXCLUDE_SYMBOLS        = iterator const_iterator
+
+EXAMPLE_PATH           = ../../resources/examples
+EXAMPLE_PATTERNS       = *.js
+EXAMPLE_RECURSIVE      = YES
+
+IMAGE_PATH             = \ 
+                         ../../resources/examples
+
+FILTER_PATTERNS        =
+
+
+#---------------------------------------------------------------------------
+# Configuration options related to source browsing
+#---------------------------------------------------------------------------
+
+SOURCE_BROWSER         = NO
+STRIP_CODE_COMMENTS    = NO
+
+CLANG_ASSISTED_PARSING = NO
+CLANG_OPTIONS          = -std=c++17 \
+                         -Wno-deprecated-declarations
+
+#---------------------------------------------------------------------------
+# Configuration options related to the alphabetical class index
+#---------------------------------------------------------------------------
+
+#---------------------------------------------------------------------------
+# Configuration options related to the HTML output
+#---------------------------------------------------------------------------
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_HEADER            = header.html
+HTML_FOOTER            =
+HTML_EXTRA_STYLESHEET  = \
+                         doxyawesome/doxygen-awesome.css \
+                         doxyawesome/doxygen-awesome-sidebar-only.css \
+                         doxyawesome/doxygen-awesome-sidebar-only-darkmode-toggle.css \
+                         customdoxygen.css
+HTML_EXTRA_FILES       = doxyawesome/doxygen-awesome-darkmode-toggle.js \
+                         doxyawesome/doxygen-awesome-paragraph-link.js \
+                         doxyawesome/doxygen-awesome-interactive-toc.js \
+                         .nojekyll
+HTML_COLORSTYLE_HUE    = 209
+HTML_COLORSTYLE_SAT    = 255
+HTML_COLORSTYLE_GAMMA  = 113
+HTML_TIMESTAMP         = YES
+HTML_DYNAMIC_MENUS     = YES
+HTML_DYNAMIC_SECTIONS  = NO
+
+DISABLE_INDEX          = NO
+GENERATE_TREEVIEW      = YES
+ENUM_VALUES_PER_LINE   = 0
+TREEVIEW_WIDTH         = 350
+EXT_LINKS_IN_WINDOW    = YES
+FULL_SIDEBAR           = NO
+
+
+#---------------------------------------------------------------------------
+# Configuration options related to the LaTeX output
+#---------------------------------------------------------------------------
+
+GENERATE_LATEX         = NO
+
+
+#---------------------------------------------------------------------------
+# Configuration options related to the XML output
+#---------------------------------------------------------------------------
+
+GENERATE_XML           = NO
+
+
+#---------------------------------------------------------------------------
+# Configuration options related to the preprocessor
+#---------------------------------------------------------------------------
+
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = NO
+INCLUDE_PATH           = 
+PREDEFINED = \
+        DOXYGEN=1 \
+        QString="String" \
+        QLatin1String="String" \
+        QJSValue="object" \
+        QByteArray="ArrayBuffer" \
+        QDateTime="Date" \
+        QStringList="Array<String>" \
+        QStringLiteral=\
+        QByteArrayLiteral=\
+        quint32="uint" \
+        qint64="int" \
+        quint16="uint" \
+        quint8="uint" \
+        qint8="int" \
+        static=\
+        const=\
+        ScriptLib=\
+        Q_INVOKABLE=\ 
+        Q_SLOTS=\
+        Q_SIGNALS="public"\
+        Q_DECLARE_FLAGS(flagsType,enumType)="enum flagsType : enumType { };" \
+        Q_DECL_CONSTEXPR="constexpr" \
+        Q_DECL_RELAXED_CONSTEXPR="const" \
+        Q_DECL_OVERRIDE="override" \
+        Q_DECL_FINAL="final" \
+        Q_DECL_EQ_DEFAULT="= default" \
+        Q_DECL_EQ_DELETE="= delete" \
+        Q_DECL_NOEXCEPT="noexcept" \
+        Q_DECL_DEPRECATED="" \
+        Q_DECL_UNUSED_MEMBER="" \
+        Q_DECL_VARIABLE_DEPRECATED="" \
+        Q_NULLPTR="nullptr" \
+        Q_DECL_NULLPTR="nullptr" \
+        Q_REQUIRED_RESULT="" \
+        Q_DECL_EXPORT="" \
+        Q_DECL_IMPORT=""
+
+
+#---------------------------------------------------------------------------
+# Configuration options related to the dot tool
+#---------------------------------------------------------------------------
+
+CLASS_GRAPH            = NO
