@@ -9,7 +9,7 @@ This example demonstrates serveral things:
 1. Getting some data from a Web site using `Net.fetch()`, which in this case is in JSON format.
 2. Extracting useful information from the JSON data.
 3. Sending a Notification message to Touch Portal with `TP.showNotification()`, which a user can interact with.
-4. Handle any choice (click) the user made in the notification dialog and open a Web browser with `Process.startCommand()`.
+4. Handle any choice (click) the user made in the notification dialog and open a Web browser with [Process.startCommand()](@ref Process).
 
 It does this in the form of a version/update checker which contacts the GitHub server to get the latest
 release version information of a particular repository (they have an API for that).
