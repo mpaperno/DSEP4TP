@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/scripts">
+        <file alias="collections.js">scripts/collections.js</file>
+        <file alias="color.js">scripts/color.js</file>
+        <file alias="date.js">scripts/date.js</file>
+        <file alias="env.js">scripts/env.js</file>
+        <file alias="fetch.js">scripts/fetch.js</file>
+        <file alias="global.js">scripts/global.js</file>
+        <file alias="math.js">scripts/math.js</file>
+        <file alias="number.js">scripts/number.js</file>
+        <file alias="promise.js">scripts/promise.js</file>
+        <file alias="printf.js">scripts/sprintf.js</file>
+        <file alias="stringformat.js">scripts/stringformat.js</file>
+        <file alias="jslib.min.js">scripts/jslib.min.js</file>
+    </qresource>
+</RCC>
