@@ -1,21 +1,26 @@
 # Dynamic Script Engine Plugin for Touch Portal
 
+![plastic](https://img.shields.io/static/v1?style=flat&labelColor=5884b3&color=black&label=made%20for&message=Touch%20Portal&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAetJREFUeNp0UruqWlEQXUePb1HERi18gShYWVqJYGeXgF+Qzh9IGh8QiOmECIYkpRY21pZWFnZaqWBhUG4KjWih4msys8FLbrhZMOfsx6w1e9beWjAYBOMtx0eOGBEZzuczrtcreAyTyQSz2QxN04j3f3J84vim8+cNR4s3rKfTSUQQi8UQjUYlGYvFAtPpVIQ0u90eZrGvnHLXuOKcB1GpkkqlUCqVEA6HsVqt4HA4EAgEMJvNUC6XMRwOwWTRfhIi3e93WK1W1Go1dbTBYIDj8YhOp4NIJIJGo4FEIoF8Po/JZAKLxQIIUSIUChGrEy9Sr9cjQTKZJJvNRtlsVs3r9Tq53W6Vb+Cy0rQyQtd1OJ1O9b/dbpCTyHoul1O9z+dzGI1Gla7jFUiyGBWPx9FsNpHJZNBqtdDtdlXfAv3vZLmCB6SiJIlJhUIB/X7/cS0viXI8n8+nrBcRIblcLlSrVez3e4jrD6LsK3O8Xi8Vi0ViJ4nVid2kB3a7HY3HY2q325ROp8nv94s5d0XkSsR90OFwoOVySaPRiF6DiHs8nmdXn+QInIxKpaJclWe4Xq9fxGazAQvDYBAKfssDeMeD7zITc1gR/4M8isvlIn2+F3N+cIjMB76j4Ha7fb7bf8H7v5j0hYef/wgwAKl+FUPYXaLjAAAAAElFTkSuQmCC)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/mpaperno/DSEP4TP?include_prereleases)](https://github.com/mpaperno/DSEP4TP/releases)
+![Supported Platvorms](https://img.shields.io/badge/platforms-windows%20|%20osx%20|%20linux-AA7722)
 [![GPLv3 License](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE.GPL.txt)
+<!-- <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/mpaperno/MSFSTouchPortalPlugin?color=green&label=LoC&logo=cplusplus&logoColor=f34b7d"> -->
 
 
 **A complete, standalone, multi-threaded JavaScript environment available as a plugin
 for use with [Touch Portal](https://www.touch-portal.com/) macro launcher software.**
 
-----------
-<div class="darkmode_inverted_image">
-<img align="right" src="https://mpaperno.github.io/DSEP4TP/images/logo/banner_420x105.png">
-</div>
+**This is the ultimate in Touch Portal extensibility short of writing your own plugin.**
 
 <div class="hide-on-site">
 
 **Visit [https://mpaperno.github.io/DSEP4TP/](https://mpaperno.github.io/DSEP4TP/) for all details, including this README.**
 
+</div>
+
+----------
+<div class="darkmode_inverted_image">
+<img align="right" src="https://mpaperno.github.io/DSEP4TP/images/logo/banner_420x105.png">
 </div>
 
 ## Features
@@ -52,54 +57,60 @@ global Value or a plugin State and will be replaced by Touch Portal with the act
 * Calculate a color and use it in a Touch Portal button:
   * `Color("#FF000088").spin(${value:MyVariable} * 3.6).argb()`
 * Send an image to use as a Touch Portal button icon. E.g. with dynamic image name:
-  * `btoa(File.read("images/status_icon_${value:MyVariable}.png", 'b'))`
+  * `File.read("images/status_icon_${value:MyVariable}.png", 'b').toBase64()`
+* Get an image from the Internet for a button icon:
+  * `Net.request("https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png").get().base64()`
 * Read any number of lines from a file, starting from beginning, end, or a specific line number. E.g. read the last 5 lines of a log with a dynamic name:
   * `` File.readLines(`../logs/console-${new Date().format("yyyyMMdd")}.log`, 5, -1)) ``
 * Extract a value from a JSON object in a file:
   * `JSON.parse(File.read("data.json")).myProperty`
+* Or get JSON from a Web site and display a named value from the data:
+  * `Net.request("https://jsonplaceholder.typicode.com/todos/1").get().json().title`
 * Update any State or Value in Touch Portal:
   * `TP.stateUpdateById("MyVariable", ${value:MyVariable} * 25)`
 * Send yourself a notification via Touch Portal:
   * `TP.showNotification("myNotififyId", "Something Happened", "Hey, something happened, check it out!")`
 
 ### Scripts
-* JavaScript scripts of any complexity can be loaded from file(s) and functions within those scripts can be invoked with dynamic arguments (eg. from TP states/values).
+* JavaScript scripts of any complexity can be loaded from file(s) and functions within those scripts can be invoked with dynamic arguments
+  (eg. from Touch Portal states/values).
 * Use simple "standalone" scripts or full **JS modules**, which can import other modules and are also cached between uses for excellent performance.
 * An `include()` function is available to read an evaluate any block of code from another file, for easy code re-use within standalone scripts or modules.
 * Full `console.log()` (and family) support for debugging/etc; output is sent to a separate plugin log file dedicated for scripting output and errors.
-* Scripts can run independently and in the background, for example processing timed events or callbacks from asynchronous processes (eg. a network request or file system watcher).
-* Scripts can send state updates to Touch Portal at any time, and they can also create and remove states, among other things (you can literally write a simple TP "plugin" using
-  the scripting engine itself).
+* Scripts can **run in the background**, for example processing timed events or callbacks from asynchronous processes (eg. a network request or file system watcher).
+* Scripts can **send State/Value updates to Touch Portal** at any time, and they can also create and remove states, among other things
+  (you can literally write a simple Touch Portal "plugin" using the scripting engine itself).
 
 ### Overall
 * Extensive support for **ECMAScript level 7**, plus custom extensions:
-  * **File system** interaction, from one-line read/write utilities to full byte-by-byte access.
+  * **[File system](@ref FileSystem)** interaction, from one-line read/write utilities to full byte-by-byte access.
   * Flexible **string, date, and number formatting** with .NET [String.Format style](@ref String.format()) or ["printf"](@ref sprintf()) style functions.
   * Support for **timed/recurring operations** with `setTimeout()`/`setInterval()`.
-  * **Network requests** supported via the familiar (if awkwardly named) `XMLHttpRequest` object.
+  * **Network requests** supported via familiar [Fetch API](@ref FetchAPI) and [XMLHttpRequest](@ref stdlib-xmlhttpreq).
   * **Touch Portal [interaction](@ref TP)**: update any State or global Value, create and remove States, change Slider positions, send Notifications, and more.
   * **Color manipulation**/utility library.
+  * **External command and application launching** with optional inter-process data exchange using Process.
   * Lots of convenience extensions to built-in JS objects like Date, Number, Math and String.
-  * Other global object extensions and [utilities](@ref Util), eg. for encoding/decoding **base-64 data**, **environment variable** access, **locale data**, **hashing algorithms**, and more.
+  * Other [global](@ref Global) object extensions and [utilities](@ref Util),
+    eg. for encoding/decoding **base-64 data**, **environment variable** access, **locale data**, **hashing algorithms**, and more.
   * Infinitely **extensible** via either JavaScript libraries/modules _or_ C++ integration.
-* Any expression/script action can be **saved to persistent settings** and re-created automatically when Touch Portal (or the plugin) starts up,
-  with a number of options for what the default should be (fixed value, custom expression, etc).
-* Expressions and scripts can run in either a single Shared scripting engine instance or in separated **Private engine instances** to keep environments isolated
-  (each engine instance has its own global 'this' scope). Instances are _persistent_ throughout the life of the plugin (or until deleted explicitly).
-* Written in **optimized C++** for high performance.
+* Any expression/script action can be **saved to persistent settings** and re-created automatically at startup,
+  with a number of options for what the default value should be (fixed, custom expression, etc).
+* Expressions and scripts can run in either a single Shared scripting engine instance or in separated **Private engine instances** to keep environments isolated.
+  Instances are _persistent_ throughout the life of the plugin (or until deleted explicitly).
 * **Multi-threaded** for quick response times and non-blocking behavior (long-running scripts will not prevent other scripts from running).
+* Extensively **documented**, with **examples** and scripting **reference**.
+* Written in **optimized C++** for high performance.
 * Runs on **Windows, MacOS, or Linux**.
 
 -------------
 ## Download and Install
 
-**COMING SOON!**
-
 Note: As with all plugins, this requires the Touch Portal Pro (paid) version to function. Use the latest available Touch Portal version for best results.
 
-1. Get the latest version of this plugin for your operating system from the  [Releases](https://github.com/mpaperno/DSEP4TP/releases) page.
+1. Get the latest version of this plugin for your operating system from the [Releases](https://github.com/mpaperno/DSEP4TP/releases) page.
 2. The plugin is distributed and installed as a standard Touch Portal `.tpp` plugin file. If you know how to import a plugin,
-just do that and skip to step 5. There is also a [short guide](https://www.touch-portal.com/blog/post/tutorials/import-plugin-guide.php) on the Touch Portal site.
+  just do that and skip to step 5. There is also a [short guide](https://www.touch-portal.com/blog/post/tutorials/import-plugin-guide.php) on the Touch Portal site.
 3. Import the plugin:
     1. Start/open _Touch Portal_.
     2. Click the "gear" icon at the top and select "Import plugin..." from the menu.
@@ -114,10 +125,16 @@ _Watch_ -> _Custom_ -> _Releases_ this repository (button at top) or subscribe t
 
 Release announcements are also made in the Touch Portal Discord Server room [#dynamic-script-engine](https://discord.com/channels/548426182698467339/750791488501448887)
 
+Or use the provided [example script](@ref example_fetch_and_notify) to check for new versions right from Touch Portal!
+
+<div class="hide-on-site">
+
 -------------
 ## Documentation
 
-[Full Documentation @ https://mpaperno.github.io/DSEP4TP/](https://mpaperno.github.io/DSEP4TP/) - includes this README as well.
+[Full Documentation & Examples @ https://mpaperno.github.io/DSEP4TP/](https://mpaperno.github.io/DSEP4TP/) - includes this README as well.
+
+</div>
 
 -------------
 ## Support and Discussion
@@ -133,33 +150,7 @@ There is also the [Touch Portal Discord Server](https://discord.gg/MgxQb8r) room
 
 The most likely cause of something not working right is going to be scripting syntax errors or data being passed to functions in unexpected format (eg. un-escaped backslashes).
 
-The plugin uses 2 Touch Portal States to notify you of errors in scripts:
-* The "Cumulative script error count" state is a running count of script errors which increments on each exception. This is useful as a trigger for some TP event which would
-  notify you that a new error occurred.
-* The "Last script instance error" state will update with the text of the last error message. This could be shown somewhere in a TP page for example.
-
-See the [Status and Logging](doc/pages/Status.md) documentation page for more details on script error reporting.
-
-The plugin also logs message to a file. Two, actually. They are both located in your Touch Portal configuration folder, in the 'plugins' section; the path looks like:<br/>
-* Windows: `C:\Users\<User_Name>\AppData\Roaming\TouchPortal\plugins\DSEP4TP\logs`
-* Mac: `~/Documents/TouchPortal/plugins/DSEP4TP/logs`
-* Linux: Unknown...
-
-The two log files are:
-* The main plugin log, cleverly named `plugin.log`, is where all messages are written, including general operational information from the plugin,
-  especially any errors it may have encountered that are not directly related to your scripts (but maybe to the actions you're sending to the plugin, or some other overall issue).
-* The 2nd log is named `console.log` and this contains only messages from the scripting engine -- errors which are thrown or your own `console.log()` (and family) logging.
-
-The logs are rotated daily. The previous days' log is renamed with a date stamp and a new one is started.
-By default the last 3 days' worth of logs are kept (the current one + 3 historical logs).
-
-You can force a rotation of the logs by going to the plugin's executable directory (`DSEP4TP/bin`) in a terminal/command window and run the plugin (w/out starting it) with the following command:<br />
-* Windows: `DSEP4TP.exe -f1 -j1 -rx`
-* Mac/Linux: `./DSEP4TP -f1 -j0 -rx`
-* Optionally add a `-k N` switch to the command line to keep `N` number of logs instead of the default 3. Clear out all old logs by using `-k 0`
-* Use `-h`  to see all command-line options.
-
-The log files have an "emergency limit" of 1GB in case something goes haywire. If this limit is reached, further logging to that file is disabled until the plugin is restarted.
+See the [Status and Logging](doc/pages/Status.md) documentation page for more details on script error reporting and plugin logging in general.
 
 -------------
 ## Credits
@@ -206,3 +197,15 @@ and is also available at <http://www.gnu.org/licenses/>.
 This project may also use 3rd-party Open Source software under the terms
 of their respective licenses. The copyright notice above does not apply
 to any 3rd-party components used within.
+
+<span class="next_section_button">
+Go To: [Scripting Library Reference](modules.html)
+</span>
+
+<span class="next_section_button">
+Go To: [Examples](@ref plugin_examples)
+</span>
+
+<span class="next_section_button">
+Go To: [Plugin Documentation](@ref documentation)
+</span>
