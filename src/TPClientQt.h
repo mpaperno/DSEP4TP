@@ -2,16 +2,16 @@
 TPClientQt - Touch Poral Plugin API network client for C++/Qt-based plugins.
 Copyright Maxim Paperno; all rights reserved.
 
-This file may be used under the terms of the GNU
-General Public License as published by the Free Software Foundation,
-either version 3 of the License, or (at your option) any later version.
+Dual licensed under the terms of either the GNU General Public License (GPL)
+or the GNU Lesser General Public License (LGPL), as published by the Free Software
+Foundation, either version 3 of the Licenses, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
-A copy of the GNU General Public License is available at <http://www.gnu.org/licenses/>.
+Copies of the GNU GPL and LGPL are available at <http://www.gnu.org/licenses/>.
 
 This project may also use 3rd-party Open Source software under the terms
 of their respective licenses. The copyright notice above does not apply
@@ -23,6 +23,7 @@ to any 3rd-party components used within.
 #include <QObject>
 #include <QAbstractSocket>
 #include <QByteArray>
+#include <QLoggingCategory>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -31,8 +32,8 @@ to any 3rd-party components used within.
 
 #define TP_CLIENT_VERSION_STR  "1.0.0"
 
-// The client can be built as a dynamic library by defining `TPCLIENT_BUILD_DLL`,
-// or use a linked TPClientQt DLL by defining `TPCLIENT_USE_DLL`.
+// The client can be built as a dynamic library by defining `TPCLIENT_BUILD_DLL` (exports symbols),
+// or the header can be used when linking to a DLL by defining `TPCLIENT_USE_DLL` (imports symbols).
 // By default we assume the full source is being included directly in a build, or being built as a static lib.
 #if !defined(TPCLIENT_LIB_EXPORT)
 	#if defined(TPCLIENT_BUILD_DLL)
@@ -43,6 +44,8 @@ to any 3rd-party components used within.
 		#define TPCLIENT_LIB_EXPORT
 	#endif
 #endif
+
+Q_DECLARE_LOGGING_CATEGORY(lcTPC);
 
 /**
 The `TPClientQt` class is a simple TCP/IP network client for usage in Touch Portal plugins which wish to utilize the `Qt` C++ library/framework.

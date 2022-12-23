@@ -2,16 +2,16 @@
 TPClientQt - Touch Poral Plugin API network client for C++/Qt-based plugins.
 Copyright Maxim Paperno; all rights reserved.
 
-This file may be used under the terms of the GNU
-General Public License as published by the Free Software Foundation,
-either version 3 of the License, or (at your option) any later version.
+Dual licensed under the terms of either the GNU General Public License (GPL)
+or the GNU Lesser General Public License (LGPL), as published by the Free Software
+Foundation, either version 3 of the Licenses, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
-A copy of the GNU General Public License is available at <http://www.gnu.org/licenses/>.
+Copies of the GNU GPL and LGPL are available at <http://www.gnu.org/licenses/>.
 
 This project may also use 3rd-party Open Source software under the terms
 of their respective licenses. The copyright notice above does not apply
@@ -19,7 +19,6 @@ to any 3rd-party components used within.
 */
 
 #include <QElapsedTimer>
-#include <QLoggingCategory>
 #include <QMetaEnum>
 #include <QTcpSocket>
 #include <QThread>
@@ -28,9 +27,9 @@ to any 3rd-party components used within.
 #include "TPClientQt.h"
 
 #ifdef QT_DEBUG
-static Q_LOGGING_CATEGORY(lcTPC, "TPClientQt", QtDebugMsg)
+Q_LOGGING_CATEGORY(lcTPC, "TPClientQt", QtDebugMsg);
 #else
-static Q_LOGGING_CATEGORY(lcTPC, "TPClientQt", QtWarningMsg)
+Q_LOGGING_CATEGORY(lcTPC, "TPClientQt", QtWarningMsg);
 #endif
 
 
