@@ -121,5 +121,3 @@ class AbortController : public QObject
 
 Q_DECLARE_METATYPE(ScriptLib::AbortSignal *)
 Q_DECLARE_METATYPE(ScriptLib::AbortController *)
-Q_DECLARE_INTERFACE(ScriptLib::AbortSignal, "AbortSignal")
-Q_DECLARE_INTERFACE(ScriptLib::AbortController, "AbortController")

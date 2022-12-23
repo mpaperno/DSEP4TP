@@ -249,5 +249,4 @@ class ScriptEngine : public QObject
 			return ret;
 		}
 
-		//QStringList m_importedModules {};
 };

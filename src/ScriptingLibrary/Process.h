@@ -28,8 +28,34 @@ to any 3rd-party components used within.
 namespace ScriptLib {
 #endif
 
-//! \ingroup Util
-//! The Process class allows interaction with external processes, such as launching a system command or running an application.
+/*!
+	\ingroup Util
+	The Process class allows interaction with external processes, such as launching a system command or running an application.
+
+	It can be used as a basic process launcher/monitor, and/or as an input/output device to communicate with a started process via
+	`stdout`, `stderr` and `stdin` streams. It can be used both syncronously and asyncronously. In the latter mode it communicates
+	events back to the user via callback functions (event handlers).
+
+	Instead of typical JavaScript events (like `onload()`), `Process` provides what are called "signals."
+	Which are the same thing with a different name and slightly different syntax.
+
+	In JavaScript signals can be connected-to in the form of `signal.connect(myFunction)` where `signal`
+	is the signal/event function name and `myFunction` is any valid JS function signature like in a callback.
+	Again, like with any 'onevent()' handler from a typical JavaScript object. <br/>
+	For example, to handle the `errorOccurred()` signal/event:
+	```js
+	const process = new Process();
+	process.errorOccurred.connect((error) => { console.error("Process exited with code:", error); });
+	```
+
+	\note The Process class is a proxy for [QProcess](https://doc.qt.io/qt-6/qprocess.html),
+	part of the underlying Qt C++ library. Most of the documentation text below is originally from
+	the QProcess documetation (used under the GNU Free Documentation License version 1.3).
+
+	See the [QProcess documentation](https://doc.qt.io/qt-6/qprocess.html) for more details about how `Process` works in general.
+	Some of the enumeration values are documented there (links are provided below in "see also" as needed).
+
+*/
 class Process : public QProcess
 {
 		Q_OBJECT
@@ -199,6 +225,19 @@ class Process : public QProcess
 		//! Closes all communication with the process and kills it. After calling this function, `Process` will no longer emit `readyRead()`, and data can no longer be read or written.
 		Q_INVOKABLE void close() override { QProcess::close(); }
 
+		//! \fn void kill()
+		//! \memberof Process
+		//! Kills the current process, causing it to exit immediately.
+		//! On Windows, `kill()` uses `TerminateProcess`, and on Unix and macOS, the `SIGKILL` signal is sent to the process.
+
+		//! \fn void terminate()
+		//! \memberof Process
+		//! Attempts to terminate the process.
+		//! The process may not exit as a result of calling this function (it is given the chance to prompt the user for any unsaved files, etc).
+		//! On Windows, `terminate()` posts a `WM_CLOSE` message to all top-level windows of the process and then to the main thread of the process itself. On Unix and macOS the `SIGTERM` signal is sent.
+		//!
+		//! Console applications on Windows that do not run an event loop, or whose event loop does not handle the `WM_CLOSE` message, can only be terminated by calling `kill()`.
+
 		//! \fn ArrayBuffer readAll()
 		//! \memberof Process
 		//! Reads all remaining data from the device, and returns it as an `ArrayBuffer`.
@@ -212,8 +251,15 @@ class Process : public QProcess
 		//! This function returns all data available from the standard error of the process as a `ArrayBuffer`.
     Q_INVOKABLE QByteArray readAllStandardError() { return QProcess::readAllStandardError(); }
 
+		//! Returns the current state of the process.
+		//! \sa https://doc.qt.io/qt-6/qprocess.html#ProcessState-enum
+		Q_INVOKABLE QProcess::ProcessState state() const { return QProcess::state(); }
 		//! Returns the exit code of the last process that finished.
     Q_INVOKABLE int exitCode() const { return QProcess::exitCode(); }
+		//! Returns the exit status of the last process that finished.
+		//! On Windows, if the process was terminated with TerminateProcess() from another application,
+		//! this function will still return `NormalExit` unless the exit code is less than 0.
+		//! \sa https://doc.qt.io/qt-6/qprocess.html#ExitStatus-enum
     Q_INVOKABLE QProcess::ExitStatus exitStatus() const { return QProcess::exitStatus(); }
 
 		//! Blocks until the process has started and the `started()` signal has been emitted, or until `msecs` milliseconds have passed.
@@ -234,6 +280,46 @@ class Process : public QProcess
 
 		// The null device of the operating system. Use this to discard output from the program if it not needed, as this improves disables all buffering done by `Process` on the output.
 		Q_INVOKABLE static QString nullDevice() { return QProcess::nullDevice(); }
+
+	signals:
+		/*!
+
+			\fn void errorOccurred(ProcessError error)
+			\memberof Process
+			This signal is emitted when an error occurs with the process. The specified `error` describes the type of error that occurred.
+			\sa https://doc.qt.io/qt-6/qprocess.html#ProcessError-enum
+
+			\fn void finished(int exitCode, ExitStatus exitStatus)
+			\memberof Process
+			This signal is emitted when the process finishes. exitCode is the exit code of the process (only valid for normal exits),
+			and exitStatus is the exit status. After the process has finished, the buffers in Process are still intact.
+			You can still read any data that the process may have written before it finished.
+			\sa exitStatus(), https://doc.qt.io/qt-6/qprocess.html#ExitStatus-enum
+
+
+			\fn void readyReadStandardError()
+			\memberof Process
+			This signal is emitted when the process has made new data available through its standard error channel (stderr).
+			\sa readAllStandardOutput()
+
+
+			\fn void readyReadStandardOutput()
+			\memberof Process
+			This signal is emitted when the process has made new data available through its standard output channel (stdout).
+			\sa readAllStandardOutput()
+
+
+			\fn void started()
+			\memberof Process
+			This signal is emitted by Process when the process has started, and `state()` returns `Running`.
+
+
+			\fn void stateChanged(ProcessState newState)
+			\memberof Process
+			This signal is emitted whenever the state of Process changes. The `newState` argument is the state `Process` changed to.
+			\sa state(), https://doc.qt.io/qt-6/qprocess.html#ProcessState-enum
+
+		*/
 
 };
 

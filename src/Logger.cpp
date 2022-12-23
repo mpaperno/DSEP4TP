@@ -82,7 +82,7 @@ static QString timestampLogFile(const QString &file, int seq = 0)
 }
 
 
-static QByteArray &formatLogSting(QByteArray &p, const QByteArrayList &args)
+static QByteArray &formatLogString(QByteArray &p, const QByteArrayList &args)
 {
 	char argIdx;
 	int patIdx = 0;
@@ -162,7 +162,7 @@ class LogFileDevice : public QFile
 			if (!isOpen() || m_logLevel > context.level || (!m_category.isEmpty() && !m_category.contains(context.category)))
 				return;
 			QByteArray pattern = categoryPatterns->value(context.category, defaultCategoryPattern);
-			formatLogSting(pattern, {
+			formatLogString(pattern, {
 				QDateTime::currentDateTime().toString(logDateTimeFormat).toUtf8(),
 				logLevelTypeNames->value(context.level),
 				context.category,
