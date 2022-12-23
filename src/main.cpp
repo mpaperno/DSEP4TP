@@ -30,6 +30,7 @@ to any 3rd-party components used within.
 #include "Logger.h"
 #include "Plugin.h"
 #include "RunGuard.h"
+#include "TPClientQt.h"
 
 // configure logging categories externally:
 // Set env. var QT_LOGGING_RULES to override, eg:
@@ -175,8 +176,9 @@ int main(int argc, char *argv[])
 	QString logFilterRules = "qt.qml.compiler.warning = false\n";
 
 	quint8 effectiveLevel = fileLevel > -1 ? std::min(stdoutLevel, fileLevel) : stdoutLevel;
+	const quint8 catLevel = std::max(Logger::levelForCategory(lcPlugin()), Logger::levelForCategory(lcTPC()));
 	//std::cerr << (int)effectiveLevel << ' ' << (int)Logger::levelForCategory(lcPlugin()) << std::endl;
-	if (effectiveLevel < 5 && effectiveLevel > Logger::levelForCategory(lcPlugin())) {
+	if (effectiveLevel < 5 && effectiveLevel > catLevel) {
 		while (effectiveLevel > 0 ) {
 			const QLatin1String lvlName = QLatin1String(Logger::logruleNameForLevel(effectiveLevel-1));
 			logFilterRules += QLatin1String(lcPlugin().categoryName()) + '.' + lvlName + " = false\n";
@@ -186,7 +188,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	else {
-		while (effectiveLevel < Logger::levelForCategory(lcPlugin())) {
+		while (effectiveLevel < catLevel) {
 			const QLatin1String lvlName = QLatin1String(Logger::logruleNameForLevel(effectiveLevel));
 			logFilterRules += QLatin1String(lcPlugin().categoryName()) + '.' + lvlName + " = true\n";
 			logFilterRules += QLatin1String(lcLog().categoryName()) + '.' + lvlName + " = true\n";
