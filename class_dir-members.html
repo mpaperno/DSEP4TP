@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -115,28 +129,28 @@ $(document).ready(function(){initNavTree('class_dir.html',''); initResizable(); 
 
 <p>This is the complete list of members for <a class="el" href="class_dir.html">Dir</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#a9580487a6d246aa71066a712e971c4b5">abs</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a17f0c4faf6560652d4d5a8c73d25dcff">clean</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#a4b69d9dff5aafb800a2e457923f06194">cwd</a>()</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a24e6d192a5e6e77f8a7d2f6d4818bf8d">exists</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#abba1974bac9f577d336b2f6bcecf0e9f">fromNative</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a899cb9f92065b5b189dc2482bb0a03f6">home</a>()</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#a206b0772876f741042c960de4aae1969">isAbs</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a5be08f2bf6c33f3e86612be7f48cfb90">mkdir</a>(string &amp;dirName)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#a724ba95f4add0b0c0db8e30479da0362">mkpath</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#ac6ec4ef64ad2d2a3eb1a77c79d7d1193">normalize</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#ac7302efd226d94086e4aadc0f538a948">rmdir</a>(string &amp;dirName, bool recurse=false)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a5d5de0cd2dfe40664ac0daed3688bb11">rmpath</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#a2b2bdc968a241ab9d772677073f3e3c7">root</a>()</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#aab706bd8636bb9e325b1cc684a5c5172">separator</a>()</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#abe2cacd9ef33053a23f5ce8abf843778">temp</a>()</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#ab514bddb0d3dd375956636d37241287e">toNative</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#a40cce1bdec0ef52d31be5e28e338dd8d">abs</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#aa5bb59f7697220928f4e40f0143b705d">clean</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#addc54481170a265c9ddcb61fe2626bdc">cwd</a>()</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a99de16a696a6c85df9d11276ba9e3acd">exists</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#a52c7294254d02b2b485f09405a96b4dd">fromNative</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a78cb382f537a3142db4e80cf982f81b0">home</a>()</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#a06194b06c88f1a3effe3854be4460cdd">isAbs</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a3699116663191022a1f696c0868d51dc">mkdir</a>(String &amp;dirName)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#a9613a4bcf1bc71521df182adb1e7792c">mkpath</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a8d811b6ededae04a46c9d71e5603eb5b">normalize</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#a5b3759831eb5c911f12d31a49f04b273">rmdir</a>(String &amp;dirName, bool recurse=false)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a4b58c9395bbe6f7469eb261a6931646d">rmpath</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#acb59ee878efdf278b3f5cc9317de558e">root</a>()</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a3f4ea0838402ef9f3e178cb8a3d026f2">separator</a>()</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_dir.html#a4c65ab98d739d131af4a7e376b9311f3">temp</a>()</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_dir.html#a872ed341b88877e4104d651e05af8b6b">toNative</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_dir.html">Dir</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

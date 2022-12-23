@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -113,20 +127,131 @@ $(document).ready(function(){initNavTree('group___e_c_m_a_std.html',''); initRes
 </div><!--header-->
 <div class="contents">
 <p >This reference contains a list of standard ECMAScript objects, functions and properties supported by the plugin's JavaScript engine. </p>
-<p >For full documentation see the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects" target="_blank">MDN Global Objects</a> reference.<br  />
- For a detailed description see <a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm" target="_blank">ECMA-262</a> specification. The scripting engine supports most features of <em>ECMAScript level 7</em>.</p>
-<h2><a class="anchor" id="autotoc_md28"></a>
-The Global Object</h2>
-<h3><a class="anchor" id="autotoc_md29"></a>
-Value Properties</h3>
+<p >The Dynamic Script Engine Plugin scripting environment supports most JavaScript features up to <em>ECMAScript level 7</em> (<a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm" target="_blank">ECMA-262</a>), as well as a handful of "Web API" features, or their close approximations.</p>
+<p >This document lists all the supported objects and methods from the standards, with further details about items which do not fully match what is published on <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference" target="_blank">MDN</a>, which is used as a reference.</p>
+<dl class="section note"><dt>Note</dt><dd>Some objects may only offer partial support for latest standards. In these cases, details of which properties/functions are supported per object type are shown below the main list and "details" links are provided. <br  />
+ <a class="el" href="group___j_s_ext.html">Green links</a> are to internal documentation details, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference" target="_blank">blue links</a> are external (MDN).</dd></dl>
+<p>In some cases the standard objects are also <a class="el" href="group___j_s_ext.html">extended</a> (<a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions.">ArrayBuffer</a>, <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a>, <a class="el" href="class_math.html" title="Math Object Extensions.">Math</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a>, <a class="el" href="class_string.html" title="Extends String object.">String</a>), as is the <a class="el" href="class_global.html">Global object</a>, which is documented separately.</p>
+<p ><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator" target="_blank">Nullish Coalescing</a> (??) and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining" target="_blank">Optional Chaining</a> (?.) are also implemented.</p>
+<p ><b>Note</b> that <em>all</em> <code><a class="el" href="class_math.html" title="Math Object Extensions.">Math</a></code> functions are also available in the global scope, w/out the <code>Math.</code> qualifier.</p>
+<dl class="section copyright"><dt>Copyright</dt><dd>Portions of this text are originally from the Qt library's QJSEngine/QQmlEngine documentation, used under the GNU Free Documentation License.</dd></dl>
+<h2><a class="anchor" id="autotoc_md34"></a>
+Standard objects by category</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects" target="_blank">Global</a> (<a class="el" href="group___e_c_m_a_std.html#stdlib-global">implementation details</a>)</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md35"></a>
+Fundamental objects</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a> (<a class="el" href="group___e_c_m_a_std.html#stdlib-object">implementation details</a>)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank">Function</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" target="_blank">Boolean</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol" target="_blank">Symbol</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md36"></a>
+Numbers and dates</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" target="_blank">Number</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math" target="_blank">Math</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a></li>
+</ul>
+<p >(Note lack of support for BigInt types.)</p>
+<h3><a class="anchor" id="autotoc_md37"></a>
+Text processing</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank">String</a> (<a class="el" href="group___e_c_m_a_std.html#stdlib-string">implementation details</a>)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp" target="_blank">RegExp</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md38"></a>
+Indexed Collections</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank">Array</a> (<a class="el" href="group___e_c_m_a_std.html#stdlib-array">implementation details</a>)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" target="_blank">TypedArray</a> (lacking support for <code>at()</code> method)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array" target="_blank">Int8Array</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array" target="_blank">Uint8Array</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray" target="_blank">Uint8ClampedArray</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array" target="_blank">Int16Array</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array" target="_blank">Uint16Array</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array" target="_blank">Int32Array</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array" target="_blank">Uint32Array</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array" target="_blank">Float32Array</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array" target="_blank">Float64Array</a></li>
+</ul>
+<p >(Note lack of support for BigInt types.)</p>
+<h3><a class="anchor" id="autotoc_md39"></a>
+Keyed Collections</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" target="_blank">Map</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap" target="_blank">WeakMap</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set" target="_blank">Set</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet" target="_blank">WeakSet</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md40"></a>
+Structured data</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" target="_blank">ArrayBuffer</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer" target="_blank">SharedArrayBuffer</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics" target="_blank">Atomics</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" target="_blank">DataView</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON" target="_blank">JSON</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md41"></a>
+Control Abstraction Objects</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator" target="_blank">Generator</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">GeneratorFunction</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank">Promise</a> (<a class="el" href="group___e_c_m_a_std.html#stdlib-promise">implementation details</a>)</li>
+</ul>
+<p >(Note that async functions/generators are not supported nor is the general async/await pattern. Use Promise instead.)</p>
+<h3><a class="anchor" id="autotoc_md42"></a>
+Reflection</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect" target="_blank">Reflect</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy" target="_blank">Proxy</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md43"></a>
+Error objects</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" target="_blank">Error</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError" target="_blank">EvalError</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError" target="_blank">RangeError</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError" target="_blank">ReferenceError</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError" target="_blank">SyntaxError</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError" target="_blank">TypeError</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError" target="_blank">URIError</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md44"></a>
+Web API</h3>
+<ul>
+<li>Global Functions:<ul>
+<li><a class="el" href="class_global.html#aaac1708acf0bef57d9d26fe7ed5bf629">atob()</a> - See notes at link.</li>
+<li><a class="el" href="class_global.html#a168d5913a20d8ef5099db892cb9505ce">btoa()</a> - See notes at link.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/setInterval" target="_blank">setInterval() / clearInterval()</a> (<a class="el" href="group___e_c_m_a_std.html#stdlib-timers">implementation details</a>)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout" target="_blank">setTimeout() / clearTimeout()</a> (<a class="el" href="group___e_c_m_a_std.html#stdlib-timers">implementation details</a>)</li>
+</ul>
+</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/console" target="_blank">console</a> (<a class="el" href="group___e_c_m_a_std.html#stdlib-console">implementation details</a>)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController" target="_blank">AbortController, AbortSignal</a> (<a class="el" href="group___e_c_m_a_std.html#stdlib-abort">implementation details</a>)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMException" target="_blank">DOMException</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch" target="_blank">fetch, Headers, Request, Response</a> (<a class="el" href="group___fetch_a_p_i.html">implementation details</a>)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/URL" target="_blank">URL &amp; URLSearchParams</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank">XMLHttpRequest</a> (<a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">implementation details</a>))</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md45"></a>
+Details by object type</h2>
+<p >Any object type listed above but not here is presumed to have full compatibility as per MDN current documentation.</p>
+<h3><a class="anchor" id="stdlib-global"></a>
+Global</h3>
+<h4><a class="anchor" id="autotoc_md46"></a>
+Properties</h4>
 <ul>
 <li>NaN</li>
 <li>Infinity</li>
 <li>undefined</li>
 <li>globalThis</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md30"></a>
-Function Properties</h3>
+<h4><a class="anchor" id="autotoc_md47"></a>
+Methods</h4>
 <ul>
 <li>eval(x)</li>
 <li>parseInt(string, radix)</li>
@@ -140,394 +265,100 @@ Function Properties</h3>
 <li>escape(string)</li>
 <li>unescape(string)</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md31"></a>
-Constructor Properties</h3>
-<p >Note: Some object may only offer partial support for latest standards. Details of which properties/functions are supported per object type are shown after this list.</p>
-<p >In some cases the standard objects are also extended (<a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a>, <a class="el" href="class_math.html" title="Math Object Extensions.">Math</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a>, <a class="el" href="class_string.html" title="Extends String object.">String</a>), as is the GlobalObject. Check below and the rest of the documentation for details. Green links are to internal documentation, blue links are external (MDN).</p>
-<h4><a class="anchor" id="autotoc_md32"></a>
-Fundamental objects</h4>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank">Function</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" target="_blank">Boolean</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol" target="_blank">Symbol</a></li>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_global.html" title="Extends the global context object with convenience properties and functions.">Global</a> object extensions</dd></dl>
+<h3><a class="anchor" id="stdlib-object"></a>
+Object</h3>
+<p >Supports all properties and methods described in <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">MDN reference</a>, <b>except</b>:</p><ul>
+<li>Object.fromEntries()</li>
+<li>Object.hasOwn()</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md33"></a>
-Numbers and dates</h4>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" target="_blank">Number</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math" target="_blank">Math</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a></li>
+<h3><a class="anchor" id="stdlib-array"></a>
+Array</h3>
+<p >Supports all properties and methods described in <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank">MDN reference</a>, <b>except</b>:</p><ul>
+<li>Array.prototype.findLast()</li>
+<li>Array.prototype.findLastIndex()</li>
+<li>Array.prototype.flat()</li>
+<li>Array.prototype.flatMap()</li>
+<li>Array.prototype.group()</li>
+<li>Array.prototype.groupToMap()</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md34"></a>
-Text processing</h4>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank">String</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp" target="_blank">RegExp</a></li>
+<h3><a class="anchor" id="stdlib-string"></a>
+String</h3>
+<p >Supports all properties and methods described in <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank">MDN reference</a>, <b>except</b>:</p><ul>
+<li>All methods marked deprecated (all are related to output formatting)</li>
+<li>String.prototype.at()</li>
+<li>String.prototype.matchAll()</li>
+<li>String.prototype.replaceAll()</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md35"></a>
-Collections</h4>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_string.html" title="Extends String object.">String</a> extensions</dd></dl>
+<h3><a class="anchor" id="stdlib-promise"></a>
+Promise</h3>
 <ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank">Array</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" target="_blank">Map</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap" target="_blank">WeakMap</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set" target="_blank">Set</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet" target="_blank">WeakSet</a></li>
+<li>Promise.all()</li>
+<li>Promise.race()</li>
+<li>Promise.reject()</li>
+<li>Promise.resolve()</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md36"></a>
-Structured data</h4>
+<h4><a class="anchor" id="autotoc_md48"></a>
+Promise Prototype</h4>
 <ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" target="_blank">ArrayBuffer</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer" target="_blank">SharedArrayBuffer</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics" target="_blank">Atomics</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" target="_blank">DataView</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON" target="_blank">JSON</a></li>
+<li>Promise.prototype.catch()</li>
+<li>Promise.prototype.finally()</li>
+<li>Promise.prototype.then()</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md37"></a>
-Abstraction and Reflection</h4>
+<h2><a class="anchor" id="autotoc_md49"></a>
+Web API</h2>
+<h3><a class="anchor" id="stdlib-abort"></a>
+AbortController</h3>
 <ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank">Promise</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect" target="_blank">Reflect</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy" target="_blank">Proxy</a></li>
+<li>signal</li>
+<li>abort()</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md38"></a>
-Error objects</h4>
+<h3><a class="anchor" id="autotoc_md50"></a>
+AbortSignal</h3>
 <ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" target="_blank">Error</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError" target="_blank">EvalError</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError" target="_blank">RangeError</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError" target="_blank">ReferenceError</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError" target="_blank">SyntaxError</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError" target="_blank">TypeError</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError" target="_blank">URIError</a></li>
-</ul>
-<h4><a class="anchor" id="autotoc_md39"></a>
-Web API</h4>
-<ul>
-<li>Global Functions:<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout" target="_blank">setTimeout()</a> - Overloads with extra params after the delay are <em>not</em> supported.</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout" target="_blank">clearTimeout()</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/setInterval" target="_blank">setInterval()</a> - Overloads with extra params after the delay are <em>not</em> supported.</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/clearInterval" target="_blank">clearInterval()</a></li>
-<li><a class="el" href="classglobal.html#aaac1708acf0bef57d9d26fe7ed5bf629" title="Decodes data bytes of base-64 encoded plain text and returns it as binary data (&quot;ascii to binary&quot;) in...">atob()</a> - See notes at link.</li>
-<li><a class="el" href="classglobal.html#a168d5913a20d8ef5099db892cb9505ce" title="Returns data bytes as base-64 encoded plain text (&quot;binary to ascii&quot;).">btoa()</a> - See notes at link.</li>
+<li>aborted</li>
+<li>reason</li>
+<li>throwIfAborted()</li>
+<li>abort() / onabort()<ul>
+<li>Note that <code>onabort()</code> takes an optional, and non-standard, 2nd argument after the callback. If an object is passed here then the callback function will be invoked with that object as the <code>this</code> target. For example: <div class="fragment"><div class="line">var xhr = XMLHttpRequest();</div>
+<div class="line"><span class="keyword">const</span> ac = <span class="keyword">new</span> AbortController();</div>
+<div class="line">ac.signal.onabort(xhr.abort, xhr);  <span class="comment">// w/out the 2nd argument this will fail for async requests since the &#39;this&#39; scope is lost.</span></div>
+</div><!-- fragment --></li>
+<li>Alternately, the <code>abort()</code> event can be safely <code>connect</code>ed directly to a method of any object. For example: <div class="fragment"><div class="line">var xhr = XMLHttpRequest();</div>
+<div class="line"><span class="keyword">const</span> ac = <span class="keyword">new</span> AbortController();</div>
+<div class="line">ac.signal.abort.connect(xhr, xhr.abort);  <span class="comment">// note the switched argument positions vs &#39;onabort()&#39; signature.</span></div>
+</div><!-- fragment --></li>
 </ul>
 </li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/console" target="_blank">console</a> (subset supported, see details <a class="el" href="group___e_c_m_a_std.html#autotoc_md72">below</a>)</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank">XMLHttpRequest</a> (subset supported, see details <a class="el" href="group___e_c_m_a_std.html#autotoc_md74">below</a>)</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md40"></a>
-Details by object type</h1>
-<h2><a class="anchor" id="autotoc_md41"></a>
-The Object Object</h2>
-<h3><a class="anchor" id="autotoc_md42"></a>
-Object Constructor</h3>
-<h4><a class="anchor" id="autotoc_md43"></a>
+<h3><a class="anchor" id="stdlib-timers"></a>
+Timers</h3>
+<ul>
+<li><code>setTimeout()</code>/<code>clearTimeout()</code> and <code>setInterval()</code>/<code>clearInterval()</code>, are fully implemented as per standard (<a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout" target="_blank">MDN reference</a>), with some notes.</li>
+<li><code>setTimeout()</code> and <code>setInterval()</code> do accept optional arguments after the delay parameter, which are passed through to the function being invoked .<br  />
+ <b>However</b> only up to 5 parameters can be specified as positional arguments. If you need more, use an array. For example: <div class="fragment"><div class="line">setTimeout(myFunctionWithArgs, 100, arg1, arg2, arg3);    <span class="comment">// ok</span></div>
+<div class="line">setTimeout(myFunctionWithArgs, 100, [ arg1, ... arg6 ]);  <span class="comment">// ok</span></div>
+<div class="line">setTimeout(myFunctionWithArgs, 100, arg1, ... arg6);      <span class="comment">// error</span></div>
+</div><!-- fragment --> To pass a literal array as the <em>first</em> argument, wrap it in an array: <div class="fragment"><div class="line">var arry = [1, 2, 3, 4];</div>
+<div class="line">setTimeout(myFunctionTakingAnArray, 100, arry);        <span class="comment">// will call -&gt; myFunctionTakingAnArray(1, 2, 3, 4)</span></div>
+<div class="line">setTimeout(myFunctionTakingAnArray, 100, [ arry ]);    <span class="comment">// will call -&gt; myFunctionTakingAnArray(arry)</span></div>
+<div class="line">setTimeout(myFunctionTakingAnArray, 100, arg1, arry);  <span class="comment">// will call -&gt; myFunctionTakingAnArray(arg1, arry)</span></div>
+</div><!-- fragment --></li>
+<li><code>setTimeout()</code> and <code>setInterval()</code> also accept an extended form of the first parameter, which is usually the function to invoke or string to evaluate. Instead, the first parameter can be an array with two values; the first value is the function to invoke and the second is the <code>this</code> scope object for calling the function with. This can avoid using an inline function in cases where <code>this</code> scope would typically be lost.<br  />
+ For example: <div class="fragment"><div class="line">var xhr = XMLHttpRequest();</div>
+<div class="line">...</div>
+<div class="line">xhr.send();</div>
+<div class="line">setTimeout( [ xhr.abort, xhr ], 1000);    <span class="comment">// works</span></div>
+<div class="line">setTimeout(() =&gt; { xhr.abort() }, 1000);  <span class="comment">// works</span></div>
+<div class="line">setTimeout(xhr.abort, 1000);              <span class="comment">// possibly fails if the &#39;this&#39; context for `xhr` is lost</span></div>
+</div><!-- fragment --></li>
+<li>See also <code><a class="el" href="class_global.html#ace3c9a285f81fbf9e6b86561ee499435" title="Immediately terminates any and all timers started with setTimeout() or setInterval() within the curre...">clearAllTimers()</a></code> and <code><a class="el" href="class_global.html#a25ab0f723af351e520068ce7ae77468e" title="Immediately terminates any and all timers started with setTimeout() or setInterval() for the given in...">clearInstanceTimers()</a></code></li>
+</ul>
+<h3><a class="anchor" id="stdlib-console"></a>
+console (Logging)</h3>
+<h4><a class="anchor" id="autotoc_md51"></a>
 Function Properties</h4>
-<ul>
-<li>getPrototypeOf(O)</li>
-<li>setPrototypeOf(O, P)</li>
-<li>getOwnPropertyDescriptor(O, P)</li>
-<li>getOwnPropertyDescriptors(O)</li>
-<li>getOwnPropertyNames(O)</li>
-<li>getOwnPropertySymbols(O)</li>
-<li>assign(O [, Properties])</li>
-<li>create(O [, Properties])</li>
-<li>defineProperty(O, P, Attributes)</li>
-<li>defineProperties(O, Properties)</li>
-<li>entries(O)</li>
-<li>is(V1, V2)</li>
-<li>keys(O)</li>
-<li>values(O)</li>
-<li>seal(O)</li>
-<li>isSealed(O)</li>
-<li>freeze(O)</li>
-<li>isFrozen(O)</li>
-<li>preventExtensions(O)</li>
-<li>isExtensible(O)</li>
-</ul>
-<h3><a class="anchor" id="autotoc_md44"></a>
-Object Prototype</h3>
-<h4><a class="anchor" id="autotoc_md45"></a>
-Function Properties</h4>
-<ul>
-<li>toString()</li>
-<li><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a></li>
-<li>valueOf()</li>
-<li>hasOwnProperty(V)</li>
-<li>isPrototypeOf(V)</li>
-<li>propertyIsEnumerable(V)</li>
-<li><b>defineGetter</b>(P, F)</li>
-<li><b>defineSetter</b>(P, F)</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md46"></a>
-Function Objects</h2>
-<h3><a class="anchor" id="autotoc_md47"></a>
-Function Prototype Object</h3>
-<ul>
-<li>toString()</li>
-<li>apply(thisArg, argArray)</li>
-<li>call(thisArg [, arg1 [, arg2, ...]])</li>
-<li>bind((thisArg [, arg1 [, arg2, …]])</li>
-<li>[Symbol.hasInstance](O)</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md48"></a>
-Array Objects</h2>
-<h3><a class="anchor" id="autotoc_md49"></a>
-Array Prototype Object</h3>
-<ul>
-<li>toString()</li>
-<li><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a></li>
-<li>concat([item1 [, item2 [, ...]]])</li>
-<li>copyWithin([item1 [, item2 [, ...]]])</li>
-<li>entries()</li>
-<li>fill(item [, index1 [, index2]])</li>
-<li>join(separator)</li>
-<li>find(callbackfn [, thisArg])</li>
-<li>findIndex(callbackfn [, thisArg])</li>
-<li>includes(item)</li>
-<li>keys()</li>
-<li>pop()</li>
-<li>push([item1 [, item2 [, ...]]])</li>
-<li>reverse()</li>
-<li>shift()</li>
-<li>slice(start, end)</li>
-<li>sort(comparefn)</li>
-<li>splice(start, deleteCount[, item1 [, item2 [, ...]]])</li>
-<li>unshift([item1 [, item2 [, ...]]])</li>
-<li>indexOf(searchElement [, fromIndex])</li>
-<li>lastIndexOf(searchElement [, fromIndex])</li>
-<li>every(callbackfn [, thisArg])</li>
-<li>some(callbackfn [, thisArg])</li>
-<li>forEach(callbackfn [, thisArg])</li>
-<li>map(callbackfn [, thisArg])</li>
-<li>filter(callbackfn [, thisArg])</li>
-<li>reduce(callbackfn [, initialValue])</li>
-<li>reduceRight(callbackfn [, initialValue])</li>
-<li>values()</li>
-<li>[Symbol.iterator]()</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md50"></a>
-String Objects</h2>
-<h3><a class="anchor" id="autotoc_md51"></a>
-String Prototype Object</h3>
-<ul>
-<li>toString()</li>
-<li>valueOf()</li>
-<li>charAt(pos)</li>
-<li>charCodeAt(pos)</li>
-<li>codePointAt(pos)</li>
-<li>concat([string1 [, string2 [, ...]]])</li>
-<li>endsWith(searchString [, endPosition ])</li>
-<li>includes(searchString [, position ])</li>
-<li>indexOf(searchString ,position)</li>
-<li>lastIndexOf(searchString, position)</li>
-<li>localeCompare(that)</li>
-<li>match(regexp)</li>
-<li>normalize()</li>
-<li>padEnd(length [, string])</li>
-<li>padStart(length [, string])</li>
-<li>repeat(count) // ECMAScript 6: Added in Qt 5.9</li>
-<li>replace(searchValue, replaceValue)</li>
-<li>search(regexp)</li>
-<li>slice(start, end)</li>
-<li>split(separator, limit)</li>
-<li>startsWith(searchString [, position ])</li>
-<li>substr(start, length)</li>
-<li>substring(start, end)</li>
-<li>toLowerCase()</li>
-<li>toLocaleLowerCase()</li>
-<li>toUpperCase()</li>
-<li>toLocaleUpperCase()</li>
-<li>trim()</li>
-<li>[Symbol.iterator]()</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md52"></a>
-Boolean Objects</h2>
-<h3><a class="anchor" id="autotoc_md53"></a>
-Boolean Prototype Object</h3>
-<ul>
-<li>toString()</li>
-<li>valueOf()</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md54"></a>
-Number Objects</h2>
-<h3><a class="anchor" id="autotoc_md55"></a>
-Number Prototype Object</h3>
-<ul>
-<li>toString(radix)</li>
-<li><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a></li>
-<li>valueOf()</li>
-<li>toFixed(fractionDigits)</li>
-<li>toExponential(fractionDigits)</li>
-<li>toPrecision(precision)</li>
-</ul>
-<h3><a class="anchor" id="autotoc_md56"></a>
-The Number Object</h3>
-<h4><a class="anchor" id="autotoc_md57"></a>
-Value Properties</h4>
-<ul>
-<li>NaN</li>
-<li>NEGATIVE_INFINITY</li>
-<li>POSITIVE_INFINITY</li>
-<li>MAX_VALUE</li>
-<li>MIN_VALUE</li>
-<li>EPSILON</li>
-<li>MAX_SAFE_INTEGER</li>
-<li>MIN_SAFE_INTEGER</li>
-</ul>
-<h4><a class="anchor" id="autotoc_md58"></a>
-Function Properties</h4>
-<ul>
-<li>isFinite(x)</li>
-<li>isInteger(x)</li>
-<li>isSafeInteger(x)</li>
-<li>isNaN(x)</li>
-</ul>
-<p >! </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> extensions</dd></dl>
-<h2><a class="anchor" id="autotoc_md59"></a>
-The Math Object</h2>
-<h3><a class="anchor" id="autotoc_md60"></a>
-Value Properties</h3>
-<ul>
-<li>E</li>
-<li>LN10</li>
-<li>LN2</li>
-<li>LOG2E</li>
-<li>LOG10E</li>
-<li>PI</li>
-<li>SQRT1_2</li>
-<li>SQRT2</li>
-</ul>
-<h3><a class="anchor" id="autotoc_md61"></a>
-Function Properties</h3>
-<p >! </p><dl class="section note"><dt>Note</dt><dd>Note that <em>all</em> <code><a class="el" href="class_math.html" title="Math Object Extensions.">Math</a></code> functions are also available in the global object scope, w/out the <code><a class="el" href="class_math.html" title="Math Object Extensions.">Math</a>.</code> qualifier.</dd></dl>
-<ul>
-<li>abs(x)</li>
-<li>acos(x)</li>
-<li>acosh(x)</li>
-<li>asin(x)</li>
-<li>asinh(x)</li>
-<li>atan(x)</li>
-<li>atanh(x)</li>
-<li>atan2(y, x)</li>
-<li>cbrt(x)</li>
-<li>ceil(x)</li>
-<li>clz32(x)</li>
-<li>cos(x)</li>
-<li>cosh(x)</li>
-<li>exp(x)</li>
-<li>expm1(x)</li>
-<li>floor(x)</li>
-<li>fround(x)</li>
-<li>hypot(x, y)</li>
-<li>imul(x, y)</li>
-<li>log(x)</li>
-<li>log10(x)</li>
-<li>log1p(x)</li>
-<li>log2(x)</li>
-<li>max([value1 [, value2 [, ...]]])</li>
-<li>min([value1 [, value2 [, ...]]])</li>
-<li>pow(x, y)</li>
-<li>random()</li>
-<li>round(x)</li>
-<li>sign(x)</li>
-<li>sin(x)</li>
-<li>sinh(x)</li>
-<li>sqrt(x)</li>
-<li>tan(x)</li>
-<li>tanh(x)</li>
-<li>trunc(x)</li>
-</ul>
-<p >! </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_math.html" title="Math Object Extensions.">Math</a> extensions</dd></dl>
-<h2><a class="anchor" id="autotoc_md62"></a>
-Date Objects</h2>
-<h3><a class="anchor" id="autotoc_md63"></a>
-Date Prototype Object</h3>
-<ul>
-<li>toString()</li>
-<li>toDateString()</li>
-<li>toTimeString()</li>
-<li><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a></li>
-<li><a class="el" href="class_date.html#a67693e617c60d42721089779a3234249" title="Converts the Date to a string containing the date suitable for the specified locale in the specified ...">toLocaleDateString()</a></li>
-<li><a class="el" href="class_date.html#aaf4d76848df0c99e3da763375c86d6ee" title="Converts the Date to a string containing the time suitable for the specified locale in the specified ...">toLocaleTimeString()</a></li>
-<li>valueOf()</li>
-<li>getTime()</li>
-<li>getFullYear()</li>
-<li>getUTCFullYear()</li>
-<li>getMonth()</li>
-<li>getUTCMonth()</li>
-<li>getDate()</li>
-<li>getUTCDate()</li>
-<li>getDay()</li>
-<li>getUTCDay()</li>
-<li>getHours()</li>
-<li>getUTCHours()</li>
-<li>getMinutes()</li>
-<li>getUTCMinutes()</li>
-<li>getSeconds()</li>
-<li>getUTCSeconds()</li>
-<li>getMilliseconds()</li>
-<li>getUTCMilliseconds()</li>
-<li>getTimeZoneOffset()</li>
-<li>setTime(time)</li>
-<li>setMilliseconds(ms)</li>
-<li>setUTCMilliseconds(ms)</li>
-<li>setSeconds(sec [, ms])</li>
-<li>setUTCSeconds(sec [, ms])</li>
-<li>setMinutes(min [, sec [, ms]])</li>
-<li>setUTCMinutes(min [, sec [, ms]])</li>
-<li>setHours(hour [, min [, sec [, ms]]])</li>
-<li>setUTCHours(hour [, min [, sec [, ms]]])</li>
-<li>setDate(date)</li>
-<li>setUTCDate(date)</li>
-<li>setMonth(month [, date])</li>
-<li>setUTCMonth(month [, date])</li>
-<li>setYear(year)</li>
-<li>setFullYear(year [, month [, date]])</li>
-<li>setUTCFullYear(year [, month [, date]])</li>
-<li>toUTCString()</li>
-<li>toGMTString()</li>
-<li>toISOString()</li>
-<li>toJSON()</li>
-<li>[Symbol.toPrimitive](hint)</li>
-</ul>
-<p >! </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> extensions</dd></dl>
-<h2><a class="anchor" id="autotoc_md64"></a>
-RegExp Objects</h2>
-<h3><a class="anchor" id="autotoc_md65"></a>
-RegExp Prototype Object</h3>
-<ul>
-<li>exec(string)</li>
-<li>test(string)</li>
-<li>toString()</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md66"></a>
-Error Objects</h2>
-<h3><a class="anchor" id="autotoc_md67"></a>
-Error Prototype Object</h3>
-<p ><a class="anchor" id="autotoc_md68"></a> </p><h5>Value Properties</h5>
-<ul>
-<li>name</li>
-<li>message</li>
-</ul>
-<h4><a class="anchor" id="autotoc_md69"></a>
-Function Properties</h4>
-<ul>
-<li>toString()</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md70"></a>
-The JSON Object</h2>
-<h4><a class="anchor" id="autotoc_md71"></a>
-Function Properties</h4>
-<ul>
-<li>parse(text [, reviver])</li>
-<li>stringify(value [, replacer [, space]])</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md72"></a>
-console</h2>
-<h3><a class="anchor" id="autotoc_md73"></a>
-Instance Methods</h3>
 <ul>
 <li>console.log() - same as console.debug()</li>
 <li>console.debug()</li>
@@ -544,11 +375,40 @@ Instance Methods</h3>
 <li>console.exception() - like error() but prints stack trace.</li>
 <li>print() - same as console.log()</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md74"></a>
-XMLHttpRequest</h2>
-<p >The XMLHttpRequest object, which can be used to asynchronously obtain data from over a network.</p>
-<p >The XMLHttpRequest API implements the same <a href="http://www.w3.org/TR/XMLHttpRequest/">W3C standard</a> as many popular web browsers with following exceptions: XMLHttpRequest does not enforce the same origin policy.</p>
-<p >Additionally, the <code>responseXML</code> XML DOM tree currently supported by DSE is a reduced subset of the <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Level 3 Core</a> API supported in a web browser. The following objects and properties are supported by the DSE implementation:</p>
+<h3><a class="anchor" id="stdlib-xmlhttpreq"></a>
+XMLHttpRequest</h3>
+<p >The XMLHttpRequest object, which can be used to obtain data over a network using HTTP/s protocols.</p>
+<p >The XMLHttpRequest API implements the same <a href="http://www.w3.org/TR/XMLHttpRequest/">W3C standard</a> as many popular web browsers with following exceptions:</p><ul>
+<li>XMLHttpRequest does not enforce the same origin policy (and in general, there is no "same origin" to enforce and any related security constraints are moot).</li>
+<li>A <code>redirect</code> property has been added to control redirection response behavior. The options are similar to the standard Fetch API <code>redirect</code> option with some additions:<ul>
+<li><code>follow</code>: Automatically follow redirects. Unless otherwise stated the redirect mode is set to follow.</li>
+<li><code>error</code>: Abort with an error if a redirect occurs.</li>
+<li><code>manual</code>: Caller intends to process the response in another context.</li>
+<li><code>no-less-safe</code>: Only allow <em>http -&gt; http</em>, <em>http -&gt; https</em>, and <em>https -&gt; https</em> redirects (do not follow <em>https -&gt; http</em> redirect); This is the default.</li>
+<li><code>same-origin</code>: Only follow redirect if the original scheme, host, and port match.</li>
+</ul>
+</li>
+<li>A <code>requestJSON</code> property has been added, as a counterpart to the standard <code>responseText</code> and <code>responseXML</code> properties. This is equivalent to <code>xhr.responseType = "json"; var obj = xhr.response;</code></li>
+<li>A <code>requestBuffer</code> property has also been added. This is equivalent to <code>xhr.responseType = "arraybuffer"; var arrayBuffer = xhr.response;</code></li>
+<li>The following request properties can be accessed (set and read) individually. They can be set <em>before</em> the <code>open()</code> command, in which case <code>open()</code> can be called with no parameters. Or for example the URL can be set first, then <code>open(method)</code> called later.<ul>
+<li><code>method</code> - GET/POST/HEADERS/etc.</li>
+<li><code>url</code> - URL of the request (can be a string or <code>URL</code> object).</li>
+<li><code>async</code> - boolean value indicating whether to use asynchronous requests (default is <code>true</code>).</li>
+</ul>
+</li>
+<li>A <code>headers</code> property is added; This returns a two-dimensional array of header name/value pairs. For example: <div class="fragment"><div class="line">[</div>
+<div class="line">  [ <span class="stringliteral">&#39;Content-Type&#39;</span>, <span class="stringliteral">&#39;application/json&#39;</span> ],</div>
+<div class="line">  [ <span class="stringliteral">&#39;Accept&#39;</span>, <span class="stringliteral">&#39;text/json, application/json&#39;</span> ]</div>
+<div class="line">]</div>
+</div><!-- fragment --><ul>
+<li><em>Before</em> the <code>send()</code> method is called, this contains any headers explicitly added by the user with <code>setRequestHeader()</code>.</li>
+<li><em>After</em> <code>send()</code> and once the request has resolved, this will contain the <em>response</em> headers. These are the same headers obtained with <code>getAllResponseHeaders()</code> but in a structured format, possibly including duplicates as per HTTP spec (they are not merged as they would be with <code>getAllResponseHeaders()</code>).<br  />
+ This will return an empty array if no headers have been received (yet, or in case of network error).</li>
+</ul>
+</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group___fetch_a_p_i.html" title="The Fetch API provides an interface for fetching network or local resources.">Fetch Network API</a></dd></dl>
+<p>Additionally, the <code>responseXML</code> XML DOM tree currently supported by DSE is a reduced subset of the <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Level 3 Core</a> API supported in a web browser. The following objects and properties are supported by the DSE implementation:</p>
 <table class="doxtable">
 <tr>
 <th><b>Node</b></th><th><b>Document</b></th><th><b>Element</b></th><th><b>Attr</b></th><th><b>CharacterData</b></th><th><b>Text</b> </th></tr>
@@ -616,7 +476,7 @@ wholeText </li>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

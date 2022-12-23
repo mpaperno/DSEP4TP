@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -120,11 +134,14 @@ $(document).ready(function(){initNavTree('class_env.html',''); initResizable(); 
 <p >It has various modes of operation, depending on how it is created/used:</p>
 <ul>
 <li>As <code>new <a class="el" href="class_env.html#a34b0da82037de8cadad91b4c194565e4" title="Creates a new instance with all current environment variables as properties.">Env()</a></code> creates a new instance with all current environment variables as properties.<ul>
-<li>You can check if a variable exists in the usual ways of JS objects (check if !== undefined, <code>hasOwnProperty()</code>, etc).</li>
+<li>Variables could then be accessed directly, for example: <div class="fragment"><div class="line">var env = <span class="keyword">new</span> <a class="code hl_function" href="class_env.html#a34b0da82037de8cadad91b4c194565e4">Env</a>();</div>
+<div class="line">console.log(env.PATH);</div>
+<div class="ttc" id="aclass_env_html_a34b0da82037de8cadad91b4c194565e4"><div class="ttname"><a href="class_env.html#a34b0da82037de8cadad91b4c194565e4">Env::Env</a></div><div class="ttdeci">Env()</div><div class="ttdoc">Creates a new instance with all current environment variables as properties.</div></div>
+</div><!-- fragment --></li>
+<li>You can check if a variable exists in the usual ways of JS object properties (check if !== undefined, <code>hasOwnProperty()</code>, etc).</li>
 <li>You can iterate over the variables as key-value pairs using a <code>for...of</code> loop. For example: <div class="fragment"><div class="line">var env = <span class="keyword">new</span> <a class="code hl_function" href="class_env.html#a34b0da82037de8cadad91b4c194565e4">Env</a>();</div>
 <div class="line"><span class="keywordflow">for</span> (<span class="keyword">const</span> [name, value] of env)</div>
 <div class="line">  console.log(name, <span class="stringliteral">&quot;=&quot;</span>, value);</div>
-<div class="ttc" id="aclass_env_html_a34b0da82037de8cadad91b4c194565e4"><div class="ttname"><a href="class_env.html#a34b0da82037de8cadad91b4c194565e4">Env::Env</a></div><div class="ttdeci">Env()</div><div class="ttdoc">Creates a new instance with all current environment variables as properties.</div></div>
 </div><!-- fragment --> Or Java style: <div class="fragment"><div class="line">var it = <span class="keyword">new</span> <a class="code hl_function" href="class_env.html#a34b0da82037de8cadad91b4c194565e4">Env</a>().iterator;</div>
 <div class="line"><span class="keywordflow">while</span> (it.hasNext()) {</div>
 <div class="line">  <span class="keyword">const</span> [name, value] = it.next();</div>
@@ -139,8 +156,8 @@ $(document).ready(function(){initNavTree('class_env.html',''); initResizable(); 
  Eg. <code>new <a class="el" href="class_env.html" title="The Env object provides access to the system environment variables.">Env</a>("PATH")</code> or <code>new <a class="el" href="class_env.html" title="The Env object provides access to the system environment variables.">Env</a>("MYVAR", "Not defined yet")</code>.<ul>
 <li><code>isSet</code> returns true/false based on if the variable exists in the environment;</li>
 <li><code>value</code> is the current value of the variable. If the variable doesn't exist in the current environment then <code>defaultValue</code> used in constructor is returned, or <code>undefined</code> if one wasn't set.</li>
-<li><code>name</code> is the name the instance was created with (note this returns <code>undefined</code> if the instance was created with no name, as in the first case above).</li>
-<li><code>isValid</code> indicates that a variable name was specified and is not blank.</li>
+<li><code>name</code> is the variable name the instance was created with.</li>
+<li><code>isValid</code> indicates that a variable name was specified in the constructor and is not blank.</li>
 <li><code>set(value)</code> sets the value if the variable in the current environment (this will create it if it doesn't exist). Returns true/false to indicate success or failure. Note that setting a variable with an <code>undefined</code> value will remove it from the environment (same as <code>unset()</code>);</li>
 <li><code>unset()</code> removes the variable from the current environment. Returns true/false to indicate success or failure.</li>
 <li><code>toString()</code> and <code>valueOf()</code> return the variable value (same as <code>value()</code>).</li>
@@ -245,7 +262,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_env.html">Env</a></li>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

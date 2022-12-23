@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -112,10 +126,11 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
   <div class="headertitle"><div class="title">Dynamic Script Engine Plugin for Touch Portal </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md_README"></a> <a href="https://github.com/mpaperno/DSEP4TP/releases" target="_blank"><img src="https://img.shields.io/github/v/release/mpaperno/DSEP4TP?include_prereleases" alt="GitHub release (latest by date including pre-releases)" class="inline"/></a> <a href="LICENSE.GPL.txt" target="_blank"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="GPLv3 License" style="pointer-events: none;" class="inline"/></a></p>
+<div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicValues_DynamicValuesTPP_README"></a> <img src="https://img.shields.io/static/v1?style=flat&amp;labelColor=5884b3&amp;color=black&amp;label=made%20for&amp;message=Touch%20Portal&amp;logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAetJREFUeNp0UruqWlEQXUePb1HERi18gShYWVqJYGeXgF+Qzh9IGh8QiOmECIYkpRY21pZWFnZaqWBhUG4KjWih4msys8FLbrhZMOfsx6w1e9beWjAYBOMtx0eOGBEZzuczrtcreAyTyQSz2QxN04j3f3J84vim8+cNR4s3rKfTSUQQi8UQjUYlGYvFAtPpVIQ0u90eZrGvnHLXuOKcB1GpkkqlUCqVEA6HsVqt4HA4EAgEMJvNUC6XMRwOwWTRfhIi3e93WK1W1Go1dbTBYIDj8YhOp4NIJIJGo4FEIoF8Po/JZAKLxQIIUSIUChGrEy9Sr9cjQTKZJJvNRtlsVs3r9Tq53W6Vb+Cy0rQyQtd1OJ1O9b/dbpCTyHoul1O9z+dzGI1Gla7jFUiyGBWPx9FsNpHJZNBqtdDtdlXfAv3vZLmCB6SiJIlJhUIB/X7/cS0viXI8n8+nrBcRIblcLlSrVez3e4jrD6LsK3O8Xi8Vi0ViJ4nVid2kB3a7HY3HY2q325ROp8nv94s5d0XkSsR90OFwoOVySaPRiF6DiHs8nmdXn+QInIxKpaJclWe4Xq9fxGazAQvDYBAKfssDeMeD7zITc1gR/4M8isvlIn2+F3N+cIjMB76j4Ha7fb7bf8H7v5j0hYef/wgwAKl+FUPYXaLjAAAAAElFTkSuQmCC" alt="plastic" class="inline"/> <a href="https://github.com/mpaperno/DSEP4TP/releases" target="_blank"><img src="https://img.shields.io/github/v/release/mpaperno/DSEP4TP?include_prereleases" alt="GitHub release (latest by date including pre-releases)" class="inline"/></a> <img src="https://img.shields.io/badge/platforms-windows%20|%20osx%20|%20linux-AA7722" alt="Supported Platvorms" class="inline"/> <a href="LICENSE.GPL.txt" target="_blank"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="GPLv3 License" style="pointer-events: none;" class="inline"/></a></p>
 <p ><b>A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with <a href="https://www.touch-portal.com/" target="_blank">Touch Portal</a> macro launcher software.</b></p>
-<hr  />
- <div class="darkmode_inverted_image"> <img src="https://mpaperno.github.io/DSEP4TP/images/logo/banner_420x105.png" alt="" align="right" class="inline"/> </div><div class="hide-on-site"></div><div class="hide-on-site"><b>Visit <a href="https://mpaperno.github.io/DSEP4TP/" target="_blank">https://mpaperno.github.io/DSEP4TP/</a> for all details, including this README.</b></div><div class="hide-on-site"></div><h1><a class="anchor" id="autotoc_md2"></a>
+<p ><b>This is the ultimate in Touch Portal extensibility short of writing your own plugin.</b></p>
+<div class="hide-on-site"></div><div class="hide-on-site"><b>Visit <a href="https://mpaperno.github.io/DSEP4TP/" target="_blank">https://mpaperno.github.io/DSEP4TP/</a> for all details, including this README.</b></div><div class="hide-on-site"></div><hr  />
+ <div class="darkmode_inverted_image"> <img src="https://mpaperno.github.io/DSEP4TP/images/logo/banner_420x105.png" alt="" align="right" class="inline"/> </div><h1><a class="anchor" id="autotoc_md2"></a>
 Features</h1>
 <p ><b>This plugin evaluates expressions using a JavaScript "engine" and (optionally) returns results as a Touch Portal <em>State</em>.</b><br  />
  (If you're not familiar, Touch Portal uses states to display information to the user and/or trigger events.)</p>
@@ -164,61 +179,70 @@ One-liner Expressions</h2>
 </ul>
 </li>
 <li>Send an image to use as a Touch Portal button icon. E.g. with dynamic image name:<ul>
-<li>&lsquo;btoa(<a class="el" href="class_file.html#a0cf82261c5b3190528e723f53f84742c" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("images/status_icon_${value:MyVariable}.png", 'b&rsquo;))`</li>
+<li>&lsquo;<a class="el" href="class_file.html#adeac7b35b88465029c6be619ae67fbaf" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("images/status_icon_${value:MyVariable}.png", 'b&rsquo;).<a class="el" href="class_array_buffer.html#aba7b605c9d75b159455e8231fbb43ca7" title="Returns the contents of this buffer as a Base64-encoded string.">toBase64()</a>`</li>
+</ul>
+</li>
+<li>Get an image from the Internet for a button icon:<ul>
+<li><code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request</a>("https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png").<a class="el" href="class_request.html#ad8421577f9c123b41380edac65f16e0c" title="Performs a &quot;GET&quot; request on the current url.">get()</a>.<a class="el" href="class_response.html#a2aadfd39a6cb5ad16b449b1f603398de">base64()</a></code></li>
 </ul>
 </li>
 <li>Read any number of lines from a file, starting from beginning, end, or a specific line number. E.g. read the last 5 lines of a log with a dynamic name:<ul>
-<li><code><a class="el" href="class_file.html#aa52ede9b6b25200394858cae72e85f78" title="Reads up to maxLines lines from file starting at fromLine (default = 0, start of file) and returns th...">File.readLines</a>(`../logs/console-${new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date()</a>.format("yyyyMMdd")}.log`, 5, -1))</code></li>
+<li><code><a class="el" href="class_file.html#af7901992c21e2cbef3a9d0edfcb0b4e5" title="Reads up to maxLines lines from file starting at fromLine (default = 0, start of file) and returns th...">File.readLines</a>(`../logs/console-${new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date()</a>.format("yyyyMMdd")}.log`, 5, -1))</code></li>
 </ul>
 </li>
 <li>Extract a value from a JSON object in a file:<ul>
-<li><code>JSON.parse(<a class="el" href="class_file.html#a0cf82261c5b3190528e723f53f84742c" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("data.json")).myProperty</code></li>
+<li><code>JSON.parse(<a class="el" href="class_file.html#adeac7b35b88465029c6be619ae67fbaf" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("data.json")).myProperty</code></li>
+</ul>
+</li>
+<li>Or get JSON from a Web site and display a named value from the data:<ul>
+<li><code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request</a>("https://jsonplaceholder.typicode.com/todos/1").<a class="el" href="class_request.html#ad8421577f9c123b41380edac65f16e0c" title="Performs a &quot;GET&quot; request on the current url.">get()</a>.<a class="el" href="class_response.html#a4fdd4b681730e8d1ff673920760d1ee8">json()</a>.title</code></li>
 </ul>
 </li>
 <li>Update any State or Value in Touch Portal:<ul>
-<li><code><a class="el" href="class_t_p.html#a92d7f5a27d028cf5e274407039671725" title="Send a State update to Touch Portal for any arbitrary state/value matching the id,...">TP.stateUpdateById</a>("MyVariable", ${value:MyVariable} * 25)</code></li>
+<li><code><a class="el" href="namespace_t_p.html#abc30c9dbb5074f0b2e36307a25f16ef3" title="\member TPSend a State update to Touch Portal for any arbitrary state/value matching the id,...">TP.stateUpdateById</a>("MyVariable", ${value:MyVariable} * 25)</code></li>
 </ul>
 </li>
 <li>Send yourself a notification via Touch Portal:<ul>
-<li><code><a class="el" href="class_t_p.html#a10d4d2b0569c6569fbcfe3bf2380bec2" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification</a>("myNotififyId", "Something Happened", "Hey, something happened, check it out!")</code></li>
+<li><code><a class="el" href="namespace_t_p.html#a4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification</a>("myNotififyId", "Something Happened", "Hey, something happened, check it out!")</code></li>
 </ul>
 </li>
 </ul>
 <h2><a class="anchor" id="autotoc_md4"></a>
 Scripts</h2>
 <ul>
-<li>JavaScript scripts of any complexity can be loaded from file(s) and functions within those scripts can be invoked with dynamic arguments (eg. from <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> states/values).</li>
+<li>JavaScript scripts of any complexity can be loaded from file(s) and functions within those scripts can be invoked with dynamic arguments (eg. from Touch Portal states/values).</li>
 <li>Use simple "standalone" scripts or full <b>JS modules</b>, which can import other modules and are also cached between uses for excellent performance.</li>
-<li>An <code><a class="el" href="classglobal.html#acd56068e20565d17344debdff28608b1" title="Read and evaluate scriptFile as JavaScript in the current scripting engine context (global object) at...">include()</a></code> function is available to read an evaluate any block of code from another file, for easy code re-use within standalone scripts or modules.</li>
+<li>An <code><a class="el" href="class_global.html#a6de7d2398ea7fcdee0b8cb30a417c3b2" title="Read and evaluate scriptFile as JavaScript in the current scripting engine context (global object) at...">include()</a></code> function is available to read an evaluate any block of code from another file, for easy code re-use within standalone scripts or modules.</li>
 <li>Full <code>console.log()</code> (and family) support for debugging/etc; output is sent to a separate plugin log file dedicated for scripting output and errors.</li>
-<li>Scripts can run independently and in the background, for example processing timed events or callbacks from asynchronous processes (eg. a network request or file system watcher).</li>
-<li>Scripts can send state updates to Touch Portal at any time, and they can also create and remove states, among other things (you can literally write a simple <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> "plugin" using the scripting engine itself).</li>
+<li>Scripts can <b>run in the background</b>, for example processing timed events or callbacks from asynchronous processes (eg. a network request or file system watcher).</li>
+<li>Scripts can <b>send State/Value updates to Touch Portal</b> at any time, and they can also create and remove states, among other things (you can literally write a simple Touch Portal "plugin" using the scripting engine itself).</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md5"></a>
 Overall</h2>
 <ul>
 <li>Extensive support for <b>ECMAScript level 7</b>, plus custom extensions:<ul>
-<li><b><a class="el" href="class_file.html" title="The File class provides access to... files. Shocking.">File</a> system</b> interaction, from one-line read/write utilities to full byte-by-byte access.</li>
-<li>Flexible <b>string, date, and number formatting</b> with .NET <a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String.Format style</a> or <a class="el" href="classglobal.html#a4bdf4eafc63766384d4e1a6d604ab9b5">&quot;printf&quot;</a> style functions.</li>
+<li><b><a class="el" href="group___file_system.html">File system</a></b> interaction, from one-line read/write utilities to full byte-by-byte access.</li>
+<li>Flexible <b>string, date, and number formatting</b> with .NET <a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String.Format style</a> or <a class="el" href="class_global.html#a4bdf4eafc63766384d4e1a6d604ab9b5">&quot;printf&quot;</a> style functions.</li>
 <li>Support for <b>timed/recurring operations</b> with <code>setTimeout()</code>/<code>setInterval()</code>.</li>
-<li><b>Network requests</b> supported via the familiar (if awkwardly named) <code>XMLHttpRequest</code> object.</li>
-<li><b>Touch Portal <a class="el" href="class_t_p.html">interaction</a></b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and more.</li>
+<li><b>Network requests</b> supported via familiar <a class="el" href="group___fetch_a_p_i.html">Fetch API</a> and <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a>.</li>
+<li><b>Touch Portal <a class="el" href="namespace_t_p.html">interaction</a></b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and more.</li>
 <li><b><a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> manipulation</b>/utility library.</li>
+<li><b>External command and application launching</b> with optional inter-process data exchange using <a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a>.</li>
 <li>Lots of convenience extensions to built-in JS objects like <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a>, <a class="el" href="class_math.html" title="Math Object Extensions.">Math</a> and <a class="el" href="class_string.html" title="Extends String object.">String</a>.</li>
-<li>Other <a class="el" href="classglobal.html">global</a> object extensions and <a class="el" href="group___util.html">utilities</a>, eg. for encoding/decoding <b>base-64 data</b>, <b>environment variable</b> access, <b>locale data</b>, <b>hashing algorithms</b>, and more.</li>
+<li>Other <a class="el" href="class_global.html">global</a> object extensions and <a class="el" href="group___util.html">utilities</a>, eg. for encoding/decoding <b>base-64 data</b>, <b>environment variable</b> access, <b>locale data</b>, <b>hashing algorithms</b>, and more.</li>
 <li>Infinitely <b>extensible</b> via either JavaScript libraries/modules <em>or</em> C++ integration.</li>
 </ul>
 </li>
-<li>Any expression/script action can be <b>saved to persistent settings</b> and re-created automatically when Touch Portal (or the plugin) starts up, with a number of options for what the default should be (fixed value, custom expression, etc).</li>
-<li>Expressions and scripts can run in either a single Shared scripting engine instance or in separated <b>Private engine instances</b> to keep environments isolated (each engine instance has its own global 'this' scope). Instances are <em>persistent</em> throughout the life of the plugin (or until deleted explicitly).</li>
-<li>Written in <b>optimized C++</b> for high performance.</li>
+<li>Any expression/script action can be <b>saved to persistent settings</b> and re-created automatically at startup, with a number of options for what the default value should be (fixed, custom expression, etc).</li>
+<li>Expressions and scripts can run in either a single Shared scripting engine instance or in separated <b>Private engine instances</b> to keep environments isolated. Instances are <em>persistent</em> throughout the life of the plugin (or until deleted explicitly).</li>
 <li><b>Multi-threaded</b> for quick response times and non-blocking behavior (long-running scripts will not prevent other scripts from running).</li>
+<li>Extensively <b>documented</b>, with <b>examples</b> and scripting <b>reference</b>.</li>
+<li>Written in <b>optimized C++</b> for high performance.</li>
 <li>Runs on <b>Windows, MacOS, or Linux</b>.</li>
 </ul>
 <hr  />
  <h1><a class="anchor" id="autotoc_md7"></a>
 Download and Install</h1>
-<p ><b>COMING SOON!</b></p>
 <p >Note: As with all plugins, this requires the Touch Portal Pro (paid) version to function. Use the latest available Touch Portal version for best results.</p>
 <ol type="1">
 <li>Get the latest version of this plugin for your operating system from the <a href="https://github.com/mpaperno/DSEP4TP/releases" target="_blank">Releases</a> page.</li>
@@ -239,11 +263,11 @@ Download and Install</h1>
 Update Notifications</h2>
 <p ><em>Watch</em> -&gt; <em>Custom</em> -&gt; <em>Releases</em> this repository (button at top) or subscribe to the <a href="https://github.com/mpaperno/WASimCommander/releases.atom" target="_blank">ATOM feed</a> for release notifications.</p>
 <p >Release announcements are also made in the Touch Portal Discord Server room <a href="https://discord.com/channels/548426182698467339/750791488501448887" target="_blank">#dynamic-script-engine</a></p>
-<hr  />
- <h1><a class="anchor" id="autotoc_md10"></a>
+<p >Or use the provided <a class="el" href="example_fetch_and_notify.html">example script</a> to check for new versions right from Touch Portal!</p>
+<div class="hide-on-site"></div><div class="hide-on-site"><hr  />
+ </div><h1><a class="anchor" id="autotoc_md10"></a>
 Documentation</h1>
-<p ><a href="https://mpaperno.github.io/DSEP4TP/" target="_blank">Full Documentation @ https://mpaperno.github.io/DSEP4TP/</a> - includes this README as well.</p>
-<hr  />
+<div class="hide-on-site"> <a href="https://mpaperno.github.io/DSEP4TP/" target="_blank">Full Documentation &amp; Examples @ https://mpaperno.github.io/DSEP4TP/</a> - includes this README as well.</div><div class="hide-on-site"></div><hr  />
  <h1><a class="anchor" id="autotoc_md12"></a>
 Support and Discussion</h1>
 <p >Use the <a href="https://github.com/mpaperno/DSEP4TP/issues" target="_blank">Issues</a> feature for bug reports and concise feature suggestions.</p>
@@ -253,30 +277,7 @@ Support and Discussion</h1>
  <h1><a class="anchor" id="autotoc_md14"></a>
 Troubleshooting</h1>
 <p >The most likely cause of something not working right is going to be scripting syntax errors or data being passed to functions in unexpected format (eg. un-escaped backslashes).</p>
-<p >The plugin uses 2 Touch Portal States to notify you of errors in scripts:</p><ul>
-<li>The "Cumulative script error count" state is a running count of script errors which increments on each exception. This is useful as a trigger for some <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> event which would notify you that a new error occurred.</li>
-<li>The "Last script instance error" state will update with the text of the last error message. This could be shown somewhere in a <a class="el" href="class_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a> page for example.</li>
-</ul>
-<p >See the Status and Logging documentation page for more details on script error reporting.</p>
-<p >The plugin also logs message to a file. Two, actually. They are both located in your Touch Portal configuration folder, in the 'plugins' section; the path looks like:<br  />
-</p><ul>
-<li>Windows: <code>C:\Users\&lt;User_Name&gt;\AppData\Roaming\TouchPortal\plugins\DSEP4TP\logs</code></li>
-<li>Mac: <code>~/Documents/TouchPortal/plugins/DSEP4TP/logs</code></li>
-<li>Linux: Unknown...</li>
-</ul>
-<p >The two log files are:</p><ul>
-<li>The main plugin log, cleverly named <code>plugin.log</code>, is where all messages are written, including general operational information from the plugin, especially any errors it may have encountered that are not directly related to your scripts (but maybe to the actions you're sending to the plugin, or some other overall issue).</li>
-<li>The 2nd log is named <code>console.log</code> and this contains only messages from the scripting engine &ndash; errors which are thrown or your own <code>console.log()</code> (and family) logging.</li>
-</ul>
-<p >The logs are rotated daily. The previous days' log is renamed with a date stamp and a new one is started. By default the last 3 days' worth of logs are kept (the current one + 3 historical logs).</p>
-<p >You can force a rotation of the logs by going to the plugin's executable directory (<code>DSEP4TP/bin</code>) in a terminal/command window and run the plugin (w/out starting it) with the following command:<br  />
-</p><ul>
-<li>Windows: <code>DSEP4TP.exe -f1 -j1 -rx</code></li>
-<li>Mac/Linux: <code>./DSEP4TP -f1 -j0 -rx</code></li>
-<li>Optionally add a <code>-k N</code> switch to the command line to keep <code>N</code> number of logs instead of the default 3. Clear out all old logs by using <code>-k 0</code></li>
-<li>Use <code>-h</code> to see all command-line options.</li>
-</ul>
-<p >The log files have an "emergency limit" of 1GB in case something goes haywire. If this limit is reached, further logging to that file is disabled until the plugin is restarted.</p>
+<p >See the <a class="el" href="plugin_status_and_logging.html#md_pages_Status">Status and Logging</a> documentation page for more details on script error reporting and plugin logging in general.</p>
 <hr  />
  <h1><a class="anchor" id="autotoc_md16"></a>
 Credits</h1>
@@ -296,14 +297,17 @@ Copyright, License, and Disclaimer</h1>
 <p >This program and associated files may be used under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
 <p >This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
 <p >A copy of the GNU General Public License is included in this repository and is also available at <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
-<p >This project may also use 3rd-party Open Source software under the terms of their respective licenses. The copyright notice above does not apply to any 3rd-party components used within. </p>
+<p >This project may also use 3rd-party Open Source software under the terms of their respective licenses. The copyright notice above does not apply to any 3rd-party components used within.</p>
+<p ><span class="next_section_button"> Go To: <a href="modules.html" target="_blank">Scripting Library Reference</a> </span></p>
+<p ><span class="next_section_button"> Go To: <a class="el" href="plugin_examples.html">Examples</a> </span></p>
+<p ><span class="next_section_button"> Go To: <a class="el" href="documentation.html">Plugin Documentation</a> </span> </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

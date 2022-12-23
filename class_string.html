@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -124,6 +138,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a15c6d638aa8030c022876d6338220f7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45f4c919dfa7b9606e5879d216ab416d"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">format</a> (format, args)</td></tr>
 <tr class="separator:a45f4c919dfa7b9606e5879d216ab416d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98e25bb1989aab4c3bedd6068c7b1a4e"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_string.html#a98e25bb1989aab4c3bedd6068c7b1a4e">simplified</a> ()</td></tr>
+<tr class="separator:a98e25bb1989aab4c3bedd6068c7b1a4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a15c6d638aa8030c022876d6338220f7d" name="a15c6d638aa8030c022876d6338220f7d"></a>
@@ -135,8 +151,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">string arg </td>
           <td>(</td>
-          <td class="paramtype">value&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -147,7 +163,7 @@ Public Member Functions</h2></td></tr>
 <p >The following example prints "There are 20 items": </p><div class="fragment"><div class="line">var message = <span class="stringliteral">&quot;There are %1 items&quot;</span></div>
 <div class="line">var count = 20</div>
 <div class="line">console.log(message.arg(count))</div>
-</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any.">String.format()</a></code>, <code><a class="el" href="classglobal.html#a4bdf4eafc63766384d4e1a6d604ab9b5" title="For formatting strings, works like the classic C printf() function.">sprintf()</a></code> </dd></dl>
+</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any, using .NET-style formatting synta...">String.format()</a></code>, <code><a class="el" href="class_global.html#a4bdf4eafc63766384d4e1a6d604ab9b5" title="For formatting strings, works like the classic C printf() function.">sprintf()</a></code> </dd></dl>
 
 </div>
 </div>
@@ -177,7 +193,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Formats <code>format</code> string using the provided arguments in <code>args</code>, if any. </p>
+<p>Formats <code>format</code> string using the provided arguments in <code>args</code>, if any, using .NET-style formatting syntax. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">format</td><td>The formatting string used to format the additional arguments. </td></tr>
@@ -187,19 +203,41 @@ Public Member Functions</h2></td></tr>
 </dl>
 <p>Formatting is done using format strings almost completely compatible with the String.Format method in Microsoft .NET Framework.</p>
 <p >For example: </p><div class="fragment"><div class="line"><a class="code hl_class" href="class_string.html">String</a>.<a class="code hl_function" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">format</a>(</div>
-<div class="line">    <span class="stringliteral">&quot;Welcome back, {0}! Last seen {1:M}&quot;</span>, </div>
+<div class="line">    <span class="stringliteral">&quot;Welcome back, {0}! Last seen {1:M}&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;John Doe&quot;</span>, <span class="keyword">new</span> <a class="code hl_class" href="class_date.html">Date</a>(1985, 3, 7, 12, 33)</div>
 <div class="line">);</div>
-<div class="line"><span class="comment">// output: </span></div>
-<div class="line"><span class="comment">// Welcome back, John Doe! Last seen April 07</span></div>
+<div class="line"><span class="comment">// output: &quot;Welcome back, John Doe! Last seen April 07&quot;</span></div>
 <div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods.</div></div>
 <div class="ttc" id="aclass_string_html"><div class="ttname"><a href="class_string.html">String</a></div><div class="ttdoc">Extends String object.</div></div>
-<div class="ttc" id="aclass_string_html_a45f4c919dfa7b9606e5879d216ab416d"><div class="ttname"><a href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String::format</a></div><div class="ttdeci">string format(format, args)</div><div class="ttdoc">Formats format string using the provided arguments in args, if any.</div></div>
-</div><!-- fragment --><p >There is also a convenience global function available as an alias, named simply <code><a class="el" href="classglobal.html#acd5e884df6b19a0c00b5747908e20d5d" title="Equivalent to the String.format() extension method.">Format()</a></code>. It works identically to <code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any.">String.format()</a></code> but is shorter to type.</p>
-<p >See formatting string reference at <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings#standard-format-specifiers">https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings#standard-format-specifiers</a></p>
+<div class="ttc" id="aclass_string_html_a45f4c919dfa7b9606e5879d216ab416d"><div class="ttname"><a href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String::format</a></div><div class="ttdeci">string format(format, args)</div><div class="ttdoc">Formats format string using the provided arguments in args, if any, using .NET-style formatting synta...</div></div>
+</div><!-- fragment --><p >There is also a convenience global function available as an alias, named simply <code><a class="el" href="class_global.html#acd5e884df6b19a0c00b5747908e20d5d" title="Equivalent to the String.format() extension method.">Format()</a></code>. It works identically to <code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any, using .NET-style formatting synta...">String.format()</a></code> but is shorter to type.</p>
+<p >See formatting string reference at <br  />
+ <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/formatting-types">https://learn.microsoft.com/en-us/dotnet/standard/base-types/formatting-types</a></p>
 <p >This extension is originally from the <a href="https://github.com/dmester/sffjs" target="_blank">String.format for JavaScript</a> project. There are some examples and references available at that site. The original <code>sffjs</code> object referenced in their documentation is available in this script engine as <code>Sffjs</code>.</p>
-<dl class="section see"><dt>See also</dt><dd><code><a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this number according the specified format string.">Number.format()</a></code>, <code><a class="el" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this date according the specified format string. See formatting string reference at https://l...">Date.format()</a></code>, and <code><a class="el" href="classglobal.html#a4bdf4eafc63766384d4e1a6d604ab9b5" title="For formatting strings, works like the classic C printf() function.">sprintf()</a></code> for "printf-style" string formatting. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><code><a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this number according the specified .NET-style format string.">Number.format()</a></code>, <code><a class="el" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this date according the specified .NET-style format string.">Date.format()</a></code>, and <code><a class="el" href="class_global.html#a4bdf4eafc63766384d4e1a6d604ab9b5" title="For formatting strings, works like the classic C printf() function.">sprintf()</a></code> for "printf-style" string formatting. </dd></dl>
 
+</div>
+</div>
+<a id="a98e25bb1989aab4c3bedd6068c7b1a4e" name="a98e25bb1989aab4c3bedd6068c7b1a4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98e25bb1989aab4c3bedd6068c7b1a4e">&#9670;&nbsp;</a></span>simplified()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string simplified </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns this string with leading, trailing, and all redundant internal whitespace removed. </p>
+<p >contents of this byte array as a Base64-encoded string. Example: </p><div class="fragment"><div class="line">var str = <span class="stringliteral">&quot;  lots\t of\nwhitespace\r\n &quot;</span>;</div>
+<div class="line">str = str.simplified();</div>
+<div class="line"><span class="comment">// str == &quot;lots of whitespace&quot;;</span></div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->
@@ -208,7 +246,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_string.html">String</a></li>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -111,6 +125,7 @@ $(document).ready(function(){initNavTree('class_date.html',''); initResizable();
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_date-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Date<div class="ingroups"><a class="el" href="group___j_s_ext.html">JavaScript Object Extensions</a></div></div></div>
 </div><!--header-->
@@ -144,6 +159,15 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1275fa6408c29c9b9fafe664886f7530"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf4d76848df0c99e3da763375c86d6ee"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_date.html#aaf4d76848df0c99e3da763375c86d6ee">toLocaleTimeString</a> (locale, <a class="el" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a>)</td></tr>
 <tr class="separator:aaf4d76848df0c99e3da763375c86d6ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ad3636e274e7fd0ab666b1a03cab78985"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_date.html#ad3636e274e7fd0ab666b1a03cab78985">fromLocaleDateString</a> (locale, dateString, <a class="el" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a>)</td></tr>
+<tr class="separator:ad3636e274e7fd0ab666b1a03cab78985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4404710151b2c75190b098631355cee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_date.html#aa4404710151b2c75190b098631355cee">fromLocaleString</a> (locale, dateTimeString, <a class="el" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a>)</td></tr>
+<tr class="separator:aa4404710151b2c75190b098631355cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b8eef363bc78b964aeeb10559b0c6f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_date.html#a7b8eef363bc78b964aeeb10559b0c6f5">fromLocaleTimeString</a> (locale, timeString, <a class="el" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a>)</td></tr>
+<tr class="separator:a7b8eef363bc78b964aeeb10559b0c6f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="aeeb148b5688e69f7b6fd92fab0445957" name="aeeb148b5688e69f7b6fd92fab0445957"></a>
@@ -181,7 +205,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Adds <code>seconds</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. </p>
+<p>Adds <code>seconds</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. <code>seconds</code> can be negative to subtract from current time and can be in any integer value range. </p>
 
 </div>
 </div>
@@ -201,7 +225,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Adds <code>minutes</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. </p>
+<p>Adds <code>minutes</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. <code>minutes</code> can be negative to subtract from current time and can be in any integer value range. </p>
 
 </div>
 </div>
@@ -221,7 +245,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Adds <code>hours</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. </p>
+<p>Adds <code>hours</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. <code>hours</code> can be negative to subtract from current time and can be in any integer value range. </p>
 
 </div>
 </div>
@@ -241,7 +265,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Adds <code>days</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. </p>
+<p>Adds <code>days</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. <code>days</code> can be negative to subtract from current date and can be in any integer value range. </p>
 
 </div>
 </div>
@@ -261,7 +285,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Adds <code>months</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. </p>
+<p>Adds <code>months</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. <code>months</code> can be negative to subtract from current date and can be in any integer value range. </p>
 
 </div>
 </div>
@@ -281,7 +305,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Adds <code>years</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. </p>
+<p>Adds <code>years</code> to current date and returns new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object. <code>years</code> can be negative to subtract from current date and can be in any integer value range. </p>
 
 </div>
 </div>
@@ -301,7 +325,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compares this <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> to <code>otherDate</code> based only on the year, month and day parts, ignoring time part. Returns -1 if <code>otherDate</code> is earlier than this date, 0 if the dates match, and 1 if <code>otherDate</code> is later than current this date. </p>
+<p>Compares this <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> to <code>otherDate</code> based only on the year, month and day parts, ignoring time part. Returns -1 if <code>otherDate</code> is earlier than this date, 0 if the dates match, and 1 if <code>otherDate</code> is later than this date. </p>
 
 </div>
 </div>
@@ -321,7 +345,186 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Formats this date according the specified <code>format</code> string. See formatting string reference at <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings#table-of-format-specifiers">https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings#table-of-format-specifiers</a>. </p>
+<p>Formats this date according the specified .NET-style <code>format</code> string. </p>
+<p >This function emulates the .NET <code>DateTime.ToString()</code> method.</p>
+<p >For example: </p><div class="fragment"><div class="line">console.log(<span class="keyword">new</span> <a class="code hl_class" href="class_date.html">Date</a>().<a class="code hl_function" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a>(<span class="stringliteral">&quot;yyyy MMM DD @ HH:mm::ss&quot;</span>));  <span class="comment">// Prints: &quot;2022 Jan 05 @ 22:03:55&quot;</span></div>
+<div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods.</div></div>
+<div class="ttc" id="aclass_date_html_a3be6b4afd282be1b08ed226cc97ff34a"><div class="ttname"><a href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a">Date::format</a></div><div class="ttdeci">string format(format)</div><div class="ttdoc">Formats this date according the specified .NET-style format string.</div></div>
+</div><!-- fragment --><p> See formatting string reference at <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings#table-of-format-specifiers">https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings#table-of-format-specifiers</a> </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any, using .NET-style formatting synta...">String.format()</a>, <a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530" title="Converts the Date to a string containing the date and time suitable for the specified locale in the s...">toLocaleString()</a>, <a class="el" href="class_date.html#a67693e617c60d42721089779a3234249" title="Converts the Date to a string containing the date suitable for the specified locale in the specified ...">toLocaleDateString()</a>, <a class="el" href="class_date.html#aaf4d76848df0c99e3da763375c86d6ee" title="Converts the Date to a string containing the time suitable for the specified locale in the specified ...">toLocaleTimeString()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad3636e274e7fd0ab666b1a03cab78985" name="ad3636e274e7fd0ab666b1a03cab78985"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3636e274e7fd0ab666b1a03cab78985">&#9670;&nbsp;</a></span>fromLocaleDateString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_date.html">Date</a> fromLocaleDateString </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>locale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>dateString</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts the date string <code>dateString</code> to a <code><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a></code> object using given <code>locale</code> and <code>format</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">locale</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object, obtained with the global <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> method. </td></tr>
+    <tr><td class="paramname">dateString</td><td>The input string to parse </td></tr>
+    <tr><td class="paramname">format</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> <a class="el" href="class_locale.html#locale-format-type">format constant</a> or string <a class="el" href="class_locale.html#locale-date-format">format specifier</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If <code>format</code> is not specified, <a class="el" href="class_locale.html#locale-format-type">Locale.LongFormat</a> will be used. <br  />
+ If <code>locale</code> is not specified, the default locale will be used.</p>
+<p >The following example shows a datetime being parsed from a datetime string in a certain format using the default locale</p>
+<div class="fragment"><div class="line">var dateString = <span class="stringliteral">&quot;Freitag 2022-12-09&quot;</span>;</div>
+<div class="line">var date = <a class="code hl_class" href="class_date.html">Date</a>.<a class="code hl_function" href="class_date.html#aa4404710151b2c75190b098631355cee">fromLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>), dateString, <span class="stringliteral">&quot;dddd yyyy-MM-dd&quot;</span>);</div>
+<div class="ttc" id="aclass_date_html_aa4404710151b2c75190b098631355cee"><div class="ttname"><a href="class_date.html#aa4404710151b2c75190b098631355cee">Date::fromLocaleString</a></div><div class="ttdeci">Date fromLocaleString(locale, dateTimeString, format)</div><div class="ttdoc">Converts the date string dateTimeString to a Date object using given locale and format.</div></div>
+</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a>, <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> </dd></dl>
+
+</div>
+</div>
+<a id="aa4404710151b2c75190b098631355cee" name="aa4404710151b2c75190b098631355cee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4404710151b2c75190b098631355cee">&#9670;&nbsp;</a></span>fromLocaleString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_date.html">Date</a> fromLocaleString </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>locale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>dateTimeString</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts the date string <code>dateTimeString</code> to a <code><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a></code> object using given <code>locale</code> and <code>format</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">locale</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object, obtained with the global <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> method. </td></tr>
+    <tr><td class="paramname">dateTimeString</td><td>The input string to parse </td></tr>
+    <tr><td class="paramname">format</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> <a class="el" href="class_locale.html#locale-format-type">format constant</a> or string <a class="el" href="class_locale.html#locale-date-format">format specifier</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If <code>format</code> is not specified, <a class="el" href="class_locale.html#locale-format-type">Locale.LongFormat</a> will be used. <br  />
+ If <code>locale</code> is not specified, the default locale will be used.</p>
+<p >The following example shows a datetime being parsed from a datetime string in a certain format using the default locale</p>
+<div class="fragment"><div class="line">var dateTimeString = <span class="stringliteral">&quot;Freitag 2022-12-09 22:56:06&quot;</span>;</div>
+<div class="line">var date = <a class="code hl_class" href="class_date.html">Date</a>.<a class="code hl_function" href="class_date.html#aa4404710151b2c75190b098631355cee">fromLocaleString</a>(locale(), dateTimeString, <span class="stringliteral">&quot;dddd yyyy-MM-dd hh:mm:ss&quot;</span>);</div>
+</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a>, <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> </dd></dl>
+
+</div>
+</div>
+<a id="a7b8eef363bc78b964aeeb10559b0c6f5" name="a7b8eef363bc78b964aeeb10559b0c6f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b8eef363bc78b964aeeb10559b0c6f5">&#9670;&nbsp;</a></span>fromLocaleTimeString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_date.html">Date</a> fromLocaleTimeString </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>locale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>timeString</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts the date string <code>timeString</code> to a <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object using given <code>locale</code> and <code>format</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">locale</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object, obtained with the global <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> method. </td></tr>
+    <tr><td class="paramname">timeString</td><td>The input string to parse </td></tr>
+    <tr><td class="paramname">format</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> <a class="el" href="class_locale.html#locale-format-type">format constant</a> or string <a class="el" href="class_locale.html#locale-date-format">format specifier</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If <code>format</code> is not specified, <a class="el" href="class_locale.html#locale-format-type">Locale.LongFormat</a> will be used. <br  />
+ If <code>locale</code> is not specified, the default locale will be used.</p>
+<p >The following example shows a datetime being parsed from a datetime string in a certain format using the German locale: </p><div class="fragment"><div class="line"><a class="code hl_class" href="class_date.html">Date</a> date = <a class="code hl_class" href="class_date.html">Date</a>.<a class="code hl_function" href="class_date.html#a7b8eef363bc78b964aeeb10559b0c6f5">fromLocaleTimeString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>), <span class="stringliteral">&quot;22:56:06&quot;</span>, <span class="stringliteral">&quot;HH:mm:ss&quot;</span>);</div>
+<div class="ttc" id="aclass_date_html_a7b8eef363bc78b964aeeb10559b0c6f5"><div class="ttname"><a href="class_date.html#a7b8eef363bc78b964aeeb10559b0c6f5">Date::fromLocaleTimeString</a></div><div class="ttdeci">Date fromLocaleTimeString(locale, timeString, format)</div><div class="ttdoc">Converts the date string timeString to a Date object using given locale and format.</div></div>
+</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a>, <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> </dd></dl>
 
 </div>
 </div>
@@ -352,11 +555,21 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Converts the <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> to a string containing the date suitable for the specified <code>locale</code> in the specified <code>format</code>. </p>
-<p >If format is not specified, Locale.LongFormat will be used. If locale is not specified, the default locale will be used.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">locale</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object, obtained with the global <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> method. </td></tr>
+    <tr><td class="paramname">format</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> <a class="el" href="class_locale.html#locale-format-type">format constant</a> or string <a class="el" href="class_locale.html#locale-date-format">format specifier</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If <code>format</code> is not specified, <a class="el" href="class_locale.html#locale-format-type">Locale.LongFormat</a> will be used. <br  />
+ If <code>locale</code> is not specified, the default '<a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a>` will be used. <br  />
+</p>
 <p >The following example shows the current date formatted for the German locale: </p><div class="fragment"><div class="line"><span class="keyword">new</span> <a class="code hl_class" href="class_date.html">Date</a>().<a class="code hl_function" href="class_date.html#a67693e617c60d42721089779a3234249">toLocaleDateString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>))</div>
-<div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods.</div></div>
+<div class="line"><span class="comment">// &quot;Freitag, 9. Dezember 2022&quot;</span></div>
 <div class="ttc" id="aclass_date_html_a67693e617c60d42721089779a3234249"><div class="ttname"><a href="class_date.html#a67693e617c60d42721089779a3234249">Date::toLocaleDateString</a></div><div class="ttdeci">string toLocaleDateString(locale, format)</div><div class="ttdoc">Converts the Date to a string containing the date suitable for the specified locale in the specified ...</div></div>
-</div><!-- fragment --> 
+</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a>, <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> </dd></dl>
+
 </div>
 </div>
 <a id="a1275fa6408c29c9b9fafe664886f7530" name="a1275fa6408c29c9b9fafe664886f7530"></a>
@@ -386,10 +599,19 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Converts the <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> to a string containing the date and time suitable for the specified <code>locale</code> in the specified <code>format</code>. </p>
-<p >If format is not specified, Locale.LongFormat will be used. If locale is not specified, the default locale will be used.</p>
-<p >The following example shows the current date and time formatted for the German locale: </p><div class="fragment"><div class="line"><span class="keyword">new</span> <a class="code hl_class" href="class_date.html">Date</a>().<a class="code hl_function" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>))</div>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">locale</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object, obtained with the global <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> method. </td></tr>
+    <tr><td class="paramname">format</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> <a class="el" href="class_locale.html#locale-format-type">format constant</a> or string <a class="el" href="class_locale.html#locale-date-format">format specifier</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If <code>format</code> is not specified, <a class="el" href="class_locale.html#locale-format-type">Locale.LongFormat</a> will be used. If <code>locale</code> is not specified, the default '<a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a>` will be used.</p>
+<p >The following example shows the current date and time formatted for the German locale: </p><div class="fragment"><div class="line"><span class="keyword">new</span> <a class="code hl_class" href="class_date.html">Date</a>().<a class="code hl_function" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>, dddd, d. MMMM yyyy HH:mm:ss))</div>
+<div class="line"><span class="comment">// &quot;Freitag, 9. Dezember 2022 09:05:27&quot;</span></div>
 <div class="ttc" id="aclass_date_html_a1275fa6408c29c9b9fafe664886f7530"><div class="ttname"><a href="class_date.html#a1275fa6408c29c9b9fafe664886f7530">Date::toLocaleString</a></div><div class="ttdeci">string toLocaleString(locale, format)</div><div class="ttdoc">Converts the Date to a string containing the date and time suitable for the specified locale in the s...</div></div>
-</div><!-- fragment --> 
+</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a>, <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> </dd></dl>
+
 </div>
 </div>
 <a id="aaf4d76848df0c99e3da763375c86d6ee" name="aaf4d76848df0c99e3da763375c86d6ee"></a>
@@ -419,10 +641,19 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Converts the <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> to a string containing the time suitable for the specified <code>locale</code> in the specified <code>format</code>. </p>
-<p >If format is not specified, Locale.LongFormat will be used. If locale is not specified, the default locale will be used.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">locale</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object, obtained with the global <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> method. </td></tr>
+    <tr><td class="paramname">format</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> <a class="el" href="class_locale.html#locale-format-type">format constant</a> or string <a class="el" href="class_locale.html#locale-date-format">format specifier</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If <code>format</code> is not specified, <a class="el" href="class_locale.html#locale-format-type">Locale.LongFormat</a> will be used. If <code>locale</code> is not specified, the default locale will be used.</p>
 <p >The following example shows the current date and time formatted for the German locale: </p><div class="fragment"><div class="line"><span class="keyword">new</span> <a class="code hl_class" href="class_date.html">Date</a>().<a class="code hl_function" href="class_date.html#aaf4d76848df0c99e3da763375c86d6ee">toLocaleTimeString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>))</div>
+<div class="line"><span class="comment">// &quot;19:05:27 Eastern Standard Time&quot;</span></div>
 <div class="ttc" id="aclass_date_html_aaf4d76848df0c99e3da763375c86d6ee"><div class="ttname"><a href="class_date.html#aaf4d76848df0c99e3da763375c86d6ee">Date::toLocaleTimeString</a></div><div class="ttdeci">string toLocaleTimeString(locale, format)</div><div class="ttdoc">Converts the Date to a string containing the time suitable for the specified locale in the specified ...</div></div>
-</div><!-- fragment --> 
+</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a>, <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> </dd></dl>
+
 </div>
 </div>
 </div><!-- contents -->
@@ -431,7 +662,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_date.html">Date</a></li>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

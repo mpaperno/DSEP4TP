@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -121,12 +135,12 @@ $(document).ready(function(){initNavTree('class_file_handle.html',''); initResiz
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr class="memitem:a71f006e8d6ac2a5d94354155a0da69f8"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a71f006e8d6ac2a5d94354155a0da69f8">fileName</a></td></tr>
-<tr class="separator:a71f006e8d6ac2a5d94354155a0da69f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a5f56162810aa1e371620c4c18cc82a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a3a5f56162810aa1e371620c4c18cc82a">fileName</a></td></tr>
+<tr class="separator:a3a5f56162810aa1e371620c4c18cc82a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c7d5e009866ed221f3cf3018c9303a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_f_s.html#aa3ec0b4d641bd69b9e91852d9974bfde">FS::FileError</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a6c7d5e009866ed221f3cf3018c9303a4">error</a></td></tr>
 <tr class="separator:a6c7d5e009866ed221f3cf3018c9303a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4fd75229ea037779249665faae94a40"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#ae4fd75229ea037779249665faae94a40">errorString</a></td></tr>
-<tr class="separator:ae4fd75229ea037779249665faae94a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac24e859198fadbde73d046ff58161510"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#ac24e859198fadbde73d046ff58161510">errorString</a></td></tr>
+<tr class="separator:ac24e859198fadbde73d046ff58161510"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:a6e480061dc5ecc1f85a71989a6352dfc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a6e480061dc5ecc1f85a71989a6352dfc">exists</a></td></tr>
 <tr class="separator:a6e480061dc5ecc1f85a71989a6352dfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,33 +178,33 @@ Properties</h2></td></tr>
 <tr class="separator:aada9beac6936f17002edb1cf65ad811f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a165c9071eb0afe39d579e8b4b827ba2d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a165c9071eb0afe39d579e8b4b827ba2d">isExec</a></td></tr>
 <tr class="separator:a165c9071eb0afe39d579e8b4b827ba2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46c20eb2a26abeb1e934cd66e1dd6484"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a46c20eb2a26abeb1e934cd66e1dd6484">path</a></td></tr>
-<tr class="separator:a46c20eb2a26abeb1e934cd66e1dd6484"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ccf841cb59e451791bcb2e1ac4f1edc"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a8ccf841cb59e451791bcb2e1ac4f1edc">name</a></td></tr>
-<tr class="separator:a8ccf841cb59e451791bcb2e1ac4f1edc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c69c4c5b46f42f5f300c0355624af94"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a1c69c4c5b46f42f5f300c0355624af94">filePath</a></td></tr>
-<tr class="separator:a1c69c4c5b46f42f5f300c0355624af94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69781b68637b633039d76380665acdbf"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a69781b68637b633039d76380665acdbf">baseName</a></td></tr>
-<tr class="separator:a69781b68637b633039d76380665acdbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60c6c86f0cdf4b9dbdf07810322f2fb9"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a60c6c86f0cdf4b9dbdf07810322f2fb9">fullBaseName</a></td></tr>
-<tr class="separator:a60c6c86f0cdf4b9dbdf07810322f2fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a887452eecbb8843e5530a1597eb8e357"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a887452eecbb8843e5530a1597eb8e357">suffix</a></td></tr>
-<tr class="separator:a887452eecbb8843e5530a1597eb8e357"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a385581a282ae7bf6265f775e4f79c325"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a385581a282ae7bf6265f775e4f79c325">fullSuffix</a></td></tr>
-<tr class="separator:a385581a282ae7bf6265f775e4f79c325"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee92633ae86ec2a503b3c5d5822d02a1"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#aee92633ae86ec2a503b3c5d5822d02a1">absPath</a></td></tr>
-<tr class="separator:aee92633ae86ec2a503b3c5d5822d02a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad18e43f8208744170817437fb258db3d"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#ad18e43f8208744170817437fb258db3d">absFilePath</a></td></tr>
-<tr class="separator:ad18e43f8208744170817437fb258db3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ca71ae638479da00feed373d63ec0df"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a1ca71ae638479da00feed373d63ec0df">normPath</a></td></tr>
-<tr class="separator:a1ca71ae638479da00feed373d63ec0df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa977ef8306ee8b26cfdc9c2717057c05"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#aa977ef8306ee8b26cfdc9c2717057c05">normFilePath</a></td></tr>
-<tr class="separator:aa977ef8306ee8b26cfdc9c2717057c05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb85e16ac8c9f62df2d33b1262649843"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#adb85e16ac8c9f62df2d33b1262649843">path</a></td></tr>
+<tr class="separator:adb85e16ac8c9f62df2d33b1262649843"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a2326f35466e54c36c070829245c557"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a9a2326f35466e54c36c070829245c557">name</a></td></tr>
+<tr class="separator:a9a2326f35466e54c36c070829245c557"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82d7e1a4f0be39757243b7eb17b12e4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a82d7e1a4f0be39757243b7eb17b12e4c">filePath</a></td></tr>
+<tr class="separator:a82d7e1a4f0be39757243b7eb17b12e4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a454191a1d0ee9f95766a01eaa445bd2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a454191a1d0ee9f95766a01eaa445bd2a">baseName</a></td></tr>
+<tr class="separator:a454191a1d0ee9f95766a01eaa445bd2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cee5b0ae19e2d48db4adb0800f2183a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a9cee5b0ae19e2d48db4adb0800f2183a">fullBaseName</a></td></tr>
+<tr class="separator:a9cee5b0ae19e2d48db4adb0800f2183a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c910a23da2f7ff2597870e38f7ae17c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a2c910a23da2f7ff2597870e38f7ae17c">suffix</a></td></tr>
+<tr class="separator:a2c910a23da2f7ff2597870e38f7ae17c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c6d8768b4a2cee71aa90ed340059810"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a8c6d8768b4a2cee71aa90ed340059810">fullSuffix</a></td></tr>
+<tr class="separator:a8c6d8768b4a2cee71aa90ed340059810"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bcd990360f5d05346cb0a0aa6e1d781"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a6bcd990360f5d05346cb0a0aa6e1d781">absPath</a></td></tr>
+<tr class="separator:a6bcd990360f5d05346cb0a0aa6e1d781"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51a89765b9bf325f451c8c4b957cfe9d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a51a89765b9bf325f451c8c4b957cfe9d">absFilePath</a></td></tr>
+<tr class="separator:a51a89765b9bf325f451c8c4b957cfe9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1264db3cf96d295f237ca1b6c0627b4e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a1264db3cf96d295f237ca1b6c0627b4e">normPath</a></td></tr>
+<tr class="separator:a1264db3cf96d295f237ca1b6c0627b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b1d3d22727c13a863d390372672bc60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a8b1d3d22727c13a863d390372672bc60">normFilePath</a></td></tr>
+<tr class="separator:a8b1d3d22727c13a863d390372672bc60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0600b54c471ffd45b4b06e80db7d5af7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a0600b54c471ffd45b4b06e80db7d5af7">FileHandle</a> (string &amp;<a class="el" href="class_file_handle.html#a71f006e8d6ac2a5d94354155a0da69f8">fileName</a>=string())</td></tr>
-<tr class="separator:a0600b54c471ffd45b4b06e80db7d5af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a928b19af1fa530ea34f30cbd01778829"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a928b19af1fa530ea34f30cbd01778829">FileHandle</a> (<a class="el" href="class_string.html">String</a> &amp;<a class="el" href="class_file_handle.html#a3a5f56162810aa1e371620c4c18cc82a">fileName</a>=<a class="el" href="class_string.html">String</a>())</td></tr>
+<tr class="separator:a928b19af1fa530ea34f30cbd01778829"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:a9c45f1cf1cb449ee8a37feafa7f9efa4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a9c45f1cf1cb449ee8a37feafa7f9efa4">setPermissions</a> (<a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48">::FS::Permissions</a> p)</td></tr>
 <tr class="separator:a9c45f1cf1cb449ee8a37feafa7f9efa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -201,12 +215,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aae8b78514f9b7a1d31d1ac284b23ef49"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#aae8b78514f9b7a1d31d1ac284b23ef49">setFileTime</a> (<a class="el" href="class_date.html">Date</a> &amp;newDate, <a class="el" href="class_f_s.html#a55d4b2656702692f47a3a4c5d7e09f74">::FS::FileTime</a> <a class="el" href="class_file_handle.html#a372534c7c2100b150191297b8d0c3c03">fileTime</a>)</td></tr>
 <tr class="separator:aae8b78514f9b7a1d31d1ac284b23ef49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr class="memitem:a112056b38e1fe6c7f32a6a489c4fbe81"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a112056b38e1fe6c7f32a6a489c4fbe81">copy</a> (string &amp;newName)</td></tr>
-<tr class="separator:a112056b38e1fe6c7f32a6a489c4fbe81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe4e43b1f0ed7418c20853128f6dcef3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#abe4e43b1f0ed7418c20853128f6dcef3">link</a> (string &amp;linkName)</td></tr>
-<tr class="separator:abe4e43b1f0ed7418c20853128f6dcef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7e2b3287aea47346f2f458a8ef45c32"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#ae7e2b3287aea47346f2f458a8ef45c32">rename</a> (string &amp;newName)</td></tr>
-<tr class="separator:ae7e2b3287aea47346f2f458a8ef45c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9f5ef0745c827374e2f784a9bf5737f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#ae9f5ef0745c827374e2f784a9bf5737f">copy</a> (<a class="el" href="class_string.html">String</a> &amp;newName)</td></tr>
+<tr class="separator:ae9f5ef0745c827374e2f784a9bf5737f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a8753384fb07902b1dfb707a78813fe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a1a8753384fb07902b1dfb707a78813fe">link</a> (<a class="el" href="class_string.html">String</a> &amp;linkName)</td></tr>
+<tr class="separator:a1a8753384fb07902b1dfb707a78813fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05657ac141f022c7d948a2830dbf889f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a05657ac141f022c7d948a2830dbf889f">rename</a> (<a class="el" href="class_string.html">String</a> &amp;newName)</td></tr>
+<tr class="separator:a05657ac141f022c7d948a2830dbf889f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f9c4a4bd47b7cd9beb431504c5ae46c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a1f9c4a4bd47b7cd9beb431504c5ae46c">remove</a> ()</td></tr>
 <tr class="separator:a1f9c4a4bd47b7cd9beb431504c5ae46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1609500c4d3ed333eef5a66b73a08102"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a1609500c4d3ed333eef5a66b73a08102">resize</a> (int newSize)</td></tr>
@@ -214,8 +228,8 @@ Public Member Functions</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:a74cf2cc4d83d9e7240615bd2451446b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a74cf2cc4d83d9e7240615bd2451446b6">open</a> (<a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">::FS::OpenMode</a> mode)</td></tr>
 <tr class="separator:a74cf2cc4d83d9e7240615bd2451446b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a959379b06977dd0279e109c6d70501b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a959379b06977dd0279e109c6d70501b4">open</a> (string &amp;mode)</td></tr>
-<tr class="separator:a959379b06977dd0279e109c6d70501b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9a906bc7e3198b34bd25f65e1e5985a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#af9a906bc7e3198b34bd25f65e1e5985a">open</a> (<a class="el" href="class_string.html">String</a> &amp;mode)</td></tr>
+<tr class="separator:af9a906bc7e3198b34bd25f65e1e5985a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ae591df94fc66ccb85cbb6565368bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a5ae591df94fc66ccb85cbb6565368bca">close</a> ()</td></tr>
 <tr class="separator:a5ae591df94fc66ccb85cbb6565368bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50910ef42a65d4c139af341f1ef2323f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a50910ef42a65d4c139af341f1ef2323f">reset</a> ()</td></tr>
@@ -224,26 +238,26 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a829df08537ae314dc10a47681fbbfde3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3b597128a07122a6f5de6d8a468d85f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#aa3b597128a07122a6f5de6d8a468d85f">seek</a> (int <a class="el" href="class_file_handle.html#a1910d262855b71da353ed0d07a6c7823">pos</a>)</td></tr>
 <tr class="separator:aa3b597128a07122a6f5de6d8a468d85f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff43d8a9d3bf9a567696d99eaa22f1ae"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#aff43d8a9d3bf9a567696d99eaa22f1ae">write</a> (ArrayBuffer &amp;data)</td></tr>
+<tr class="memitem:aff43d8a9d3bf9a567696d99eaa22f1ae"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#aff43d8a9d3bf9a567696d99eaa22f1ae">write</a> (<a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;data)</td></tr>
 <tr class="separator:aff43d8a9d3bf9a567696d99eaa22f1ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4ac707d7641716a511d6b7ba9b1221b"><td class="memItemLeft" align="right" valign="top">ArrayBuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#aa4ac707d7641716a511d6b7ba9b1221b">peek</a> (int maxSize)</td></tr>
+<tr class="memitem:aa4ac707d7641716a511d6b7ba9b1221b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_array_buffer.html">ArrayBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#aa4ac707d7641716a511d6b7ba9b1221b">peek</a> (int maxSize)</td></tr>
 <tr class="separator:aa4ac707d7641716a511d6b7ba9b1221b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1dab4dafe9143734fc4556c1ff2959f"><td class="memItemLeft" align="right" valign="top">ArrayBuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#aa1dab4dafe9143734fc4556c1ff2959f">read</a> (int maxSize)</td></tr>
+<tr class="memitem:aa1dab4dafe9143734fc4556c1ff2959f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_array_buffer.html">ArrayBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#aa1dab4dafe9143734fc4556c1ff2959f">read</a> (int maxSize)</td></tr>
 <tr class="separator:aa1dab4dafe9143734fc4556c1ff2959f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3ca4dabbc5edb426baf52ac06bfd789"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#ad3ca4dabbc5edb426baf52ac06bfd789">readText</a> (int maxSize)</td></tr>
-<tr class="separator:ad3ca4dabbc5edb426baf52ac06bfd789"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36895e006d6b0a0a3e93bba168c62dcf"><td class="memItemLeft" align="right" valign="top">ArrayBuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a36895e006d6b0a0a3e93bba168c62dcf">readAll</a> ()</td></tr>
+<tr class="memitem:a0dd9dc1e274af750391548822c4e9c7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a0dd9dc1e274af750391548822c4e9c7e">readText</a> (int maxSize)</td></tr>
+<tr class="separator:a0dd9dc1e274af750391548822c4e9c7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36895e006d6b0a0a3e93bba168c62dcf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_array_buffer.html">ArrayBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a36895e006d6b0a0a3e93bba168c62dcf">readAll</a> ()</td></tr>
 <tr class="separator:a36895e006d6b0a0a3e93bba168c62dcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ed80270092d83a57c10317709b28c77"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a7ed80270092d83a57c10317709b28c77">readAllText</a> ()</td></tr>
-<tr class="separator:a7ed80270092d83a57c10317709b28c77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a449e79023a3a46130d163437815a6ecd"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a449e79023a3a46130d163437815a6ecd">readLine</a> (int maxSize=0)</td></tr>
-<tr class="separator:a449e79023a3a46130d163437815a6ecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17c5bd925d700f0b97fdd83bdca7f1e3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a17c5bd925d700f0b97fdd83bdca7f1e3">readLines</a> (int maxLines, int fromLine=0, bool trimTrailingNewlines=true)</td></tr>
-<tr class="separator:a17c5bd925d700f0b97fdd83bdca7f1e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e793b0c0c6ab7f78d872249d2cd7832"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a5e793b0c0c6ab7f78d872249d2cd7832">readAllText</a> ()</td></tr>
+<tr class="separator:a5e793b0c0c6ab7f78d872249d2cd7832"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a529c4f3467cafefa28ce8d746f3f9936"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a529c4f3467cafefa28ce8d746f3f9936">readLine</a> (int maxSize=0)</td></tr>
+<tr class="separator:a529c4f3467cafefa28ce8d746f3f9936"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f4d8300a1dfeae3329f3a9b68a9df9e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file_handle.html#a6f4d8300a1dfeae3329f3a9b68a9df9e">readLines</a> (int maxLines, int fromLine=0, bool trimTrailingNewlines=true)</td></tr>
+<tr class="separator:a6f4d8300a1dfeae3329f3a9b68a9df9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a0600b54c471ffd45b4b06e80db7d5af7" name="a0600b54c471ffd45b4b06e80db7d5af7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0600b54c471ffd45b4b06e80db7d5af7">&#9670;&nbsp;</a></span>FileHandle()</h2>
+<a id="a928b19af1fa530ea34f30cbd01778829" name="a928b19af1fa530ea34f30cbd01778829"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a928b19af1fa530ea34f30cbd01778829">&#9670;&nbsp;</a></span>FileHandle()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -254,8 +268,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="class_file_handle.html">FileHandle</a> </td>
           <td>(</td>
-          <td class="paramtype">string &amp;&#160;</td>
-          <td class="paramname"><em>fileName</em> = <code>string()</code></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>fileName</em> = <code><a class="el" href="class_string.html">String</a>()</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -266,14 +280,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a new object instance with given <code>fileName</code>. The file name could be empty and specified later by setting the <code>fileName</code> property. The name can have no path, a relative path, or an absolute path. Relative paths are based on current application directory (see <code><a class="el" href="class_dir.html#a4b69d9dff5aafb800a2e457923f06194" title="Returns the absolute path of the application&#39;s current directory. The current directory is the direct...">Dir.cwd()</a></code>). <br  />
+<p>Creates a new object instance with given <code>fileName</code>. The file name could be empty and specified later by setting the <code>fileName</code> property. The name can have no path, a relative path, or an absolute path. Relative paths are based on current application directory (see <code><a class="el" href="class_dir.html#addc54481170a265c9ddcb61fe2626bdc" title="Returns the absolute path of the application&#39;s current directory. The current directory is the direct...">Dir.cwd()</a></code>). <br  />
  <b>Note</b> that the directory separator "/" works for all operating systems. On Windows backslash ("\") can also be used but must be escaped as "\". </p>
 
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
-<a id="a71f006e8d6ac2a5d94354155a0da69f8" name="a71f006e8d6ac2a5d94354155a0da69f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71f006e8d6ac2a5d94354155a0da69f8">&#9670;&nbsp;</a></span>fileName</h2>
+<a id="a3a5f56162810aa1e371620c4c18cc82a" name="a3a5f56162810aa1e371620c4c18cc82a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a5f56162810aa1e371620c4c18cc82a">&#9670;&nbsp;</a></span>fileName</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -282,7 +296,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string fileName</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> fileName</td>
         </tr>
       </table>
   </td>
@@ -292,7 +306,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Name of current file, as set in constructor or using this property. This property can also set the name of the file (eg. <code>fh.fileName = "myfile.txt"</code>). The name can have no path, a relative path, or an absolute path. Relative paths are based on current application directory (see <code><a class="el" href="class_dir.html#a4b69d9dff5aafb800a2e457923f06194" title="Returns the absolute path of the application&#39;s current directory. The current directory is the direct...">Dir.cwd()</a></code>). </p>
+<p>Name of current file, as set in constructor or using this property. This property can also set the name of the file (eg. <code>fh.fileName = "myfile.txt"</code>). The name can have no path, a relative path, or an absolute path. Relative paths are based on current application directory (see <code><a class="el" href="class_dir.html#addc54481170a265c9ddcb61fe2626bdc" title="Returns the absolute path of the application&#39;s current directory. The current directory is the direct...">Dir.cwd()</a></code>). </p>
 <dl class="section note"><dt>Note</dt><dd>The directory separator "/" works for all operating systems. On Windows the backslash ("\") can also be used but must be escaped in string literals as "\\". </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Do not set this property if the file has already been opened. </dd></dl>
 
@@ -319,12 +333,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the file error status code. For example, if <code><a class="el" href="class_file_handle.html#a74cf2cc4d83d9e7240615bd2451446b6" title="Opens the current file using FS.OpenMode mode flags, returning true if successful; otherwise false.">open()</a></code> returns <code>false</code>, or a read/write operation returns <code>-1</code>, this function can be called to find out the reason why the operation failed. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file_handle.html#ae4fd75229ea037779249665faae94a40" title="Returns a human-readable description of the last device error that occurred.">errorString</a>, <a class="el" href="class_file_handle.html#af48870b7a500286dfa95e41544c0ec69" title="Sets the file&#39;s error to FS.NoError.">unsetError()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file_handle.html#ac24e859198fadbde73d046ff58161510" title="Returns a human-readable description of the last device error that occurred.">errorString</a>, <a class="el" href="class_file_handle.html#af48870b7a500286dfa95e41544c0ec69" title="Sets the file&#39;s error to FS.NoError.">unsetError()</a> </dd></dl>
 
 </div>
 </div>
-<a id="ae4fd75229ea037779249665faae94a40" name="ae4fd75229ea037779249665faae94a40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4fd75229ea037779249665faae94a40">&#9670;&nbsp;</a></span>errorString</h2>
+<a id="ac24e859198fadbde73d046ff58161510" name="ac24e859198fadbde73d046ff58161510"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac24e859198fadbde73d046ff58161510">&#9670;&nbsp;</a></span>errorString</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -333,7 +347,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string errorString</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> errorString</td>
         </tr>
       </table>
   </td>
@@ -756,8 +770,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a46c20eb2a26abeb1e934cd66e1dd6484" name="a46c20eb2a26abeb1e934cd66e1dd6484"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46c20eb2a26abeb1e934cd66e1dd6484">&#9670;&nbsp;</a></span>path</h2>
+<a id="adb85e16ac8c9f62df2d33b1262649843" name="adb85e16ac8c9f62df2d33b1262649843"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb85e16ac8c9f62df2d33b1262649843">&#9670;&nbsp;</a></span>path</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -766,7 +780,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string path</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> path</td>
         </tr>
       </table>
   </td>
@@ -780,8 +794,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a8ccf841cb59e451791bcb2e1ac4f1edc" name="a8ccf841cb59e451791bcb2e1ac4f1edc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ccf841cb59e451791bcb2e1ac4f1edc">&#9670;&nbsp;</a></span>name</h2>
+<a id="a9a2326f35466e54c36c070829245c557" name="a9a2326f35466e54c36c070829245c557"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a2326f35466e54c36c070829245c557">&#9670;&nbsp;</a></span>name</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -790,7 +804,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string name</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> name</td>
         </tr>
       </table>
   </td>
@@ -804,8 +818,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a1c69c4c5b46f42f5f300c0355624af94" name="a1c69c4c5b46f42f5f300c0355624af94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c69c4c5b46f42f5f300c0355624af94">&#9670;&nbsp;</a></span>filePath</h2>
+<a id="a82d7e1a4f0be39757243b7eb17b12e4c" name="a82d7e1a4f0be39757243b7eb17b12e4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82d7e1a4f0be39757243b7eb17b12e4c">&#9670;&nbsp;</a></span>filePath</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -814,7 +828,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string filePath</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> filePath</td>
         </tr>
       </table>
   </td>
@@ -828,8 +842,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a69781b68637b633039d76380665acdbf" name="a69781b68637b633039d76380665acdbf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69781b68637b633039d76380665acdbf">&#9670;&nbsp;</a></span>baseName</h2>
+<a id="a454191a1d0ee9f95766a01eaa445bd2a" name="a454191a1d0ee9f95766a01eaa445bd2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a454191a1d0ee9f95766a01eaa445bd2a">&#9670;&nbsp;</a></span>baseName</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -838,7 +852,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string baseName</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> baseName</td>
         </tr>
       </table>
   </td>
@@ -852,8 +866,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a60c6c86f0cdf4b9dbdf07810322f2fb9" name="a60c6c86f0cdf4b9dbdf07810322f2fb9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60c6c86f0cdf4b9dbdf07810322f2fb9">&#9670;&nbsp;</a></span>fullBaseName</h2>
+<a id="a9cee5b0ae19e2d48db4adb0800f2183a" name="a9cee5b0ae19e2d48db4adb0800f2183a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cee5b0ae19e2d48db4adb0800f2183a">&#9670;&nbsp;</a></span>fullBaseName</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -862,7 +876,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string fullBaseName</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> fullBaseName</td>
         </tr>
       </table>
   </td>
@@ -876,8 +890,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a887452eecbb8843e5530a1597eb8e357" name="a887452eecbb8843e5530a1597eb8e357"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a887452eecbb8843e5530a1597eb8e357">&#9670;&nbsp;</a></span>suffix</h2>
+<a id="a2c910a23da2f7ff2597870e38f7ae17c" name="a2c910a23da2f7ff2597870e38f7ae17c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c910a23da2f7ff2597870e38f7ae17c">&#9670;&nbsp;</a></span>suffix</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -886,7 +900,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string suffix</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> suffix</td>
         </tr>
       </table>
   </td>
@@ -900,8 +914,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a385581a282ae7bf6265f775e4f79c325" name="a385581a282ae7bf6265f775e4f79c325"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a385581a282ae7bf6265f775e4f79c325">&#9670;&nbsp;</a></span>fullSuffix</h2>
+<a id="a8c6d8768b4a2cee71aa90ed340059810" name="a8c6d8768b4a2cee71aa90ed340059810"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c6d8768b4a2cee71aa90ed340059810">&#9670;&nbsp;</a></span>fullSuffix</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -910,7 +924,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string fullSuffix</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> fullSuffix</td>
         </tr>
       </table>
   </td>
@@ -924,8 +938,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aee92633ae86ec2a503b3c5d5822d02a1" name="aee92633ae86ec2a503b3c5d5822d02a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee92633ae86ec2a503b3c5d5822d02a1">&#9670;&nbsp;</a></span>absPath</h2>
+<a id="a6bcd990360f5d05346cb0a0aa6e1d781" name="a6bcd990360f5d05346cb0a0aa6e1d781"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bcd990360f5d05346cb0a0aa6e1d781">&#9670;&nbsp;</a></span>absPath</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -934,7 +948,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string absPath</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> absPath</td>
         </tr>
       </table>
   </td>
@@ -948,8 +962,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad18e43f8208744170817437fb258db3d" name="ad18e43f8208744170817437fb258db3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad18e43f8208744170817437fb258db3d">&#9670;&nbsp;</a></span>absFilePath</h2>
+<a id="a51a89765b9bf325f451c8c4b957cfe9d" name="a51a89765b9bf325f451c8c4b957cfe9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51a89765b9bf325f451c8c4b957cfe9d">&#9670;&nbsp;</a></span>absFilePath</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -958,7 +972,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string absFilePath</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> absFilePath</td>
         </tr>
       </table>
   </td>
@@ -972,8 +986,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a1ca71ae638479da00feed373d63ec0df" name="a1ca71ae638479da00feed373d63ec0df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ca71ae638479da00feed373d63ec0df">&#9670;&nbsp;</a></span>normPath</h2>
+<a id="a1264db3cf96d295f237ca1b6c0627b4e" name="a1264db3cf96d295f237ca1b6c0627b4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1264db3cf96d295f237ca1b6c0627b4e">&#9670;&nbsp;</a></span>normPath</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -982,7 +996,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string normPath</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> normPath</td>
         </tr>
       </table>
   </td>
@@ -996,8 +1010,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aa977ef8306ee8b26cfdc9c2717057c05" name="aa977ef8306ee8b26cfdc9c2717057c05"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa977ef8306ee8b26cfdc9c2717057c05">&#9670;&nbsp;</a></span>normFilePath</h2>
+<a id="a8b1d3d22727c13a863d390372672bc60" name="a8b1d3d22727c13a863d390372672bc60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b1d3d22727c13a863d390372672bc60">&#9670;&nbsp;</a></span>normFilePath</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1006,7 +1020,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string normFilePath</td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> normFilePath</td>
         </tr>
       </table>
   </td>
@@ -1057,7 +1071,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets the file's error to <code><a class="el" href="class_f_s.html#aa3ec0b4d641bd69b9e91852d9974bfdeaef9104c292609ba6db320509be8fe27f" title="No error occurred.">FS.NoError</a></code>. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file_handle.html#a6c7d5e009866ed221f3cf3018c9303a4" title="Returns the file error status code. For example, if open() returns false, or a read/write operation r...">error</a>, <a class="el" href="class_file_handle.html#ae4fd75229ea037779249665faae94a40" title="Returns a human-readable description of the last device error that occurred.">errorString</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file_handle.html#a6c7d5e009866ed221f3cf3018c9303a4" title="Returns the file error status code. For example, if open() returns false, or a read/write operation r...">error</a>, <a class="el" href="class_file_handle.html#ac24e859198fadbde73d046ff58161510" title="Returns a human-readable description of the last device error that occurred.">errorString</a> </dd></dl>
 
 </div>
 </div>
@@ -1113,8 +1127,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a112056b38e1fe6c7f32a6a489c4fbe81" name="a112056b38e1fe6c7f32a6a489c4fbe81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a112056b38e1fe6c7f32a6a489c4fbe81">&#9670;&nbsp;</a></span>copy()</h2>
+<a id="ae9f5ef0745c827374e2f784a9bf5737f" name="ae9f5ef0745c827374e2f784a9bf5737f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9f5ef0745c827374e2f784a9bf5737f">&#9670;&nbsp;</a></span>copy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1122,19 +1136,19 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool copy </td>
           <td>(</td>
-          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
           <td class="paramname"><em>newName</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Copies the current (<a class="el" href="class_file_handle.html#a71f006e8d6ac2a5d94354155a0da69f8">fileName</a>) file to a file called <code>newName</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. Note that if a file with the name <code>newName</code> already exists, <code><a class="el" href="class_file_handle.html#a112056b38e1fe6c7f32a6a489c4fbe81" title="Copies the current (fileName) file to a file called newName. Returns true if successful; otherwise re...">copy()</a></code> returns <code>false</code>. The source file is closed before it is copied. </p>
+<p>Copies the current (<a class="el" href="class_file_handle.html#a3a5f56162810aa1e371620c4c18cc82a">fileName</a>) file to a file called <code>newName</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. Note that if a file with the name <code>newName</code> already exists, <code><a class="el" href="class_file_handle.html#ae9f5ef0745c827374e2f784a9bf5737f" title="Copies the current (fileName) file to a file called newName. Returns true if successful; otherwise re...">copy()</a></code> returns <code>false</code>. The source file is closed before it is copied. </p>
 
 </div>
 </div>
-<a id="abe4e43b1f0ed7418c20853128f6dcef3" name="abe4e43b1f0ed7418c20853128f6dcef3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe4e43b1f0ed7418c20853128f6dcef3">&#9670;&nbsp;</a></span>link()</h2>
+<a id="a1a8753384fb07902b1dfb707a78813fe" name="a1a8753384fb07902b1dfb707a78813fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a8753384fb07902b1dfb707a78813fe">&#9670;&nbsp;</a></span>link()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1142,19 +1156,19 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool link </td>
           <td>(</td>
-          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
           <td class="paramname"><em>linkName</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Creates a link named <code>linkName</code> that points to the file currently specified by <a class="el" href="class_file_handle.html#a71f006e8d6ac2a5d94354155a0da69f8">fileName</a>. What a link is depends on the underlying file system. This function will not overwrite an already existing entity in the file system; in this case, <code><a class="el" href="class_file_handle.html#abe4e43b1f0ed7418c20853128f6dcef3" title="Creates a link named linkName that points to the file currently specified by fileName....">link()</a></code> will return false and set <code>error</code> to return <code>RenameError</code>. </p>
+<p>Creates a link named <code>linkName</code> that points to the file currently specified by <a class="el" href="class_file_handle.html#a3a5f56162810aa1e371620c4c18cc82a">fileName</a>. What a link is depends on the underlying file system. This function will not overwrite an already existing entity in the file system; in this case, <code><a class="el" href="class_file_handle.html#a1a8753384fb07902b1dfb707a78813fe" title="Creates a link named linkName that points to the file currently specified by fileName....">link()</a></code> will return false and set <code>error</code> to return <code>RenameError</code>. </p>
 
 </div>
 </div>
-<a id="ae7e2b3287aea47346f2f458a8ef45c32" name="ae7e2b3287aea47346f2f458a8ef45c32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7e2b3287aea47346f2f458a8ef45c32">&#9670;&nbsp;</a></span>rename()</h2>
+<a id="a05657ac141f022c7d948a2830dbf889f" name="a05657ac141f022c7d948a2830dbf889f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05657ac141f022c7d948a2830dbf889f">&#9670;&nbsp;</a></span>rename()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1162,14 +1176,14 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool rename </td>
           <td>(</td>
-          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
           <td class="paramname"><em>newName</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Copies the current (<a class="el" href="class_file_handle.html#a71f006e8d6ac2a5d94354155a0da69f8">fileName</a>) file to a file called <code>newName</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. Note that if a file with the name <code>newName</code> already exists, <code><a class="el" href="class_file_handle.html#ae7e2b3287aea47346f2f458a8ef45c32" title="Copies the current (fileName) file to a file called newName. Returns true if successful; otherwise re...">rename()</a></code> returns <code>false</code>. The source file is closed before it is copied. </p>
+<p>Copies the current (<a class="el" href="class_file_handle.html#a3a5f56162810aa1e371620c4c18cc82a">fileName</a>) file to a file called <code>newName</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. Note that if a file with the name <code>newName</code> already exists, <code><a class="el" href="class_file_handle.html#a05657ac141f022c7d948a2830dbf889f" title="Copies the current (fileName) file to a file called newName. Returns true if successful; otherwise re...">rename()</a></code> returns <code>false</code>. The source file is closed before it is copied. </p>
 
 </div>
 </div>
@@ -1188,7 +1202,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Removes the file specified by <a class="el" href="class_file_handle.html#a71f006e8d6ac2a5d94354155a0da69f8">fileName</a>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. The file is closed before it is removed. </p>
+<p>Removes the file specified by <a class="el" href="class_file_handle.html#a3a5f56162810aa1e371620c4c18cc82a">fileName</a>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. The file is closed before it is removed. </p>
 
 </div>
 </div>
@@ -1232,8 +1246,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a959379b06977dd0279e109c6d70501b4" name="a959379b06977dd0279e109c6d70501b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a959379b06977dd0279e109c6d70501b4">&#9670;&nbsp;</a></span>open() <span class="overload">[2/2]</span></h2>
+<a id="af9a906bc7e3198b34bd25f65e1e5985a" name="af9a906bc7e3198b34bd25f65e1e5985a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9a906bc7e3198b34bd25f65e1e5985a">&#9670;&nbsp;</a></span>open() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1241,7 +1255,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool open </td>
           <td>(</td>
-          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
           <td class="paramname"><em>mode</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1338,7 +1352,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">int write </td>
           <td>(</td>
-          <td class="paramtype">ArrayBuffer &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;&#160;</td>
           <td class="paramname"><em>data</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1356,7 +1370,7 @@ Public Member Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ArrayBuffer peek </td>
+          <td class="memname"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> peek </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>maxSize</em></td><td>)</td>
@@ -1376,7 +1390,7 @@ Public Member Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ArrayBuffer read </td>
+          <td class="memname"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> read </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>maxSize</em></td><td>)</td>
@@ -1389,14 +1403,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad3ca4dabbc5edb426baf52ac06bfd789" name="ad3ca4dabbc5edb426baf52ac06bfd789"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3ca4dabbc5edb426baf52ac06bfd789">&#9670;&nbsp;</a></span>readText()</h2>
+<a id="a0dd9dc1e274af750391548822c4e9c7e" name="a0dd9dc1e274af750391548822c4e9c7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dd9dc1e274af750391548822c4e9c7e">&#9670;&nbsp;</a></span>readText()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string readText </td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> readText </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>maxSize</em></td><td>)</td>
@@ -1416,7 +1430,7 @@ Public Member Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ArrayBuffer readAll </td>
+          <td class="memname"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> readAll </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1428,14 +1442,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a7ed80270092d83a57c10317709b28c77" name="a7ed80270092d83a57c10317709b28c77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ed80270092d83a57c10317709b28c77">&#9670;&nbsp;</a></span>readAllText()</h2>
+<a id="a5e793b0c0c6ab7f78d872249d2cd7832" name="a5e793b0c0c6ab7f78d872249d2cd7832"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e793b0c0c6ab7f78d872249d2cd7832">&#9670;&nbsp;</a></span>readAllText()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string readAllText </td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> readAllText </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1447,14 +1461,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a449e79023a3a46130d163437815a6ecd" name="a449e79023a3a46130d163437815a6ecd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a449e79023a3a46130d163437815a6ecd">&#9670;&nbsp;</a></span>readLine()</h2>
+<a id="a529c4f3467cafefa28ce8d746f3f9936" name="a529c4f3467cafefa28ce8d746f3f9936"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a529c4f3467cafefa28ce8d746f3f9936">&#9670;&nbsp;</a></span>readLine()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string readLine </td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> readLine </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>maxSize</em> = <code>0</code></td><td>)</td>
@@ -1470,14 +1484,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a17c5bd925d700f0b97fdd83bdca7f1e3" name="a17c5bd925d700f0b97fdd83bdca7f1e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17c5bd925d700f0b97fdd83bdca7f1e3">&#9670;&nbsp;</a></span>readLines()</h2>
+<a id="a6f4d8300a1dfeae3329f3a9b68a9df9e" name="a6f4d8300a1dfeae3329f3a9b68a9df9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f4d8300a1dfeae3329f3a9b68a9df9e">&#9670;&nbsp;</a></span>readLines()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string readLines </td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> readLines </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>maxLines</em>, </td>
@@ -1506,6 +1520,12 @@ Public Member Functions</h2></td></tr>
  <code>fromLine</code> can be used to skip a number of lines; the default is zero, meaning to start reading from the current position of the file handle. <code>fromLine</code> can be negative, in which case the file will be read backwards from current position. In this case <code>-1</code> means starting at the current position, <code>-2</code> means to skip one line ("start at second-to-last line"), and so on. <br  />
  Set <code>trimTrailingNewlines</code> to <code>true</code> (default) to skip over any empty lines from the end of the file. When searching backwards, setting <code>trimTrailingNewlines</code> to <code>false</code> will count every newline from the end, including any potential newline at end of the last line of the file. <br  />
  This operation works on all text files regardless of line endings. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Error</td><td>is thrown if the file reading fails for any reason. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section note"><dt>Note</dt><dd>- The file should be opened in binary (not text) mode, otherwise results are unpredictable depending on line ending type. </dd>
 <dd>
 <br  />
@@ -1519,7 +1539,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_file_handle.html">FileHandle</a></li>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

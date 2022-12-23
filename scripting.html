@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -113,12 +127,12 @@ $(document).ready(function(){initNavTree('scripting.html',''); initResizable(); 
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md75">JavaScript Syntax Rules</a></li>
-<li class="level1"><a href="#autotoc_md76">Escaping Problem Characters</a></li>
+<ul><li class="level1"><a href="#autotoc_md27">JavaScript Syntax Rules</a></li>
+<li class="level1"><a href="#autotoc_md28">Escaping Problem Characters</a></li>
 </ul>
 </div>
-<div class="textblock"><p ><a class="anchor" id="md_doc_pages_02_Scripting"></a></p>
-<h1><a class="anchor" id="autotoc_md75"></a>
+<div class="textblock"><p ><a class="anchor" id="md_pages_Scripting"></a></p>
+<h1><a class="anchor" id="autotoc_md27"></a>
 JavaScript Syntax Rules</h1>
 <p >The plugin evaluates JavaScript, so it follows that all JS syntax rules apply here as well. In particular:</p>
 <ul>
@@ -134,10 +148,11 @@ JavaScript Syntax Rules</h1>
 <p >I should note here that in some cases you may want to specifically include a "special character" like a newline to create a line break in resulting text. This is perfectly legal, so to speak. For example the following would produce text with a line break in it:<br  />
  <code>Format("Expression result:\n{0:F2} things", ${value:MyValue} * .24)</code> </p><div class="fragment"><div class="line">Expression result:</div>
 <div class="line">55.21 things</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md76"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md28"></a>
 Escaping Problem Characters</h1>
 <p >One way to deal with this is to use Touch Portal's replace-in-value action to escape any problem characters in the input. For example, this is a screenshot from an action which takes the last error message reported by the script engine and sends it to a script (which color-codes and appends the line to the past few errors and returns that as a new State):</p>
-<p ><a href="images/doc/actions/example-escape.jpg" target="fullSizeImg"><img src="images/doc/actions/example-escape.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/doc/actions/example-escape.jpg" target="fullSizeImg"><img src="images/actions/example-escape.jpg" alt="" class="inline"/></a></p>
+<p >(The full script and button is available in <a class="el" href="example_line_logger.html">Examples</a> section.)</p>
 <p >The event fires when the error count changes (described in Status and Logging). It then processes the text of the last error message (the <code>lastError</code> state, also described previously), which may contain backslashes and embedded quotes. Since Touch Portal's "replace" action can only be used on local and global Values, it assigns the value of the error message to a temporary local value. It then replaces backslashes with two backslashes and double quotes with <code>\&quot;</code>.<br  />
  (You will notice that the backslashes within the regular expressions also need to be "escaped." That's because regular expressions follow the same rules as JS as far as those are concerned.)</p>
 <p >Once the error log message is properly "escaped" of any potentially error-causing characters, it is then passed to the loaded module's <code>append()</code> function, wrapped in double quotes (since we know those should be safe to use since we escaped any in the content). </p>
@@ -147,7 +162,8 @@ Escaping Problem Characters</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
+    <li class="footer">Generated on Thu Dec 22 2022 10:51:43 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

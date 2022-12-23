@@ -1,13 +1,12 @@
 var searchData=
 [
-  ['name_0',['name',['../class_locale.html#a896fdc48e8d7fbfbf8425e635461b169',1,'Locale::name()'],['../class_file_handle.html#a8ccf841cb59e451791bcb2e1ac4f1edc',1,'FileHandle::name()'],['../class_file.html#a2607728007dd72745c7c332950646bfd',1,'File::name()'],['../class_locale.html#a896fdc48e8d7fbfbf8425e635461b169',1,'Locale::name']]],
-  ['nativecountryname_1',['nativeCountryName',['../class_locale.html#a0e8c1b45ea1f94e17a9b8b6b54fc3740',1,'Locale']]],
-  ['nativelanguagename_2',['nativeLanguageName',['../class_locale.html#af60424e59077546558cde609196f32f0',1,'Locale']]],
-  ['negativesign_3',['negativeSign',['../class_locale.html#aeb0f29e6a5072ce5c8bce0a7ddacc99c',1,'Locale']]],
-  ['noerror_4',['NoError',['../class_f_s.html#aa3ec0b4d641bd69b9e91852d9974bfdeaef9104c292609ba6db320509be8fe27f',1,'FS']]],
-  ['normalize_5',['normalize',['../class_dir.html#ac6ec4ef64ad2d2a3eb1a77c79d7d1193',1,'Dir']]],
-  ['normfilepath_6',['normFilePath',['../class_file_handle.html#aa977ef8306ee8b26cfdc9c2717057c05',1,'FileHandle::normFilePath()'],['../class_file.html#a642f76573d9d07ed7a41c19aa6cf0e8c',1,'File::normFilePath()']]],
-  ['normpath_7',['normPath',['../class_file_handle.html#a1ca71ae638479da00feed373d63ec0df',1,'FileHandle::normPath()'],['../class_file.html#a85ab9b5ebeaa332667e85e58d9396883',1,'File::normPath()']]],
-  ['number_8',['Number',['../class_number.html',1,'']]],
-  ['numberoption_9',['NumberOption',['../class_locale.html#ab4407da2673a1328b79a729b6b417605',1,'Locale']]]
+  ['math_0',['Math',['../class_math.html',1,'']]],
+  ['measurementsystem_1',['measurementSystem',['../class_locale.html#ad0fb88ddee71a1ebc38ff04946815aa0',1,'Locale']]],
+  ['method_2',['method',['../class_request.html#a7c011855339d8f0024632ed2d42359fd',1,'Request']]],
+  ['mix_3',['mix',['../class_color.html#a3e32bf312e0c39dbb0a853d929f0605a',1,'Color']]],
+  ['mixwith_4',['mixWith',['../class_color.html#ae07b8254db57a444acc32e446e6fb218',1,'Color']]],
+  ['mkdir_5',['mkdir',['../class_dir.html#a3699116663191022a1f696c0868d51dc',1,'Dir']]],
+  ['mkpath_6',['mkpath',['../class_dir.html#a9613a4bcf1bc71521df182adb1e7792c',1,'Dir']]],
+  ['monthname_7',['monthName',['../class_locale.html#a799650b82c8d5db7f1fb2144d3895555',1,'Locale']]],
+  ['mtime_8',['mtime',['../class_file_handle.html#a8e5657c3c79b6b819b736a51d33ac3d7',1,'FileHandle::mtime()'],['../class_file.html#a26099edec4cfd59632376ca7a3265e84',1,'File::mtime()']]]
 ];

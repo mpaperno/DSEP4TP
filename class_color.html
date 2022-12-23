@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -111,6 +125,7 @@ $(document).ready(function(){initNavTree('class_color.html',''); initResizable()
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_color-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Color<div class="ingroups"><a class="el" href="group___util.html">Utilities</a></div></div></div>
 </div><!--header-->
@@ -149,14 +164,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a31c6fb63b3f241f7809c38e9a55633fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45d3734fd6c897723acd3cb8e5e6fa3b"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a45d3734fd6c897723acd3cb8e5e6fa3b">getSaturation</a> ()</td></tr>
 <tr class="separator:a45d3734fd6c897723acd3cb8e5e6fa3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e32bf312e0c39dbb0a853d929f0605a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a3e32bf312e0c39dbb0a853d929f0605a">mix</a> (<a class="el" href="class_color.html">Color</a> color1, <a class="el" href="class_color.html">Color</a> color2, number amount)</td></tr>
-<tr class="separator:a3e32bf312e0c39dbb0a853d929f0605a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae07b8254db57a444acc32e446e6fb218"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#ae07b8254db57a444acc32e446e6fb218">mixWith</a> (<a class="el" href="class_color.html">Color</a> color2, number amount)</td></tr>
 <tr class="separator:ae07b8254db57a444acc32e446e6fb218"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fc004088e75e937fa38926bf70617ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a8fc004088e75e937fa38926bf70617ec">tint</a> (<a class="el" href="class_color.html">Color</a> color, number amount)</td></tr>
-<tr class="separator:a8fc004088e75e937fa38926bf70617ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06c1adfd2c9e4ae067f1a2f3bec3f7c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a06c1adfd2c9e4ae067f1a2f3bec3f7c8">shade</a> (<a class="el" href="class_color.html">Color</a> color, number amount)</td></tr>
-<tr class="separator:a06c1adfd2c9e4ae067f1a2f3bec3f7c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cf430fb0ce1bb39a4a8111603404fde"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a9cf430fb0ce1bb39a4a8111603404fde">tint</a> (number amount)</td></tr>
+<tr class="separator:a9cf430fb0ce1bb39a4a8111603404fde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a871ca79089d71b1f6eb016adb3bd412b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a871ca79089d71b1f6eb016adb3bd412b">shade</a> (number amount)</td></tr>
+<tr class="separator:a871ca79089d71b1f6eb016adb3bd412b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfb086b470804a4f7dc911d2dd148cab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#adfb086b470804a4f7dc911d2dd148cab">polyad</a> (number n)</td></tr>
 <tr class="separator:adfb086b470804a4f7dc911d2dd148cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fb05e209fb1735a580f46c4de5a134b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a0fb05e209fb1735a580f46c4de5a134b">isDarkerThan</a> (<a class="el" href="class_color.html">Color</a> secondColor)</td></tr>
@@ -171,6 +184,19 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abbcf97ad083904642363abe9a6a767ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5da9f1b50792fd0e6dbd8a82041e979"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#aa5da9f1b50792fd0e6dbd8a82041e979">isCoolerThan</a> (<a class="el" href="class_color.html">Color</a> secondColor)</td></tr>
 <tr class="separator:aa5da9f1b50792fd0e6dbd8a82041e979"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a3e32bf312e0c39dbb0a853d929f0605a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a3e32bf312e0c39dbb0a853d929f0605a">mix</a> (<a class="el" href="class_color.html">Color</a> color1, <a class="el" href="class_color.html">Color</a> color2, number amount)</td></tr>
+<tr class="separator:a3e32bf312e0c39dbb0a853d929f0605a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fc004088e75e937fa38926bf70617ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a8fc004088e75e937fa38926bf70617ec">tint</a> (<a class="el" href="class_color.html">Color</a> color, number amount)</td></tr>
+<tr class="separator:a8fc004088e75e937fa38926bf70617ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06c1adfd2c9e4ae067f1a2f3bec3f7c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a06c1adfd2c9e4ae067f1a2f3bec3f7c8">shade</a> (<a class="el" href="class_color.html">Color</a> color, number amount)</td></tr>
+<tr class="separator:a06c1adfd2c9e4ae067f1a2f3bec3f7c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87d6ad92217614866d946757fba2d8f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a87d6ad92217614866d946757fba2d8f3">complement</a> (<a class="el" href="class_color.html">Color</a> color)</td></tr>
+<tr class="separator:a87d6ad92217614866d946757fba2d8f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e9d163ce84bb533543f7f8c96a88123"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a2e9d163ce84bb533543f7f8c96a88123">polyad</a> (<a class="el" href="class_color.html">Color</a> color, number n)</td></tr>
+<tr class="separator:a2e9d163ce84bb533543f7f8c96a88123"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15e22cf7196bd871990772acae335805"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a15e22cf7196bd871990772acae335805">isDarker</a> (<a class="el" href="class_color.html">Color</a> color1, <a class="el" href="class_color.html">Color</a> color2)</td></tr>
 <tr class="separator:a15e22cf7196bd871990772acae335805"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad80848a56dab735fe5f3fc50b7742fb9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#ad80848a56dab735fe5f3fc50b7742fb9">isLighter</a> (<a class="el" href="class_color.html">Color</a> color1, <a class="el" href="class_color.html">Color</a> color2)</td></tr>
@@ -261,44 +287,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3e32bf312e0c39dbb0a853d929f0605a" name="a3e32bf312e0c39dbb0a853d929f0605a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e32bf312e0c39dbb0a853d929f0605a">&#9670;&nbsp;</a></span>mix()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_color.html">Color</a> mix </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_color.html">Color</a>&#160;</td>
-          <td class="paramname"><em>color1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_color.html">Color</a>&#160;</td>
-          <td class="paramname"><em>color2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">number&#160;</td>
-          <td class="paramname"><em>amount</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns a new color with <code>color1</code> and <code>color2</code> mixed by <code>amount</code>. </p>
-<p ><code>amount</code> should be in range of 0-100. <br  />
- This is a static function. Use it like <code><a class="el" href="class_color.html#a3e32bf312e0c39dbb0a853d929f0605a" title="Returns a new color with color1 and color2 mixed by amount.">Color.mix</a>("red", "blue", 50)</code> </p>
-
-</div>
-</div>
 <a id="ae07b8254db57a444acc32e446e6fb218" name="ae07b8254db57a444acc32e446e6fb218"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae07b8254db57a444acc32e446e6fb218">&#9670;&nbsp;</a></span>mixWith()</h2>
 
@@ -330,8 +318,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a8fc004088e75e937fa38926bf70617ec" name="a8fc004088e75e937fa38926bf70617ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8fc004088e75e937fa38926bf70617ec">&#9670;&nbsp;</a></span>tint()</h2>
+<a id="a9cf430fb0ce1bb39a4a8111603404fde" name="a9cf430fb0ce1bb39a4a8111603404fde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cf430fb0ce1bb39a4a8111603404fde">&#9670;&nbsp;</a></span>tint() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -339,30 +327,20 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="class_color.html">Color</a> tint </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_color.html">Color</a>&#160;</td>
-          <td class="paramname"><em>color</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">number&#160;</td>
-          <td class="paramname"><em>amount</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>amount</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns a new color with this color tinted with <code>color</code> by <code>amount</code>. </p>
+<p>Returns a new color with this color tinted by <code>amount</code>. </p>
 <p ><code>amount</code> should be in range of 0-100. </p>
 
 </div>
 </div>
-<a id="a06c1adfd2c9e4ae067f1a2f3bec3f7c8" name="a06c1adfd2c9e4ae067f1a2f3bec3f7c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06c1adfd2c9e4ae067f1a2f3bec3f7c8">&#9670;&nbsp;</a></span>shade()</h2>
+<a id="a871ca79089d71b1f6eb016adb3bd412b" name="a871ca79089d71b1f6eb016adb3bd412b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a871ca79089d71b1f6eb016adb3bd412b">&#9670;&nbsp;</a></span>shade() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -370,30 +348,20 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="class_color.html">Color</a> shade </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_color.html">Color</a>&#160;</td>
-          <td class="paramname"><em>color</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">number&#160;</td>
-          <td class="paramname"><em>amount</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>amount</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns a new color with this color shaded with <code>color</code> by <code>amount</code>. </p>
+<p>Returns a new color with this color shaded by <code>amount</code>. </p>
 <p ><code>amount</code> should be in range of 0-100. </p>
 
 </div>
 </div>
 <a id="adfb086b470804a4f7dc911d2dd148cab" name="adfb086b470804a4f7dc911d2dd148cab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adfb086b470804a4f7dc911d2dd148cab">&#9670;&nbsp;</a></span>polyad()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adfb086b470804a4f7dc911d2dd148cab">&#9670;&nbsp;</a></span>polyad() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -408,7 +376,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns an array of up to <code>n</code> complimentary colors. </p>
+<p>Returns an array of up to <code>n</code> colors harmonious with this color. </p>
 <p >Same as <code>triad()</code> and <code>tetrad()</code> when called with values 3 and 4, respectively. </p>
 
 </div>
@@ -449,7 +417,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Return the opposite value of <a class="el" href="class_color.html#a15e22cf7196bd871990772acae335805" title="The color with less brightness value is considered as Darker.">isDarker()</a>. </p>
+<p>Return the opposite value of <a class="el" href="class_color.html#a0fb05e209fb1735a580f46c4de5a134b" title="The color with less brightness value is considered as Darker.">isDarkerThan()</a>. </p>
 
 </div>
 </div>
@@ -528,7 +496,202 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Return the opposite value of <a class="el" href="class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a" title="Returns true if the color is warmer i.e.">isWarmer()</a>. </p>
+<p>Return the opposite value of <a class="el" href="class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a" title="Returns true if the color is warmer i.e, has more red value.">isWarmer()</a>. </p>
+
+</div>
+</div>
+<a id="a3e32bf312e0c39dbb0a853d929f0605a" name="a3e32bf312e0c39dbb0a853d929f0605a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e32bf312e0c39dbb0a853d929f0605a">&#9670;&nbsp;</a></span>mix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_color.html">Color</a> mix </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_color.html">Color</a>&#160;</td>
+          <td class="paramname"><em>color1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_color.html">Color</a>&#160;</td>
+          <td class="paramname"><em>color2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>amount</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a new color with <code>color1</code> and <code>color2</code> mixed by <code>amount</code>. </p>
+<p ><code>amount</code> should be in range of 0-100.</p>
+<p >This is a static function. Use it like <code><a class="el" href="class_color.html#a3e32bf312e0c39dbb0a853d929f0605a" title="Returns a new color with color1 and color2 mixed by amount.">Color.mix</a>("red", "blue", 50)</code> </p>
+
+</div>
+</div>
+<a id="a8fc004088e75e937fa38926bf70617ec" name="a8fc004088e75e937fa38926bf70617ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fc004088e75e937fa38926bf70617ec">&#9670;&nbsp;</a></span>tint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_color.html">Color</a> tint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_color.html">Color</a>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>amount</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a new <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> of <code>color</code> by <code>amount</code>. </p>
+<p ><code>amount</code> should be in range of 0-100.</p>
+<p >This is a static function. Use it like <code><a class="el" href="class_color.html#a9cf430fb0ce1bb39a4a8111603404fde" title="Returns a new color with this color tinted by amount.">Color.tint</a>("red", 50)</code> </p>
+
+</div>
+</div>
+<a id="a06c1adfd2c9e4ae067f1a2f3bec3f7c8" name="a06c1adfd2c9e4ae067f1a2f3bec3f7c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06c1adfd2c9e4ae067f1a2f3bec3f7c8">&#9670;&nbsp;</a></span>shade() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_color.html">Color</a> shade </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_color.html">Color</a>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>amount</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a new <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> with <code>color</code> shaded by <code>amount</code>. </p>
+<p ><code>amount</code> should be in range of 0-100.</p>
+<p >This is a static function. Use it like <code><a class="el" href="class_color.html#a871ca79089d71b1f6eb016adb3bd412b" title="Returns a new color with this color shaded by amount.">Color.shade</a>("red", 50)</code> </p>
+
+</div>
+</div>
+<a id="a87d6ad92217614866d946757fba2d8f3" name="a87d6ad92217614866d946757fba2d8f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87d6ad92217614866d946757fba2d8f3">&#9670;&nbsp;</a></span>complement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_color.html">Color</a> complement </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_color.html">Color</a>&#160;</td>
+          <td class="paramname"><em>color</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a new <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> which is complimentary to <code>color</code>. </p>
+<p >This is a static function. Use it like <code><a class="el" href="class_color.html#a87d6ad92217614866d946757fba2d8f3" title="Returns a new Color which is complimentary to color.">Color.complement</a>("green")</code> </p>
+
+</div>
+</div>
+<a id="a2e9d163ce84bb533543f7f8c96a88123" name="a2e9d163ce84bb533543f7f8c96a88123"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e9d163ce84bb533543f7f8c96a88123">&#9670;&nbsp;</a></span>polyad() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_color.html">Color</a> polyad </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_color.html">Color</a>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an array of up to <code>n</code> colors harmonious to <code>color</code>. </p>
+<p >Same as <code>triad(color)</code> and <code>tetrad(color)</code> when called with values 3 and 4, respectively.</p>
+<p >This is a static function. Use it like <code><a class="el" href="class_color.html#adfb086b470804a4f7dc911d2dd148cab" title="Returns an array of up to n colors harmonious with this color.">Color.polyad</a>("green", 3)</code> </p>
 
 </div>
 </div>
@@ -537,6 +700,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool isDarker </td>
@@ -556,9 +722,15 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>The color with less brightness value is considered as Darker. </p>
+<p >This is a static function. Use it like <code><a class="el" href="class_color.html#a15e22cf7196bd871990772acae335805" title="The color with less brightness value is considered as Darker.">Color.isDarker</a>("white", "black")</code> </p>
 
 </div>
 </div>
@@ -567,6 +739,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool isLighter </td>
@@ -586,9 +761,15 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Return the opposite value of <a class="el" href="class_color.html#a15e22cf7196bd871990772acae335805" title="The color with less brightness value is considered as Darker.">isDarker()</a>. </p>
+<p >This is a static function. Use it like <code><a class="el" href="class_color.html#ad80848a56dab735fe5f3fc50b7742fb9" title="Return the opposite value of isDarker().">Color.isLighter</a>("white", "black")</code> </p>
 
 </div>
 </div>
@@ -597,6 +778,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool isWarmer </td>
@@ -616,10 +800,16 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Returns true if the color is warmer i.e. </p>
-<p >have more red value. If both colors have the same red value the one with less green and blue values is considered warmer. </p>
+<p>Returns true if the color is warmer i.e, has more red value. </p>
+<p >If both colors have the same red value the one with less green and blue values is considered warmer. <br  />
+ This is a static function. Use it like <code><a class="el" href="class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a" title="Returns true if the color is warmer i.e, has more red value.">Color.isWarmer</a>("red", "blue")</code> </p>
 
 </div>
 </div>
@@ -628,6 +818,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool isCooler </td>
@@ -647,9 +840,15 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Return the opposite value of <a class="el" href="class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a" title="Returns true if the color is warmer i.e.">isWarmer()</a>. </p>
+<p>Return the opposite value of <a class="el" href="class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a" title="Returns true if the color is warmer i.e, has more red value.">isWarmer()</a>. </p>
+<p >This is a static function. Use it like <code><a class="el" href="class_color.html#aedfdb92aa8271d5629c1bcc18dbc7b7e" title="Return the opposite value of isWarmer().">Color.isCooler</a>("red", "blue")</code> </p>
 
 </div>
 </div>
@@ -659,7 +858,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_color.html">Color</a></li>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

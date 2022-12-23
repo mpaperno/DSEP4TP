@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['actions_20and_20basic_20usage_0',['Actions and Basic Usage',['../actions.html',1,'']]]
+  ['basic_20principles_0',['Basic Principles',['../plugin_basics.html',1,'documentation']]]
 ];

@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -118,93 +132,173 @@ $(document).ready(function(){initNavTree('class_locale.html',''); initResizable(
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p >Provides locale specific properties and formatted data. </p>
-<p >The <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object may only be created via the <code><a class="el" href="classglobal.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">global.locale()</a></code> function. It cannot be created directly.</p>
-<p >The <a class="el" href="classglobal.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a> function returns a JS <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object representing the locale with the specified name, which has the format "language[_territory][.codeset][@modifier]" or "C".</p>
-<p ><a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> supports the concept of a default locale, which is determined from the system's locale settings at application startup. If no parameter is passed to <a class="el" href="classglobal.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a> the default locale object is returned.</p>
+<p >The <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object may only be created via the global <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> function. It cannot be created directly.</p>
+<p >The global <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> function returns a JS <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object representing the locale with the specified name, which has the format <code>language[_territory][.codeset][@modifier]</code> or <code>C</code>.</p>
+<p ><a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> supports the concept of a default locale, which is determined from the system's locale settings at application startup. If no parameter is passed to <a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a> the default locale object is returned.</p>
 <p >The <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object provides a number of functions and properties providing data for the specified locale.</p>
-<p >The <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object may also be passed to the <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> and <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> <a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a> and <a class="el" href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2" title="Returns a Number by parsing number using the conventions of the supplied locale.">fromLocaleString()</a> methods in order to convert to/from strings using the specified locale.</p>
+<p >The <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object may also be passed to the <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> and <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> <a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530" title="Converts the Date to a string containing the date and time suitable for the specified locale in the s...">toLocaleString()</a> and <a class="el" href="class_date.html#aa4404710151b2c75190b098631355cee" title="Converts the date string dateTimeString to a Date object using given locale and format.">fromLocaleString()</a> methods in order to convert to/from strings using the specified locale.</p>
 <p >This example shows the current date formatted for the German locale: </p><div class="fragment"><div class="line">var text = <span class="stringliteral">&quot;The value is: &quot;</span> + <a class="code hl_class" href="class_date.html">Date</a>().<a class="code hl_function" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>));</div>
 <div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods.</div></div>
 <div class="ttc" id="aclass_date_html_a1275fa6408c29c9b9fafe664886f7530"><div class="ttname"><a href="class_date.html#a1275fa6408c29c9b9fafe664886f7530">Date::toLocaleString</a></div><div class="ttdeci">string toLocaleString(locale, format)</div><div class="ttdoc">Converts the Date to a string containing the date and time suitable for the specified locale in the s...</div></div>
 </div><!-- fragment --><p >The following example displays the specified number in the correct format for the default locale: </p><div class="fragment"><div class="line">var text = <span class="stringliteral">&quot;The value is: &quot;</span> + <a class="code hl_class" href="class_number.html">Number</a>(23443.34).<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale())</div>
 <div class="ttc" id="aclass_number_html"><div class="ttname"><a href="class_number.html">Number</a></div><div class="ttdoc">A few convenience methods to extend Number prototype.</div></div>
 <div class="ttc" id="aclass_number_html_ae3b0479a975b36c5ef3adfd4622110d3"><div class="ttname"><a href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">Number::toLocaleString</a></div><div class="ttdeci">string toLocaleString(locale, format, precision)</div><div class="ttdoc">Converts the Number to a string suitable for the specified locale in the specified format,...</div></div>
-</div><!-- fragment --><p ><a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a>'s data is based on Common <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> Data Repository v1.8.1.</p>
-<h2><a class="anchor" id="FormatType"></a>
+</div><!-- fragment --><h2><a class="anchor" id="locale-format-type"></a>
 Locale String Format Types</h2>
-<p >The <a class="el" href="class_locale.html#ab9018cfa91bbfec0d9479574cef01457" title="Returns the localized name of month (0-11), in the optional FormatType specified by type.">monthName()</a>, <a class="el" href="class_locale.html#ac2b179fc78edb113d7add8bb72a497f5" title="Returns the localized name of month (0-11) that is used as a standalone text, in the optional FormatT...">standaloneMonthName()</a>, <a class="el" href="class_locale.html#a2091d4a3f19f8f636b2f498a88aedea3" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on),...">dayName()</a> and <a class="el" href="class_locale.html#a54854d33a8b46c52448a6b5ad2a7a3fc" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on) that...">standaloneDayName()</a> can use the following enumeration values to specify the formatting of the string representation for a <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object.</p>
+<p >The <a class="el" href="class_locale.html#a799650b82c8d5db7f1fb2144d3895555" title="Returns the localized name of month (0-11), in the optional locale-format-type specified by type.">monthName()</a>, <a class="el" href="class_locale.html#a29fa6f3404885df63ec68007f4758ad6" title="Returns the localized name of month (0-11) that is used as a standalone text, in the optional Locale ...">standaloneMonthName()</a>, <a class="el" href="class_locale.html#ac7d6d31a4c2175f3622605627498be3c" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on),...">dayName()</a> and <a class="el" href="class_locale.html#adcf823d8d4b6c445aeeed27e7fd7d178" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on) that...">standaloneDayName()</a> can use the following enumeration values to specify the formatting of the string representation for a <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object.</p>
 <ul>
-<li>Locale.LongFormat The long version of day and month names; for example, returning "January" as a month name. </li>
-<li>Locale.ShortFormat The short version of day and month names; for example, returning "Jan" as a month name. </li>
-<li>Locale.NarrowFormat A special version of day and month names for use when space is limited; for example, returning "J" as a month name. Note that the narrow format might contain the same text for different months and days or it can even be an empty string if the locale doesn't support narrow names, so you should avoid using it for date formatting. Also, for the system locale this format is the same as ShortFormat.</li>
+<li><code>Locale.LongFormat</code> The long version of day and month names; for example, returning "January" as a month name.</li>
+<li><code>Locale.ShortFormat</code> The short version of day and month names; for example, returning "Jan" as a month name.</li>
+<li><code>Locale.NarrowFormat</code> A special version of day and month names for use when space is limited; for example, returning "J" as a month name. Note that the narrow format might contain the same text for different months and days or it can even be an empty string if the locale doesn't support narrow names, so you should avoid using it for date formatting. Also, for the system locale this format is the same as ShortFormat.</li>
 </ul>
-<p>Additionally the double-to-string and string-to-double conversion functions are covered by the following licenses:</p>
+<h2><a class="anchor" id="locale-date-format"></a>
+Date format specifiers</h2>
+<p >Besides the fixed format types listed above, a format string passed to the various <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> formatting functions (<code><a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530" title="Converts the Date to a string containing the date and time suitable for the specified locale in the s...">Date.toLocaleString()</a></code> and family) specifies a format string, it should use the following expressions to specify the date: </p><table class="generic">
+<tr class="qt-style">
+<th>Expression</th><th>Output </th></tr>
+<tr class="odd" valign="top">
+<td>d</td><td>the day as number without a leading zero (1 to 31) </td></tr>
+<tr class="even" valign="top">
+<td>dd</td><td>the day as number with a leading zero (01 to 31) </td></tr>
+<tr class="odd" valign="top">
+<td>ddd</td><td>the abbreviated localized day name (e.g. 'Mon' to 'Sun'). Uses QDate::shortDayName(). </td></tr>
+<tr class="even" valign="top">
+<td>dddd</td><td>the long localized day name (e.g. 'Monday' to '<a href="qt.html#DayOfWeek-enum">Qt::Sunday</a>'). Uses QDate::longDayName(). </td></tr>
+<tr class="odd" valign="top">
+<td>M</td><td>the month as number without a leading zero (1-12) </td></tr>
+<tr class="even" valign="top">
+<td>MM</td><td>the month as number with a leading zero (01-12) </td></tr>
+<tr class="odd" valign="top">
+<td>MMM</td><td>the abbreviated localized month name (e.g. 'Jan' to 'Dec'). Uses QDate::shortMonthName(). </td></tr>
+<tr class="even" valign="top">
+<td>MMMM</td><td>the long localized month name (e.g. 'January' to 'December'). Uses QDate::longMonthName(). </td></tr>
+<tr class="odd" valign="top">
+<td>yy</td><td>the year as two digit number (00-99) </td></tr>
+<tr class="even" valign="top">
+<td>yyyy</td><td>the year as four digit number </td></tr>
+</table>
+<p >In addition the following expressions can be used to specify the time: </p><table class="generic">
+<tr class="qt-style">
+<th>Expression</th><th>Output </th></tr>
+<tr class="odd" valign="top">
+<td>h</td><td>the hour without a leading zero (0 to 23 or 1 to 12 if AM/PM display) </td></tr>
+<tr class="even" valign="top">
+<td>hh</td><td>the hour with a leading zero (00 to 23 or 01 to 12 if AM/PM display) </td></tr>
+<tr class="odd" valign="top">
+<td>m</td><td>the minute without a leading zero (0 to 59) </td></tr>
+<tr class="even" valign="top">
+<td>mm</td><td>the minute with a leading zero (00 to 59) </td></tr>
+<tr class="odd" valign="top">
+<td>s</td><td>the second without a leading zero (0 to 59) </td></tr>
+<tr class="even" valign="top">
+<td>ss</td><td>the second with a leading zero (00 to 59) </td></tr>
+<tr class="odd" valign="top">
+<td>z</td><td>the milliseconds without leading zeroes (0 to 999) </td></tr>
+<tr class="even" valign="top">
+<td>zzz</td><td>the milliseconds with leading zeroes (000 to 999) </td></tr>
+<tr class="odd" valign="top">
+<td>AP</td><td>use AM/PM display. <em>AP</em> will be replaced by either "AM" or "PM". </td></tr>
+<tr class="even" valign="top">
+<td>ap</td><td>use am/pm display. <em>ap</em> will be replaced by either "am" or "pm". </td></tr>
+<tr class="odd" valign="top">
+<td>t</td><td>include a time-zone indicator. </td></tr>
+</table>
+<p >All other input characters will be ignored. Any sequence of characters that are enclosed in single quotes will be treated as text and not be used as an expression. Two consecutive single quotes (&lsquo;&rsquo;'`) are replaced by a single quote in the output.</p>
+<p >For example, if the following date/time value was specified:</p>
+<div class="fragment"><div class="line"><span class="comment">// 21 May 2001 14:13:09</span></div>
+<div class="line">var dateTime = <span class="keyword">new</span> <a class="code hl_class" href="class_date.html">Date</a>(2001, 5, 21, 14, 13, 09);</div>
+</div><!-- fragment --><p >This <em>dateTime</em> value could be passed to various <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> formatting functions with values below to produce the following results:</p>
+<table class="generic">
+<tr class="qt-style">
+<th>Format</th><th>Result </th></tr>
+<tr class="odd" valign="top">
+<td>"dd.MM.yyyy"</td><td>21.05.2001 </td></tr>
+<tr class="even" valign="top">
+<td>"ddd MMMM d yy"</td><td>Tue May 21 01 </td></tr>
+<tr class="odd" valign="top">
+<td>"hh:mm:ss.zzz"</td><td>14:13:09.042 </td></tr>
+<tr class="even" valign="top">
+<td>"h:m:s ap"</td><td>2:13:9 pm </td></tr>
+</table>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This documentation is originally from the Qt library's <code>QQmlLocale</code> class, used under Qt documentation license. </dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>This documentation is originally from the Qt library's <code>QQmlLocale</code> class, used under the GNU Free Documentation License. <br  />
+ Locale's data is based on <em>Common Locale Data Repository</em> v1.8.1. <pre class="fragment">  Copyright (c) 1991 by AT&amp;T.
+
+  Permission to use, copy, modify, and distribute this software for any
+  purpose without fee is hereby granted, provided that this entire notice
+  is included in all copies of any software which is or includes a copy
+  or modification of this software and in all copies of the supporting
+  documentation for such software.
+
+  THIS SOFTWARE IS BEING PROVIDED "AS IS", WITHOUT ANY EXPRESS OR IMPLIED
+  WARRANTY.  IN PARTICULAR, NEITHER THE AUTHOR NOR AT&amp;T MAKES ANY
+  REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
+  OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
+  This product includes software developed by the University of
+  California, Berkeley and its contributors.
+</pre> </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:aa5222e5c47400c81ffbf5ef2900a423b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#aa5222e5c47400c81ffbf5ef2900a423b">uiLanguages</a></td></tr>
-<tr class="separator:aa5222e5c47400c81ffbf5ef2900a423b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a589a1e52720250ea571191d4c23f1800"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a589a1e52720250ea571191d4c23f1800">firstDayOfWeek</a></td></tr>
-<tr class="separator:a589a1e52720250ea571191d4c23f1800"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a738218087da5da8d051150348282c11f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a738218087da5da8d051150348282c11f">textDirection</a></td></tr>
-<tr class="separator:a738218087da5da8d051150348282c11f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0531a1293e29f89cef153c01aeab766"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#af0531a1293e29f89cef153c01aeab766">weekDays</a></td></tr>
-<tr class="separator:af0531a1293e29f89cef153c01aeab766"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b5e43403a18f8d5e10b60bfe31b4e8d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a0b5e43403a18f8d5e10b60bfe31b4e8d">measurementSystem</a></td></tr>
-<tr class="separator:a0b5e43403a18f8d5e10b60bfe31b4e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a896fdc48e8d7fbfbf8425e635461b169"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a896fdc48e8d7fbfbf8425e635461b169">name</a></td></tr>
-<tr class="separator:a896fdc48e8d7fbfbf8425e635461b169"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af60424e59077546558cde609196f32f0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#af60424e59077546558cde609196f32f0">nativeLanguageName</a></td></tr>
-<tr class="separator:af60424e59077546558cde609196f32f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e8c1b45ea1f94e17a9b8b6b54fc3740"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a0e8c1b45ea1f94e17a9b8b6b54fc3740">nativeCountryName</a></td></tr>
-<tr class="separator:a0e8c1b45ea1f94e17a9b8b6b54fc3740"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b2fd96995dc451e119568129f533852"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a3b2fd96995dc451e119568129f533852">decimalPoint</a></td></tr>
-<tr class="separator:a3b2fd96995dc451e119568129f533852"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a120a55ce2c5f60a06a1187d1cad627d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a120a55ce2c5f60a06a1187d1cad627d9">groupSeparator</a></td></tr>
-<tr class="separator:a120a55ce2c5f60a06a1187d1cad627d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a977e89f8fb6c8188636c212ead1f0965"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a977e89f8fb6c8188636c212ead1f0965">percent</a></td></tr>
-<tr class="separator:a977e89f8fb6c8188636c212ead1f0965"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef9cc40f904c25b0590e5d58f490236f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#aef9cc40f904c25b0590e5d58f490236f">zeroDigit</a></td></tr>
-<tr class="separator:aef9cc40f904c25b0590e5d58f490236f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb0f29e6a5072ce5c8bce0a7ddacc99c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#aeb0f29e6a5072ce5c8bce0a7ddacc99c">negativeSign</a></td></tr>
-<tr class="separator:aeb0f29e6a5072ce5c8bce0a7ddacc99c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d6ec64f0f0c2a78b8ec2b381ac35ca3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a6d6ec64f0f0c2a78b8ec2b381ac35ca3">positiveSign</a></td></tr>
-<tr class="separator:a6d6ec64f0f0c2a78b8ec2b381ac35ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2738ac4e61a90725e26c0389ad57d0b4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a2738ac4e61a90725e26c0389ad57d0b4">exponential</a></td></tr>
-<tr class="separator:a2738ac4e61a90725e26c0389ad57d0b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a404bbaddc4c4fddb14f570b673df770f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a404bbaddc4c4fddb14f570b673df770f">amText</a></td></tr>
-<tr class="separator:a404bbaddc4c4fddb14f570b673df770f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15264e3f20b7b43e3885e10b13f18a9f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a15264e3f20b7b43e3885e10b13f18a9f">pmText</a></td></tr>
-<tr class="separator:a15264e3f20b7b43e3885e10b13f18a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2ad355537b69dbe547f47b4b048d21a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#ac2ad355537b69dbe547f47b4b048d21a">amText</a></td></tr>
+<tr class="separator:ac2ad355537b69dbe547f47b4b048d21a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50de5b07be7e91141cb80e043b509fcf"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a50de5b07be7e91141cb80e043b509fcf">decimalPoint</a></td></tr>
+<tr class="separator:a50de5b07be7e91141cb80e043b509fcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3725f7892475ec85556ce6b8cf9e43da"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a3725f7892475ec85556ce6b8cf9e43da">exponential</a></td></tr>
+<tr class="separator:a3725f7892475ec85556ce6b8cf9e43da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c362f936d28e6ab4e169547a6f34a3c"><td class="memItemLeft" align="right" valign="top">enumeration&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a1c362f936d28e6ab4e169547a6f34a3c">firstDayOfWeek</a></td></tr>
+<tr class="separator:a1c362f936d28e6ab4e169547a6f34a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13880a40e90ea1540b08e909479f68cb"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a13880a40e90ea1540b08e909479f68cb">groupSeparator</a></td></tr>
+<tr class="separator:a13880a40e90ea1540b08e909479f68cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0fb88ddee71a1ebc38ff04946815aa0"><td class="memItemLeft" align="right" valign="top">enumeration&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#ad0fb88ddee71a1ebc38ff04946815aa0">measurementSystem</a></td></tr>
+<tr class="separator:ad0fb88ddee71a1ebc38ff04946815aa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ccf841cb59e451791bcb2e1ac4f1edc"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a8ccf841cb59e451791bcb2e1ac4f1edc">name</a></td></tr>
+<tr class="separator:a8ccf841cb59e451791bcb2e1ac4f1edc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c762b87caf0646f1895028dc1d72dce"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a6c762b87caf0646f1895028dc1d72dce">nativeCountryName</a></td></tr>
+<tr class="separator:a6c762b87caf0646f1895028dc1d72dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f97af314e4d824ae0f5b9d6c4a76da3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a2f97af314e4d824ae0f5b9d6c4a76da3">nativeLanguageName</a></td></tr>
+<tr class="separator:a2f97af314e4d824ae0f5b9d6c4a76da3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6a546236845310b9c6efa27a16fd3bb"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#aa6a546236845310b9c6efa27a16fd3bb">negativeSign</a></td></tr>
+<tr class="separator:aa6a546236845310b9c6efa27a16fd3bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9146c0842b10b42653bfbe31883e090"><td class="memItemLeft" align="right" valign="top">enumeration&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#ae9146c0842b10b42653bfbe31883e090">numberOptions</a></td></tr>
+<tr class="separator:ae9146c0842b10b42653bfbe31883e090"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abddabc7cf8cd018439a4eb151f0e5ecb"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#abddabc7cf8cd018439a4eb151f0e5ecb">percent</a></td></tr>
+<tr class="separator:abddabc7cf8cd018439a4eb151f0e5ecb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad89f786e156dbbc7f16e3b17662c43ab"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#ad89f786e156dbbc7f16e3b17662c43ab">pmText</a></td></tr>
+<tr class="separator:ad89f786e156dbbc7f16e3b17662c43ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45a0effead0143f65712d52ad6376ad6"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a45a0effead0143f65712d52ad6376ad6">positiveSign</a></td></tr>
+<tr class="separator:a45a0effead0143f65712d52ad6376ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95bcd427644c0dba04dbc64acf5690f8"><td class="memItemLeft" align="right" valign="top">enumeration&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a95bcd427644c0dba04dbc64acf5690f8">textDirection</a></td></tr>
+<tr class="separator:a95bcd427644c0dba04dbc64acf5690f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c8a7c92736101237fe2a21b40de781e"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a6c8a7c92736101237fe2a21b40de781e">zeroDigit</a></td></tr>
+<tr class="separator:a6c8a7c92736101237fe2a21b40de781e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d0ea019f10befb450559874dcc19ed1"><td class="memItemLeft" align="right" valign="top">Array&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a1d0ea019f10befb450559874dcc19ed1">weekDays</a></td></tr>
+<tr class="separator:a1d0ea019f10befb450559874dcc19ed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f5c05121eeb002b11f2560cc280de8c"><td class="memItemLeft" align="right" valign="top">Array&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a8f5c05121eeb002b11f2560cc280de8c">uiLanguages</a></td></tr>
+<tr class="separator:a8f5c05121eeb002b11f2560cc280de8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a896fdc48e8d7fbfbf8425e635461b169"><td class="memItemLeft" align="right" valign="top">string <a class="el" href="class_locale.html">Locale</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a896fdc48e8d7fbfbf8425e635461b169">name</a></td></tr>
-<tr class="separator:a896fdc48e8d7fbfbf8425e635461b169"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4407da2673a1328b79a729b6b417605"><td class="memItemLeft" align="right" valign="top">enumeration <a class="el" href="class_locale.html">Locale</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#ab4407da2673a1328b79a729b6b417605">NumberOption</a></td></tr>
-<tr class="separator:ab4407da2673a1328b79a729b6b417605"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaab8ccc537a26a566c846f79e93738ba"><td class="memItemLeft" align="right" valign="top">string <a class="el" href="class_locale.html">Locale</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#aaab8ccc537a26a566c846f79e93738ba">dateTimeFormat</a> (type)</td></tr>
-<tr class="separator:aaab8ccc537a26a566c846f79e93738ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afaec6b8d1866f042061955c2f4f4270a"><td class="memItemLeft" align="right" valign="top">string <a class="el" href="class_locale.html">Locale</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#afaec6b8d1866f042061955c2f4f4270a">dateFormat</a> (type)</td></tr>
-<tr class="separator:afaec6b8d1866f042061955c2f4f4270a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50bc6a85d0b5c9cc75928d2cac3bc5bc"><td class="memItemLeft" align="right" valign="top">string <a class="el" href="class_locale.html">Locale</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a50bc6a85d0b5c9cc75928d2cac3bc5bc">timeFormat</a> (type)</td></tr>
-<tr class="separator:a50bc6a85d0b5c9cc75928d2cac3bc5bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9018cfa91bbfec0d9479574cef01457"><td class="memItemLeft" align="right" valign="top">string <a class="el" href="class_locale.html">Locale</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#ab9018cfa91bbfec0d9479574cef01457">monthName</a> (month, type)</td></tr>
-<tr class="separator:ab9018cfa91bbfec0d9479574cef01457"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2b179fc78edb113d7add8bb72a497f5"><td class="memItemLeft" align="right" valign="top">string <a class="el" href="class_locale.html">Locale</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#ac2b179fc78edb113d7add8bb72a497f5">standaloneMonthName</a> (month, type)</td></tr>
-<tr class="separator:ac2b179fc78edb113d7add8bb72a497f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2091d4a3f19f8f636b2f498a88aedea3"><td class="memItemLeft" align="right" valign="top">string <a class="el" href="class_locale.html">Locale</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a2091d4a3f19f8f636b2f498a88aedea3">dayName</a> (day, type)</td></tr>
-<tr class="separator:a2091d4a3f19f8f636b2f498a88aedea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54854d33a8b46c52448a6b5ad2a7a3fc"><td class="memItemLeft" align="right" valign="top">string <a class="el" href="class_locale.html">Locale</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a54854d33a8b46c52448a6b5ad2a7a3fc">standaloneDayName</a> (day, type)</td></tr>
-<tr class="separator:a54854d33a8b46c52448a6b5ad2a7a3fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07c73389e109490daa698168bc817ca5"><td class="memItemLeft" align="right" valign="top">string <a class="el" href="class_locale.html">Locale</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a07c73389e109490daa698168bc817ca5">currencySymbol</a> (format)</td></tr>
-<tr class="separator:a07c73389e109490daa698168bc817ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fae80fbd53184a570f5b234b04a4f63"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a7fae80fbd53184a570f5b234b04a4f63">currencySymbol</a> (format)</td></tr>
+<tr class="separator:a7fae80fbd53184a570f5b234b04a4f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7ac8e90108c0f840d9b3587a3d39bec"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#ab7ac8e90108c0f840d9b3587a3d39bec">dateTimeFormat</a> (type)</td></tr>
+<tr class="separator:ab7ac8e90108c0f840d9b3587a3d39bec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a416e21851ad434c6359edac3a116a812"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a416e21851ad434c6359edac3a116a812">dateFormat</a> (type)</td></tr>
+<tr class="separator:a416e21851ad434c6359edac3a116a812"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc66dc8ae0362eb40a504d6b249dc591"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#adc66dc8ae0362eb40a504d6b249dc591">timeFormat</a> (type)</td></tr>
+<tr class="separator:adc66dc8ae0362eb40a504d6b249dc591"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a799650b82c8d5db7f1fb2144d3895555"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a799650b82c8d5db7f1fb2144d3895555">monthName</a> (month, type)</td></tr>
+<tr class="separator:a799650b82c8d5db7f1fb2144d3895555"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29fa6f3404885df63ec68007f4758ad6"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#a29fa6f3404885df63ec68007f4758ad6">standaloneMonthName</a> (month, type)</td></tr>
+<tr class="separator:a29fa6f3404885df63ec68007f4758ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7d6d31a4c2175f3622605627498be3c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#ac7d6d31a4c2175f3622605627498be3c">dayName</a> (day, type)</td></tr>
+<tr class="separator:ac7d6d31a4c2175f3622605627498be3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcf823d8d4b6c445aeeed27e7fd7d178"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_locale.html#adcf823d8d4b6c445aeeed27e7fd7d178">standaloneDayName</a> (day, type)</td></tr>
+<tr class="separator:adcf823d8d4b6c445aeeed27e7fd7d178"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Property Documentation</h2>
-<a id="aa5222e5c47400c81ffbf5ef2900a423b" name="aa5222e5c47400c81ffbf5ef2900a423b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5222e5c47400c81ffbf5ef2900a423b">&#9670;&nbsp;</a></span>uiLanguages</h2>
+<a id="ac2ad355537b69dbe547f47b4b048d21a" name="ac2ad355537b69dbe547f47b4b048d21a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2ad355537b69dbe547f47b4b048d21a">&#9670;&nbsp;</a></span>amText</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,7 +307,440 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Array&lt; string &gt; <a class="el" href="class_locale.html">Locale</a> uiLanguages</td>
+          <td class="memname">string amText</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The localized name of the "AM" suffix for times specified using the conventions of the 12-hour clock. </p>
+
+</div>
+</div>
+<a id="a50de5b07be7e91141cb80e043b509fcf" name="a50de5b07be7e91141cb80e043b509fcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50de5b07be7e91141cb80e043b509fcf">&#9670;&nbsp;</a></span>decimalPoint</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string decimalPoint</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds the decimal point character of this locale. </p>
+
+</div>
+</div>
+<a id="a3725f7892475ec85556ce6b8cf9e43da" name="a3725f7892475ec85556ce6b8cf9e43da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3725f7892475ec85556ce6b8cf9e43da">&#9670;&nbsp;</a></span>exponential</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string exponential</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds the exponential character of this locale. </p>
+
+</div>
+</div>
+<a id="a1c362f936d28e6ab4e169547a6f34a3c" name="a1c362f936d28e6ab4e169547a6f34a3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c362f936d28e6ab4e169547a6f34a3c">&#9670;&nbsp;</a></span>firstDayOfWeek</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enumeration firstDayOfWeek</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds the first day of the week according to the current locale. </p>
+<ul>
+<li><code>Locale.Sunday</code> = 0 </li>
+<li><code>Locale.Monday</code> = 1 </li>
+<li><code>Locale.Tuesday</code> = 2 </li>
+<li><code>Locale.Wednesday</code> = 3 </li>
+<li><code>Locale.Thursday</code> = 4 </li>
+<li><code>Locale.Friday</code> = 5 </li>
+<li><code>Locale.Saturday</code> = 6 </li>
+</ul>
+
+</div>
+</div>
+<a id="a13880a40e90ea1540b08e909479f68cb" name="a13880a40e90ea1540b08e909479f68cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13880a40e90ea1540b08e909479f68cb">&#9670;&nbsp;</a></span>groupSeparator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string groupSeparator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds the group separator character of this locale. </p>
+
+</div>
+</div>
+<a id="ad0fb88ddee71a1ebc38ff04946815aa0" name="ad0fb88ddee71a1ebc38ff04946815aa0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0fb88ddee71a1ebc38ff04946815aa0">&#9670;&nbsp;</a></span>measurementSystem</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enumeration measurementSystem</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This property defines which units are used for measurement. </p>
+<ul>
+<li><code>Locale.MetricSystem</code> This value indicates metric units, such as meters, centimeters and millimeters. </li>
+<li><code>Locale.ImperialUSSystem</code> This value indicates imperial units, such as inches and miles as they are used in the United States. </li>
+<li><code>Locale.ImperialUKSystem</code> This value indicates imperial units, such as inches and miles as they are used in the United Kingdom. </li>
+<li><code>Locale.ImperialSystem</code> Provided for compatibility. The same as Locale.ImperialUSSystem. </li>
+</ul>
+
+</div>
+</div>
+<a id="a8ccf841cb59e451791bcb2e1ac4f1edc" name="a8ccf841cb59e451791bcb2e1ac4f1edc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ccf841cb59e451791bcb2e1ac4f1edc">&#9670;&nbsp;</a></span>name</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string name</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds the language and country of this locale as a string of the form "language_country", where language is a lowercase, two-letter ISO 639 language code, and country is an uppercase, two- or three-letter ISO 3166 country code. </p>
+
+</div>
+</div>
+<a id="a6c762b87caf0646f1895028dc1d72dce" name="a6c762b87caf0646f1895028dc1d72dce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c762b87caf0646f1895028dc1d72dce">&#9670;&nbsp;</a></span>nativeCountryName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string nativeCountryName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds a native name of the country for the locale. </p>
+<p >For example "España" for Spanish/Spain locale. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#a2f97af314e4d824ae0f5b9d6c4a76da3" title="Holds a native name of the language for the locale.">nativeLanguageName</a> </dd></dl>
+
+</div>
+</div>
+<a id="a2f97af314e4d824ae0f5b9d6c4a76da3" name="a2f97af314e4d824ae0f5b9d6c4a76da3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f97af314e4d824ae0f5b9d6c4a76da3">&#9670;&nbsp;</a></span>nativeLanguageName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string nativeLanguageName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds a native name of the language for the locale. </p>
+<p >For example "Schwiizertüütsch" for Swiss-German locale. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#a6c762b87caf0646f1895028dc1d72dce" title="Holds a native name of the country for the locale.">nativeCountryName</a> </dd></dl>
+
+</div>
+</div>
+<a id="aa6a546236845310b9c6efa27a16fd3bb" name="aa6a546236845310b9c6efa27a16fd3bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6a546236845310b9c6efa27a16fd3bb">&#9670;&nbsp;</a></span>negativeSign</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string negativeSign</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds the negative sign character of this locale. </p>
+
+</div>
+</div>
+<a id="ae9146c0842b10b42653bfbe31883e090" name="ae9146c0842b10b42653bfbe31883e090"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9146c0842b10b42653bfbe31883e090">&#9670;&nbsp;</a></span>numberOptions</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enumeration numberOptions</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds a set of options for number-to-string and string-to-number conversions. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">Number.toLocaleString()</a> </dd>
+<dd>
+<a class="el" href="class_number.html#ac22bc789235df11af1a4a20df26a23eb" title="Returns a Number by parsing numberString using the conventions of the supplied locale.">Number.fromLocaleString()</a> </dd></dl>
+
+</div>
+</div>
+<a id="abddabc7cf8cd018439a4eb151f0e5ecb" name="abddabc7cf8cd018439a4eb151f0e5ecb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abddabc7cf8cd018439a4eb151f0e5ecb">&#9670;&nbsp;</a></span>percent</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string percent</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds the percent character of this locale. </p>
+
+</div>
+</div>
+<a id="ad89f786e156dbbc7f16e3b17662c43ab" name="ad89f786e156dbbc7f16e3b17662c43ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad89f786e156dbbc7f16e3b17662c43ab">&#9670;&nbsp;</a></span>pmText</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string pmText</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The localized name of the "PM" suffix for times specified using the conventions of the 12-hour clock. </p>
+
+</div>
+</div>
+<a id="a45a0effead0143f65712d52ad6376ad6" name="a45a0effead0143f65712d52ad6376ad6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45a0effead0143f65712d52ad6376ad6">&#9670;&nbsp;</a></span>positiveSign</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string positiveSign</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds the positive sign character of this locale. </p>
+
+</div>
+</div>
+<a id="a95bcd427644c0dba04dbc64acf5690f8" name="a95bcd427644c0dba04dbc64acf5690f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95bcd427644c0dba04dbc64acf5690f8">&#9670;&nbsp;</a></span>textDirection</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enumeration textDirection</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds the text direction of the language: </p>
+<ul>
+<li><code>Qt.LeftToRight</code> </li>
+<li><code>Qt.RightToLeft</code> </li>
+</ul>
+
+</div>
+</div>
+<a id="a6c8a7c92736101237fe2a21b40de781e" name="a6c8a7c92736101237fe2a21b40de781e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c8a7c92736101237fe2a21b40de781e">&#9670;&nbsp;</a></span>zeroDigit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string zeroDigit</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds Returns the zero digit character of this locale. </p>
+
+</div>
+</div>
+<a id="a1d0ea019f10befb450559874dcc19ed1" name="a1d0ea019f10befb450559874dcc19ed1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d0ea019f10befb450559874dcc19ed1">&#9670;&nbsp;</a></span>weekDays</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; int &gt; weekDays</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Holds an array of days that are considered week days according to the current locale, where Sunday is 0 and Saturday is 6. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#a1c362f936d28e6ab4e169547a6f34a3c" title="Holds the first day of the week according to the current locale.">firstDayOfWeek</a> </dd></dl>
+
+</div>
+</div>
+<a id="a8f5c05121eeb002b11f2560cc280de8c" name="a8f5c05121eeb002b11f2560cc280de8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f5c05121eeb002b11f2560cc280de8c">&#9670;&nbsp;</a></span>uiLanguages</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; string &gt; uiLanguages</td>
         </tr>
       </table>
   </td>
@@ -228,643 +755,15 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a589a1e52720250ea571191d4c23f1800" name="a589a1e52720250ea571191d4c23f1800"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a589a1e52720250ea571191d4c23f1800">&#9670;&nbsp;</a></span>firstDayOfWeek</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enumeration <a class="el" href="class_locale.html">Locale</a> firstDayOfWeek</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds the first day of the week according to the current locale. </p>
-<ul>
-<li>Locale.Sunday = 0 </li>
-<li>Locale.Monday = 1 </li>
-<li>Locale.Tuesday = 2 </li>
-<li>Locale.Wednesday = 3 </li>
-<li>Locale.Thursday = 4 </li>
-<li>Locale.Friday = 5 </li>
-<li>Locale.Saturday = 6 </li>
-</ul>
-
-</div>
-</div>
-<a id="a738218087da5da8d051150348282c11f" name="a738218087da5da8d051150348282c11f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a738218087da5da8d051150348282c11f">&#9670;&nbsp;</a></span>textDirection</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enumeration <a class="el" href="class_locale.html">Locale</a> textDirection</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds the text direction of the language: </p>
-<ul>
-<li>Qt.LeftToRight </li>
-<li>Qt.RightToLeft </li>
-</ul>
-
-</div>
-</div>
-<a id="af0531a1293e29f89cef153c01aeab766" name="af0531a1293e29f89cef153c01aeab766"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0531a1293e29f89cef153c01aeab766">&#9670;&nbsp;</a></span>weekDays</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Array&lt; int &gt; <a class="el" href="class_locale.html">Locale</a> weekDays</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds an array of days that are considered week days according to the current locale, where Sunday is 0 and Saturday is 6. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#a589a1e52720250ea571191d4c23f1800" title="Holds the first day of the week according to the current locale.">firstDayOfWeek</a> </dd></dl>
-
-</div>
-</div>
-<a id="a0b5e43403a18f8d5e10b60bfe31b4e8d" name="a0b5e43403a18f8d5e10b60bfe31b4e8d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b5e43403a18f8d5e10b60bfe31b4e8d">&#9670;&nbsp;</a></span>measurementSystem</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enumeration <a class="el" href="class_locale.html">Locale</a> measurementSystem</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This property defines which units are used for measurement. </p>
-<ul>
-<li>Locale.MetricSystem This value indicates metric units, such as meters, centimeters and millimeters. </li>
-<li>Locale.ImperialUSSystem This value indicates imperial units, such as inches and miles as they are used in the United States. </li>
-<li>Locale.ImperialUKSystem This value indicates imperial units, such as inches and miles as they are used in the United Kingdom. </li>
-<li>Locale.ImperialSystem Provided for compatibility. The same as Locale.ImperialUSSystem. </li>
-</ul>
-
-</div>
-</div>
-<a id="a896fdc48e8d7fbfbf8425e635461b169" name="a896fdc48e8d7fbfbf8425e635461b169"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a896fdc48e8d7fbfbf8425e635461b169">&#9670;&nbsp;</a></span>name</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> name</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds the language and country of this locale as a string of the form "language_country", where language is a lowercase, two-letter ISO 639 language code, and country is an uppercase, two- or three-letter ISO 3166 country code. </p>
-
-</div>
-</div>
-<a id="af60424e59077546558cde609196f32f0" name="af60424e59077546558cde609196f32f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af60424e59077546558cde609196f32f0">&#9670;&nbsp;</a></span>nativeLanguageName</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> nativeLanguageName</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds a native name of the language for the locale. </p>
-<p >For example "Schwiizertüütsch" for Swiss-German locale. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#a0e8c1b45ea1f94e17a9b8b6b54fc3740" title="Holds a native name of the country for the locale.">nativeCountryName</a> </dd></dl>
-
-</div>
-</div>
-<a id="a0e8c1b45ea1f94e17a9b8b6b54fc3740" name="a0e8c1b45ea1f94e17a9b8b6b54fc3740"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e8c1b45ea1f94e17a9b8b6b54fc3740">&#9670;&nbsp;</a></span>nativeCountryName</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> nativeCountryName</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds a native name of the country for the locale. </p>
-<p >For example "España" for Spanish/Spain locale. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#af60424e59077546558cde609196f32f0" title="Holds a native name of the language for the locale.">nativeLanguageName</a> </dd></dl>
-
-</div>
-</div>
-<a id="a3b2fd96995dc451e119568129f533852" name="a3b2fd96995dc451e119568129f533852"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b2fd96995dc451e119568129f533852">&#9670;&nbsp;</a></span>decimalPoint</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> decimalPoint</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds the decimal point character of this locale. </p>
-
-</div>
-</div>
-<a id="a120a55ce2c5f60a06a1187d1cad627d9" name="a120a55ce2c5f60a06a1187d1cad627d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a120a55ce2c5f60a06a1187d1cad627d9">&#9670;&nbsp;</a></span>groupSeparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> groupSeparator</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds the group separator character of this locale. </p>
-
-</div>
-</div>
-<a id="a977e89f8fb6c8188636c212ead1f0965" name="a977e89f8fb6c8188636c212ead1f0965"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a977e89f8fb6c8188636c212ead1f0965">&#9670;&nbsp;</a></span>percent</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> percent</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds the percent character of this locale. </p>
-
-</div>
-</div>
-<a id="aef9cc40f904c25b0590e5d58f490236f" name="aef9cc40f904c25b0590e5d58f490236f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef9cc40f904c25b0590e5d58f490236f">&#9670;&nbsp;</a></span>zeroDigit</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> zeroDigit</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds Returns the zero digit character of this locale. </p>
-
-</div>
-</div>
-<a id="aeb0f29e6a5072ce5c8bce0a7ddacc99c" name="aeb0f29e6a5072ce5c8bce0a7ddacc99c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb0f29e6a5072ce5c8bce0a7ddacc99c">&#9670;&nbsp;</a></span>negativeSign</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> negativeSign</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds the negative sign character of this locale. </p>
-
-</div>
-</div>
-<a id="a6d6ec64f0f0c2a78b8ec2b381ac35ca3" name="a6d6ec64f0f0c2a78b8ec2b381ac35ca3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d6ec64f0f0c2a78b8ec2b381ac35ca3">&#9670;&nbsp;</a></span>positiveSign</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> positiveSign</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds the positive sign character of this locale. </p>
-
-</div>
-</div>
-<a id="a2738ac4e61a90725e26c0389ad57d0b4" name="a2738ac4e61a90725e26c0389ad57d0b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2738ac4e61a90725e26c0389ad57d0b4">&#9670;&nbsp;</a></span>exponential</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> exponential</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Holds the exponential character of this locale. </p>
-
-</div>
-</div>
-<a id="a404bbaddc4c4fddb14f570b673df770f" name="a404bbaddc4c4fddb14f570b673df770f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a404bbaddc4c4fddb14f570b673df770f">&#9670;&nbsp;</a></span>amText</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> amText</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The localized name of the "AM" suffix for times specified using the conventions of the 12-hour clock. </p>
-
-</div>
-</div>
-<a id="a15264e3f20b7b43e3885e10b13f18a9f" name="a15264e3f20b7b43e3885e10b13f18a9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15264e3f20b7b43e3885e10b13f18a9f">&#9670;&nbsp;</a></span>pmText</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> pmText</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">read</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The localized name of the "PM" suffix for times specified using the conventions of the 12-hour clock. </p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a896fdc48e8d7fbfbf8425e635461b169" name="a896fdc48e8d7fbfbf8425e635461b169"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a896fdc48e8d7fbfbf8425e635461b169">&#9670;&nbsp;</a></span>name()</h2>
+<a id="a7fae80fbd53184a570f5b234b04a4f63" name="a7fae80fbd53184a570f5b234b04a4f63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fae80fbd53184a570f5b234b04a4f63">&#9670;&nbsp;</a></span>currencySymbol()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> name</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Holds the language and country of this locale as a string of the form "language_country", where language is a lowercase, two-letter ISO 639 language code, and country is an uppercase, two- or three-letter ISO 3166 country code. </p>
-
-</div>
-</div>
-<a id="ab4407da2673a1328b79a729b6b417605" name="ab4407da2673a1328b79a729b6b417605"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4407da2673a1328b79a729b6b417605">&#9670;&nbsp;</a></span>NumberOption()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enumeration <a class="el" href="class_locale.html">Locale</a> NumberOption</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Holds a set of options for number-to-string and string-to-number conversions. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">Number.toLocaleString()</a> </dd>
-<dd>
-<a class="el" href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2" title="Returns a Number by parsing number using the conventions of the supplied locale.">Number.fromLocaleString()</a> </dd></dl>
-
-</div>
-</div>
-<a id="aaab8ccc537a26a566c846f79e93738ba" name="aaab8ccc537a26a566c846f79e93738ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaab8ccc537a26a566c846f79e93738ba">&#9670;&nbsp;</a></span>dateTimeFormat()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> dateTimeFormat </td>
-          <td>(</td>
-          <td class="paramtype">type&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the date time format used for the current locale. </p>
-<p ><em>type</em> specifies the FormatType to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> </dd></dl>
-
-</div>
-</div>
-<a id="afaec6b8d1866f042061955c2f4f4270a" name="afaec6b8d1866f042061955c2f4f4270a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afaec6b8d1866f042061955c2f4f4270a">&#9670;&nbsp;</a></span>dateFormat()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> dateFormat </td>
-          <td>(</td>
-          <td class="paramtype">type&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the date format used for the current locale. </p>
-<p ><em>type</em> specifies the FormatType to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> </dd></dl>
-
-</div>
-</div>
-<a id="a50bc6a85d0b5c9cc75928d2cac3bc5bc" name="a50bc6a85d0b5c9cc75928d2cac3bc5bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50bc6a85d0b5c9cc75928d2cac3bc5bc">&#9670;&nbsp;</a></span>timeFormat()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> timeFormat </td>
-          <td>(</td>
-          <td class="paramtype">type&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the time format used for the current locale. </p>
-<p ><em>type</em> specifies the FormatType to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> </dd></dl>
-
-</div>
-</div>
-<a id="ab9018cfa91bbfec0d9479574cef01457" name="ab9018cfa91bbfec0d9479574cef01457"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9018cfa91bbfec0d9479574cef01457">&#9670;&nbsp;</a></span>monthName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> monthName </td>
-          <td>(</td>
-          <td class="paramtype">month&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the localized name of <em>month</em> (0-11), in the optional FormatType specified by <em>type</em>. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#a2091d4a3f19f8f636b2f498a88aedea3" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on),...">dayName()</a>, <a class="el" href="class_locale.html#ac2b179fc78edb113d7add8bb72a497f5" title="Returns the localized name of month (0-11) that is used as a standalone text, in the optional FormatT...">standaloneMonthName()</a> </dd></dl>
-
-</div>
-</div>
-<a id="ac2b179fc78edb113d7add8bb72a497f5" name="ac2b179fc78edb113d7add8bb72a497f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2b179fc78edb113d7add8bb72a497f5">&#9670;&nbsp;</a></span>standaloneMonthName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> standaloneMonthName </td>
-          <td>(</td>
-          <td class="paramtype">month&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the localized name of <em>month</em> (0-11) that is used as a standalone text, in the optional FormatType specified by <em>type</em>. </p>
-<p >If the locale information doesn't specify the standalone month name then return value is the same as in <a class="el" href="class_locale.html#ab9018cfa91bbfec0d9479574cef01457" title="Returns the localized name of month (0-11), in the optional FormatType specified by type.">monthName()</a>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#ab9018cfa91bbfec0d9479574cef01457" title="Returns the localized name of month (0-11), in the optional FormatType specified by type.">monthName()</a>, <a class="el" href="class_locale.html#a54854d33a8b46c52448a6b5ad2a7a3fc" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on) that...">standaloneDayName()</a> </dd></dl>
-
-</div>
-</div>
-<a id="a2091d4a3f19f8f636b2f498a88aedea3" name="a2091d4a3f19f8f636b2f498a88aedea3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2091d4a3f19f8f636b2f498a88aedea3">&#9670;&nbsp;</a></span>dayName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> dayName </td>
-          <td>(</td>
-          <td class="paramtype">day&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the localized name of the <em>day</em> (where 0 represents Sunday, 1 represents Monday and so on), in the optional FormatType specified by <em>type</em>. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#ab9018cfa91bbfec0d9479574cef01457" title="Returns the localized name of month (0-11), in the optional FormatType specified by type.">monthName()</a>, <a class="el" href="class_locale.html#a54854d33a8b46c52448a6b5ad2a7a3fc" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on) that...">standaloneDayName()</a> </dd></dl>
-
-</div>
-</div>
-<a id="a54854d33a8b46c52448a6b5ad2a7a3fc" name="a54854d33a8b46c52448a6b5ad2a7a3fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54854d33a8b46c52448a6b5ad2a7a3fc">&#9670;&nbsp;</a></span>standaloneDayName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> standaloneDayName </td>
-          <td>(</td>
-          <td class="paramtype">day&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the localized name of the <em>day</em> (where 0 represents Sunday, 1 represents Monday and so on) that is used as a standalone text, in the FormatType specified by <em>type</em>. </p>
-<p >If the locale information does not specify the standalone day name then return value is the same as in <a class="el" href="class_locale.html#a2091d4a3f19f8f636b2f498a88aedea3" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on),...">dayName()</a>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#a2091d4a3f19f8f636b2f498a88aedea3" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on),...">dayName()</a>, <a class="el" href="class_locale.html#ac2b179fc78edb113d7add8bb72a497f5" title="Returns the localized name of month (0-11) that is used as a standalone text, in the optional FormatT...">standaloneMonthName()</a> </dd></dl>
-
-</div>
-</div>
-<a id="a07c73389e109490daa698168bc817ca5" name="a07c73389e109490daa698168bc817ca5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07c73389e109490daa698168bc817ca5">&#9670;&nbsp;</a></span>currencySymbol()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="class_locale.html">Locale</a> currencySymbol </td>
+          <td class="memname">string currencySymbol </td>
           <td>(</td>
           <td class="paramtype">format&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -875,11 +774,198 @@ Public Member Functions</h2></td></tr>
 
 <p>Returns the currency symbol for the specified <em>format:</em> </p>
 <ul>
-<li>Locale.CurrencyIsoCode a ISO-4217 code of the currency. </li>
-<li>Locale.CurrencySymbol a currency symbol. </li>
-<li>Locale.CurrencyDisplayName a user readable name of the currency.</li>
+<li><code>Locale.CurrencyIsoCode</code> a ISO-4217 code of the currency. </li>
+<li><code>Locale.CurrencySymbol</code> a currency symbol. </li>
+<li><code>Locale.CurrencyDisplayName</code> a user readable name of the currency.</li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_number.html#a1adaf4614fa7d1c79552bf0816f07530" title="Converts the Number to a currency using the currency and conventions of the specified locale.">Number.toLocaleCurrencyString()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ab7ac8e90108c0f840d9b3587a3d39bec" name="ab7ac8e90108c0f840d9b3587a3d39bec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7ac8e90108c0f840d9b3587a3d39bec">&#9670;&nbsp;</a></span>dateTimeFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string dateTimeFormat </td>
+          <td>(</td>
+          <td class="paramtype">type&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the date time format used for the current locale. </p>
+<p ><em>type</em> specifies the <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> </dd></dl>
+
+</div>
+</div>
+<a id="a416e21851ad434c6359edac3a116a812" name="a416e21851ad434c6359edac3a116a812"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a416e21851ad434c6359edac3a116a812">&#9670;&nbsp;</a></span>dateFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string dateFormat </td>
+          <td>(</td>
+          <td class="paramtype">type&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the date format used for the current locale. </p>
+<p ><em>type</em> specifies the <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> </dd></dl>
+
+</div>
+</div>
+<a id="adc66dc8ae0362eb40a504d6b249dc591" name="adc66dc8ae0362eb40a504d6b249dc591"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc66dc8ae0362eb40a504d6b249dc591">&#9670;&nbsp;</a></span>timeFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string timeFormat </td>
+          <td>(</td>
+          <td class="paramtype">type&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the time format used for the current locale. </p>
+<p ><em>type</em> specifies the <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> </dd></dl>
+
+</div>
+</div>
+<a id="a799650b82c8d5db7f1fb2144d3895555" name="a799650b82c8d5db7f1fb2144d3895555"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a799650b82c8d5db7f1fb2144d3895555">&#9670;&nbsp;</a></span>monthName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string monthName </td>
+          <td>(</td>
+          <td class="paramtype">month&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the localized name of <em>month</em> (0-11), in the optional locale-format-type specified by <em>type</em>. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#ac7d6d31a4c2175f3622605627498be3c" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on),...">dayName()</a>, <a class="el" href="class_locale.html#a29fa6f3404885df63ec68007f4758ad6" title="Returns the localized name of month (0-11) that is used as a standalone text, in the optional Locale ...">standaloneMonthName()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a29fa6f3404885df63ec68007f4758ad6" name="a29fa6f3404885df63ec68007f4758ad6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29fa6f3404885df63ec68007f4758ad6">&#9670;&nbsp;</a></span>standaloneMonthName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string standaloneMonthName </td>
+          <td>(</td>
+          <td class="paramtype">month&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the localized name of <em>month</em> (0-11) that is used as a standalone text, in the optional <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> specified by <em>type</em>. </p>
+<p >If the locale information doesn't specify the standalone month name then return value is the same as in <a class="el" href="class_locale.html#a799650b82c8d5db7f1fb2144d3895555" title="Returns the localized name of month (0-11), in the optional locale-format-type specified by type.">monthName()</a>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#a799650b82c8d5db7f1fb2144d3895555" title="Returns the localized name of month (0-11), in the optional locale-format-type specified by type.">monthName()</a>, <a class="el" href="class_locale.html#adcf823d8d4b6c445aeeed27e7fd7d178" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on) that...">standaloneDayName()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ac7d6d31a4c2175f3622605627498be3c" name="ac7d6d31a4c2175f3622605627498be3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7d6d31a4c2175f3622605627498be3c">&#9670;&nbsp;</a></span>dayName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string dayName </td>
+          <td>(</td>
+          <td class="paramtype">day&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the localized name of the <em>day</em> (where 0 represents Sunday, 1 represents Monday and so on), in the optional <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> specified by <em>type</em>. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#a799650b82c8d5db7f1fb2144d3895555" title="Returns the localized name of month (0-11), in the optional locale-format-type specified by type.">monthName()</a>, <a class="el" href="class_locale.html#adcf823d8d4b6c445aeeed27e7fd7d178" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on) that...">standaloneDayName()</a> </dd></dl>
+
+</div>
+</div>
+<a id="adcf823d8d4b6c445aeeed27e7fd7d178" name="adcf823d8d4b6c445aeeed27e7fd7d178"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcf823d8d4b6c445aeeed27e7fd7d178">&#9670;&nbsp;</a></span>standaloneDayName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string standaloneDayName </td>
+          <td>(</td>
+          <td class="paramtype">day&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the localized name of the <em>day</em> (where 0 represents Sunday, 1 represents Monday and so on) that is used as a standalone text, in the <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> specified by <em>type</em>. </p>
+<p >If the locale information does not specify the standalone day name then return value is the same as in <a class="el" href="class_locale.html#ac7d6d31a4c2175f3622605627498be3c" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on),...">dayName()</a>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_locale.html#ac7d6d31a4c2175f3622605627498be3c" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on),...">dayName()</a>, <a class="el" href="class_locale.html#a29fa6f3404885df63ec68007f4758ad6" title="Returns the localized name of month (0-11) that is used as a standalone text, in the optional Locale ...">standaloneMonthName()</a> </dd></dl>
 
 </div>
 </div>
@@ -889,7 +975,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_locale.html">Locale</a></li>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

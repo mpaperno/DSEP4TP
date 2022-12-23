@@ -1,0 +1,860 @@
+<!-- HTML header for doxygen 1.9.4-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dynamic Script Engine Plugin for Touch Portal: Response</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/mpaperno/DSEP4TP" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" fill="url(#gradient)"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    <linearGradient id="gradient" x1="0.5" x2="0.5" y1="0" y2="1">
+        <stop class="first-stop" offset="0%"></stop>
+        <stop class="last-stop" offset="100%"></stop>
+    </linearGradient>
+    </svg>
+</a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
+  <td id="projectalign">
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.1-beta1</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_response.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#properties">Properties</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="class_response-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">Response<div class="ingroups"><a class="el" href="group___fetch_a_p_i.html">Fetch Network API</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><p >The <a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a> interface of the Fetch API represents the response to a request. </p>
+<p >A <a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a> type is returned when a <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> method promise is fulfilled, either directly in case of a successful result (passed to <code>then()</code> handler), or as a member of any <code>DOMException</code> thrown as a result of request errors (passed to <code>catch()</code> handler). See the local <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> documentation for details. </p>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a3a33462ee2a725f19a5b920fff903e3f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a3a33462ee2a725f19a5b920fff903e3f">async</a></td></tr>
+<tr class="separator:a3a33462ee2a725f19a5b920fff903e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67f05f928cc6cd21ba443bf6cf7cd0bc"><td class="memItemLeft" align="right" valign="top">any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a67f05f928cc6cd21ba443bf6cf7cd0bc">body</a></td></tr>
+<tr class="separator:a67f05f928cc6cd21ba443bf6cf7cd0bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0350bba0a639bd43c04849212b037d57"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a0350bba0a639bd43c04849212b037d57">bodyUsed</a></td></tr>
+<tr class="separator:a0350bba0a639bd43c04849212b037d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a227d0a80715b306fe9a3afa18457cfdd"><td class="memItemLeft" align="right" valign="top">Headers&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a227d0a80715b306fe9a3afa18457cfdd">headers</a></td></tr>
+<tr class="separator:a227d0a80715b306fe9a3afa18457cfdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d67bd6634a9002df97231d8c8dbc66c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a1d67bd6634a9002df97231d8c8dbc66c">ok</a></td></tr>
+<tr class="separator:a1d67bd6634a9002df97231d8c8dbc66c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbad23590bdb86b510928b1c6ce624a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#acbad23590bdb86b510928b1c6ce624a4">redirected</a></td></tr>
+<tr class="separator:acbad23590bdb86b510928b1c6ce624a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a443315d10ebf6fc6ac9a4636c3a33bfd"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a443315d10ebf6fc6ac9a4636c3a33bfd">responseType</a></td></tr>
+<tr class="separator:a443315d10ebf6fc6ac9a4636c3a33bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1f0bff7112206922c9d5a87adad6f2b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#ad1f0bff7112206922c9d5a87adad6f2b">status</a></td></tr>
+<tr class="separator:ad1f0bff7112206922c9d5a87adad6f2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d802a5efba5d76b498a6379f52dbf76"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a6d802a5efba5d76b498a6379f52dbf76">statusText</a></td></tr>
+<tr class="separator:a6d802a5efba5d76b498a6379f52dbf76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a214abaa289e8b067d83a46844b1a9097"><td class="memItemLeft" align="right" valign="top">URL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a214abaa289e8b067d83a46844b1a9097">url</a></td></tr>
+<tr class="separator:a214abaa289e8b067d83a46844b1a9097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3fe8d04e595f00a7b0710564b333829"><td class="memItemLeft" align="right" valign="top">XMLHttpRequest&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#ac3fe8d04e595f00a7b0710564b333829">xhr</a></td></tr>
+<tr class="separator:ac3fe8d04e595f00a7b0710564b333829"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a28a830a8e0384c1a0e4ac66c9449ddf5"><td class="memItemLeft" align="right" valign="top">&lt; Promise|<a class="el" href="class_array_buffer.html">ArrayBuffer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a28a830a8e0384c1a0e4ac66c9449ddf5">arrayBuffer</a> ()</td></tr>
+<tr class="separator:a28a830a8e0384c1a0e4ac66c9449ddf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8925148e7a8612dabe163205fa01f27a"><td class="memItemLeft" align="right" valign="top">Promise&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a8925148e7a8612dabe163205fa01f27a">bufferAsync</a> ()</td></tr>
+<tr class="separator:a8925148e7a8612dabe163205fa01f27a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad15d08bdbd6bc59d9b2514e055b250bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_array_buffer.html">ArrayBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#ad15d08bdbd6bc59d9b2514e055b250bb">bufferSync</a> ()</td></tr>
+<tr class="separator:ad15d08bdbd6bc59d9b2514e055b250bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2aadfd39a6cb5ad16b449b1f603398de"><td class="memItemLeft" align="right" valign="top">&lt; Promise|string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a2aadfd39a6cb5ad16b449b1f603398de">base64</a> ()</td></tr>
+<tr class="separator:a2aadfd39a6cb5ad16b449b1f603398de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f9c4a629845882cc3af183d0a747aea"><td class="memItemLeft" align="right" valign="top">Promise&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a1f9c4a629845882cc3af183d0a747aea">base64Async</a> ()</td></tr>
+<tr class="separator:a1f9c4a629845882cc3af183d0a747aea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ed3e330b19ae092a3d1ee13868b5705"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a6ed3e330b19ae092a3d1ee13868b5705">base64Sync</a> ()</td></tr>
+<tr class="separator:a6ed3e330b19ae092a3d1ee13868b5705"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac75225b9ce2833526b5e748ea3a4fd18"><td class="memItemLeft" align="right" valign="top">any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#ac75225b9ce2833526b5e748ea3a4fd18">bodyAs</a> (string type)</td></tr>
+<tr class="separator:ac75225b9ce2833526b5e748ea3a4fd18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fdd4b681730e8d1ff673920760d1ee8"><td class="memItemLeft" align="right" valign="top">&lt; Promise|Object|Array &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a4fdd4b681730e8d1ff673920760d1ee8">json</a> ()</td></tr>
+<tr class="separator:a4fdd4b681730e8d1ff673920760d1ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47542b1cf1e8f668f8c99407eaedc5b4"><td class="memItemLeft" align="right" valign="top">Promise&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a47542b1cf1e8f668f8c99407eaedc5b4">jsonAsync</a> ()</td></tr>
+<tr class="separator:a47542b1cf1e8f668f8c99407eaedc5b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8b92dbcf43739df7cd546c425383c51"><td class="memItemLeft" align="right" valign="top">&lt; Object|Array &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#ac8b92dbcf43739df7cd546c425383c51">jsonSync</a> ()</td></tr>
+<tr class="separator:ac8b92dbcf43739df7cd546c425383c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3975dc4487d32183367654497f5a6ebd"><td class="memItemLeft" align="right" valign="top">&lt; Promise|string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text</a> ()</td></tr>
+<tr class="separator:a3975dc4487d32183367654497f5a6ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd3f8094f36e9c7a98024c6f86c638c4"><td class="memItemLeft" align="right" valign="top">Promise&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#abd3f8094f36e9c7a98024c6f86c638c4">textAsync</a> ()</td></tr>
+<tr class="separator:abd3f8094f36e9c7a98024c6f86c638c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a377628fd7c7e7da3ae769508ef8401f3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a377628fd7c7e7da3ae769508ef8401f3">textSync</a> ()</td></tr>
+<tr class="separator:a377628fd7c7e7da3ae769508ef8401f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b131500adacbe0929b4d29c0db64382"><td class="memItemLeft" align="right" valign="top">&lt; Promise|XMLDocument &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a4b131500adacbe0929b4d29c0db64382">xml</a> ()</td></tr>
+<tr class="separator:a4b131500adacbe0929b4d29c0db64382"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a062e23d9144050f371424d9035f61899"><td class="memItemLeft" align="right" valign="top">Promise&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a062e23d9144050f371424d9035f61899">xmlAsync</a> ()</td></tr>
+<tr class="separator:a062e23d9144050f371424d9035f61899"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7425c36fbd975f8b57bd185579de20e"><td class="memItemLeft" align="right" valign="top">XMLDocument&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#ab7425c36fbd975f8b57bd185579de20e">xmlSync</a> ()</td></tr>
+<tr class="separator:ab7425c36fbd975f8b57bd185579de20e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad998e0b8866dcec70f307c90ce18b37f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_response.html">Response</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#ad998e0b8866dcec70f307c90ce18b37f">clone</a> ()</td></tr>
+<tr class="separator:ad998e0b8866dcec70f307c90ce18b37f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20590a20f33b543613e5dc766bab51aa"><td class="memItemLeft" align="right" valign="top">Error&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html#a20590a20f33b543613e5dc766bab51aa">blob</a> ()</td></tr>
+<tr class="separator:a20590a20f33b543613e5dc766bab51aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a3a33462ee2a725f19a5b920fff903e3f" name="a3a33462ee2a725f19a5b920fff903e3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a33462ee2a725f19a5b920fff903e3f">&#9670;&nbsp;</a></span>async</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool async</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Indicates whether the original request was made asynchronously or not. </p>
+<p >Typically this means whether <code>fetch()</code> (async = true) or <code>request()</code> (async = false) was used to initiate the transaction.</p>
+<p >The value determines the result type from the type-specific access methods <code><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a></code>/<code><a class="el" href="class_response.html#a4fdd4b681730e8d1ff673920760d1ee8">json()</a></code>/<code><a class="el" href="class_response.html#a28a830a8e0384c1a0e4ac66c9449ddf5">arrayBuffer()</a></code>/<code><a class="el" href="class_response.html#a2aadfd39a6cb5ad16b449b1f603398de">base64()</a></code>/<code><a class="el" href="class_response.html#a4b131500adacbe0929b4d29c0db64382">xml()</a></code>; a Promise is returned from these methods when <code>async</code> is <code>true</code>, and the actual requested data type when <code>async</code> is <code>false</code>.</p>
+<p >To explicitly get a Promise or immediate result from those access methods, use the <code>*Sync()</code> or <code>*Async()</code> versions directly. Eg. <code><a class="el" href="class_response.html#ac8b92dbcf43739df7cd546c425383c51" title="Returns body as the result of parsing the response body text as JSON (either a JS Object or an Array)...">jsonSync()</a></code> and <code><a class="el" href="class_response.html#a47542b1cf1e8f668f8c99407eaedc5b4" title="Returns a Promise that resolves with the result of parsing the response body text as JSON (either a J...">jsonAsync()</a></code>.</p>
+<p >This property is an alias for <code>xhr.async</code>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_response.html#ac3fe8d04e595f00a7b0710564b333829" title="This is the underlying XMLHttpRequest object which actually handled the request.">xhr</a> </dd></dl>
+
+</div>
+</div>
+<a id="a67f05f928cc6cd21ba443bf6cf7cd0bc" name="a67f05f928cc6cd21ba443bf6cf7cd0bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67f05f928cc6cd21ba443bf6cf7cd0bc">&#9670;&nbsp;</a></span>body</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">any body</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>XMLHttpRequest.response</code>. </p>
+<p >The return type will vary based on the <code>responseType</code> property set on the original <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> (an <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions.">ArrayBuffer</a>, parsed JSON object/array, XML Document, or plain text). </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_response.html#ac75225b9ce2833526b5e748ea3a4fd18" title="Returns the response body as the given type.">bodyAs()</a>, getText(), getJson(), getXml(), getBuffer() </dd></dl>
+
+</div>
+</div>
+<a id="a0350bba0a639bd43c04849212b037d57" name="a0350bba0a639bd43c04849212b037d57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0350bba0a639bd43c04849212b037d57">&#9670;&nbsp;</a></span>bodyUsed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool bodyUsed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if response body has been parsed into a specific format (by calling <code>body</code> or any of the result-specific promise methods like <code><a class="el" href="class_response.html#a4fdd4b681730e8d1ff673920760d1ee8">json()</a></code>, <code><a class="el" href="class_response.html#a28a830a8e0384c1a0e4ac66c9449ddf5">arrayBuffer()</a></code>, etc). </p>
+<p >This doesn't carry much actual significance (since it is not a data stream), but is retained for compatibility with standard. </p>
+
+</div>
+</div>
+<a id="a227d0a80715b306fe9a3afa18457cfdd" name="a227d0a80715b306fe9a3afa18457cfdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a227d0a80715b306fe9a3afa18457cfdd">&#9670;&nbsp;</a></span>headers</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Headers headers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The Headers object associated with the response. </p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://developer.mozilla.org/en-US/docs/Web/API/Headers">https://developer.mozilla.org/en-US/docs/Web/API/Headers</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1d67bd6634a9002df97231d8c8dbc66c" name="a1d67bd6634a9002df97231d8c8dbc66c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d67bd6634a9002df97231d8c8dbc66c">&#9670;&nbsp;</a></span>ok</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ok</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A boolean indicating whether the response was successful (status in the range 200 – 299) or not. </p>
+
+</div>
+</div>
+<a id="acbad23590bdb86b510928b1c6ce624a4" name="acbad23590bdb86b510928b1c6ce624a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbad23590bdb86b510928b1c6ce624a4">&#9670;&nbsp;</a></span>redirected</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool redirected</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Indicates whether or not the response is the result of a redirect (that is, its URL list has more than one entry). </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_response.html#a214abaa289e8b067d83a46844b1a9097" title="The URL of the response.">url</a> </dd></dl>
+
+</div>
+</div>
+<a id="a443315d10ebf6fc6ac9a4636c3a33bfd" name="a443315d10ebf6fc6ac9a4636c3a33bfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a443315d10ebf6fc6ac9a4636c3a33bfd">&#9670;&nbsp;</a></span>responseType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string responseType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This possible values of this property correspond to the <code><a class="el" href="class_request.html#a443315d10ebf6fc6ac9a4636c3a33bfd" title="responseType property is an enumerated string value specifying the type of data contained in the body...">Request.responseType</a></code> property values (both are aliases for <code>XMLHttpRequest.responseType</code>). </p>
+<p >The value dictates what type of object the <code>body</code> property will be returned as (text, json, xml, or binary/raw). Initially this is set to whatever was set in the original <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> (or fetch() options), if anything (default is blank, equivalent to "text" type). However it can also be changed after the response is received in order to affect the result type returned by <code>body</code>. For example based on received headers. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_response.html#ac75225b9ce2833526b5e748ea3a4fd18" title="Returns the response body as the given type.">bodyAs()</a> for a convenience shortcut method. </dd></dl>
+
+</div>
+</div>
+<a id="ad1f0bff7112206922c9d5a87adad6f2b" name="ad1f0bff7112206922c9d5a87adad6f2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1f0bff7112206922c9d5a87adad6f2b">&#9670;&nbsp;</a></span>status</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool status</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The HTTP status code of the response (eg. </p>
+<p >200 for a success, 404 not found, etc). </p>
+
+</div>
+</div>
+<a id="a6d802a5efba5d76b498a6379f52dbf76" name="a6d802a5efba5d76b498a6379f52dbf76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d802a5efba5d76b498a6379f52dbf76">&#9670;&nbsp;</a></span>statusText</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string statusText</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The status message corresponding to the status code (eg. </p>
+<p >"OK" for 200). </p>
+
+</div>
+</div>
+<a id="a214abaa289e8b067d83a46844b1a9097" name="a214abaa289e8b067d83a46844b1a9097"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a214abaa289e8b067d83a46844b1a9097">&#9670;&nbsp;</a></span>url</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">URL url</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The URL of the response. </p>
+<p >If the request was redirected, this may not be the same as was requested. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_response.html#acbad23590bdb86b510928b1c6ce624a4" title="Indicates whether or not the response is the result of a redirect (that is, its URL list has more tha...">redirected</a> </dd></dl>
+
+</div>
+</div>
+<a id="ac3fe8d04e595f00a7b0710564b333829" name="ac3fe8d04e595f00a7b0710564b333829"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3fe8d04e595f00a7b0710564b333829">&#9670;&nbsp;</a></span>xhr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">XMLHttpRequest xhr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This is the underlying <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a> object which actually handled the request. </p>
+<p >All properties of the result can be read directly from this object if desired, w/out processing further promises (as with "typical" <code>fetch()</code> usage). For example <code>xhr.response</code> or <code>xhr.responseText</code> can be processed immediately in the first <code>then()</code> handler, while the usual <code><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a></code>, <code><a class="el" href="class_response.html#a4fdd4b681730e8d1ff673920760d1ee8">json()</a></code>, etc, access methods all return further async promises for chaining. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a28a830a8e0384c1a0e4ac66c9449ddf5" name="a28a830a8e0384c1a0e4ac66c9449ddf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28a830a8e0384c1a0e4ac66c9449ddf5">&#9670;&nbsp;</a></span>arrayBuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; Promise|<a class="el" href="class_array_buffer.html">ArrayBuffer</a> &gt; arrayBuffer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd><ul>
+<li>If <code>async</code> property is <code>true</code> then <code><a class="el" href="class_response.html#a8925148e7a8612dabe163205fa01f27a" title="Returns a Promise that resolves with an ArrayBuffer representation of the response body.">bufferAsync()</a></code>.</li>
+<li>If <code>async</code> property is <code>false</code> then <code><a class="el" href="class_response.html#ad15d08bdbd6bc59d9b2514e055b250bb" title="Returns an ArrayBuffer representation of the response body.">bufferSync()</a></code>.</li>
+</ul>
+</dd></dl>
+<p><code><a class="el" href="class_response.html#a28a830a8e0384c1a0e4ac66c9449ddf5">arrayBuffer()</a></code> is also aliased as simply <code>buffer()</code>. </p>
+
+</div>
+</div>
+<a id="a8925148e7a8612dabe163205fa01f27a" name="a8925148e7a8612dabe163205fa01f27a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8925148e7a8612dabe163205fa01f27a">&#9670;&nbsp;</a></span>bufferAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Promise bufferAsync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a Promise that resolves with an <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions.">ArrayBuffer</a></code> representation of the response body. </p>
+
+</div>
+</div>
+<a id="ad15d08bdbd6bc59d9b2514e055b250bb" name="ad15d08bdbd6bc59d9b2514e055b250bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad15d08bdbd6bc59d9b2514e055b250bb">&#9670;&nbsp;</a></span>bufferSync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> bufferSync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns an <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions.">ArrayBuffer</a></code> representation of the response body. </p>
+<p >Same as <code>bodyAs("arraybuffer")</code>. </p>
+
+</div>
+</div>
+<a id="a2aadfd39a6cb5ad16b449b1f603398de" name="a2aadfd39a6cb5ad16b449b1f603398de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2aadfd39a6cb5ad16b449b1f603398de">&#9670;&nbsp;</a></span>base64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; Promise|string &gt; base64 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd><ul>
+<li>If <code>async</code> property is <code>true</code> then <code><a class="el" href="class_response.html#a1f9c4a629845882cc3af183d0a747aea" title="Returns a Promise that resolves with an ArrayBuffer representation of the response body but encoded a...">base64Async()</a></code>.</li>
+<li>If <code>async</code> property is <code>false</code> then <code><a class="el" href="class_response.html#a6ed3e330b19ae092a3d1ee13868b5705" title="Returns an ArrayBuffer representation of the response body but encoded as a Base-64 string.">base64Sync()</a></code>. </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a id="a1f9c4a629845882cc3af183d0a747aea" name="a1f9c4a629845882cc3af183d0a747aea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f9c4a629845882cc3af183d0a747aea">&#9670;&nbsp;</a></span>base64Async()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Promise base64Async </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a Promise that resolves with an <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions.">ArrayBuffer</a></code> representation of the response body but encoded as a Base-64 string. </p>
+<p >Convenience method equivalent to </p><div class="fragment"><div class="line">fetch(...).then(r =&gt; r.arrayBuffer()).then((data) =&gt; { var b64data = btoa(data); ... })</div>
+</div><!-- fragment --><p> to shorten to </p><div class="fragment"><div class="line">fetch(...).then(r =&gt; r.base64()).then((b64data) =&gt; { ... })`;</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a6ed3e330b19ae092a3d1ee13868b5705" name="a6ed3e330b19ae092a3d1ee13868b5705"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ed3e330b19ae092a3d1ee13868b5705">&#9670;&nbsp;</a></span>base64Sync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string base64Sync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns an <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions.">ArrayBuffer</a></code> representation of the response body but encoded as a Base-64 string. </p>
+
+</div>
+</div>
+<a id="ac75225b9ce2833526b5e748ea3a4fd18" name="ac75225b9ce2833526b5e748ea3a4fd18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac75225b9ce2833526b5e748ea3a4fd18">&#9670;&nbsp;</a></span>bodyAs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">any bodyAs </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the response <code>body</code> as the given <code>type</code>. </p>
+<p >The values for <code>type</code> are the same as for the <code><a class="el" href="class_request.html#a443315d10ebf6fc6ac9a4636c3a33bfd" title="responseType property is an enumerated string value specifying the type of data contained in the body...">Request.responseType</a></code> property. This is equivalent to: <code>result.responseType = type; var data = result.body</code>; </p><dl class="section note"><dt>Note</dt><dd>For "json" and "xml" types, no validation of the result is done before attempting to parse the result data as the specified type. If the data is malformed or not of the requested type at all, an exception may the thrown by the parser handling the data. To ensure the result is in a specific format, first check for appropriate response header(s) before calling this method. </dd></dl>
+
+</div>
+</div>
+<a id="a4fdd4b681730e8d1ff673920760d1ee8" name="a4fdd4b681730e8d1ff673920760d1ee8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fdd4b681730e8d1ff673920760d1ee8">&#9670;&nbsp;</a></span>json()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; Promise|Object|Array &gt; json </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd><ul>
+<li>If <code>async</code> property is <code>true</code> then <code><a class="el" href="class_response.html#a47542b1cf1e8f668f8c99407eaedc5b4" title="Returns a Promise that resolves with the result of parsing the response body text as JSON (either a J...">jsonAsync()</a></code>.</li>
+<li>If <code>async</code> property is <code>false</code> then <code><a class="el" href="class_response.html#ac8b92dbcf43739df7cd546c425383c51" title="Returns body as the result of parsing the response body text as JSON (either a JS Object or an Array)...">jsonSync()</a></code>. </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a id="a47542b1cf1e8f668f8c99407eaedc5b4" name="a47542b1cf1e8f668f8c99407eaedc5b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47542b1cf1e8f668f8c99407eaedc5b4">&#9670;&nbsp;</a></span>jsonAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Promise jsonAsync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a Promise that resolves with the result of parsing the response body text as JSON (either a JS Object or an Array). </p>
+<dl class="section note"><dt>Note</dt><dd>No validation of the result type is done before attempting to parse the result data as JSON. If the data is malformed or not JSON at all, an exception will the thrown by the parser (same as would be with <code>JSON.parse()</code>). To ensure the result is in JSON format, first check for appropriate response header(s) before calling this method. </dd></dl>
+
+</div>
+</div>
+<a id="ac8b92dbcf43739df7cd546c425383c51" name="ac8b92dbcf43739df7cd546c425383c51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8b92dbcf43739df7cd546c425383c51">&#9670;&nbsp;</a></span>jsonSync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; Object|Array &gt; jsonSync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns <code>body</code> as the result of parsing the response body text as JSON (either a JS Object or an Array). </p>
+<p >Same as <code>bodyAs("json")</code>. </p>
+
+</div>
+</div>
+<a id="a3975dc4487d32183367654497f5a6ebd" name="a3975dc4487d32183367654497f5a6ebd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3975dc4487d32183367654497f5a6ebd">&#9670;&nbsp;</a></span>text()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; Promise|string &gt; text </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd><ul>
+<li>If <code>async</code> property is <code>true</code> then <code><a class="el" href="class_response.html#abd3f8094f36e9c7a98024c6f86c638c4" title="Returns a Promise that resolves with a text representation of the response body.">textAsync()</a></code>.</li>
+<li>If <code>async</code> property is <code>false</code> then <code><a class="el" href="class_response.html#a377628fd7c7e7da3ae769508ef8401f3" title="Returns a text representation of the response body.">textSync()</a></code>. </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a id="abd3f8094f36e9c7a98024c6f86c638c4" name="abd3f8094f36e9c7a98024c6f86c638c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd3f8094f36e9c7a98024c6f86c638c4">&#9670;&nbsp;</a></span>textAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Promise textAsync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a Promise that resolves with a text representation of the response body. </p>
+
+</div>
+</div>
+<a id="a377628fd7c7e7da3ae769508ef8401f3" name="a377628fd7c7e7da3ae769508ef8401f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a377628fd7c7e7da3ae769508ef8401f3">&#9670;&nbsp;</a></span>textSync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string textSync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a text representation of the response body. </p>
+<p >Same as <code>bodyAs("text")</code>. </p>
+
+</div>
+</div>
+<a id="a4b131500adacbe0929b4d29c0db64382" name="a4b131500adacbe0929b4d29c0db64382"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b131500adacbe0929b4d29c0db64382">&#9670;&nbsp;</a></span>xml()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; Promise|XMLDocument &gt; xml </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd><ul>
+<li>If <code>async</code> property is <code>true</code> then <code><a class="el" href="class_response.html#a062e23d9144050f371424d9035f61899" title="Returns a Promise that resolves with an XML Document type representation of the response body.">xmlAsync()</a></code>.</li>
+<li>If <code>async</code> property is <code>false</code> then <code><a class="el" href="class_response.html#ab7425c36fbd975f8b57bd185579de20e" title="Returns an XMLDocument type representation of the response body.">xmlSync()</a></code>. </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a id="a062e23d9144050f371424d9035f61899" name="a062e23d9144050f371424d9035f61899"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a062e23d9144050f371424d9035f61899">&#9670;&nbsp;</a></span>xmlAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Promise xmlAsync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a Promise that resolves with an XML <code>Document</code> type representation of the response body. </p>
+<p >See <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a> for details about the available <code>Document</code> properties. </p><dl class="section note"><dt>Note</dt><dd>No validation of the result type is done before attempting to parse the result data as XML. If the data is malformed or not XML at all, an exception will the thrown by the XML parser. To ensure the result is in XML format, first check for appropriate response header(s) before calling this method. </dd></dl>
+
+</div>
+</div>
+<a id="ab7425c36fbd975f8b57bd185579de20e" name="ab7425c36fbd975f8b57bd185579de20e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7425c36fbd975f8b57bd185579de20e">&#9670;&nbsp;</a></span>xmlSync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">XMLDocument xmlSync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns an <code>XMLDocument</code> type representation of the response body. </p>
+<p >Same as <code>bodyAs("xml")</code>. See <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a> for details about the available <code>Document</code> properties. </p>
+
+</div>
+</div>
+<a id="ad998e0b8866dcec70f307c90ce18b37f" name="ad998e0b8866dcec70f307c90ce18b37f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad998e0b8866dcec70f307c90ce18b37f">&#9670;&nbsp;</a></span>clone()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_response.html">Response</a> clone </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a clone (deep copy) of this <a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a> object. </p>
+<p >Note that the underlying <code>XMLHttpRequest</code> object (available via the <code>xhr</code> property) is still shared across copies. Generally cloning a <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> is not recommended. </p>
+
+</div>
+</div>
+<a id="a20590a20f33b543613e5dc766bab51aa" name="a20590a20f33b543613e5dc766bab51aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20590a20f33b543613e5dc766bab51aa">&#9670;&nbsp;</a></span>blob()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Error blob </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Since <code>Blob</code> type is not supported in the environment, this method throws a <code>TypeError</code>. </p>
+<p >Retained for compatibility with standard. </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_response.html">Response</a></li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
+</body>
+</html>

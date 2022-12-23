@@ -38,38 +38,16 @@ var NAVTREE =
     [ "Troubleshooting", "index.html#autotoc_md14", null ],
     [ "Credits", "index.html#autotoc_md16", null ],
     [ "Copyright, License, and Disclaimer", "index.html#autotoc_md18", null ],
-    [ "Actions and Basic Usage", "actions.html", [
-      [ "Introduction", "actions.html#autotoc_md19", [
-        [ "Important:", "actions.html#autotoc_md20", null ]
-      ] ],
-      [ "Available Actions", "actions.html#autotoc_md21", [
-        [ "Evaluate Expression", "actions.html#autotoc_md22", null ],
-        [ "Load Script File", "actions.html#autotoc_md23", null ],
-        [ "Import Module File", "actions.html#autotoc_md24", null ],
-        [ "Update Existing Instance", "actions.html#autotoc_md25", null ],
-        [ "Anonymous (One-Time) Script", "actions.html#autotoc_md26", null ],
-        [ "Plugin Actions", "actions.html#autotoc_md27", null ]
-      ] ]
-    ] ],
-    [ "Scripting Syntax and Caveats", "scripting.html", [
-      [ "JavaScript Syntax Rules", "scripting.html#autotoc_md75", null ],
-      [ "Escaping Problem Characters", "scripting.html#autotoc_md76", null ]
-    ] ],
-    [ "Status and Logging", "status.html", [
-      [ "Introduction", "status.html#autotoc_md77", [
-        [ "Status States", "status.html#autotoc_md78", null ],
-        [ "\"Console\" Log", "status.html#autotoc_md79", null ],
-        [ "Plugin Log", "status.html#autotoc_md80", null ]
-      ] ]
-    ] ],
+    [ "Plugin Documentation", "documentation.html", "documentation" ],
+    [ "Examples", "plugin_examples.html", "plugin_examples" ],
     [ "JavaScript Library Reference", "modules.html", "modules" ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"actions.html",
-"class_number.html#ac9ed786aaf1627057ba774f4af4775af"
+"class_array_buffer.html",
+"class_math.html#a0196c3b9b73a6da330c4fab9cfd1f851"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

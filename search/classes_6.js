@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['math_0',['Math',['../class_math.html',1,'']]]
+  ['locale_0',['Locale',['../class_locale.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['locale_0',['Locale',['../class_locale.html',1,'']]]
+  ['global_0',['Global',['../class_global.html',1,'']]]
 ];

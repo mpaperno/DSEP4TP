@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -124,15 +138,18 @@ $(document).ready(function(){initNavTree('class_date.html',''); initResizable();
   <tr class="even"><td class="entry"><a class="el" href="class_date.html#aeeb148b5688e69f7b6fd92fab0445957">clone</a>()</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="class_date.html#a91329a7b23fc3d0b8593d2b0c03c2d02">compareToDate</a>(otherDate)</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a>(format)</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_date.html#a67693e617c60d42721089779a3234249">toLocaleDateString</a>(locale, format)</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530">toLocaleString</a>(locale, format)</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_date.html#aaf4d76848df0c99e3da763375c86d6ee">toLocaleTimeString</a>(locale, format)</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_date.html#ad3636e274e7fd0ab666b1a03cab78985">fromLocaleDateString</a>(locale, dateString, format)</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_date.html#aa4404710151b2c75190b098631355cee">fromLocaleString</a>(locale, dateTimeString, format)</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_date.html#a7b8eef363bc78b964aeeb10559b0c6f5">fromLocaleTimeString</a>(locale, timeString, format)</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_date.html#a67693e617c60d42721089779a3234249">toLocaleDateString</a>(locale, format)</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530">toLocaleString</a>(locale, format)</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_date.html#aaf4d76848df0c99e3da763375c86d6ee">toLocaleTimeString</a>(locale, format)</td><td class="entry"><a class="el" href="class_date.html">Date</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

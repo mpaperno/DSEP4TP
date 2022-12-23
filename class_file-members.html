@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -115,47 +129,47 @@ $(document).ready(function(){initNavTree('class_file.html',''); initResizable();
 
 <p>This is the complete list of members for <a class="el" href="class_file.html">File</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a7cfab06c71b857487db722f8a677c60f">absFilePath</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#ad9a44801414788f25e264a4dc83234a9">absPath</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a08400507894207938743b0f812a18a17">atime</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#ac36238a6664a5e61aeed57f46012b1b1">baseName</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a09b46822af82f91f131de87ece3c9fed">btime</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#adf78068fffbd46a336370aae939945f4">copy</a>(string &amp;from, string &amp;to)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a46333cd52f38f985e8df49af635c1749">ctime</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a6f84dc5dfaeabc1f1ab3989aee71ed6d">exists</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#ac0969d28ccceaaee66756a9a0312b68f">filePath</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a90b09632f8ba5716d399ed77cc70e158">fullBaseName</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a634679b8e96dc980b7378b7bfc442a2b">fullSuffix</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#ad34d77865d8ca31c52d64bf87516850b">isAbs</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a391e9dfea962836d922ee488b75d6c58">isDir</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#aa75258b1c3d7bdbc7d08f01f134fafff">isExec</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a18f645763bfae56a70c7624833863b55">isFile</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a6910344def72514e929c6787fb24d765">isReadable</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a6e32c0a55413ef4a490844d2298a246b">isWritable</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#ac6677a9b1a451962bd9d4c4e8d682c27">link</a>(string &amp;fileName, string &amp;linkName)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a951c22a247bcb6ca4aa1a2051defd853">mtime</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a2607728007dd72745c7c332950646bfd">name</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a642f76573d9d07ed7a41c19aa6cf0e8c">normFilePath</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a85ab9b5ebeaa332667e85e58d9396883">normPath</a>(string &amp;path)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#ad37a50591d00f62ce0877976010f4d19">path</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#ad45ab137bacb1bcab77f5cb24c2dd06e">permissions</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a0cf82261c5b3190528e723f53f84742c">read</a>(string &amp;file, ::FS::OpenMode mode=O_TEXT)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a243fb8380ef03eebffd064ee5a86b7ee">read</a>(string &amp;file, string &amp;mode)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#aa52ede9b6b25200394858cae72e85f78">readLines</a>(string &amp;file, int maxLines, int fromLine=0, bool trimTrailingNewlines=true)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a5c9df278231d210479a5f1c72a6ffcf9">readText</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#af9faa353d42d097c95e57e0bf14ec07e">remove</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a5a8859714bd40b309478b80b8dc0481e">rename</a>(string &amp;from, string &amp;to)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#af4bba4bcf6dfec83ed9ff91940355d9e">setPermissions</a>(string &amp;file, ::FS::Permissions p)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a7eb1ce11f85a540444aef9f51520997f">size</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#af7993471e6def0b11f32248cbbad1217">suffix</a>(string &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#aa9e93f6625d66281dd16619fd672c3fa">write</a>(string &amp;file, ArrayBuffer &amp;data, ::FS::OpenMode mode=O_TEXT)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_file.html#ab10f9ed83c6bc0df46d837977c3713ac">write</a>(string &amp;file, ArrayBuffer &amp;data, string &amp;mode)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a18773c9521930e0f190fe819ab9f8219">absFilePath</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a90f0754f984af1fda4617dea078c6c30">absPath</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#ad08885745e364306c0d6c88f56766e01">atime</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#acc3ac9e41ee3051b67a15402f4584825">baseName</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#ac21f502ea823d9bcd5bfa5342a4cec78">btime</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a3b2ba3135d9955302ea751e957a9e598">copy</a>(String &amp;from, String &amp;to)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#ab7d36d329db0846f619e2592cf325b34">ctime</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a5f3550bae0d274d91d8cba4fa784feae">exists</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a83d2d7818d8c7d6d8a1f4ddb76a30438">filePath</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a183a41449c9daa7389f1c4856f358599">fullBaseName</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a1ea33e588f05d49ef359cdcefb333216">fullSuffix</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a7e5aceec7e2ec5700398bdf33273e73b">isAbs</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a402662f873efee3be3e08481865d84f6">isDir</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#aaef68e8964b55fb1db4feb272f0a60a3">isExec</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a07ee9c58bafcd0c700a7cf611473f268">isFile</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a012b3ad7082c5e1ddcc49bb383fb704e">isReadable</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a74faade1110a2a23b37227d77df06850">isWritable</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a6055daa2eb7e4e6038eba067986cf556">link</a>(String &amp;fileName, String &amp;linkName)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a26099edec4cfd59632376ca7a3265e84">mtime</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a1e679ab466d407a9b3957629c871c843">name</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a8aec2fe724ce8d4e3192ae4e05de9db2">normFilePath</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#ae011a5a2595d840d2e455973951d2f28">normPath</a>(String &amp;path)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#afe813edb882f61f036f23051faf6bdcf">path</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#aa15d6bf308efdc710c8793c148817a6c">permissions</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#adeac7b35b88465029c6be619ae67fbaf">read</a>(String &amp;file, ::FS::OpenMode mode=O_TEXT)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a1531ed22351f15393f888fb99647433d">read</a>(String &amp;file, String &amp;mode)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#af7901992c21e2cbef3a9d0edfcb0b4e5">readLines</a>(String &amp;file, int maxLines, int fromLine=0, bool trimTrailingNewlines=true)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a22b1c4d4cc1ae85a1d288ec0b2bb8845">readText</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a010aaca24d57b4a0dde604740c49eac5">remove</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#a1e8f47a7a8f1214b58a3251f6a403d16">rename</a>(String &amp;from, String &amp;to)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#ae076947c63608da0e9f89fd9d073be5d">setPermissions</a>(String &amp;file, ::FS::Permissions p)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#af66ad0f9ec292cb8dd9ce4fb754e774a">size</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#aa0ce737cabcf2df49881ae64ce1b155e">suffix</a>(String &amp;file)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_file.html#aab55ddb959eb0bce3760dbb47d521668">write</a>(String &amp;file, ArrayBuffer &amp;data, ::FS::OpenMode mode=O_TEXT)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_file.html#a091f9568c28f966a9831ac07da95267a">write</a>(String &amp;file, ArrayBuffer &amp;data, String &amp;mode)</td><td class="entry"><a class="el" href="class_file.html">File</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

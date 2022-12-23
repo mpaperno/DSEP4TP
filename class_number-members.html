@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -118,7 +132,7 @@ $(document).ready(function(){initNavTree('class_number.html',''); initResizable(
   <tr class="even"><td class="entry"><a class="el" href="class_number.html#a8f0d6997c92633ddeaae0a783c2c7790">clamp</a>(number min, number max)</td><td class="entry"><a class="el" href="class_number.html">Number</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="class_number.html#ac9ed786aaf1627057ba774f4af4775af">constrain</a>(number min, number max)</td><td class="entry"><a class="el" href="class_number.html">Number</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a>(format)</td><td class="entry"><a class="el" href="class_number.html">Number</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2">fromLocaleString</a>(locale, number)</td><td class="entry"><a class="el" href="class_number.html">Number</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_number.html#ac22bc789235df11af1a4a20df26a23eb">fromLocaleString</a>(locale, numberString)</td><td class="entry"><a class="el" href="class_number.html">Number</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_number.html#a2976963ff8c410133040d33ae41a46d6">round</a>(number precision)</td><td class="entry"><a class="el" href="class_number.html">Number</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="class_number.html#a1adaf4614fa7d1c79552bf0816f07530">toLocaleCurrencyString</a>(locale, symbol)</td><td class="entry"><a class="el" href="class_number.html">Number</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale, format, precision)</td><td class="entry"><a class="el" href="class_number.html">Number</a></td><td class="entry"></td></tr>
@@ -127,7 +141,7 @@ $(document).ready(function(){initNavTree('class_number.html',''); initResizable(
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

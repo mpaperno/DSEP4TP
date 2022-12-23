@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -120,164 +134,22 @@ $(document).ready(function(){initNavTree('class_number.html',''); initResizable(
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3be6b4afd282be1b08ed226cc97ff34a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a> (format)</td></tr>
-<tr class="separator:a3be6b4afd282be1b08ed226cc97ff34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b095bc6784cbd874b4e32020d13edb2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2">fromLocaleString</a> (locale, number)</td></tr>
-<tr class="separator:a5b095bc6784cbd874b4e32020d13edb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1adaf4614fa7d1c79552bf0816f07530"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_number.html#a1adaf4614fa7d1c79552bf0816f07530">toLocaleCurrencyString</a> (locale, symbol)</td></tr>
-<tr class="separator:a1adaf4614fa7d1c79552bf0816f07530"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3b0479a975b36c5ef3adfd4622110d3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a> (locale, <a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a>, precision)</td></tr>
-<tr class="separator:ae3b0479a975b36c5ef3adfd4622110d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2976963ff8c410133040d33ae41a46d6"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_number.html#a2976963ff8c410133040d33ae41a46d6">round</a> (number precision)</td></tr>
 <tr class="separator:a2976963ff8c410133040d33ae41a46d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f0d6997c92633ddeaae0a783c2c7790"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_number.html#a8f0d6997c92633ddeaae0a783c2c7790">clamp</a> (number min, number max)</td></tr>
 <tr class="separator:a8f0d6997c92633ddeaae0a783c2c7790"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9ed786aaf1627057ba774f4af4775af"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_number.html#ac9ed786aaf1627057ba774f4af4775af">constrain</a> (number min, number max)</td></tr>
 <tr class="separator:ac9ed786aaf1627057ba774f4af4775af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3be6b4afd282be1b08ed226cc97ff34a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a> (format)</td></tr>
+<tr class="separator:a3be6b4afd282be1b08ed226cc97ff34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac22bc789235df11af1a4a20df26a23eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_number.html#ac22bc789235df11af1a4a20df26a23eb">fromLocaleString</a> (locale, numberString)</td></tr>
+<tr class="separator:ac22bc789235df11af1a4a20df26a23eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3b0479a975b36c5ef3adfd4622110d3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a> (locale, <a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a>, precision)</td></tr>
+<tr class="separator:ae3b0479a975b36c5ef3adfd4622110d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1adaf4614fa7d1c79552bf0816f07530"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_number.html#a1adaf4614fa7d1c79552bf0816f07530">toLocaleCurrencyString</a> (locale, symbol)</td></tr>
+<tr class="separator:a1adaf4614fa7d1c79552bf0816f07530"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3be6b4afd282be1b08ed226cc97ff34a" name="a3be6b4afd282be1b08ed226cc97ff34a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3be6b4afd282be1b08ed226cc97ff34a">&#9670;&nbsp;</a></span>format()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string format </td>
-          <td>(</td>
-          <td class="paramtype">format&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Formats this number according the specified <code>format</code> string. </p>
-<p >See formatting string reference at <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings#standard-format-specifiers">https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings#standard-format-specifiers</a> </p>
-
-</div>
-</div>
-<a id="a5b095bc6784cbd874b4e32020d13edb2" name="a5b095bc6784cbd874b4e32020d13edb2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b095bc6784cbd874b4e32020d13edb2">&#9670;&nbsp;</a></span>fromLocaleString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_date.html">Date</a> fromLocaleString </td>
-          <td>(</td>
-          <td class="paramtype">locale&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">number&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns a <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> by parsing number using the conventions of the supplied locale. </p>
-<p >If locale is not supplied the default locale will be used.</p>
-<p >For example, using the German locale: </p><div class="fragment"><div class="line">var german = locale(<span class="stringliteral">&quot;de_DE&quot;</span>);</div>
-<div class="line">var d;</div>
-<div class="line">d = <a class="code hl_class" href="class_number.html">Number</a>.<a class="code hl_function" href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2">fromLocaleString</a>(german, <span class="stringliteral">&quot;1234,56&quot;</span>)   <span class="comment">// d == 1234.56</span></div>
-<div class="line">d = <a class="code hl_class" href="class_number.html">Number</a>.<a class="code hl_function" href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2">fromLocaleString</a>(german, <span class="stringliteral">&quot;1.234,56&quot;</span>) <span class="comment">// d == 1234.56</span></div>
-<div class="line">d = <a class="code hl_class" href="class_number.html">Number</a>.<a class="code hl_function" href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2">fromLocaleString</a>(german, <span class="stringliteral">&quot;1234.56&quot;</span>)  <span class="comment">// throws exception</span></div>
-<div class="line">d = <a class="code hl_class" href="class_number.html">Number</a>.<a class="code hl_function" href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2">fromLocaleString</a>(german, <span class="stringliteral">&quot;1.234&quot;</span>)    <span class="comment">// d == 1234.0</span></div>
-<div class="ttc" id="aclass_number_html"><div class="ttname"><a href="class_number.html">Number</a></div><div class="ttdoc">A few convenience methods to extend Number prototype.</div></div>
-<div class="ttc" id="aclass_number_html_a5b095bc6784cbd874b4e32020d13edb2"><div class="ttname"><a href="class_number.html#a5b095bc6784cbd874b4e32020d13edb2">Number::fromLocaleString</a></div><div class="ttdeci">Date fromLocaleString(locale, number)</div><div class="ttdoc">Returns a Number by parsing number using the conventions of the supplied locale.</div></div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="a1adaf4614fa7d1c79552bf0816f07530" name="a1adaf4614fa7d1c79552bf0816f07530"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1adaf4614fa7d1c79552bf0816f07530">&#9670;&nbsp;</a></span>toLocaleCurrencyString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string toLocaleCurrencyString </td>
-          <td>(</td>
-          <td class="paramtype">locale&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">symbol&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Converts the <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> to a currency using the currency and conventions of the specified locale. </p>
-<p >If symbol is specified it will be used as the currency symbol. </p>
-
-</div>
-</div>
-<a id="ae3b0479a975b36c5ef3adfd4622110d3" name="ae3b0479a975b36c5ef3adfd4622110d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3b0479a975b36c5ef3adfd4622110d3">&#9670;&nbsp;</a></span>toLocaleString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string toLocaleString </td>
-          <td>(</td>
-          <td class="paramtype">locale&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a>&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">precision&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Converts the <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> to a string suitable for the specified locale in the specified format, with the specified precision. </p>
-<p >Valid formats are: </p><pre class="fragment">'f' Decimal floating point, e.g. 248.65
-'e' Scientific notation using e character, e.g. 2.4865e+2
-'E' Scientific notation using E character, e.g. 2.4865E+2
-'g' Use the shorter of e or f
-'G' Use the shorter of E or f
-</pre><p> If precision is not specified, the precision will be 2.</p>
-<p >If the format is not specified 'f' will be used.</p>
-<p >If locale is not specified, the default locale will be used.</p>
-<p >The following example shows a number formatted for the German locale:</p>
-<div class="fragment"><div class="line"><span class="stringliteral">&quot;The value is: &quot;</span> + <a class="code hl_class" href="class_number.html">Number</a>(4742378.423).<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>))</div>
-<div class="ttc" id="aclass_number_html_ae3b0479a975b36c5ef3adfd4622110d3"><div class="ttname"><a href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">Number::toLocaleString</a></div><div class="ttdeci">string toLocaleString(locale, format, precision)</div><div class="ttdoc">Converts the Number to a string suitable for the specified locale in the specified format,...</div></div>
-</div><!-- fragment --><p >You can apply <a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a> directly to constants, provided the decimal is included in the constant, e.g.</p>
-<div class="fragment"><div class="line">123.0.<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>)) <span class="comment">// OK</span></div>
-<div class="line">123..<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>))  <span class="comment">// OK</span></div>
-<div class="line">123.toLocaleString(locale(<span class="stringliteral">&quot;de_DE&quot;</span>))   <span class="comment">// fails</span></div>
-</div><!-- fragment --> 
-</div>
-</div>
 <a id="a2976963ff8c410133040d33ae41a46d6" name="a2976963ff8c410133040d33ae41a46d6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2976963ff8c410133040d33ae41a46d6">&#9670;&nbsp;</a></span>round()</h2>
 
@@ -358,13 +230,175 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a3be6b4afd282be1b08ed226cc97ff34a" name="a3be6b4afd282be1b08ed226cc97ff34a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3be6b4afd282be1b08ed226cc97ff34a">&#9670;&nbsp;</a></span>format()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string format </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>format</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Formats this number according the specified .NET-style <code>format</code> string. </p>
+<p >This function emulates the .NET numeric types' <code>*.ToString()</code> methods (eg. <code>Int32.ToString()</code>). For example: </p><div class="fragment"><div class="line">console.log((1234.5678).<a class="code hl_function" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a">format</a>(<span class="stringliteral">&quot;F2&quot;</span>));  <span class="comment">// Prints: &quot;1234.56&quot;</span></div>
+<div class="ttc" id="aclass_number_html_a3be6b4afd282be1b08ed226cc97ff34a"><div class="ttname"><a href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a">Number::format</a></div><div class="ttdeci">string format(format)</div><div class="ttdoc">Formats this number according the specified .NET-style format string.</div></div>
+</div><!-- fragment --><p> See formatting string reference at <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings#standard-format-specifiers">https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings#standard-format-specifiers</a> </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any, using .NET-style formatting synta...">String.format()</a>, <a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a>, <a class="el" href="class_number.html#a1adaf4614fa7d1c79552bf0816f07530" title="Converts the Number to a currency using the currency and conventions of the specified locale.">toLocaleCurrencyString()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ac22bc789235df11af1a4a20df26a23eb" name="ac22bc789235df11af1a4a20df26a23eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac22bc789235df11af1a4a20df26a23eb">&#9670;&nbsp;</a></span>fromLocaleString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_date.html">Date</a> fromLocaleString </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>locale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>numberString</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> by parsing <code>numberString</code> using the conventions of the supplied locale. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">locale</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object, obtained with the global <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> method. If not specified, the default <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> will be used. </td></tr>
+    <tr><td class="paramname">numberString</td><td>The input string to parse.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>For example, using the German locale: </p><div class="fragment"><div class="line">var german = locale(<span class="stringliteral">&quot;de_DE&quot;</span>);</div>
+<div class="line">var d;</div>
+<div class="line">d = <a class="code hl_class" href="class_number.html">Number</a>.<a class="code hl_function" href="class_number.html#ac22bc789235df11af1a4a20df26a23eb">fromLocaleString</a>(german, <span class="stringliteral">&quot;1234,56&quot;</span>)   <span class="comment">// d == 1234.56</span></div>
+<div class="line">d = <a class="code hl_class" href="class_number.html">Number</a>.<a class="code hl_function" href="class_number.html#ac22bc789235df11af1a4a20df26a23eb">fromLocaleString</a>(german, <span class="stringliteral">&quot;1.234,56&quot;</span>) <span class="comment">// d == 1234.56</span></div>
+<div class="line">d = <a class="code hl_class" href="class_number.html">Number</a>.<a class="code hl_function" href="class_number.html#ac22bc789235df11af1a4a20df26a23eb">fromLocaleString</a>(german, <span class="stringliteral">&quot;1234.56&quot;</span>)  <span class="comment">// throws exception</span></div>
+<div class="line">d = <a class="code hl_class" href="class_number.html">Number</a>.<a class="code hl_function" href="class_number.html#ac22bc789235df11af1a4a20df26a23eb">fromLocaleString</a>(german, <span class="stringliteral">&quot;1.234&quot;</span>)    <span class="comment">// d == 1234.0</span></div>
+<div class="ttc" id="aclass_number_html"><div class="ttname"><a href="class_number.html">Number</a></div><div class="ttdoc">A few convenience methods to extend Number prototype.</div></div>
+<div class="ttc" id="aclass_number_html_ac22bc789235df11af1a4a20df26a23eb"><div class="ttname"><a href="class_number.html#ac22bc789235df11af1a4a20df26a23eb">Number::fromLocaleString</a></div><div class="ttdeci">Date fromLocaleString(locale, numberString)</div><div class="ttdoc">Returns a Number by parsing numberString using the conventions of the supplied locale.</div></div>
+</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a>, <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae3b0479a975b36c5ef3adfd4622110d3" name="ae3b0479a975b36c5ef3adfd4622110d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3b0479a975b36c5ef3adfd4622110d3">&#9670;&nbsp;</a></span>toLocaleString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string toLocaleString </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>locale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>precision</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts the <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> to a string suitable for the specified <code>locale</code> in the specified <code>format</code>, with the specified <code>precision</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">locale</td><td>A <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object, obtained with the global <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> method. If not specified, the default <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> will be used. </td></tr>
+    <tr><td class="paramname">format</td><td>One of the format specifier strings shown below. Default is &lsquo;'f&rsquo;` </td></tr>
+    <tr><td class="paramname">precision</td><td><a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> of decimal places to show. Default is 2 decimals.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Valid formats are: </p><pre class="fragment">'f' Decimal floating point, e.g. 248.65
+'e' Scientific notation using e character, e.g. 2.4865e+2
+'E' Scientific notation using E character, e.g. 2.4865E+2
+'g' Use the shorter of e or f
+'G' Use the shorter of E or f
+</pre><p> The following example shows a number formatted for the German locale: </p><div class="fragment"><div class="line">console.log(<a class="code hl_class" href="class_number.html">Number</a>(4742378.423).<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>));</div>
+<div class="line"><span class="comment">// 4.742.378,423</span></div>
+<div class="ttc" id="aclass_number_html_ae3b0479a975b36c5ef3adfd4622110d3"><div class="ttname"><a href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">Number::toLocaleString</a></div><div class="ttdeci">string toLocaleString(locale, format, precision)</div><div class="ttdoc">Converts the Number to a string suitable for the specified locale in the specified format,...</div></div>
+</div><!-- fragment --><p >You can apply <a class="el" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3" title="Converts the Number to a string suitable for the specified locale in the specified format,...">toLocaleString()</a> directly to constants, provided the decimal is included in the constant, e.g. </p><div class="fragment"><div class="line">123.0.<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>)) <span class="comment">// OK</span></div>
+<div class="line">123..<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>))  <span class="comment">// OK</span></div>
+<div class="line">123.toLocaleString(locale(<span class="stringliteral">&quot;de_DE&quot;</span>))   <span class="comment">// fails</span></div>
+</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a>, <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1adaf4614fa7d1c79552bf0816f07530" name="a1adaf4614fa7d1c79552bf0816f07530"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1adaf4614fa7d1c79552bf0816f07530">&#9670;&nbsp;</a></span>toLocaleCurrencyString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string toLocaleCurrencyString </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>locale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>symbol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts the <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> to a currency using the currency and conventions of the specified locale. </p>
+<p >If <code>symbol</code> is specified it will be used as the currency symbol.</p>
+<div class="fragment"><div class="line">console.log(<a class="code hl_class" href="class_number.html">Number</a>(2378.45).<a class="code hl_function" href="class_number.html#a1adaf4614fa7d1c79552bf0816f07530">toLocaleCurrencyString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>)));</div>
+<div class="line"><span class="comment">// 2.378,45€</span></div>
+<div class="line">console.log(<a class="code hl_class" href="class_number.html">Number</a>(2378.45).<a class="code hl_function" href="class_number.html#a1adaf4614fa7d1c79552bf0816f07530">toLocaleCurrencyString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>, <span class="stringliteral">&quot;\u2133&quot;</span>)));</div>
+<div class="line"><span class="comment">// 2.378,45ℳ</span></div>
+<div class="ttc" id="aclass_number_html_a1adaf4614fa7d1c79552bf0816f07530"><div class="ttname"><a href="class_number.html#a1adaf4614fa7d1c79552bf0816f07530">Number::toLocaleCurrencyString</a></div><div class="ttdeci">string toLocaleCurrencyString(locale, symbol)</div><div class="ttdoc">Converts the Number to a currency using the currency and conventions of the specified locale.</div></div>
+</div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a>, <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_number.html">Number</a></li>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

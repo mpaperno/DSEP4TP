@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -115,22 +129,26 @@ $(document).ready(function(){initNavTree('class_color.html',''); initResizable()
 
 <p>This is the complete list of members for <a class="el" href="class_color.html">Color</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_color.html#a45d3734fd6c897723acd3cb8e5e6fa3b">getSaturation</a>()</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a8ae8f3c5fb6a29c6f5ff433b2a293232">isCool</a>()</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_color.html#aedfdb92aa8271d5629c1bcc18dbc7b7e">isCooler</a>(Color color1, Color color2)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#aa5da9f1b50792fd0e6dbd8a82041e979">isCoolerThan</a>(Color secondColor)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_color.html#a15e22cf7196bd871990772acae335805">isDarker</a>(Color color1, Color color2)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a0fb05e209fb1735a580f46c4de5a134b">isDarkerThan</a>(Color secondColor)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_color.html#ad80848a56dab735fe5f3fc50b7742fb9">isLighter</a>(Color color1, Color color2)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a25aece80595eb76d1887e79e5ea32518">isLighterThan</a>(Color secondColor)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_color.html#a151247ebab3660fe828e9fbfd74b773c">isWarm</a>()</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a">isWarmer</a>(Color color1, Color color2)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_color.html#abbcf97ad083904642363abe9a6a767ca">isWarmerThan</a>(Color secondColor)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a3e32bf312e0c39dbb0a853d929f0605a">mix</a>(Color color1, Color color2, number amount)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_color.html#ae07b8254db57a444acc32e446e6fb218">mixWith</a>(Color color2, number amount)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#adfb086b470804a4f7dc911d2dd148cab">polyad</a>(number n)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_color.html#a06c1adfd2c9e4ae067f1a2f3bec3f7c8">shade</a>(Color color, number amount)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a8fc004088e75e937fa38926bf70617ec">tint</a>(Color color, number amount)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_color.html#a87d6ad92217614866d946757fba2d8f3">complement</a>(Color color)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a45d3734fd6c897723acd3cb8e5e6fa3b">getSaturation</a>()</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_color.html#a8ae8f3c5fb6a29c6f5ff433b2a293232">isCool</a>()</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#aedfdb92aa8271d5629c1bcc18dbc7b7e">isCooler</a>(Color color1, Color color2)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_color.html#aa5da9f1b50792fd0e6dbd8a82041e979">isCoolerThan</a>(Color secondColor)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a15e22cf7196bd871990772acae335805">isDarker</a>(Color color1, Color color2)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_color.html#a0fb05e209fb1735a580f46c4de5a134b">isDarkerThan</a>(Color secondColor)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#ad80848a56dab735fe5f3fc50b7742fb9">isLighter</a>(Color color1, Color color2)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_color.html#a25aece80595eb76d1887e79e5ea32518">isLighterThan</a>(Color secondColor)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a151247ebab3660fe828e9fbfd74b773c">isWarm</a>()</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a">isWarmer</a>(Color color1, Color color2)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#abbcf97ad083904642363abe9a6a767ca">isWarmerThan</a>(Color secondColor)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_color.html#a3e32bf312e0c39dbb0a853d929f0605a">mix</a>(Color color1, Color color2, number amount)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#ae07b8254db57a444acc32e446e6fb218">mixWith</a>(Color color2, number amount)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_color.html#adfb086b470804a4f7dc911d2dd148cab">polyad</a>(number n)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a2e9d163ce84bb533543f7f8c96a88123">polyad</a>(Color color, number n)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_color.html#a871ca79089d71b1f6eb016adb3bd412b">shade</a>(number amount)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a06c1adfd2c9e4ae067f1a2f3bec3f7c8">shade</a>(Color color, number amount)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_color.html#a9cf430fb0ce1bb39a4a8111603404fde">tint</a>(number amount)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a8fc004088e75e937fa38926bf70617ec">tint</a>(Color color, number amount)</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_color.html#a4569b96c0298ecd4296dddbc68306ca1">toArgbHex</a>()</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="class_color.html#a31c6fb63b3f241f7809c38e9a55633fa">toArgbHexString</a>()</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_color.html#af7a57ec62f370d92e749c92e43e62f68">tpcolor</a>()</td><td class="entry"><a class="el" href="class_color.html">Color</a></td><td class="entry"></td></tr>
@@ -139,7 +157,7 @@ $(document).ready(function(){initNavTree('class_color.html',''); initResizable()
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

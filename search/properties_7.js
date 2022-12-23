@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['length_0',['length',['../class_file_handle.html#a9f59b34b1f25fe00023291b678246bcc',1,'FileHandle']]]
+  ['headers_0',['headers',['../class_request.html#a227d0a80715b306fe9a3afa18457cfdd',1,'Request::headers()'],['../class_response.html#a227d0a80715b306fe9a3afa18457cfdd',1,'Response::headers()']]]
 ];

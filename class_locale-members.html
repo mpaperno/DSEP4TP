@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -115,39 +129,38 @@ $(document).ready(function(){initNavTree('class_locale.html',''); initResizable(
 
 <p>This is the complete list of members for <a class="el" href="class_locale.html">Locale</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a404bbaddc4c4fddb14f570b673df770f">amText</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a07c73389e109490daa698168bc817ca5">currencySymbol</a>(format)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#afaec6b8d1866f042061955c2f4f4270a">dateFormat</a>(type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#aaab8ccc537a26a566c846f79e93738ba">dateTimeFormat</a>(type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a2091d4a3f19f8f636b2f498a88aedea3">dayName</a>(day, type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a3b2fd96995dc451e119568129f533852">decimalPoint</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a2738ac4e61a90725e26c0389ad57d0b4">exponential</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a589a1e52720250ea571191d4c23f1800">firstDayOfWeek</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a120a55ce2c5f60a06a1187d1cad627d9">groupSeparator</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a0b5e43403a18f8d5e10b60bfe31b4e8d">measurementSystem</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#ab9018cfa91bbfec0d9479574cef01457">monthName</a>(month, type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a896fdc48e8d7fbfbf8425e635461b169">name</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a896fdc48e8d7fbfbf8425e635461b169">name</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a0e8c1b45ea1f94e17a9b8b6b54fc3740">nativeCountryName</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#af60424e59077546558cde609196f32f0">nativeLanguageName</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#aeb0f29e6a5072ce5c8bce0a7ddacc99c">negativeSign</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#ab4407da2673a1328b79a729b6b417605">NumberOption</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a977e89f8fb6c8188636c212ead1f0965">percent</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a15264e3f20b7b43e3885e10b13f18a9f">pmText</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a6d6ec64f0f0c2a78b8ec2b381ac35ca3">positiveSign</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a54854d33a8b46c52448a6b5ad2a7a3fc">standaloneDayName</a>(day, type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#ac2b179fc78edb113d7add8bb72a497f5">standaloneMonthName</a>(month, type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a738218087da5da8d051150348282c11f">textDirection</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a50bc6a85d0b5c9cc75928d2cac3bc5bc">timeFormat</a>(type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#aa5222e5c47400c81ffbf5ef2900a423b">uiLanguages</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#af0531a1293e29f89cef153c01aeab766">weekDays</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#aef9cc40f904c25b0590e5d58f490236f">zeroDigit</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#ac2ad355537b69dbe547f47b4b048d21a">amText</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a7fae80fbd53184a570f5b234b04a4f63">currencySymbol</a>(format)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a416e21851ad434c6359edac3a116a812">dateFormat</a>(type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#ab7ac8e90108c0f840d9b3587a3d39bec">dateTimeFormat</a>(type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#ac7d6d31a4c2175f3622605627498be3c">dayName</a>(day, type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a50de5b07be7e91141cb80e043b509fcf">decimalPoint</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a3725f7892475ec85556ce6b8cf9e43da">exponential</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a1c362f936d28e6ab4e169547a6f34a3c">firstDayOfWeek</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a13880a40e90ea1540b08e909479f68cb">groupSeparator</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#ad0fb88ddee71a1ebc38ff04946815aa0">measurementSystem</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a799650b82c8d5db7f1fb2144d3895555">monthName</a>(month, type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a8ccf841cb59e451791bcb2e1ac4f1edc">name</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a6c762b87caf0646f1895028dc1d72dce">nativeCountryName</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a2f97af314e4d824ae0f5b9d6c4a76da3">nativeLanguageName</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#aa6a546236845310b9c6efa27a16fd3bb">negativeSign</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#ae9146c0842b10b42653bfbe31883e090">numberOptions</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#abddabc7cf8cd018439a4eb151f0e5ecb">percent</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#ad89f786e156dbbc7f16e3b17662c43ab">pmText</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a45a0effead0143f65712d52ad6376ad6">positiveSign</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#adcf823d8d4b6c445aeeed27e7fd7d178">standaloneDayName</a>(day, type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a29fa6f3404885df63ec68007f4758ad6">standaloneMonthName</a>(month, type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a95bcd427644c0dba04dbc64acf5690f8">textDirection</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#adc66dc8ae0362eb40a504d6b249dc591">timeFormat</a>(type)</td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a8f5c05121eeb002b11f2560cc280de8c">uiLanguages</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_locale.html#a1d0ea019f10befb450559874dcc19ed1">weekDays</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_locale.html#a6c8a7c92736101237fe2a21b40de781e">zeroDigit</a></td><td class="entry"><a class="el" href="class_locale.html">Locale</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

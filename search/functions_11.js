@@ -1,4 +1,32 @@
 var searchData=
 [
-  ['unseterror_0',['unsetError',['../class_file_handle.html#af48870b7a500286dfa95e41544c0ec69',1,'FileHandle']]]
+  ['seek_0',['seek',['../class_file_handle.html#aa3b597128a07122a6f5de6d8a468d85f',1,'FileHandle']]],
+  ['separator_1',['separator',['../class_dir.html#a3f4ea0838402ef9f3e178cb8a3d026f2',1,'Dir']]],
+  ['setarguments_2',['setArguments',['../class_process.html#a3e2ab9ac2ae620b564d3eb38837ef048',1,'Process']]],
+  ['setfiletime_3',['setFileTime',['../class_file_handle.html#aae8b78514f9b7a1d31d1ac284b23ef49',1,'FileHandle']]],
+  ['setnativearguments_4',['setNativeArguments',['../class_process.html#ae69f6345509005732e690c81ef5bdb44',1,'Process']]],
+  ['setpermissions_5',['setPermissions',['../class_file.html#ae076947c63608da0e9f89fd9d073be5d',1,'File::setPermissions()'],['../class_file_handle.html#a9c45f1cf1cb449ee8a37feafa7f9efa4',1,'FileHandle::setPermissions()']]],
+  ['setprogram_6',['setProgram',['../class_process.html#aaee8446f9a75de259ef640dbd0c1590c',1,'Process']]],
+  ['setstandarderrorfile_7',['setStandardErrorFile',['../class_process.html#a9023a389539e701d118e4779a91c1b7d',1,'Process']]],
+  ['setstandardinputfile_8',['setStandardInputFile',['../class_process.html#a98fb45c18bc5cd116fc21a39f36e211e',1,'Process']]],
+  ['setstandardoutputfile_9',['setStandardOutputFile',['../class_process.html#a195ae6182597912bccfdb95c03bc6852',1,'Process']]],
+  ['setworkingdirectory_10',['setWorkingDirectory',['../class_process.html#a95adb01400e527499676397acf47afe7',1,'Process']]],
+  ['shade_11',['shade',['../class_color.html#a871ca79089d71b1f6eb016adb3bd412b',1,'Color::shade(number amount)'],['../class_color.html#a06c1adfd2c9e4ae067f1a2f3bec3f7c8',1,'Color::shade(Color color, number amount)']]],
+  ['shownotification_12',['showNotification',['../namespace_t_p.html#a4cb619ba8002feed0b4ac0de9a4beac4',1,'TP']]],
+  ['simplified_13',['simplified',['../class_string.html#a98e25bb1989aab4c3bedd6068c7b1a4e',1,'String']]],
+  ['size_14',['size',['../class_file.html#af66ad0f9ec292cb8dd9ce4fb754e774a',1,'File']]],
+  ['sprintf_15',['sprintf',['../class_global.html#a4bdf4eafc63766384d4e1a6d604ab9b5',1,'Global']]],
+  ['standalonedayname_16',['standaloneDayName',['../class_locale.html#adcf823d8d4b6c445aeeed27e7fd7d178',1,'Locale']]],
+  ['standalonemonthname_17',['standaloneMonthName',['../class_locale.html#a29fa6f3404885df63ec68007f4758ad6',1,'Locale']]],
+  ['start_18',['start',['../class_process.html#a60de64d75454385b23995437f1d72669',1,'Process::start()'],['../class_process.html#a84a87590a7d34c37586405d9b0e00fd1',1,'Process::start(String program, Array&lt; String &gt; arguments=[])']]],
+  ['startcommand_19',['startCommand',['../class_process.html#aa2fe2822072403af69ee86f0396344c5',1,'Process']]],
+  ['startdetached_20',['startDetached',['../class_process.html#a840bd4b3b617f5fe8381a4ce0c014574',1,'Process::startDetached()'],['../class_process.html#a4d2eb2efe93bec133ac9bfdf20c857be',1,'Process::startDetached(String program, Array&lt; String &gt; arguments=[], String workingDirectory=&quot;&quot;)']]],
+  ['started_21',['started',['../class_process.html#ac59cb86fdb92bce8c145ff49df37c940',1,'Process']]],
+  ['state_22',['state',['../class_process.html#a5f6999589c6412136296319895d26e24',1,'Process']]],
+  ['statechanged_23',['stateChanged',['../class_process.html#ac55bf4f21b891d6bc5c8ceebe5fda300',1,'Process']]],
+  ['statecreate_24',['stateCreate',['../namespace_t_p.html#a63d93ca8505b73aa4a1903375d9b484f',1,'TP']]],
+  ['stateremove_25',['stateRemove',['../namespace_t_p.html#a0aaaeb9b83e48c1e3d22da36b094e3e0',1,'TP']]],
+  ['stateupdate_26',['stateUpdate',['../namespace_t_p.html#a9a7f39df44a32f7073aee63a76d68935',1,'TP::stateUpdate(String value)'],['../namespace_t_p.html#afc6bf30d8db05af572c9733456bf5e69',1,'TP::stateUpdate(String name, String value)']]],
+  ['stateupdatebyid_27',['stateUpdateById',['../namespace_t_p.html#abc30c9dbb5074f0b2e36307a25f16ef3',1,'TP']]],
+  ['suffix_28',['suffix',['../class_file.html#aa0ce737cabcf2df49881ae64ce1b155e',1,'File']]]
 ];

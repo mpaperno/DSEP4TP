@@ -10,14 +10,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
-<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
-<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript">
-    DoxygenAwesomeDarkModeToggle.init()
-    DoxygenAwesomeParagraphLink.init()
-    DoxygenAwesomeInteractiveToc.init()
-</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -25,6 +17,28 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md10']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md10"),
+          els = document.getElementsByClassName("index.html:autotoc_md10");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
@@ -113,7 +127,10 @@ $(document).ready(function(){initNavTree('actions.html',''); initResizable(); })
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md19">Introduction</a><ul><li class="level2"><a href="#autotoc_md20">Important:</a></li>
+<ul><li class="level1"><a href="#autotoc_md19">General Theory and Terminology</a><ul><li class="level2"><a href="#doc-script-engine">The engine</a></li>
+<li class="level2"><a href="#doc-engine-instance-types">Engine instances</a></li>
+<li class="level2"><a href="#doc-named-state-instances">Named instances</a></li>
+<li class="level2"><a href="#autotoc_md20">Important:</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#autotoc_md21">Available Actions</a><ul><li class="level2"><a href="#autotoc_md22">Evaluate Expression</a></li>
@@ -121,26 +138,54 @@ $(document).ready(function(){initNavTree('actions.html',''); initResizable(); })
 <li class="level2"><a href="#autotoc_md24">Import Module File</a></li>
 <li class="level2"><a href="#autotoc_md25">Update Existing Instance</a></li>
 <li class="level2"><a href="#autotoc_md26">Anonymous (One-Time) Script</a></li>
-<li class="level2"><a href="#autotoc_md27">Plugin Actions</a></li>
+<li class="level2"><a href="#actions_plugin-action">Plugin Actions</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="textblock"><p ><a class="anchor" id="md_doc_pages_01_Actions"></a></p>
+<div class="textblock"><p ><a class="anchor" id="md_pages_Actions"></a></p>
 <h1><a class="anchor" id="autotoc_md19"></a>
-Introduction</h1>
+General Theory and Terminology</h1>
+<p >The plugin <b>evaluates JavaScript-compatible expressions</b>, from simple math to running (relatively) complex programs.</p>
+<p >For the most part this is useful for getting information/data back to Touch Portal, for example to get the result of a math expression as soon as some dynamic value (used in the expression) changes. Such results would be sent to Touch Portal as plug-in "States" (which I will refer to with a capital letter to help avoid confusion with any other kind of state).</p>
+<p >That's not an exclusive usage &ndash; scripts can also be run that simply do something useful but do not return any result. <em>Or</em> they may run in the background and send Touch Portal state updates when new data becomes available (such as watching a file for changes or downloading from a URL). But more on that later.</p>
+<h2><a class="anchor" id="doc-script-engine"></a>
+The engine</h2>
+<p >Expressions/scripts are evaluated by the plugin using an <b>evaluation engine</b>. An <b>engine instance</b> is a complete and isolated environment that can run JavaScript scripts, like a <b>mini Web browser</b> or a continuously-running Node.js application (it's not either of those things, but that's the best analogy I have for now).</p>
+<p ><b>An engine instance can persist for the life of the plugin</b> (that is, it exists as long as the plugin keeps running).</p><ul>
+<li>This is an important distinction vs., say, running a Node.js script from a Touch Portal action (using Run an Application or Run a batch file actions, for example). In the latter case the script has no way of saving information (data) between executions (not easily, anyway), plus every time it starts it will need to re-create it's complete environment, including starting node[.exe] itself and so on. A persistent environment like this plugin provides has no startup "cost" after the initial creation, and allows for easily saving data, or "state" (lower case!), between runs. It's more like a Web browser that stays open and can re-run any loaded scripts on demand w/out restarting the whole thing.</li>
+</ul>
+<h2><a class="anchor" id="doc-engine-instance-types"></a>
+Engine instances</h2>
+<p >The plugin can <b>run multiple engine instances</b> at the same time. (Don't worry, this is not like running a bunch of bloated Firefox browsers... each instance only uses a few KB of memory :-) ).</p><ul>
+<li>There is always one <b>Shared Instance</b> of an engine in which any expression or script can run and it persists for the life of the plugin (its environment/state can be reset manually if needed).</li>
+<li>Any expression/script you want to run via this plugin's actions can optionally use its own <b>Private Instance</b> of an engine. These engines persist after initial creation, independently from each other, for as long as the plugin keeps running or you delete them intentionally.</li>
+</ul>
+<p >Other differences between Shared and Private engine instances are described after the screenshot... in the first action's description.</p>
+<h2><a class="anchor" id="doc-named-state-instances"></a>
+Named instances</h2>
+<p >Almost all the actions described below (with one exception) revolve around what I call the <b>State Name</b> in the actions and other places.</p><ul>
+<li>Because once activated they will create a new Touch Portal State with the name you type in (or update it, if it already exists).</li>
+<li>These can also be thought of as <b>named expression/script instances</b> (for lack of a better term).</li>
+<li>Each of these named instances can use either the Shared or a Private evaluation engine. So effectively a State Name for an action using a Private engine also becomes the engine instance's name.</li>
+<li>These names are referenced in the plugin's other action(s), such as where you can delete one or reset its engine environment (described <a class="el" href="actions.html#actions_plugin-action">below</a>).</li>
+</ul>
 <h2><a class="anchor" id="autotoc_md20"></a>
 Important:</h2>
 <p >To get any kind of result back from the plugin to Touch Portal the plugin creates Touch Portal States dynamically <b>once you tell it to</b>.</p>
-<p >Meaning that to be able to select the new State from Touch Portal's interface you have to first send one of the plugin's actions which creates that state in the first place (with a name of your choice, as you'll see below). It's a bit of a "catch-22" and this is sometimes a point of confusion.</p>
-<p >So in general the procedure for using any of these results is to first set up one of the actions shown below (which create a new state), then activate it once, then go back and finish setting up your button/event once the new state has been created in Touch Portal.</p>
+<p >Meaning that to be able to select the new State from Touch Portal's interface you have to first send one of the plugin's actions which creates that State in the first place (with a name of your choice, as you'll see below). It's a bit of a <a href="https://en.wikipedia.org/wiki/Catch-22_(logic)" target="_blank">catch-22</a> and this is sometimes a point of confusion.</p>
+<p >So in general the procedure for using any of these results is:</p><ol type="1">
+<li>First set up one of the actions shown below (which creates a new State); It doesn't have to be your final expression/script, just something valid to create the initial State with.</li>
+<li>Then activate this action once somehow (on button press or whatever) &ndash; assuming there are no errors in the expression/script (another good reason to start simple), this will crate the new State in Touch Portal.</li>
+<li>Now go back and finish setting up your button/event once the new State has been created and will be available in the various places you can select States from.</li>
+</ol>
 <p >OK, enough of that, let's get to the Actions!</p>
 <h1><a class="anchor" id="autotoc_md21"></a>
 Available Actions</h1>
-<p ><img src="images/doc/actions/actions-list.jpg" alt="" class="inline"/></p>
+<p ><img src="images/actions/actions-list.jpg" alt="" class="inline"/></p>
 <h2><a class="anchor" id="autotoc_md22"></a>
 Evaluate Expression</h2>
-<p ><a href="images/doc/actions/evaluate.jpg" target="fullSizeImg"><img src="images/doc/actions/evaluate.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/doc/actions/evaluate.jpg" target="fullSizeImg"><img src="images/actions/evaluate.jpg" alt="" class="inline"/></a></p>
 <p >This is the most basic action which creates a new State with the value of whatever the given expression results in. The other action described below all share the same options (as well as add some others). The common options are only explained here.</p>
 <ul>
 <li><b>State Name</b> - This will be the name given to the new Touch Portal State once it is created. Once created it will appear in Touch Portal's various value selector lists.<br  />
@@ -165,7 +210,7 @@ Evaluate Expression</h2>
 </ul>
 <h2><a class="anchor" id="autotoc_md23"></a>
 Load Script File</h2>
-<p ><a href="images/doc/actions/script.jpg" target="fullSizeImg"><img src="images/doc/actions/script.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/doc/actions/script.jpg" target="fullSizeImg"><img src="images/actions/script.jpg" alt="" class="inline"/></a></p>
 <p >This actions lets you load a JavaScript file and then (optionally) add an expression to execute after the script file is loaded. For example to invoke a function within the script while passing it some dynamic arguments.</p>
 <ul>
 <li><b>Script File</b> - This is simply a path to your script file. By default, paths are relative tom the plugin's install folder, so you will likely want to use full paths here.<ul>
@@ -181,7 +226,7 @@ Load Script File</h2>
 <p >The rest of the fields are as described above.</p>
 <h2><a class="anchor" id="autotoc_md24"></a>
 Import Module File</h2>
-<p ><a href="images/doc/actions/module.jpg" target="fullSizeImg"><img src="images/doc/actions/module.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/doc/actions/module.jpg" target="fullSizeImg"><img src="images/actions/module.jpg" alt="" class="inline"/></a></p>
 <p >This is a somewhat more advanced version of the <em>Load Script File</em> action. It is very similar but the advantage of JavaScript modules are that:</p><ol type="1">
 <li>They can import other JS modules for efficient code reuse and integrating with 3rd party modules.</li>
 <li>Are cached in the script engine after first use. So they only load from disk once, and after that each subsequent import uses the cached version.</li>
@@ -196,11 +241,11 @@ Import Module File</h2>
 <p >The rest of the fields are as described in <em>Evaluate Expression</em> action.</p>
 <h2><a class="anchor" id="autotoc_md25"></a>
 Update Existing Instance</h2>
-<p ><a href="images/doc/actions/update.jpg" target="fullSizeImg"><img src="images/doc/actions/update.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/doc/actions/update.jpg" target="fullSizeImg"><img src="images/actions/update.jpg" alt="" class="inline"/></a></p>
 <p >This is a very simple action which evaluates an expression using an already existing dynamic script instance. An instance with the same State Name must have already been created for this to work. The idea is that if you want to use the same instance in multiple places, it may be simpler to have the main, full, definition in only one place, and simpler "update" action(s) in other places. This way one doesn't need to update all actions if a file path changes or you want a different default value.</p>
 <h2><a class="anchor" id="autotoc_md26"></a>
 Anonymous (One-Time) Script</h2>
-<p ><a href="images/doc/actions/onetime.jpg" target="fullSizeImg"><img src="images/doc/actions/onetime.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/doc/actions/onetime.jpg" target="fullSizeImg"><img src="images/actions/onetime.jpg" alt="" class="inline"/></a></p>
 <p >Sometimes you may just want to run some code but don't need to have any result returned as a State, and don't need the instances to persist between uses for any other reason.</p>
 <p >This action combines the first 3 types of actions above, meaning from here you can do anything from a simple expression to loading a module.</p><ul>
 <li><b>Action Type</b> - Corresponds to one of the 3 ways of running code described above &ndash; Evaluate an Expression or Load Script/Module and run some function from that.</li>
@@ -210,9 +255,9 @@ Anonymous (One-Time) Script</h2>
 <li><b>Engine Instance</b> - As described in <em>Evaluate Expression</em> action.</li>
 </ul>
 <p >Since this type of script doesn't persist or have a State associated with it, there are no options to run it at startup like with the others.</p>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="actions_plugin-action"></a>
 Plugin Actions</h2>
-<p ><a href="images/doc/actions/plugin.jpg" target="fullSizeImg"><img src="images/doc/actions/plugin.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/doc/actions/plugin.jpg" target="fullSizeImg"><img src="images/actions/plugin.jpg" alt="" class="inline"/></a></p>
 <p >This is a collection of utilities for working with created states/instances. It can be used to perform a variety of tasks based on the "Action" parameter. Each of the actions can be applied to all instances, only <code>Shared</code> or <code>Private</code> engine types, or individual instances that have already been created.</p>
 <ul>
 <li><b>Delete Instance</b> - Complete deletes the Touch Portal State and any other data related to this script instance. If the instance has been previously saved to settings (with a default value) the it will be removed from there as well. The <em>Value</em> field doesn't apply to this action.</li>
@@ -225,7 +270,8 @@ Plugin Actions</h2>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 29 2022 21:50:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
+    <li class="footer">Generated on Thu Dec 22 2022 10:51:43 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

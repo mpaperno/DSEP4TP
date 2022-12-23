@@ -1,6 +1,13 @@
 var searchData=
 [
-  ['basename_0',['baseName',['../class_file.html#ac36238a6664a5e61aeed57f46012b1b1',1,'File']]],
-  ['btime_1',['btime',['../class_file.html#a09b46822af82f91f131de87ece3c9fed',1,'File']]],
-  ['btoa_2',['btoa',['../classglobal.html#a168d5913a20d8ef5099db892cb9505ce',1,'global']]]
+  ['base64_0',['base64',['../class_response.html#a2aadfd39a6cb5ad16b449b1f603398de',1,'Response']]],
+  ['base64async_1',['base64Async',['../class_response.html#a1f9c4a629845882cc3af183d0a747aea',1,'Response']]],
+  ['base64sync_2',['base64Sync',['../class_response.html#a6ed3e330b19ae092a3d1ee13868b5705',1,'Response']]],
+  ['basename_3',['baseName',['../class_file.html#acc3ac9e41ee3051b67a15402f4584825',1,'File']]],
+  ['blob_4',['blob',['../class_response.html#a20590a20f33b543613e5dc766bab51aa',1,'Response']]],
+  ['bodyas_5',['bodyAs',['../class_response.html#ac75225b9ce2833526b5e748ea3a4fd18',1,'Response']]],
+  ['btime_6',['btime',['../class_file.html#ac21f502ea823d9bcd5bfa5342a4cec78',1,'File']]],
+  ['btoa_7',['btoa',['../class_global.html#a168d5913a20d8ef5099db892cb9505ce',1,'Global']]],
+  ['bufferasync_8',['bufferAsync',['../class_response.html#a8925148e7a8612dabe163205fa01f27a',1,'Response']]],
+  ['buffersync_9',['bufferSync',['../class_response.html#ad15d08bdbd6bc59d9b2514e055b250bb',1,'Response']]]
 ];

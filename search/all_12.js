@@ -1,7 +1,27 @@
 var searchData=
 [
-  ['uilanguages_0',['uiLanguages',['../class_locale.html#aa5222e5c47400c81ffbf5ef2900a423b',1,'Locale']]],
-  ['unseterror_1',['unsetError',['../class_file_handle.html#af48870b7a500286dfa95e41544c0ec69',1,'FileHandle']]],
-  ['unspecifiederror_2',['UnspecifiedError',['../class_f_s.html#aa3ec0b4d641bd69b9e91852d9974bfdeadf3956c18239715c68de70fc16efd4af',1,'FS']]],
-  ['utilities_3',['Utilities',['../group___util.html',1,'']]]
+  ['tail_20example_0',['Tail Example',['../example_tail.html',1,'plugin_examples']]],
+  ['temp_1',['temp',['../class_dir.html#a4c65ab98d739d131af4a7e376b9311f3',1,'Dir']]],
+  ['terminate_2',['terminate',['../class_process.html#a74a45d2648335936561898c390281a6a',1,'Process']]],
+  ['text_3',['text',['../class_response.html#a3975dc4487d32183367654497f5a6ebd',1,'Response']]],
+  ['textasync_4',['textAsync',['../class_response.html#abd3f8094f36e9c7a98024c6f86c638c4',1,'Response']]],
+  ['textdirection_5',['textDirection',['../class_locale.html#a95bcd427644c0dba04dbc64acf5690f8',1,'Locale']]],
+  ['textsync_6',['textSync',['../class_response.html#a377628fd7c7e7da3ae769508ef8401f3',1,'Response']]],
+  ['timeformat_7',['timeFormat',['../class_locale.html#adc66dc8ae0362eb40a504d6b249dc591',1,'Locale']]],
+  ['timeout_8',['timeout',['../class_request.html#a493b57f443cc38b3d3df9c1e584d9d82',1,'Request']]],
+  ['timeouterror_9',['TimeOutError',['../class_f_s.html#aa3ec0b4d641bd69b9e91852d9974bfdeacb7f897e59ce6b6b3402f2dee966f856',1,'FS']]],
+  ['tint_10',['tint',['../class_color.html#a9cf430fb0ce1bb39a4a8111603404fde',1,'Color::tint(number amount)'],['../class_color.html#a8fc004088e75e937fa38926bf70617ec',1,'Color::tint(Color color, number amount)']]],
+  ['toargbhex_11',['toArgbHex',['../class_color.html#a4569b96c0298ecd4296dddbc68306ca1',1,'Color']]],
+  ['toargbhexstring_12',['toArgbHexString',['../class_color.html#a31c6fb63b3f241f7809c38e9a55633fa',1,'Color']]],
+  ['tobase64_13',['toBase64',['../class_array_buffer.html#aba7b605c9d75b159455e8231fbb43ca7',1,'ArrayBuffer']]],
+  ['todegrees_14',['toDegrees',['../class_math.html#a2977a3d24cb7ef479953f00918c063ed',1,'Math']]],
+  ['tohex_15',['toHex',['../class_array_buffer.html#ad2ca71f9e77c698e1228986864548d19',1,'ArrayBuffer']]],
+  ['tolocalecurrencystring_16',['toLocaleCurrencyString',['../class_number.html#a1adaf4614fa7d1c79552bf0816f07530',1,'Number']]],
+  ['tolocaledatestring_17',['toLocaleDateString',['../class_date.html#a67693e617c60d42721089779a3234249',1,'Date']]],
+  ['tolocalestring_18',['toLocaleString',['../class_date.html#a1275fa6408c29c9b9fafe664886f7530',1,'Date::toLocaleString()'],['../class_number.html#ae3b0479a975b36c5ef3adfd4622110d3',1,'Number::toLocaleString()']]],
+  ['tolocaletimestring_19',['toLocaleTimeString',['../class_date.html#aaf4d76848df0c99e3da763375c86d6ee',1,'Date']]],
+  ['tonative_20',['toNative',['../class_dir.html#a872ed341b88877e4104d651e05af8b6b',1,'Dir']]],
+  ['toradians_21',['toRadians',['../class_math.html#ae2bb26e91a408a5abe89cd02a2bb4445',1,'Math']]],
+  ['tp_22',['TP',['../namespace_t_p.html',1,'']]],
+  ['tpcolor_23',['tpcolor',['../class_color.html#af7a57ec62f370d92e749c92e43e62f68',1,'Color']]]
 ];
