@@ -140,8 +140,6 @@ void Plugin::exit()
 
 void Plugin::quit()
 {
-//	if (client)
-//		client->disconnect();
 	if (client && client->isConnected())
 		clearStateLists();
 	Q_EMIT tpDisconnect();
@@ -159,12 +157,6 @@ void Plugin::initEngine()
 	connect(ScriptEngine::instance(), &ScriptEngine::connectorUpdate, this, &Plugin::tpConnectorUpdate, Qt::QueuedConnection);
 	connect(ScriptEngine::instance(), &ScriptEngine::tpNotification, this, &Plugin::tpNotification, Qt::QueuedConnection);
 	connect(this, &Plugin::tpNotificationClicked, ScriptEngine::instance(), &ScriptEngine::onNotificationClicked, Qt::QueuedConnection);
-	//	connect(ScriptEngine::instance(), &ScriptEngine::stateValueUpdateById, client, qOverload<const QByteArray &, const QByteArray &>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
-	//	connect(ScriptEngine::instance(), &ScriptEngine::stateCreate, client, qOverload<const QByteArray&, const QByteArray&, const QByteArray& , const QByteArray&>(&TPClientQt::createState), Qt::QueuedConnection);
-	//	connect(ScriptEngine::instance(), &ScriptEngine::stateRemove, client, qOverload<const QByteArray&>(&TPClientQt::removeState), Qt::QueuedConnection);
-	//	connect(ScriptEngine::instance(), &ScriptEngine::choiceUpdate, client, qOverload<const QByteArray&, const QStringList&>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
-	//	connect(ScriptEngine::instance(), &ScriptEngine::connectorUpdate, client, qOverload<const QByteArray&, uint8_t>(&TPClientQt::connectorUpdate), Qt::QueuedConnection);
-	//	connect(ScriptEngine::instance(), &ScriptEngine::showNotification, client, qOverload<const QByteArray&, const QByteArray&, const QByteArray&, const QVariantList&>(&TPClientQt::showNotification), Qt::QueuedConnection);
 
 	connect(this, &Plugin::loggerRotateLogs, Logger::instance(), &Logger::rotateLogs);
 }
@@ -200,10 +192,6 @@ void Plugin::loadSettings()
 				break;
 			default:
 				QMetaObject::invokeMethod(ds, "evaluateDefault", Qt::QueuedConnection);
-				//if (ds->scope == DynamicScript::Scope::Shared)
-				//	ds->evaluateDefault();
-				//else
-				//	auto _ = QtConcurrent::run(&DynamicScript::evaluateDefault, ds);
 				break;
 		}
 	}
@@ -216,12 +204,6 @@ DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool deferSta
 	if (!ds && !failIfMissing) {
 		//qCDebug(lcPlugin) << dvName << "Creating";
 		ds = g_instances->insert(name, new DynamicScript(name, this)).value();
-		//connect(ds, &DynamicScript::scriptError, this, &Plugin::onDvScriptError, Qt::QueuedConnection);
-		//connect(dv, &DynamicScript::dataReady, this, &Plugin::onDvDataReady);
-		// Direct connection to socket where state ID is already fully qualified; also emits for ScriptEngine::stateValueUpdateById() signals.
-		//connect(ds, &DynamicScript::dataReady, client, qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
-		// Global from script engine which needs name lookup because the state name is not fully qualified.
-		//connect(ds, &DynamicScript::stateValueUpdateByName, this, &Plugin::onStateUpdateByName, Qt::QueuedConnection);
 		if (!deferState)
 			createScriptState(ds);
 	}
@@ -231,12 +213,11 @@ DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool deferSta
 void Plugin::removeInstance(DynamicScript *ds)
 {
 	if (ds) {
-		removeScriptState(ds);
 		if (ds->scope == DynamicScript::Scope::Shared)
 			ScriptEngine::instance()->clearInstanceData(ds->name);
 		g_instances->remove(ds->name);
+		removeScriptState(ds);
 		delete ds;
-//		ds->deleteLater();
 	}
 }
 
@@ -253,9 +234,9 @@ void Plugin::sendStateLists() const
 
 void Plugin::clearStateLists() const
 {
-//	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.createdStatesList"), QByteArrayLiteral(""));
+	// This happens on exit, so use a direct call here.
+	//	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.createdStatesList"), QByteArrayLiteral(""));
 	client->stateUpdate(PLUGIN_ID ".state.createdStatesList", "");
-	qCInfo(lcPlugin) << "Cleared States list.";
 }
 
 void Plugin::sendScriptState(DynamicScript *ds, const QByteArray &value) const
@@ -306,20 +287,10 @@ void Plugin::clearScriptErrors()
 	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.errorCount"), QByteArray::number(g_errorCount));
 }
 
-//void Plugin::evaluateDV(DynamicScript *dv) const
-//{
-//	if (ds->scope == DynamicScript::Scope::Shared)
-//		ds->evaluate();
-//	else
-//		QtConcurrent::run(ds, &DynamicScript::evaluate);
-//}
-
 void Plugin::onStateUpdateByName(const QByteArray &name, const QByteArray &value) const
 {
 	qCDebug(lcPlugin) << "Sending state update" << DYNAMIC_VALUE_STATE_PRFX + name;
 	Q_EMIT tpStateUpdate(DYNAMIC_VALUE_STATE_PRFX + name, value);
-	//if (DynamicScript *ds = g_instances->value(name))
-	//	sendScriptState(ds, value);
 }
 
 void Plugin::onDsScriptError(const QJSValue &e) const
@@ -349,8 +320,8 @@ void Plugin::onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &se
 		<< ") with entry.tp v" << info.pluginVersion << ", running v" << PLUGIN_VERSION_STR;
 	handleSettings(settings);
 	initEngine();
-	loadSettings();
 	clearScriptErrors();
+	loadSettings();
 	sendStateLists();
 }
 
@@ -537,7 +508,7 @@ void Plugin::pluginAction(const QByteArray &actId, const QJsonArray &data)
 			}
 			else {
 				qCWarning(lcPlugin) << "Script not found for name:" << dvName;
-				sendStateLists();  // update the states list anyway in case there's a stale name in tere
+				sendStateLists();  // update the states list anyway in case there's a stale name in there
 				return;
 			}
 			return;

@@ -63,7 +63,6 @@ class Plugin : public QObject
 		void raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type = tr("SCRIPT EXCEPTION")) const;
 		void clearScriptErrors();
 		void onStateUpdateByName(const QByteArray &name, const QByteArray &value) const;
-		//void evaluateDV(DynamicScript *dv) const;
 		void onDsScriptError(const QJSValue &e) const;
 		void onScriptEngineError(const QJSValue &e) const;
 		void onDsFinished();
