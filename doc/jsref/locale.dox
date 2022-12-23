@@ -1,0 +1,341 @@
+
+/*!
+  \class Locale
+  \ingroup Util
+  Provides locale specific properties and formatted data.
+
+  The Locale object may only be created via the global `locale()` function.
+  It cannot be created directly.
+
+  The global `locale()` function returns a JS Locale object representing the
+  locale with the specified name, which has the format `language[_territory][.codeset][@modifier]` or `C`.
+
+  Locale supports the concept of a default locale, which is
+  determined from the system's locale settings at application
+  startup.  If no parameter is passed to locale() the default
+  locale object is returned.
+
+  The Locale object provides a number of functions and properties
+  providing data for the specified locale.
+
+  The Locale object may also be passed to the Date and Number toLocaleString()
+  and fromLocaleString() methods in order to convert to/from strings using
+  the specified locale.
+
+  This example shows the current date formatted for the German locale:
+  \code
+      var text = "The value is: " + Date().toLocaleString(locale("de_DE"));
+  \endcode
+
+  The following example displays the specified number
+  in the correct format for the default locale:
+  \code
+      var text = "The value is: " + Number(23443.34).toLocaleString(locale())
+  \endcode
+
+  ## Locale String Format Types {#locale-format-type}
+
+  The monthName(), standaloneMonthName(), dayName() and standaloneDayName()
+  can use the following enumeration values to specify the formatting of
+  the string representation for a Date object.
+
+  - `Locale.LongFormat` The long version of day and month names; for
+  example, returning "January" as a month name.
+  - `Locale.ShortFormat` The short version of day and month names; for
+  example, returning "Jan" as a month name.
+  - `Locale.NarrowFormat` A special version of day and month names for
+  use when space is limited; for example, returning "J" as a month
+  name. Note that the narrow format might contain the same text for
+  different months and days or it can even be an empty string if the
+  locale doesn't support narrow names, so you should avoid using it
+  for date formatting. Also, for the system locale this format is
+  the same as ShortFormat.
+
+  ## Date format specifiers {#locale-date-format}
+
+Besides the fixed format types listed above, a format string passed to the various Date formatting functions (`Date.toLocaleString()` and family)
+specifies a format string, it should use the following expressions to specify the date:
+<table class="generic">
+<tr class="qt-style"><th>Expression</th><th>Output</th></tr>
+<tr class="odd" valign="top"><td>d</td><td>the day as number without a leading zero (1 to 31)</td></tr>
+<tr class="even" valign="top"><td>dd</td><td>the day as number with a leading zero (01 to 31)</td></tr>
+<tr class="odd" valign="top"><td>ddd</td><td>the abbreviated localized day name (e.g. 'Mon' to 'Sun'). Uses QDate::shortDayName().</td></tr>
+<tr class="even" valign="top"><td>dddd</td><td>the long localized day name (e.g. 'Monday' to '<a href="qt.html#DayOfWeek-enum">Qt::Sunday</a>'). Uses QDate::longDayName().</td></tr>
+<tr class="odd" valign="top"><td>M</td><td>the month as number without a leading zero (1-12)</td></tr>
+<tr class="even" valign="top"><td>MM</td><td>the month as number with a leading zero (01-12)</td></tr>
+<tr class="odd" valign="top"><td>MMM</td><td>the abbreviated localized month name (e.g. 'Jan' to 'Dec'). Uses QDate::shortMonthName().</td></tr>
+<tr class="even" valign="top"><td>MMMM</td><td>the long localized month name (e.g. 'January' to 'December'). Uses QDate::longMonthName().</td></tr>
+<tr class="odd" valign="top"><td>yy</td><td>the year as two digit number (00-99)</td></tr>
+<tr class="even" valign="top"><td>yyyy</td><td>the year as four digit number</td></tr>
+</table>
+
+In addition the following expressions can be used to specify the time:
+<table class="generic">
+<tr class="qt-style"><th>Expression</th><th>Output</th></tr>
+<tr class="odd" valign="top"><td>h</td><td>the hour without a leading zero (0 to 23 or 1 to 12 if AM/PM display)</td></tr>
+<tr class="even" valign="top"><td>hh</td><td>the hour with a leading zero (00 to 23 or 01 to 12 if AM/PM display)</td></tr>
+<tr class="odd" valign="top"><td>m</td><td>the minute without a leading zero (0 to 59)</td></tr>
+<tr class="even" valign="top"><td>mm</td><td>the minute with a leading zero (00 to 59)</td></tr>
+<tr class="odd" valign="top"><td>s</td><td>the second without a leading zero (0 to 59)</td></tr>
+<tr class="even" valign="top"><td>ss</td><td>the second with a leading zero (00 to 59)</td></tr>
+<tr class="odd" valign="top"><td>z</td><td>the milliseconds without leading zeroes (0 to 999)</td></tr>
+<tr class="even" valign="top"><td>zzz</td><td>the milliseconds with leading zeroes (000 to 999)</td></tr>
+<tr class="odd" valign="top"><td>AP</td><td>use AM/PM display. <i>AP</i> will be replaced by either "AM" or "PM".</td></tr>
+<tr class="even" valign="top"><td>ap</td><td>use am/pm display. <i>ap</i> will be replaced by either "am" or "pm".</td></tr>
+<tr class="odd" valign="top"><td>t</td><td>include a time-zone indicator.</td></tr>
+</table>
+
+All other input characters will be ignored. Any sequence of characters that are enclosed in single quotes will be treated as text and not be used as an expression. Two consecutive single quotes (`''`) are replaced by a single quote in the output.
+
+<p>For example, if the following date/time value was specified:</p>
+
+```js
+// 21 May 2001 14:13:09
+var dateTime = new Date(2001, 5, 21, 14, 13, 09);
+```
+
+<p>This <i>dateTime</i> value could be passed to various Date formatting functions with values below to produce the following results:</p>
+<table class="generic">
+<tr class="qt-style"><th>Format</th><th>Result</th></tr>
+<tr class="odd" valign="top"><td>"dd.MM.yyyy"</td><td>21.05.2001</td></tr>
+<tr class="even" valign="top"><td>"ddd MMMM d yy"</td><td>Tue May 21 01</td></tr>
+<tr class="odd" valign="top"><td>"hh:mm:ss.zzz"</td><td>14:13:09.042</td></tr>
+<tr class="even" valign="top"><td>"h:m:s ap"</td><td>2:13:9 pm</td></tr>
+</table>
+
+  \sa Date, Number
+
+  \copyright
+  This documentation is originally from the Qt library's `QQmlLocale` class, used under the GNU Free Documentation License.
+  \n %Locale's data is based on _Common %Locale Data Repository_ v1.8.1.
+
+        Copyright (c) 1991 by AT&T.
+
+        Permission to use, copy, modify, and distribute this software for any
+        purpose without fee is hereby granted, provided that this entire notice
+        is included in all copies of any software which is or includes a copy
+        or modification of this software and in all copies of the supporting
+        documentation for such software.
+
+        THIS SOFTWARE IS BEING PROVIDED "AS IS", WITHOUT ANY EXPRESS OR IMPLIED
+        WARRANTY.  IN PARTICULAR, NEITHER THE AUTHOR NOR AT&T MAKES ANY
+        REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
+        OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
+        This product includes software developed by the University of
+        California, Berkeley and its contributors.
+
+*/
+
+/*!
+
+  \property string decimalPoint
+  \memberof Locale
+  Holds the decimal point character of this locale.
+
+
+
+  \property string groupSeparator
+  \memberof Locale
+  Holds the group separator character of this locale.
+
+
+  \property enumeration numberOptions
+  \memberof Locale
+  Holds a set of options for number-to-string and
+  string-to-number conversions.
+  \sa Number.toLocaleString()
+  \sa Number.fromLocaleString()
+
+
+  \property string percent
+  \memberof Locale
+  Holds the percent character of this locale.
+
+
+  \property string zeroDigit
+  \memberof Locale
+  Holds Returns the zero digit character of this locale.
+
+
+  \property string negativeSign
+  \memberof Locale
+  Holds the negative sign character of this locale.
+
+
+  \property string positiveSign
+  \memberof Locale
+  Holds the positive sign character of this locale.
+
+
+  \property string exponential
+  \memberof Locale
+  Holds the exponential character of this locale.
+
+
+  \property enumeration firstDayOfWeek
+  \memberof Locale
+  Holds the first day of the week according to the current locale.
+  \li `Locale.Sunday` = 0
+  \li `Locale.Monday` = 1
+  \li `Locale.Tuesday` = 2
+  \li `Locale.Wednesday` = 3
+  \li `Locale.Thursday` = 4
+  \li `Locale.Friday` = 5
+  \li `Locale.Saturday` = 6
+
+
+  \property Array<int> weekDays
+  \memberof Locale
+  Holds an array of days that are considered week days according to the current locale,
+  where Sunday is 0 and Saturday is 6.
+  \sa firstDayOfWeek
+
+
+  \property Array<string> uiLanguages
+  \memberof Locale
+  Returns an ordered list of locale names for translation purposes in
+  preference order.
+  The return value represents locale names that the user expects to see the
+  UI translation in.
+  The first item in the list is the most preferred one.
+
+
+  \property enumeration textDirection
+  \memberof Locale
+  Holds the text direction of the language:
+  \li `Qt.LeftToRight`
+  \li `Qt.RightToLeft`
+
+
+  \property string amText
+  \memberof Locale
+  The localized name of the "AM" suffix for times specified using the conventions of the 12-hour clock.
+
+
+  \property string pmText
+  \memberof Locale
+  The localized name of the "PM" suffix for times specified using the conventions of the 12-hour clock.
+
+  \property string nativeLanguageName
+  \memberof Locale
+  Holds a native name of the language for the locale. For example
+  "Schwiizertüütsch" for Swiss-German locale.
+  \sa nativeCountryName
+
+
+  \property string nativeCountryName
+  \memberof Locale
+  Holds a native name of the country for the locale. For example
+  "España" for Spanish/Spain locale.
+  \sa nativeLanguageName
+
+
+  \property enumeration measurementSystem
+  \memberof Locale
+  This property defines which units are used for measurement.
+
+  \li `Locale.MetricSystem` This value indicates metric units, such as meters,
+      centimeters and millimeters.
+  \li `Locale.ImperialUSSystem` This value indicates imperial units, such as
+      inches and miles as they are used in the United States.
+  \li `Locale.ImperialUKSystem` This value indicates imperial units, such as
+      inches and miles as they are used in the United Kingdom.
+  \li `Locale.ImperialSystem` Provided for compatibility. The same as
+      Locale.ImperialUSSystem.
+
+
+
+  \fn string currencySymbol(format)
+  \memberof Locale
+  Returns the currency symbol for the specified \a format:
+  \li `Locale.CurrencyIsoCode` a ISO-4217 code of the currency.
+  \li `Locale.CurrencySymbol` a currency symbol.
+  \li `Locale.CurrencyDisplayName` a user readable name of the currency.
+
+  \sa Number.toLocaleCurrencyString()
+
+  \fn string dateTimeFormat(type)
+  \memberof Locale
+  Returns the date time format used for the current locale.
+  \a type specifies the \ref locale-format-type to return.
+  \sa Date
+
+
+  \fn string dateFormat(type)
+  \memberof Locale
+  Returns the date format used for the current locale.
+  \a type specifies the \ref locale-format-type to return.
+  \sa Date
+
+
+  \fn string timeFormat(type)
+  \memberof Locale
+  Returns the time format used for the current locale.
+  \a type specifies the \ref locale-format-type to return.
+  \sa Date
+
+
+  \fn string monthName(month, type)
+  \memberof Locale
+  Returns the localized name of \a month (0-11), in the optional
+  locale-format-type specified by \a type.
+  \sa dayName(), standaloneMonthName()
+
+
+  \fn string standaloneMonthName(month, type)
+  \memberof Locale
+  Returns the localized name of \a month (0-11) that is used as a
+  standalone text, in the optional \ref locale-format-type specified by \a type.
+  If the locale information doesn't specify the standalone month
+  name then return value is the same as in monthName().
+  \sa monthName(), standaloneDayName()
+
+
+  \fn string dayName(day, type)
+  \memberof Locale
+  Returns the localized name of the \a day (where 0 represents
+  Sunday, 1 represents Monday and so on), in the optional
+  \ref locale-format-type specified by \a type.
+  \sa monthName(), standaloneDayName()
+
+
+  \fn string standaloneDayName(day, type)
+  \memberof Locale
+  Returns the localized name of the \a day (where 0 represents
+  Sunday, 1 represents Monday and so on) that is used as a
+  standalone text, in the \ref locale-format-type specified by \a type.
+  If the locale information does not specify the standalone day
+  name then return value is the same as in dayName().
+  \sa dayName(), standaloneMonthName()
+
+*/
+
+class Locale {
+  Q_PROPERTY(string amText READ amText)
+  Q_PROPERTY(string decimalPoint READ decimalPoint)
+  Q_PROPERTY(string exponential READ exponential)
+  Q_PROPERTY(enumeration firstDayOfWeek READ firstDayOfWeek)
+  Q_PROPERTY(string groupSeparator READ groupSeparator)
+  Q_PROPERTY(enumeration measurementSystem READ measurementSystem)
+/*!
+  \property string name
+  \memberof Locale
+  Holds the language and country of this locale as a
+  string of the form "language_country", where
+  language is a lowercase, two-letter ISO 639 language code,
+  and country is an uppercase, two- or three-letter ISO 3166 country code.
+*/
+  Q_PROPERTY(string name READ name)
+  Q_PROPERTY(string nativeCountryName READ nativeCountryName)
+  Q_PROPERTY(string nativeLanguageName READ nativeLanguageName)
+  Q_PROPERTY(string negativeSign READ negativeSign)
+  Q_PROPERTY(enumeration numberOptions READ numberOptions)
+  Q_PROPERTY(string percent READ percent)
+  Q_PROPERTY(string pmText READ pmText)
+  Q_PROPERTY(string positiveSign READ positiveSign)
+  Q_PROPERTY(enumeration textDirection READ textDirection)
+  Q_PROPERTY(string zeroDigit READ zeroDigit)
+  Q_PROPERTY(Array<int> weekDays READ weekDays)
+  Q_PROPERTY(Array<string> uiLanguages READ uiLanguages)
+};
+// Locale

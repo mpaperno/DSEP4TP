@@ -1,0 +1,519 @@
+
+//! \ingroup FetchAPI
+//! The Net namespace contains static functions for working with network requests.
+namespace Net {
+
+/*!
+\fn Promise fetch(url, options)
+\static
+
+The `Net.fetch()` method starts the process of fetching a resource from the network, returning a Promise object which is fulfilled once a result is available.
+
+The `fetch()` method itself works the same as the standard (see, eg. [MDN %fetch()](https://developer.mozilla.org/en-US/docs/Web/API/fetch) for details),
+as it is simply a wrapper around other API objects. The returned Promise is resolved on a successful request/response, or rejected on failure.
+
+Specifically:
+- In case of success (`XMLHttpRequest.onload()`), the promise is resolved with a `Response` object as the argument.
+	- Note: the non-standard option `rejectOnError` can be set to `true`, in which case `fetch()` will _reject_ the promise if the returned HTTP status code is not in the 200-299 range,
+  in the same way as if a network error occurred (see below).
+- In case of errors in `options` values or during configuration of the underlying `XMLHttpRequest` object the promise is rejected with `TypeError` or `ReferenceError`.
+- In case of any _network_ error (`XMLHttpRequest.onerror()`), or if `rejectOnError` was set to `true` and the result status was not in the 200-299 range, the promise is
+	rejected with a `DOMException` type named `NetworkError` (legacy ID `DOMException.NETWORK_ERR`).<br />
+	The exception object has a custom property named `response`, which contains a `Response` object which holds whatever results _could_ be retrieved, if any.
+	If the request failed altogether (eg. server not found), the `response.status` will be `0`.
+- In case of a network timeout (`XMLHttpRequest.ontimeout()`) the promise is rejected with a `DOMException` type named `TimeoutError` (legacy ID `DOMException.TIMEOUT_ERR`).
+	This exception object also 	has a custom property named `response`, as described above (it _may_ contain some actual response, for example in case of a redirect where the
+	new URL timed out, the original response data may be available).<br />
+	Note that the promise is rejected with the timeout exception first, _before_ the general error rejection described above.
+- In case the request was aborted (`XMLHttpRequest.onabort()`) the promise is rejected with a `DOMException` type named `AbortError` (legacy ID `DOMException.ABORT_ERR`).
+	This exception object also has a custom property named `response`, as described above (it _may_ contain some actual response,
+	for example if the request was aborted after the headers were already	loaded).<br />
+	Note that the promise is rejected with the abort exception first, _before_ the general error rejection described above.
+
+The few other differences of this implementation are in the `Request` and `Response` objects which are used to initialize the request and return the results, respectively.
+These are documented on their own pages.
+
+The optional `options` argument passed to `fetch()` can, as in the standard, be either a basic object of option/value keys (eg. `{ method: "GET", timeout: 5000 }`)
+or a `Request` object set up with the desired options.  The available options are all the `Request` properties, which are documented there.
+
+Basic example of sending an image to Touch Portal for use as an icon:
+```js
+Net.fetch("https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png")
+.then(response => response.base64())
+.then((b64data) => {
+    TP.stateUpdate(b64data);
+})
+.catch((e) => { console.error(e); })
+```
+
+See [Fetch and Notify](@ref example_fetch_and_notify) for a more complete example using JSON a data request.
+
+*/
+static Promise fetch(url, options = {});
+
+/*!
+\fn Response request(url, options = {})
+\static
+This is a fully synchronous version of `Net.fetch()`. Instead of returning a Promise, `Net.request()` returns a `Request` object type.
+The returned `Request` can then be used to invoke its methods which actually send the request: `Request.get()`, `Request.head()`, `Request.post()`, and `Request.put()`.
+These are all shorthand for the respective HTTP methods. See the linked documentation for details.
+
+The optional `options` argument passed to `request()` can, as with `fetch()`, be either a basic object of option/value keys (eg. `{ timeout: 5000, redirect: 'error' }`)
+or a `Request` object set up with the desired options. The available options are all the `Request` properties, which are documented there.
+
+Unless the `Request.noThrow` option is set to `true`, synchronous requests may throw one of the `DOMException` types mentioned in the `fetch()` documentation, or
+a `TypeError` or `ReferenceError` if invalid options are passed or an exception is caught during configuration of the underlying `XMLHttpRequest` object.
+
+Here is a synchronous version of the `fetch()` example above:
+```js
+try {
+  const b64data = Net.request("https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png").get().base64();
+  TP.stateUpdate(b64data);
+}
+catch (e) { console.error(e); }
+```
+
+If error trapping isn't important, the image data could be returned directly from a single-line expression.
+
+\note This method blocks until the request completes or the timeout specified in options expires. An `AbortSignal` may be passed in the `options`
+object's `signal` property in order to terminate the request from another process (eg. a timer).
+
+*/
+static Promise request(url, options = {});
+
+}  // namespace Net
+
+/*!
+\class Request
+\ingroup FetchAPI
+The Request interface of the Fetch API represents a resource request.
+Request objects can be created directly, or implicitly by passing an initializer object to `Net.fetch()` or `Net.request()` as the `options` argument.
+
+Additionally, `request()` will return a `Request` object, which has not been sent yet. The request can then be sent via one of the
+methods `get()`, `head()`, `post()`, or `put()`.
+
+\note A special object named `GlobalRequestDefaults` exists in the global scope which can be used to set default values on any created `Request` (either implicitly created
+in a call to `fetch()` or explicitly with `new Request()`). Simply define this variable somewhere in the the global scope of your script with whichever default options you
+would like to always be set (or set them individually with `GlobalRequestDefaults.property = value`). Any/all of the properties described below for the `Request` object can be set this way.
+
+
+\class Response
+\ingroup FetchAPI
+The Response interface of the Fetch API represents the response to a request.
+A Response type is returned when a `Net.fetch()` method promise is fulfilled, either directly in case of a successful result (passed to `then()` handler), or as a member of any `DOMException`
+thrown as a result of request errors (passed to `catch()` handler).  See the local `Net.fetch()` documentation for details.
+
+*/
+
+// Request
+
+/*!
+
+\fn <Promise|Response> get()
+\memberof Request
+Performs a "GET" request on the current `url`.
+\returns
+- If `async` property is `true` then a `Promise` object, same as `Net.fetch()` would return.
+- If `async` property is `false` then a `Response` object, same as `Net.request()` would return.
+
+\fn <Promise|Response> head()
+\memberof Request
+Performs a "HEAD" request on the current `url`.
+\returns
+- If `async` property is `true` then a `Promise` object, same as `Net.fetch()` would return.
+- If `async` property is `false` then a `Response` object, same as `Net.request()` would return.
+
+\fn <Promise|Response> post(data)
+\memberof Request
+Performs a "POST" request on the current `url`.
+\param data The data to send in the post request body, if any.
+\returns
+- If `async` property is `true` then a `Promise` object, same as `Net.fetch()` would return.
+- If `async` property is `false` then a `Response` object, same as `Net.request()` would return.
+
+\fn <Promise|Response> put(data)
+\memberof Request
+Performs a "PUT" request on the current `url`.
+\param data The data to send in the put request body, if any.
+\returns
+- If `async` property is `true` then a `Promise` object, same as `Net.fetch()` would return.
+- If `async` property is `false` then a `Response` object, same as `Net.request()` would return.
+
+*/
+class Request
+{
+/*
+  \internal
+  \property bool async
+  \memberof Request
+  Indicates whether to use asynchronous network request type _and_ whether . Default is `true`. In practice this makes little difference when used with
+  `Net.fetch()` since promises themselves are async (to make a synchronous request that returns a result w/out promises, use `Net.request()`).
+  This setting is forced to `false` when used with `Net.request()`.
+*/
+  Q_PROPERTY(bool async READ async WRITE async);
+  bool async = true;
+
+/*!
+  \property any body
+  \memberof Request
+  Data for POST or PUT request.
+*/
+  Q_PROPERTY(any body READ body READ body);
+  any body = null;
+
+/*!
+  \property string credentials
+  \memberof Request
+  Credentials type to use for the request; Only `omit` and `include` are supported. The default is `include` which is equivalent to setting `XMLHttpRequest.withCredentials = true`.
+*/
+  Q_PROPERTY(string credentials READ credentials WRITE credentials);
+  string credentials = "include";
+
+/*!
+  \property Headers headers
+  \memberof Request
+  The `Headers` object associated with the response.
+  Headers can be specified a number of ways (this is the same as the standard ways of passing or creating `Header` objects):
+  - By passing a populated `Headers` object (created with [Headers(init)](https://developer.mozilla.org/en-US/docs/Web/API/Headers/Headers)).
+  - By passing a plain object of header `name: value` pairs, for example
+    ```js
+    { 'Content-Type': 'application/json', 'Accept': 'text/json, application/json' }
+    ```
+  - With a 2-dimensional array of `[name, value]` pairs, for example:
+    ```js
+    [
+      [ 'Content-Type', 'application/json' ],
+      [ 'Accept', 'text/json, application/json' ]
+    ]
+    ```
+  \sa https://developer.mozilla.org/en-US/docs/Web/API/Headers
+*/
+  Q_PROPERTY(Headers headers READ headers WRITE headers);
+  Headers headers = {};
+
+/*!
+  \property string method
+  \memberof Request
+  HTTP method to use for the request. One of:
+  - GET
+  - PUT
+  - HEAD
+  - POST
+  - DELETE
+  - OPTIONS
+  - PROPFIND
+  - PATCH
+*/
+  Q_PROPERTY(string method READ method WRITE method);
+  string method = "GET";
+
+/*!
+  \property bool noThrow
+  \memberof Request
+  This options only applies to `Net.request()`. If set to `true` then `Net.request()` will _not_ throw any exceptions in case of request failure,
+  and instead just return whatever Result is available regardless of actual status. This is a non-standard option.
+*/
+  Q_PROPERTY(bool noThrow READ noThrow WRITE noThrow);
+  bool noThrow = false;
+
+/*!
+  \property function onprogress
+  \memberof Request
+  Callback function for downnload/upload progress events. The callback gets passed an object which contains the following properties:
+  - `lengthComputable` - `true` or `false` indicating if the total size of the requested data is available.
+  - `loaded` - bytes transferred so far.
+  - `total` - total bytes to transfer, if known.
+
+  For more details see the [XMLHttpRequest: progress event](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/progress_event)
+*/
+  Q_PROPERTY(function onprogress READ onprogress WRITE onprogress);
+  function onprogress = null;
+
+/*!
+  \property string redirect
+  \memberof Request
+  Specifies redirect handling options.
+  The first 3 options are standard, the last 2 are implementation-specific:
+  - `follow`: Automatically follow redirects. Unless otherwise stated the redirect mode is set to follow.
+  - `error`: Abort with an error if a redirect occurs.
+  - `manual`: Caller intends to process the response in another context.
+  - `no-less-safe`: (Default) Only allow _http -> http_, _http -> https_, and _https -> https_ redirects (do not follow _https -> http_ redirect);
+  - `same-origin`: Only follow redirect if the original scheme, host, and port match.
+*/
+  Q_PROPERTY(string redirect READ redirect WRITE redirect);
+  string redirect = "no-less-safe";
+
+/*!
+  \property bool rejectOnError
+  \memberof Request
+  If set to `true`, `Net.fetch()` will _reject_ the promise if the returned HTTP status code is not in the 200-299 range, the same way as if a network error occurred.
+  See `Net.fetch()` for details on the various response handling options. This is a non-standard option.
+*/
+  Q_PROPERTY(bool rejectOnError READ rejectOnError WRITE rejectOnError);
+  bool rejectOnError = false;
+
+/*!
+  \property string responseType
+  \memberof Request
+  `responseType` property is an enumerated string value specifying the type of data contained in the `body` property (actually in `XMLHttpRequest.response`).
+  It also lets the author change the response type. If an empty string is set as the value of responseType, the default value of `text` is used.
+  The following values are supported:
+  - `text` - The default type, interprets the response as plain text.
+  - `arraybuffer` - The body will be returned as an `ArrayBuffer` object of raw bytes (suitable for binary formats such as images or executables).
+  - `document` - The response is an HTML or XML Document type. See [XMLHttpRequest](@ref stdlib-xmlhttpreq) for details about the available `Document` properties.
+  - `json` - The response body will be parsed as JSON data into a JavaScript Object or Array.
+
+  Note that the `blob` response type is not available due to lack of `Blob` support in the environment. Use "arraybuffer" instead.
+*/
+  Q_PROPERTY(string responseType READ responseType WRITE responseType);
+  string responseType = "";
+
+/*!
+  \property AbortSignal signal
+  \memberof Request
+  Sets an `AbortSignal` which was obtained from an `AbortController` to use for aborting the network request. This is analogous to the standard usage of this property.
+  See [AbortController @ MDN](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) for general information and the [local documentation](@ref stdlib-abort)
+  for some implementation details.
+*/
+  Q_PROPERTY(AbortSignal signal READ signal WRITE signal);
+  AbortSignal signal = null;
+
+/*!
+  \property int timeout
+  \memberof Request
+  The timeout for the network request, in milliseconds. In case of timeout, a `TimeoutError` is delivered first, followed by the generic `NetworkError` type.
+*/
+  Q_PROPERTY(int timeout READ timeout WRITE timeout);
+  int timeout = 30 * 1000;
+
+/*!
+  \property string url
+  \memberof Request
+  The URL of the request. This is usually set in the `Net.fetch(url)` or `Net.request(url)` 'url' parameter.
+*/
+  Q_PROPERTY(string url READ url WRITE url)
+  string url = "";
+
+/*!
+  \property XMLHttpRequest xhr
+  \memberof Request
+  This is the underlying [XMLHttpRequest](@ref stdlib-xmlhttpreq) object which will actually handle the request.
+  This is usually set up automatically by `Net.fetch()` or `Net.request()`, but an existing `XMLHttpRequest` could be provided here instead.
+  The `XMLHttpRequest` must be in `UNSENT` or `OPENED` `readyState`.
+*/
+  Q_PROPERTY(XMLHttpRequest xhr READ xhr WRITE xhr)
+  XMLHttpRequest xhr = null;
+
+};
+
+// Response
+
+/*!
+
+\fn <Promise|ArrayBuffer> arrayBuffer()
+\memberof Response
+\returns
+- If `async` property is `true` then `bufferAsync()`.
+- If `async` property is `false` then `bufferSync()`.
+
+`arrayBuffer()` is also aliased as simply `buffer()`.
+
+\fn Promise bufferAsync()
+\memberof Response
+Returns a Promise that resolves with an `ArrayBuffer` representation of the response body.
+
+\fn ArrayBuffer bufferSync()
+\memberof Response
+Returns an `ArrayBuffer` representation of the response body. Same as `bodyAs("arraybuffer")`.
+
+
+\fn <Promise|string> base64()
+\memberof Response
+\returns
+- If `async` property is `true` then `base64Async()`.
+- If `async` property is `false` then `base64Sync()`.
+
+\fn Promise base64Async()
+\memberof Response
+Returns a Promise that resolves with an `ArrayBuffer` representation of the response body but encoded as a Base-64 string.
+Convenience method equivalent to
+```js
+fetch(...).then(r => r.arrayBuffer()).then((data) => { var b64data = btoa(data); ... })
+```
+to shorten to
+```js
+fetch(...).then(r => r.base64()).then((b64data) => { ... })`;
+```
+
+\fn string base64Sync()
+\memberof Response
+Returns an `ArrayBuffer` representation of the response body but encoded as a Base-64 string.
+
+
+\fn any bodyAs(string type)
+\memberof Response
+Returns the response `body` as the given `type`.
+The values for `type` are the same as for the `Request.responseType` property. This is equivalent to: `result.responseType = type; var data = result.body`;
+\note For "json" and "xml" types, no validation of the result is done before attempting to parse the result data as the specified type.
+If the data is malformed or not of the requested type at all, an exception may the thrown by the parser handling the data.
+To ensure the result is in a specific format, first check for appropriate response header(s) before calling this method.
+
+
+\fn <Promise|Object|Array> json()
+\memberof Response
+\returns
+- If `async` property is `true` then `jsonAsync()`.
+- If `async` property is `false` then `jsonSync()`.
+
+\fn Promise jsonAsync()
+\memberof Response
+Returns a Promise that resolves with the result of parsing the response body text as JSON (either a JS Object or an Array).
+\note No validation of the result type is done before attempting to parse the result data as JSON. If the data is malformed or not JSON at all, an exception will the thrown by
+the parser (same as would be with `JSON.parse()`). To ensure the result is in JSON format, first check for appropriate response header(s) before calling this method.
+
+\fn <Object | Array> jsonSync()
+\memberof Response
+Returns `body` as the result of parsing the response body text as JSON (either a JS Object or an Array). Same as `bodyAs("json")`.
+
+
+\fn <Promise|string> text()
+\memberof Response
+\returns
+- If `async` property is `true` then `textAsync()`.
+- If `async` property is `false` then `textSync()`.
+
+\fn Promise textAsync()
+\memberof Response
+Returns a Promise that resolves with a text representation of the response body.
+
+\fn string textSync()
+\memberof Response
+Returns a text representation of the response body. Same as `bodyAs("text")`.
+
+
+\fn <Promise|XMLDocument> xml()
+\memberof Response
+\returns
+- If `async` property is `true` then `xmlAsync()`.
+- If `async` property is `false` then `xmlSync()`.
+
+\fn Promise xmlAsync()
+\memberof Response
+Returns a Promise that resolves with an XML `Document` type representation of the response body. See [XMLHttpRequest](@ref stdlib-xmlhttpreq) for details about the available
+`Document` properties.
+\note No validation of the result type is done before attempting to parse the result data as XML. If the data is malformed or not XML at all, an exception will the thrown by
+the XML parser.  To ensure the result is in XML format, first check for appropriate response header(s) before calling this method.
+
+\fn XMLDocument xmlSync()
+\memberof Response
+Returns an `XMLDocument` type representation of the response body. Same as `bodyAs("xml")`.
+See [XMLHttpRequest](@ref stdlib-xmlhttpreq) for details about the available `Document` properties.
+
+
+\fn Response clone()
+\memberof Response
+Creates a clone (deep copy) of this Response object. Note that the underlying `XMLHttpRequest` object (available via the `xhr` property) is still shared across copies.
+Generally cloning a `Response` is not recommended.
+
+\fn Error blob()
+\memberof Response
+Since `Blob` type is not supported in the environment, this method throws a `TypeError`. Retained for compatibility with standard.
+
+*/
+class Response
+{
+/*!
+  \property bool async
+  \memberof Response
+  Indicates whether the original request was made asynchronously or not. Typically this means whether `fetch()` (async = true) or `request()` (async = false)
+  was used to initiate the transaction.
+
+  The value determines the result type from the type-specific access methods `text()`/`json()`/`arrayBuffer()`/`base64()`/`xml()`; a Promise is returned from these methods when
+  `async` is `true`, and the actual requested data type when `async` is `false`.
+
+  To explicitly get a Promise or immediate result from those access methods, use the `*Sync()` or `*Async()` versions directly.  Eg. `jsonSync()` and `jsonAsync()`.
+
+  This property is an alias for `xhr.async`. \sa xhr
+*/
+  Q_PROPERTY(bool async READ async);
+
+/*!
+  \property any body
+  \memberof Response
+  Returns `XMLHttpRequest.response`. The return type will vary based on the `responseType` property set on the original `Request` (an ArrayBuffer,
+parsed JSON object/array, XML Document, or plain text).  \sa bodyAs(), getText(), getJson(), getXml(), getBuffer()
+*/
+  Q_PROPERTY(any body READ body)
+
+/*!
+  \property bool bodyUsed
+  \memberof Response
+  Returns `true` if response body has been parsed into a specific format (by calling `body` or any of the result-specific promise methods like `json()`, `arrayBuffer()`, etc).
+  This doesn't carry much actual significance (since it is not a data stream), but is retained for compatibility with standard.
+*/
+  Q_PROPERTY(bool bodyUsed READ bodyUsed)
+
+/*!
+	\property Headers headers
+	\memberof Response
+	The Headers object associated with the response.
+	\sa https://developer.mozilla.org/en-US/docs/Web/API/Headers
+*/
+  Q_PROPERTY(Headers headers READ headers)
+
+/*!
+  \property bool ok
+  \memberof Response
+  A boolean indicating whether the response was successful (status in the range 200 – 299) or not.
+*/
+  Q_PROPERTY(bool ok READ ok)
+
+/*!
+  \property bool redirected
+  \memberof Response
+  Indicates whether or not the response is the result of a redirect (that is, its URL list has more than one entry). \sa url
+*/
+  Q_PROPERTY(bool redirected READ redirected)
+
+/*!
+  \property string responseType
+  \memberof Response
+  This possible values of this property correspond to the `Request.responseType` property values (both are aliases for `XMLHttpRequest.responseType`).
+  The value dictates what type of object the `body` property will be returned as (text, json, xml, or binary/raw). Initially this is set to whatever was set
+  in the original `Request` (or fetch() options), if anything (default is blank, equivalent to "text" type).
+  However it can also be changed after the response is received in order to affect the result type returned by `body`. For example based on received headers.
+  \sa bodyAs() for a convenience shortcut method.
+*/
+  Q_PROPERTY(string responseType READ responseType WRITE responseType)
+
+/*!
+  \property bool status
+  \memberof Response
+  The HTTP status code of the response (eg. 200 for a success, 404 not found, etc).
+*/
+  Q_PROPERTY(int status READ status)
+
+/*!
+  \property string statusText
+  \memberof Response
+  The status message corresponding to the status code (eg. "OK" for 200).
+*/
+  Q_PROPERTY(string statusText READ statusText)
+
+/*!
+  \property URL url
+  \memberof Response
+  The URL of the response. If the request was redirected, this may not be the same as was requested. \sa redirected
+*/
+  Q_PROPERTY(URL url READ url)
+
+/*!
+  \property XMLHttpRequest xhr
+  \memberof Response
+  This is the underlying [XMLHttpRequest](@ref stdlib-xmlhttpreq) object which actually handled the request. All properties of the result can be read
+  directly from this object if desired, w/out processing further promises (as with "typical" `fetch()` usage). For example `xhr.response` or `xhr.responseText` can be processed
+  immediately in the first `then()` handler, while the usual `text()`, `json()`, etc, access methods all return further async promises for chaining.
+*/
+  Q_PROPERTY(XMLHttpRequest xhr READ xhr)
+
+};

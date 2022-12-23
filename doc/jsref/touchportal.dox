@@ -1,0 +1,100 @@
+
+/*!
+  \namespace TP
+  \ingroup Util
+  Functions for interacting with Touch Portal directly, such as updating state values or sending notifications.
+  These functions are part of the global `TP` object, used with `TP.` qualifier, eg. `TP.stateUpdate("Hello!");`.
+*/
+namespace TP {
+/*!
+  \fn void stateUpdate(String value)
+  \static
+  Send a State update to Touch Portal with given `value` for the current script instance. This only works with instances in a `Private` script engine.
+  \sa stateUpdate(string, string)
+*/
+void stateUpdate(String value);
+
+/*!
+  \fn void stateUpdate(String name, String value)
+  \static
+  Send a State update to Touch Portal for a DSE instance named `name` with given `value`. This works with any type of engine instance, `Shared` or `Private`.
+  The `name` will be turned into a fully qualified state ID as necessary (adding the required prefix to match default DSE state IDs). \sa stateUpdate(string)
+*/
+void stateUpdate(String name, String value);
+
+/*!
+  \fn void stateUpdateById(String id, String value)
+  \member TP
+  \static
+  Send a State update to Touch Portal for any arbitrary state/value matching the `id`, with given `value`.
+  \note This can be used to update other plugins' states and even TP global Values (at least as of TP 3.1.x). \sa stateUpdate()
+*/
+void stateUpdateById(String id, String value);
+
+/*!
+  \fn void stateCreate(String id, String parentGroup, String desc = "", String defaultValue = "")
+  \static
+  Create a new Touch Portal dynamic State (if it doesn't already exist).
+  \param id Must be a fully qualified state ID (meaning it is not changed in any way and must be unique in TP).
+  \param parentGroup Sets or creates the sorting category into which the state is placed in the user interface (it will show up as a child of this plugin's states list).
+  \param desc This text will be used in the Touch Portal interface to represent the new state (optional if you don't need it selectable in TP UI).
+  \param defaultValue An optional default value for the state, meaning it's initial value.
+
+  Note that if you do not want/need a state to be available in the UI, then any `stateUpdateById()` call will also work (the state will be created if needed but not accessible via the UI).
+  \n Also note that there's currently a bug in TP (<= v3.1) that prevents state change events from being detected based on a default value.
+*/
+void stateCreate(String id, String parentGroup, String desc = "", String defaultValue = "");
+
+/*!
+  \fn void stateRemove(String id)
+  \static
+  Remove a Touch Portal dynamic State (if it exists).  The `id` must be fully qualified to match the ID of the existing state.
+*/
+void stateRemove(String id);
+
+/*!
+  \fn void choiceUpdate(String id, Array<String> values)
+  \static
+  Update a list of choices for a selector with given `id`, which must be a fully qualified ID of some existing action data member (from some plugin).
+  `values` should be an array of strings.
+*/
+void choiceUpdate(String id, Array<String> values);
+
+/*!
+  \fn void connectorUpdate(String connectorId, int value)
+  \static
+  Sends a connector (slider) update with given `value` which should be an integer in the range of 0 - 100.
+  The `connectorId` must be fully qualified "long ID" as described in TP API docs.
+*/
+void connectorUpdate(String connectorId, int value);
+
+/*!
+  \fn void showNotification(String notificationId, String title, String message, Array<Object> options = [], <Function|String|Array> callback = null)
+  \static
+  Creates or raises a user notification in the Touch Portal window. See TP API docs for details on notifications.
+  \param notificationId should be a unique string, if the user has already responded to a notification with the same `notificationId` then nothing will be shown.
+  \param title This will be shown at the top of the notification window.
+  \param message This is the body of the notification, the main text.
+  \param options This is an optional array of "choice" objects which are presented in the notification for user to click on. For example:
+    ```js
+    [
+      {
+        "id":"option1",
+        "title":"Option 1 title"
+      },
+      {
+        "id":"option2",
+        "title":"Option 2 title"
+      }
+    ]
+    ```
+  \param callback A callback to invoke when one of the options is clicked. The callback value can be a string, function, or an array.
+  - A string type callback is simply evaluated (`eval(callback)`). There is no way to pass any arguments to this.
+  - A function is called with the clicked option's `id` as the first argument and the `notificationId` as the second argument.
+  - If an array is given, the first member of the array should be a function and the 2nd argument should be the `this` context with which
+    to invoke the callback function. The function is invoked with the same arguments as described above.
+
+  See [Fetch and Notify Example](@ref example_fetch_and_notify) for sample usage.
+*/
+void showNotification(String notificationId, String title, String message, Array<Object> options = [], <Function|String|Array> callback = null);
+}   // TP

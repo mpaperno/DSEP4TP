@@ -1,0 +1,83 @@
+// This file:
+// a) defines Doxygen groups for the rest of the reference documentation (including for C++ extensions);
+// c) declares some fake JS "classes" to represent built-in object extensions (Global, Math, Number, String, etc).
+
+/*!
+
+\defgroup ECMAStd Standard JS Objects and Functions
+This reference contains a list of standard ECMAScript objects, functions and properties supported by the plugin's JavaScript engine.
+
+
+\defgroup JSExt JavaScript Object Extensions
+Extensions to the global environment and standard JavaScript objects such as Date, Number, String, and others.
+
+
+\defgroup FetchAPI Fetch Network API
+\brief The Fetch API provides an interface for fetching network or local resources.
+This is an implementation of the common Web API as described, for example, [on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), with a few differences and
+an expanded feature set.
+
+The two main interfaces for the API are the `Net.fetch()` and `Net.request()` functions, which are both essentially wrappers around an [XMLHttpRequest](@ref stdlib-xmlhttpreq) object.
+`fetch()` provides an asynchronous Promise-based interface, while `request()` returns results directly (synchronously).
+
+The Fetch API further extends `XMLHttpRequest` with formalized classes/objects for
+[Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers), Request, and Response types.<br/>
+(Note that the `Headers` type is not documented here locally since the implementation matches what is already documented at MDN.)
+
+
+\defgroup FileSystem File System
+Contains static types and object classes for working with files and directories.
+- `Dir` - Static directory utilities. List, create, check directories and work with paths.
+- `File` - Static file handling, eg. read a whole file at once or check if a file name exists, etc.
+- `FileHandle` - provides an object instance for working with a file in multiple steps (stat, open, read/write bytes, etc).
+- `FS` - The `FS` namespace holds constants related to file system tasks, such as flags for file open and permissions operations, error types, etc.
+
+
+\defgroup Util Utilities
+Contains general utility classes.
+- The `Color` class provides methods and functions for working with color values.
+- The `Env` object provides access to the system environment variables.
+- The `Locale` class provides locale specific properties and formatted data.
+- The `Process` class allows interaction with external processes, such as launching a system command or running an application.
+- The `TP` namespace provides Touch Portal interaction functions.
+
+*/
+
+// Keep the main "class" declarations here instead of in source files so that ordering can be maintained.
+
+/*!
+	\class Global
+	\ingroup JSExt
+	Extends the global context object with convenience properties and functions. The `DSE` static object contains useful information about the current running environment.
+*/
+
+/*!
+	\class ArrayBuffer
+	\ingroup JSExt
+	ArrayBuffer Object Extensions
+*/
+
+/*!
+	\class Date
+	\ingroup JSExt
+	Date prototype extension methods
+*/
+
+/*!
+	\class Math
+	\ingroup JSExt
+	Math Object Extensions
+	\note Note that _all_ `Math` functions are also available in the global object scope, w/out the `Math.` qualifier.
+*/
+
+/*!
+	\class Number
+	\ingroup JSExt
+	A few convenience methods to extend Number prototype.
+*/
+
+/*!
+	\class String
+	\ingroup JSExt
+	Extends String object.
+*/

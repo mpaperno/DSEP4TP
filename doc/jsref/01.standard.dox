@@ -1,0 +1,334 @@
+/*!
+\file
+
+\addtogroup ECMAStd
+\{
+
+The Dynamic Script Engine Plugin scripting environment supports most JavaScript features up to _ECMAScript level 7_
+([ECMA-262](http://www.ecma-international.org/publications/standards/Ecma-262.htm)),
+as well as a handful of "Web API" features, or their close approximations.
+
+This document lists all the supported objects and methods from the standards, with further details about
+items which do not fully match what is published on [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference), which is used as a reference.
+
+\note Some objects may only offer partial support for latest standards. In these cases, details of which properties/functions are supported
+per object type are shown below the main list and "details" links are provided. <br />
+[Green links](@ref JSExt) are to internal documentation details, [blue links](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) are external (MDN).
+
+In some cases the standard objects are also [extended](@ref JSExt) (ArrayBuffer, Date, Math, Number, String), as is the [Global object](@ref Global),
+which is documented separately.
+
+[Nullish Coalescing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator) (??) and
+[Optional Chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) (?.) are also implemented.
+
+__Note__ that _all_ `Math` functions are also available in the global scope, w/out the `%Math.` qualifier.
+
+\copyright
+Portions of this text are originally from the Qt library's QJSEngine/QQmlEngine documentation, used under the GNU Free Documentation License.
+
+## Standard objects by category
+
+- [Global](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects) ([implementation details](#stdlib-global))
+
+### Fundamental objects
+- [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) ([implementation details](#stdlib-object))
+- [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function)
+- [Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+- [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
+
+### Numbers and dates
+- [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)
+- [Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
+- [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
+
+(Note lack of support for BigInt types.)
+
+### Text processing
+- [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) ([implementation details](#stdlib-string))
+- [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)
+
+### Indexed Collections
+- [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) ([implementation details](#stdlib-array))
+- [TypedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray) (lacking support for `at()` method)
+- [Int8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array)
+- [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+- [Uint8ClampedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray)
+- [Int16Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array)
+- [Uint16Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array)
+- [Int32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array)
+- [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array)
+- [Float32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)
+- [Float64Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array)
+
+(Note lack of support for BigInt types.)
+
+### Keyed Collections
+- [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+- [WeakMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap)
+- [Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)
+- [WeakSet](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet)
+
+### Structured data
+- [ArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer)
+- [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer)
+- [Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics)
+- [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView)
+- [JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON)
+
+### Control Abstraction Objects
+- [Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator)
+- [GeneratorFunction](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction)
+- [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) ([implementation details](#stdlib-promise))
+
+(Note that async functions/generators are not supported nor is the general async/await pattern. Use Promise instead.)
+
+### Reflection
+- [Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect)
+- [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
+
+### Error objects
+- [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+- [EvalError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError)
+- [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError)
+- [ReferenceError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError)
+- [SyntaxError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError)
+- [TypeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError)
+- [URIError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError)
+
+### Web API
+- %Global Functions:
+  - @ref atob() - See notes at link.
+  - @ref btoa() - See notes at link.
+  - [setInterval() / clearInterval()](https://developer.mozilla.org/en-US/docs/Web/API/setInterval)  ([implementation details](#stdlib-timers))
+  - [setTimeout() / clearTimeout()](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout)  ([implementation details](#stdlib-timers))
+- [console](https://developer.mozilla.org/en-US/docs/Web/API/console) ([implementation details](#stdlib-console))
+- [AbortController, AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)  ([implementation details](#stdlib-abort))
+- [DOMException](https://developer.mozilla.org/en-US/docs/Web/API/DOMException)
+- [fetch, Headers, Request, Response](https://developer.mozilla.org/en-US/docs/Web/API/fetch) ([implementation details](@ref FetchAPI))
+- [URL & URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL)
+- [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)  ([implementation details](#stdlib-xmlhttpreq)))
+
+## Details by object type
+
+Any object type listed above but not here is presumed to have full compatibility as per MDN current documentation.
+
+### Global {#stdlib-global}
+#### Properties
+- NaN
+- Infinity
+- undefined
+- globalThis
+
+#### Methods
+- eval(x)
+- parseInt(string, radix)
+- parseFloat(string)
+- isNaN(number)
+- isFinite(number)
+- decodeURI(encodedURI)
+- decodeURIComponent(encodedURIComponent)
+- encodeURI(uri)
+- encodeURIComponent(uriComponent)
+- escape(string)
+- unescape(string)
+
+\sa Global object extensions
+
+### Object {#stdlib-object}
+Supports all properties and methods described in
+[MDN reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object),
+__except__:
+- Object.fromEntries()
+- Object.hasOwn()
+
+
+### Array {#stdlib-array}
+Supports all properties and methods described in
+[MDN reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array),
+__except__:
+- Array.prototype.findLast()
+- Array.prototype.findLastIndex()
+- Array.prototype.flat()
+- Array.prototype.flatMap()
+- Array.prototype.group()
+- Array.prototype.groupToMap()
+
+
+### String {#stdlib-string}
+Supports all properties and methods described in
+[MDN reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String),
+__except__:
+- All methods marked deprecated (all are related to output formatting)
+- String.prototype.at()
+- String.prototype.matchAll()
+- String.prototype.replaceAll()
+
+\sa String extensions
+
+
+### Promise {#stdlib-promise}
+- Promise.all()
+- Promise.race()
+- Promise.reject()
+- Promise.resolve()
+
+#### Promise Prototype
+- Promise.prototype.catch()
+- Promise.prototype.finally()
+- Promise.prototype.then()
+
+
+## Web API
+
+### AbortController {#stdlib-abort}
+- signal
+- abort()
+
+### AbortSignal
+- aborted
+- reason
+- throwIfAborted()
+- abort() / onabort()
+  - Note that `onabort()` takes an optional, and non-standard, 2nd argument after the callback. If an object is passed here
+    then the callback function will be invoked with that object as the `this` target. For example:
+    ```js
+    var xhr = XMLHttpRequest();
+    const ac = new AbortController();
+    ac.signal.onabort(xhr.abort, xhr);  // w/out the 2nd argument this will fail for async requests since the 'this' scope is lost.
+    ```
+  - Alternately, the `abort()` event can be safely `connect`ed directly to a method of any object. For example:
+    ```js
+    var xhr = XMLHttpRequest();
+    const ac = new AbortController();
+    ac.signal.abort.connect(xhr, xhr.abort);  // note the switched argument positions vs 'onabort()' signature.
+    ```
+
+
+### Timers {#stdlib-timers}
+- `setTimeout()`/`clearTimeout()` and `setInterval()`/`clearInterval()`, are fully implemented as per standard
+  ([MDN reference](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout)), with some notes.
+- `setTimeout()` and `setInterval()` do accept optional arguments after the delay parameter, which are passed through to the function being invoked .<br/>
+  __However__ only up to 5 parameters can be specified as positional arguments. If you need more, use an array. For example:
+  ```js
+  setTimeout(myFunctionWithArgs, 100, arg1, arg2, arg3);    // ok
+  setTimeout(myFunctionWithArgs, 100, [ arg1, ... arg6 ]);  // ok
+  setTimeout(myFunctionWithArgs, 100, arg1, ... arg6);      // error
+  ```
+  To pass a literal array as the _first_ argument, wrap it in an array:
+  ```js
+  var arry = [1, 2, 3, 4];
+  setTimeout(myFunctionTakingAnArray, 100, arry);        // will call -> myFunctionTakingAnArray(1, 2, 3, 4)
+  setTimeout(myFunctionTakingAnArray, 100, [ arry ]);    // will call -> myFunctionTakingAnArray(arry)
+  setTimeout(myFunctionTakingAnArray, 100, arg1, arry);  // will call -> myFunctionTakingAnArray(arg1, arry)
+  ```
+- `setTimeout()` and `setInterval()` also accept an extended form of the first parameter, which is usually the function
+  to invoke or string to evaluate. Instead, the first parameter can be an array with two values; the first value is the
+  function to invoke and the second is the `this` scope object for calling the function with. This can avoid using an inline function
+  in cases where `this` scope would typically be lost.<br />
+  For example:
+  ```js
+  var xhr = XMLHttpRequest();
+  ...
+  xhr.send();
+  setTimeout( [ xhr.abort, xhr ], 1000);    // works
+  setTimeout(() => { xhr.abort() }, 1000);  // works
+  setTimeout(xhr.abort, 1000);              // possibly fails if the 'this' context for `xhr` is lost
+  ```
+- See also `clearAllTimers()` and `clearInstanceTimers()`
+
+
+### console (Logging) {#stdlib-console}
+#### Function Properties
+- console.log()  - same as console.debug()
+- console.debug()
+- console.info()
+- console.warn()
+- console.error()
+- console.assert()
+- console.time()
+- console.timeEnd()
+- console.trace()
+- console.count()
+- console.profile()
+- console.profileEnd()
+- console.exception() - like error() but prints stack trace.
+- print() - same as console.log()
+
+
+### XMLHttpRequest  {#stdlib-xmlhttpreq}
+The XMLHttpRequest object, which can be used to obtain data over a network using HTTP/s protocols.
+
+The XMLHttpRequest API implements the same <a href="http://www.w3.org/TR/XMLHttpRequest/">W3C standard</a> as many popular web browsers with following exceptions:
+- XMLHttpRequest does not enforce the same origin policy (and in general, there is no "same origin" to enforce and any related security constraints are moot).
+- A `redirect` property has been added to control redirection response behavior. The options are similar to the standard Fetch API `redirect` option with some additions:
+ - `follow`: Automatically follow redirects. Unless otherwise stated the redirect mode is set to follow.
+ - `error`: Abort with an error if a redirect occurs.
+ - `manual`: Caller intends to process the response in another context.
+ - `no-less-safe`: Only allow _http -> http_, _http -> https_, and _https -> https_ redirects (do not follow _https -> http_ redirect); This is the default.
+ - `same-origin`: Only follow redirect if the original scheme, host, and port match.
+- A `requestJSON` property has been added, as a counterpart to the standard `responseText` and `responseXML` properties. This is equivalent to `xhr.responseType = "json"; var obj = xhr.response;`
+- A `requestBuffer` property has also been added. This is equivalent to `xhr.responseType = "arraybuffer"; var arrayBuffer = xhr.response;`
+- The following request properties can be accessed (set and read) individually.
+  They can be set _before_ the `open()` command, in which case `open()` can be called with no parameters. Or for example the URL can be set first, then `open(method)` called later.
+  - `method` - GET/POST/HEADERS/etc.
+  - `url`  - URL of the request (can be a string or `URL` object).
+  - `async` - boolean value indicating whether to use asynchronous requests (default is `true`).
+- A `headers` property is added; This returns a two-dimensional array of header name/value pairs. For example:
+   ```js
+   [
+     [ 'Content-Type', 'application/json' ],
+     [ 'Accept', 'text/json, application/json' ]
+   ]
+   ```
+  - _Before_ the `send()` method is called, this contains any headers explicitly added by the user with `setRequestHeader()`.
+  - _After_ `send()` and once the request has resolved, this will contain the _response_ headers. These are the same headers obtained with `getAllResponseHeaders()` but in a structured format,
+    possibly including duplicates as per HTTP spec (they are not merged as they would be with `getAllResponseHeaders()`).<br />
+    This will return an empty array if no headers have been received (yet, or in case of network error).
+
+\sa FetchAPI
+
+Additionally, the <code>responseXML</code> XML DOM tree currently supported by DSE is a reduced subset of the <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Level 3 Core</a> API supported in a web browser.
+The following objects and properties are supported by the DSE implementation:
+
+<table>
+<tr><th><b>Node</b></th><th><b>Document</b></th><th><b>Element</b></th><th><b>Attr</b></th><th><b>CharacterData</b></th><th><b>Text</b></th></tr>
+<tr valign="top"><td><ul>
+<li>nodeName</li>
+<li>nodeValue</li>
+<li>nodeType</li>
+<li>parentNode</li>
+<li>childNodes</li>
+<li>firstChild</li>
+<li>lastChild</li>
+<li>previousSibling</li>
+<li>nextSibling</li>
+<li>attributes</li>
+</ul>
+</td><td><ul>
+<li>xmlVersion</li>
+<li>xmlEncoding</li>
+<li>xmlStandalone</li>
+<li>documentElement</li>
+</ul>
+</td><td><ul>
+<li>tagName</li>
+</ul>
+</td><td><ul>
+<li>name</li>
+<li>value</li>
+<li>ownerElement</li>
+</ul>
+</td><td><ul>
+<li>data</li>
+<li>length</li>
+</ul>
+</td><td><ul>
+<li>isElementContentWhitespace</li>
+<li>wholeText</li>
+</ul>
+</td></tr>
+</table>
+
+\}
+
+*/

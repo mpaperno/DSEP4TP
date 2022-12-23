@@ -1,0 +1,219 @@
+
+
+/*!
+
+
+	\fn ArrayBuffer atob(data)
+	\memberof Global
+  \static
+  Decodes `data` bytes of base-64 encoded plain text and returns it as binary data ("ascii to binary") in a `ArrayBuffer` container.
+  `data` can be a string or `ArrayBuffer` (or similar collection of ASCII bytes).
+  Note that strings are automatically converted to ASCII (Latin 1 encoding). To avoid any conversion, pass an `ArrayBuffer` (or similar).
+
+	\fn string btoa(data)
+	\memberof Global
+  \static
+  Returns `data` bytes as base-64 encoded plain text ("binary to ascii"). `data` can be a `ArrayBuffer` or a string.
+  Note that `data` strings are automatically converted to UTF-8 text before decoding. To avoid any conversion, pass an ArrayBuffer (or similar raw collection of bytes).
+
+  \fn void clearAllTimers()
+	\memberof Global
+  \static
+  Immediately terminates any and all timers started with `setTimeout()` or `setInterval()` within the current [engine instance](@ref doc-engine-instance-types).
+  If invoked in a **Shared** engine, will stop _all_ timers started by _any_ scripts/expressions running in the Shared instance.
+  \n If invoked in a **Private** engine, affects _only_ the timers for that particular named instance.
+  \sa clearInstanceTimers()
+
+  \fn void clearInstanceTimers(instanceName)
+	\memberof Global
+  \static
+  Immediately terminates any and all timers started with `setTimeout()` or `setInterval()` for the given `instanceName` (State name).
+  If the instance doesn't exist or has no running timers then this function does nothing.
+  \n If invoked in a **Private** engine instance, this has the same effect as `clearAllTimers()`.
+  \sa clearAllTimers()
+
+  \fn void gc()
+	\memberof Global
+  \static
+  Runs the garbage collector.
+  The garbage collector will attempt to reclaim memory by locating and disposing of objects that are no longer reachable in the script environment.
+  Normally this is taken care of automatically by the script engine on a regular basis, but this function can be used
+  to explicitly initiate collection as soon as possible.
+
+  \fn string hash(data, string algorithm = "md5")
+  \memberof Global
+  \static
+  Returns a cryptographic hash of `data` using given `algorithm` as a string of hexadecimal characters.
+  `data` can be a byte array (eg. `ArrayBuffer`) or string or anything that can be converted to an array/collection of bytes.
+
+  The default algorithm is MD5. The following algorithms are supported:
+
+  - `md4` Generate an MD4 hash sum
+  - `md5` Generate an MD5 hash sum
+  - `sha1` Generate an SHA-1 hash sum
+  - `sha224` Generate an SHA-224 hash sum (SHA-2).
+  - `sha256` Generate an SHA-256 hash sum (SHA-2).
+  - `sha384` Generate an SHA-384 hash sum (SHA-2).
+  - `sha512` Generate an SHA-512 hash sum (SHA-2).
+  - `sha3_224` Generate an SHA3-224 hash sum.
+  - `sha3_256` Generate an SHA3-256 hash sum.
+  - `sha3_384` Generate an SHA3-384 hash sum.
+  - `sha3_512` Generate an SHA3-512 hash sum.
+  - `keccak_224` Generate a Keccak-224 hash sum.
+  - `keccak_256` Generate a Keccak-256 hash sum.
+  - `keccak_384` Generate a Keccak-384 hash sum.
+  - `keccak_512` Generate a Keccak-512 hash sum.
+
+  Throws a `TypeError` if `algorithm` isn't one of the types listed above.
+
+
+	\fn void include(string scriptFile)
+	\memberof Global
+  \static
+	Read and evaluate `scriptFile` as JavaScript in the current scripting engine context (global object) at the location of this function call.
+	Any errors produced by the script are raised and reported into the current context. Throws an `Error` type if file loading fails (file not found/etc).
+
+  To get just the contents of a file, w/out evaluating it, use `File.read()`.
+
+  If a relative `scriptFile` path is used, it is resolved using the plugin's **Script Files Base Directory** setting in Touch Portal.
+  If no specific setting is provided, paths are relative to the plugin's install location.  See `DSE.SCRIPTS_BASE_DIR` for more details.
+
+
+  \fn Locale locale(name)
+  \memberof Global
+  \static
+  Returns a JS object representing the locale with the specified name, which has the format "language[_territory][.codeset][@modifier]" or "C", where:
+
+  - `language` is a lowercase, two-letter, ISO 639 language code.
+  - `territory` is an uppercase, two-letter, ISO 3166 country code.
+  - `codeset` and `modifier` are ignored (the syntax is allowed just to keep with the standard).
+  - The separator character between `language` and `territory` may be an underscore (`_`) or dash (`-`).
+
+  If the `name` parameter is empty, returns the default Locale which the application was started with.
+  \n If the string violates the locale format, or language is not a valid ISO 369 code, the "C" locale is used instead.
+  \n If country is not present, or is not a valid ISO 3166 code, the most appropriate country is chosen for the specified language.
+
+
+	\fn string Format(format)
+	\memberof Global
+  \static
+	Equivalent to the `String.format()` extension method. Provides .NET style string formatting.
+
+
+  \fn string sprintf(format, args)
+  \memberof Global
+  \static
+
+  For formatting strings, works like the classic C `printf()` function.
+  Formats `format` string using the provided arguments in `args`, if any.
+  \param format The formatting string used to format the additional arguments.
+  \param args Zero or more arguments for the format string.
+
+  Examples (from [cppreference.com](https://en.cppreference.com/w/cpp/io/c/fprintf)):
+  ```js
+  var s = "Hello";
+  sprintf("[%10s]\n",          s);
+  sprintf("[%-10s]\n",         s);
+  sprintf("[%*s]\n",       10, s);
+  sprintf("[%-10.*s]\n",    4, s);
+  sprintf("[%-*.*s]\n", 10, 4, s);
+  // output:
+  //  [     Hello]
+  //  [Hello     ]
+  //  [     Hello]
+  //  [Hell      ]
+  //  [Hell      ]
+
+  sprintf("Decimals: %i %d %.6i %i %.0i %+i %i\n",
+                      1, 2,   3, 0,   0,  4,-4);
+  // output:
+  //   Decimals: 1 2 000003 0  +4 -4
+
+  sprintf("Rounding: %f %.0f %.32f\n", 1.5, 1.5, 1.3);
+  sprintf("Padding: %05.2f %.2f %5.2f\n", 1.5, 1.5, 1.5);
+  sprintf("Scientific: %E %e\n", 1.5, 1.5);
+  // output:
+  //   Rounding: 1.500000 2 1.30000000000000004440892098500626
+  //   Padding: 01.50 1.50  1.50
+  //   Scientific: 1.500000E+00 1.500000e+00
+  ```
+
+  There are many format references online. Here's one from
+  [Alvin Alexander](https://alvinalexander.com/programming/printf-format-cheat-sheet/) (just ignore the references to Java and Perl).
+
+  Or an official reference at [cppreference.com](https://en.cppreference.com/w/cpp/io/c/fprintf).
+
+  This function is originally from the [Locutus](https://github.com/locutusjs/locutus) project.
+  The original reference is available [on their site](https://locutus.io/php/strings/sprintf/).
+
+  \sa `String.format()` for .NET style formatted strings.
+
+*/
+
+class Global {
+  public:
+  //! \static
+  //! The DSE object contains constants related to the plugin environment.
+  struct DSE {
+    /*!
+      Current DSE plugin version number in `"MAJOR.MINOR.PATCH.BUILD[-name]"` string format. Eg. "1.0.0.2" or "1.2.0.1-beta1".
+      At least one of the digits always increments for each new published version. The build number increments for any/each new pre-release (alpha/beta)
+      version and again on the final (it may increment in irregular intervals).
+    */
+    string PLUGIN_VERSION_STR;
+
+    /*!
+    Current DSE plugin version number in integer format.
+
+    This is a "binary coded decimal" where<br />
+    `((MAJOR << 24) | (MINOR << 16) | (PATCH << 8) | BUILD)` (each part is limited to values 0-99).<br />
+    If formatted in hexadecimal this will match the version "number" that Touch Portal shows in the plugin's settings.<br />
+    E.g. `"1.2.30.4" == 16920580 == 0x01023004` or "01023004" as shown in Touch Portal. <br />
+    The possible "name" part of a version is ignored (the build number increments for each new pre-release alpha/beta version and again on the final release).
+    */
+    number PLUGIN_VERSION_NUM;
+
+    //! The base directory path for script files. This is either the path specified in the plugin's "Script Files Base Directory" setting (in Touch Portal),
+    //! or the plugin's current working directory (which is the default when nothing is specified in the setting).
+    string SCRIPTS_BASE_DIR;
+
+    //! The scope of the current script's engine, either "Shared" or "Private".
+    string INSTANCE_TYPE;
+
+    //! The name of the current script's instance (State Name), as specified in the corresponding
+  	//! Touch Portal action which is running the script/expression.
+    string INSTANCE_NAME;
+
+    //! This is the default value as specified in the action which created this script instance, which may be empty/blank (but not null/undefined).
+    //! \note This property is empty in Shared instance types. \sa `DSE.INSTANCE_TYPE`
+    string INSTANCE_DEFAULT_VALUE;
+
+    /*!
+      This property contains the name of the operating system running the plugin.
+      Possible values are:
+      <pre>
+        "linux" - Linux
+        "osx" - macOS
+        "unix" - Other Unix-based OS
+        "windows" - Windows
+        "android" - Android
+        "ios" - iOS
+        "winrt" - WinRT / UWP
+        "wasm" - WebAssembly
+      </pre>
+    */
+    string PLATFORM_OS;
+
+    //! The prefix added by the plugin to an instance's State Name before sending to Touch Portal to ensure uniqueness. Touch Portal uses the unique ID
+    //! to identify States. \sa `DSE.instanceStateId()`
+    string VALUE_STATE_PREFIX;
+
+    //! \static
+    //! Gets Touch Portal State ID of the current script's instance.
+    //! This is what Touch Portal actually uses to uniquely identify the state (not just the name by itself).
+  	//! This is a convenience method that returns the same as `DSE.VALUE_STATE_PREFIX + DSE.INSTANCE_NAME`.
+    static string instanceStateId();
+
+  } DSE;
+};
+
