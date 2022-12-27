@@ -27,10 +27,10 @@
     // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
     $(window).on('load', () => {
       function removeElements() {
-        if (!$("a[class='index.html:autotoc_md10']").length)
+        if (!$("a[class='index.html:autotoc_md11']").length)
           setTimeout(removeElements, 10);
-        var el = document.getElementById("autotoc_md10"),
-          els = document.getElementsByClassName("index.html:autotoc_md10");
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
         if (el)
           el.parentNode.style.display = 'none';
         if (els.length)
@@ -184,10 +184,11 @@ $(document).ready(function(){initNavTree('class_f_s.html',''); initResizable(); 
   <tr class="even"><td class="entry"><a class="el" href="class_f_s.html#aa3ec0b4d641bd69b9e91852d9974bfdea0b72ae8b4c5c7cd0c33ae72a1df64cbb">WriteError</a> enum value</td><td class="entry"><a class="el" href="class_f_s.html">FS</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.4-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Dec 26 2022 20:53:16 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>
