@@ -28,11 +28,11 @@ There is also:
 
 ## Logging
 
-The plugin logs operational message to a file. Two, actually. They are both located in your Touch Portal configuration folder, in the 'plugins' subfolder;
-the path looks like:<br/>
+The plugin logs operational message to a file. Two, actually. They are both located in your Touch Portal configuration folder, in the 'plugins/DSEP4TP' subfolder;
+the path looks like this:<br/>
 * Windows: `C:\Users\<User_Name>\AppData\Roaming\TouchPortal\plugins\DSEP4TP\logs`
 * Mac: `~/Documents/TouchPortal/plugins/DSEP4TP/logs`
-* Linux: `~/TouchPortal/plugins/DSEP4TP/logs`
+* Linux: `~/.config/TouchPortal/plugins/DSEP4TP/logs`
 
 The two log files are:
 
@@ -52,9 +52,13 @@ You can also "tail" a file using operating system utilities. For example (showin
   ```ps
   Get-Content -Tail 10 -Wait $Env:APPDATA\TouchPortal\plugins\DSEP4TP\logs\console.log
   ```
-- [OS X](https://ss64.com/osx/tail.html) or [Linux](https://ss64.com/bash/tail.html) terminal
+- [OS X](https://ss64.com/osx/tail.html) terminal
   ```shell
   tail -F -n 10 ~/Documents/TouchPortal/plugins/DSEP4TP/logs/console.log
+  ```
+- [Linux](https://ss64.com/bash/tail.html) terminal
+  ```shell
+  tail -F -n 10 ~/.config/TouchPortal/plugins/DSEP4TP/logs/console.log
   ```
 
 ### Plugin Log
@@ -72,14 +76,22 @@ insidious is going wrong.
 The logs are rotated daily. The previous days' log is renamed with a date stamp and a new one is started.
 By default the last 3 days' worth of logs are kept (the current one + 3 historical logs).
 
-You can force a rotation of the logs by going to the plugin's executable directory (`DSEP4TP/bin`) in a terminal/command window and run the plugin (w/out starting it) with the following command:<br />
-* Windows: `DSEP4TP.exe -f1 -j1 -rx`
-* Mac/Linux: `./DSEP4TP -f1 -j0 -rx`
+You can force a rotation of the logs by going to the plugin's install directory (*)
+in a terminal/command window and run the plugin (w/out starting it) with the following command:<br />
+* Windows: `bin/DSEP4TP.exe -f1 -j1 -rx`
+* Mac: `./DSEP4TP.app/Contents/MacOS/DSEP4TP -f1 -j0 -rx`
+* Linux: `./bin/DSEP4TP -f1 -j0 -rx`
 * Optionally add a `-k N` switch to the command line to keep `N` number of logs instead of the default 3. Clear out all old logs by using `-k 0`
 * Use `-h`  to see all command-line options.
 
 The log files have an "emergency limit" of 1GB in case something goes haywire. If this limit is reached, further logging to that file is
 disabled until the plugin is restarted.
+
+(*) Plugin install location:
+* Windows: `C:\Users\<User_Name>\AppData\Roaming\TouchPortal\plugins\DSEP4TP`
+* Mac: `~/Documents/TouchPortal/plugins/DSEP4TP`
+* Linux: `~/.config/TouchPortal/plugins/DSEP4TP`
+
 
 <span class="next_section_button">
 Read Next: [Scripting Syntax and Caveats](Scripting.md)

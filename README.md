@@ -1,10 +1,11 @@
 # Dynamic Script Engine Plugin for Touch Portal
 
-![plastic](https://img.shields.io/static/v1?style=flat&labelColor=5884b3&color=black&label=made%20for&message=Touch%20Portal&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAetJREFUeNp0UruqWlEQXUePb1HERi18gShYWVqJYGeXgF+Qzh9IGh8QiOmECIYkpRY21pZWFnZaqWBhUG4KjWih4msys8FLbrhZMOfsx6w1e9beWjAYBOMtx0eOGBEZzuczrtcreAyTyQSz2QxN04j3f3J84vim8+cNR4s3rKfTSUQQi8UQjUYlGYvFAtPpVIQ0u90eZrGvnHLXuOKcB1GpkkqlUCqVEA6HsVqt4HA4EAgEMJvNUC6XMRwOwWTRfhIi3e93WK1W1Go1dbTBYIDj8YhOp4NIJIJGo4FEIoF8Po/JZAKLxQIIUSIUChGrEy9Sr9cjQTKZJJvNRtlsVs3r9Tq53W6Vb+Cy0rQyQtd1OJ1O9b/dbpCTyHoul1O9z+dzGI1Gla7jFUiyGBWPx9FsNpHJZNBqtdDtdlXfAv3vZLmCB6SiJIlJhUIB/X7/cS0viXI8n8+nrBcRIblcLlSrVez3e4jrD6LsK3O8Xi8Vi0ViJ4nVid2kB3a7HY3HY2q325ROp8nv94s5d0XkSsR90OFwoOVySaPRiF6DiHs8nmdXn+QInIxKpaJclWe4Xq9fxGazAQvDYBAKfssDeMeD7zITc1gR/4M8isvlIn2+F3N+cIjMB76j4Ha7fb7bf8H7v5j0hYef/wgwAKl+FUPYXaLjAAAAAElFTkSuQmCC)
+[![Made for Touch Portal](https://img.shields.io/static/v1?style=flat&labelColor=5884b3&color=black&label=made%20for&message=Touch%20Portal&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAetJREFUeNp0UruqWlEQXUePb1HERi18gShYWVqJYGeXgF+Qzh9IGh8QiOmECIYkpRY21pZWFnZaqWBhUG4KjWih4msys8FLbrhZMOfsx6w1e9beWjAYBOMtx0eOGBEZzuczrtcreAyTyQSz2QxN04j3f3J84vim8+cNR4s3rKfTSUQQi8UQjUYlGYvFAtPpVIQ0u90eZrGvnHLXuOKcB1GpkkqlUCqVEA6HsVqt4HA4EAgEMJvNUC6XMRwOwWTRfhIi3e93WK1W1Go1dbTBYIDj8YhOp4NIJIJGo4FEIoF8Po/JZAKLxQIIUSIUChGrEy9Sr9cjQTKZJJvNRtlsVs3r9Tq53W6Vb+Cy0rQyQtd1OJ1O9b/dbpCTyHoul1O9z+dzGI1Gla7jFUiyGBWPx9FsNpHJZNBqtdDtdlXfAv3vZLmCB6SiJIlJhUIB/X7/cS0viXI8n8+nrBcRIblcLlSrVez3e4jrD6LsK3O8Xi8Vi0ViJ4nVid2kB3a7HY3HY2q325ROp8nv94s5d0XkSsR90OFwoOVySaPRiF6DiHs8nmdXn+QInIxKpaJclWe4Xq9fxGazAQvDYBAKfssDeMeD7zITc1gR/4M8isvlIn2+F3N+cIjMB76j4Ha7fb7bf8H7v5j0hYef/wgwAKl+FUPYXaLjAAAAAElFTkSuQmCC)](https://www.touch-portal.com)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/mpaperno/DSEP4TP?include_prereleases)](https://github.com/mpaperno/DSEP4TP/releases)
 ![Supported Platvorms](https://img.shields.io/badge/platforms-windows%20|%20osx%20|%20linux-AA7722)
 [![GPLv3 License](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE.GPL.txt)
-<!-- <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/mpaperno/MSFSTouchPortalPlugin?color=green&label=LoC&logo=cplusplus&logoColor=f34b7d"> -->
+[![Discord](https://img.shields.io/static/v1?style=flat&color=7289DA&&labelColor=7289DA&message=Discord%20Chat&label=&logo=discord&logoColor=white)](https://discord.gg/FhYsZNFgyw)
+<!-- <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/mpaperno/DSEP4TP?color=green&label=LoC&logo=cplusplus&logoColor=f34b7d"> -->
 
 
 **A complete, standalone, multi-threaded JavaScript environment available as a plugin
@@ -14,13 +15,13 @@ for use with [Touch Portal](https://www.touch-portal.com/) macro launcher softwa
 
 <div class="hide-on-site">
 
-**Visit [https://mpaperno.github.io/DSEP4TP/](https://mpaperno.github.io/DSEP4TP/) for all details, including this README.**
+**Visit [dse.tpp.max.paperno.us](https://dse.tpp.max.paperno.us) for all details, including this README.**
 
 </div>
 
 ----------
 <div class="darkmode_inverted_image">
-<img align="right" src="https://mpaperno.github.io/DSEP4TP/images/logo/banner_420x105.png">
+<img align="right" src="https://dse.tpp.max.paperno.us/images/logo/banner_420x105.png">
 </div>
 
 ## Features
@@ -59,7 +60,7 @@ global Value or a plugin State and will be replaced by Touch Portal with the act
 * Send an image to use as a Touch Portal button icon. E.g. with dynamic image name:
   * `File.read("images/status_icon_${value:MyVariable}.png", 'b').toBase64()`
 * Get an image from the Internet for a button icon:
-  * `Net.request("https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png").get().base64()`
+  * `Net.request("https://dse.tpp.max.paperno.us/images/logo/icon_64.png").get().base64()`
 * Read any number of lines from a file, starting from beginning, end, or a specific line number. E.g. read the last 5 lines of a log with a dynamic name:
   * `` File.readLines(`../logs/console-${new Date().format("yyyyMMdd")}.log`, 5, -1)) ``
 * Extract a value from a JSON object in a file:
@@ -113,17 +114,27 @@ Note: As with all plugins, this requires the Touch Portal Pro (paid) version to 
   just do that and skip to step 5. There is also a [short guide](https://www.touch-portal.com/blog/post/tutorials/import-plugin-guide.php) on the Touch Portal site.
 3. Import the plugin:
     1. Start/open _Touch Portal_.
-    2. Click the "gear" icon at the top and select "Import plugin..." from the menu.
+    2. Click the Settings "gear" icon at the top-right and select "Import plugin..." from the menu.
     3. Browse to where you downloaded this plugin's `.tpp` file and select it.
-4. Restart _Touch Portal_
-    * When prompted by _Touch Portal_ to trust the plugin startup script, select "Yes" (the source code is public!).
-5. That's it. You should now have the plugin's actions available to you in Touch Portal.
+    4. When prompted by _Touch Portal_ to trust the plugin startup script, select "Trust Always" or "Yes" (the source code is public!).
+       * "Trust Always" will automatically start the plugin each time Touch Portal starts.
+       * "Yes" will start the plugin this time and then prompt again each time Touch Portal starts.
+       * If you select "No" then you can still start the plugin manually from Touch Portal's _Settings -> Plug-ins_ dialog.
+4. That's it. You should now have the plugin's actions available to you in Touch Portal.
+
+### Updates
+
+Unless noted otherwise in the notes of a particular release version, it is OK to just re-install a newer version of the plugin "on top of"
+a previous version without uninstalling the old version first. Either way is OK, just keep in mind that uninstalling the plugin via Touch Portal
+will also remove any current log files as well.
 
 ### Update Notifications
 
-_Watch_ -> _Custom_ -> _Releases_ this repository (button at top) or subscribe to the [ATOM feed](https://github.com/mpaperno/WASimCommander/releases.atom) for release notifications.
+In GitHub (with an account) you can _Watch_ -> _Custom_ -> _Releases_ this repository (button at top right).
 
-Release announcements are also made in the Touch Portal Discord Server room [#dynamic-script-engine](https://discord.com/channels/548426182698467339/750791488501448887)
+Or subscribe to the [ATOM feed](https://github.com/mpaperno/DSEP4TP/releases.atom) for release notifications.
+
+Release announcements are also made in the Touch Portal Discord Server room [#dynamic-script-engine](https://discord.gg/FhYsZNFgyw)
 
 Or use the provided [example script](@ref example_fetch_and_notify) to check for new versions right from Touch Portal!
 
@@ -132,7 +143,7 @@ Or use the provided [example script](@ref example_fetch_and_notify) to check for
 -------------
 ## Documentation
 
-[Full Documentation & Examples @ https://mpaperno.github.io/DSEP4TP/](https://mpaperno.github.io/DSEP4TP/) - includes this README as well.
+[Full Documentation & Examples @ dse.tpp.max.paperno.us](https://dse.tpp.max.paperno.us) - includes this README as well.
 
 </div>
 

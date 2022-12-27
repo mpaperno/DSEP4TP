@@ -23,7 +23,7 @@ JavaScript scripts, like a **mini Web browser** or a continuously-running Node.j
 **An engine instance can persist for the life of the plugin** (that is, it exists as long as the plugin keeps running).
 * This is an important distinction vs., say, running a Node.js script from a Touch Portal action (using Run an Application or Run a batch file actions, for example).
   In the latter case the script has no way of saving information (data) between executions (not easily, anyway), plus every time it starts it will need to re-create
-  it's complete environment, including starting node[.exe] itself and so on. A persistent environment like this plugin provides has no startup "cost" after the initial
+  it's complete environment, including starting Node itself and so on. A persistent environment like this plugin provides has no startup "cost" after the initial
   creation, and allows for easily saving  data, or "state" (lower case!), between runs.
   It's more like a Web browser that stays open and can re-run any loaded scripts on demand w/out restarting the whole thing.
 
@@ -62,9 +62,9 @@ So in general the procedure for using any of these results is:
    this will crate the new State in Touch Portal.
 3. Now go back and finish setting up your button/event once the new State has been created and will be available in the various places you can select States from.
 
-Alternately:
+Alternately (once you understand the actions described on the next page):
 1. Create the Touch Portal State first with a simple JavaScript expression: `TP.stateCreate("dsep.MyNewStateName", "Description of My New State")`
-2. Using the ["one-time script"](@ref plugin_actions_one-time-script) actin is perfect for this.
+2. Using the ["one-time script"](@ref plugin_actions_one-time-script) action is perfect for this.
 
 OK, enough of that, let's get to the Actions!
 
