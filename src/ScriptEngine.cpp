@@ -84,6 +84,14 @@ ScriptEngine::~ScriptEngine() {
 
 void ScriptEngine::initScriptEngine()
 {
+	if (ulib) {
+		ulib->clearAllTimers();
+	}
+	else {
+		ulib = new ScriptLib::Util(this);  // 'this' is NOT the QObject parent.
+		QJSEngine::setObjectOwnership(ulib, QJSEngine::CppOwnership);
+	}
+
 	QMutexLocker lock(&m_mutex);
 	if (se) {
 		se->collectGarbage();
@@ -92,6 +100,7 @@ void ScriptEngine::initScriptEngine()
 	}
 
 	se = new SCRIPT_ENGINE_BASE_TYPE();
+	QJSEngine::setObjectOwnership(this, QJSEngine::CppOwnership);
 	se->setProperty("ScriptEngine", QVariant::fromValue(this));  // used by library scripts to raise uncaught exceptions
 
 #if !SCRIPT_ENGINE_USE_QML
@@ -117,16 +126,11 @@ void ScriptEngine::initScriptEngine()
 	//se->globalObject().setProperty("rootQmlObject", se->newQObject(&root));
 #endif
 
-	if (ulib)
-		ulib->clearAllTimers();
-	else
-		ulib = new ScriptLib::Util(this);  // 'this' is NOT the QObject parent.
-
-	se->globalObject().setProperty("ScriptEngine", se->newQObject(this));
-	se->globalObject().setProperty("Util", se->newQObject(ulib));
+	se->globalObject().setProperty("ScriptEngine", se->newQObject(this));               // CPP ownership
+	se->globalObject().setProperty("Util", se->newQObject(ulib));                       // CPP ownership
+	se->globalObject().setProperty("Dir", se->newQObject(ScriptLib::Dir::instance()));  // static instance has CPP ownership
+	se->globalObject().setProperty("File", se->newQObject(new ScriptLib::File));        // QJSEngine has ownership
 	se->globalObject().setProperty("FS", se->newQMetaObject(&ScriptLib::FS::staticMetaObject));
-	se->globalObject().setProperty("Dir", se->newQObject(ScriptLib::Dir::instance()));
-	se->globalObject().setProperty("File", se->newQObject(new ScriptLib::File));
 	se->globalObject().setProperty("FileHandle", se->newQMetaObject<ScriptLib::FileHandle>());
 	se->globalObject().setProperty("Process", se->newQMetaObject<ScriptLib::Process>());
 	se->globalObject().setProperty("AbortController", se->newQMetaObject<ScriptLib::AbortController>());
