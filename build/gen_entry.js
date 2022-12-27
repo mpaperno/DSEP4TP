@@ -20,9 +20,9 @@ var OUTPUT_PATH = "";
 var DEV_MODE = false;
 
 // Const
-const PLUGIN_ID = buildInfo.PLUGIN_ID;     // "us.paperno.max.tpp.dsep";
-const SYSTEM_NAME = buildInfo.SYSTEM_NAME; // "DSEP4TP";
-const SHORT_NAME = buildInfo.SHORT_NAME;   // "Dynamic Script Engine";
+const PLUGIN_ID = buildInfo.PLUGIN_ID;    
+const SYSTEM_NAME = buildInfo.SYSTEM_NAME;
+const SHORT_NAME = buildInfo.SHORT_NAME;  
 
 // Handle CLI arguments
 for (let i=2; i < process.argv.length; ++i) {
@@ -48,7 +48,7 @@ if (!iVersion) {
 
 // Set default output path if not specified, based on debug/release type.
 if (!OUTPUT_PATH)
-    OUTPUT_PATH = path.join(__dirname, "..", "dist", (DEV_MODE ? "Debug" : "Release"));
+    OUTPUT_PATH = path.join(__dirname, "..", "dist", (DEV_MODE ? "Debug" : path.join("Release", buildInfo.PLATFORM_OS)));
 
 // --------------------------------------
 // Define the base entry.tp object here
@@ -59,7 +59,8 @@ const entry_base =
     version: parseInt(iVersion.toString(16)),
     name: SHORT_NAME,
     id: PLUGIN_ID,
-    plugin_start_cmd: DEV_MODE ? '' : '"%TP_PLUGIN_FOLDER%' + SYSTEM_NAME + '/' + SYSTEM_NAME + '"',
+    plugin_start_cmd: DEV_MODE ? '' : 'sh %TP_PLUGIN_FOLDER%' + SYSTEM_NAME + '/start.sh',
+    plugin_start_cmd_windows: DEV_MODE ? '' : '"%TP_PLUGIN_FOLDER%' + SYSTEM_NAME + '/bin/' + SYSTEM_NAME + '"',
     configuration: {
         colorDark: "#1D3345",
         colorLight: "#305676",
