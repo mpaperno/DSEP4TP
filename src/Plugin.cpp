@@ -19,7 +19,6 @@ to any 3rd-party components used within.
 */
 
 #include <QCoreApplication>
-#include <QtConcurrent>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMetaObject>

@@ -18,7 +18,7 @@ of their respective licenses. The copyright notice above does not apply
 to any 3rd-party components used within.
 */
 
-#include "domexception.h"
+#include "DOMException.h"
 #include "private/qv4managed_p.h"
 #include "private/qv4mmdefs_p.h"
 #include <QtCore/qglobal.h>

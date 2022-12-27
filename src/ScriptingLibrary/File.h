@@ -33,7 +33,9 @@ to any 3rd-party components used within.
 
 //! \file
 
+#ifdef Q_OS_WIN
 extern Q_CORE_EXPORT int qt_ntfs_permission_lookup;  // for NTFS permission checking, see QFile docs.
+#endif
 
 class ScriptEngine;
 
@@ -71,7 +73,9 @@ class File : public QObject
 		explicit File(QObject *p = nullptr) : QObject(p)
 		{
 			setObjectName("File");
+#ifdef Q_OS_WIN
 			qt_ntfs_permission_lookup = 1; // turn NTFS checking on
+#endif
 		}
 
 		virtual ~File() {

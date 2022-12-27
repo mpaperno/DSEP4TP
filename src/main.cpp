@@ -79,19 +79,28 @@ int main(int argc, char *argv[])
 	//qputenv("QML_XHR_DUMP", "1");
 
 	QCoreApplication a(argc, argv);
-	QCoreApplication::setOrganizationName(PLUGIN_NAME);
 	QCoreApplication::setApplicationName(PLUGIN_SYSTEM_NAME);
-	QCoreApplication::setOrganizationDomain(PLUGIN_DOMAIN);
+	QCoreApplication::setOrganizationName(PLUGIN_ORG_NAME);
+	QCoreApplication::setOrganizationDomain(PLUGIN_ORG_NAME);
 	QCoreApplication::setApplicationVersion(PLUGIN_VERSION_STR);
 	QSettings::setDefaultFormat(QSettings::IniFormat);
 
 	Logger::instance()->installAppMessageHandler();
 
-	QString logPath = "../logs",
-	    tpHost;
+	// Figure out default log path; should go at same level as bin direcotry or app bundle.
+	QString logPath = QCoreApplication::applicationDirPath() + '/';
+	if (logPath.endsWith(QLatin1String("bin/")))
+		logPath += QLatin1String("../");
+	else if (logPath.endsWith(QLatin1String(".app/Contents/MacOS/")))
+		logPath += QLatin1String("../../../");
+	logPath = QDir::cleanPath(logPath + QLatin1String("logs"));
+
+	// Empty TP host and port 0 will leave TPClient's default as-is.
+	QString tpHost;
 	uint16_t tpPort = 0;
+
 	// Set default logging levels for file and stderr.
-	qint8 keep = 3,
+	qint8 keep = 3,      // # of rotations to keep
 	    fileLevel = 1,
 	    jsFileLevel = 0;
 #ifdef QT_DEBUG
@@ -229,7 +238,9 @@ int main(int argc, char *argv[])
 	std::signal(SIGTERM, sigHandler);
   std::signal(SIGABRT, sigHandler);
   std::signal(SIGINT, sigHandler);
+#ifdef Q_OS_WIN
   std::signal(SIGBREAK, sigHandler);
+#endif
 
 	Plugin p(tpHost, tpPort);
 	return a.exec();
