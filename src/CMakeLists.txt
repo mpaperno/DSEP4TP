@@ -3,10 +3,11 @@ cmake_minimum_required(VERSION 3.24)
 set (VERSION_STR 1.0.0.1)
 set (VERSION_NUM 1000001)
 set (VERSION_SFX -beta1)
-set (PROJECT_FULL_NAME "Dynamic Script Engine Plugin for Touch Portal")
+set (PROJECT_FULL_NAME  "Dynamic Script Engine Plugin for Touch Portal")
 set (PROJECT_SHORT_NAME "Dynamic Script Engine")
-set (PROJECT_DOMAIN "tpp.max.paperno.us")
-set (TP_PLUGIN_ID "us.paperno.max.tpp.dsep")
+set (PROJECT_ORG_NAME   "DynamicScriptEngine")
+set (PROJECT_DOMAIN "dse.tpp.max.paperno.us")
+set (TP_PLUGIN_ID   "us.paperno.max.tpp.dse")
 
 project(
   DSEP4TP
@@ -25,17 +26,29 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 cmake_path(SET SRCPATH "${PROJECT_SOURCE_DIR}")
 cmake_path(SET DOXPATH "${CMAKE_SOURCE_DIR}/../doc/doxygen")
 cmake_path(SET BLDPATH "${CMAKE_SOURCE_DIR}/../build")
-cmake_path(SET DSTPATH "${CMAKE_SOURCE_DIR}/../dist/${CMAKE_BUILD_TYPE}")
-cmake_path(SET SSLPATH "$ENV{QTHOME}/Tools/OpenSSL/Win_x64/bin")
 
-set(CMAKE_INSTALL_PREFIX ${DSTPATH})
+set(isWin FALSE)
+set(isMac FALSE)
+set(isLinux FALSE)
+
+if(WIN32)
+  set(PLATFORM_OS Windows)
+  set(isWin TRUE)
+elseif(APPLE)
+  set(PLATFORM_OS MacOS)
+  set(isMac TRUE)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  set(PLATFORM_OS Linux)
+  set(isLinux TRUE)
+else()
+  message(FATAL_ERROR "Platform not supported.")
+endif()
 
 find_package(QT NAMES Qt5 Qt6 REQUIRED)
 
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
   Core
   Network
-  Concurrent
   Qml
 )
 
@@ -43,10 +56,9 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
 
 add_executable(${PROJECT_NAME})
 
-#set_target_properties(${PROJECT_NAME} PROPERTIES
-#  WIN32_EXECUTABLE TRUE
-#  MACOSX_BUNDLE TRUE
-#)
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  MACOSX_BUNDLE TRUE
+)
 
 target_sources(${PROJECT_NAME} PRIVATE
   version.h
@@ -80,8 +92,6 @@ if (QT_VERSION_MAJOR STREQUAL "6")
     ScriptingLibrary/DOMException.cpp
     ScriptingLibrary/XmlHttpRequest.h
     ScriptingLibrary/XmlHttpRequest.cpp
-    #  ScriptingLibrary/qv4httpheaders.h
-    #  ScriptingLibrary/qv4httpheaders.cpp
   )
 endif()
 
@@ -108,60 +118,83 @@ if (MSVC)
   target_compile_definitions(${PROJECT_NAME} PRIVATE _CRT_SECURE_NO_WARNINGS )
 endif()
 
-if (WIN32 AND NOT MSVC)
-  target_link_libraries(${PROJECT_NAME} stdc++fs )
+if (UNIX OR MINGW AND NOT APPLE)
+  target_link_libraries(${PROJECT_NAME} PRIVATE stdc++fs )
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Network
-  Qt${QT_VERSION_MAJOR}::Concurrent
   Qt${QT_VERSION_MAJOR}::Qml
 )
 
 ##  Install
 
+cmake_path(SET INSTALL_DEST_REL "${CMAKE_SOURCE_DIR}/../dist/${PLATFORM_OS}/${PROJECT_NAME}")
+cmake_path(SET INSTALL_DEST_DBG "${CMAKE_SOURCE_DIR}/../dist/${CMAKE_BUILD_TYPE}")
+
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+  set(INSTALL_DEST ${INSTALL_DEST_REL})
+else()
+  set(INSTALL_DEST ${INSTALL_DEST_DBG})
+endif()
+set(CMAKE_INSTALL_PREFIX "${INSTALL_DEST}")
+#set(CMAKE_INSTALL_PREFIX "$<IF:$<CONFIG:Release>,\${INSTALL_DEST_REL},\${INSTALL_DEST_DBG}>")
+
 install(TARGETS ${PROJECT_NAME}
   BUNDLE  DESTINATION .
+    PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
   RUNTIME DESTINATION bin
+    PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
 )
 
-if (WIN32)
+if (isWin)
+  set(executable_path "${CMAKE_INSTALL_PREFIX}/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>")
+  set(deploy_command "${WINDEPLOYQT_EXECUTABLE}" --no-compiler-runtime --no-translations "${executable_path}")
+  install(CODE "execute_process(COMMAND ${deploy_command})" COMPONENT Runtime)
+  cmake_path(SET ssl_path "$ENV{QTHOME}/Tools/OpenSSL/Win_x64/bin")
   install(
-    FILES "${SSLPATH}/libcrypto-1_1-x64.dll" "${SSLPATH}/libssl-1_1-x64.dll"
+    FILES "${ssl_path}/libcrypto-1_1-x64.dll" "${ssl_path}/libssl-1_1-x64.dll"
     TYPE BIN
   )
+
+elseif(isLinux)
+  set_target_properties(${PROJECT_NAME} PROPERTIES
+    CMAKE_BUILD_RPATH_USE_ORIGIN TRUE
+    INSTALL_RPATH "$ORIGIN"
+  )
+  #install(TARGETS ${PROJECT_NAME} RUNTIME_DEPENDENCIES DESTINATION bin)  # all C++ libs
+  set(qt_ver ${QT_VERSION_MAJOR})
+  set(qt_libs "")
+  foreach(qt_lib
+    Qt${qt_ver}Core.so.${qt_ver} Qt${qt_ver}Network.so.${qt_ver} Qt${qt_ver}Qml.so.${qt_ver}
+    icui18n.so.56 icuuc.so.56 icudata.so.56
+  )
+    list(APPEND qt_libs "${CMAKE_PREFIX_PATH}/lib/lib${qt_lib}")
+  endforeach()
+  install(CODE
+    "file(INSTALL ${qt_libs} DESTINATION \"${CMAKE_INSTALL_PREFIX}/bin\" FOLLOW_SYMLINK_CHAIN)"
+    COMPONENT Runtime)
+  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/networkinformation" TYPE BIN)
+  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/tls" TYPE BIN)
+
+else()  # Mac
+  set_target_properties(${PROJECT_NAME} PROPERTIES
+    INSTALL_RPATH_USE_LINK_PATH TRUE
+    INSTALL_RPATH "@executable_path/../Frameworks/"
+  )
+  # macdeployqt is only needed when completely rebuilding the bundle; It also adds a bunch of GUI QApplication junk we don't need.
+  set(bundle_path "${CMAKE_INSTALL_PREFIX}/$<TARGET_FILE_NAME:${PROJECT_NAME}>.app")
+  add_custom_target(deployqt
+    COMMAND ${MACDEPLOYQT_EXECUTABLE} "${bundle_path}"
+    COMMAND rm -f -r "${bundle_path}/Contents/Frameworks/QtDBus.framework"
+    COMMAND rm -f -r "${bundle_path}/Contents/Frameworks/QtGui.framework"
+    COMMAND rm -f -r "${bundle_path}/Contents/Frameworks/QtSvg.framework"
+    COMMAND rm -f -r "${bundle_path}/Contents/Frameworks/QtWidgets.framework"
+    COMMAND rm -f -r "${bundle_path}/Contents/Plugins/iconengines"
+    COMMAND rm -f -r "${bundle_path}/Contents/Plugins/imageformats"
+    COMMAND rm -f -r "${bundle_path}/Contents/Plugins/styles"
+    DEPENDS ${PROJECT_NAME}
+    WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}
+  )
 endif()
-
-#if(APPLE)
-#  set(executable_path "$<TARGET_FILE_NAME:${PROJECT_NAME}>.app")
-#else()
-  set(executable_path "\${QT_DEPLOY_BIN_DIR}/$<TARGET_FILE_NAME:${PROJECT_NAME}>")
-#endif()
-
-set(deploy_script "${CMAKE_CURRENT_BINARY_DIR}/deploy_${PROJECT_NAME}.cmake")
-
-file(GENERATE OUTPUT ${deploy_script} CONTENT "
-include(\"${QT_DEPLOY_SUPPORT}\")
-set(__qt_deploy_tool_extra_options --no-compiler-runtime --no-translations)
-qt_deploy_runtime_dependencies(
-    EXECUTABLE \"${executable_path}\"
-    PLUGINS_DIR bin
-#    NO_TRANSLATIONS
-)
-")
-
-#qt_generate_deploy_app_script(
-#    TARGET ${PROJECT_NAME}
-#    FILENAME_VARIABLE deploy_script
-#    NO_UNSUPPORTED_PLATFORM_ERROR
-#)
-
-install(SCRIPT ${deploy_script})
-
-#qt_add_qml_module(${PROJECT_NAME}
-#    URI qml
-#    VERSION 1.0
-#    QML_FILES
-#      qml/root.qml
-#)
