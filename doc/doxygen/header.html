@@ -29,10 +29,10 @@ $mathjax
     // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
     $(window).on('load', () => {
       function removeElements() {
-        if (!$("a[class='index.html:autotoc_md10']").length)
+        if (!$("a[class='index.html:autotoc_md11']").length)
           setTimeout(removeElements, 10);
-        var el = document.getElementById("autotoc_md10"),
-          els = document.getElementsByClassName("index.html:autotoc_md10");
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
         if (el)
           el.parentNode.style.display = 'none';
         if (els.length)
