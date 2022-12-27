@@ -127,16 +127,16 @@ $(document).ready(function(){initNavTree('plugin_basics.html',''); initResizable
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md24">General Theory and Terminology</a><ul><li class="level2"><a href="#doc-script-engine">The engine</a></li>
+<ul><li class="level1"><a href="#autotoc_md25">General Theory and Terminology</a><ul><li class="level2"><a href="#doc-script-engine">The engine</a></li>
 <li class="level2"><a href="#doc-engine-instance-types">Engine instances</a></li>
 <li class="level2"><a href="#doc-named-state-instances">Named instances</a></li>
-<li class="level2"><a href="#autotoc_md25">Important:</a></li>
+<li class="level2"><a href="#autotoc_md26">Important:</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_pages_Basic"></a></p>
-<h1><a class="anchor" id="autotoc_md24"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 General Theory and Terminology</h1>
 <p >The plugin <b>evaluates JavaScript-compatible expressions</b>, from simple math to running (relatively) complex programs.</p>
 <p >For the most part this is useful for getting information/data back to Touch Portal, for example to get the result of a math expression as soon as some dynamic value (used in the expression) changes. Such results would be sent to Touch Portal as plug-in "States" (which I will refer to with a capital letter to help avoid confusion with any other kind of state).</p>
@@ -145,7 +145,7 @@ General Theory and Terminology</h1>
 The engine</h2>
 <p >Expressions/scripts are evaluated by the plugin using an <b>evaluation engine</b>. An <b>engine instance</b> is a complete and isolated environment that can run JavaScript scripts, like a <b>mini Web browser</b> or a continuously-running Node.js application (it's not either of those things, but that's the best analogy I have for now).</p>
 <p ><b>An engine instance can persist for the life of the plugin</b> (that is, it exists as long as the plugin keeps running).</p><ul>
-<li>This is an important distinction vs., say, running a Node.js script from a Touch Portal action (using Run an Application or Run a batch file actions, for example). In the latter case the script has no way of saving information (data) between executions (not easily, anyway), plus every time it starts it will need to re-create it's complete environment, including starting node[.exe] itself and so on. A persistent environment like this plugin provides has no startup "cost" after the initial creation, and allows for easily saving data, or "state" (lower case!), between runs. It's more like a Web browser that stays open and can re-run any loaded scripts on demand w/out restarting the whole thing.</li>
+<li>This is an important distinction vs., say, running a Node.js script from a Touch Portal action (using Run an Application or Run a batch file actions, for example). In the latter case the script has no way of saving information (data) between executions (not easily, anyway), plus every time it starts it will need to re-create it's complete environment, including starting Node itself and so on. A persistent environment like this plugin provides has no startup "cost" after the initial creation, and allows for easily saving data, or "state" (lower case!), between runs. It's more like a Web browser that stays open and can re-run any loaded scripts on demand w/out restarting the whole thing.</li>
 </ul>
 <h2><a class="anchor" id="doc-engine-instance-types"></a>
 Engine instances</h2>
@@ -162,7 +162,7 @@ Named instances</h2>
 <li>Each of these named instances can use either the Shared or a Private evaluation engine. So effectively a State Name for an action using a Private engine also becomes the engine instance's name.</li>
 <li>These names are referenced in the plugin's other action(s), such as where you can delete one or reset its engine environment (described on the <a class="el" href="plugin_actions.html#actions_plugin-action">actions page</a>).</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 Important:</h2>
 <p >To get any kind of result back from the plugin to Touch Portal the plugin creates Touch Portal States dynamically <b>once you tell it to</b>.</p>
 <p >Meaning that to be able to select the new State from Touch Portal's interface you have to first send one of the plugin's actions which creates that State in the first place (with a name of your choice, as you'll see on the next page). It's a bit of a <a href="https://en.wikipedia.org/wiki/Catch-22_(logic)" target="_blank">catch-22</a> and this is sometimes a point of confusion.</p>
@@ -171,9 +171,9 @@ Important:</h2>
 <li>Then activate this action once somehow (on button press or whatever) &ndash; assuming there are no errors in the expression/script (another good reason to start simple), this will crate the new State in Touch Portal.</li>
 <li>Now go back and finish setting up your button/event once the new State has been created and will be available in the various places you can select States from.</li>
 </ol>
-<p >Alternately:</p><ol type="1">
+<p >Alternately (once you understand the actions described on the next page):</p><ol type="1">
 <li>Create the Touch Portal State first with a simple JavaScript expression: <code><a class="el" href="namespace_t_p.html#a63d93ca8505b73aa4a1903375d9b484f" title="Create a new Touch Portal dynamic State (if it doesn&#39;t already exist).">TP.stateCreate</a>("dsep.MyNewStateName", "Description of My New State")</code></li>
-<li>Using the <a class="el" href="plugin_actions.html#plugin_actions_one-time-script">&quot;one-time script&quot;</a> actin is perfect for this.</li>
+<li>Using the <a class="el" href="plugin_actions.html#plugin_actions_one-time-script">&quot;one-time script&quot;</a> action is perfect for this.</li>
 </ol>
 <p >OK, enough of that, let's get to the Actions!</p>
 <p ><span class="next_section_button"> Read Next: <a class="el" href="plugin_actions.html#md_pages_Actions">Plugin Actions</a> </span> </p>
@@ -184,7 +184,7 @@ Important:</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
-    <li class="footer">Generated on Fri Dec 23 2022 00:45:49 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Mon Dec 26 2022 20:53:16 for Dynamic Script Engine Plugin for Touch Portal by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

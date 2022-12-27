@@ -31,13 +31,14 @@ var NAVTREE =
       [ "Overall", "index.html#autotoc_md5", null ]
     ] ],
     [ "Download and Install", "index.html#autotoc_md7", [
-      [ "Update Notifications", "index.html#autotoc_md8", null ]
+      [ "Updates", "index.html#autotoc_md8", null ],
+      [ "Update Notifications", "index.html#autotoc_md9", null ]
     ] ],
-    [ "Documentation", "index.html#autotoc_md10", null ],
-    [ "Support and Discussion", "index.html#autotoc_md12", null ],
-    [ "Troubleshooting", "index.html#autotoc_md14", null ],
-    [ "Credits", "index.html#autotoc_md16", null ],
-    [ "Copyright, License, and Disclaimer", "index.html#autotoc_md18", null ],
+    [ "Documentation", "index.html#autotoc_md11", null ],
+    [ "Support and Discussion", "index.html#autotoc_md13", null ],
+    [ "Troubleshooting", "index.html#autotoc_md15", null ],
+    [ "Credits", "index.html#autotoc_md17", null ],
+    [ "Copyright, License, and Disclaimer", "index.html#autotoc_md19", null ],
     [ "Plugin Documentation", "documentation.html", "documentation" ],
     [ "Examples", "plugin_examples.html", "plugin_examples" ],
     [ "JavaScript Library Reference", "modules.html", "modules" ]
