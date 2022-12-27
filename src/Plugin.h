@@ -43,7 +43,8 @@ class Plugin : public QObject
 		void tpStateRemove(const QByteArray &) const;
 		void tpChoiceUpdate(const QByteArray &, const QByteArrayList &) const;
 		void tpChoiceUpdateStrList(const QByteArray &, const QStringList &) const;
-		void tpConnectorUpdate(const QByteArray &, quint8) const;
+		void tpConnectorUpdate(const QByteArray &, quint8, bool) const;
+		void tpConnectorUpdateShort(const QByteArray &, quint8) const;
 		void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList &) const;
 		void tpNotificationClicked(const QString &, const QString &) const;
 		void loggerRotateLogs() const;

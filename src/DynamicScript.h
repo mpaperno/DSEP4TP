@@ -297,6 +297,7 @@ class DynamicScript : public QObject
 				connect(m_engine, &ScriptEngine::stateRemove, m_plugin, &Plugin::tpStateRemove);
 				connect(m_engine, &ScriptEngine::choiceUpdate, m_plugin, &Plugin::tpChoiceUpdateStrList);
 				connect(m_engine, &ScriptEngine::connectorUpdate, m_plugin, &Plugin::tpConnectorUpdate);
+				connect(m_engine, &ScriptEngine::connectorUpdateShort, m_plugin, &Plugin::tpConnectorUpdateShort);
 				connect(m_engine, &ScriptEngine::tpNotification, m_plugin, &Plugin::tpNotification);
 				connect(m_plugin, &Plugin::tpNotificationClicked, m_engine, &ScriptEngine::onNotificationClicked);
 			}

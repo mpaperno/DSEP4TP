@@ -48,6 +48,7 @@ var
     stateRemove: ScriptEngine.stateRemove,
     choiceUpdate: ScriptEngine.choiceUpdate,
     connectorUpdate: ScriptEngine.connectorUpdate,
+    connectorUpdateShort: ScriptEngine.connectorUpdateShort,
     showNotification: ScriptEngine.showNotification,
   }
 ;

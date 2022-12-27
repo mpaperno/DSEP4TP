@@ -158,7 +158,8 @@ class ScriptEngine : public QObject
 		void stateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &);
 		void stateRemove(const QByteArray &);
 		void choiceUpdate(const QByteArray &, const QStringList &);
-		void connectorUpdate(const QByteArray &, uint8_t );
+		void connectorUpdate(const QByteArray &, uint8_t, bool = false);
+		void connectorUpdateShort(const QByteArray &, uint8_t);
 		void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList & = QVariantList());
 
 	public Q_SLOTS:

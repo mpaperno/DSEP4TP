@@ -106,7 +106,8 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
 	connect(this, &Plugin::tpChoiceUpdate, client, qOverload<const QByteArray &, const QByteArrayList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
 	// These are just for scripting engine user functions, not used by plugin directly. Emitted by ScriptEngine.
 	connect(this, &Plugin::tpChoiceUpdateStrList, client, qOverload<const QByteArray &, const QStringList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
-	connect(this, &Plugin::tpConnectorUpdate, client, qOverload<const QByteArray&, uint8_t>(&TPClientQt::connectorUpdate), Qt::QueuedConnection);
+	connect(this, &Plugin::tpConnectorUpdate, client, qOverload<const QByteArray&, uint8_t, bool>(&TPClientQt::connectorUpdate), Qt::QueuedConnection);
+	connect(this, &Plugin::tpConnectorUpdateShort, client, qOverload<const QByteArray&, uint8_t>(&TPClientQt::connectorUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpNotification, client, qOverload<const QByteArray&, const QByteArray&, const QByteArray&, const QVariantList&>(&TPClientQt::showNotification), Qt::QueuedConnection);
 
 	Q_EMIT tpConnect();
@@ -154,6 +155,7 @@ void Plugin::initEngine()
 	connect(ScriptEngine::instance(), &ScriptEngine::stateRemove, this, &Plugin::tpStateRemove, Qt::QueuedConnection);
 	connect(ScriptEngine::instance(), &ScriptEngine::choiceUpdate, this, &Plugin::tpChoiceUpdateStrList, Qt::QueuedConnection);
 	connect(ScriptEngine::instance(), &ScriptEngine::connectorUpdate, this, &Plugin::tpConnectorUpdate, Qt::QueuedConnection);
+	connect(ScriptEngine::instance(), &ScriptEngine::connectorUpdateShort, this, &Plugin::tpConnectorUpdateShort, Qt::QueuedConnection);
 	connect(ScriptEngine::instance(), &ScriptEngine::tpNotification, this, &Plugin::tpNotification, Qt::QueuedConnection);
 	connect(this, &Plugin::tpNotificationClicked, ScriptEngine::instance(), &ScriptEngine::onNotificationClicked, Qt::QueuedConnection);
 
