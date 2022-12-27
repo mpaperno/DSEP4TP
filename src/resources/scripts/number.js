@@ -21,7 +21,7 @@ to any 3rd-party components used within.
 //! \fn number round(number precision)
 //! \memberof Number
 //! Round value to `precision` decimal places.
-Number.prototype.clamp = function(precision = 0) {
+Number.prototype.round = function(precision = 0) {
 	return Math.roundTo(this, precision);
 };
 
