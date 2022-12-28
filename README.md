@@ -90,7 +90,8 @@ global Value or a plugin State and will be replaced by Touch Portal with the act
   * **Network requests** supported via familiar [Fetch API](@ref FetchAPI) and [XMLHttpRequest](@ref stdlib-xmlhttpreq).
   * **Touch Portal [interaction](@ref TP)**: update any State or global Value, create and remove States, change Slider positions, send Notifications, and more.
   * **Color manipulation**/utility library.
-  * **External command and application launching** with optional inter-process data exchange using Process.
+  * **External command and application launching** with optional inter-process data exchange using `Process` class.
+  * **Clipboard interactions** (see [Clipboard example](@ref example_clipboard) module);
   * Lots of convenience extensions to built-in JS objects like Date, Number, Math and String.
   * Other [global](@ref Global) object extensions and [utilities](@ref Util),
     eg. for encoding/decoding **base-64 data**, **environment variable** access, **locale data**, **hashing algorithms**, and more.
