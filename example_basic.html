@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.4"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Dynamic Script Engine Plugin for Touch Portal: Examples</title>
+<title>Dynamic Script Engine Plugin for Touch Portal: Basic Usage Examples</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -104,7 +104,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('plugin_examples.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('example_basic.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -123,23 +123,29 @@ $(document).ready(function(){initNavTree('plugin_examples.html',''); initResizab
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">Examples </div></div>
+  <div class="headertitle"><div class="title">Basic Usage Examples </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md_pages_02_Examples"></a></p><ul>
-<li><a class="el" href="example_basic.html">Basic Usage Examples</a> <br  />
- A collection of simple examples of using math, formatting, and other basic functions.</li>
-<li><a class="el" href="example_line_logger.html">Line Logger Example</a> <br  />
- This is an example of collecting (accumulating) lines of text from a State or Value.</li>
-<li><a class="el" href="example_clipboard.html">Clipboard Utility Example</a> <br  />
- Utility module for working with the system clipboard.</li>
-<li><a class="el" href="example_color_picker.html">Color Picker Example</a> <br  />
- A script and page example of an interface for choosing a color.</li>
-<li><a class="el" href="example_fetch_and_notify.html">Fetch and Notify Example - GitHub Release Version Check</a><br  />
- Checks for new version of a GitHub repository release and notifies about it if it finds one. Example of a network request, processing JSON, and sending interactive Touch Portal notifications.</li>
-<li><a class="el" href="example_tail.html">Tail Example</a> <br  />
- Example of "tailing" a file to monitor for changes and show the last few lines (eg. a log file which is getting updated). </li>
-</ul>
+<div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicValues_DynamicValuesTPP_resources_examples_basic_README"></a>A collection of simple examples of using math, formatting, and other basic functions.</p>
+<div class="hide-on-site"></div><div class="hide-on-site"><b>See the <a href="https://mpaperno.github.io/DSEP4TP/example_basic.html" target="_blank">published documentation</a> for a properly formatted version of this README.</b> </div><p >These examples use States coming from another plugin (for Microsoft Flight Simulator), but any State or Value could be substituted in their place.<br  />
+ The dynamic values (State names) are all in Touch Portal's usual <code>${value:value_name}</code> format as they appear when selected with the <code>+</code> button.</p>
+<h2><a class="anchor" id="autotoc_md58"></a>
+Round a value to a whole number</h2>
+<p >Uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed" target="_blank">Number.toFixed()</a> standard JavaScript function.</p>
+<p ><a href="ex_basic_round.png" target="image" title="Click for full version in new window."><img src="ex_basic_round.png" alt="" class="inline"/></a></p>
+<h2><a class="anchor" id="autotoc_md59"></a>
+Convert feet to meters</h2>
+<p >Simple math operation on any numeric value (there are 0.3048 meters to one foot).</p>
+<p ><a href="ex_basic_convert_value.png" target="image" title="Click for full version in new window."><img src="ex_basic_convert_value.png" alt="" class="inline"/></a></p>
+<h2><a class="anchor" id="autotoc_md60"></a>
+Format a string to include a numeric value</h2>
+<p >This example results in "Ground Speed: 12 mph" based on current ground speed in knots (there are 1.150779448 knots to one mile). It uses the <a class="el" href="class_global.html#acd5e884df6b19a0c00b5747908e20d5d">Format</a> function.</p>
+<p ><a href="ex_basic_format_number.png" target="image" title="Click for full version in new window."><img src="ex_basic_format_number.png" alt="" class="inline"/></a></p>
+<h2><a class="anchor" id="autotoc_md61"></a>
+Inline conditional (ternary operator) results</h2>
+<p >A <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator" target="_blank">ternary operator</a> means, in English, "if condition is true then do A, otherwise do B". The corresponding syntax is <code>condition ? A : B</code><br  />
+ This example sets the 'MSFS_StallWarning' state to "STALL" when the warning is active and to an empty string when the warning is not.</p>
+<p ><a href="ex_basic_ternary_string.png" target="image" title="Click for full version in new window."><img src="ex_basic_ternary_string.png" alt="" class="inline"/></a> </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
@@ -147,6 +153,7 @@ $(document).ready(function(){initNavTree('plugin_examples.html',''); initResizab
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="plugin_examples.html">Examples</a></li>
     <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
