@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['scripting_20syntax_20and_20caveats_0',['Scripting Syntax and Caveats',['../plugin_scripting.html',1,'documentation']]],
-  ['status_20and_20logging_1',['Status and Logging',['../plugin_status_and_logging.html',1,'documentation']]]
+  ['plugin_20actions_0',['Plugin Actions',['../plugin_actions.html',1,'documentation']]],
+  ['plugin_20documentation_1',['Plugin Documentation',['../documentation.html',1,'']]]
 ];

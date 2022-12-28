@@ -39,6 +39,10 @@ var NAVTREE =
     [ "Troubleshooting", "index.html#autotoc_md15", null ],
     [ "Credits", "index.html#autotoc_md17", null ],
     [ "Copyright, License, and Disclaimer", "index.html#autotoc_md19", null ],
+    [ "Change Log", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html", [
+      [ "1.0.0.2-beta2 (28-Dec-2022)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md22", null ],
+      [ "1.0.0.1-beta1 (26-Dec-2022)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md24", null ]
+    ] ],
     [ "Plugin Documentation", "documentation.html", "documentation" ],
     [ "Examples", "plugin_examples.html", "plugin_examples" ],
     [ "JavaScript Library Reference", "modules.html", "modules" ]

@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
    </div>
   </td>
  </tr>
@@ -127,21 +127,21 @@ $(document).ready(function(){initNavTree('plugin_status_and_logging.html',''); i
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md29">Introduction</a></li>
-<li class="level1"><a href="#autotoc_md30">Status States</a></li>
-<li class="level1"><a href="#autotoc_md31">Logging</a><ul><li class="level2"><a href="#autotoc_md32">&quot;Console&quot; Log</a></li>
-<li class="level2"><a href="#autotoc_md33">Plugin Log</a></li>
-<li class="level2"><a href="#autotoc_md34">Logging Options</a></li>
+<ul><li class="level1"><a href="#autotoc_md34">Introduction</a></li>
+<li class="level1"><a href="#autotoc_md35">Status States</a></li>
+<li class="level1"><a href="#autotoc_md36">Logging</a><ul><li class="level2"><a href="#autotoc_md37">&quot;Console&quot; Log</a></li>
+<li class="level2"><a href="#autotoc_md38">Plugin Log</a></li>
+<li class="level2"><a href="#autotoc_md39">Logging Options</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_pages_Status"></a></p>
-<h1><a class="anchor" id="autotoc_md29"></a>
+<h1><a class="anchor" id="autotoc_md34"></a>
 Introduction</h1>
 <p >Inevitably, writing scripting expressions of any complexity beyond basic "2 + 2" is going to cause an error sooner or later. Maybe due to syntax or some unexpected value being passed to a function. It happens.</p>
 <p >The plugin has a number of ways to provide feedback about errors and facilitate debugging. There are also extensive file logging options available.</p>
-<h1><a class="anchor" id="autotoc_md30"></a>
+<h1><a class="anchor" id="autotoc_md35"></a>
 Status States</h1>
 <p >First, the plugin provides two permanent States which reflect scripting errors as they happen:</p><ul>
 <li><b>Cumulative script error count</b> - A running count of script errors which increments on each exception. This is useful as a trigger for some Touch Portal event which would notify you that a new error occurred. A button that turns red or something.</li>
@@ -151,7 +151,7 @@ Status States</h1>
 <p >There is also:</p><ul>
 <li><b>List of created named instances</b> - This state contains a list of all the dynamic expression/script instances created by the plugin. It may be useful to check (visually or with a conditional expression) whether an instance exists, for example to indicate an error condition if it doesn't or only create a new instance inside an Event if it doesn't already exist.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md31"></a>
+<h1><a class="anchor" id="autotoc_md36"></a>
 Logging</h1>
 <p >The plugin logs operational message to a file. Two, actually. They are both located in your Touch Portal configuration folder, in the 'plugins/DSEP4TP' subfolder; the path looks like this:<br  />
 </p><ul>
@@ -160,7 +160,7 @@ Logging</h1>
 <li>Linux: <code>~/.config/TouchPortal/plugins/DSEP4TP/logs</code></li>
 </ul>
 <p >The two log files are:</p>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="autotoc_md37"></a>
 "Console" Log</h2>
 <p >Scripting errors are logged to their own file in the log folder named <code>console.log</code>. You can also write your own messages to this log by using the typical JavaScript <code>console.log()</code> (and family) of functions.</p>
 <p >This should be the first point of reference when something doesn't work right (usual symptom: "nothing happens when I run the script.") When actively working on a script or expression, it will save a lot of time to keep a constant eye on the log (and the error states described above).</p>
@@ -174,11 +174,11 @@ Logging</h1>
 <li><a href="https://ss64.com/bash/tail.html" target="_blank">Linux</a> terminal <div class="fragment"><div class="line">tail -F -n 10 ~/.config/TouchPortal/plugins/DSEP4TP/logs/console.log</div>
 </div><!-- fragment --></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md33"></a>
+<h2><a class="anchor" id="autotoc_md38"></a>
 Plugin Log</h2>
 <p >The main plugin log, cleverly named <code>plugin.log</code>, is where all messages are written, including general operational information from the plugin, especially any errors it may have encountered that are not directly related to your scripts (but maybe to the actions you're sending to the plugin, like a missing required data field, or some other overall operational issue).</p>
 <p >This log <em>also</em> includes script engine errors (same ones as in <em>console.log</em>). It can be helpful to get the "full picture" if something particularly insidious is going wrong.</p>
-<h2><a class="anchor" id="autotoc_md34"></a>
+<h2><a class="anchor" id="autotoc_md39"></a>
 Logging Options</h2>
 <p >The logs are rotated daily. The previous days' log is renamed with a date stamp and a new one is started. By default the last 3 days' worth of logs are kept (the current one + 3 historical logs).</p>
 <p >You can force a rotation of the logs by going to the plugin's install directory (*) in a terminal/command window and run the plugin (w/out starting it) with the following command:<br  />
@@ -204,7 +204,7 @@ Logging Options</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
    </div>
   </td>
  </tr>
@@ -127,16 +127,16 @@ $(document).ready(function(){initNavTree('plugin_basics.html',''); initResizable
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md25">General Theory and Terminology</a><ul><li class="level2"><a href="#doc-script-engine">The engine</a></li>
+<ul><li class="level1"><a href="#autotoc_md30">General Theory and Terminology</a><ul><li class="level2"><a href="#doc-script-engine">The engine</a></li>
 <li class="level2"><a href="#doc-engine-instance-types">Engine instances</a></li>
 <li class="level2"><a href="#doc-named-state-instances">Named instances</a></li>
-<li class="level2"><a href="#autotoc_md26">Important:</a></li>
+<li class="level2"><a href="#autotoc_md31">Important:</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_pages_Basic"></a></p>
-<h1><a class="anchor" id="autotoc_md25"></a>
+<h1><a class="anchor" id="autotoc_md30"></a>
 General Theory and Terminology</h1>
 <p >The plugin <b>evaluates JavaScript-compatible expressions</b>, from simple math to running (relatively) complex programs.</p>
 <p >For the most part this is useful for getting information/data back to Touch Portal, for example to get the result of a math expression as soon as some dynamic value (used in the expression) changes. Such results would be sent to Touch Portal as plug-in "States" (which I will refer to with a capital letter to help avoid confusion with any other kind of state).</p>
@@ -162,7 +162,7 @@ Named instances</h2>
 <li>Each of these named instances can use either the Shared or a Private evaluation engine. So effectively a State Name for an action using a Private engine also becomes the engine instance's name.</li>
 <li>These names are referenced in the plugin's other action(s), such as where you can delete one or reset its engine environment (described on the <a class="el" href="plugin_actions.html#actions_plugin-action">actions page</a>).</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 Important:</h2>
 <p >To get any kind of result back from the plugin to Touch Portal the plugin creates Touch Portal States dynamically <b>once you tell it to</b>.</p>
 <p >Meaning that to be able to select the new State from Touch Portal's interface you have to first send one of the plugin's actions which creates that State in the first place (with a name of your choice, as you'll see on the next page). It's a bit of a <a href="https://en.wikipedia.org/wiki/Catch-22_(logic)" target="_blank">catch-22</a> and this is sometimes a point of confusion.</p>
@@ -185,7 +185,7 @@ Important:</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
    </div>
   </td>
  </tr>
@@ -127,10 +127,10 @@ $(document).ready(function(){initNavTree('plugin_actions.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md20">Available Actions</a><ul><li class="level2"><a href="#autotoc_md21">Evaluate Expression</a></li>
-<li class="level2"><a href="#autotoc_md22">Load Script File</a></li>
-<li class="level2"><a href="#autotoc_md23">Import Module File</a></li>
-<li class="level2"><a href="#autotoc_md24">Update Existing Instance</a></li>
+<ul><li class="level1"><a href="#autotoc_md25">Available Actions</a><ul><li class="level2"><a href="#autotoc_md26">Evaluate Expression</a></li>
+<li class="level2"><a href="#autotoc_md27">Load Script File</a></li>
+<li class="level2"><a href="#autotoc_md28">Import Module File</a></li>
+<li class="level2"><a href="#autotoc_md29">Update Existing Instance</a></li>
 <li class="level2"><a href="#plugin_actions_one-time-script">Anonymous (One-Time) Script</a></li>
 <li class="level2"><a href="#actions_plugin-action">Plugin Actions</a></li>
 </ul>
@@ -138,10 +138,10 @@ $(document).ready(function(){initNavTree('plugin_actions.html',''); initResizabl
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_pages_Actions"></a></p>
-<h1><a class="anchor" id="autotoc_md20"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 Available Actions</h1>
 <p ><img src="images/actions/actions-list.jpg" alt="" class="inline"/></p>
-<h2><a class="anchor" id="autotoc_md21"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 Evaluate Expression</h2>
 <p ><a href="images/doc/actions/evaluate.jpg" target="fullSizeImg"><img src="images/actions/evaluate.jpg" alt="" class="inline"/></a></p>
 <p >This is the most basic action which creates a new State with the value of whatever the given expression results in. The other action described below all share the same options (as well as add some others). The common options are only explained here.</p>
@@ -166,7 +166,7 @@ Evaluate Expression</h2>
 <li><b>Default Value/Expr</b> - As explained above, here you could enter a fixed default value to use at startup, or a custom expression to use instead of the action's main one.<br  />
  This field is ignored when the <em>Create State at Startup</em> is set to "No" or "Use Action's Expression."</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md27"></a>
 Load Script File</h2>
 <p ><a href="images/doc/actions/script.jpg" target="fullSizeImg"><img src="images/actions/script.jpg" alt="" class="inline"/></a></p>
 <p >This actions lets you load a JavaScript file and then (optionally) add an expression to execute after the script file is loaded. For example to invoke a function within the script while passing it some dynamic arguments.</p>
@@ -182,7 +182,7 @@ Load Script File</h2>
 <li><b>Append Expression</b> - This is the JavaScript to run after the file has been loaded and evaluated. The expression is literally appended after the file contents. Typically this would be a call into a function from the loaded script, as shown in the example, but it could be any valid code that works with your loaded script file.</li>
 </ul>
 <p >The rest of the fields are as described above.</p>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 Import Module File</h2>
 <p ><a href="images/doc/actions/module.jpg" target="fullSizeImg"><img src="images/actions/module.jpg" alt="" class="inline"/></a></p>
 <p >This is a somewhat more advanced version of the <em>Load Script File</em> action. It is very similar but the advantage of JavaScript modules are that:</p><ol type="1">
@@ -191,13 +191,13 @@ Import Module File</h2>
 </ol>
 <p >However since they're cached, when you make changes to a module's code you must re-create the instance or reload the script environment (there are actions for that, see below). If you don't need to use other modules, it can be quicker to develop and test your code as a standalone script (the above action) and then turn it into a module once you have it working as you'd like.</p>
 <ul>
-<li><b>Import from file</b> - Specify the module's script file to load. This is just a path to a file, the same as described in <a class="el" href="plugin_basics.html#autotoc_md26">Load Script File</a> action above.</li>
+<li><b>Import from file</b> - Specify the module's script file to load. This is just a path to a file, the same as described in <a class="el" href="plugin_actions.html#autotoc_md26">Load Script File</a> action above.</li>
 <li><b>as alias</b> - To use a function from a loaded module, the module must have an alias (these are JS rules). In a typical JS you'd usually use something like <code>import * from "mymodule.js" as MyModule</code> and then call functions from the module as <code>MyModule.someFunction()</code>. This <em>alias</em> field is the equivalent of the "as name" part of the import statement. The default import alias is just "M" to keep things short, but you can use whatever you want.</li>
 <li><b>Evaluate expression</b> - Again this is like in the <em>Load Script File</em> action above. The expression gets invoked after the module has been imported. You can use it to call a function from the loaded module, for example. To call a module function the alias must be used here, like in the example.<br  />
  <b>Note</b> that modules must explicitly <code>export</code> a function (or variable) before it can be used from outside the module. The same applies here, the function you call in the expression must be marked as exported in the module itself, otherwise you get an undefined value TypeError.</li>
 </ul>
 <p >The rest of the fields are as described in <em>Evaluate Expression</em> action.</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 Update Existing Instance</h2>
 <p ><a href="images/doc/actions/update.jpg" target="fullSizeImg"><img src="images/actions/update.jpg" alt="" class="inline"/></a></p>
 <p >This is a very simple action which evaluates an expression using an already existing dynamic script instance. An instance with the same State Name must have already been created for this to work. The idea is that if you want to use the same instance in multiple places, it may be simpler to have the main, full, definition in only one place, and simpler "update" action(s) in other places. This way one doesn't need to update all actions if a file path changes or you want a different default value.</p>
@@ -231,7 +231,7 @@ Plugin Actions</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>
