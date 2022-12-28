@@ -23,7 +23,7 @@ GROUP_NESTED_COMPOUNDS = YES
 INLINE_GROUPED_CLASSES = NO
 INLINE_SIMPLE_STRUCTS  = YES
 TYPEDEF_HIDES_STRUCT   = NO
-EXTENSION_MAPPING      = js=JavaScript
+EXTENSION_MAPPING      = js=JavaScript mjs=JavaScript
 ALIASES                = \
                          "default{1}=\n<b>Default</b> value is \c \1.\n" \
                          "reimp{1}=Reimplemented from \c \1." \
@@ -77,13 +77,12 @@ WARN_AS_ERROR          = NO
 
 INPUT                  = \
                          ../../README.md \
+                         ../../CHANGELOG.md \
                          ../pages \
                          ../jsref \
                          ../../src/resources/scripts \
                          ../../src/ScriptingLibrary \
                          ../../resources/examples \
-
-##                         ../../CHANGELOG.md \
 
 USE_MDFILE_AS_MAINPAGE = ../../README.md
 
@@ -109,6 +108,7 @@ FILE_PATTERNS          = *.c \
                          *.m \
                          *.markdown \
                          *.md \
+                         *.mjs \
                          *.mm \
                          *.ddl \
                          *.odl \
@@ -141,7 +141,7 @@ EXCLUDE_PATTERNS       = \
 EXCLUDE_SYMBOLS        = iterator const_iterator
 
 EXAMPLE_PATH           = ../../resources/examples
-EXAMPLE_PATTERNS       = *.js
+EXAMPLE_PATTERNS       = *.js *.mjs
 EXAMPLE_RECURSIVE      = YES
 
 IMAGE_PATH             = \ 
