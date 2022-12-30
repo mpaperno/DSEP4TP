@@ -26,12 +26,12 @@ for use with [Touch Portal](https://www.touch-portal.com/) macro launcher softwa
 
 ## Features
 **This plugin evaluates expressions using a JavaScript "engine" and (optionally) returns results as a Touch Portal _State_.**<br />
-(If you're not familiar, Touch Portal uses states to display information to the user and/or trigger events.)
+(If you're not familiar, Touch Portal uses States to display information to the user and/or trigger events.)
 
-You can send other dynamic state/values to this plugin as part of the expressions it evaluates, for example to do some math on a numeric value,
+You can send other dynamic States/Values to this plugin as part of the expressions it evaluates, for example to do some math on a numeric value,
 or to format a piece of text in a particular way. It can evaluate anything from basic math to complex JavaScript modules.
 
-You do **not** need to understand JavaScript to start using the basic features of this plugin.<br />
+You do **not** need to know anything about JavaScript to start using the basic features of this plugin.<br />
 The original idea was for something to do math operations in one step and with more features (not a Touch Portal strong point), and it can certainly do that with aplomb.<br />
 It then grew into a full-blown scripting environment, which you may choose to utilize at any level you wish.
 
@@ -103,7 +103,7 @@ global Value or a plugin State and will be replaced by Touch Portal with the act
 * **Multi-threaded** for quick response times and non-blocking behavior (long-running scripts will not prevent other scripts from running).
 * Extensively **documented**, with **examples** and scripting **reference**.
 * Written in **optimized C++** for high performance.
-* Runs on **Windows, MacOS, or Linux**.
+* Runs on **Windows, MacOS, and Linux**.
 
 -------------
 ## Download and Install
@@ -111,8 +111,7 @@ global Value or a plugin State and will be replaced by Touch Portal with the act
 Note: As with all plugins, this requires the Touch Portal Pro (paid) version to function. Use the latest available Touch Portal version for best results.
 
 1. Get the latest version of this plugin for your operating system from the [Releases](https://github.com/mpaperno/DSEP4TP/releases) page.
-2. The plugin is distributed and installed as a standard Touch Portal `.tpp` plugin file. If you know how to import a plugin,
-  just do that and skip to step 5. There is also a [short guide](https://www.touch-portal.com/blog/post/tutorials/import-plugin-guide.php) on the Touch Portal site.
+2. The plugin is distributed and installed as a standard Touch Portal `.tpp` plugin file. If you know how to import a plugin, just do that... otherwise continue here.
 3. Import the plugin:
     1. Start/open _Touch Portal_.
     2. Click the Settings "gear" icon at the top-right and select "Import plugin..." from the menu.
@@ -125,7 +124,7 @@ Note: As with all plugins, this requires the Touch Portal Pro (paid) version to 
 
 ### Updates
 
-Unless noted otherwise in the notes of a particular release version, it is OK to just re-install a newer version of the plugin "on top of"
+Unless stated otherwise in the notes of a particular release version, it is OK to just re-install a newer version of the plugin "on top of"
 a previous version without uninstalling the old version first. Either way is OK, just keep in mind that uninstalling the plugin via Touch Portal
 will also remove any current log files as well.
 
