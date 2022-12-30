@@ -34,9 +34,9 @@ https://github.com/mpaperno/DSEP4TP/tree/main/resources/examples/ColorPicker/
 
 ### Initial page setup
 
-1. Download the [DSE_Color_Picker_v2 page](https://github.com/mpaperno/DSEP4TP/tree/main/resources/examples/ColorPicker/DSE_Color_Picker_v2.tpz), 
-	[color_picker.mjs](https://github.com/mpaperno/DSEP4TP/tree/main/resources/examples/ColorPicker/color_picker.mjs), and
-	[clipboard.mjs](https://github.com/mpaperno/DSEP4TP/tree/main/resources/examples/Clipboard/clipboard.mjs) script files.
+1. Download the [DSE_Color_Picker_v2 page](https://github.com/mpaperno/DSEP4TP/raw/main/resources/examples/ColorPicker/DSE_Color_Picker_v2.tpz), 
+	[color_picker.mjs](https://github.com/mpaperno/DSEP4TP/raw/main/resources/examples/ColorPicker/color_picker.mjs), and
+	[clipboard.mjs](https://github.com/mpaperno/DSEP4TP/raw/main/resources/examples/Clipboard/clipboard.mjs) script files.
 2. Place the two script files anywhere you want in your file system, as long as they're both in the same folder. 
 	I recommend starting a new folder for scripts somewhere like in your _Documents_.
 3. Import the page into Touch Portal
