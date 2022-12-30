@@ -532,20 +532,23 @@ function inputToRGB(color) {
             ok = true;
             format = String(color.r).substr(-1) === "%" ? "prgb" : "rgb";
         }
-        else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.v)) {
+// mod - MP {
+        else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s)) {
             s = convertToPercentage(color.s);
-            v = convertToPercentage(color.v);
-            rgb = hsvToRgb(color.h, s, v);
-            ok = true;
-            format = "hsv";
+            if (isValidCSSUnit(color.v)) {
+                v = convertToPercentage(color.v);
+                rgb = hsvToRgb(color.h, s, v);
+                ok = true;
+                format = "hsv";
+            }
+            else if (isValidCSSUnit(color.l)) {
+                l = convertToPercentage(color.l);
+                rgb = hslToRgb(color.h, s, l);
+                ok = true;
+                format = "hsl";
+            }
         }
-        else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.l)) {
-            s = convertToPercentage(color.s);
-            l = convertToPercentage(color.l);
-            rgb = hslToRgb(color.h, s, l);
-            ok = true;
-            format = "hsl";
-        }
+// } mod - MP
 
         if (color.hasOwnProperty("a")) {
             a = color.a;
