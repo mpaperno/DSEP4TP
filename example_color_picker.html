@@ -138,6 +138,37 @@ $(document).ready(function(){initNavTree('example_color_picker.html',''); initRe
 Example page using this script</h2>
 <p ><a href="example_color_picker_screenshot.jpg" target="image" title="Click for full version in new window."><img src="example_color_picker_screenshot.jpg" alt="" class="inline"/> </a></p>
 <h2><a class="anchor" id="autotoc_md65"></a>
+Initial page setup</h2>
+<ol type="1">
+<li>Download the page (<code>.tpz</code> file) and <code>color_picker.mjs</code> script file from above URL.</li>
+<li>You can place the script file anywhere you want in your file system. I recommend starting a new folder for scripts somewhere like your Documents folder.</li>
+<li>Import the page into Touch Portal<ul>
+<li>If you have <em>not</em> imported any previous version of this page, make sure the "Values" option is selected.</li>
+<li>On the other hand, if you're updating a previous version of this page, make sure the "Values" option is <em>not</em> selected.</li>
+</ul>
+</li>
+<li>Open/go to the page in the Touch Portal desktop application. In place of the central color swatch in the screenshot above will be an "INITIALIZE" button.<ul>
+<li>Edit that button's <em>On Pressed</em> action and make sure the path to <code>color_picker.mjs</code> matches where you placed the script on your computer.<ul>
+<li>You can either type or paste in the script location (path) or use the <code>...</code> button to find and select the script with a standard file dialog.</li>
+</ul>
+</li>
+<li>You could also now remove the button with the "INITIAL ONE-TIME SETUP" instructions text if you want (it serves no other purpose).</li>
+</ul>
+</li>
+<li>Create a new button somewhere (eg. on your (main) page) that opens this page on your Touch Portal Android/iOS device.</li>
+<li>Navigate to the new page on your device, and then press the INITIALIZE button.<ul>
+<li>This only needs to be done once when you first import the page. After that everything should be re-created automatically next time you start Touch Portal (or restart this plugin).</li>
+</ul>
+</li>
+<li>The "INITIALIZE" button should turn into a white color swatch and the page is ready for use.</li>
+<li>Optional: If you make any changes to the included script file, you need to use the "Reset Module" button to clear out the old script version before your changes will be detected.<ul>
+<li>This button also needs to have the location of <code>color_picker.mjs</code> properly set up, just like in the "INITILIZE" button.</li>
+</ul>
+</li>
+</ol>
+<p ><b>Note</b><br  />
+ You can set a default location (directory) for script files in the plugin's Settings (in <em>Touch Portal -&gt; Settings -&gt; Plug-ins</em>). That way you could use only relative paths to script files in the plugin's actions (which is how the page comes set up by default).</p>
+<h2><a class="anchor" id="autotoc_md66"></a>
 Color Picker script</h2>
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Import clipboard functions from Clipboard example module.  The import path assumes both examples are in the same base folder.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">import</span> { valueToClipboard, clipboardToValue } from <span class="stringliteral">&quot;../Clipboard/clipboard.mjs&quot;</span>;</div>
