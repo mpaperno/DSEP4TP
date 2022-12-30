@@ -1,5 +1,5 @@
-// Import clipboard functions from Clipboard example module.  The import path assumes both examples are in the same base folder.
-import { valueToClipboard, clipboardToValue } from "../Clipboard/clipboard.mjs";
+// Import clipboard functions from Clipboard example module.  The import path assumes both examples are in the same folder.
+import { valueToClipboard, clipboardToValue } from "clipboard.mjs";
 
 // This script creates Touch Portal States dynamically as needed.
 // This variable sets the title under which all the created States are grouped.
