@@ -32,6 +32,29 @@ https://github.com/mpaperno/DSEP4TP/tree/main/resources/examples/ColorPicker/
 <img src="example_color_picker_screenshot.jpg" />
 </a>
 
+### Initial page setup
+
+1. Download the page (`.tpz` file) and `color_picker.mjs` script file from above URL.
+2. You can place the script file anywhere you want in your file system. I recommend starting a new folder for scripts somewhere like your Documents folder.
+3. Import the page into Touch Portal
+   * If you have _not_ imported any previous version of this page, make sure the "Values" option is selected.
+   * On the other hand, if you're updating a previous version of this page, make sure the "Values" option is _not_ selected.
+4. Open/go to the page in the Touch Portal desktop application. In place of the central color swatch in the screenshot above will be an "INITIALIZE" button.
+   * Edit that button's _On Pressed_ action and make sure the path to `color_picker.mjs` matches where you placed the script on your computer.
+     * You can either type or paste in the script location (path) or use the `...` button to find and select the script with a standard file dialog.
+   * You could also now remove the button with the "INITIAL ONE-TIME SETUP" instructions text if you want (it serves no other purpose).
+5. Create a new button somewhere (eg. on your (main) page) that opens this page on your Touch Portal Android/iOS device.
+6. Navigate to the new page on your device, and then press the INITIALIZE button.
+   * This only needs to be done once when you first import the page. After that everything should be re-created automatically next time you start
+   Touch Portal (or restart this plugin).
+7. The "INITIALIZE" button should turn into a white color swatch and the page is ready for use.
+8. Optional: If you make any changes to the included script file, you need to use the "Reset Module" button to clear out the old script version before your changes will be detected.
+   * This button also needs to have the location of `color_picker.mjs` properly set up, just like in the "INITILIZE" button.
+
+**Note**<br/>
+You can set a default location (directory) for script files in the plugin's Settings (in _Touch Portal -> Settings -> Plug-ins_). That way you could use
+only relative paths to script files in the plugin's actions (which is how the page comes set up by default).
+
 ### Color Picker script
 
 @include{lineno} color_picker.mjs
