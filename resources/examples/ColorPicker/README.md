@@ -13,7 +13,7 @@ The script itself is mostly just an "interface" to the various color manipulatio
 of a Color value, which is the "current color," and all operations are performed on this color, after which it is usually sent back to Touch Portal
 as a new color value to be displayed somewhere (like the central "swatch" in the example page).
 
-The example page uses 7 global Touch Portal Values as inputs to control various aspects of the color (color channel values, opacity, saturation, etc).
+The example page uses 8 global Touch Portal Values as inputs to control various aspects of the color (color channel values, opacity, saturation, etc).
 Each Value is controlled by a Slider and also the corresponding up/down buttons. The central "color swatch" button is where the input value changes are
 detected and sent to the loaded script (which then returns the new resulting color to use as the swatch background color).
 
@@ -26,12 +26,12 @@ can be in a range of 0 through 255 (or 0-360 for Hue).  So, the buttons provide 
 @note Assets for this example, including the code and page shown below, can be found in the project's repository at<br />
 https://github.com/mpaperno/DSEP4TP/tree/main/resources/examples/ColorPicker/
 
-@include{lineno} color_picker.mjs
-
 ### Example page using this script
 
 <a href="example_color_picker_screenshot.jpg" target="image" title="Click for full version in new window.">
 <img src="example_color_picker_screenshot.jpg" />
 </a>
 
-The page can be downloaded from the Assets link in the Note above.
+### Color Picker script
+
+@include{lineno} color_picker.mjs
