@@ -108,6 +108,7 @@ var NAVTREEINDEX1 =
 "example_color_picker.html":[9,3],
 "example_fetch_and_notify.html":[9,4],
 "example_line_logger.html":[9,1],
+"example_marquee.html":[9,6],
 "example_tail.html":[9,5],
 "group___e_c_m_a_std.html":[10,0],
 "group___fetch_a_p_i.html":[10,2],
