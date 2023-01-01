@@ -127,12 +127,12 @@ $(document).ready(function(){initNavTree('example_basic.html',''); initResizable
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><ul><li class="level2"><a href="#autotoc_md58">Round a value to a whole number</a></li>
-<li class="level2"><a href="#autotoc_md59">Convert feet to meters</a></li>
-<li class="level2"><a href="#autotoc_md60">Format a string to include a numeric value</a></li>
-<li class="level2"><a href="#autotoc_md61">Inline conditional (ternary operator) results</a></li>
-<li class="level2"><a href="#autotoc_md62">Get an image from the Internet for a button icon</a></li>
-<li class="level2"><a href="#autotoc_md63">Dynamic color background on a button</a></li>
+<ul><ul><li class="level2"><a href="#autotoc_md54">Round a value to a whole number</a></li>
+<li class="level2"><a href="#autotoc_md55">Convert feet to meters</a></li>
+<li class="level2"><a href="#autotoc_md56">Format a string to include a numeric value</a></li>
+<li class="level2"><a href="#autotoc_md57">Inline conditional (ternary operator) results</a></li>
+<li class="level2"><a href="#autotoc_md58">Get an image from the Internet for a button icon</a></li>
+<li class="level2"><a href="#autotoc_md59">Dynamic color background on a button</a></li>
 </ul>
 </ul>
 </div>
@@ -141,29 +141,29 @@ $(document).ready(function(){initNavTree('example_basic.html',''); initResizable
  The dynamic values (State names) are all in Touch Portal's usual <code>${value:value_name}</code> format as they appear when selected with the <code>+</code> button.</p>
 <p ><br  clear="all" />
 </p>
-<h2><a class="anchor" id="autotoc_md58"></a>
+<h2><a class="anchor" id="autotoc_md54"></a>
 Round a value to a whole number</h2>
 <p >Uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed" target="_blank">Number.toFixed()</a> standard JavaScript function.</p>
 <p ><a href="ex_basic_round.png" target="image" title="Click for full version in new window."><img src="ex_basic_round.png" alt="" class="inline"/></a></p>
-<h2><a class="anchor" id="autotoc_md59"></a>
+<h2><a class="anchor" id="autotoc_md55"></a>
 Convert feet to meters</h2>
 <p >Simple math operation on any numeric value (there are 0.3048 meters to one foot).</p>
 <p ><a href="ex_basic_convert_value.png" target="image" title="Click for full version in new window."><img src="ex_basic_convert_value.png" alt="" class="inline"/></a></p>
-<h2><a class="anchor" id="autotoc_md60"></a>
+<h2><a class="anchor" id="autotoc_md56"></a>
 Format a string to include a numeric value</h2>
 <p >This example results in "Ground Speed: 12 mph" based on current ground speed in knots (there are 1.150779448 knots to one mile). It uses the <a class="el" href="class_global.html#acd5e884df6b19a0c00b5747908e20d5d">Format</a> function.</p>
 <p ><a href="ex_basic_format_number.png" target="image" title="Click for full version in new window."><img src="ex_basic_format_number.png" alt="" class="inline"/></a></p>
-<h2><a class="anchor" id="autotoc_md61"></a>
+<h2><a class="anchor" id="autotoc_md57"></a>
 Inline conditional (ternary operator) results</h2>
 <p >A <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator" target="_blank">ternary operator</a> means, in English, "if condition is true then do A, otherwise do B". The corresponding syntax is <code>condition ? A : B</code><br  />
  This example sets the 'MSFS_StallWarning' state to "STALL" when the warning is active and to an empty string when the warning is not.</p>
 <p ><a href="ex_basic_ternary_string.png" target="image" title="Click for full version in new window."><img src="ex_basic_ternary_string.png" alt="" class="inline"/></a></p>
-<h2><a class="anchor" id="autotoc_md62"></a>
+<h2><a class="anchor" id="autotoc_md58"></a>
 Get an image from the Internet for a button icon</h2>
 <p >Uses <code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> to get an image from a URL and send it to Touch Portal to be used as a button icon.</p>
 <p ><a href="ex_basic_request_image.png" target="image" title="Click for full version in new window."><img src="ex_basic_request_image.png" alt="" class="inline"/></a><br  />
  Download example button: <a href="https://github.com/mpaperno/DSEP4TP/tree/main/resources/examples/basic/DSE_RequestImageExample.tpb">DSE_RequestImageExample.tpb</a></p>
-<h2><a class="anchor" id="autotoc_md63"></a>
+<h2><a class="anchor" id="autotoc_md59"></a>
 Dynamic color background on a button</h2>
 <p >This example reacts to either a button press or a change in a test Touch Portal Value (with name/id <code>dse.Example.numeric_1</code>).<br  />
  One could add this Value in the Touch Portal <em>Values</em> tab, and then for example set up a Slider to change the value (this varies the value between 0 and 100). Moving the slider will then run through the whole gamut of color hues.</p>

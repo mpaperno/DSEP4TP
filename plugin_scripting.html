@@ -127,12 +127,12 @@ $(document).ready(function(){initNavTree('plugin_scripting.html',''); initResiza
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md32">JavaScript Syntax Rules</a></li>
-<li class="level1"><a href="#autotoc_md33">Escaping Problem Characters</a></li>
+<ul><li class="level1"><a href="#autotoc_md28">JavaScript Syntax Rules</a></li>
+<li class="level1"><a href="#autotoc_md29">Escaping Problem Characters</a></li>
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_pages_Scripting"></a></p>
-<h1><a class="anchor" id="autotoc_md32"></a>
+<h1><a class="anchor" id="autotoc_md28"></a>
 JavaScript Syntax Rules</h1>
 <p >The plugin evaluates JavaScript, so it follows that all JS syntax rules apply here as well. In particular:</p>
 <ul>
@@ -148,10 +148,10 @@ JavaScript Syntax Rules</h1>
 <p >I should note here that in some cases you may want to specifically include a "special character" like a newline to create a line break in resulting text. This is perfectly legal, so to speak. For example the following would produce text with a line break in it:<br  />
  <code>Format("Expression result:\n{0:F2} things", ${value:MyValue} * .24)</code> </p><div class="fragment"><div class="line">Expression result:</div>
 <div class="line">55.21 things</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md33"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md29"></a>
 Escaping Problem Characters</h1>
 <p >One way to deal with this is to use Touch Portal's replace-in-value action to escape any problem characters in the input. For example, this is a screenshot from an action which takes the last error message reported by the script engine and sends it to a script (which color-codes and appends the line to the past few errors and returns that as a new State):</p>
-<p ><a href="images/doc/actions/example-escape.jpg" target="fullSizeImg"><img src="images/actions/example-escape.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/actions/example-escape.jpg" target="fullSizeImg"><img src="images/actions/example-escape.jpg" alt="" class="inline"/></a></p>
 <p >(The full script and button is available in <a class="el" href="example_line_logger.html">Examples</a> section.)</p>
 <p >The event fires when the error count changes (described in Status and Logging). It then processes the text of the last error message (the <code>lastError</code> state, also described previously), which may contain backslashes and embedded quotes. Since Touch Portal's "replace" action can only be used on local and global Values, it assigns the value of the error message to a temporary local value. It then replaces backslashes with two backslashes and double quotes with <code>\&quot;</code>.<br  />
  (You will notice that the backslashes within the regular expressions also need to be "escaped." That's because regular expressions follow the same rules as JS as far as those are concerned.)</p>

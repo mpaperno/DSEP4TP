@@ -134,10 +134,10 @@ $(document).ready(function(){initNavTree('example_color_picker.html',''); initRe
 <p >The up/down buttons for each input value are there because Touch Portal Sliders only have a resolution of 0 through 100, whereas most of the actual color values can be in a range of 0 through 255 (or 0-360 for Hue). So, the buttons provide a way to "fine tune" the value to account for the missing resolution of the sliders.</p>
 <dl class="section note"><dt>Note</dt><dd>Assets for this example, including the code and page shown below, can be found in the project's repository at<br  />
  <a href="https://github.com/mpaperno/DSEP4TP/tree/main/resources/examples/ColorPicker/">https://github.com/mpaperno/DSEP4TP/tree/main/resources/examples/ColorPicker/</a></dd></dl>
-<h2><a class="anchor" id="autotoc_md64"></a>
+<h2><a class="anchor" id="autotoc_md60"></a>
 Example page using this script</h2>
 <p ><a href="example_color_picker_screenshot.jpg" target="image" title="Click for full version in new window."><img src="example_color_picker_screenshot.jpg" alt="" class="inline"/> </a></p>
-<h2><a class="anchor" id="autotoc_md65"></a>
+<h2><a class="anchor" id="autotoc_md61"></a>
 Initial page setup</h2>
 <ol type="1">
 <li>Download the <a href="https://github.com/mpaperno/DSEP4TP/raw/main/resources/examples/ColorPicker/DSE_Color_Picker_v2.tpz" target="_blank">DSE_Color_Picker_v2 page</a>, <a href="https://github.com/mpaperno/DSEP4TP/raw/main/resources/examples/ColorPicker/color_picker.mjs" target="_blank">color_picker.mjs</a>, and <a href="https://github.com/mpaperno/DSEP4TP/raw/main/resources/examples/Clipboard/clipboard.mjs" target="_blank">clipboard.mjs</a> script files.</li>
@@ -168,7 +168,7 @@ Initial page setup</h2>
 </ol>
 <p ><b>Note</b><br  />
  You can set a default location (directory) for script files in the plugin's Settings (in <em>Touch Portal -&gt; Settings -&gt; Plug-ins</em>). That way you could use only relative paths to script files in the plugin's actions (which is how the page comes set up by default).</p>
-<h2><a class="anchor" id="autotoc_md66"></a>
+<h2><a class="anchor" id="autotoc_md62"></a>
 Color Picker script</h2>
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Import clipboard functions from Clipboard example module.  The import path assumes both examples are in the same folder.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">import</span> { valueToClipboard, clipboardToValue } from <span class="stringliteral">&quot;clipboard.mjs&quot;</span>;</div>

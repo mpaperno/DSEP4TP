@@ -127,10 +127,10 @@ $(document).ready(function(){initNavTree('plugin_actions.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md25">Available Actions</a><ul><li class="level2"><a href="#autotoc_md26">Evaluate Expression</a></li>
-<li class="level2"><a href="#autotoc_md27">Load Script File</a></li>
-<li class="level2"><a href="#autotoc_md28">Import Module File</a></li>
-<li class="level2"><a href="#autotoc_md29">Update Existing Instance</a></li>
+<ul><li class="level1"><a href="#autotoc_md25">Available Actions</a><ul><li class="level2"><a href="#plugin_actions_evaluate">Evaluate Expression</a></li>
+<li class="level2"><a href="#plugin_actions_script">Load Script File</a></li>
+<li class="level2"><a href="#plugin_actions_module">Import Module File</a></li>
+<li class="level2"><a href="#plugin_actions_update">Update Existing Instance</a></li>
 <li class="level2"><a href="#plugin_actions_one-time-script">Anonymous (One-Time) Script</a></li>
 <li class="level2"><a href="#actions_plugin-action">Plugin Actions</a></li>
 </ul>
@@ -140,17 +140,17 @@ $(document).ready(function(){initNavTree('plugin_actions.html',''); initResizabl
 <div class="textblock"><p ><a class="anchor" id="md_pages_Actions"></a></p>
 <h1><a class="anchor" id="autotoc_md25"></a>
 Available Actions</h1>
-<p ><img src="images/actions/actions-list.jpg" alt="" class="inline"/></p>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<p ><img src="images/actions/actions-list.jpg" alt="" usemap="#image-map" class="inline"/></p>
+<h2><a class="anchor" id="plugin_actions_evaluate"></a>
 Evaluate Expression</h2>
-<p ><a href="images/doc/actions/evaluate.jpg" target="fullSizeImg"><img src="images/actions/evaluate.jpg" alt="" class="inline"/></a></p>
-<p >This is the most basic action which creates a new State with the value of whatever the given expression results in. The other action described below all share the same options (as well as add some others). The common options are only explained here.</p>
+<p ><a href="images/actions/evaluate.jpg" target="fullSizeImg"><img src="images/actions/evaluate.jpg" alt="" class="inline"/></a></p>
+<p >This is the most basic action which creates a new State with the value of whatever the given expression results in. The other actions described below all share the same options (as well as add some others). The common options are only explained here.</p>
 <ul>
 <li><b>State Name</b> - This will be the name given to the new Touch Portal State once it is created. Once created it will appear in Touch Portal's various value selector lists.<br  />
  The name is also used in a few other places to refer to this instance of a "dynamic script."</li>
-<li><b>Evaluate Expression</b> &ndash; This is what you want to do. It can be any one-line valid JavaScript; basic math, reading/writing files, sending dynamic button icons... The limit is your imagination and the single-line nature of the action. There are some examples on the front-page README.</li>
+<li><b>Evaluate Expression</b> &ndash; This is what you want to do. It can be any one-line valid JavaScript; basic math, reading/writing files, sending dynamic button icons... The limit is your imagination and the single-line nature of the action. There are some examples on the front page of this site and in the examples_basic section.</li>
 <li><b>Engine Instance</b> - This is an important distinction about how and "where" your script is run. Most one-line scripts will probably want to use the <code>Shared</code> types, while more complex scripts (described below) will likely want to use the <code>Private</code> types. Here is the difference:<ul>
-<li><b>Shared</b> - All expressions/scripts are run in the same script evaluation engine instance, with a shared "global scope" as if they were all, essentially, in the same script file. This means, for example you could share variables or other data between script instances. It also means one expression/script could overwrite variables of another script in the same shared engine. For one-line expressions this is usually not an issue since they likely won't create variables anyway.<br  />
+<li><b>Shared</b> - All expressions/scripts are run in the same script evaluation engine instance, with a shared "global scope" as if they were all, to continue the poor analogies, running in the same "browser window" or "Node.js process." This means, for example you could share variables or functions between script instances. It also means one expression/script could overwrite variables/functions of another script in the same shared engine. For one-line expressions this is usually not an issue since they likely won't create variables anyway, but for the other actions types (below), it may.<br  />
  <b>All Shared engine instances run in the same processing thread.</b> That means they cannot run at exactly the same time, one will need to finish before the next one will be processed. This is typically more efficient for relatively quick operations like math or text formatting or really anything that isn't going to take time, like reading a file or requesting a URL.</li>
 <li><b>Private</b> - Each script gets its own processing engine environment to work in. Scripts in private instances cannot interfere with each other and share no data in the global scope. This makes them suitable for more complex scripts which may need to create global variables or otherwise ensure there is no interference.<br  />
  <b>Private engine instances run in their own processing thread.</b> This means multiple scripts can be running at the same time in parallel, and slower ones will not delay other processing. For example if you have an operation like reading a file or requesting a URL, it is definitely better to run that in a <code>Private</code> instance (even if it's only a "one liner"). On the other hand it takes slightly longer to start a new thread so for quick operations it doesn't make sense (talking nanosecond scale here).</li>
@@ -166,9 +166,9 @@ Evaluate Expression</h2>
 <li><b>Default Value/Expr</b> - As explained above, here you could enter a fixed default value to use at startup, or a custom expression to use instead of the action's main one.<br  />
  This field is ignored when the <em>Create State at Startup</em> is set to "No" or "Use Action's Expression."</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="plugin_actions_script"></a>
 Load Script File</h2>
-<p ><a href="images/doc/actions/script.jpg" target="fullSizeImg"><img src="images/actions/script.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/actions/script.png" target="fullSizeImg"><img src="images/actions/script.png" alt="" class="inline"/></a></p>
 <p >This actions lets you load a JavaScript file and then (optionally) add an expression to execute after the script file is loaded. For example to invoke a function within the script while passing it some dynamic arguments.</p>
 <ul>
 <li><b>Script File</b> - This is simply a path to your script file. By default, paths are relative tom the plugin's install folder, so you will likely want to use full paths here.<ul>
@@ -176,34 +176,34 @@ Load Script File</h2>
  Specify a path in the <b>Script Files Base Directory</b> setting. All script and module file paths will now be relative to this base directory.<br  />
  (You can still use absolute paths in script actions, of course, this setting does not affect that.)</li>
 <li>Paths on Windows can use forward (<code>/</code>) or back (<code>\</code>) slashes.</li>
-<li>Paths must be typed or pasted in (until the file selector widget for plugins is fixed in Touch Portal).</li>
+<li>Paths can be typed (or pasted), or selected from a standard file dialog using the <code>...</code> button. Paths may also contain Touch Portal values as part of the names, (inserted via the <code>+</code> button) which will be evaluated as usual before being sent to the plugin.</li>
 </ul>
 </li>
 <li><b>Append Expression</b> - This is the JavaScript to run after the file has been loaded and evaluated. The expression is literally appended after the file contents. Typically this would be a call into a function from the loaded script, as shown in the example, but it could be any valid code that works with your loaded script file.</li>
 </ul>
 <p >The rest of the fields are as described above.</p>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="plugin_actions_module"></a>
 Import Module File</h2>
-<p ><a href="images/doc/actions/module.jpg" target="fullSizeImg"><img src="images/actions/module.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/actions/module.png" target="fullSizeImg"><img src="images/actions/module.png" alt="" class="inline"/></a></p>
 <p >This is a somewhat more advanced version of the <em>Load Script File</em> action. It is very similar but the advantage of JavaScript modules are that:</p><ol type="1">
 <li>They can import other JS modules for efficient code reuse and integrating with 3rd party modules.</li>
 <li>Are cached in the script engine after first use. So they only load from disk once, and after that each subsequent import uses the cached version.</li>
 </ol>
 <p >However since they're cached, when you make changes to a module's code you must re-create the instance or reload the script environment (there are actions for that, see below). If you don't need to use other modules, it can be quicker to develop and test your code as a standalone script (the above action) and then turn it into a module once you have it working as you'd like.</p>
 <ul>
-<li><b>Import from file</b> - Specify the module's script file to load. This is just a path to a file, the same as described in <a class="el" href="plugin_actions.html#autotoc_md26">Load Script File</a> action above.</li>
+<li><b>Import from file</b> - Specify the module's script file to load. This is just a path to a file, the same as described in <a class="el" href="plugin_basics.html#autotoc_md26">Load Script File</a> action above.</li>
 <li><b>as alias</b> - To use a function from a loaded module, the module must have an alias (these are JS rules). In a typical JS you'd usually use something like <code>import * from "mymodule.js" as MyModule</code> and then call functions from the module as <code>MyModule.someFunction()</code>. This <em>alias</em> field is the equivalent of the "as name" part of the import statement. The default import alias is just "M" to keep things short, but you can use whatever you want.</li>
 <li><b>Evaluate expression</b> - Again this is like in the <em>Load Script File</em> action above. The expression gets invoked after the module has been imported. You can use it to call a function from the loaded module, for example. To call a module function the alias must be used here, like in the example.<br  />
  <b>Note</b> that modules must explicitly <code>export</code> a function (or variable) before it can be used from outside the module. The same applies here, the function you call in the expression must be marked as exported in the module itself, otherwise you get an undefined value TypeError.</li>
 </ul>
 <p >The rest of the fields are as described in <em>Evaluate Expression</em> action.</p>
-<h2><a class="anchor" id="autotoc_md29"></a>
+<h2><a class="anchor" id="plugin_actions_update"></a>
 Update Existing Instance</h2>
-<p ><a href="images/doc/actions/update.jpg" target="fullSizeImg"><img src="images/actions/update.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/actions/update.jpg" target="fullSizeImg"><img src="images/actions/update.jpg" alt="" class="inline"/></a></p>
 <p >This is a very simple action which evaluates an expression using an already existing dynamic script instance. An instance with the same State Name must have already been created for this to work. The idea is that if you want to use the same instance in multiple places, it may be simpler to have the main, full, definition in only one place, and simpler "update" action(s) in other places. This way one doesn't need to update all actions if a file path changes or you want a different default value.</p>
 <h2><a class="anchor" id="plugin_actions_one-time-script"></a>
 Anonymous (One-Time) Script</h2>
-<p ><a href="images/doc/actions/onetime.jpg" target="fullSizeImg"><img src="images/actions/onetime.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/actions/onetime.jpg" target="fullSizeImg"><img src="images/actions/onetime.jpg" alt="" class="inline"/></a></p>
 <p >Sometimes you may just want to run some code but don't need to have any result returned as a State, and don't need the instances to persist between uses for any other reason.</p>
 <p >This action combines the first 3 types of actions above, meaning from here you can do anything from a simple expression to loading a module.</p><ul>
 <li><b>Action Type</b> - Corresponds to one of the 3 ways of running code described above &ndash; Evaluate an Expression or Load Script/Module and run some function from that.</li>
@@ -215,14 +215,24 @@ Anonymous (One-Time) Script</h2>
 <p >Since this type of script doesn't persist or have a State associated with it, there are no options to run it at startup like with the others.</p>
 <h2><a class="anchor" id="actions_plugin-action"></a>
 Plugin Actions</h2>
-<p ><a href="images/doc/actions/plugin.jpg" target="fullSizeImg"><img src="images/actions/plugin.jpg" alt="" class="inline"/></a></p>
+<p ><a href="images/actions/plugin.jpg" target="fullSizeImg"><img src="images/actions/plugin.jpg" alt="" class="inline"/></a></p>
 <p >This is a collection of utilities for working with created states/instances. It can be used to perform a variety of tasks based on the "Action" parameter. Each of the actions can be applied to all instances, only <code>Shared</code> or <code>Private</code> engine types, or individual instances that have already been created.</p>
 <ul>
 <li><b>Delete Instance</b> - Complete deletes the Touch Portal State and any other data related to this script instance. If the instance has been previously saved to settings (with a default value) the it will be removed from there as well. The <em>Value</em> field doesn't apply to this action.</li>
 <li><b>Set State Value</b> - This is just a convenience for clearing or setting a State's value manually, for example to trigger a Touch Portal change event. Specify the value to set the state(s) to in the <em>Value</em> field.</li>
 <li><b>Reset Engine Environment</b> - This restores an script environment (JS "global object") back to default, removing any variables/object/etc created by scripts or expressions. If working with modules, this is a good way to clear the module cache. The <em>Value</em> field doesn't apply to this action.</li>
 </ul>
-<p ><span class="next_section_button"> Read Next: <a class="el" href="plugin_status_and_logging.html#md_pages_Status">Status and Logging</a> </span> </p>
+<p ><span class="next_section_button"> Read Next: <a class="el" href="plugin_status_and_logging.html#md_pages_Status">Status and Logging</a> </span></p>
+<p > 
+<map name="image-map">
+    <area coords="0,40,285,75"   shape="rect" alt="Evaluate Expression action" title="Evaluate Expression action" href="#plugin_actions_evaluate">
+    <area coords="0,75,285,105"  shape="rect" alt="Load Script File action" title="Load Script File action" href="#plugin_actions_script">
+    <area coords="0,105,285,135" shape="rect" alt="Import Module File action" title="Import Module File action" href="#plugin_actions_module">
+    <area coords="0,135,285,170" shape="rect" alt="Update Existing Instance action" title="Update Existing Instance action" href="#plugin_actions_update">
+    <area coords="0,170,285,205" shape="rect" alt="Anonymouse (One-Time) Script action" title="Anonymouse (One-Time) Script action" href="#plugin_actions_one-time-script">
+    <area coords="0,205,285,240" shape="rect" alt="Plugin Actions action" title="Plugin Actions action" href="#actions_plugin-action">
+</map>
+ </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

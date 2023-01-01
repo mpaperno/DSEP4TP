@@ -210,12 +210,12 @@ $(document).ready(function(){initNavTree('example_marquee.html',''); initResizab
 <div class="ttc" id="aclass_process_html_a84a87590a7d34c37586405d9b0e00fd1"><div class="ttname"><a href="class_process.html#a84a87590a7d34c37586405d9b0e00fd1">Process::start</a></div><div class="ttdeci">void start(String program, Array&lt; String &gt; arguments=[])</div><div class="ttdoc">Starts the given program in a new process, passing the command line arguments in arguments.</div></div>
 <div class="ttc" id="aclass_response_html_a3975dc4487d32183367654497f5a6ebd"><div class="ttname"><a href="class_response.html#a3975dc4487d32183367654497f5a6ebd">Response::text</a></div><div class="ttdeci">&lt; Promise|string &gt; text()</div></div>
 <div class="ttc" id="anamespace_t_p_html"><div class="ttname"><a href="namespace_t_p.html">TP</a></div><div class="ttdoc">Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md69"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md65"></a>
 Example usage on a button</h2>
 <p ><a href="example_marquee_button_flow.png" target="image" title="Click for full version in new window."><img src="example_marquee_button_flow.png" alt="" class="inline"/> </a></p>
 <p >In an actual button/flow you would most likely put the action inside an event handler which reacts to a change in a State/Value you would like to display, and put that State/Value's macro inside the quotes of the <code>marquee()</code> call, instead of my static example. Eg.</p>
 <p ><code>marquee("${value:com.github.ChristopheCVB.TouchPortal.Spotify.TouchPortalSpotifyPlugin.BaseCategory.state.currentTrackName}")</code></p>
-<h2><a class="anchor" id="autotoc_md70"></a>
+<h2><a class="anchor" id="autotoc_md66"></a>
 Cancel marquee scroll</h2>
 <p >The script also has a function to cancel/stop the scroll animation on demand. Here is an example of a button for that.<br  />
  The key point is that it uses the same <b>State Name</b> as the action which started the marquee to begin with (and also runs in a <b>Private</b> instance).</p>
