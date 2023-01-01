@@ -36,7 +36,7 @@ an action which takes the last error message reported by the script engine and s
 and returns that as a new State):
 
 
-<a href="images/doc/actions/example-escape.jpg" target="fullSizeImg"><img src="images/actions/example-escape.jpg"></a>
+<a href="images/actions/example-escape.jpg" target="fullSizeImg"><img src="images/actions/example-escape.jpg"></a>
 
 (The full script and button is available in [Examples](@ref example_line_logger) section.)
 

@@ -70,28 +70,23 @@ like a missing required data field, or some other overall operational issue).
 This log _also_ includes script engine errors (same ones as in _console.log_). It can be helpful to get the "full picture" if something particularly
 insidious is going wrong.
 
+The `plugin.log`'s location is the same as shown above for `console.log` on each operating system type.
 
 ### Logging Options
 
 The logs are rotated daily. The previous days' log is renamed with a date stamp and a new one is started.
 By default the last 3 days' worth of logs are kept (the current one + 3 historical logs).
 
-You can force a rotation of the logs by going to the plugin's install directory (*)
-in a terminal/command window and run the plugin (w/out starting it) with the following command:<br />
-* Windows: `bin/DSEP4TP.exe -f1 -j1 -rx`
-* Mac: `./DSEP4TP.app/Contents/MacOS/DSEP4TP -f1 -j0 -rx`
-* Linux: `./bin/DSEP4TP -f1 -j0 -rx`
+You can force a rotation of the logs from a terminal/command/shell window by running the plugin (w/out starting it) with the following command:<br />
+
+* Windows: `%APPDATA%\TouchPortal\plugins\DSEP4TP\bin\DSEP4TP.exe -f1 -j1 -rx`
+* Mac: `~/Documents/TouchPortal/plugins/DSEP4TP/DSEP4TP.app/Contents/MacOS/DSEP4TP -f1 -j0 -rx`
+* Linux: `~/.config/TouchPortal/plugins/DSEP4TP/bin/DSEP4TP -f1 -j0 -rx`
 * Optionally add a `-k N` switch to the command line to keep `N` number of logs instead of the default 3. Clear out all old logs by using `-k 0`
 * Use `-h`  to see all command-line options.
 
 The log files have an "emergency limit" of 1GB in case something goes haywire. If this limit is reached, further logging to that file is
 disabled until the plugin is restarted.
-
-(*) Plugin install location:
-* Windows: `C:\Users\<User_Name>\AppData\Roaming\TouchPortal\plugins\DSEP4TP`
-* Mac: `~/Documents/TouchPortal/plugins/DSEP4TP`
-* Linux: `~/.config/TouchPortal/plugins/DSEP4TP`
-
 
 <span class="next_section_button">
 Read Next: [Scripting Syntax and Caveats](Scripting.md)

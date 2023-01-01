@@ -58,7 +58,7 @@ and this is sometimes a point of confusion.
 So in general the procedure for using any of these results is:
 1. First set up one of the plugin's actions (which creates a new State); It doesn't have to be your final expression/script,
    just something valid to create the initial State with.
-2. Then activate this action once somehow (on button press or whatever) -- assuming there are no errors in the expression/script (another good reason to start simple),
+2. Then activate this action once somehow (on button press, for example) -- assuming there are no errors in the expression/script (another good reason to start simple),
    this will crate the new State in Touch Portal.
 3. Now go back and finish setting up your button/event once the new State has been created and will be available in the various places you can select States from.
 

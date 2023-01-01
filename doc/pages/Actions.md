@@ -4,25 +4,26 @@
 
 ## Available Actions
 
-<img src="images/actions/actions-list.jpg">
+<img src="images/actions/actions-list.jpg" usemap="#image-map">
 
-### Evaluate Expression
+### Evaluate Expression {#plugin_actions_evaluate}
 
-<a href="images/doc/actions/evaluate.jpg" target="fullSizeImg"><img src="images/actions/evaluate.jpg"></a>
+<a href="images/actions/evaluate.jpg" target="fullSizeImg"><img src="images/actions/evaluate.jpg"></a>
 
-This is the most basic action which creates a new State with the value of whatever the given expression results in. The other action described below all share
+This is the most basic action which creates a new State with the value of whatever the given expression results in. The other actions described below all share
 the same options (as well as add some others). The common options are only explained here.
 
 * **State Name** - This will be the name given to the new Touch Portal State once it is created. Once created it will appear in Touch Portal's various value selector lists.<br />
 	The name is also used in a few other places to refer to this instance of a "dynamic script."
 * **Evaluate Expression** -- This is what you want to do. It can be any one-line valid JavaScript; basic math, reading/writing files, sending dynamic button icons...
-  The limit is your imagination and the single-line nature of the action. There are some examples on the front-page README.
+  The limit is your imagination and the single-line nature of the action. There are some examples on the front page of this site and in the @ref examples_basic section.
 * **Engine Instance** - This is an important distinction about how and "where" your script is run. Most one-line scripts will probably want to use the `Shared` types, while
   more complex scripts (described below) will likely want to use the `Private` types. Here is the difference:
-	* **Shared** - All expressions/scripts are run in the same script evaluation engine instance, with a shared "global scope" as if they were all, essentially,
-  	in the same script file. This means, for example you could share variables or other data between script instances. It also means one expression/script could
-		overwrite variables of another script in the same shared engine. For one-line expressions this is usually not an issue since they likely won't create variables
-		anyway.<br />
+	* **Shared** - All expressions/scripts are run in the same script evaluation engine instance, with a shared "global scope" as if they were all, 
+		to continue the poor analogies, running in the same "browser window" or "Node.js process." 
+		This means, for example you could share variables or functions between script instances. 
+		It also means one expression/script could	overwrite variables/functions of another script in the same shared engine.
+		For one-line expressions this is usually not an issue since they likely won't create variables anyway, but for the other actions types (below), it may.<br />
 		**All Shared engine instances run in the same processing thread.** That means they cannot run at exactly the same time, one will need to finish before the next one
 		will be processed. This is typically more efficient for relatively quick operations like math or text formatting or really anything that isn't going to take time, like
 		reading a file or requesting a URL.
@@ -43,9 +44,9 @@ the same options (as well as add some others). The common options are only expla
 * **Default Value/Expr** - As explained above, here you could enter a fixed default value to use at startup, or a custom expression to use instead of the action's main one.<br/>
   This field is ignored when the _Create State at Startup_ is set to "No" or "Use Action's Expression."
 
-### Load Script File
+### Load Script File {#plugin_actions_script}
 
-<a href="images/doc/actions/script.jpg" target="fullSizeImg"><img src="images/actions/script.jpg"></a>
+<a href="images/actions/script.png" target="fullSizeImg"><img src="images/actions/script.png"></a>
 
 This actions lets you load a JavaScript file and then (optionally) add an expression to execute after the script file is loaded. For example to invoke a function within the
 script while passing it some dynamic arguments.
@@ -57,15 +58,16 @@ script while passing it some dynamic arguments.
 		Specify a path in the **Script Files Base Directory** setting. All script and module file paths will now be relative to this base directory.<br/>
 		(You can still use absolute paths in script actions, of course, this setting does not affect that.)
   * Paths on Windows can use forward (`/`) or back (`\`) slashes.
-  * Paths must be typed or pasted in (until the file selector widget for plugins is fixed in Touch Portal).
+  * Paths can be typed (or pasted), or selected from a standard file dialog using the `...` button. Paths may also contain Touch Portal values as part of the names,
+  	(inserted via the `+` button) which will be evaluated as usual before being sent to the plugin.
 * **Append Expression** - This is the JavaScript to run after the file has been loaded and evaluated. The expression is literally appended after the file contents.
   Typically this would be a call into a function from the loaded script, as shown in the example, but it could be any valid code that works with your loaded script file.
 
 The rest of the fields are as described above.
 
-### Import Module File
+### Import Module File {#plugin_actions_module}
 
-<a href="images/doc/actions/module.jpg" target="fullSizeImg"><img src="images/actions/module.jpg"></a>
+<a href="images/actions/module.png" target="fullSizeImg"><img src="images/actions/module.png"></a>
 
 This is a somewhat more advanced version of the _Load Script %File_ action. It is very similar but the advantage of JavaScript modules are that:
   1. They can import other JS modules for efficient code reuse and integrating with 3rd party modules.
@@ -87,9 +89,9 @@ it working as you'd like.
 
 The rest of the fields are as described in _Evaluate Expression_ action.
 
-### Update Existing Instance
+### Update Existing Instance {#plugin_actions_update}
 
-<a href="images/doc/actions/update.jpg" target="fullSizeImg"><img src="images/actions/update.jpg"></a>
+<a href="images/actions/update.jpg" target="fullSizeImg"><img src="images/actions/update.jpg"></a>
 
 This is a very simple action which evaluates an expression using an already existing dynamic script instance.  An instance with the same State Name must have already been created
 for this to work. The idea is that if you want to use the same instance in multiple places, it may be simpler to have the main, full, definition in only one place, and simpler
@@ -97,7 +99,7 @@ for this to work. The idea is that if you want to use the same instance in multi
 
 ### Anonymous (One-Time) Script {#plugin_actions_one-time-script}
 
-<a href="images/doc/actions/onetime.jpg" target="fullSizeImg"><img src="images/actions/onetime.jpg"></a>
+<a href="images/actions/onetime.jpg" target="fullSizeImg"><img src="images/actions/onetime.jpg"></a>
 
 Sometimes you may just want to run some code but don't need to have any result returned as a State, and don't need the instances to persist between uses for any other reason.
 
@@ -112,7 +114,7 @@ Since this type of script doesn't persist or have a State associated with it, th
 
 ### Plugin Actions  {#actions_plugin-action}
 
-<a href="images/doc/actions/plugin.jpg" target="fullSizeImg"><img src="images/actions/plugin.jpg"></a>
+<a href="images/actions/plugin.jpg" target="fullSizeImg"><img src="images/actions/plugin.jpg"></a>
 
 This is a collection of utilities for working with created states/instances. It can be used to perform a variety of tasks based on the "Action" parameter.
 Each of the actions can be applied to all instances, only `Shared` or `Private` engine types, or individual instances that have already been created.
@@ -128,3 +130,14 @@ Each of the actions can be applied to all instances, only `Shared` or `Private` 
 <span class="next_section_button">
 Read Next: [Status and Logging](Status.md)
 </span>
+
+@htmlonly
+<map name="image-map">
+    <area coords="0,40,285,75"   shape="rect" alt="Evaluate Expression action" title="Evaluate Expression action" href="#plugin_actions_evaluate">
+    <area coords="0,75,285,105"  shape="rect" alt="Load Script File action" title="Load Script File action" href="#plugin_actions_script">
+    <area coords="0,105,285,135" shape="rect" alt="Import Module File action" title="Import Module File action" href="#plugin_actions_module">
+    <area coords="0,135,285,170" shape="rect" alt="Update Existing Instance action" title="Update Existing Instance action" href="#plugin_actions_update">
+    <area coords="0,170,285,205" shape="rect" alt="Anonymouse (One-Time) Script action" title="Anonymouse (One-Time) Script action" href="#plugin_actions_one-time-script">
+    <area coords="0,205,285,240" shape="rect" alt="Plugin Actions action" title="Plugin Actions action" href="#actions_plugin-action">
+</map>
+@endhtmlonly 
