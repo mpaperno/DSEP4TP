@@ -164,19 +164,23 @@ void Plugin::initEngine()
 
 void Plugin::saveSettings()
 {
+	int count = 0;
 	QSettings s;
 	s.beginGroup("DynamicStates");
 	s.remove("");
 	for (DynamicScript * const ds : qAsConst(*g_instances)) {
-		if (ds->defaultType != DynamicScript::DefaultType::NoDefault)
+		if (ds->defaultType != DynamicScript::DefaultType::NoDefault) {
 			s.setValue(ds->name, ds->serialize());
+			++count;
+		}
 	}
 	s.endGroup();
-	qCInfo(lcPlugin) << "Saved plugin settings.";
+	qCInfo(lcPlugin) << "Saved" << count << "instance(s) to settings.";
 }
 
 void Plugin::loadSettings()
 {
+	int count = 0;
 	QSettings s;
 	s.beginGroup("DynamicStates");
 	const QStringList &childs = s.childKeys();
@@ -185,11 +189,11 @@ void Plugin::loadSettings()
 		// Best we can do now is send a blank default value and then the actual default (if it's not also blank).
 		DynamicScript *ds = getOrCreateInstance(dvName.toUtf8(), false);
 		ds->deserialize(s.value(dvName).toByteArray());
-		if (ds->defaultValue.isEmpty())
-			continue;
+		++count;
 		switch (ds->defaultType) {
 			case DynamicScript::DefaultType::FixedValue:
-				sendScriptState(ds, ds->defaultValue);
+				if (!ds->defaultValue.isEmpty())
+					sendScriptState(ds, ds->defaultValue);
 				break;
 			default:
 				QMetaObject::invokeMethod(ds, "evaluateDefault", Qt::QueuedConnection);
@@ -197,6 +201,8 @@ void Plugin::loadSettings()
 		}
 	}
 	s.endGroup();
+	if (count)
+		qCInfo(lcPlugin) << "Loaded" << count << "saved instance(s) from settings.";
 }
 
 DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool deferState, bool failIfMissing)
