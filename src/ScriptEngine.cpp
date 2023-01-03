@@ -338,7 +338,7 @@ void ScriptEngine::include(const QString &file) const
 void ScriptEngine::showNotification(const QByteArray &id, const QByteArray &title, const QByteArray &msg, QVariantList options, QJSValue callback)
 {
 	if (options.isEmpty())
-		options << QVariantMap({{ QStringLiteral("id"), QStringLiteral("option") }, { QStringLiteral("title"), tr("Dismiss Notification") } });
+		options << QVariantMap({{ QStringLiteral("id"), QStringLiteral("option") }, { QStringLiteral("title"), QStringLiteral(" ") } });
 	if (callback.isCallable() || callback.isString())
 		m_notificationCallbacks.insert(id, callback);
 	emit tpNotification(id, title, msg, options);
