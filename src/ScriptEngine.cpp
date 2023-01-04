@@ -20,6 +20,7 @@ to any 3rd-party components used within.
 
 #include "ScriptEngine.h"
 #include "utils.h"
+#include "ConnectorData.h"
 #include "ScriptingLibrary/AbortController.h"
 #include "ScriptingLibrary/Dir.h"
 #include "ScriptingLibrary/File.h"
@@ -55,6 +56,8 @@ ScriptEngine::ScriptEngine(bool isStatic, const QByteArray &instanceName, QObjec
 	if (isStatic) {
 		qRegisterMetaType<ScriptLib::AbortController>("AbortController");
 		qRegisterMetaType<ScriptLib::AbortSignal>("AbortSignal");
+		qRegisterMetaType<ConnectorRecord>("ConnectorRecord");
+		qRegisterMetaType<QVector<ConnectorRecord> >();
 #if !SCRIPT_ENGINE_USE_QML
 		qRegisterMetaType<QVariant>();
 		qRegisterMetaType<QJSValue>();
@@ -63,6 +66,7 @@ ScriptEngine::ScriptEngine(bool isStatic, const QByteArray &instanceName, QObjec
 #endif
 	}
 	initScriptEngine();
+	connect(ConnectorData::instance(), &ConnectorData::connectorsUpdated, this, &ScriptEngine::connectorIdsChanged);
 }
 
 ScriptEngine::~ScriptEngine() {
@@ -73,6 +77,8 @@ ScriptEngine::~ScriptEngine() {
 		se->deleteLater();
 		se = nullptr;
 	}
+	if (connData)
+		connData->deleteLater();
 	//qDebug() << this << "Destroyed";
 }
 
@@ -324,6 +330,81 @@ void ScriptEngine::include(const QString &file) const
 #endif
 		throwError(res);
 	}
+}
+
+ConnectorData *ScriptEngine::connectorData()
+{
+	if (connData)
+		return connData;
+	if (m_isShared)
+		return ConnectorData::instance();
+	connData = new ConnectorData(m_currInstanceName/*, this*/);
+	return connData;
+}
+
+QVariantMap ScriptEngine::initConnectorQuery(QJSValue query, ConnectorData **cdata)
+{
+	if (!query.isObject()) {
+		if (!query.isUndefined() && !query.isNull()) {
+			throwError(QJSValue::TypeError, tr("Parameter must be an object type"));
+			return QVariantMap();
+		}
+		query = se->newObject();
+	}
+
+	//QVariantMap q = query.toVariant().value<QVariantMap>();
+	//QString tmp;
+	//if (!q.contains(QStringLiteral("instanceName")) && !(tmp = currentInstanceName()).isEmpty())
+	//	q.insert(QStringLiteral("instanceName"), tmp);
+	//	if (!q.contains(QStringLiteral("instanceType")))
+	//		q.insert(QStringLiteral("instanceType"), dseObject().property(QStringLiteral("INSTANCE_TYPE")).toString());
+	//	if (!q.contains(QStringLiteral("defaultValue")) && !(tmp = dseObject().property(QStringLiteral("INSTANCE_DEFAULT_VALUE")).toString()).isEmpty())
+	//		q.insert(QStringLiteral("defaultValue"), tmp);
+
+	*cdata = connectorData();
+	return query.toVariant().value<QVariantMap>();
+}
+
+ConnectorRecord ScriptEngine::getConnectorByShortId(QJSValue shortId)
+{
+	if (!shortId.isString() || shortId.toString().isEmpty()) {
+		throwError(QJSValue::TypeError, tr("Parameter must be a non-empty connector shortId or search pattern string."));
+		return ConnectorRecord();
+	}
+	ConnectorData *cdata = connectorData();
+	QString errMsg;
+	const ConnectorRecord ret = cdata->getByShortId(shortId.toString().toUtf8(), &errMsg);
+	if (!errMsg.isEmpty())
+		throwError(QJSValue::TypeError, errMsg);
+	return ret;
+}
+
+QStringList ScriptEngine::getConnectorShortIds(QJSValue query)
+{
+	ConnectorData *cdata = nullptr;
+	const QVariantMap q = initConnectorQuery(query, &cdata);
+	if (!cdata)
+		return QStringList();
+
+	QString errMsg;
+	const QStringList ret = cdata->getShortIds(q, &errMsg);
+	if (!errMsg.isEmpty())
+		throwError(QJSValue::TypeError, errMsg);
+	return ret;
+}
+
+QVector<ConnectorRecord> ScriptEngine::getConnectorRecords(QJSValue query)
+{
+	ConnectorData *cdata = nullptr;
+	const QVariantMap q = initConnectorQuery(query, &cdata);
+	if (!cdata)
+		return QVector<ConnectorRecord>();
+
+	QString errMsg;
+	const QVector<ConnectorRecord> ret = cdata->records(q, &errMsg);
+	if (!errMsg.isEmpty())
+		throwError(QJSValue::TypeError, errMsg);
+	return ret;
 }
 
 void ScriptEngine::showNotification(const QByteArray &id, const QByteArray &title, const QByteArray &msg, QVariantList options, QJSValue callback)

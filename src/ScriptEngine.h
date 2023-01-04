@@ -96,6 +96,9 @@ namespace ScriptLib {
 	struct TimerData;
 }
 
+class ConnectorData;
+class ConnectorRecord;
+
 class ScriptEngine : public QObject
 {
 	Q_OBJECT
@@ -148,6 +151,10 @@ class ScriptEngine : public QObject
 		inline bool isSharedInstance() const { return m_isShared; }
 		inline QByteArray currentInstanceName() const { return dseObject().property(QStringLiteral("INSTANCE_NAME")).toString().toUtf8(); }
 
+		Q_INVOKABLE ConnectorRecord getConnectorByShortId(QJSValue shortId);
+		Q_INVOKABLE QStringList getConnectorShortIds(QJSValue query = QJSValue());
+		Q_INVOKABLE QVector<ConnectorRecord> getConnectorRecords(QJSValue query = QJSValue());
+
 		static inline JSError jsError(const QJSValue &err) { return JSError(err); }
 
 	Q_SIGNALS:
@@ -163,6 +170,8 @@ class ScriptEngine : public QObject
 		void connectorUpdate(const QByteArray &, uint8_t, bool = false);
 		void connectorUpdateShort(const QByteArray &, uint8_t);
 		void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList & = QVariantList());
+
+		void connectorIdsChanged(const QByteArray &instanceName, const QByteArray &shortId);
 
 	public Q_SLOTS:
 		inline void reset() { initScriptEngine(); }
@@ -200,6 +209,7 @@ class ScriptEngine : public QObject
 	private:
 		SCRIPT_ENGINE_BASE_TYPE *se = nullptr;
 		ScriptLib::Util *ulib = nullptr;
+		ConnectorData *connData = nullptr;
 		QByteArray m_currInstanceName;
 		bool m_isShared = false;
 		QMutex m_mutex;
@@ -210,6 +220,8 @@ class ScriptEngine : public QObject
 
 		ScriptEngine(bool isStatic, const QByteArray &instanceName = QByteArray(), QObject *p = nullptr);
 		void initScriptEngine();
+		QVariantMap initConnectorQuery(QJSValue query, ConnectorData **cdata);
+		ConnectorData *connectorData();
 
 		inline void setInstanceProperties(const QByteArray &instName)
 		{

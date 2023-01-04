@@ -47,9 +47,20 @@ var
     stateCreate: ScriptEngine.stateCreate,
     stateRemove: ScriptEngine.stateRemove,
     choiceUpdate: ScriptEngine.choiceUpdate,
-    connectorUpdate: ScriptEngine.connectorUpdate,
+    connectorUpdate: ScriptEngine.connectorUpdateShort,
     connectorUpdateShort: ScriptEngine.connectorUpdateShort,
+    connectorUpdateByLongId: ScriptEngine.connectorUpdate,
     showNotification: ScriptEngine.showNotification,
+    getConnectorRecords: ScriptEngine.getConnectorRecords,
+    getConnectorShortIds: ScriptEngine.getConnectorShortIds,
+    getConnectorByShortId: ScriptEngine.getConnectorByShortId,
+    connectorIdsChanged: ScriptEngine.connectorIdsChanged,
+    onconnectorIdsChanged: function(func, thisObj=null) { 
+      if (thisObj && typeof func === 'function')
+        ScriptEngine.connectorIdsChanged.connect(thisObj, func);
+      else
+        ScriptEngine.connectorIdsChanged.connect(func); 
+    },
   }
 ;
 
