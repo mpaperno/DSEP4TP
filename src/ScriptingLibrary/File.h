@@ -41,6 +41,8 @@ class ScriptEngine;
 
 #ifndef DOXYGEN
 namespace ScriptLib {
+#else
+#define QByteArray ArrayBuffer
 #endif
 
 using namespace FS;

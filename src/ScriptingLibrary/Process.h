@@ -26,6 +26,8 @@ to any 3rd-party components used within.
 
 #ifndef DOXYGEN
 namespace ScriptLib {
+#else
+#define QByteArray ArrayBuffer
 #endif
 
 /*!

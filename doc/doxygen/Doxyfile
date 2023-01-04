@@ -82,6 +82,7 @@ INPUT                  = \
                          ../jsref \
                          ../../src/resources/scripts \
                          ../../src/ScriptingLibrary \
+                         ../../src/ConnectorData.h \
                          ../../resources/examples \
 
 USE_MDFILE_AS_MAINPAGE = ../../README.md
@@ -226,7 +227,6 @@ PREDEFINED = \
         QString="String" \
         QLatin1String="String" \
         QJSValue="object" \
-        QByteArray="ArrayBuffer" \
         QDateTime="Date" \
         QStringList="Array<String>" \
         QStringLiteral=\
@@ -241,6 +241,7 @@ PREDEFINED = \
         ScriptLib=\
         Q_INVOKABLE=\ 
         Q_SLOTS=\
+        Q_GADGET="Q_OBJECT"\
         Q_SIGNALS="public"\
         Q_DECLARE_FLAGS(flagsType,enumType)="enum flagsType : enumType { };" \
         Q_DECL_CONSTEXPR="constexpr" \
