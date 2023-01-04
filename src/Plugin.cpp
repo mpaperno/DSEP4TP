@@ -29,6 +29,7 @@ to any 3rd-party components used within.
 #include "Logger.h"
 #include "DynamicScript.h"
 #include "ScriptEngine.h"
+#include "ConnectorData.h"
 
 enum ActionHandler {
 	AH_Script,
@@ -80,6 +81,37 @@ static const TokenMapHash &tokenMap()
 	  { "Reset Engine Environment", CA_ResetEngine },
 	};
 	return hash;
+}
+
+using EnumNameHash = QHash<int, QByteArray>;
+static const EnumNameHash &scriptActionNames()
+{
+	static const EnumNameHash hash = {
+		{ SA_Eval,       "Eval" },
+		{ SA_Load,       "Load" },
+		{ SA_Import,     "Import" },
+		{ SA_Update,     "Update" },
+		{ SA_SingleShot, "OneTime" },
+	};
+	return hash;
+}
+
+static DynamicScript::Scope stringToScope(QStringView str)
+{
+	return str.at(0) == 'S' ? DynamicScript::Scope::Shared : DynamicScript::Scope::Private;
+}
+
+static DynamicScript::InputType stringToInputType(QStringView ityp)
+{
+	return ityp.isEmpty() || ityp.at(0) == 'E' ? DynamicScript::InputType::Expression : ityp.at(0) == 'S' ? DynamicScript::InputType::Script : DynamicScript::InputType::Module;
+}
+
+static DynamicScript::DefaultType stringToDefaultType(QStringView str)
+{
+	return str.isEmpty() || str.at(0) == 'N' ? DynamicScript::DefaultType::NoDefault :
+	                                           str.at(0) == 'F' ? DynamicScript::DefaultType::FixedValue :
+	                                                              str.at(0) == 'C' ? DynamicScript::DefaultType::CustomExpression :
+	                                                                                 DynamicScript::DefaultType::MainExpression;
 }
 
 
@@ -337,8 +369,13 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 	//qCDebug(lcPlugin) << msg;
 	switch (type) {
 		case TPClientQt::MessageType::action:
-			dispatchAction(msg);
+		case TPClientQt::MessageType::connectorChange:
+			dispatchAction(type, msg);
 			return;
+
+		case TPClientQt::MessageType::shortConnectorIdNotification:
+			parseConnectorNotification(msg);
+			break;
 
 		case TPClientQt::MessageType::settings:
 			handleSettings(msg);
@@ -359,9 +396,9 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 	}
 }
 
-void Plugin::dispatchAction(const QJsonObject &msg)
+void Plugin::dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg)
 {
-	const QString actId = msg.value(QLatin1String("actionId")).toString();
+	const QString actId = msg.value(type == TPClientQt::MessageType::action ? QLatin1String("actionId") : QLatin1String("connectorId")).toString();
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 	const QVector<QStringRef> actIdArry = actId.splitRef('.');
 #else
@@ -383,9 +420,10 @@ void Plugin::dispatchAction(const QJsonObject &msg)
 	}
 
 	const QByteArray action(actIdArry.at(7).toUtf8());
+	qint32 connVal = type == TPClientQt::MessageType::connectorChange ? msg.value(QLatin1String("value")).toInt(0) : -1;
 	switch(handler) {
 		case AH_Script:
-			scriptAction(action, data);
+			scriptAction(action, data, connVal);
 			break;
 
 		case AH_Plugin:
@@ -397,7 +435,7 @@ void Plugin::dispatchAction(const QJsonObject &msg)
 	}
 }
 
-void Plugin::scriptAction(const QByteArray &actId, const QJsonArray &data)
+void Plugin::scriptAction(const QByteArray &actId, const QJsonArray &data, qint32 connectorValue)
 {
 	//qCDebug(lcPlugin) << actId << data;
 	const ScriptAction act = (ScriptAction)tokenMap().value(actId, SA_Unknown);
@@ -425,39 +463,37 @@ void Plugin::scriptAction(const QByteArray &actId, const QJsonArray &data)
 		raiseScriptError(dvName, tr("ValidationError: Instance not found for state name %1").arg(dvName.constData()), tr("VALIDATION ERROR"));
 		return;
 	}
-	DynamicScript::Scope scope = dataMap.value("scope", QStringLiteral("Shared")).at(0) == 'S' ? DynamicScript::Scope::Shared : DynamicScript::Scope::Private;
+	DynamicScript::Scope scope = stringToScope(dataMap.value("scope", QStringLiteral("Shared")));
 	const QString &dtyp = act == SA_SingleShot ? QString() : dataMap.value("save", QStringLiteral("No"));
-	DynamicScript::DefaultType defType =
-	    dtyp.isEmpty() || dtyp.at(0) == 'N' ? DynamicScript::DefaultType::NoDefault
-	                                        : dtyp.at(0) == 'F' ? DynamicScript::DefaultType::FixedValue
-	                                                            : dtyp.at(0) == 'C' ? DynamicScript::DefaultType::CustomExpression
-	                                                                                : DynamicScript::DefaultType::MainExpression;
+	DynamicScript::DefaultType defType = stringToDefaultType(dtyp);
 	const QByteArray defVal = defType != DynamicScript::DefaultType::NoDefault ? dataMap.value("default").toUtf8() : QByteArray();
+	QString expression = dataMap.value("expr");
+	if (connectorValue > -1) {
+		expression.replace(QLatin1String("${connector_value}"), QString::number(connectorValue), Qt::CaseInsensitive);
+	}
 	bool ok = false;
 	switch (act)
 	{
 		case SA_Eval:
-			ok = ds->setExpressionProperties(scope, dataMap.value("expr"), defType, defVal);
+			ok = ds->setExpressionProperties(scope, expression, defType, defVal);
 			break;
 
 		case SA_Load:
-			ok = ds->setScriptProperties(scope, dataMap.value("file").trimmed(), dataMap.value("expr"), defType, defVal);
+			ok = ds->setScriptProperties(scope, dataMap.value("file").trimmed(), expression, defType, defVal);
 			break;
 
 		case SA_Import:
-			ok = ds->setModuleProperties(scope, dataMap.value("file").trimmed(), dataMap.value("alias").trimmed(), dataMap.value("expr"), defType, defVal);
+			ok = ds->setModuleProperties(scope, dataMap.value("file").trimmed(), dataMap.value("alias").trimmed(), expression, defType, defVal);
 			break;
 
 		case SA_Update:
-			ok = ds->setExpression(dataMap.value("expr"));
+			ok = ds->setExpression(expression);
 			break;
 
 		case SA_SingleShot: {
-			ds->setSingleShot();
-			const QString &ityp = dataMap.value("type", QStringLiteral("Expression"));
-			DynamicScript::InputType iType = ityp.isEmpty() || ityp.at(0) == 'E' ? DynamicScript::InputType::Expression : ityp.at(0) == 'S' ? DynamicScript::InputType::Script : DynamicScript::InputType::Module;
 			ds->singleShot = true;
-			ok = ds->setProperties(iType, scope, dataMap.value("expr"), dataMap.value("file").trimmed(), dataMap.value("alias").trimmed(), defType);
+			const QString &ityp = dataMap.value("type", QStringLiteral("Expression"));
+			ok = ds->setProperties(stringToInputType(ityp), scope, expression, dataMap.value("file").trimmed(), dataMap.value("alias").trimmed(), defType);
 			break;
 		}
 
@@ -579,4 +615,69 @@ void Plugin::handleSettings(const QJsonObject &settings)
 			//qCDebug(lcPlugin) << g_scriptsBaseDir << settings;
 		}
 	}
+}
+
+void Plugin::parseConnectorNotification(const QJsonObject &msg)
+{
+	//qCDebug(lcPlugin) << msg;
+	const QString longConnId(msg.value(QLatin1String("connectorId")).toString());
+	const QList<QStringView> propList = QStringView(longConnId).split('|');
+	if (propList.size() < 2)
+		return;
+	const QByteArray &actIdStr = propList.at(0).split('.').last().toUtf8();
+	const ScriptAction act = (ScriptAction)tokenMap().value(actIdStr, SA_Unknown);
+	if (act == SA_Unknown) {
+		qCWarning(lcPlugin) << "Unknown action for this plugin:" << actIdStr;
+		return;
+	}
+	QHash<QByteArray, QStringView> tempMap;
+	QList<QStringView>::const_iterator it = propList.constBegin() + 1;
+	for (; it != propList.constEnd(); ++it) {
+		const auto dataPair = it->split('=');
+		tempMap.insert(dataPair.first().split('.').last().toUtf8(), dataPair.last());
+	}
+
+	// Include single-shot connectors in tracking data?
+	//if (!tempMap.contains(QByteArrayLiteral("name")))
+	//	return;
+
+	ConnectorRecord cr;
+	cr.actionType = scriptActionNames().value(act);
+	cr.connectorId = propList.at(0).split('_').last().toUtf8();
+	cr.shortId = msg.value(QLatin1String("shortId")).toString().toUtf8();
+	cr.instanceName = tempMap.value(QByteArrayLiteral("name"), QStringLiteral("ANONYMOUS")).toUtf8();
+	cr.eInstanceType = stringToScope(tempMap.value(QByteArrayLiteral("scope"), QStringLiteral("Shared")));
+	cr.expression = tempMap.value(QByteArrayLiteral("expr"), QStringLiteral("")).toUtf8();
+	cr.file = tempMap.value(QByteArrayLiteral("file"), QStringLiteral("")).toUtf8();
+	cr.alias = tempMap.value(QByteArrayLiteral("alias"), QStringLiteral("")).toUtf8();
+	cr.eDefaultType = stringToDefaultType(tempMap.value(QByteArrayLiteral("save"), QStringLiteral("No")));
+	cr.defaultValue = tempMap.value(QByteArrayLiteral("default"), QStringLiteral("")).toUtf8();
+
+	switch (act) {
+		case SA_Eval:
+			cr.eInputType = DynamicScript::InputType::Expression;
+			break;
+		case SA_Load:
+			cr.eInputType = DynamicScript::InputType::Script;
+			break;
+		case SA_Import:
+			cr.eInputType = DynamicScript::InputType::Module;
+			break;
+		case SA_SingleShot:
+			cr.eInputType = stringToInputType(tempMap.value("type"));
+			break;
+
+		case SA_Update:
+			if (DynamicScript *ds = getOrCreateInstance(cr.instanceName, true, true))
+				cr.eInputType = ds->inputType();
+			else
+				cr.eInputType = DynamicScript::InputType::Unknown;
+			break;
+
+		case SA_Unknown:
+			cr.eInputType = DynamicScript::InputType::Unknown;
+			break;
+	}
+
+	ConnectorData::instance()->insert(cr);
 }

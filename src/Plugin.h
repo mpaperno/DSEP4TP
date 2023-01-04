@@ -22,7 +22,6 @@ to any 3rd-party components used within.
 
 #include <QObject>
 #include <QJSValue>
-#include <QThread>
 
 #include "TPClientQt.h"
 
@@ -69,10 +68,11 @@ class Plugin : public QObject
 		void onDsFinished();
 		void onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &settings);
 		void onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg);
-		void dispatchAction(const QJsonObject &msg);
-		void scriptAction(const QByteArray &actId, const QJsonArray &data);
+		void dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg);
+		void scriptAction(const QByteArray &actId, const QJsonArray &data, qint32 connectorValue = -1);
 		void pluginAction(const QByteArray &actId, const QJsonArray &data);
 		void handleSettings(const QJsonObject &settings);
+		void parseConnectorNotification(const QJsonObject &msg);
 
 	private:
 		DynamicScript *getOrCreateInstance(const QByteArray &name, bool deferState = false, bool failIfMissing = false);
