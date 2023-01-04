@@ -47,27 +47,21 @@ using namespace ScriptLib;
 
 extern QString g_scriptsBaseDir;
 
-ScriptEngine::ScriptEngine(bool isStatic) : QObject(nullptr),
-  m_isShared(isStatic)
+ScriptEngine::ScriptEngine(bool isStatic, const QByteArray &instanceName, QObject *p) :
+  QObject(p),
+  m_currInstanceName(instanceName), m_isShared(isStatic)
 {
 	setObjectName(QLatin1String("ScriptEngine"));
-	qRegisterMetaType<ScriptLib::AbortController>("AbortController");
-	qRegisterMetaType<ScriptLib::AbortSignal>("AbortSignal");
-#if !SCRIPT_ENGINE_USE_QML
 	if (isStatic) {
+		qRegisterMetaType<ScriptLib::AbortController>("AbortController");
+		qRegisterMetaType<ScriptLib::AbortSignal>("AbortSignal");
+#if !SCRIPT_ENGINE_USE_QML
 		qRegisterMetaType<QVariant>();
-    qRegisterMetaType<QJSValue>();
-    qRegisterMetaType<QList<QObject*> >();
-    qRegisterMetaType<QList<int> >();
-	}
+		qRegisterMetaType<QJSValue>();
+		qRegisterMetaType<QList<QObject*> >();
+		qRegisterMetaType<QList<int> >();
 #endif
-	initScriptEngine();
-}
-
-ScriptEngine::ScriptEngine(const QByteArray &instanceName, QObject *p) : QObject(p),
-  m_currInstanceName(instanceName)
-{
-	setObjectName(QLatin1String("ScriptEngine"));
+	}
 	initScriptEngine();
 }
 
@@ -194,7 +188,7 @@ void ScriptEngine::throwError(const QJSValue &err) const
 	}
 }
 
-void ScriptEngine::throwError(QJSValue &err, const QByteArray &instName) const
+void ScriptEngine::throwError(QJSValue err, const QByteArray &instName) const
 {
 	if (m_isShared && !instName.isEmpty())
 		err.setProperty("instanceName", QLatin1String(instName));
@@ -213,21 +207,19 @@ void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg, cons
 
 void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg, const QByteArray &instName) const
 {
-	throwError(type, msg, QJSValue(), instName);
+	throwError(se->newErrorObject(type, msg), instName);
 }
 
-void ScriptEngine::throwEngineError(QJSValue::ErrorType type, const QString &msg) const
+void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg) const
 {
-	se->throwError(type, msg);
-	checkErrors();
+	throwError(se->newErrorObject(type, msg), QByteArray());
 }
-
 
 QJSValue ScriptEngine::expressionValue(const QString &fromValue, const QByteArray &instName)
 {
 	QMutexLocker lock(&m_mutex);
-	AutoClearString acs(m_currInstanceName, instName, m_isShared);
-	setInstanceProperties(m_currInstanceName);
+	//AutoClearString acs(m_currInstanceName, instName, m_isShared);
+	setInstanceProperties(instName);
 	const QJSValue res = se->evaluate(fromValue);
 	resetInstanceProperties();
 	//se->collectGarbage();
@@ -250,8 +242,8 @@ QJSValue ScriptEngine::scriptValue(const QString &fileName, const QString &expr,
 		script += '\n' + expr;
 	//qCDebug(lcPlugin) << "File:" << fileName << "Contents:\n" << script;
 	QMutexLocker lock(&m_mutex);
-	AutoClearString acs(m_currInstanceName, instName, m_isShared);
-	setInstanceProperties(m_currInstanceName);
+	//AutoClearString acs(m_currInstanceName, instName, m_isShared);
+	setInstanceProperties(instName);
 	QJSValue res = se->evaluate(script, fileName);
 	//collectGarbage();
 	resetInstanceProperties();
@@ -330,8 +322,7 @@ void ScriptEngine::include(const QString &file) const
 	const QJSValue res = se->evaluate(script, file);
 	if (res.isError()) {
 #endif
-		se->throwError(res);
-		checkErrors();
+		throwError(res);
 	}
 }
 

@@ -344,7 +344,7 @@ class Util : public QObject
 			QCryptographicHash::Algorithm a = (QCryptographicHash::Algorithm)QMetaEnum::fromType<QCryptographicHash::Algorithm>().keyToValue(qPrintable(algorithm), &ok);
 			if (!ok) {
 				if (se)
-					se->throwEngineError(QJSValue::TypeError, "in hash() - The specified algorithm '" + algorithm + "' was not valid.");
+					se->throwError(QJSValue::TypeError, "in hash() - The specified algorithm '" + algorithm + "' was not valid.");
 				return QString();
 			}
 			return QString(QCryptographicHash::hash(data, a));

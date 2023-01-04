@@ -137,14 +137,16 @@ class ScriptEngine : public QObject
 			return &e;
 		}
 
-		explicit ScriptEngine(const QByteArray &instanceName = QByteArray(), QObject *p = nullptr);
+		explicit ScriptEngine(const QByteArray &instanceName = QByteArray(), QObject *p = nullptr) :
+		  ScriptEngine(false, instanceName, p)
+		{ }
 		~ScriptEngine();
 
 		inline QJSEngine *engine() const { return se; }
 		inline QJSValue globalObject() const { return se ? se->globalObject() : QJSValue(); }
 		inline QJSValue dseObject() const { return globalObject().property("DSE"); }
 		inline bool isSharedInstance() const { return m_isShared; }
-		inline QByteArray currentInstanceName() const { return m_currInstanceName; }
+		inline QByteArray currentInstanceName() const { return dseObject().property(QStringLiteral("INSTANCE_NAME")).toString().toUtf8(); }
 
 		static inline JSError jsError(const QJSValue &err) { return JSError(err); }
 
@@ -167,10 +169,10 @@ class ScriptEngine : public QObject
 		void clearInstanceData(const QByteArray &name);
 		void checkErrors() const;
 		void throwError(const QJSValue &err) const;
-		void throwError(QJSValue &err, const QByteArray &instName) const;
-		void throwError(QJSValue::ErrorType type, const QString &msg, const QJSValue &cause = QJSValue(), const QByteArray &instName = QByteArray()) const;
+		void throwError(QJSValue err, const QByteArray &instName) const;
+		void throwError(QJSValue::ErrorType type, const QString &msg, const QJSValue &cause, const QByteArray &instName = QByteArray()) const;
 		void throwError(QJSValue::ErrorType type, const QString &msg, const QByteArray &instName) const;
-		void throwEngineError(QJSValue::ErrorType type, const QString &msg) const;
+		void throwError(QJSValue::ErrorType type, const QString &msg) const;
 		//void onScriptResultReady(const QVariant &vres) { if (se) emit resultReady(se->toScriptValue(vres)); }
 
 		void stateUpdate(const QByteArray &value) { emit stateValueUpdate(value); }
@@ -206,7 +208,7 @@ class ScriptEngine : public QObject
 		NetworkAccessManagerFactory m_factory;
 #endif
 
-		ScriptEngine(bool isStatic);
+		ScriptEngine(bool isStatic, const QByteArray &instanceName = QByteArray(), QObject *p = nullptr);
 		void initScriptEngine();
 
 		inline void setInstanceProperties(const QByteArray &instName)
