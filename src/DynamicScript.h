@@ -42,12 +42,12 @@ class DynamicScript : public QObject
 	private:
 		Q_OBJECT
 
-		constexpr static uint32_t SAVED_PROPERTIES_VERSION = 1;
+		constexpr static uint32_t SAVED_PROPERTIES_VERSION = 2;
 		constexpr static int MUTEX_LOCK_TIMEOUT_MS = 250;
 
 	public:
-		enum class InputType : qint8 {
-			Unknown = -1,
+		enum class InputType : quint8 {
+			Unknown,
 			Expression,
 			Script,
 			Module,
@@ -119,6 +119,8 @@ class DynamicScript : public QObject
 			moveToMainThread();
 			//qCDebug(lcPlugin) << name << "Destroyed";
 		}
+
+		InputType inputType() const { return m_inputType; }
 
 		bool setCommonProperties(InputType type, Scope scope, DefaultType save = DefaultType::NoDefault, const QByteArray &def = QByteArray())
 		{
@@ -231,6 +233,10 @@ class DynamicScript : public QObject
 			QString expr, file, alias;
 			QByteArray deflt;
 			ds >> scope >> type >> expr >> file >> alias >> deflt >> defType;
+
+			// InputType enum values changed in v2.
+			if (version == 1)
+				++type;
 
 			switch ((DynamicScript::InputType)type) {
 				case DynamicScript::InputType::Expression:
@@ -413,6 +419,7 @@ class DynamicScript : public QObject
 
 		void evaluateDefault()
 		{
+			//qCDebug(lcPlugin) << "DynamicScript instance" << name << "default type:" << defaultType << m_expr << defaultValue;
 			switch (defaultType) {
 				case DefaultType::MainExpression:
 					evaluate();
