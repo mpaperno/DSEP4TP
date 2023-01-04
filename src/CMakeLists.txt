@@ -46,12 +46,6 @@ endif()
 
 find_package(QT NAMES Qt5 Qt6 REQUIRED)
 
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
-  Core
-  Network
-  Qml
-)
-
 #add_subdirectory(monitor)
 
 add_executable(${PROJECT_NAME})
@@ -66,6 +60,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   common.h
   Plugin.h
   Plugin.cpp
+  ConnectorData.h
   DynamicScript.h
   ScriptEngine.h
   ScriptEngine.cpp
@@ -105,7 +100,6 @@ configure_file(${BLDPATH}/version.json.in ${BLDPATH}/version.json @ONLY)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ScriptingLibrary)
-target_include_directories(${PROJECT_NAME} PRIVATE ${Qt${QT_VERSION_MAJOR}Qml_PRIVATE_INCLUDE_DIRS})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
   QT_USE_QSTRINGBUILDER
@@ -122,11 +116,21 @@ if (UNIX OR MINGW AND NOT APPLE)
   target_link_libraries(${PROJECT_NAME} PRIVATE stdc++fs )
 endif()
 
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
+  Core
+  Network
+  Qml
+  Sql
+)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Network
   Qt${QT_VERSION_MAJOR}::Qml
+  Qt${QT_VERSION_MAJOR}::Sql
 )
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${Qt${QT_VERSION_MAJOR}Qml_PRIVATE_INCLUDE_DIRS})
 
 ##  Install
 
@@ -167,7 +171,7 @@ elseif(isLinux)
   set(qt_ver ${QT_VERSION_MAJOR})
   set(qt_libs "")
   foreach(qt_lib
-    Qt${qt_ver}Core.so.${qt_ver} Qt${qt_ver}Network.so.${qt_ver} Qt${qt_ver}Qml.so.${qt_ver}
+    Qt${qt_ver}Core.so.${qt_ver} Qt${qt_ver}Network.so.${qt_ver} Qt${qt_ver}Qml.so.${qt_ver} Qt${qt_ver}Sql.so.${qt_ver}
     icui18n.so.56 icuuc.so.56 icudata.so.56
   )
     list(APPEND qt_libs "${CMAKE_PREFIX_PATH}/lib/lib${qt_lib}")
@@ -177,6 +181,7 @@ elseif(isLinux)
     COMPONENT Runtime)
   install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/networkinformation" TYPE BIN)
   install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/tls" TYPE BIN)
+  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/sqldrivers" TYPE BIN)
 
 else()  # Mac
   set_target_properties(${PROJECT_NAME} PROPERTIES
