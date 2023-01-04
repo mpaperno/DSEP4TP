@@ -125,9 +125,11 @@ const entry_base =
     ]
 };
 
-// Category for actions
+// Default category to place actions and connectors into.
 const category = entry_base.categories[0];
 
+
+// Some space characters useful for forcing specific spacing in action formats/descriptions.
 const SP = " ";   // non-breaking narrow space U+202F (TP ignores "no-break space" U+00AD)
 const EN = " ";  // en quad space U+2000  (.5em wide)
 const EM = " "; // em quad space U+2001  (1em wide)
@@ -144,6 +146,8 @@ String.prototype.format = function (args) {
     });
 };
 
+// Functions for adding actions/connectors.
+
 function addAction(id, name, descript, format, data, hold = false) {
     const action = {
         id: PLUGIN_ID + '.act.' + id,
@@ -158,6 +162,20 @@ function addAction(id, name, descript, format, data, hold = false) {
     }
     category.actions.push(action);
 }
+
+// note that 'description' field is not actually used by TP as of v3.1
+function addConnector(id, name, descript, format, data) {
+    const action = {
+        id: PLUGIN_ID + '.conn.' + id,
+        name: name,
+        description: descript,
+        format: String(format).format(data.map(d => `{$${d.id}$}`)),
+        data: data
+    }
+    category.connectors.push(action);
+}
+
+// Functions which create action/connector data members.
 
 function makeActionData(id, type, label = "", deflt = "") {
     return {
@@ -237,6 +255,7 @@ function addEvalAction(name)
     format += appendScopeData(id, data);
     format += appendSaveValueData(id, data);
     addAction(id, name, descript, format, data);
+    addConnector(id, name, descript, format, data);
 }
 
 function addScriptAction(name) 
@@ -254,6 +273,7 @@ function addScriptAction(name)
     format += appendScopeData(id, data, "Private");
     format += appendSaveValueData(id, data);
     addAction(id, name, descript, format, data);
+    // No connector for script types, too much I/O
 }
 
 function addModuleAction(name) 
@@ -272,6 +292,7 @@ function addModuleAction(name)
     format += appendScopeData(id, data, "Private");
     format += appendSaveValueData(id, data);
     addAction(id, name, descript, format, data);
+    addConnector(id, name, descript, format, data);
 }
 
 function addUpdateAction(name) 
@@ -286,22 +307,27 @@ function addUpdateAction(name)
         makeTextData(id + ".expr", "Expression"),
     );
     addAction(id, name, descript, format, data);
+    addConnector(id, name, descript, format, data);
 }
 
 function addSingleShotAction(name) 
 {
     const id = "script.oneshot";
-    const descript = SHORT_NAME + ": Run a One-Time/Anonymous Expression, Script or Module.\n" + 
+    const descript = SHORT_NAME + ": Run a One-Time/Anonymous Expression or Script/Module function.\n" + 
         "This action does not create a State. It is meant for running code which does not return any value. Otherwise can be used the same as \"Evaluate,\" \"Load\" and \"Module\" actions.";  // (module alias is always \"M\")
-    //let [format, data] = makeIconLayerCommonData(id);
     let i = 0;
-    let format = `Action\nType{${i++}} Evaluate\nExpression{${i++}} Script/Module\nFile (if any){${i++}} Module\nalias (if req'd){${i++}}`;
+    let format = `Action\nType{${i++}} Evaluate\nExpression{${i++}} File\n(if req'd){${i++}} Module\nalias (if req'd){${i++}}`;
+    // First the connector, which has fewer options than the action.
     let data = [
-        makeChoiceData(id + ".type", "Script Type", ["Expression", "Script", "Module"]),
+        makeChoiceData(id + ".type", "Script Type", ["Expression", "Module"]),
         makeTextData(id + ".expr", "Expression"),
         makeActionData(id + ".file", "file", "Script File", ""),
         makeTextData(id + ".alias", "Module Alias", "M"),
     ];
+    addConnector(id, name, descript, format, data);
+    // Then the action, with more options.
+    data = data.map(a => ({...a}));  // deep copy
+    data[0].valueChoices = ["Expression", "Script", "Module"];
     format += appendScopeData(id, data);
     addAction(id, name, descript, format, data);
 }
