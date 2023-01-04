@@ -142,6 +142,10 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
 	connect(this, &Plugin::tpConnectorUpdateShort, client, qOverload<const QByteArray&, uint8_t>(&TPClientQt::connectorUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpNotification, client, qOverload<const QByteArray&, const QByteArray&, const QByteArray&, const QVariantList&>(&TPClientQt::showNotification), Qt::QueuedConnection);
 
+	m_loadSettingsTmr.setSingleShot(true);
+	m_loadSettingsTmr.setInterval(750);
+	connect(&m_loadSettingsTmr, &QTimer::timeout, this, &Plugin::loadSettings);
+
 	Q_EMIT tpConnect();
 	//QMetaObject::invokeMethod(this, "start", Qt::QueuedConnection);
 }
@@ -235,6 +239,7 @@ void Plugin::loadSettings()
 	s.endGroup();
 	if (count)
 		qCInfo(lcPlugin) << "Loaded" << count << "saved instance(s) from settings.";
+	sendStateLists();
 }
 
 DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool deferState, bool failIfMissing)
@@ -360,8 +365,7 @@ void Plugin::onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &se
 	handleSettings(settings);
 	initEngine();
 	clearScriptErrors();
-	loadSettings();
-	sendStateLists();
+	m_loadSettingsTmr.start();
 }
 
 void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
@@ -374,6 +378,8 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 			return;
 
 		case TPClientQt::MessageType::shortConnectorIdNotification:
+			if (m_loadSettingsTmr.isActive())
+				m_loadSettingsTmr.start();
 			parseConnectorNotification(msg);
 			break;
 

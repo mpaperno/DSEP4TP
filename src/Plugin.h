@@ -22,6 +22,7 @@ to any 3rd-party components used within.
 
 #include <QObject>
 #include <QJSValue>
+#include <QTimer>
 
 #include "TPClientQt.h"
 
@@ -80,6 +81,7 @@ class Plugin : public QObject
 		inline TPClientQt *tpClient() const { return client; }
 
 		TPClientQt *client;
+		QTimer m_loadSettingsTmr;
 		static QString m_scriptsBaseDir;
 
 		friend class DynamicScript;
