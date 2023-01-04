@@ -33,13 +33,23 @@ Contains static types and object classes for working with files and directories.
 - `FS` - The `FS` namespace holds constants related to file system tasks, such as flags for file open and permissions operations, error types, etc.
 
 
+\defgroup TPAPI Touch Portal API (TP)
+Functions, data, and events for interacting with Touch Portal directly, such as updating state values or sending notifications.
+These functions are part of the global `TP` namespace, used with `TP.` qualifier, eg. `TP.stateUpdate("Hello!");`.
+
+Note that the "Touch Portal API" documented here, while closely related to Touch Portal's Plugin API, is not always an exact match, nor can always provide all the features
+a full plugin could have (such as custom Actions). Nevertheless it can be helpful to understand how Touch Portal interacts with data sent from plugins in the first place,
+since all those limits would apply here as well (in other words, this plugin can only work with the API features which are available to us in the first place).
+
+\sa [Touch Portal Plugin API](https://www.touch-portal.com/api)
+
+
 \defgroup Util Utilities
 Contains general utility classes.
 - The `Color` class provides methods and functions for working with color values.
 - The `Env` object provides access to the system environment variables.
 - The `Locale` class provides locale specific properties and formatted data.
 - The `Process` class allows interaction with external processes, such as launching a system command or running an application.
-- The `TP` namespace provides Touch Portal interaction functions.
 
 */
 

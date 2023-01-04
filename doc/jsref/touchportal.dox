@@ -1,13 +1,14 @@
+//! \file
+//! \addtogroup TPAPI
+//! \{
+
+//! \ingroup TPAPI
+//! Te global `TP` namespace is used as a container for all Touch Portal API methods, which are invoked with `TP.` qualifier, eg. `TP.stateUpdate("Hello!");`.
+namespace TP {
 
 /*!
-  \namespace TP
-  \ingroup Util
-  Functions for interacting with Touch Portal directly, such as updating state values or sending notifications.
-  These functions are part of the global `TP` object, used with `TP.` qualifier, eg. `TP.stateUpdate("Hello!");`.
-*/
-namespace TP {
-/*!
   \fn void stateUpdate(String value)
+  \ingroup TPAPI
   \static
   Send a State update to Touch Portal with given `value` for the current script instance. This only works with instances in a `Private` script engine.
   \sa stateUpdate(string, string)
@@ -16,6 +17,7 @@ void stateUpdate(String value);
 
 /*!
   \fn void stateUpdate(String name, String value)
+  \ingroup TPAPI
   \static
   Send a State update to Touch Portal for a DSE instance named `name` with given `value`. This works with any type of engine instance, `Shared` or `Private`.
   The `name` will be turned into a fully qualified state ID as necessary (adding the required prefix to match default DSE state IDs). \sa stateUpdate(string)
@@ -24,7 +26,7 @@ void stateUpdate(String name, String value);
 
 /*!
   \fn void stateUpdateById(String id, String value)
-  \member TP
+  \ingroup TPAPI
   \static
   Send a State update to Touch Portal for any arbitrary state/value matching the `id`, with given `value`.
   \note This can be used to update other plugins' states and even TP global Values (at least as of TP 3.1.x). \sa stateUpdate()
@@ -33,6 +35,7 @@ void stateUpdateById(String id, String value);
 
 /*!
   \fn void stateCreate(String id, String parentGroup, String desc = "", String defaultValue = "")
+  \ingroup TPAPI
   \static
   Create a new Touch Portal dynamic State (if it doesn't already exist).
   \param id Must be a fully qualified state ID (meaning it is not changed in any way and must be unique in TP).
@@ -47,6 +50,7 @@ void stateCreate(String id, String parentGroup, String desc = "", String default
 
 /*!
   \fn void stateRemove(String id)
+  \ingroup TPAPI
   \static
   Remove a Touch Portal dynamic State (if it exists).  The `id` must be fully qualified to match the ID of the existing state.
 */
@@ -54,6 +58,7 @@ void stateRemove(String id);
 
 /*!
   \fn void choiceUpdate(String id, Array<String> values)
+  \ingroup TPAPI
   \static
   Update a list of choices for a selector with given `id`, which must be a fully qualified ID of some existing action data member (from some plugin).
   `values` should be an array of strings.
@@ -61,15 +66,38 @@ void stateRemove(String id);
 void choiceUpdate(String id, Array<String> values);
 
 /*!
-  \fn void connectorUpdate(String connectorId, int value)
+  \fn void connectorUpdate(String shortId, int value)
+  \ingroup TPAPI
   \static
   Sends a connector (slider) update with given `value` which should be an integer in the range of 0 - 100.
-  The `connectorId` must be fully qualified "long ID" as described in TP API docs.
+  The `shortId` should be a Touch Portal "short connector ID" as reported by Touch Portal in `shortConnectorIdNotification` messages.
+
+  These IDs can be looked up using `TP.getShortConnectorIds()` method. Another option is to subscribe to the `TP.connectorIdsChanged()` event
+  and track any reported connectors that way. Another, somewhat slower, option is to retrieve a list of reported short IDs with `TP.getConnectorRecords()`
+  and further process the result(s) to find the connector(s) you're looking for.
+
+  Note that is also possible to find these short IDs in the source JSON of a Touch Portal page (.tml file). Not recommended, but it can do in a pinch.
+
+  \sa [Touch Portal Connectors API](https://www.touch-portal.com/api/index.php?section=connectors), @ref example_color_picker
 */
-void connectorUpdate(String connectorId, int value);
+void connectorUpdate(String shortId, int value);
+
+/*!
+  \fn void connectorUpdateByLongId(String connectorId, int value)
+  \ingroup TPAPI
+  \static
+  Sends a connector (slider) update with given `value` which should be an integer in the range of 0 - 100.
+  The `connectorId` must be fully qualified "long ID" as described in Touch Portal [API docs](https://www.touch-portal.com/api/index.php?section=connectors).
+
+  This method could in theory be used to update sliders with connectors provided by other plugins. In practice it is fairly limited since the full `connectorId`
+  must be 200 characters or less, and coming up with those IDs in the first place can be challenging. However you may find some use for it after all.
+  \sa [Touch Portal Connectors API](https://www.touch-portal.com/api/index.php?section=connectors)
+*/
+void connectorUpdateByLongId(String connectorId, int value);
 
 /*!
   \fn void showNotification(String notificationId, String title, String message, Array<Object> options = [], <Function|String|Array> callback = null)
+  \ingroup TPAPI
   \static
   Creates or raises a user notification in the Touch Portal window. See TP API docs for details on notifications.
   \param notificationId should be a unique string, if the user has already responded to a notification with the same `notificationId` then nothing will be shown.
@@ -94,7 +122,119 @@ void connectorUpdate(String connectorId, int value);
   - If an array is given, the first member of the array should be a function and the 2nd argument should be the `this` context with which
     to invoke the callback function. The function is invoked with the same arguments as described above.
 
-  See [Fetch and Notify Example](@ref example_fetch_and_notify) for sample usage.
+  \sa @ref example_fetch_and_notify, [Touch Portal Notifications API](https://www.touch-portal.com/api/index.php?section=notifications)
 */
 void showNotification(String notificationId, String title, String message, Array<Object> options = [], <Function|String|Array> callback = null);
+
+/*!
+  \name Connector Data
+  \ingroup TPAPI
+  Touch Portal reports connector instances to the plugin via `shortConnectorIdNotification` messages. These messages are parsed and logged
+  into a database. The functions in this group can be used to query the data based on various criteria about logged connectors.
+  The connector short IDs can then be used to send updates back to Touch Portal, which will move the corresponding slider(s) into a particular position.
+  \sa ConnectorRecord, @ref example_color_picker, [Touch Portal Connectors API](https://www.touch-portal.com/api/index.php?section=connectors)
+*/
+//! \{
+
+/*!
+  \fn Array<String> getConnectorShortIds(Object criteria = {})
+  \ingroup TPAPI
+  \static
+  Returns zero or more connector "short IDs" based on the given `criteria` from the currently logged connector notification data.
+
+  `criteria` is an object that can contain any of the properties of `ConnectorRecord` (unless explicitly documented otherwise).
+  For most properties wildcard patterns can be used in the values (again, check `ConnectorRecord` documentation for details on each property).
+
+  For example, to find a Slider instance short ID for a connector with which loads a "example.mjs" module script and invokes a "run()" function
+  with any parameters:
+  ```js
+  const shortIds = TP.getConnectorShortIds({ file: "*example.mjs", expression: "run(*)" });
+  ```
+
+  Wildcards are typical "GLOB" style: `*` for "match anything", `?` for "any one character", or `[xyz]` to match any of a set of characters.
+
+  As noted in the `ConnectorRecord` documentation, some enumeration type properties can only be matched by their full value, like `ConnectorRecord.actionType`.
+
+  If `criteria` is empty/null/undefined, then _all_ connector records currently in the database will be returned.
+
+  By default the results are sorted by newest first, that is by the `timestamp` property in descending (largest first) order. To specify a custom
+  sort order, add the special property `orderBy` to the search `criteria`. The value of `orderBy` can be the name of any of the `ConnectorRecord` properties,
+  optionally followed by `ASC` or `DESC` to specify the ordering for ascending (smaller first) or descending (largest first), respectively.
+  Default is ascending order ("ASC"). Multiple properties can also be specified by separating them with a comma.
+
+  For example to find a all sliders for the current engine instance by State Name, sorted by oldest first and then by expression value in reverse alphabetical order:
+  ```js
+  const shortIds = TP.getConnectorShortIds({ instanceName: DSE.INSTANCE_NAME, orderBy: "timestamp ASC, expression DESC" });
+  ```
+
+  \sa connectorUpdate(), @ref example_color_picker
+*/
+Array<String> getConnectorShortIds(Object criteria = {});
+
+/*!
+  \fn Array<ConnectorRecord> getConnectorRecords(Object criteria = {})
+  \static
+  Returns zero or more `ConnectorRecord` objects based on the given `criteria` from the currently logged connector notification data.
+
+  `criteria` is exactly the same as described for `getConnectorShortIds()` function, above.
+
+  The only difference here is that the results include the whole `ConnectorRecord` object, instead of just the `shortId` property.  The objects can then be
+  further examined as needed. Keep in mind these are all read-only results.
+*/
+Array<ConnectorRecord> getConnectorRecords(Object criteria = {});
+
+/*!
+  \fn ConnectorRecord getConnectorByShortId(String shortId)
+  \static
+  Returns a `ConnectorRecord` based on the given `shortId` from the currently logged connector notification data, if any.
+  If no matching record is found, the returned `ConnectorRecord` will be empty/null, which can be checked with `ConnectorRecord.isNull` property.
+
+  Short IDs are unique, so each one identifies a unique slider instance. This function could be particularly useful with the `TP.connectorIdsChanged()` event
+  to get more information about the new slider short ID which is passed by that event to handlers as the 2nd parameter.
+
+  You _can_ use a wildcard pattern in the `shortId` parameter, as described in previous documentation about search criteria. However this query will
+  always return only one record.  If the wildcard pattern matches multiple records, only the newest one (by `timestamp`) will be returned.
+
+  \note There is currently no method in Touch Portal's API for determining that a slider/connector with a given short ID still actually exists on a user's page.
+*/
+ConnectorRecord getConnectorByShortId(String shortId);
+
+public signals:
+/*!
+  \fn void connectorIdsChanged(String instanceName, String shortId)
+  \static
+  This event is emitted whenever a `shortConnectorIdNotification` message from Touch Portal has been received, parsed, and added to the tracking database.
+
+  The first parameter passed to event handlers is the State Name used in the connector which has been added/modified. Note that for all "Anonymous (One-Time)"
+  type connectors the `instanceName` will always be "ANONYMOUS".
+
+  The second parameter is the `shortId` of this slider instance as created by Touch Portal. This short ID can be used later to send updates back
+  to this slider.
+
+  There are two ways to add a handler function for this event. First is by using the usual 'on*' style syntax:
+  ```js
+  TP.onconnectorIdsChanged( (instanceName, shortId) => { .... } );
+  ```
+  The other way is with the `connect()` event prototype method:
+  ```js
+  TP.connectorIdsChanged.connect( (instanceName, shortId) => { .... } );
+  ```
+
+  Both forms have a 2 parameter version which allows a context object to be given, which then becomes the "this" object when the event handler callback is executed.
+  ```js
+  MyObject.prototype.myHandler = function(instanceName, shortId) { ... }
+  const myObject = new MyObject();
+  TP.onconnectorIdsChanged(myObject.myHandler, myObject);
+  // OR  (note the switched parameter order)
+  TP.connectorIdsChanged.connect(myObject, myObject.myHandler);
+  ```
+
+  \sa @ref example_color_picker
+*/
+void connectorIdsChanged(String instanceName, String shortId);
+
+//! \}
+
 }   // TP
+
+//! \}
