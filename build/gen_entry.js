@@ -113,6 +113,12 @@ const entry_base =
                     type: "text",
                     desc : SHORT_NAME + ": Touch Portal data folder (current user)",
                     default : ""
+                },
+                {
+                    id: PLUGIN_ID + ".state.currentPage",
+                    type: "text",
+                    desc : SHORT_NAME + ": Name of Page currently active on TP device",
+                    default : ""
                 }
             ],
             actions: [],

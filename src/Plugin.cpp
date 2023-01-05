@@ -391,6 +391,7 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 					return;
 				g_sharedData->tpCurrentPage = pgName;
 				data.insert(QLatin1String("pageName"), pgName);
+				Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.currentPage"), pgName);
 			}
 			Q_EMIT tpBroadcast(event, data);
 			break;
