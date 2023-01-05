@@ -14,14 +14,17 @@ This is the most basic action which creates a new State with the value of whatev
 the same options (as well as add some others). The common options are only explained here.
 
 * **State Name** - This will be the name given to the new Touch Portal State once it is created. Once created it will appear in Touch Portal's various value selector lists.<br />
-	The name is also used in a few other places to refer to this instance of a "dynamic script."
+	The name is also used in a few other places to refer to this instance of a "dynamic script."<br/>
+	As noted on the previous page, Touch Portal actually uses a "state ID" to identify states, and the names are used purely for display purposes.
+	This plugin will generate a (hopefully) unique State ID by adding the prefix `dsep.` to whatever you put in the State Name field. However it's still up to the user
+	to make sure this name is unique at least among other States being created by this plugin's actions/connectors.
 * **Evaluate Expression** -- This is what you want to do. It can be any one-line valid JavaScript; basic math, reading/writing files, sending dynamic button icons...
   The limit is your imagination and the single-line nature of the action. There are some examples on the front page of this site and in the @ref examples_basic section.
 * **Engine Instance** - This is an important distinction about how and "where" your script is run. Most one-line scripts will probably want to use the `Shared` types, while
   more complex scripts (described below) will likely want to use the `Private` types. Here is the difference:
-	* **Shared** - All expressions/scripts are run in the same script evaluation engine instance, with a shared "global scope" as if they were all, 
-		to continue the poor analogies, running in the same "browser window" or "Node.js process." 
-		This means, for example you could share variables or functions between script instances. 
+	* **Shared** - All expressions/scripts are run in the same script evaluation engine instance, with a shared "global scope" as if they were all,
+		to continue the poor analogies, running in the same "browser window" or "Node.js process."
+		This means, for example you could share variables or functions between script instances.
 		It also means one expression/script could	overwrite variables/functions of another script in the same shared engine.
 		For one-line expressions this is usually not an issue since they likely won't create variables anyway, but for the other actions types (below), it may.<br />
 		**All Shared engine instances run in the same processing thread.** That means they cannot run at exactly the same time, one will need to finish before the next one
@@ -140,4 +143,4 @@ Read Next: [Status and Logging](Status.md)
     <area coords="0,170,285,205" shape="rect" alt="Anonymouse (One-Time) Script action" title="Anonymouse (One-Time) Script action" href="#plugin_actions_one-time-script">
     <area coords="0,205,285,240" shape="rect" alt="Plugin Actions action" title="Plugin Actions action" href="#actions_plugin-action">
 </map>
-@endhtmlonly 
+@endhtmlonly
