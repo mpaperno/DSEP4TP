@@ -39,6 +39,7 @@ var
     INSTANCE_DEFAULT_VALUE: "",
     VALUE_STATE_PREFIX: "dsep.",
     PLATFORM_OS: Qt ? Qt.platform.os : "unknown",
+    TP_USER_DATA_PATH: "",
     instanceStateId: function() { return this.VALUE_STATE_PREFIX + this.INSTANCE_NAME; }
   },
   TP = {

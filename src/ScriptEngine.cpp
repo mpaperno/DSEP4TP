@@ -158,6 +158,7 @@ void ScriptEngine::initScriptEngine()
 	dse.setProperty(QStringLiteral("PLUGIN_VERSION_NUM"), PLUGIN_VERSION);
 	dse.setProperty(QStringLiteral("PLUGIN_VERSION_STR"), QStringLiteral(PLUGIN_VERSION_STR));
 	dse.setProperty(QStringLiteral("SCRIPTS_BASE_DIR"), g_scriptsBaseDir.isEmpty() ? QDir::currentPath() : g_scriptsBaseDir);
+	dse.setProperty(QStringLiteral("TP_USER_DATA_PATH"), QString::fromUtf8(Utils::tpDataPath()));
 	if (!m_isShared) {
 		dse.setProperty(QStringLiteral("INSTANCE_TYPE"), QStringLiteral("Private"));
 		if (!m_currInstanceName.isEmpty())
