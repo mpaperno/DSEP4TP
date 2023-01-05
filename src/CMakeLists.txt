@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.24)
 
-set (VERSION_STR 1.0.0.3)
-set (VERSION_NUM 1000003)
-set (VERSION_SFX "")
+set (VERSION_STR 1.1.0.1)
+set (VERSION_NUM 1010001)
+set (VERSION_SFX -beta1)
 set (PROJECT_FULL_NAME  "Dynamic Script Engine Plugin for Touch Portal")
 set (PROJECT_SHORT_NAME "Dynamic Script Engine")
 set (PROJECT_ORG_NAME   "DynamicScriptEngine")
