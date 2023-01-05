@@ -518,7 +518,7 @@ void Plugin::scriptAction(const QByteArray &actId, const QJsonArray &data, qint3
 			break;
 
 		case SA_SingleShot: {
-			ds->singleShot = true;
+			ds->setSingleShot();
 			const QString &ityp = dataMap.value("type", QStringLiteral("Expression"));
 			ok = ds->setProperties(stringToInputType(ityp), scope, expression, dataMap.value("file").trimmed(), dataMap.value("alias").trimmed(), defType);
 			break;
