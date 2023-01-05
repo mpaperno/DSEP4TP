@@ -189,6 +189,17 @@ class DynamicScript : public QObject
 			return !(m_state.setFlag(State::PropertyErrorState, !ok) & State::CriticalErrorState);
 		}
 
+		void setSingleShot(bool ss = true)
+		{
+			if (ss == singleShot)
+				return;
+			singleShot = ss;
+			if (ss)
+				connect(this, &DynamicScript::finished, m_plugin, &Plugin::onDsFinished);
+			else
+				disconnect(this, &DynamicScript::finished, m_plugin, &Plugin::onDsFinished);
+		}
+
 		void resetEngine()
 		{
 			QWriteLocker lock(&m_mutex);

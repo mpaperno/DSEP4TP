@@ -453,6 +453,7 @@ void Plugin::scriptAction(const QByteArray &actId, const QJsonArray &data)
 			break;
 
 		case SA_SingleShot: {
+			ds->setSingleShot();
 			const QString &ityp = dataMap.value("type", QStringLiteral("Expression"));
 			DynamicScript::InputType iType = ityp.isEmpty() || ityp.at(0) == 'E' ? DynamicScript::InputType::Expression : ityp.at(0) == 'S' ? DynamicScript::InputType::Script : DynamicScript::InputType::Module;
 			ds->singleShot = true;
