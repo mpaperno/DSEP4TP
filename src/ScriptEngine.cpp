@@ -158,6 +158,8 @@ void ScriptEngine::initScriptEngine()
 	dse.setProperty(QStringLiteral("PLUGIN_VERSION_STR"), QStringLiteral(PLUGIN_VERSION_STR));
 	dse.setProperty(QStringLiteral("SCRIPTS_BASE_DIR"), Plugin::sharedData().scriptsBaseDir.isEmpty() ? QDir::currentPath() : Plugin::sharedData().scriptsBaseDir);
 	dse.setProperty(QStringLiteral("TP_USER_DATA_PATH"), QString::fromUtf8(Utils::tpDataPath()));
+	dse.setProperty(QStringLiteral("TP_VERSION_CODE"), Plugin::sharedData().tpVersion);
+	dse.setProperty(QStringLiteral("TP_VERSION_STR"), Plugin::sharedData().tpVersionStr);
 	if (!m_isShared) {
 		dse.setProperty(QStringLiteral("INSTANCE_TYPE"), QStringLiteral("Private"));
 		if (!m_currInstanceName.isEmpty())
@@ -331,6 +333,9 @@ void ScriptEngine::include(const QString &file) const
 		throwError(res);
 	}
 }
+
+// static
+QString ScriptEngine::getTpCurrentPageName() { return Plugin::sharedData().tpCurrentPage; }
 
 ConnectorData *ScriptEngine::connectorData()
 {

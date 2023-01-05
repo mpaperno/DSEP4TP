@@ -40,6 +40,8 @@ var
     VALUE_STATE_PREFIX: "dsep.",
     PLATFORM_OS: Qt ? Qt.platform.os : "unknown",
     TP_USER_DATA_PATH: "",
+    TP_VERSION_CODE: 0,
+    TP_VERSION_STR: "",
     instanceStateId: function() { return this.VALUE_STATE_PREFIX + this.INSTANCE_NAME; }
   },
   TP = {
@@ -55,6 +57,7 @@ var
     getConnectorRecords: ScriptEngine.getConnectorRecords,
     getConnectorShortIds: ScriptEngine.getConnectorShortIds,
     getConnectorByShortId: ScriptEngine.getConnectorByShortId,
+    currentPageName: ScriptEngine.getTpCurrentPageName,
     connectorIdsChanged: ScriptEngine.connectorIdsChanged,
     broadcastEvent: ScriptEngine.tpBroadcast,
     onconnectorIdsChanged: (r, t=null) => onEventHandler(ScriptEngine.connectorIdsChanged, r, t),

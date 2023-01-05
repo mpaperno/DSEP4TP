@@ -154,6 +154,7 @@ class ScriptEngine : public QObject
 		Q_INVOKABLE ConnectorRecord getConnectorByShortId(QJSValue shortId);
 		Q_INVOKABLE QStringList getConnectorShortIds(QJSValue query = QJSValue());
 		Q_INVOKABLE QVector<ConnectorRecord> getConnectorRecords(QJSValue query = QJSValue());
+		Q_INVOKABLE static QString getTpCurrentPageName();
 
 		static inline JSError jsError(const QJSValue &err) { return JSError(err); }
 
