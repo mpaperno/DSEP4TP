@@ -56,14 +56,19 @@ var
     getConnectorShortIds: ScriptEngine.getConnectorShortIds,
     getConnectorByShortId: ScriptEngine.getConnectorByShortId,
     connectorIdsChanged: ScriptEngine.connectorIdsChanged,
-    onconnectorIdsChanged: function(func, thisObj=null) { 
-      if (thisObj && typeof func === 'function')
-        ScriptEngine.connectorIdsChanged.connect(thisObj, func);
-      else
-        ScriptEngine.connectorIdsChanged.connect(func); 
-    },
+    broadcastEvent: ScriptEngine.tpBroadcast,
+    onconnectorIdsChanged: (r, t=null) => onEventHandler(ScriptEngine.connectorIdsChanged, r, t),
+    onbroadcastEvent:      (r, t=null) => onEventHandler(ScriptEngine.tpBroadcast, r, t),
   }
 ;
+
+function onEventHandler(sender, receiver, thisObj)
+{
+  if (thisObj && typeof receiver === 'function')
+    sender.connect(thisObj, receiver);
+  else
+    sender.connect(receiver); 
+}
 
 Object.defineProperty(AbortController, Symbol.hasInstance, {
   configurable: true,

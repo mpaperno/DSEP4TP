@@ -169,7 +169,9 @@ class ScriptEngine : public QObject
 		void choiceUpdate(const QByteArray &, const QStringList &);
 		void connectorUpdate(const QByteArray &, uint8_t, bool = false);
 		void connectorUpdateShort(const QByteArray &, uint8_t);
+
 		void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList & = QVariantList());
+		void tpBroadcast(const QString &, const QVariantMap &);
 
 		void connectorIdsChanged(const QByteArray &instanceName, const QByteArray &shortId);
 

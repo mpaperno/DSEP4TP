@@ -195,6 +195,7 @@ void Plugin::initEngine()
 	connect(ScriptEngine::instance(), &ScriptEngine::connectorUpdateShort, this, &Plugin::tpConnectorUpdateShort, Qt::QueuedConnection);
 	connect(ScriptEngine::instance(), &ScriptEngine::tpNotification, this, &Plugin::tpNotification, Qt::QueuedConnection);
 	connect(this, &Plugin::tpNotificationClicked, ScriptEngine::instance(), &ScriptEngine::onNotificationClicked, Qt::QueuedConnection);
+	connect(this, &Plugin::tpBroadcast, ScriptEngine::instance(), &ScriptEngine::tpBroadcast, Qt::QueuedConnection);
 
 	connect(this, &Plugin::loggerRotateLogs, Logger::instance(), &Logger::rotateLogs);
 }
@@ -381,7 +382,22 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 			dispatchAction(type, msg);
 			return;
 
+		case TPClientQt::MessageType::broadcast: {
+			QVariantMap data;
+			const QString event = msg.value(QLatin1String("event")).toString();
+			if (!event.compare(QLatin1String("pageChange"))) {
+				const QByteArray pgName = msg.value(QLatin1String("pageName")).toString().toUtf8().sliced(1).replace(".tml", QByteArray()).replace('\\', '/');
+				if (pgName.isEmpty())
+					return;
+				g_sharedData->tpCurrentPage = pgName;
+				data.insert(QLatin1String("pageName"), pgName);
+			}
+			Q_EMIT tpBroadcast(event, data);
+			break;
+		}
+
 		case TPClientQt::MessageType::shortConnectorIdNotification:
+			// delay initial loading of saved script instances until all notifications have been recieved
 			if (m_loadSettingsTmr.isActive())
 				m_loadSettingsTmr.start();
 			parseConnectorNotification(msg);

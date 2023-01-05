@@ -314,7 +314,9 @@ class DynamicScript : public QObject
 				connect(m_engine, &ScriptEngine::connectorUpdate, m_plugin, &Plugin::tpConnectorUpdate);
 				connect(m_engine, &ScriptEngine::connectorUpdateShort, m_plugin, &Plugin::tpConnectorUpdateShort);
 				connect(m_engine, &ScriptEngine::tpNotification, m_plugin, &Plugin::tpNotification);
+				// Connect to notifications about TP events so they can be re-broadcast to scripts in this instance.
 				connect(m_plugin, &Plugin::tpNotificationClicked, m_engine, &ScriptEngine::onNotificationClicked);
+				connect(m_plugin, &Plugin::tpBroadcast, m_engine, &ScriptEngine::tpBroadcast);
 			}
 			else {
 				m_engine = ScriptEngine::instance();

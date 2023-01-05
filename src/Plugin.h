@@ -56,7 +56,10 @@ class Plugin : public QObject
 		void tpConnectorUpdate(const QByteArray &, quint8, bool) const;
 		void tpConnectorUpdateShort(const QByteArray &, quint8) const;
 		void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList &) const;
+
 		void tpNotificationClicked(const QString &, const QString &) const;
+		void tpBroadcast(const QString &, const QVariantMap &) const;
+
 		void loggerRotateLogs() const;
 
 	private Q_SLOTS:
