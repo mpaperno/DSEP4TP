@@ -58,36 +58,37 @@ Contains general utility classes.
 /*!
 	\class Global
 	\ingroup JSExt
-	Extends the global context object with convenience properties and functions. The `DSE` static object contains useful information about the current running environment.
+	Extends the \ref stdlib-global context object with convenience properties and functions.
+	The `DSE` static object contains useful information about the current running environment.
 */
 
 /*!
 	\class ArrayBuffer
 	\ingroup JSExt
-	ArrayBuffer Object Extensions
+	[ArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) Object Extensions
 */
 
 /*!
 	\class Date
 	\ingroup JSExt
-	Date prototype extension methods
+	[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) prototype extension methods
 */
 
 /*!
 	\class Math
 	\ingroup JSExt
-	Math Object Extensions
+	[Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) Object Extensions
 	\note Note that _all_ `Math` functions are also available in the global object scope, w/out the `Math.` qualifier.
 */
 
 /*!
 	\class Number
 	\ingroup JSExt
-	A few convenience methods to extend Number prototype.
+	A few convenience methods to extend the standard [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) prototype.
 */
 
 /*!
 	\class String
 	\ingroup JSExt
-	Extends String object.
+	Extends [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) object.
 */

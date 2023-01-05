@@ -3,38 +3,47 @@
 //! \{
 
 //! \ingroup TPAPI
-//! Te global `TP` namespace is used as a container for all Touch Portal API methods, which are invoked with `TP.` qualifier, eg. `TP.stateUpdate("Hello!");`.
-namespace TP {
+//! The global `TP` namespace is used as a container for all Touch Portal API methods, which are invoked with `TP.` qualifier, eg. `TP.stateUpdate("Hello!");`.
+class TP {
+public:
+
+/*!
+  \name Sending Data
+  \ingroup TPAPI
+  These functions all send information or commands _to_ Touch Portal.
+*/
+//! \{
 
 /*!
   \fn void stateUpdate(String value)
+  \memberof TP
   \ingroup TPAPI
   \static
   Send a State update to Touch Portal with given `value` for the current script instance. This only works with instances in a `Private` script engine.
-  \sa stateUpdate(string, string)
+  \sa stateUpdate(String, String)
 */
-void stateUpdate(String value);
 
 /*!
   \fn void stateUpdate(String name, String value)
+  \memberof TP
   \ingroup TPAPI
   \static
   Send a State update to Touch Portal for a DSE instance named `name` with given `value`. This works with any type of engine instance, `Shared` or `Private`.
-  The `name` will be turned into a fully qualified state ID as necessary (adding the required prefix to match default DSE state IDs). \sa stateUpdate(string)
+  The `name` will be turned into a fully qualified state ID as necessary (adding the required prefix to match default DSE state IDs). \sa stateUpdate(String)
 */
-void stateUpdate(String name, String value);
 
 /*!
   \fn void stateUpdateById(String id, String value)
+  \memberof TP
   \ingroup TPAPI
   \static
   Send a State update to Touch Portal for any arbitrary state/value matching the `id`, with given `value`.
   \note This can be used to update other plugins' states and even TP global Values (at least as of TP 3.1.x). \sa stateUpdate()
 */
-void stateUpdateById(String id, String value);
 
 /*!
   \fn void stateCreate(String id, String parentGroup, String desc = "", String defaultValue = "")
+  \memberof TP
   \ingroup TPAPI
   \static
   Create a new Touch Portal dynamic State (if it doesn't already exist).
@@ -46,27 +55,27 @@ void stateUpdateById(String id, String value);
   Note that if you do not want/need a state to be available in the UI, then any `stateUpdateById()` call will also work (the state will be created if needed but not accessible via the UI).
   \n Also note that there's currently a bug in TP (<= v3.1) that prevents state change events from being detected based on a default value.
 */
-void stateCreate(String id, String parentGroup, String desc = "", String defaultValue = "");
 
 /*!
   \fn void stateRemove(String id)
+  \memberof TP
   \ingroup TPAPI
   \static
   Remove a Touch Portal dynamic State (if it exists).  The `id` must be fully qualified to match the ID of the existing state.
 */
-void stateRemove(String id);
 
 /*!
   \fn void choiceUpdate(String id, Array<String> values)
+  \memberof TP
   \ingroup TPAPI
   \static
   Update a list of choices for a selector with given `id`, which must be a fully qualified ID of some existing action data member (from some plugin).
   `values` should be an array of strings.
 */
-void choiceUpdate(String id, Array<String> values);
 
 /*!
   \fn void connectorUpdate(String shortId, int value)
+  \memberof TP
   \ingroup TPAPI
   \static
   Sends a connector (slider) update with given `value` which should be an integer in the range of 0 - 100.
@@ -80,10 +89,10 @@ void choiceUpdate(String id, Array<String> values);
 
   \sa [Touch Portal Connectors API](https://www.touch-portal.com/api/index.php?section=connectors), @ref example_color_picker
 */
-void connectorUpdate(String shortId, int value);
 
 /*!
   \fn void connectorUpdateByLongId(String connectorId, int value)
+  \memberof TP
   \ingroup TPAPI
   \static
   Sends a connector (slider) update with given `value` which should be an integer in the range of 0 - 100.
@@ -94,11 +103,11 @@ void connectorUpdate(String shortId, int value);
   \sa [Touch Portal Connectors API](https://www.touch-portal.com/api/index.php?section=connectors)
   \since v1.1.0
 */
-void connectorUpdateByLongId(String connectorId, int value);
 
 /*!
   \fn void showNotification(String notificationId, String title, String message, Array<Object> options = [], <Function|String|Array> callback = null)
   \ingroup TPAPI
+  \memberof TP
   \static
   Creates or raises a user notification in the Touch Portal window. See TP API docs for details on notifications.
   \param notificationId should be a unique string, if the user has already responded to a notification with the same `notificationId` then nothing will be shown.
@@ -125,7 +134,78 @@ void connectorUpdateByLongId(String connectorId, int value);
 
   \sa @ref example_fetch_and_notify, [Touch Portal Notifications API](https://www.touch-portal.com/api/index.php?section=notifications)
 */
-void showNotification(String notificationId, String title, String message, Array<Object> options = [], <Function|String|Array> callback = null);
+
+//! \}
+
+/*!
+  \name Events
+  \ingroup TPAPI
+  These are events which are raised whenever some kind of data update is received from Touch Portal.
+  Events may pass one or more parameters to callback handlers (check documentation for specific events).
+  There are two syntactical ways to connect a callback function to an event.
+
+  First is by using the usual 'on*' style syntax:
+  ```js
+  TP.oneventName( (parameters) => { .... } );
+  ```
+  The other way is with the `connect()` event prototype method:
+  ```js
+  TP.eventName.connect( (parameters) => { .... } );
+  ```
+
+  Both forms have a 2-parameter version which allows a context object to be given, which then becomes the "this" object when the event handler callback is executed.
+  ```js
+  MyObject.prototype.myHandler = function(parameters) { ... }
+  const myObject = new MyObject();
+  TP.oneventName(myObject.myHandler, myObject);
+  // OR  (note the switched parameter order)
+  TP.eventName.connect(myObject, myObject.myHandler);
+  ```
+
+*/
+//! \{
+
+/*!
+  \fn void broadcastEvent(String event, Object data)
+  \memberof TP
+  \ingroup TPAPI
+  \static
+  This event is emitted when Touch Portal sends a `broadcast` message to all plugins.
+  The `event` parameter is the name of the event type.
+  - As of TP v3.1 (API v6) this can only be "pageChange" to signify that a user has navigated to a new page on their Touch Portal device (_not_ in the desktop page editor).
+
+  The `data` contains any further information about the event.
+  - For the `pageChange` event there is one member named `pageName` which holds the name of the newly selected page. The name may contain a "path"
+    if the page is in side a subfolder.  For example "(main)" or "games/MSFS".
+
+  You can connect to this event as described in the overall event documentation above, with either `onbroadcastEvent()` or `broadcastEvent.connect()` syntax.
+
+  \note Touch Portal v3.2 is going to have a multi-device upgrade available, so multiple devices could be connected to one
+  desktop application and have different pages open.  It's not clear yet how this will affect the "pageChange" broadcast event.
+
+  \since v1.1.0
+*/
+
+/*!
+  \fn void connectorIdsChanged(String instanceName, String shortId)
+  \memberof TP
+  \ingroup TPAPI
+  \static
+  This event is emitted whenever a `shortConnectorIdNotification` message from Touch Portal has been received, parsed, and added to the tracking database.
+
+  The first parameter passed to event handlers is the State Name used in the connector which has been added/modified. Note that for all "Anonymous (One-Time)"
+  type connectors the `instanceName` will always be "ANONYMOUS".
+
+  The second parameter is the `shortId` of this slider instance as created by Touch Portal. This short ID can be used later to send updates back
+  to this slider.
+
+  You can connect to this event as described in the overall event documentation above, with either `onconnectorIdsChanged()` or `connectorIdsChanged.connect()` syntax.
+
+  \sa @ref example_color_picker
+  \since v1.1.0
+*/
+
+//! \}
 
 /*!
   \name Connector Data
@@ -133,13 +213,14 @@ void showNotification(String notificationId, String title, String message, Array
   Touch Portal reports connector instances to the plugin via `shortConnectorIdNotification` messages. These messages are parsed and logged
   into a database. The functions in this group can be used to query the data based on various criteria about logged connectors.
   The connector short IDs can then be used to send updates back to Touch Portal, which will move the corresponding slider(s) into a particular position.
-  \sa ConnectorRecord, @ref example_color_picker, [Touch Portal Connectors API](https://www.touch-portal.com/api/index.php?section=connectors)
+  \sa connectorIdsChanged(), ConnectorRecord, @ref plugin_connectors_updating, @ref example_color_picker, [Touch Portal Connectors API](https://www.touch-portal.com/api/index.php?section=connectors)
 */
 //! \{
 
 /*!
   \fn Array<String> getConnectorShortIds(Object criteria = {})
   \ingroup TPAPI
+  \memberof TP
   \static
   Returns zero or more connector "short IDs" based on the given `criteria` from the currently logged connector notification data.
 
@@ -168,13 +249,13 @@ void showNotification(String notificationId, String title, String message, Array
   const shortIds = TP.getConnectorShortIds({ instanceName: DSE.INSTANCE_NAME, orderBy: "timestamp ASC, expression DESC" });
   ```
 
-  \sa connectorUpdate(), @ref example_color_picker
+  \sa connectorUpdate(), @ref plugin_connectors_updating, @ref example_color_picker
   \since v1.1.0
 */
-Array<String> getConnectorShortIds(Object criteria = {});
 
 /*!
   \fn Array<ConnectorRecord> getConnectorRecords(Object criteria = {})
+  \memberof TP
   \ingroup TPAPI
   \static
   Returns zero or more `ConnectorRecord` objects based on the given `criteria` from the currently logged connector notification data.
@@ -185,10 +266,10 @@ Array<String> getConnectorShortIds(Object criteria = {});
   further examined as needed. Keep in mind these are all read-only results.
   \since v1.1.0
 */
-Array<ConnectorRecord> getConnectorRecords(Object criteria = {});
 
 /*!
   \fn ConnectorRecord getConnectorByShortId(String shortId)
+  \memberof TP
   \ingroup TPAPI
   \static
   Returns a `ConnectorRecord` based on the given `shortId` from the currently logged connector notification data, if any.
@@ -203,43 +284,29 @@ Array<ConnectorRecord> getConnectorRecords(Object criteria = {});
   \note There is currently no method in Touch Portal's API for determining that a slider/connector with a given short ID still actually exists on a user's page.
   \since v1.1.0
 */
-ConnectorRecord getConnectorByShortId(String shortId);
 
-public signals:
+//! \}
+
 /*!
-  \fn void connectorIdsChanged(String instanceName, String shortId)
+  \name Other Data
+  \ingroup TPAPI
+  Miscellaneous other data/information access functions.
+*/
+//! \{
+
+/*!
+  \fn String currentPageName()
+  \memberof TP
   \ingroup TPAPI
   \static
-  This event is emitted whenever a `shortConnectorIdNotification` message from Touch Portal has been received, parsed, and added to the tracking database.
+  Returns the name of the page the user last opened on their Touch Portal device (_not_ in the desktop page editor).
+  This is always the result of the last `broadcastEvent()`'s `pageName` property. See `broadcastEvent()` documentation for details.
 
-  The first parameter passed to event handlers is the State Name used in the connector which has been added/modified. Note that for all "Anonymous (One-Time)"
-  type connectors the `instanceName` will always be "ANONYMOUS".
+  \note Touch Portal does _not_ send this event to a plugin when it starts up, only once an actual page change happens the first time.
+    As a result, the result of this function call may be empty until the user has switched pages on their device.
 
-  The second parameter is the `shortId` of this slider instance as created by Touch Portal. This short ID can be used later to send updates back
-  to this slider.
-
-  There are two ways to add a handler function for this event. First is by using the usual 'on*' style syntax:
-  ```js
-  TP.onconnectorIdsChanged( (instanceName, shortId) => { .... } );
-  ```
-  The other way is with the `connect()` event prototype method:
-  ```js
-  TP.connectorIdsChanged.connect( (instanceName, shortId) => { .... } );
-  ```
-
-  Both forms have a 2 parameter version which allows a context object to be given, which then becomes the "this" object when the event handler callback is executed.
-  ```js
-  MyObject.prototype.myHandler = function(instanceName, shortId) { ... }
-  const myObject = new MyObject();
-  TP.onconnectorIdsChanged(myObject.myHandler, myObject);
-  // OR  (note the switched parameter order)
-  TP.connectorIdsChanged.connect(myObject, myObject.myHandler);
-  ```
-
-  \sa @ref example_color_picker
   \since v1.1.0
 */
-void connectorIdsChanged(String instanceName, String shortId);
 
 //! \}
 

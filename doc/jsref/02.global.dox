@@ -10,7 +10,7 @@
   `data` can be a string or `ArrayBuffer` (or similar collection of ASCII bytes).
   Note that strings are automatically converted to ASCII (Latin 1 encoding). To avoid any conversion, pass an `ArrayBuffer` (or similar).
 
-	\fn string btoa(data)
+	\fn String btoa(data)
 	\memberof Global
   \static
   Returns `data` bytes as base-64 encoded plain text ("binary to ascii"). `data` can be a `ArrayBuffer` or a string.
@@ -40,7 +40,7 @@
   Normally this is taken care of automatically by the script engine on a regular basis, but this function can be used
   to explicitly initiate collection as soon as possible.
 
-  \fn string hash(data, string algorithm = "md5")
+  \fn String hash(data, string algorithm = "md5")
   \memberof Global
   \static
   Returns a cryptographic hash of `data` using given `algorithm` as a string of hexadecimal characters.
@@ -94,13 +94,13 @@
   \n If country is not present, or is not a valid ISO 3166 code, the most appropriate country is chosen for the specified language.
 
 
-	\fn string Format(format)
+	\fn String Format(String format)
 	\memberof Global
   \static
 	Equivalent to the `String.format()` extension method. Provides .NET style string formatting.
 
 
-  \fn string sprintf(format, args)
+  \fn String sprintf(String format, ...args)
   \memberof Global
   \static
 
@@ -160,7 +160,7 @@ class Global {
       At least one of the digits always increments for each new published version. The build number increments for any/each new pre-release (alpha/beta)
       version and again on the final (it may increment in irregular intervals).
     */
-    string PLUGIN_VERSION_STR;
+    String PLUGIN_VERSION_STR;
 
     /*!
     Current DSE plugin version number in integer format.
@@ -171,22 +171,22 @@ class Global {
     E.g. `"1.2.30.4" == 16920580 == 0x01023004` or "01023004" as shown in Touch Portal. <br />
     The possible "name" part of a version is ignored (the build number increments for each new pre-release alpha/beta version and again on the final release).
     */
-    number PLUGIN_VERSION_NUM;
+    int PLUGIN_VERSION_NUM;
 
     //! The base directory path for script files. This is either the path specified in the plugin's "Script Files Base Directory" setting (in Touch Portal),
     //! or the plugin's current working directory (which is the default when nothing is specified in the setting).
-    string SCRIPTS_BASE_DIR;
+    String SCRIPTS_BASE_DIR;
 
     //! The scope of the current script's engine, either "Shared" or "Private".
-    string INSTANCE_TYPE;
+    String INSTANCE_TYPE;
 
     //! The name of the current script's instance (State Name), as specified in the corresponding
   	//! Touch Portal action which is running the script/expression.
-    string INSTANCE_NAME;
+    String INSTANCE_NAME;
 
     //! This is the default value as specified in the action which created this script instance, which may be empty/blank (but not null/undefined).
     //! \note This property is empty in Shared instance types. \sa `DSE.INSTANCE_TYPE`
-    string INSTANCE_DEFAULT_VALUE;
+    String INSTANCE_DEFAULT_VALUE;
 
     /*!
       This property contains the name of the operating system running the plugin.
@@ -202,17 +202,29 @@ class Global {
         "wasm" - WebAssembly
       </pre>
     */
-    string PLATFORM_OS;
+    String PLATFORM_OS;
 
     //! The prefix added by the plugin to an instance's State Name before sending to Touch Portal to ensure uniqueness. Touch Portal uses the unique ID
     //! to identify States. \sa `DSE.instanceStateId()`
-    string VALUE_STATE_PREFIX;
+    String VALUE_STATE_PREFIX;
+
+    //! Contains the value of the current system user's Touch Portal settings directory path. This should be the same as shown in Touch Portal
+    //! _Settings -> Info -> Data folder_ field. The value is determined at plugin startup based on the current user and operating system. \n
+    //! Note that on Windows the path is separated with `/` (not backslashes). Backslashes are annoying in JavaScript and in just about every usage
+    //! the forward slashes work just as well.
+    String TP_USER_DATA_PATH;
+
+    //! Numeric version of currently connected Touch Portal desktop application. eg. `301007`
+    int TP_VERSION_CODE;
+
+    //! String version of currently connected Touch Portal desktop application. eg. "3.1.7.0.0"
+    String TP_VERSION_STR;
 
     //! \static
     //! Gets Touch Portal State ID of the current script's instance.
     //! This is what Touch Portal actually uses to uniquely identify the state (not just the name by itself).
   	//! This is a convenience method that returns the same as `DSE.VALUE_STATE_PREFIX + DSE.INSTANCE_NAME`.
-    static string instanceStateId();
+    static String instanceStateId();
 
   } DSE;
 };

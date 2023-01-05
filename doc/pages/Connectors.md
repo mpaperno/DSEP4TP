@@ -45,7 +45,8 @@ Likewise the "Create at startup" options are removed to slightly optimize parsin
 
 The most efficient type of Connector is "Update Existing Instance" since that needs the least amount of pre-processing by the plugin before actually being evaluated.
 
-## Updating Sliders from Scripts
+## Updating Sliders from Scripts {#plugin_connectors_updating}
+
 One of the benefits of having "native" sliders in this plugin itself is that we can track their use on pages and update their positions dynamically if we want to.
 For example to reflect the value of some variable which was changed independently of the user moving the connector (eg. a volume was adjusted externally and the slider position
 should represent the current value). Due to the nature of the Touch Portal Connectors API, it is difficult-to-impossible to update sliders provided by Touch Portal itself
