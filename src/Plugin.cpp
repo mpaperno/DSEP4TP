@@ -114,7 +114,6 @@ static DynamicScript::DefaultType stringToDefaultType(QStringView str)
 	                                                                                 DynamicScript::DefaultType::MainExpression;
 }
 
-
 // -----------------------------------
 // Plugin
 // -----------------------------------
@@ -363,6 +362,7 @@ void Plugin::onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &se
 		<< " (" << info.tpVersionCode << "; SDK v" << info.sdkVersion
 		<< ") with entry.tp v" << info.pluginVersion << ", running v" << PLUGIN_VERSION_STR;
 	handleSettings(settings);
+	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.tpDataPath"), Utils::tpDataPath());
 	initEngine();
 	clearScriptErrors();
 	m_loadSettingsTmr.start();

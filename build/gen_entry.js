@@ -107,6 +107,12 @@ const entry_base =
                     type: "text",
                     desc : SHORT_NAME + ": Cumulative script error count",
                     default : ""
+                },
+                {
+                    id: PLUGIN_ID + ".state.tpDataPath",
+                    type: "text",
+                    desc : SHORT_NAME + ": Touch Portal data folder (current user)",
+                    default : ""
                 }
             ],
             actions: [],
