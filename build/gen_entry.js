@@ -253,9 +253,10 @@ function addEvalAction(name)
         makeTextData(id + ".expr", "Expression"),
     );
     format += appendScopeData(id, data);
+    addConnector(id, name, descript, format, data);
+    data = data.map(a => ({...a}));  // deep copy
     format += appendSaveValueData(id, data);
     addAction(id, name, descript, format, data);
-    addConnector(id, name, descript, format, data);
 }
 
 function addScriptAction(name) 
@@ -290,9 +291,10 @@ function addModuleAction(name)
         makeTextData(id + ".expr", "Expression", "M.run([arguments])"),
     );
     format += appendScopeData(id, data, "Private");
+    addConnector(id, name, descript, format, data);
+    data = data.map(a => ({...a}));  // deep copy
     format += appendSaveValueData(id, data);
     addAction(id, name, descript, format, data);
-    addConnector(id, name, descript, format, data);
 }
 
 function addUpdateAction(name) 

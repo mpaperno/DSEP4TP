@@ -656,8 +656,8 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg)
 	cr.expression = tempMap.value(QByteArrayLiteral("expr"), QStringLiteral("")).toUtf8();
 	cr.file = tempMap.value(QByteArrayLiteral("file"), QStringLiteral("")).toUtf8();
 	cr.alias = tempMap.value(QByteArrayLiteral("alias"), QStringLiteral("")).toUtf8();
-	cr.eDefaultType = stringToDefaultType(tempMap.value(QByteArrayLiteral("save"), QStringLiteral("No")));
-	cr.defaultValue = tempMap.value(QByteArrayLiteral("default"), QStringLiteral("")).toUtf8();
+	//cr.eDefaultType = stringToDefaultType(tempMap.value(QByteArrayLiteral("save"), QStringLiteral("No")));
+	//cr.defaultValue = tempMap.value(QByteArrayLiteral("default"), QStringLiteral("")).toUtf8();
 
 	switch (act) {
 		case SA_Eval:
