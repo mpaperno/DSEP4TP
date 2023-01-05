@@ -92,6 +92,7 @@ void connectorUpdate(String shortId, int value);
   This method could in theory be used to update sliders with connectors provided by other plugins. In practice it is fairly limited since the full `connectorId`
   must be 200 characters or less, and coming up with those IDs in the first place can be challenging. However you may find some use for it after all.
   \sa [Touch Portal Connectors API](https://www.touch-portal.com/api/index.php?section=connectors)
+  \since v1.1.0
 */
 void connectorUpdateByLongId(String connectorId, int value);
 
@@ -168,11 +169,13 @@ void showNotification(String notificationId, String title, String message, Array
   ```
 
   \sa connectorUpdate(), @ref example_color_picker
+  \since v1.1.0
 */
 Array<String> getConnectorShortIds(Object criteria = {});
 
 /*!
   \fn Array<ConnectorRecord> getConnectorRecords(Object criteria = {})
+  \ingroup TPAPI
   \static
   Returns zero or more `ConnectorRecord` objects based on the given `criteria` from the currently logged connector notification data.
 
@@ -180,11 +183,13 @@ Array<String> getConnectorShortIds(Object criteria = {});
 
   The only difference here is that the results include the whole `ConnectorRecord` object, instead of just the `shortId` property.  The objects can then be
   further examined as needed. Keep in mind these are all read-only results.
+  \since v1.1.0
 */
 Array<ConnectorRecord> getConnectorRecords(Object criteria = {});
 
 /*!
   \fn ConnectorRecord getConnectorByShortId(String shortId)
+  \ingroup TPAPI
   \static
   Returns a `ConnectorRecord` based on the given `shortId` from the currently logged connector notification data, if any.
   If no matching record is found, the returned `ConnectorRecord` will be empty/null, which can be checked with `ConnectorRecord.isNull` property.
@@ -196,12 +201,14 @@ Array<ConnectorRecord> getConnectorRecords(Object criteria = {});
   always return only one record.  If the wildcard pattern matches multiple records, only the newest one (by `timestamp`) will be returned.
 
   \note There is currently no method in Touch Portal's API for determining that a slider/connector with a given short ID still actually exists on a user's page.
+  \since v1.1.0
 */
 ConnectorRecord getConnectorByShortId(String shortId);
 
 public signals:
 /*!
   \fn void connectorIdsChanged(String instanceName, String shortId)
+  \ingroup TPAPI
   \static
   This event is emitted whenever a `shortConnectorIdNotification` message from Touch Portal has been received, parsed, and added to the tracking database.
 
@@ -230,6 +237,7 @@ public signals:
   ```
 
   \sa @ref example_color_picker
+  \since v1.1.0
 */
 void connectorIdsChanged(String instanceName, String shortId);
 
