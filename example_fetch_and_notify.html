@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -129,7 +129,7 @@ $(document).ready(function(){initNavTree('example_fetch_and_notify.html',''); in
 <div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicValues_DynamicValuesTPP_resources_examples_FetchAndNotify_README"></a> </p><div class="hide-on-site"></div><div class="hide-on-site"><b>See the <a href="https://mpaperno.github.io/DSEP4TP/example_fetch_and_notify.html" target="_blank">published documentation</a> for a properly formatted version of this README.</b> </div><p >This example demonstrates serveral things:</p><ol type="1">
 <li>Getting some data from a Web site using <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code>, which in this case is in JSON format.</li>
 <li>Extracting useful information from the JSON data.</li>
-<li>Sending a Notification message to Touch Portal with <code><a class="el" href="namespace_t_p.html#a4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification()</a></code>, which a user can interact with.</li>
+<li>Sending a Notification message to Touch Portal with <code><a class="el" href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification()</a></code>, which a user can interact with.</li>
 <li>Handle any choice (click) the user made in the notification dialog and open a Web browser with <a class="el" href="class_process.html">Process.startCommand()</a>.</li>
 </ol>
 <p >It does this in the form of a version/update checker which contacts the GitHub server to get the latest release version information of a particular repository (they have an API for that).</p>
@@ -215,7 +215,7 @@ $(document).ready(function(){initNavTree('example_fetch_and_notify.html',''); in
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_process.html">Process</a>().startCommand(`xdg-open <span class="stringliteral">&quot;${result.html_url}&quot;</span>`);  <span class="comment">// or possibly &#39;sensible-browser&#39; on Ubuntu</span></div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                }</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                <a class="code hl_namespace" href="namespace_t_p.html">TP</a>.showNotification(</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4">showNotification</a>(</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>                    result.tag_name,          <span class="comment">// notification ID, should be unique per event so version tag makes sense here.</span></div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                    <span class="stringliteral">&quot;New Version Available&quot;</span>,  <span class="comment">// notification title</span></div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                    logText,                  <span class="comment">// main message body</span></div>
@@ -254,10 +254,11 @@ $(document).ready(function(){initNavTree('example_fetch_and_notify.html',''); in
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        iVersion = iVersion &lt;&lt; 8 | ((parseInt(part) || 0) &amp; 0xFF);</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keywordflow">return</span> iVersion;</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
-<div class="ttc" id="aclass_process_html"><div class="ttname"><a href="class_process.html">Process</a></div><div class="ttdoc">The Process class allows interaction with external processes, such as launching a system command or r...</div><div class="ttdef"><b>Definition:</b> Process.h:60</div></div>
+<div class="ttc" id="aclass_process_html"><div class="ttname"><a href="class_process.html">Process</a></div><div class="ttdoc">The Process class allows interaction with external processes, such as launching a system command or r...</div><div class="ttdef"><b>Definition:</b> Process.h:62</div></div>
+<div class="ttc" id="aclass_t_p_html"><div class="ttname"><a href="class_t_p.html">TP</a></div><div class="ttdoc">The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...</div><div class="ttdef"><b>Definition:</b> touchportal.dox:7</div></div>
+<div class="ttc" id="agroup___t_p_a_p_i_html_ga4cb619ba8002feed0b4ac0de9a4beac4"><div class="ttname"><a href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4">TP::showNotification</a></div><div class="ttdeci">void showNotification(String notificationId, String title, String message, Array&lt; Object &gt; options=[],&lt; Function|String|Array &gt; callback=null)</div><div class="ttdoc">Creates or raises a user notification in the Touch Portal window.</div></div>
 <div class="ttc" id="anamespace_net_html"><div class="ttname"><a href="namespace_net.html">Net</a></div><div class="ttdoc">The Net namespace contains static functions for working with network requests.</div><div class="ttdef"><b>Definition:</b> fetch.dox:4</div></div>
-<div class="ttc" id="anamespace_t_p_html"><div class="ttname"><a href="namespace_t_p.html">TP</a></div><div class="ttdoc">Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md63"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md72"></a>
 Example usage on a button</h2>
 <p ><a href="example_check_gh_release_button_flow.png" target="image" title="Click for full version in new window."><img src="example_check_gh_release_button_flow.png" alt="" class="inline"/> </a> </p>
 </div></div><!-- contents -->
@@ -268,7 +269,7 @@ Example usage on a button</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="plugin_examples.html">Examples</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

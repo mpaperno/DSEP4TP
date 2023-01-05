@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -472,7 +472,7 @@ $(document).ready(function(){initNavTree('_util_8h_source.html',''); initResizab
 <div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>      QCryptographicHash::Algorithm a = (QCryptographicHash::Algorithm)QMetaEnum::fromType&lt;QCryptographicHash::Algorithm&gt;().keyToValue(qPrintable(algorithm), &amp;ok);</div>
 <div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>      <span class="keywordflow">if</span> (!ok) {</div>
 <div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>        <span class="keywordflow">if</span> (se)</div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>          se-&gt;throwEngineError(QJSValue::TypeError, <span class="stringliteral">&quot;in hash() - The specified algorithm &#39;&quot;</span> + algorithm + <span class="stringliteral">&quot;&#39; was not valid.&quot;</span>);</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>          se-&gt;throwError(QJSValue::TypeError, <span class="stringliteral">&quot;in hash() - The specified algorithm &#39;&quot;</span> + algorithm + <span class="stringliteral">&quot;&#39; was not valid.&quot;</span>);</div>
 <div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>        <span class="keywordflow">return</span> QString();</div>
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>      }</div>
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>      <span class="keywordflow">return</span> QString(QCryptographicHash::hash(data, a));</div>
@@ -522,81 +522,80 @@ $(document).ready(function(){initNavTree('_util_8h_source.html',''); initResizab
 <div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>    <span class="comment">// Removes leading, trailing, and redundant whitespace from a string.</span></div>
 <div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>    Q_INVOKABLE <span class="keyword">static</span> QString stringSimplify(<span class="keyword">const</span> QString &amp;str) { <span class="keywordflow">return</span> str.simplified(); }</div>
 <div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span> </div>
-<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span><span class="comment">/*</span><span class="comment"></span></div>
-<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span><span class="comment">    //! Appends string `line` to a block of `text`, and returns a new block with up to `maxLines` lines.</span></div>
-<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span><span class="comment">    //! The newline (`\n`) is used as separator by default, or a custom separator string can be specified in `separator` argument.</span></div>
-<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span><span class="comment"></span>    Q_INVOKABLE static QString appendLine(const QString &amp;text, const QString &amp;line, int maxLines, const QString &amp;separator = QStringLiteral(&quot;\n&quot;))</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>    <span class="comment">// Appends string `line` to a block of `text`, and returns a new block with up to `maxLines` lines.</span></div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>    <span class="comment">// If `maxLines` is zero or negative, returns the full resulting string.</span></div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>    <span class="comment">// The newline (`\n`) is used as separator by default, or a custom separator string can be specified in `separator` argument.</span></div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    Q_INVOKABLE <span class="keyword">static</span> QString appendLine(<span class="keyword">const</span> QString &amp;text, <span class="keyword">const</span> QString &amp;line, <span class="keywordtype">int</span> maxLines, <span class="keyword">const</span> QString &amp;separator = QStringLiteral(<span class="stringliteral">&quot;\n&quot;</span>))</div>
 <div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>    {</div>
-<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>      if (text.isEmpty() || maxLines &lt; 2)</div>
-<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>        return line;</div>
-<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>      auto v = text.splitRef(separator);</div>
-<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>      if (v.length() &lt; maxLines)</div>
-<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>        return text + separator + std::move(line);</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>      <span class="keywordflow">if</span> (text.isEmpty() || maxLines == 1)</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>        <span class="keywordflow">return</span> line;</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>      <span class="keyword">auto</span> v = QStringView(text).split(separator);</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>      <span class="keywordflow">if</span> (maxLines &lt; 1 || v.length() &lt; maxLines)</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>        <span class="keywordflow">return</span> text + separator + std::move(line);</div>
 <div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>      QString ret;</div>
 <div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>      QTextStream strm(&amp;ret, QIODevice::WriteOnly);</div>
 <div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>      v = v.mid(v.length() - maxLines + 1);</div>
-<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>      for (const QStringRef &amp;sv : qAsConst(v))</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;sv : qAsConst(v))</div>
 <div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>        strm &lt;&lt; sv.toString() &lt;&lt; separator;</div>
-<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>      return ret + std::move(line);</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>      <span class="keywordflow">return</span> ret + std::move(line);</div>
 <div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>    }</div>
-<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span><span class="comment"></span> </div>
-<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span><span class="comment">    //! Splits string `text` into lines based on `separator` and returns `maxLines` of text starting at `fromLine` (zero-based index).</span></div>
-<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span><span class="comment">    //! Default `maxLines` is 1,  `fromLine` is zero (the start) and default `separator` is &quot;\n&quot;. Specify a negative `fromLine` to count lines from the end</span></div>
-<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span><span class="comment">    //! instead of the beginning (so `-1` returns one line from the end). The result may be the complete input if there were fewer then `maxLines` found in it.</span></div>
-<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span><span class="comment"></span>    Q_INVOKABLE static QString getLines(const QString &amp;text, int maxLines = 1, int fromLine = 0, const QString &amp;separator = QStringLiteral(&quot;\n&quot;))</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span> </div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>    <span class="comment">// Splits string `text` into lines based on `separator` and returns `maxLines` of text starting at `fromLine` (zero-based index).</span></div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>    <span class="comment">// Default `maxLines` is 1,  `fromLine` is zero (the start) and default `separator` is &quot;\n&quot;. Specify a negative `fromLine` to count lines from the end</span></div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>    <span class="comment">// instead of the beginning (so `-1` returns one line from the end). The result may be the complete input if there were fewer then `maxLines` found in it.</span></div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>    Q_INVOKABLE <span class="keyword">static</span> QString getLines(<span class="keyword">const</span> QString &amp;text, <span class="keywordtype">int</span> maxLines = 1, <span class="keywordtype">int</span> fromLine = 0, <span class="keyword">const</span> QString &amp;separator = QStringLiteral(<span class="stringliteral">&quot;\n&quot;</span>))</div>
 <div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>    {</div>
-<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>      if (text.isEmpty())</div>
-<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>        return text;</div>
-<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>      if (maxLines &lt; 1)</div>
-<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>        return QString();</div>
-<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>      auto v = text.splitRef(separator);</div>
-<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>      if (fromLine &lt; 0)</div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>      <span class="keywordflow">if</span> (text.isEmpty())</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>        <span class="keywordflow">return</span> text;</div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>      <span class="keywordflow">if</span> (maxLines &lt; 1)</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>        <span class="keywordflow">return</span> QString();</div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>      <span class="keyword">auto</span> v = QStringView(text).split(separator);</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>      <span class="keywordflow">if</span> (fromLine &lt; 0)</div>
 <div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>        fromLine += v.length();</div>
-<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>      if (fromLine &lt; 0 || (fromLine + v.length() &lt;= maxLines))</div>
-<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>        return text;</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>      <span class="keywordflow">if</span> (fromLine &lt; 0 || (fromLine + v.length() &lt;= maxLines))</div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>        <span class="keywordflow">return</span> text;</div>
 <div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>      QString ret;</div>
 <div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>      QTextStream strm(&amp;ret, QIODevice::WriteOnly);</div>
 <div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>      v = v.mid(fromLine, maxLines);</div>
-<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>      for (const QStringRef &amp;sv : qAsConst(v))</div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;sv : qAsConst(v))</div>
 <div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>        strm &lt;&lt; sv.toString() &lt;&lt; separator;</div>
-<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>      return ret;</div>
-<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>    }</div>
-<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>*/<span class="comment"></span></div>
-<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span><span class="comment">    //! \}</span></div>
-<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span><span class="comment"></span> </div>
-<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>    <span class="comment">// \name Binary &lt;-&gt; Text data encoding/decoding</span></div>
-<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>    <span class="comment">// \{</span></div>
-<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>    <span class="comment">// Returns `data` bytes as base-64 encoded plain text (&quot;binary to ascii&quot;). Same as `toBase64()`.</span></div>
-<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>    Q_INVOKABLE <span class="keyword">static</span> QString btoa(<span class="keyword">const</span> QByteArray &amp;data)    { <span class="keywordflow">return</span> data.toBase64(); }</div>
-<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>    Q_INVOKABLE <span class="keyword">static</span> QString btoa(<span class="keyword">const</span> QString &amp;data)       { <span class="keywordflow">return</span> data.toLatin1().toBase64(); }</div>
-<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>    <span class="comment">// Returns `data` bytes as base-64 encoded plain text. Same as `btoa()`.</span></div>
-<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>    Q_INVOKABLE <span class="keyword">static</span> QString toBase64(<span class="keyword">const</span> QByteArray &amp;data)   { <span class="keywordflow">return</span> data.<a class="code hl_function" href="class_array_buffer.html#aba7b605c9d75b159455e8231fbb43ca7">toBase64</a>(); }</div>
-<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>    <span class="comment">// Decodes `data` bytes of base-64 encoded plain text and returns it as binary data (&quot;ascii to binary&quot;). Same as `fromBase64()` except takes an `ArrayBuffer` natively vs. needing to convert from a string.</span></div>
-<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>    Q_INVOKABLE <span class="keyword">static</span> QByteArray atob(<span class="keyword">const</span> QByteArray &amp;data)       { <span class="keywordflow">return</span> QByteArray::fromBase64(data); }</div>
-<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>    Q_INVOKABLE <span class="keyword">static</span> QByteArray atob(<span class="keyword">const</span> QString &amp;data)       { <span class="keywordflow">return</span> QByteArray::fromBase64(data.toUtf8()); }</div>
-<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>    <span class="comment">// Decodes `data` string of base-64 encoded plain text and returns it as binary data (&quot;ascii to binary&quot;). Same as `atob()` except a string input type natively vs. needing to convert from `ArrayBuffer` type.</span></div>
-<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>    Q_INVOKABLE <span class="keyword">static</span> QByteArray fromBase64(<span class="keyword">const</span> QString &amp;data) { <span class="keywordflow">return</span> QByteArray::fromBase64(data.toLatin1()); }</div>
-<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>    <span class="comment">// \}</span></div>
-<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span> </div>
-<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span><span class="comment"></span> </div>
-<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span><span class="comment">    //! \name URL helpers.</span></div>
-<div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span><span class="comment">    //! \{</span></div>
-<div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span><span class="comment"></span>    Q_INVOKABLE <span class="keyword">static</span> QString urlScheme(<span class="keyword">const</span> QString &amp;url)         { <span class="keywordflow">return</span> QUrl(url).scheme(); }</div>
-<div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span>    Q_INVOKABLE <span class="keyword">static</span> <span class="keywordtype">bool</span>    urlIsValid(<span class="keyword">const</span> QString &amp;url)        { <span class="keywordflow">return</span> QUrl(url).isValid(); }</div>
-<div class="line"><a id="l00458" name="l00458"></a><span class="lineno">  458</span>    Q_INVOKABLE <span class="keyword">static</span> <span class="keywordtype">bool</span>    urlIsEmpty(<span class="keyword">const</span> QString &amp;url)        { <span class="keywordflow">return</span> QUrl(url).isEmpty(); }</div>
-<div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span>    Q_INVOKABLE <span class="keyword">static</span> <span class="keywordtype">bool</span>    urlIsRelative(<span class="keyword">const</span> QString &amp;url)     { <span class="keywordflow">return</span> QUrl(url).isRelative(); }</div>
-<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>    Q_INVOKABLE <span class="keyword">static</span> <span class="keywordtype">bool</span>    urlIsLocalPath(<span class="keyword">const</span> QString &amp;url)    { <span class="keywordflow">return</span> QUrl(url).isLocalFile(); }</div>
-<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>    Q_INVOKABLE <span class="keyword">static</span> QString urlFromLocalPath(<span class="keyword">const</span> QString &amp;file) { <span class="keywordflow">return</span> QUrl::fromLocalFile(file).toString(); }</div>
-<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span>    Q_INVOKABLE <span class="keyword">static</span> QString urlToLocalPath(<span class="keyword">const</span> QString &amp;url)    { <span class="keywordflow">return</span> QDir::toNativeSeparators(QUrl(url).toString(QUrl::PreferLocalFile)); }<span class="comment"></span></div>
-<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span><span class="comment">    //! \}</span></div>
-<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span><span class="comment"></span> </div>
-<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>};</div>
-<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span> </div>
-<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span><span class="preprocessor">#ifndef DOXYGEN</span></div>
-<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>}  <span class="comment">// ScriptLib</span></div>
-<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span> </div>
-<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>Q_DECLARE_METATYPE(ScriptLib::Util *)</div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>      <span class="keywordflow">return</span> ret;</div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>    }<span class="comment"></span></div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span><span class="comment">    //! \}</span></div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span><span class="comment"></span> </div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    <span class="comment">// \name Binary &lt;-&gt; Text data encoding/decoding</span></div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>    <span class="comment">// \{</span></div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>    <span class="comment">// Returns `data` bytes as base-64 encoded plain text (&quot;binary to ascii&quot;). Same as `toBase64()`.</span></div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>    Q_INVOKABLE <span class="keyword">static</span> QString btoa(<span class="keyword">const</span> QByteArray &amp;data)    { <span class="keywordflow">return</span> data.toBase64(); }</div>
+<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>    Q_INVOKABLE <span class="keyword">static</span> QString btoa(<span class="keyword">const</span> QString &amp;data)       { <span class="keywordflow">return</span> data.toLatin1().toBase64(); }</div>
+<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>    <span class="comment">// Returns `data` bytes as base-64 encoded plain text. Same as `btoa()`.</span></div>
+<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>    Q_INVOKABLE <span class="keyword">static</span> QString toBase64(<span class="keyword">const</span> QByteArray &amp;data)   { <span class="keywordflow">return</span> data.<a class="code hl_function" href="class_array_buffer.html#aba7b605c9d75b159455e8231fbb43ca7">toBase64</a>(); }</div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>    <span class="comment">// Decodes `data` bytes of base-64 encoded plain text and returns it as binary data (&quot;ascii to binary&quot;). Same as `fromBase64()` except takes an `ArrayBuffer` natively vs. needing to convert from a string.</span></div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>    Q_INVOKABLE <span class="keyword">static</span> QByteArray atob(<span class="keyword">const</span> QByteArray &amp;data)       { <span class="keywordflow">return</span> QByteArray::fromBase64(data); }</div>
+<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>    Q_INVOKABLE <span class="keyword">static</span> QByteArray atob(<span class="keyword">const</span> QString &amp;data)       { <span class="keywordflow">return</span> QByteArray::fromBase64(data.toUtf8()); }</div>
+<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>    <span class="comment">// Decodes `data` string of base-64 encoded plain text and returns it as binary data (&quot;ascii to binary&quot;). Same as `atob()` except a string input type natively vs. needing to convert from `ArrayBuffer` type.</span></div>
+<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>    Q_INVOKABLE <span class="keyword">static</span> QByteArray fromBase64(<span class="keyword">const</span> QString &amp;data) { <span class="keywordflow">return</span> QByteArray::fromBase64(data.toLatin1()); }</div>
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>    <span class="comment">// \}</span></div>
+<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span> </div>
+<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span><span class="comment"></span> </div>
+<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span><span class="comment">    //! \name URL helpers.</span></div>
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span><span class="comment">    //! \{</span></div>
+<div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span><span class="comment"></span>    Q_INVOKABLE <span class="keyword">static</span> QString urlScheme(<span class="keyword">const</span> QString &amp;url)         { <span class="keywordflow">return</span> QUrl(url).scheme(); }</div>
+<div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span>    Q_INVOKABLE <span class="keyword">static</span> <span class="keywordtype">bool</span>    urlIsValid(<span class="keyword">const</span> QString &amp;url)        { <span class="keywordflow">return</span> QUrl(url).isValid(); }</div>
+<div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span>    Q_INVOKABLE <span class="keyword">static</span> <span class="keywordtype">bool</span>    urlIsEmpty(<span class="keyword">const</span> QString &amp;url)        { <span class="keywordflow">return</span> QUrl(url).isEmpty(); }</div>
+<div class="line"><a id="l00458" name="l00458"></a><span class="lineno">  458</span>    Q_INVOKABLE <span class="keyword">static</span> <span class="keywordtype">bool</span>    urlIsRelative(<span class="keyword">const</span> QString &amp;url)     { <span class="keywordflow">return</span> QUrl(url).isRelative(); }</div>
+<div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span>    Q_INVOKABLE <span class="keyword">static</span> <span class="keywordtype">bool</span>    urlIsLocalPath(<span class="keyword">const</span> QString &amp;url)    { <span class="keywordflow">return</span> QUrl(url).isLocalFile(); }</div>
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>    Q_INVOKABLE <span class="keyword">static</span> QString urlFromLocalPath(<span class="keyword">const</span> QString &amp;file) { <span class="keywordflow">return</span> QUrl::fromLocalFile(file).toString(); }</div>
+<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>    Q_INVOKABLE <span class="keyword">static</span> QString urlToLocalPath(<span class="keyword">const</span> QString &amp;url)    { <span class="keywordflow">return</span> QDir::toNativeSeparators(QUrl(url).toString(QUrl::PreferLocalFile)); }<span class="comment"></span></div>
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span><span class="comment">    //! \}</span></div>
+<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span><span class="comment"></span> </div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>};</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span> </div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span><span class="preprocessor">#ifndef DOXYGEN</span></div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>}  <span class="comment">// ScriptLib</span></div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span> </div>
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span>Q_DECLARE_METATYPE(ScriptLib::Util *)</div>
 <div class="ttc" id="aclass_array_buffer_html_aba7b605c9d75b159455e8231fbb43ca7"><div class="ttname"><a href="class_array_buffer.html#aba7b605c9d75b159455e8231fbb43ca7">ArrayBuffer::toBase64</a></div><div class="ttdeci">string toBase64()</div><div class="ttdoc">Returns the contents of this buffer as a Base64-encoded string.</div><div class="ttdef"><b>Definition:</b> collections.js:38</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -605,7 +604,7 @@ $(document).ready(function(){initNavTree('_util_8h_source.html',''); initResizab
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_63fff2316be25e2c0e390b6865562344.html">ScriptingLibrary</a></li><li class="navelem"><b>Util.h</b></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

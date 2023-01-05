@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -136,16 +136,16 @@ $(document).ready(function(){initNavTree('class_locale.html',''); initResizable(
 <p >The global <code><a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a></code> function returns a JS <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object representing the locale with the specified name, which has the format <code>language[_territory][.codeset][@modifier]</code> or <code>C</code>.</p>
 <p ><a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> supports the concept of a default locale, which is determined from the system's locale settings at application startup. If no parameter is passed to <a class="el" href="class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588" title="Returns a JS object representing the locale with the specified name, which has the format &quot;language[_...">locale()</a> the default locale object is returned.</p>
 <p >The <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object provides a number of functions and properties providing data for the specified locale.</p>
-<p >The <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object may also be passed to the <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> and <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a> <a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530" title="Converts the Date to a string containing the date and time suitable for the specified locale in the s...">toLocaleString()</a> and <a class="el" href="class_date.html#aa4404710151b2c75190b098631355cee" title="Converts the date string dateTimeString to a Date object using given locale and format.">fromLocaleString()</a> methods in order to convert to/from strings using the specified locale.</p>
+<p >The <a class="el" href="class_locale.html" title="Provides locale specific properties and formatted data.">Locale</a> object may also be passed to the <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> and <a class="el" href="class_number.html" title="A few convenience methods to extend the standard Number prototype.">Number</a> <a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530" title="Converts the Date to a string containing the date and time suitable for the specified locale in the s...">toLocaleString()</a> and <a class="el" href="class_date.html#aa4404710151b2c75190b098631355cee" title="Converts the date string dateTimeString to a Date object using given locale and format.">fromLocaleString()</a> methods in order to convert to/from strings using the specified locale.</p>
 <p >This example shows the current date formatted for the German locale: </p><div class="fragment"><div class="line">var text = <span class="stringliteral">&quot;The value is: &quot;</span> + <a class="code hl_class" href="class_date.html">Date</a>().<a class="code hl_function" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530">toLocaleString</a>(locale(<span class="stringliteral">&quot;de_DE&quot;</span>));</div>
-<div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods.</div></div>
+<div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods</div></div>
 <div class="ttc" id="aclass_date_html_a1275fa6408c29c9b9fafe664886f7530"><div class="ttname"><a href="class_date.html#a1275fa6408c29c9b9fafe664886f7530">Date::toLocaleString</a></div><div class="ttdeci">string toLocaleString(locale, format)</div><div class="ttdoc">Converts the Date to a string containing the date and time suitable for the specified locale in the s...</div></div>
 </div><!-- fragment --><p >The following example displays the specified number in the correct format for the default locale: </p><div class="fragment"><div class="line">var text = <span class="stringliteral">&quot;The value is: &quot;</span> + <a class="code hl_class" href="class_number.html">Number</a>(23443.34).<a class="code hl_function" href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">toLocaleString</a>(locale())</div>
-<div class="ttc" id="aclass_number_html"><div class="ttname"><a href="class_number.html">Number</a></div><div class="ttdoc">A few convenience methods to extend Number prototype.</div></div>
+<div class="ttc" id="aclass_number_html"><div class="ttname"><a href="class_number.html">Number</a></div><div class="ttdoc">A few convenience methods to extend the standard Number prototype.</div></div>
 <div class="ttc" id="aclass_number_html_ae3b0479a975b36c5ef3adfd4622110d3"><div class="ttname"><a href="class_number.html#ae3b0479a975b36c5ef3adfd4622110d3">Number::toLocaleString</a></div><div class="ttdeci">string toLocaleString(locale, format, precision)</div><div class="ttdoc">Converts the Number to a string suitable for the specified locale in the specified format,...</div></div>
 </div><!-- fragment --><h2><a class="anchor" id="locale-format-type"></a>
 Locale String Format Types</h2>
-<p >The <a class="el" href="class_locale.html#a799650b82c8d5db7f1fb2144d3895555" title="Returns the localized name of month (0-11), in the optional locale-format-type specified by type.">monthName()</a>, <a class="el" href="class_locale.html#a29fa6f3404885df63ec68007f4758ad6" title="Returns the localized name of month (0-11) that is used as a standalone text, in the optional Locale ...">standaloneMonthName()</a>, <a class="el" href="class_locale.html#ac7d6d31a4c2175f3622605627498be3c" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on),...">dayName()</a> and <a class="el" href="class_locale.html#adcf823d8d4b6c445aeeed27e7fd7d178" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on) that...">standaloneDayName()</a> can use the following enumeration values to specify the formatting of the string representation for a <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> object.</p>
+<p >The <a class="el" href="class_locale.html#a799650b82c8d5db7f1fb2144d3895555" title="Returns the localized name of month (0-11), in the optional locale-format-type specified by type.">monthName()</a>, <a class="el" href="class_locale.html#a29fa6f3404885df63ec68007f4758ad6" title="Returns the localized name of month (0-11) that is used as a standalone text, in the optional Locale ...">standaloneMonthName()</a>, <a class="el" href="class_locale.html#ac7d6d31a4c2175f3622605627498be3c" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on),...">dayName()</a> and <a class="el" href="class_locale.html#adcf823d8d4b6c445aeeed27e7fd7d178" title="Returns the localized name of the day (where 0 represents Sunday, 1 represents Monday and so on) that...">standaloneDayName()</a> can use the following enumeration values to specify the formatting of the string representation for a <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> object.</p>
 <ul>
 <li><code>Locale.LongFormat</code> The long version of day and month names; for example, returning "January" as a month name.</li>
 <li><code>Locale.ShortFormat</code> The short version of day and month names; for example, returning "Jan" as a month name.</li>
@@ -153,7 +153,7 @@ Locale String Format Types</h2>
 </ul>
 <h2><a class="anchor" id="locale-date-format"></a>
 Date format specifiers</h2>
-<p >Besides the fixed format types listed above, a format string passed to the various <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> formatting functions (<code><a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530" title="Converts the Date to a string containing the date and time suitable for the specified locale in the s...">Date.toLocaleString()</a></code> and family) specifies a format string, it should use the following expressions to specify the date: </p><table class="generic">
+<p >Besides the fixed format types listed above, a format string passed to the various <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> formatting functions (<code><a class="el" href="class_date.html#a1275fa6408c29c9b9fafe664886f7530" title="Converts the Date to a string containing the date and time suitable for the specified locale in the s...">Date.toLocaleString()</a></code> and family) specifies a format string, it should use the following expressions to specify the date: </p><table class="generic">
 <tr class="qt-style">
 <th>Expression</th><th>Output </th></tr>
 <tr class="odd" valign="top">
@@ -207,7 +207,7 @@ Date format specifiers</h2>
 <p >For example, if the following date/time value was specified:</p>
 <div class="fragment"><div class="line"><span class="comment">// 21 May 2001 14:13:09</span></div>
 <div class="line">var dateTime = <span class="keyword">new</span> <a class="code hl_class" href="class_date.html">Date</a>(2001, 5, 21, 14, 13, 09);</div>
-</div><!-- fragment --><p >This <em>dateTime</em> value could be passed to various <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> formatting functions with values below to produce the following results:</p>
+</div><!-- fragment --><p >This <em>dateTime</em> value could be passed to various <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> formatting functions with values below to produce the following results:</p>
 <table class="generic">
 <tr class="qt-style">
 <th>Format</th><th>Result </th></tr>
@@ -220,7 +220,7 @@ Date format specifiers</h2>
 <tr class="even" valign="top">
 <td>"h:m:s ap"</td><td>2:13:9 pm </td></tr>
 </table>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods">Date</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend the standard Number prototype.">Number</a></dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>This documentation is originally from the Qt library's <code>QQmlLocale</code> class, used under the GNU Free Documentation License. <br  />
  Locale's data is based on <em>Common Locale Data Repository</em> v1.8.1. <pre class="fragment">  Copyright (c) 1991 by AT&amp;T.
 
@@ -799,7 +799,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the date time format used for the current locale. </p>
-<p ><em>type</em> specifies the <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> </dd></dl>
+<p ><em>type</em> specifies the <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> </dd></dl>
 
 </div>
 </div>
@@ -820,7 +820,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the date format used for the current locale. </p>
-<p ><em>type</em> specifies the <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> </dd></dl>
+<p ><em>type</em> specifies the <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> </dd></dl>
 
 </div>
 </div>
@@ -841,7 +841,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the time format used for the current locale. </p>
-<p ><em>type</em> specifies the <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a> </dd></dl>
+<p ><em>type</em> specifies the <a class="el" href="class_locale.html#locale-format-type">Locale String Format Types</a> to return. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> </dd></dl>
 
 </div>
 </div>
@@ -976,7 +976,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_locale.html">Locale</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -185,11 +185,12 @@ Functions</h2></td></tr>
 <p >Basic example of sending an image to Touch Portal for use as an icon: </p><div class="fragment"><div class="line"><a class="code hl_namespace" href="namespace_net.html">Net</a>.fetch(<span class="stringliteral">&quot;https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png&quot;</span>)</div>
 <div class="line">.then(response =&gt; response.base64())</div>
 <div class="line">.then((b64data) =&gt; {</div>
-<div class="line">    <a class="code hl_namespace" href="namespace_t_p.html">TP</a>.stateUpdate(b64data);</div>
+<div class="line">    <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="group___t_p_a_p_i.html#ga9a7f39df44a32f7073aee63a76d68935">stateUpdate</a>(b64data);</div>
 <div class="line">})</div>
 <div class="line">.<span class="keywordflow">catch</span>((e) =&gt; { console.error(e); })</div>
+<div class="ttc" id="aclass_t_p_html"><div class="ttname"><a href="class_t_p.html">TP</a></div><div class="ttdoc">The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...</div><div class="ttdef"><b>Definition:</b> touchportal.dox:7</div></div>
+<div class="ttc" id="agroup___t_p_a_p_i_html_ga9a7f39df44a32f7073aee63a76d68935"><div class="ttname"><a href="group___t_p_a_p_i.html#ga9a7f39df44a32f7073aee63a76d68935">TP::stateUpdate</a></div><div class="ttdeci">void stateUpdate(String value)</div><div class="ttdoc">Send a State update to Touch Portal with given value for the current script instance.</div></div>
 <div class="ttc" id="anamespace_net_html"><div class="ttname"><a href="namespace_net.html">Net</a></div><div class="ttdoc">The Net namespace contains static functions for working with network requests.</div><div class="ttdef"><b>Definition:</b> fetch.dox:4</div></div>
-<div class="ttc" id="anamespace_t_p_html"><div class="ttname"><a href="namespace_t_p.html">TP</a></div><div class="ttdoc">Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...</div></div>
 </div><!-- fragment --><p >See <a class="el" href="example_fetch_and_notify.html">Fetch and Notify</a> for a more complete example using JSON a data request. </p>
 
 </div>
@@ -226,7 +227,7 @@ Functions</h2></td></tr>
 <p >Unless the <code><a class="el" href="class_request.html#aca4d890d4e5c2adc392b4560ec07b8d9" title="This options only applies to Net.request().">Request.noThrow</a></code> option is set to <code>true</code>, synchronous requests may throw one of the <code>DOMException</code> types mentioned in the <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> documentation, or a <code>TypeError</code> or <code>ReferenceError</code> if invalid options are passed or an exception is caught during configuration of the underlying <code>XMLHttpRequest</code> object.</p>
 <p >Here is a synchronous version of the <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> example above: </p><div class="fragment"><div class="line"><span class="keywordflow">try</span> {</div>
 <div class="line">  <span class="keyword">const</span> b64data = <a class="code hl_namespace" href="namespace_net.html">Net</a>.request(<span class="stringliteral">&quot;https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png&quot;</span>).get().base64();</div>
-<div class="line">  <a class="code hl_namespace" href="namespace_t_p.html">TP</a>.stateUpdate(b64data);</div>
+<div class="line">  <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="group___t_p_a_p_i.html#ga9a7f39df44a32f7073aee63a76d68935">stateUpdate</a>(b64data);</div>
 <div class="line">}</div>
 <div class="line"><span class="keywordflow">catch</span> (e) { console.error(e); }</div>
 </div><!-- fragment --><p >If error trapping isn't important, the image data could be returned directly from a single-line expression.</p>
@@ -241,7 +242,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespace_net.html">Net</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

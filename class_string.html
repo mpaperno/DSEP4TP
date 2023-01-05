@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -125,12 +125,13 @@ $(document).ready(function(){initNavTree('class_string.html',''); initResizable(
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_string-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">String<div class="ingroups"><a class="el" href="group___j_s_ext.html">JavaScript Object Extensions</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p >Extends <a class="el" href="class_string.html" title="Extends String object.">String</a> object. </p>
+<div class="textblock"><p >Extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank">String</a> object. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -140,6 +141,17 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a45f4c919dfa7b9606e5879d216ab416d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98e25bb1989aab4c3bedd6068c7b1a4e"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_string.html#a98e25bb1989aab4c3bedd6068c7b1a4e">simplified</a> ()</td></tr>
 <tr class="separator:a98e25bb1989aab4c3bedd6068c7b1a4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab59b43907986e8261cb52502dde01807"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_string.html#ab59b43907986e8261cb52502dde01807">appendLine</a> (<a class="el" href="class_string.html">String</a> line, int maxLines, separator='\n')</td></tr>
+<tr class="separator:ab59b43907986e8261cb52502dde01807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01d64a40d4b7e1ddac8408d3651d59fa"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_string.html#a01d64a40d4b7e1ddac8408d3651d59fa">getLines</a> (int maxLines, int fromLine=0, <a class="el" href="class_string.html">String</a> separator='\n')</td></tr>
+<tr class="separator:a01d64a40d4b7e1ddac8408d3651d59fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a057dc130908b3fab4a0471ccd2a53f66"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_string.html#a057dc130908b3fab4a0471ccd2a53f66">appendLine</a> (<a class="el" href="class_string.html">String</a> text, <a class="el" href="class_string.html">String</a> line, int maxLines, <a class="el" href="class_string.html">String</a> separator='\n')</td></tr>
+<tr class="separator:a057dc130908b3fab4a0471ccd2a53f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade93873d0adaaeaadfcfeed7a6337ac0"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_string.html#ade93873d0adaaeaadfcfeed7a6337ac0">getLines</a> (<a class="el" href="class_string.html">String</a> text, int maxLines, int fromLine=0, <a class="el" href="class_string.html">String</a> separator='\n')</td></tr>
+<tr class="separator:ade93873d0adaaeaadfcfeed7a6337ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a15c6d638aa8030c022876d6338220f7d" name="a15c6d638aa8030c022876d6338220f7d"></a>
@@ -163,7 +175,7 @@ Public Member Functions</h2></td></tr>
 <p >The following example prints "There are 20 items": </p><div class="fragment"><div class="line">var message = <span class="stringliteral">&quot;There are %1 items&quot;</span></div>
 <div class="line">var count = 20</div>
 <div class="line">console.log(message.arg(count))</div>
-</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any, using .NET-style formatting synta...">String.format()</a></code>, <code><a class="el" href="class_global.html#a4bdf4eafc63766384d4e1a6d604ab9b5" title="For formatting strings, works like the classic C printf() function.">sprintf()</a></code> </dd></dl>
+</div><!-- fragment --> <dl class="section see"><dt>See also</dt><dd><code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any, using .NET-style formatting synta...">String.format()</a></code>, <code><a class="el" href="class_global.html#aa4c3e7234b2093ab35795ec8e12751fd" title="For formatting strings, works like the classic C printf() function.">sprintf()</a></code> </dd></dl>
 
 </div>
 </div>
@@ -207,14 +219,14 @@ Public Member Functions</h2></td></tr>
 <div class="line">    <span class="stringliteral">&quot;John Doe&quot;</span>, <span class="keyword">new</span> <a class="code hl_class" href="class_date.html">Date</a>(1985, 3, 7, 12, 33)</div>
 <div class="line">);</div>
 <div class="line"><span class="comment">// output: &quot;Welcome back, John Doe! Last seen April 07&quot;</span></div>
-<div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods.</div></div>
+<div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods</div></div>
 <div class="ttc" id="aclass_string_html"><div class="ttname"><a href="class_string.html">String</a></div><div class="ttdoc">Extends String object.</div></div>
 <div class="ttc" id="aclass_string_html_a45f4c919dfa7b9606e5879d216ab416d"><div class="ttname"><a href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String::format</a></div><div class="ttdeci">string format(format, args)</div><div class="ttdoc">Formats format string using the provided arguments in args, if any, using .NET-style formatting synta...</div></div>
-</div><!-- fragment --><p >There is also a convenience global function available as an alias, named simply <code><a class="el" href="class_global.html#acd5e884df6b19a0c00b5747908e20d5d" title="Equivalent to the String.format() extension method.">Format()</a></code>. It works identically to <code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any, using .NET-style formatting synta...">String.format()</a></code> but is shorter to type.</p>
+</div><!-- fragment --><p >There is also a convenience global function available as an alias, named simply <code><a class="el" href="class_global.html#a27f7e21ddf66fa9aaaf37ec4734f504c" title="Equivalent to the String.format() extension method.">Format()</a></code>. It works identically to <code><a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d" title="Formats format string using the provided arguments in args, if any, using .NET-style formatting synta...">String.format()</a></code> but is shorter to type.</p>
 <p >See formatting string reference at <br  />
  <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/formatting-types">https://learn.microsoft.com/en-us/dotnet/standard/base-types/formatting-types</a></p>
 <p >This extension is originally from the <a href="https://github.com/dmester/sffjs" target="_blank">String.format for JavaScript</a> project. There are some examples and references available at that site. The original <code>sffjs</code> object referenced in their documentation is available in this script engine as <code>Sffjs</code>.</p>
-<dl class="section see"><dt>See also</dt><dd><code><a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this number according the specified .NET-style format string.">Number.format()</a></code>, <code><a class="el" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this date according the specified .NET-style format string.">Date.format()</a></code>, and <code><a class="el" href="class_global.html#a4bdf4eafc63766384d4e1a6d604ab9b5" title="For formatting strings, works like the classic C printf() function.">sprintf()</a></code> for "printf-style" string formatting. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><code><a class="el" href="class_number.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this number according the specified .NET-style format string.">Number.format()</a></code>, <code><a class="el" href="class_date.html#a3be6b4afd282be1b08ed226cc97ff34a" title="Formats this date according the specified .NET-style format string.">Date.format()</a></code>, and <code><a class="el" href="class_global.html#aa4c3e7234b2093ab35795ec8e12751fd" title="For formatting strings, works like the classic C printf() function.">sprintf()</a></code> for "printf-style" string formatting. </dd></dl>
 
 </div>
 </div>
@@ -240,6 +252,182 @@ Public Member Functions</h2></td></tr>
 </div><!-- fragment --> 
 </div>
 </div>
+<a id="ab59b43907986e8261cb52502dde01807" name="ab59b43907986e8261cb52502dde01807"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab59b43907986e8261cb52502dde01807">&#9670;&nbsp;</a></span>appendLine() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string appendLine </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxLines</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>separator</em> = <code>'\n'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Appends string <code>line</code> to current string, and returns a new block with up to <code>maxLines</code> lines. </p>
+<p >If <code>maxLines</code> is zero or negative, returns the full resulting string. The newline (<code>\n</code>) is used as separator by default, or a custom separator string can be specified in <code>separator</code> argument. </p>
+
+</div>
+</div>
+<a id="a057dc130908b3fab4a0471ccd2a53f66" name="a057dc130908b3fab4a0471ccd2a53f66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a057dc130908b3fab4a0471ccd2a53f66">&#9670;&nbsp;</a></span>appendLine() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string appendLine </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxLines</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>separator</em> = <code>'\n'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Appends string <code>line</code> to <code>text</code> and returns a new block with up to <code>maxLines</code> lines. </p>
+<p >Static version of <code>String.prototype.appendLine()</code>, above. Used, for example, like this: <code><a class="el" href="class_string.html#ab59b43907986e8261cb52502dde01807" title="Appends string line to current string, and returns a new block with up to maxLines lines.">String.appendLine</a>("Original string", "New line to append", 4)</code> </p>
+
+</div>
+</div>
+<a id="a01d64a40d4b7e1ddac8408d3651d59fa" name="a01d64a40d4b7e1ddac8408d3651d59fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01d64a40d4b7e1ddac8408d3651d59fa">&#9670;&nbsp;</a></span>getLines() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string getLines </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxLines</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fromLine</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>separator</em> = <code>'\n'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Splits string <code>text</code> into lines based on <code>separator</code> and returns <code>maxLines</code> of text starting at <code>fromLine</code> (zero-based index). </p>
+<p >Default <code>maxLines</code> is 1, <code>fromLine</code> is zero (the start) and default <code>separator</code> is "\n". Specify a negative <code>fromLine</code> to count lines from the end instead of the beginning (so <code>-1</code> returns one line from the end). The result may be the complete input if there were fewer then <code>maxLines</code> found in it. </p>
+
+</div>
+</div>
+<a id="ade93873d0adaaeaadfcfeed7a6337ac0" name="ade93873d0adaaeaadfcfeed7a6337ac0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade93873d0adaaeaadfcfeed7a6337ac0">&#9670;&nbsp;</a></span>getLines() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string getLines </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxLines</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fromLine</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>separator</em> = <code>'\n'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Splits string <code>text</code> into lines based on <code>separator</code> and returns <code>maxLines</code> of text starting at <code>fromLine</code> (zero-based index). </p>
+<p >Static version of <code>String.prototype.getLines()</code>, above. Used, for example, like this: <code><a class="el" href="class_string.html#a01d64a40d4b7e1ddac8408d3651d59fa" title="Splits string text into lines based on separator and returns maxLines of text starting at fromLine (z...">String.getLines</a>("Text\nWith some\nLines\n", 1, -1)</code> </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.4-->
@@ -247,7 +435,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_string.html">String</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

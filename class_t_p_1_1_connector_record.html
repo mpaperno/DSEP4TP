@@ -1,0 +1,420 @@
+<!-- HTML header for doxygen 1.9.4-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dynamic Script Engine Plugin for Touch Portal: ConnectorRecord</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md11']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/mpaperno/DSEP4TP" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" fill="url(#gradient)"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    <linearGradient id="gradient" x1="0.5" x2="0.5" y1="0" y2="1">
+        <stop class="first-stop" offset="0%"></stop>
+        <stop class="last-stop" offset="100%"></stop>
+    </linearGradient>
+    </svg>
+</a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
+  <td id="projectalign">
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.0-alpha.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_t_p_1_1_connector_record.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#properties">Properties</a> &#124;
+<a href="class_t_p_1_1_connector_record-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">ConnectorRecord</div></div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><p >The <a class="el" href="class_t_p_1_1_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a> object holds information about a Touch Portal Connector (Slider) instance. </p>
+<p >These instances are reported by Touch Portal in the plugin API <code>shortConnectorIdNotification</code> message. These messages are parsed by the plugin and stored for future reference as objects in a database. The <code><a class="el" href="class_t_p_1_1_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> represents such a stored object.</p>
+<p >Instances of <code>ConnectorRecrord</code> are obtained by calls to <code><a class="el" href="namespace_t_p.html" title="Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...">TP</a></code> class functions like <code><a class="el" href="namespace_t_p.html#addb55ad8f327b7021bcf6e1b80834a49" title="Returns zero or more ConnectorRecord objects based on the given criteria from the currently logged co...">TP.getConnectorRecords()</a></code>. Objects of this type cannot be created directly.</p>
+<p >All properties are read-only.</p>
+<dl class="section see"><dt>See also</dt><dd>ConnectorData, <a href="https://www.touch-portal.com/api/index.php?section=connectors" target="_blank">Touch Portal Connectors API</a> for reference. </dd></dl>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a86f83b50dcefb231d14efcc4665763e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#a86f83b50dcefb231d14efcc4665763e0">instanceName</a></td></tr>
+<tr class="separator:a86f83b50dcefb231d14efcc4665763e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b16c4a2613c4185fdfe3b1335aef4ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#a5b16c4a2613c4185fdfe3b1335aef4ef">actionType</a></td></tr>
+<tr class="separator:a5b16c4a2613c4185fdfe3b1335aef4ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89061d7827fc1ac6effecb624bfbc91d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#a89061d7827fc1ac6effecb624bfbc91d">inputType</a></td></tr>
+<tr class="separator:a89061d7827fc1ac6effecb624bfbc91d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7db9a71a3954fa572de18e1e4e3e9838"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#a7db9a71a3954fa572de18e1e4e3e9838">expression</a></td></tr>
+<tr class="separator:a7db9a71a3954fa572de18e1e4e3e9838"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a238624645ad28e87a30b21a05331875c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#a238624645ad28e87a30b21a05331875c">file</a></td></tr>
+<tr class="separator:a238624645ad28e87a30b21a05331875c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8ca82b140b959b3f1f36d1d49b93343"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#ae8ca82b140b959b3f1f36d1d49b93343">alias</a></td></tr>
+<tr class="separator:ae8ca82b140b959b3f1f36d1d49b93343"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bf6cbb8146626a6fc584c6d08be9f49"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#a9bf6cbb8146626a6fc584c6d08be9f49">instanceType</a></td></tr>
+<tr class="separator:a9bf6cbb8146626a6fc584c6d08be9f49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a983b5d612bc6e0b1ba4369d304ab2197"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#a983b5d612bc6e0b1ba4369d304ab2197">defaultType</a></td></tr>
+<tr class="separator:a983b5d612bc6e0b1ba4369d304ab2197"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a7009d98eadb866597cb3f57254b8a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#a8a7009d98eadb866597cb3f57254b8a3">defaultValue</a></td></tr>
+<tr class="separator:a8a7009d98eadb866597cb3f57254b8a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc3d6198fc072f4a88070b36edb1a9c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#adc3d6198fc072f4a88070b36edb1a9c6">connectorId</a></td></tr>
+<tr class="separator:adc3d6198fc072f4a88070b36edb1a9c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd775767e458ce3e3ab564e08216f074"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#abd775767e458ce3e3ab564e08216f074">shortId</a></td></tr>
+<tr class="separator:abd775767e458ce3e3ab564e08216f074"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa434daa60aff3350306abb5bda360060"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#aa434daa60aff3350306abb5bda360060">timestamp</a></td></tr>
+<tr class="separator:aa434daa60aff3350306abb5bda360060"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2f61ee5e6b7b211ecfd6f7bf0c10f1b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_1_1_connector_record.html#af2f61ee5e6b7b211ecfd6f7bf0c10f1b">isNull</a></td></tr>
+<tr class="separator:af2f61ee5e6b7b211ecfd6f7bf0c10f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a86f83b50dcefb231d14efcc4665763e0" name="a86f83b50dcefb231d14efcc4665763e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86f83b50dcefb231d14efcc4665763e0">&#9670;&nbsp;</a></span>instanceName</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> instanceName</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The State Name of the connector. This may be "ANONYMOUS" for sliders using the "Anonymous (One-Time) Script" connector/action. </p>
+
+</div>
+</div>
+<a id="a5b16c4a2613c4185fdfe3b1335aef4ef" name="a5b16c4a2613c4185fdfe3b1335aef4ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b16c4a2613c4185fdfe3b1335aef4ef">&#9670;&nbsp;</a></span>actionType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> actionType</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of connector action. Enumeration type, one of: "Eval", "Load", "Import", "Update", "OneTime" <b>Note:</b> When using this field in search criteria, the search value must be exactly one of the choices listed above, including case. No wildcards are allowed. </p>
+
+</div>
+</div>
+<a id="a89061d7827fc1ac6effecb624bfbc91d" name="a89061d7827fc1ac6effecb624bfbc91d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89061d7827fc1ac6effecb624bfbc91d">&#9670;&nbsp;</a></span>inputType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> inputType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The type of scripting action. Enumeration type, one of: "Expression", "Script", "Module", "Unknown" (for Update type actions) <b>Note:</b> When using this field in search criteria, the search value must be exactly one of the choices listed above, including case. No wildcards are allowed. </p>
+
+</div>
+</div>
+<a id="a7db9a71a3954fa572de18e1e4e3e9838" name="a7db9a71a3954fa572de18e1e4e3e9838"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7db9a71a3954fa572de18e1e4e3e9838">&#9670;&nbsp;</a></span>expression</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> expression</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The full expression string of the connector. This is exactly as entered in the slider setup, no variables or code is evaluated. </p>
+
+</div>
+</div>
+<a id="a238624645ad28e87a30b21a05331875c" name="a238624645ad28e87a30b21a05331875c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a238624645ad28e87a30b21a05331875c">&#9670;&nbsp;</a></span>file</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> file</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The script/module file as specified in the connector, if any. Only Script and Module connector types will have a file. </p>
+
+</div>
+</div>
+<a id="ae8ca82b140b959b3f1f36d1d49b93343" name="ae8ca82b140b959b3f1f36d1d49b93343"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8ca82b140b959b3f1f36d1d49b93343">&#9670;&nbsp;</a></span>alias</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> alias</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The module import alias as specified in the connector. Only Module type connects will have an alias. </p>
+
+</div>
+</div>
+<a id="a9bf6cbb8146626a6fc584c6d08be9f49" name="a9bf6cbb8146626a6fc584c6d08be9f49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bf6cbb8146626a6fc584c6d08be9f49">&#9670;&nbsp;</a></span>instanceType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> instanceType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This is the Engine Instance type specified in the connector. One of: "Shared" or "Private". </p>
+
+</div>
+</div>
+<a id="a983b5d612bc6e0b1ba4369d304ab2197" name="a983b5d612bc6e0b1ba4369d304ab2197"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a983b5d612bc6e0b1ba4369d304ab2197">&#9670;&nbsp;</a></span>defaultType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> defaultType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The Create State at Startup type specified in the connector. Enumeration type, one of: "NoDefault", "FixedValue", "CustomExpression", "MainExpression" <b>Note:</b> When using this field in search criteria, the search value must be exactly one of the choices listed above, including case. No wildcards are allowed. </p>
+
+</div>
+</div>
+<a id="a8a7009d98eadb866597cb3f57254b8a3" name="a8a7009d98eadb866597cb3f57254b8a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a7009d98eadb866597cb3f57254b8a3">&#9670;&nbsp;</a></span>defaultValue</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> defaultValue</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The Default Value/Expression specified in the connector setup. </p>
+
+</div>
+</div>
+<a id="adc3d6198fc072f4a88070b36edb1a9c6" name="adc3d6198fc072f4a88070b36edb1a9c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc3d6198fc072f4a88070b36edb1a9c6">&#9670;&nbsp;</a></span>connectorId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> connectorId</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The full connectorId which Touch Portal uses to identify this type of connector action type. </p>
+
+</div>
+</div>
+<a id="abd775767e458ce3e3ab564e08216f074" name="abd775767e458ce3e3ab564e08216f074"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd775767e458ce3e3ab564e08216f074">&#9670;&nbsp;</a></span>shortId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> shortId</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The "short connector ID" assigned by Touch Portal to this partulcar instance of a slider. This is the ID to be used for sending <a class="el" href="namespace_t_p.html#ae18d5fec12d5b68429d55edd2362f65f" title="Sends a connector (slider) update with given value which should be an integer in the range of 0 - 100...">connectorUpdate()</a> messages back to Touch Portal. </p>
+
+</div>
+</div>
+<a id="aa434daa60aff3350306abb5bda360060" name="aa434daa60aff3350306abb5bda360060"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa434daa60aff3350306abb5bda360060">&#9670;&nbsp;</a></span>timestamp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int timestamp</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A timestamp of when the notifaction about this connector was received from Touch Portal. The format is the common "milliseconds since epoch". The latest notification will typically mean that slider actually exists in the user's page, whereas previous versions may or may not still exist. Touch Portal does not notify when a connector was removed. <b>Note:</b> This property cannot currently be used in search queries. </p>
+
+</div>
+</div>
+<a id="af2f61ee5e6b7b211ecfd6f7bf0c10f1b" name="af2f61ee5e6b7b211ecfd6f7bf0c10f1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2f61ee5e6b7b211ecfd6f7bf0c10f1b">&#9670;&nbsp;</a></span>isNull</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isNull</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>true</code> if this record holds no value (eg. the result of a failed database lookup); <code>false</code> if this record is valid. <b>Note:</b> This property cannot be used in search queries. </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.4-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespace_t_p.html">TP</a></li><li class="navelem"><a class="el" href="class_t_p_1_1_connector_record.html">ConnectorRecord</a></li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.0-alpha.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
+</body>
+</html>

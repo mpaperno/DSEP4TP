@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -179,11 +179,11 @@ $(document).ready(function(){initNavTree('example_tail.html',''); initResizable(
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    statusStateId = newStatusStateId;</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="comment">// The arguments are: the State ID (must be unique), parent category name (within this plugin&#39;s categories, or a new one),</span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="comment">// a description/name for the new state (shown in TP UI), and finally the default value (0 for inactive, 1 for active).</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <a class="code hl_namespace" href="namespace_t_p.html">TP</a>.stateCreate(statusStateId, <span class="stringliteral">&quot;Dynamic Values&quot;</span>, DSE.INSTANCE_NAME + <span class="stringliteral">&quot; Active&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="group___t_p_a_p_i.html#ga63d93ca8505b73aa4a1903375d9b484f">stateCreate</a>(statusStateId, <span class="stringliteral">&quot;Dynamic Values&quot;</span>, DSE.INSTANCE_NAME + <span class="stringliteral">&quot; Active&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>);</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  }</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  <span class="comment">// Now send the state update indicating the tail operation is active.</span></div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="comment">// This state change can be used to trigger an event in TP, eg. visually indicate the tail is active.</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <a class="code hl_namespace" href="namespace_t_p.html">TP</a>.stateUpdateById(statusStateId, <span class="stringliteral">&quot;1&quot;</span>);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="group___t_p_a_p_i.html#gabc30c9dbb5074f0b2e36307a25f16ef3">stateUpdateById</a>(statusStateId, <span class="stringliteral">&quot;1&quot;</span>);</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <span class="comment">// Log what we did.</span></div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  console.info(`Tailing ${lines} lines from ${file} every ${interval}ms <span class="keywordflow">for</span> state ${DSE.INSTANCE_NAME} with timerId ${timerId}`);</div>
@@ -213,7 +213,7 @@ $(document).ready(function(){initNavTree('example_tail.html',''); initResizable(
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    var lines = <a class="code hl_class" href="class_file.html">File</a>.<a class="code hl_function" href="class_file.html#af7901992c21e2cbef3a9d0edfcb0b4e5">readLines</a>(fileName, maxLines, -1, <span class="keyword">true</span>);</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="comment">// Rend the results to TP as a state. The TP.stateUpdate() version with one argument will automatically</span></div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="comment">// update the state for the current instance which created and executed this module</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <a class="code hl_namespace" href="namespace_t_p.html">TP</a>.stateUpdate(lines);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="group___t_p_a_p_i.html#ga9a7f39df44a32f7073aee63a76d68935">stateUpdate</a>(lines);</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="comment">//console.log(&#39;\n&#39; + lines);</span></div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  }</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  <span class="keywordflow">catch</span> (e) {</div>
@@ -230,7 +230,7 @@ $(document).ready(function(){initNavTree('example_tail.html',''); initResizable(
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="comment">// Stop the timer</span></div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    clearInterval(timerId);</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="comment">// Update the state we created earlier to indicate the tail operation has stopped.</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <a class="code hl_namespace" href="namespace_t_p.html">TP</a>.stateUpdateById(statusStateId, <span class="stringliteral">&quot;0&quot;</span>);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="group___t_p_a_p_i.html#gabc30c9dbb5074f0b2e36307a25f16ef3">stateUpdateById</a>(statusStateId, <span class="stringliteral">&quot;0&quot;</span>);</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="comment">// Log what we did</span></div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    console.info(`Stopped tailing ${fileName} <span class="keywordflow">for</span> state ${DSE.INSTANCE_NAME} with timerId ${timerId}`);</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="comment">// We could also now delete the status state we created... this is optional.</span></div>
@@ -239,13 +239,16 @@ $(document).ready(function(){initNavTree('example_tail.html',''); initResizable(
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>  }</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  timerId = -1;</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>}</div>
-<div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods.</div></div>
-<div class="ttc" id="aclass_file_html"><div class="ttname"><a href="class_file.html">File</a></div><div class="ttdoc">The File class provides access to... files. Shocking.</div><div class="ttdef"><b>Definition:</b> File.h:56</div></div>
-<div class="ttc" id="aclass_file_html_a26099edec4cfd59632376ca7a3265e84"><div class="ttname"><a href="class_file.html#a26099edec4cfd59632376ca7a3265e84">File::mtime</a></div><div class="ttdeci">Date mtime(String &amp;file)</div><div class="ttdoc">Returns the date and local time when the file was last modified. If the file is not available,...</div><div class="ttdef"><b>Definition:</b> File.h:237</div></div>
-<div class="ttc" id="aclass_file_html_a5f3550bae0d274d91d8cba4fa784feae"><div class="ttname"><a href="class_file.html#a5f3550bae0d274d91d8cba4fa784feae">File::exists</a></div><div class="ttdeci">bool exists(String &amp;file)</div><div class="ttdoc">Returns true if the file exists; otherwise returns false.</div><div class="ttdef"><b>Definition:</b> File.h:187</div></div>
-<div class="ttc" id="aclass_file_html_af7901992c21e2cbef3a9d0edfcb0b4e5"><div class="ttname"><a href="class_file.html#af7901992c21e2cbef3a9d0edfcb0b4e5">File::readLines</a></div><div class="ttdeci">String readLines(String &amp;file, int maxLines, int fromLine=0, bool trimTrailingNewlines=true)</div><div class="ttdoc">Reads up to maxLines lines from file starting at fromLine (default = 0, start of file) and returns th...</div><div class="ttdef"><b>Definition:</b> File.h:114</div></div>
-<div class="ttc" id="anamespace_t_p_html"><div class="ttname"><a href="namespace_t_p.html">TP</a></div><div class="ttdoc">Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md67"></a>
+<div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods</div></div>
+<div class="ttc" id="aclass_file_html"><div class="ttname"><a href="class_file.html">File</a></div><div class="ttdoc">The File class provides access to... files. Shocking.</div><div class="ttdef"><b>Definition:</b> File.h:58</div></div>
+<div class="ttc" id="aclass_file_html_a26099edec4cfd59632376ca7a3265e84"><div class="ttname"><a href="class_file.html#a26099edec4cfd59632376ca7a3265e84">File::mtime</a></div><div class="ttdeci">Date mtime(String &amp;file)</div><div class="ttdoc">Returns the date and local time when the file was last modified. If the file is not available,...</div><div class="ttdef"><b>Definition:</b> File.h:239</div></div>
+<div class="ttc" id="aclass_file_html_a5f3550bae0d274d91d8cba4fa784feae"><div class="ttname"><a href="class_file.html#a5f3550bae0d274d91d8cba4fa784feae">File::exists</a></div><div class="ttdeci">bool exists(String &amp;file)</div><div class="ttdoc">Returns true if the file exists; otherwise returns false.</div><div class="ttdef"><b>Definition:</b> File.h:189</div></div>
+<div class="ttc" id="aclass_file_html_af7901992c21e2cbef3a9d0edfcb0b4e5"><div class="ttname"><a href="class_file.html#af7901992c21e2cbef3a9d0edfcb0b4e5">File::readLines</a></div><div class="ttdeci">String readLines(String &amp;file, int maxLines, int fromLine=0, bool trimTrailingNewlines=true)</div><div class="ttdoc">Reads up to maxLines lines from file starting at fromLine (default = 0, start of file) and returns th...</div><div class="ttdef"><b>Definition:</b> File.h:116</div></div>
+<div class="ttc" id="aclass_t_p_html"><div class="ttname"><a href="class_t_p.html">TP</a></div><div class="ttdoc">The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...</div><div class="ttdef"><b>Definition:</b> touchportal.dox:7</div></div>
+<div class="ttc" id="agroup___t_p_a_p_i_html_ga63d93ca8505b73aa4a1903375d9b484f"><div class="ttname"><a href="group___t_p_a_p_i.html#ga63d93ca8505b73aa4a1903375d9b484f">TP::stateCreate</a></div><div class="ttdeci">void stateCreate(String id, String parentGroup, String desc=&quot;&quot;, String defaultValue=&quot;&quot;)</div><div class="ttdoc">Create a new Touch Portal dynamic State (if it doesn't already exist).</div></div>
+<div class="ttc" id="agroup___t_p_a_p_i_html_ga9a7f39df44a32f7073aee63a76d68935"><div class="ttname"><a href="group___t_p_a_p_i.html#ga9a7f39df44a32f7073aee63a76d68935">TP::stateUpdate</a></div><div class="ttdeci">void stateUpdate(String value)</div><div class="ttdoc">Send a State update to Touch Portal with given value for the current script instance.</div></div>
+<div class="ttc" id="agroup___t_p_a_p_i_html_gabc30c9dbb5074f0b2e36307a25f16ef3"><div class="ttname"><a href="group___t_p_a_p_i.html#gabc30c9dbb5074f0b2e36307a25f16ef3">TP::stateUpdateById</a></div><div class="ttdeci">void stateUpdateById(String id, String value)</div><div class="ttdoc">Send a State update to Touch Portal for any arbitrary state/value matching the id,...</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md76"></a>
 Example usage on a button</h2>
 <p ><a href="example_tail_button_flow.png" target="image" title="Click for full version in new window."><img src="example_tail_button_flow.png" alt="" class="inline"/> </a> </p>
 </div></div><!-- contents -->
@@ -256,7 +259,7 @@ Example usage on a button</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="plugin_examples.html">Examples</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

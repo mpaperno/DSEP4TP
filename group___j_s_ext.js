@@ -2,26 +2,29 @@ var group___j_s_ext =
 [
     [ "Global", "class_global.html", [
       [ "DSE", "struct_global_1_1_d_s_e.html", [
-        [ "instanceStateId", "struct_global_1_1_d_s_e.html#a76065cc5f37ea9513244f13a5e58b45d", null ],
-        [ "PLUGIN_VERSION_STR", "struct_global_1_1_d_s_e.html#a3325800162b72edbf4e60680d6dde31e", null ],
-        [ "PLUGIN_VERSION_NUM", "struct_global_1_1_d_s_e.html#a3f9e517a5f8ebe66e083428f697c9dab", null ],
-        [ "SCRIPTS_BASE_DIR", "struct_global_1_1_d_s_e.html#a87a056c849f612c84a8b21b8e173b75d", null ],
-        [ "INSTANCE_TYPE", "struct_global_1_1_d_s_e.html#a2d9dd2c901ea161154a7b6332fcb9529", null ],
-        [ "INSTANCE_NAME", "struct_global_1_1_d_s_e.html#a1e78730852abb347d721c67d232da19e", null ],
-        [ "INSTANCE_DEFAULT_VALUE", "struct_global_1_1_d_s_e.html#afbc17e1d0bf379972369588407c8b84e", null ],
-        [ "PLATFORM_OS", "struct_global_1_1_d_s_e.html#a87e7bd52b885c33e480823e0c50fbfc7", null ],
-        [ "VALUE_STATE_PREFIX", "struct_global_1_1_d_s_e.html#acd23b36807d867d2f86a0d976ca4e521", null ]
+        [ "instanceStateId", "struct_global_1_1_d_s_e.html#a4481c249770248e82fdfde844b20eda7", null ],
+        [ "PLUGIN_VERSION_STR", "struct_global_1_1_d_s_e.html#a5607fbed6d48bdbfcd98098b493d9597", null ],
+        [ "PLUGIN_VERSION_NUM", "struct_global_1_1_d_s_e.html#a1af15d8f43e81a7c53d8136113280c8a", null ],
+        [ "SCRIPTS_BASE_DIR", "struct_global_1_1_d_s_e.html#afe413c1a3c23f6295d91750d3befc567", null ],
+        [ "INSTANCE_TYPE", "struct_global_1_1_d_s_e.html#a11574da2b0d598cf85e836ca8f931e59", null ],
+        [ "INSTANCE_NAME", "struct_global_1_1_d_s_e.html#a0c06106c7b24661aa69a420c329b7231", null ],
+        [ "INSTANCE_DEFAULT_VALUE", "struct_global_1_1_d_s_e.html#a266a028521364de9b0fba0a4e11be447", null ],
+        [ "PLATFORM_OS", "struct_global_1_1_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c", null ],
+        [ "VALUE_STATE_PREFIX", "struct_global_1_1_d_s_e.html#a9ea97d47f3eceb37022e7c94f58bb3d4", null ],
+        [ "TP_USER_DATA_PATH", "struct_global_1_1_d_s_e.html#ad4c637593248bf85390e0b0360b57070", null ],
+        [ "TP_VERSION_CODE", "struct_global_1_1_d_s_e.html#a5e6920570e66d3efa71cec6614a42e5a", null ],
+        [ "TP_VERSION_STR", "struct_global_1_1_d_s_e.html#a99fa779327f953e68be75c4c35637c67", null ]
       ] ],
       [ "atob", "class_global.html#aaac1708acf0bef57d9d26fe7ed5bf629", null ],
-      [ "btoa", "class_global.html#a168d5913a20d8ef5099db892cb9505ce", null ],
+      [ "btoa", "class_global.html#ad745041e7f308db60a37d8ada0ce3a1c", null ],
       [ "clearAllTimers", "class_global.html#ace3c9a285f81fbf9e6b86561ee499435", null ],
       [ "clearInstanceTimers", "class_global.html#a25ab0f723af351e520068ce7ae77468e", null ],
       [ "gc", "class_global.html#a83706e696f5a5ee8b6d789cf08d64d73", null ],
-      [ "hash", "class_global.html#a3e87983cdba0f10fe30d2f5c5986027c", null ],
+      [ "hash", "class_global.html#aed70f585a2f84914284cf77c7fd58503", null ],
       [ "include", "class_global.html#a6de7d2398ea7fcdee0b8cb30a417c3b2", null ],
       [ "locale", "class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588", null ],
-      [ "Format", "class_global.html#acd5e884df6b19a0c00b5747908e20d5d", null ],
-      [ "sprintf", "class_global.html#a4bdf4eafc63766384d4e1a6d604ab9b5", null ]
+      [ "Format", "class_global.html#a27f7e21ddf66fa9aaaf37ec4734f504c", null ],
+      [ "sprintf", "class_global.html#aa4c3e7234b2093ab35795ec8e12751fd", null ]
     ] ],
     [ "ArrayBuffer", "class_array_buffer.html", [
       [ "fromBase64", "class_array_buffer.html#a82b6dd964452468bedb6507e731e27fb", null ],
@@ -64,6 +67,10 @@ var group___j_s_ext =
     [ "String", "class_string.html", [
       [ "arg", "class_string.html#a15c6d638aa8030c022876d6338220f7d", null ],
       [ "format", "class_string.html#a45f4c919dfa7b9606e5879d216ab416d", null ],
-      [ "simplified", "class_string.html#a98e25bb1989aab4c3bedd6068c7b1a4e", null ]
+      [ "simplified", "class_string.html#a98e25bb1989aab4c3bedd6068c7b1a4e", null ],
+      [ "appendLine", "class_string.html#ab59b43907986e8261cb52502dde01807", null ],
+      [ "appendLine", "class_string.html#a057dc130908b3fab4a0471ccd2a53f66", null ],
+      [ "getLines", "class_string.html#a01d64a40d4b7e1ddac8408d3651d59fa", null ],
+      [ "getLines", "class_string.html#ade93873d0adaaeaadfcfeed7a6337ac0", null ]
     ] ]
 ];

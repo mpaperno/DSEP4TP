@@ -16,7 +16,7 @@ var searchData=
   ['onprogress_13',['onprogress',['../class_request.html#a9a4865a3f854a077c7522a139b34e8eb',1,'Request']]],
   ['open_14',['open',['../class_file_handle.html#a74cf2cc4d83d9e7240615bd2451446b6',1,'FileHandle::open(::FS::OpenMode mode)'],['../class_file_handle.html#af9a906bc7e3198b34bd25f65e1e5985a',1,'FileHandle::open(String &amp;mode)']]],
   ['openerror_15',['OpenError',['../class_f_s.html#aa3ec0b4d641bd69b9e91852d9974bfdea14d536aa4f10161dcf259ce15008a50c',1,'FS']]],
-  ['openmode_16',['openMode',['../class_file_handle.html#a459c3714e8bc10a872184bc4c19b70b6',1,'FileHandle']]],
-  ['openmode_17',['OpenMode',['../class_f_s.html#a7be6482aea7db661a3686265110283dd',1,'FS']]],
+  ['openmode_16',['OpenMode',['../class_f_s.html#a7be6482aea7db661a3686265110283dd',1,'FS']]],
+  ['openmode_17',['openMode',['../class_file_handle.html#a459c3714e8bc10a872184bc4c19b70b6',1,'FileHandle']]],
   ['openmodeflag_18',['OpenModeFlag',['../class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bd',1,'FS']]]
 ];

@@ -9,5 +9,6 @@ var searchData=
   ['exists_6',['exists',['../class_file_handle.html#a6e480061dc5ecc1f85a71989a6352dfc',1,'FileHandle::exists()'],['../class_dir.html#a99de16a696a6c85df9d11276ba9e3acd',1,'Dir::exists()'],['../class_file.html#a5f3550bae0d274d91d8cba4fa784feae',1,'File::exists()']]],
   ['exitcode_7',['exitCode',['../class_process.html#a1a3216fca979e4a07e32c46b06a9bf8c',1,'Process']]],
   ['exitstatus_8',['exitStatus',['../class_process.html#a28098115d4f626eb43a368a4576fcde9',1,'Process']]],
-  ['exponential_9',['exponential',['../class_locale.html#a3725f7892475ec85556ce6b8cf9e43da',1,'Locale']]]
+  ['exponential_9',['exponential',['../class_locale.html#a3725f7892475ec85556ce6b8cf9e43da',1,'Locale']]],
+  ['expression_10',['expression',['../class_connector_record.html#a7db9a71a3954fa572de18e1e4e3e9838',1,'ConnectorRecord']]]
 ];

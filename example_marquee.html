@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -166,7 +166,7 @@ $(document).ready(function(){initNavTree('example_marquee.html',''); initResizab
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="comment">// Get just the portion of the text to send this time.</span></div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">const</span> result = <a class="code hl_function" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text</a>.slice(<a class="code hl_function" href="class_process.html#a84a87590a7d34c37586405d9b0e00fd1">start</a>, <a class="code hl_function" href="class_process.html#a84a87590a7d34c37586405d9b0e00fd1">start</a> + maxLength);</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="comment">// And send it.</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_namespace" href="namespace_t_p.html">TP</a>.stateUpdate(result);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="group___t_p_a_p_i.html#ga9a7f39df44a32f7073aee63a76d68935">stateUpdate</a>(result);</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="comment">// Check if end of text is visible</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="class_process.html#a84a87590a7d34c37586405d9b0e00fd1">start</a> + maxLength &gt;= <a class="code hl_function" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text</a>.length)</div>
@@ -209,13 +209,14 @@ $(document).ready(function(){initNavTree('example_marquee.html',''); initResizab
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>}</div>
 <div class="ttc" id="aclass_process_html_a84a87590a7d34c37586405d9b0e00fd1"><div class="ttname"><a href="class_process.html#a84a87590a7d34c37586405d9b0e00fd1">Process::start</a></div><div class="ttdeci">void start(String program, Array&lt; String &gt; arguments=[])</div><div class="ttdoc">Starts the given program in a new process, passing the command line arguments in arguments.</div></div>
 <div class="ttc" id="aclass_response_html_a3975dc4487d32183367654497f5a6ebd"><div class="ttname"><a href="class_response.html#a3975dc4487d32183367654497f5a6ebd">Response::text</a></div><div class="ttdeci">&lt; Promise|string &gt; text()</div></div>
-<div class="ttc" id="anamespace_t_p_html"><div class="ttname"><a href="namespace_t_p.html">TP</a></div><div class="ttdoc">Functions for interacting with Touch Portal directly, such as updating state values or sending notifi...</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md65"></a>
+<div class="ttc" id="aclass_t_p_html"><div class="ttname"><a href="class_t_p.html">TP</a></div><div class="ttdoc">The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...</div><div class="ttdef"><b>Definition:</b> touchportal.dox:7</div></div>
+<div class="ttc" id="agroup___t_p_a_p_i_html_ga9a7f39df44a32f7073aee63a76d68935"><div class="ttname"><a href="group___t_p_a_p_i.html#ga9a7f39df44a32f7073aee63a76d68935">TP::stateUpdate</a></div><div class="ttdeci">void stateUpdate(String value)</div><div class="ttdoc">Send a State update to Touch Portal with given value for the current script instance.</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md74"></a>
 Example usage on a button</h2>
 <p ><a href="example_marquee_button_flow.png" target="image" title="Click for full version in new window."><img src="example_marquee_button_flow.png" alt="" class="inline"/> </a></p>
 <p >In an actual button/flow you would most likely put the action inside an event handler which reacts to a change in a State/Value you would like to display, and put that State/Value's macro inside the quotes of the <code>marquee()</code> call, instead of my static example. Eg.</p>
 <p ><code>marquee("${value:com.github.ChristopheCVB.TouchPortal.Spotify.TouchPortalSpotifyPlugin.BaseCategory.state.currentTrackName}")</code></p>
-<h2><a class="anchor" id="autotoc_md66"></a>
+<h2><a class="anchor" id="autotoc_md75"></a>
 Cancel marquee scroll</h2>
 <p >The script also has a function to cancel/stop the scroll animation on demand. Here is an example of a button for that.<br  />
  The key point is that it uses the same <b>State Name</b> as the action which started the marquee to begin with (and also runs in a <b>Private</b> instance).</p>
@@ -228,7 +229,7 @@ Cancel marquee scroll</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="plugin_examples.html">Examples</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

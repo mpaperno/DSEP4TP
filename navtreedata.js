@@ -40,8 +40,10 @@ var NAVTREE =
     [ "Credits", "index.html#autotoc_md17", null ],
     [ "Copyright, License, and Disclaimer", "index.html#autotoc_md19", null ],
     [ "Change Log", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html", [
-      [ "1.0.0.2-beta2 (28-Dec-2022)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md22", null ],
-      [ "1.0.0.1-beta1 (26-Dec-2022)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md24", null ]
+      [ "1.1.0.0-beta1 (05-Jan-2023)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md22", null ],
+      [ "1.0.0.3 (05-Jan-2023)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md24", null ],
+      [ "1.0.0.2-beta2 (28-Dec-2022)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md26", null ],
+      [ "1.0.0.1-beta1 (26-Dec-2022)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md28", null ]
     ] ],
     [ "Plugin Documentation", "documentation.html", "documentation" ],
     [ "Examples", "plugin_examples.html", "plugin_examples" ],
@@ -52,7 +54,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "class_array_buffer.html",
-"class_math.html#a0196c3b9b73a6da330c4fab9cfd1f851"
+"class_locale.html#a95bcd427644c0dba04dbc64acf5690f8"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

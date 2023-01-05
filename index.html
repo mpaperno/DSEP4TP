@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -171,7 +171,7 @@ One-liner Expressions</h2>
 </ul>
 </li>
 <li>Do math on dates and times, also with formatting support:<ul>
-<li><code>new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date()</a>.addDays(${value:test.dynamic_value_1}).format("yyyy  MMM dd, dddd")</code> (eg. "2022 Dec 15, Thursday")</li>
+<li><code>new <a class="el" href="class_date.html" title="Date prototype extension methods">Date()</a>.addDays(${value:test.dynamic_value_1}).format("yyyy  MMM dd, dddd")</code> (eg. "2022 Dec 15, Thursday")</li>
 </ul>
 </li>
 <li>Calculate a color and use it in a Touch Portal button:<ul>
@@ -187,7 +187,7 @@ One-liner Expressions</h2>
 </ul>
 </li>
 <li>Read any number of lines from a file, starting from beginning, end, or a specific line number. E.g. read the last 5 lines of a log with a dynamic name:<ul>
-<li><code><a class="el" href="class_file.html#af7901992c21e2cbef3a9d0edfcb0b4e5" title="Reads up to maxLines lines from file starting at fromLine (default = 0, start of file) and returns th...">File.readLines</a>(`../logs/console-${new <a class="el" href="class_date.html" title="Date prototype extension methods.">Date()</a>.format("yyyyMMdd")}.log`, 5, -1))</code></li>
+<li><code><a class="el" href="class_file.html#af7901992c21e2cbef3a9d0edfcb0b4e5" title="Reads up to maxLines lines from file starting at fromLine (default = 0, start of file) and returns th...">File.readLines</a>(`../logs/console-${new <a class="el" href="class_date.html" title="Date prototype extension methods">Date()</a>.format("yyyyMMdd")}.log`, 5, -1))</code></li>
 </ul>
 </li>
 <li>Extract a value from a JSON object in a file:<ul>
@@ -199,11 +199,11 @@ One-liner Expressions</h2>
 </ul>
 </li>
 <li>Update any State or Value in Touch Portal:<ul>
-<li><code><a class="el" href="namespace_t_p.html#abc30c9dbb5074f0b2e36307a25f16ef3" title="\member TPSend a State update to Touch Portal for any arbitrary state/value matching the id,...">TP.stateUpdateById</a>("MyVariable", ${value:MyVariable} * 25)</code></li>
+<li><code><a class="el" href="group___t_p_a_p_i.html#gabc30c9dbb5074f0b2e36307a25f16ef3" title="Send a State update to Touch Portal for any arbitrary state/value matching the id,...">TP.stateUpdateById</a>("MyVariable", ${value:MyVariable} * 25)</code></li>
 </ul>
 </li>
 <li>Send yourself a notification via Touch Portal:<ul>
-<li><code><a class="el" href="namespace_t_p.html#a4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification</a>("myNotififyId", "Something Happened", "Hey, something happened, check it out!")</code></li>
+<li><code><a class="el" href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification</a>("myNotififyId", "Something Happened", "Hey, something happened, check it out!")</code></li>
 </ul>
 </li>
 </ul>
@@ -222,14 +222,14 @@ Overall</h2>
 <ul>
 <li>Extensive support for <b>ECMAScript level 7</b>, plus custom extensions:<ul>
 <li><b><a class="el" href="group___file_system.html">File system</a></b> interaction, from one-line read/write utilities to full byte-by-byte access.</li>
-<li>Flexible <b>string, date, and number formatting</b> with .NET <a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String.Format style</a> or <a class="el" href="class_global.html#a4bdf4eafc63766384d4e1a6d604ab9b5">&quot;printf&quot;</a> style functions.</li>
+<li>Flexible <b>string, date, and number formatting</b> with .NET <a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String.Format style</a> or <a class="el" href="class_global.html#aa4c3e7234b2093ab35795ec8e12751fd">&quot;printf&quot;</a> style functions.</li>
 <li>Support for <b>timed/recurring operations</b> with <code>setTimeout()</code>/<code>setInterval()</code>.</li>
 <li><b>Network requests</b> supported via familiar <a class="el" href="group___fetch_a_p_i.html">Fetch API</a> and <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a>.</li>
-<li><b>Touch Portal <a class="el" href="namespace_t_p.html">interaction</a></b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and more.</li>
+<li><b>Touch Portal <a class="el" href="class_t_p.html">interaction</a></b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and more.</li>
 <li><b><a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> manipulation</b>/utility library.</li>
 <li><b>External command and application launching</b> with optional inter-process data exchange using <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> class.</li>
 <li><b>Clipboard interactions</b> (see <a class="el" href="example_clipboard.html">Clipboard example</a> module);</li>
-<li>Lots of convenience extensions to built-in JS objects like <a class="el" href="class_date.html" title="Date prototype extension methods.">Date</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend Number prototype.">Number</a>, <a class="el" href="class_math.html" title="Math Object Extensions.">Math</a> and <a class="el" href="class_string.html" title="Extends String object.">String</a>.</li>
+<li>Lots of convenience extensions to built-in JS objects like <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend the standard Number prototype.">Number</a>, <a class="el" href="class_math.html" title="Math Object Extensions">Math</a> and <a class="el" href="class_string.html" title="Extends String object.">String</a>.</li>
 <li>Other <a class="el" href="class_global.html">global</a> object extensions and <a class="el" href="group___util.html">utilities</a>, eg. for encoding/decoding <b>base-64 data</b>, <b>environment variable</b> access, <b>locale data</b>, <b>hashing algorithms</b>, and more.</li>
 <li>Infinitely <b>extensible</b> via either JavaScript libraries/modules <em>or</em> C++ integration.</li>
 </ul>
@@ -315,7 +315,7 @@ Copyright, License, and Disclaimer</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

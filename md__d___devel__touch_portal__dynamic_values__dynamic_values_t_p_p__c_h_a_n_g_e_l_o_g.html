@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -129,6 +129,45 @@ $(document).ready(function(){initNavTree('md__d___devel__touch_portal__dynamic_v
 <div class="textblock"><p ><b>Dynamic Script Engine Plugin for Touch Portal</b>: changes by version number and release date.</p>
 <hr  />
  <h1><a class="anchor" id="autotoc_md22"></a>
+1.1.0.0-beta1 (05-Jan-2023)</h1>
+<ul>
+<li>Added Connector (Slider) counterparts for most of the plugin's existing Actions (except "Load Script").</li>
+<li>Added Connector/Slider instance tracking database for managing mapping and lookups of "short" connector IDs (for sending updates back to Touch Portal).</li>
+<li>Added new State to reflect current system user's Touch Portal settings directory path (workaround until <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> v3.2 adds native values for that).</li>
+<li>Added new State: "Name of Page currently active on TP device."</li>
+<li>Touch Portal API:<ul>
+<li>Added methods and an event for Connector ID lookup/search/tracking, eg. for sending Slider position updates to Touch Portal.</li>
+<li>Added Touch Portal "broadcast" message event passthrough (eg. to notify scripts when user navigates to a new page).</li>
+<li>Added <code><a class="el" href="group___t_p_a_p_i.html#ga417e3c190b82210f1884750cd1722dad" title="Returns the name of the page the user last opened on their Touch Portal device (not in the desktop pa...">TP.currentPageName()</a></code> lookup function.</li>
+</ul>
+</li>
+<li>JavaScript Library:<ul>
+<li>Added <code><a class="el" href="class_string.html#ab59b43907986e8261cb52502dde01807" title="Appends string line to current string, and returns a new block with up to maxLines lines.">String.appendLine()</a></code> and <code><a class="el" href="class_string.html#a01d64a40d4b7e1ddac8408d3651d59fa" title="Splits string text into lines based on separator and returns maxLines of text starting at fromLine (z...">String.getLines()</a></code> functions (both static and prototype).</li>
+<li>Added <code>DSE.TP_USER_DATA_PATH</code> property (current system user's Touch Portal settings directory), <code>DSE.TP_VERSION_CODE</code> and <code>DSE.TP_VERSION_STR</code>.</li>
+</ul>
+</li>
+<li>Documentation &amp; Examples:<ul>
+<li>Moved Touch Portal API references into their own category.</li>
+<li>Added documentation for new Touch Portal API functions/features.</li>
+<li>New v3 of <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> Picker example page and script, using new "native" connector/slider functionality and adding some more features.</li>
+<li>Other minor updates and clarifications.</li>
+</ul>
+</li>
+</ul>
+<p >Thanks for everyone's input so far!</p>
+<hr  />
+ <h1><a class="anchor" id="autotoc_md24"></a>
+1.0.0.3 (05-Jan-2023)</h1>
+<ul>
+<li>Fix evaluation at startup of default value expressions for saved states when the default type was set to "use action's expression" and the default value field was left blank.</li>
+<li>Fix "Anonymous (One-Shot)" type script instances not being properly deleted after finishing.</li>
+<li>Touch Portal API:<ul>
+<li>Set default <a class="el" href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">showNotification()</a> option name to a minimal required empty space character instead of "Dismiss" prompt which doesn't actually do anything anyway.</li>
+</ul>
+</li>
+</ul>
+<hr  />
+ <h1><a class="anchor" id="autotoc_md26"></a>
 1.0.0.2-beta2 (28-Dec-2022)</h1>
 <ul>
 <li>Fix crash on engine environment reset action.</li>
@@ -137,7 +176,7 @@ $(document).ready(function(){initNavTree('md__d___devel__touch_portal__dynamic_v
 <li>Add Clipboard and <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> Picker examples.</li>
 </ul>
 <hr  />
- <h1><a class="anchor" id="autotoc_md24"></a>
+ <h1><a class="anchor" id="autotoc_md28"></a>
 1.0.0.1-beta1 (26-Dec-2022)</h1>
 <ul>
 <li>Initial release! </li>
@@ -149,7 +188,7 @@ $(document).ready(function(){initNavTree('md__d___devel__touch_portal__dynamic_v
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

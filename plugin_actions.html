@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.0.0.2-beta2</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('plugin_actions.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md25">Available Actions</a><ul><li class="level2"><a href="#plugin_actions_evaluate">Evaluate Expression</a></li>
+<ul><li class="level1"><a href="#autotoc_md29">Available Actions</a><ul><li class="level2"><a href="#plugin_actions_evaluate">Evaluate Expression</a></li>
 <li class="level2"><a href="#plugin_actions_script">Load Script File</a></li>
 <li class="level2"><a href="#plugin_actions_module">Import Module File</a></li>
 <li class="level2"><a href="#plugin_actions_update">Update Existing Instance</a></li>
@@ -138,7 +138,7 @@ $(document).ready(function(){initNavTree('plugin_actions.html',''); initResizabl
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_pages_Actions"></a></p>
-<h1><a class="anchor" id="autotoc_md25"></a>
+<h1><a class="anchor" id="autotoc_md29"></a>
 Available Actions</h1>
 <p ><img src="images/actions/actions-list.jpg" alt="" usemap="#image-map" class="inline"/></p>
 <h2><a class="anchor" id="plugin_actions_evaluate"></a>
@@ -147,7 +147,8 @@ Evaluate Expression</h2>
 <p >This is the most basic action which creates a new State with the value of whatever the given expression results in. The other actions described below all share the same options (as well as add some others). The common options are only explained here.</p>
 <ul>
 <li><b>State Name</b> - This will be the name given to the new Touch Portal State once it is created. Once created it will appear in Touch Portal's various value selector lists.<br  />
- The name is also used in a few other places to refer to this instance of a "dynamic script."</li>
+ The name is also used in a few other places to refer to this instance of a "dynamic script."<br  />
+ As noted on the previous page, Touch Portal actually uses a "state ID" to identify states, and the names are used purely for display purposes. This plugin will generate a (hopefully) unique State ID by adding the prefix <code>dsep.</code> to whatever you put in the State Name field. However it's still up to the user to make sure this name is unique at least among other States being created by this plugin's actions/connectors.</li>
 <li><b>Evaluate Expression</b> &ndash; This is what you want to do. It can be any one-line valid JavaScript; basic math, reading/writing files, sending dynamic button icons... The limit is your imagination and the single-line nature of the action. There are some examples on the front page of this site and in the examples_basic section.</li>
 <li><b>Engine Instance</b> - This is an important distinction about how and "where" your script is run. Most one-line scripts will probably want to use the <code>Shared</code> types, while more complex scripts (described below) will likely want to use the <code>Private</code> types. Here is the difference:<ul>
 <li><b>Shared</b> - All expressions/scripts are run in the same script evaluation engine instance, with a shared "global scope" as if they were all, to continue the poor analogies, running in the same "browser window" or "Node.js process." This means, for example you could share variables or functions between script instances. It also means one expression/script could overwrite variables/functions of another script in the same shared engine. For one-line expressions this is usually not an issue since they likely won't create variables anyway, but for the other actions types (below), it may.<br  />
@@ -191,7 +192,7 @@ Import Module File</h2>
 </ol>
 <p >However since they're cached, when you make changes to a module's code you must re-create the instance or reload the script environment (there are actions for that, see below). If you don't need to use other modules, it can be quicker to develop and test your code as a standalone script (the above action) and then turn it into a module once you have it working as you'd like.</p>
 <ul>
-<li><b>Import from file</b> - Specify the module's script file to load. This is just a path to a file, the same as described in <a class="el" href="plugin_basics.html#autotoc_md26">Load Script File</a> action above.</li>
+<li><b>Import from file</b> - Specify the module's script file to load. This is just a path to a file, the same as described in <a class="el" href="md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md26">Load Script File</a> action above.</li>
 <li><b>as alias</b> - To use a function from a loaded module, the module must have an alias (these are JS rules). In a typical JS you'd usually use something like <code>import * from "mymodule.js" as MyModule</code> and then call functions from the module as <code>MyModule.someFunction()</code>. This <em>alias</em> field is the equivalent of the "as name" part of the import statement. The default import alias is just "M" to keep things short, but you can use whatever you want.</li>
 <li><b>Evaluate expression</b> - Again this is like in the <em>Load Script File</em> action above. The expression gets invoked after the module has been imported. You can use it to call a function from the loaded module, for example. To call a module function the alias must be used here, like in the example.<br  />
  <b>Note</b> that modules must explicitly <code>export</code> a function (or variable) before it can be used from outside the module. The same applies here, the function you call in the expression must be marked as exported in the module itself, otherwise you get an undefined value TypeError.</li>
@@ -241,7 +242,7 @@ Plugin Actions</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.0.0.2-beta2 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

@@ -1,0 +1,204 @@
+<!-- HTML header for doxygen 1.9.4-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dynamic Script Engine Plugin for Touch Portal: TP</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md11']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/mpaperno/DSEP4TP" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" fill="url(#gradient)"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    <linearGradient id="gradient" x1="0.5" x2="0.5" y1="0" y2="1">
+        <stop class="first-stop" offset="0%"></stop>
+        <stop class="last-stop" offset="100%"></stop>
+    </linearGradient>
+    </svg>
+</a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
+  <td id="projectalign">
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_t_p.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="class_t_p-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">TP<div class="ingroups"><a class="el" href="group___t_p_a_p_i.html">Touch Portal API (TP)</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><p >The global <code><a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a></code> namespace is used as a container for all Touch Portal API methods, which are invoked with <code><a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a>.</code> qualifier, eg. <code><a class="el" href="group___t_p_a_p_i.html#ga9a7f39df44a32f7073aee63a76d68935" title="Send a State update to Touch Portal with given value for the current script instance.">TP.stateUpdate</a>("Hello!");</code>. </p>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Sending Data</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p >These functions all send information or commands <em>to</em> Touch Portal. </p>
+</div></td></tr>
+<tr class="memitem:ga9a7f39df44a32f7073aee63a76d68935"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga9a7f39df44a32f7073aee63a76d68935">stateUpdate</a> (<a class="el" href="class_string.html">String</a> value)</td></tr>
+<tr class="separator:ga9a7f39df44a32f7073aee63a76d68935"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafc6bf30d8db05af572c9733456bf5e69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gafc6bf30d8db05af572c9733456bf5e69">stateUpdate</a> (<a class="el" href="class_string.html">String</a> name, <a class="el" href="class_string.html">String</a> value)</td></tr>
+<tr class="separator:gafc6bf30d8db05af572c9733456bf5e69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabc30c9dbb5074f0b2e36307a25f16ef3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gabc30c9dbb5074f0b2e36307a25f16ef3">stateUpdateById</a> (<a class="el" href="class_string.html">String</a> id, <a class="el" href="class_string.html">String</a> value)</td></tr>
+<tr class="separator:gabc30c9dbb5074f0b2e36307a25f16ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga63d93ca8505b73aa4a1903375d9b484f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga63d93ca8505b73aa4a1903375d9b484f">stateCreate</a> (<a class="el" href="class_string.html">String</a> id, <a class="el" href="class_string.html">String</a> parentGroup, <a class="el" href="class_string.html">String</a> desc=&quot;&quot;, <a class="el" href="class_string.html">String</a> defaultValue=&quot;&quot;)</td></tr>
+<tr class="separator:ga63d93ca8505b73aa4a1903375d9b484f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0aaaeb9b83e48c1e3d22da36b094e3e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga0aaaeb9b83e48c1e3d22da36b094e3e0">stateRemove</a> (<a class="el" href="class_string.html">String</a> id)</td></tr>
+<tr class="separator:ga0aaaeb9b83e48c1e3d22da36b094e3e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae7d8c2628651f151b682696b93e6144b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gae7d8c2628651f151b682696b93e6144b">choiceUpdate</a> (<a class="el" href="class_string.html">String</a> id, Array&lt; <a class="el" href="class_string.html">String</a> &gt; values)</td></tr>
+<tr class="separator:gae7d8c2628651f151b682696b93e6144b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae18d5fec12d5b68429d55edd2362f65f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gae18d5fec12d5b68429d55edd2362f65f">connectorUpdate</a> (<a class="el" href="class_string.html">String</a> shortId, int value)</td></tr>
+<tr class="separator:gae18d5fec12d5b68429d55edd2362f65f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf86e2a30789e2d9ec7390b6da4c5105e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gaf86e2a30789e2d9ec7390b6da4c5105e">connectorUpdateByLongId</a> (<a class="el" href="class_string.html">String</a> connectorId, int value)</td></tr>
+<tr class="separator:gaf86e2a30789e2d9ec7390b6da4c5105e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4cb619ba8002feed0b4ac0de9a4beac4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4">showNotification</a> (<a class="el" href="class_string.html">String</a> notificationId, <a class="el" href="class_string.html">String</a> title, <a class="el" href="class_string.html">String</a> message, Array&lt; Object &gt; options=[],&lt; Function|<a class="el" href="class_string.html">String</a>|Array &gt; callback=null)</td></tr>
+<tr class="separator:ga4cb619ba8002feed0b4ac0de9a4beac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9a7f39df44a32f7073aee63a76d68935"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga9a7f39df44a32f7073aee63a76d68935">stateUpdate</a> (<a class="el" href="class_string.html">String</a> value)</td></tr>
+<tr class="separator:ga9a7f39df44a32f7073aee63a76d68935"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafc6bf30d8db05af572c9733456bf5e69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gafc6bf30d8db05af572c9733456bf5e69">stateUpdate</a> (<a class="el" href="class_string.html">String</a> name, <a class="el" href="class_string.html">String</a> value)</td></tr>
+<tr class="separator:gafc6bf30d8db05af572c9733456bf5e69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Events</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p >These are events which are raised whenever some kind of data update is received from Touch Portal.</p>
+<p >Events may pass one or more parameters to callback handlers (check documentation for specific events). There are two syntactical ways to connect a callback function to an event.</p>
+<p >First is by using the usual 'on*' style syntax: </p><div class="fragment"><div class="line"><a class="code hl_class" href="class_t_p.html">TP</a>.oneventName( (parameters) =&gt; { .... } );</div>
+<div class="ttc" id="aclass_t_p_html"><div class="ttname"><a href="class_t_p.html">TP</a></div><div class="ttdoc">The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...</div><div class="ttdef"><b>Definition:</b> touchportal.dox:7</div></div>
+</div><!-- fragment --><p> The other way is with the <code>connect()</code> event prototype method: </p><div class="fragment"><div class="line"><a class="code hl_class" href="class_t_p.html">TP</a>.eventName.connect( (parameters) =&gt; { .... } );</div>
+</div><!-- fragment --><p >Both forms have a 2-parameter version which allows a context object to be given, which then becomes the "this" object when the event handler callback is executed. </p><div class="fragment"><div class="line">MyObject.prototype.myHandler = <span class="keyword">function</span>(parameters) { ... }</div>
+<div class="line"><span class="keyword">const</span> myObject = <span class="keyword">new</span> MyObject();</div>
+<div class="line"><a class="code hl_class" href="class_t_p.html">TP</a>.oneventName(myObject.myHandler, myObject);</div>
+<div class="line"><span class="comment">// OR  (note the switched parameter order)</span></div>
+<div class="line"><a class="code hl_class" href="class_t_p.html">TP</a>.eventName.connect(myObject, myObject.myHandler);</div>
+</div><!-- fragment --> </div></td></tr>
+<tr class="memitem:ga3a83390c18003bfe554072ad76484d72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga3a83390c18003bfe554072ad76484d72">broadcastEvent</a> (<a class="el" href="class_string.html">String</a> event, Object data)</td></tr>
+<tr class="separator:ga3a83390c18003bfe554072ad76484d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee52eadb7d6b546e43e1d312e685214a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gaee52eadb7d6b546e43e1d312e685214a">connectorIdsChanged</a> (<a class="el" href="class_string.html">String</a> instanceName, <a class="el" href="class_string.html">String</a> shortId)</td></tr>
+<tr class="separator:gaee52eadb7d6b546e43e1d312e685214a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Connector Data</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p >Touch Portal reports connector instances to the plugin via <code>shortConnectorIdNotification</code> messages.</p>
+<p >These messages are parsed and logged into a database. The functions in this group can be used to query the data based on various criteria about logged connectors. The connector short IDs can then be used to send updates back to Touch Portal, which will move the corresponding slider(s) into a particular position. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group___t_p_a_p_i.html#gaee52eadb7d6b546e43e1d312e685214a" title="This event is emitted whenever a shortConnectorIdNotification message from Touch Portal has been rece...">connectorIdsChanged()</a>, <a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a>, <a class="el" href="plugin_connectors.html#plugin_connectors_updating">Updating Sliders from Scripts</a>, <a class="el" href="example_color_picker.html">Color Picker Example</a>, <a href="https://www.touch-portal.com/api/index.php?section=connectors" target="_blank">Touch Portal Connectors API</a> </dd></dl>
+</div></td></tr>
+<tr class="memitem:ga0a3a527fe1dfb180f5cc7636ada537b9"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="class_string.html">String</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga0a3a527fe1dfb180f5cc7636ada537b9">getConnectorShortIds</a> (Object criteria={})</td></tr>
+<tr class="separator:ga0a3a527fe1dfb180f5cc7636ada537b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaddb55ad8f327b7021bcf6e1b80834a49"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="class_connector_record.html">ConnectorRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gaddb55ad8f327b7021bcf6e1b80834a49">getConnectorRecords</a> (Object criteria={})</td></tr>
+<tr class="separator:gaddb55ad8f327b7021bcf6e1b80834a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga98ddf234e39f017fd28460de05fd51dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_connector_record.html">ConnectorRecord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga98ddf234e39f017fd28460de05fd51dd">getConnectorByShortId</a> (<a class="el" href="class_string.html">String</a> shortId)</td></tr>
+<tr class="separator:ga98ddf234e39f017fd28460de05fd51dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Other Data</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p >Miscellaneous other data/information access functions. </p>
+</div></td></tr>
+<tr class="memitem:ga417e3c190b82210f1884750cd1722dad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga417e3c190b82210f1884750cd1722dad">currentPageName</a> ()</td></tr>
+<tr class="separator:ga417e3c190b82210f1884750cd1722dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.4-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_t_p.html">TP</a></li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
+</body>
+</html>
