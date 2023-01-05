@@ -293,15 +293,18 @@ class DynamicScript : public QObject
 				m_thread->start();
 				m_engine = new ScriptEngine(name /*, this*/);
 				m_engine->moveToThread(m_thread);
-				//m_engine->reset();
-				// Set global constant property with this instance's name, unless single shot type.
+				// Connect to signals from the engine which are emitted by user scripts. For shared scope this is already done in parent's code.
+				// Some of these don't apply to "one time" scripts at all since they don't have a state name and can't run background tasks.
 				if (!singleShot) {
-					m_engine->dseObject().setProperty(QStringLiteral("INSTANCE_DEFAULT_VALUE"), QLatin1String(defaultValue));
-					// Connect to signals from the engine which are emitted by user scripts. For shared scope this is already done in parent's code.
 					// An unqualified stateUpdate command for this particular instance, must add our actual state ID before sending.
 					connect(m_engine, &ScriptEngine::stateValueUpdate, this, &DynamicScript::onEngineValueUpdate);
-					//connect(m_engine, &ScriptEngine::resultReady, this, &DynamicScript::onEngineResultReady);
+					// Instance-specific errors from background tasks.
 					connect(m_engine, &ScriptEngine::raiseError, this, &DynamicScript::scriptError);
+					// Connect to notifications about TP events so they can be re-broadcast to scripts in this instance.
+					connect(m_plugin, &Plugin::tpNotificationClicked, m_engine, &ScriptEngine::onNotificationClicked);
+					connect(m_plugin, &Plugin::tpBroadcast, m_engine, &ScriptEngine::tpBroadcast);
+					// Save the default value to global constant.
+					m_engine->dseObject().setProperty(QStringLiteral("INSTANCE_DEFAULT_VALUE"), QLatin1String(defaultValue));
 				}
 				// Global from script engine which needs name lookup because the state name is not fully qualified.
 				connect(m_engine, &ScriptEngine::stateValueUpdateByName, m_plugin, &Plugin::onStateUpdateByName);
@@ -314,9 +317,6 @@ class DynamicScript : public QObject
 				connect(m_engine, &ScriptEngine::connectorUpdate, m_plugin, &Plugin::tpConnectorUpdate);
 				connect(m_engine, &ScriptEngine::connectorUpdateShort, m_plugin, &Plugin::tpConnectorUpdateShort);
 				connect(m_engine, &ScriptEngine::tpNotification, m_plugin, &Plugin::tpNotification);
-				// Connect to notifications about TP events so they can be re-broadcast to scripts in this instance.
-				connect(m_plugin, &Plugin::tpNotificationClicked, m_engine, &ScriptEngine::onNotificationClicked);
-				connect(m_plugin, &Plugin::tpBroadcast, m_engine, &ScriptEngine::tpBroadcast);
 			}
 			else {
 				m_engine = ScriptEngine::instance();
