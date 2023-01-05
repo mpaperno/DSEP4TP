@@ -19,6 +19,7 @@ to any 3rd-party components used within.
 */
 
 #include "ScriptEngine.h"
+#include "Plugin.h"
 #include "utils.h"
 #include "ConnectorData.h"
 #include "ScriptingLibrary/AbortController.h"
@@ -45,8 +46,6 @@ to any 3rd-party components used within.
 
 using namespace Utils;
 using namespace ScriptLib;
-
-extern QString g_scriptsBaseDir;
 
 ScriptEngine::ScriptEngine(bool isStatic, const QByteArray &instanceName, QObject *p) :
   QObject(p),
@@ -157,7 +156,7 @@ void ScriptEngine::initScriptEngine()
 	QJSValue dse = dseObject();
 	dse.setProperty(QStringLiteral("PLUGIN_VERSION_NUM"), PLUGIN_VERSION);
 	dse.setProperty(QStringLiteral("PLUGIN_VERSION_STR"), QStringLiteral(PLUGIN_VERSION_STR));
-	dse.setProperty(QStringLiteral("SCRIPTS_BASE_DIR"), g_scriptsBaseDir.isEmpty() ? QDir::currentPath() : g_scriptsBaseDir);
+	dse.setProperty(QStringLiteral("SCRIPTS_BASE_DIR"), Plugin::sharedData().scriptsBaseDir.isEmpty() ? QDir::currentPath() : Plugin::sharedData().scriptsBaseDir);
 	dse.setProperty(QStringLiteral("TP_USER_DATA_PATH"), QString::fromUtf8(Utils::tpDataPath()));
 	if (!m_isShared) {
 		dse.setProperty(QStringLiteral("INSTANCE_TYPE"), QStringLiteral("Private"));

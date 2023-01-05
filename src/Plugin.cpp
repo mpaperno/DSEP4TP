@@ -57,9 +57,11 @@ enum ControlAction {
 using ScriptState = QHash<QByteArray, DynamicScript *>;
 Q_GLOBAL_STATIC(ScriptState, g_instances)
 
+Q_GLOBAL_STATIC(Plugin::SharedData, g_sharedData)
+Plugin::SharedData &Plugin::sharedData() { return *g_sharedData; }
+
 static std::atomic_uint32_t g_errorCount = 0;
 static std::atomic_uint32_t g_singleShotCount = 0;
-QString g_scriptsBaseDir;
 
 
 using TokenMapHash = QHash<QByteArray, int>;
@@ -361,6 +363,8 @@ void Plugin::onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &se
 		<< PLUGIN_SHORT_NAME " Connected to Touch Portal v" << info.tpVersionString
 		<< " (" << info.tpVersionCode << "; SDK v" << info.sdkVersion
 		<< ") with entry.tp v" << info.pluginVersion << ", running v" << PLUGIN_VERSION_STR;
+	g_sharedData->tpVersion = info.tpVersionCode;
+	g_sharedData->tpVersionStr = info.tpVersionString;
 	handleSettings(settings);
 	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.tpDataPath"), Utils::tpDataPath());
 	initEngine();
@@ -615,10 +619,10 @@ void Plugin::handleSettings(const QJsonObject &settings)
 	QJsonObject::const_iterator next = settings.begin(), last = settings.end();
 	for (; next != last; ++next) {
 		if (next.key().startsWith(QStringLiteral("Script Files"))) {
-			g_scriptsBaseDir = QDir::fromNativeSeparators(next.value().toString());
-			if (!g_scriptsBaseDir.endsWith('/'))
-				g_scriptsBaseDir += '/';
-			//qCDebug(lcPlugin) << g_scriptsBaseDir << settings;
+			g_sharedData->scriptsBaseDir = QDir::fromNativeSeparators(next.value().toString());
+			if (!g_sharedData->scriptsBaseDir.endsWith('/'))
+				g_sharedData->scriptsBaseDir += '/';
+			//qCDebug(lcPlugin) << g_sharedData->scriptsBaseDir << settings;
 		}
 	}
 }

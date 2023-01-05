@@ -35,8 +35,6 @@ to any 3rd-party components used within.
 #include "ScriptEngine.h"
 #include "utils.h"
 
-extern QString g_scriptsBaseDir;
-
 class DynamicScript : public QObject
 {
 	private:

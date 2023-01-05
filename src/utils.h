@@ -27,8 +27,7 @@ to any 3rd-party components used within.
 #include <QTimer>
 
 #include "common.h"
-
-extern QString g_scriptsBaseDir;
+#include "Plugin.h"
 
 namespace Utils {
 
@@ -49,12 +48,12 @@ static inline void runOnThread(QThread *qThread, Func &&func)
 
 static QString resolveFile(const QString &base)
 {
-	if (g_scriptsBaseDir.isEmpty() || base.isEmpty())
+	if (Plugin::sharedData().scriptsBaseDir.isEmpty() || base.isEmpty())
 		return base;
 	const QString tbase = QDir::fromNativeSeparators(base);
 	if (QDir::isAbsolutePath(tbase))
 		return tbase;
-	return QDir::cleanPath(g_scriptsBaseDir + tbase);
+	return QDir::cleanPath(Plugin::sharedData().scriptsBaseDir + tbase);
 }
 
 // unpacks an value which is a JS array into a list of individual JS values

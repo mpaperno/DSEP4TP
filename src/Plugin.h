@@ -35,6 +35,16 @@ class Plugin : public QObject
 		explicit Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent = nullptr);
 		~Plugin();
 
+		struct SharedData
+		{
+			uint32_t tpVersion;
+			QString tpVersionStr;
+			QString scriptsBaseDir;
+			QByteArray tpCurrentPage;
+		};
+
+		static SharedData &sharedData();
+
 	Q_SIGNALS:
 		void tpConnect();
 		void tpDisconnect();
