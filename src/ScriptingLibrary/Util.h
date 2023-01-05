@@ -394,34 +394,34 @@ class Util : public QObject
 		// Removes leading, trailing, and redundant whitespace from a string.
 		Q_INVOKABLE static QString stringSimplify(const QString &str) { return str.simplified(); }
 
-/*
-		//! Appends string `line` to a block of `text`, and returns a new block with up to `maxLines` lines.
-		//! The newline (`\n`) is used as separator by default, or a custom separator string can be specified in `separator` argument.
+		// Appends string `line` to a block of `text`, and returns a new block with up to `maxLines` lines.
+		// If `maxLines` is zero or negative, returns the full resulting string.
+		// The newline (`\n`) is used as separator by default, or a custom separator string can be specified in `separator` argument.
 		Q_INVOKABLE static QString appendLine(const QString &text, const QString &line, int maxLines, const QString &separator = QStringLiteral("\n"))
 		{
-			if (text.isEmpty() || maxLines < 2)
+			if (text.isEmpty() || maxLines == 1)
 				return line;
-			auto v = text.splitRef(separator);
-			if (v.length() < maxLines)
+			auto v = QStringView(text).split(separator);
+			if (maxLines < 1 || v.length() < maxLines)
 				return text + separator + std::move(line);
 			QString ret;
 			QTextStream strm(&ret, QIODevice::WriteOnly);
 			v = v.mid(v.length() - maxLines + 1);
-			for (const QStringRef &sv : qAsConst(v))
+			for (const auto &sv : qAsConst(v))
 				strm << sv.toString() << separator;
 			return ret + std::move(line);
 		}
 
-		//! Splits string `text` into lines based on `separator` and returns `maxLines` of text starting at `fromLine` (zero-based index).
-		//! Default `maxLines` is 1,  `fromLine` is zero (the start) and default `separator` is "\n". Specify a negative `fromLine` to count lines from the end
-		//! instead of the beginning (so `-1` returns one line from the end). The result may be the complete input if there were fewer then `maxLines` found in it.
+		// Splits string `text` into lines based on `separator` and returns `maxLines` of text starting at `fromLine` (zero-based index).
+		// Default `maxLines` is 1,  `fromLine` is zero (the start) and default `separator` is "\n". Specify a negative `fromLine` to count lines from the end
+		// instead of the beginning (so `-1` returns one line from the end). The result may be the complete input if there were fewer then `maxLines` found in it.
 		Q_INVOKABLE static QString getLines(const QString &text, int maxLines = 1, int fromLine = 0, const QString &separator = QStringLiteral("\n"))
 		{
 			if (text.isEmpty())
 				return text;
 			if (maxLines < 1)
 				return QString();
-			auto v = text.splitRef(separator);
+			auto v = QStringView(text).split(separator);
 			if (fromLine < 0)
 				fromLine += v.length();
 			if (fromLine < 0 || (fromLine + v.length() <= maxLines))
@@ -429,11 +429,10 @@ class Util : public QObject
 			QString ret;
 			QTextStream strm(&ret, QIODevice::WriteOnly);
 			v = v.mid(fromLine, maxLines);
-			for (const QStringRef &sv : qAsConst(v))
+			for (const auto &sv : qAsConst(v))
 				strm << sv.toString() << separator;
 			return ret;
 		}
-*/
 		//! \}
 
 		// \name Binary <-> Text data encoding/decoding

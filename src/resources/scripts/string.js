@@ -76,8 +76,44 @@ to any 3rd-party components used within.
   // str == "lots of whitespace";
 	```
 */
-String.prototype.simplified = function() { return Util.stringSimplify(this); };
 
+/*!
+	\fn string appendLine(String line, int maxLines, separator = '\n')
+	\memberof String
+	Appends string `line` to current string, and returns a new block with up to `maxLines` lines. 
+	If `maxLines` is zero or negative, returns the full resulting string.
+	The newline (`\n`) is used as separator by default, or a custom separator string can be specified in `separator` argument.
+*/
+
+/*!
+	\fn string appendLine(String text, String line, int maxLines, String separator = '\n')
+	\memberof String
+	\static
+	Appends string `line` to `text` and returns a new block with up to `maxLines` lines.
+	Static version of `String.prototype.appendLine()`, above. Used, for example, like this: `String.appendLine("Original string", "New line to append", 4)`
+*/
+
+/*!
+	\fn string getLines(int maxLines, int fromLine = 0, String separator = '\n')
+	\memberof String
+	Splits string `text` into lines based on `separator` and returns `maxLines` of text starting at `fromLine` (zero-based index).
+	Default `maxLines` is 1,  `fromLine` is zero (the start) and default `separator` is "\n". Specify a negative `fromLine` to count lines from the end
+	instead of the beginning (so `-1` returns one line from the end). The result may be the complete input if there were fewer then `maxLines` found in it.
+*/
+
+/*!
+	\fn string getLines(String text, int maxLines, int fromLine = 0, String separator = '\n')
+	\memberof String
+	\static
+	Splits string `text` into lines based on `separator` and returns `maxLines` of text starting at `fromLine` (zero-based index).
+	Static version of `String.prototype.getLines()`, above. Used, for example, like this: `String.getLines("Text\nWith some\nLines\n", 1, -1)`
+*/
+
+String.prototype.simplified = function() { return Util.stringSimplify(this); };
 String.prototype.trimStart = function() { return Util.stringTrimLeft(this); };
 String.prototype.trimEnd = function() { return Util.stringTrimRight(this); };
+String.prototype.appendLine = function(line, maxLines, separator = '\n') { return Util.appendLine(this, line, maxLines, separator); };
+String.prototype.getLines = function(maxLines, fromLine = 0, separator = '\n') { return Util.getLines(this, maxLines, fromLine, separator); };
 
+String.appendLine = function(text, line, maxLines, separator = '\n') { return Util.appendLine(text, line, maxLines, separator); };
+String.getLines = function(text, line, maxLines, separator = '\n') { return Util.getLines(text, maxLines, fromLine, separator); };
