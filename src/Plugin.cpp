@@ -263,7 +263,7 @@ DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool deferSta
 void Plugin::removeInstance(DynamicScript *ds)
 {
 	if (ds) {
-		if (ds->scope == DynamicScript::Scope::Shared)
+		if (ds->scope() == DynamicScript::Scope::Shared)
 			ScriptEngine::instance()->clearInstanceData(ds->name);
 		g_instances->remove(ds->name);
 		removeScriptState(ds);
@@ -566,7 +566,7 @@ void Plugin::pluginAction(const QByteArray &actId, const QJsonArray &data)
 				QMutableHashIterator<QByteArray, DynamicScript *> it(*g_instances);
 				while (it.hasNext()) {
 					it.next();
-					if (type == 255 || type == (quint8)it.value()->scope.load()) {
+					if (type == 255 || type == (quint8)it.value()->scope()) {
 						removeScriptState(it.value(), true);
 						delete it.value(); //->deleteLater();
 						it.remove();
@@ -593,7 +593,7 @@ void Plugin::pluginAction(const QByteArray &actId, const QJsonArray &data)
 			const QByteArray stateValue = dataMap.value("value").toUtf8();
 			if (type) {
 				for (DynamicScript * const ds : qAsConst(*g_instances)) {
-					if (type == 255 || type == (quint8)ds->scope.load())
+					if (type == 255 || type == (quint8)ds->scope())
 						sendScriptState(ds, stateValue);
 				}
 			}
@@ -617,7 +617,7 @@ void Plugin::pluginAction(const QByteArray &actId, const QJsonArray &data)
 			}
 			if (type == 255 || type == (quint8)DynamicScript::Scope::Private) {
 				for (DynamicScript * const ds : qAsConst(*g_instances)) {
-					if (ds->scope == DynamicScript::Scope::Private)
+					if (ds->scope() == DynamicScript::Scope::Private)
 						ds->resetEngine();
 				}
 			}

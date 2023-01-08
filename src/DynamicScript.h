@@ -77,6 +77,7 @@ class DynamicScript : public QObject
 	private:
 		States m_state = State::UninitializedState;
 		InputType m_inputType = InputType::Unknown;
+		std::atomic<Scope> m_scope = Scope::Unknown;
 		QString m_expr;
 		QString m_file;
 		QString m_originalFile;
@@ -92,7 +93,6 @@ class DynamicScript : public QObject
 		const QByteArray tpStateName;
 		QString lastError;
 		QByteArray defaultValue;
-		std::atomic<Scope> scope = Scope::Unknown;
 		std::atomic_bool singleShot = false;
 		std::atomic_bool stateCreated = false;
 		DefaultType defaultType = DefaultType::NoDefault;
@@ -112,13 +112,14 @@ class DynamicScript : public QObject
 		}
 
 		~DynamicScript() {
-			if (scope == DynamicScript::Scope::Private && m_engine)
+			if (m_scope == DynamicScript::Scope::Private && m_engine)
 				delete m_engine; //->deleteLater();
 			moveToMainThread();
 			//qCDebug(lcPlugin) << name << "Destroyed";
 		}
 
 		InputType inputType() const { return m_inputType; }
+		Scope scope() const { return m_scope.load(); }
 
 		bool setCommonProperties(InputType type, Scope scope, DefaultType save = DefaultType::NoDefault, const QByteArray &def = QByteArray())
 		{
@@ -213,7 +214,7 @@ class DynamicScript : public QObject
 		{
 			QByteArray ba;
 			QDataStream ds(&ba, QIODevice::WriteOnly);
-			ds << SAVED_PROPERTIES_VERSION << (int)scope.load() << (int)m_inputType << m_expr << m_file << m_moduleAlias << defaultValue << (int)defaultType;
+			ds << SAVED_PROPERTIES_VERSION << (int)m_scope.load() << (int)m_inputType << m_expr << m_file << m_moduleAlias << defaultValue << (int)defaultType;
 			return ba;
 		}
 
@@ -278,15 +279,15 @@ class DynamicScript : public QObject
 				lastError = tr("Engine Instance Scope is Unknown.");
 				return false;
 			}
-			if (newScope == scope)
+			if (newScope == m_scope)
 				return true;
 
-			scope = newScope;
+			m_scope = newScope;
 			if (m_engine && m_engine->parent() == this)
 				m_engine->deleteLater();
 			moveToMainThread();
 
-			if (scope == Scope::Private) {
+			if (m_scope == Scope::Private) {
 				m_thread = new QThread();
 				m_thread->setObjectName(name);
 				moveToThread(m_thread);
@@ -375,14 +376,20 @@ class DynamicScript : public QObject
 			defaultValue = def;
 		}
 
+	private Q_SLOTS:
+		void onEngineValueUpdate(const QByteArray &v) {
+			Q_EMIT dataReady(tpStateName, v);
+		}
 	public Q_SLOTS:
 		void evaluate()
 		{
 			if (m_state.testFlag(State::CriticalErrorState))
 				return;
 
-			if (!m_mutex.tryLockForRead(MUTEX_LOCK_TIMEOUT_MS))
+			if (!m_mutex.tryLockForRead(MUTEX_LOCK_TIMEOUT_MS)) {
+				qCDebug(lcPlugin) << "Mutex lock timeout for" << name;
 				return;
+			}
 
 			QJSValue res;
 			//ScriptEngine *e = m_engine ? m_engine : ScriptEngine::instance();
@@ -443,71 +450,10 @@ class DynamicScript : public QObject
 			}
 		}
 
-		void onEngineValueUpdate(const QByteArray &v) {
-			Q_EMIT dataReady(tpStateName, v);
-		}
-
-		void onEngineResultReady(const QJSValue &res)
-		{
-			m_state.setFlag(State::ScriptErrorState, res.isError());
-			if (m_state.testFlag(State::ScriptErrorState)) {
-				Q_EMIT scriptError(res);
-			}
-			else if (!singleShot && !res.isUndefined() && !res.isNull()) {
-				//qCDebug(lcPlugin) << "DynamicScript instance" << name << "sending default:" << res.toString();
-				Q_EMIT dataReady(tpStateName, res.toString().toUtf8());
-			}
-		}
-
 	Q_SIGNALS:
 		void dataReady(const QByteArray &stateName, const QByteArray &result);
 		void scriptError(const QJSValue &e);
 		void finished();
-
-	private:
-/*
-		void setFunction(const QString &function, const QString &args)
-		{
-			static QRegularExpression cleanName("[^\\w_]");
-			static QRegularExpression splitArgs(", *(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-
-			if (m_function != function) {
-				m_function = function;
-				m_function.remove(cleanName);
-			}
-			//setExpr(function + '(' + args + ')');
-			m_functionArgs.clear();
-			if (args.isEmpty() || m_function.isEmpty())
-				return;
-
-			const QVector<QStringRef> funcArgs = args.splitRef(splitArgs);
-			if (funcArgs.isEmpty())
-				return;
-
-			m_functionArgs.reserve(funcArgs.length());
-			bool ok;
-			double dval;
-			int ival;
-			for (const QStringRef &arg : funcArgs) {
-				if (arg.isEmpty())
-					continue;
-				if (arg.at(0) == QLatin1Char('"') && arg.at(arg.length()-1) == QLatin1Char('"')) {
-					m_functionArgs << QJSValue(arg.mid(1, arg.length()-2).toString());
-					continue;
-				}
-				dval = arg.toDouble(&ok);
-				if (ok) {
-					m_functionArgs << QJSValue(dval);
-				}
-				else {
-					ival = arg.toInt(&ok, 0);
-					m_functionArgs << (ok ? QJSValue(ival) : QJSValue(arg.toString().replace("\\", "\\\\")));
-				}
-			}
-			for (const QJSValue &v : m_functionArgs)
-				qDebug() << v.toVariant();
-		}
-*/
 
 };
 
