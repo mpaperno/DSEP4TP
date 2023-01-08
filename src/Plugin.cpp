@@ -31,27 +31,22 @@ to any 3rd-party components used within.
 #include "ScriptEngine.h"
 #include "ConnectorData.h"
 
-enum ActionHandler {
+enum ActionTokens : quint8 {
+	AT_Unknown,
+
 	AH_Script,
 	AH_Plugin,
-	AH_Unknown,
-};
 
-enum ScriptAction {
 	SA_Eval,
 	SA_Load,
 	SA_Import,
 	SA_Update,
 	SA_SingleShot,
-	SA_Unknown
-};
 
-enum ControlAction {
 	CA_Instance,
 	CA_DelInstance,
 	CA_SetStateValue,
 	CA_ResetEngine,
-	CA_Unknown
 };
 
 using ScriptState = QHash<QByteArray, DynamicScript *>;
@@ -87,7 +82,7 @@ static const TokenMapHash &tokenMap()
 }
 
 using EnumNameHash = QHash<int, QByteArray>;
-static const EnumNameHash &scriptActionNames()
+static const EnumNameHash &tokenToName()
 {
 	static const EnumNameHash hash = {
 		{ SA_Eval,       "Eval" },
@@ -439,26 +434,35 @@ void Plugin::dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg
 		qCWarning(lcPlugin) << "Action ID is malformed for action:" << actId;
 		return;
 	}
-	const int handler = tokenMap().value(actIdArry.at(6).toUtf8(), AH_Unknown);
-	if (handler == AH_Unknown) {
-		qCWarning(lcPlugin) << "Unknown action for this plugin:" << actId;
+	const int handler = tokenMap().value(actIdArry.at(6).toUtf8(), AT_Unknown);
+	if (handler == AT_Unknown) {
+		qCWarning(lcPlugin) << "Unknown action handler for this plugin:" << actId;
 		return;
 	}
+
+	const QByteArray action(actIdArry.at(7).toUtf8());
+	const int act = tokenMap().value(action, AT_Unknown);
+	if (act == AT_Unknown) {
+		qCWarning(lcPlugin) << "Unknown action for this plugin:" << action;
+		return;
+	}
+
 	const QJsonArray data = msg.value(QLatin1String("data")).toArray();
 	if (!data.size()) {
 		qCWarning(lcPlugin) << "Action data missing for action:" << actId;
 		return;  // we have no actions w/out data members
 	}
 
-	const QByteArray action(actIdArry.at(7).toUtf8());
+	const QMap<QString, QString> dataMap = TPClientQt::actionDataToMap(data, '.');
 	qint32 connVal = type == TPClientQt::MessageType::connectorChange ? msg.value(QLatin1String("value")).toInt(0) : -1;
+
 	switch(handler) {
 		case AH_Script:
-			scriptAction(action, data, connVal);
+			scriptAction(type, act, dataMap, connVal);
 			break;
 
 		case AH_Plugin:
-			pluginAction(action, data);
+			pluginAction(type, act, dataMap);
 			break;
 
 		default:
@@ -466,17 +470,8 @@ void Plugin::dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg
 	}
 }
 
-void Plugin::scriptAction(const QByteArray &actId, const QJsonArray &data, qint32 connectorValue)
+void Plugin::scriptAction(TPClientQt::MessageType /*type*/, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue)
 {
-	//qCDebug(lcPlugin) << actId << data;
-	const ScriptAction act = (ScriptAction)tokenMap().value(actId, SA_Unknown);
-	if (act == SA_Unknown) {
-		qCWarning(lcPlugin) << "Unknown Script Handler action:" << actId;
-		return;
-	}
-
-	const QMap<QString, QString> dataMap = TPClientQt::actionDataToMap(data, '.');
-
 	QByteArray dvName;
 	if (act == SA_SingleShot) {
 		dvName = "ANON_" + QByteArray::number(++g_singleShotCount);
@@ -484,7 +479,7 @@ void Plugin::scriptAction(const QByteArray &actId, const QJsonArray &data, qint3
 	else {
 		dvName = dataMap.value("name").simplified().replace(' ', '_').toUtf8();
 		if (dvName.isEmpty()) {
-			qCWarning(lcPlugin) << "Script state name missing for action" << actId;
+			qCWarning(lcPlugin) << "Script state name missing for action" << tokenToName().value(act);
 			return;
 		}
 	}
@@ -527,9 +522,6 @@ void Plugin::scriptAction(const QByteArray &actId, const QJsonArray &data, qint3
 			ok = ds->setProperties(stringToInputType(ityp), scope, expression, dataMap.value("file").trimmed(), dataMap.value("alias").trimmed(), defType);
 			break;
 		}
-
-		default:
-			return;
 	}
 	if (!ok) {
 		raiseScriptError(ds->name, QStringLiteral("ValidationError:") + ds->lastError, tr("VALIDATION ERROR"));
@@ -538,24 +530,27 @@ void Plugin::scriptAction(const QByteArray &actId, const QJsonArray &data, qint3
 		return;
 	}
 	QMetaObject::invokeMethod(ds, "evaluate", Qt::QueuedConnection);
-	//evaluateDV(dv);
 }
 
-void Plugin::pluginAction(const QByteArray &actId, const QJsonArray &data)
+void Plugin::pluginAction(TPClientQt::MessageType /*type*/, int act, const QMap<QString, QString> &dataMap)
 {
-	ControlAction act = (ControlAction)tokenMap().value(actId, CA_Unknown);
-	if (act == CA_Unknown) {
-		qCWarning(lcPlugin) << "Unknown Control Handler action:" << actId;
-		return;
-	}
-	const QMap<QString, QString> dataMap = TPClientQt::actionDataToMap(data, '.');
-	act = (ControlAction)tokenMap().value(dataMap.value("action").toUtf8(), CA_Unknown);
-	if (act == CA_Unknown) {
+	const int subAct = tokenMap().value(dataMap.value("action").toUtf8(), AT_Unknown);
+	if (subAct == AT_Unknown) {
 		qCWarning(lcPlugin) << "Unknown Command action:" << dataMap.value("action");
 		return;
 	}
-	const QByteArray dvName = dataMap.value("name", "All").toUtf8();
+
+	switch (act) {
+		case CA_Instance:
+			instanceControlAction(subAct, dataMap);
+			break;
+	}
+}
+
+void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dataMap)
+{
 	quint8 type = 0;  // named instance
+	QByteArray dvName = dataMap.value("name", "All").toUtf8();
 	if (dvName.startsWith("All "))
 		type = (dvName.at(4) == 'I' ? 255 : dvName.at(4) == 'S' ? (quint8)DynamicScript::Scope::Shared : dvName.at(4) == 'P' ? (quint8)DynamicScript::Scope::Private : 0);
 	//qCDebug(lcPlugin) << "Command" << TPClientQt::getIndexedActionDataValue(0, data) << act << dvName;
@@ -627,8 +622,9 @@ void Plugin::pluginAction(const QByteArray &actId, const QJsonArray &data)
 			}
 			return;
 		}
+	}
+}
 
-		default:
 			return;
 	}
 }

@@ -37,7 +37,7 @@ class Plugin : public QObject
 
 		struct SharedData
 		{
-			uint32_t tpVersion;
+			uint32_t tpVersion {0};
 			QString tpVersionStr;
 			QString scriptsBaseDir;
 			QByteArray tpCurrentPage;
@@ -83,8 +83,9 @@ class Plugin : public QObject
 		void onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &settings);
 		void onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg);
 		void dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg);
-		void scriptAction(const QByteArray &actId, const QJsonArray &data, qint32 connectorValue = -1);
-		void pluginAction(const QByteArray &actId, const QJsonArray &data);
+		void scriptAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue = -1);
+		void pluginAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap);
+		void instanceControlAction(quint8 act, const QMap<QString, QString> &dataMap);
 		void handleSettings(const QJsonObject &settings);
 		void parseConnectorNotification(const QJsonObject &msg);
 
