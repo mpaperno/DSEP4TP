@@ -76,6 +76,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   ScriptingLibrary/FS.h
   ScriptingLibrary/Dir.h
   ScriptingLibrary/Process.h
+  ScriptingLibrary/TPAPI.h
   ScriptingLibrary/Util.h
 
   resources/resources.qrc

@@ -30,6 +30,7 @@ var
   atob = Util.atob,
   locale = Qt ? Qt.locale : function() {},
   hash = Util.hash,
+  TP = TPAPI,
   DSE = {
     PLUGIN_VERSION_NUM: 0,
     PLUGIN_VERSION_STR: "",
@@ -43,27 +44,11 @@ var
     TP_VERSION_CODE: 0,
     TP_VERSION_STR: "",
     instanceStateId: function() { return this.VALUE_STATE_PREFIX + this.INSTANCE_NAME; }
-  },
-  TP = {
-    stateUpdate: ScriptEngine.stateUpdate,
-    stateUpdateById: ScriptEngine.stateUpdateById,
-    stateCreate: ScriptEngine.stateCreate,
-    stateRemove: ScriptEngine.stateRemove,
-    choiceUpdate: ScriptEngine.choiceUpdate,
-    connectorUpdate: ScriptEngine.connectorUpdateShort,
-    connectorUpdateShort: ScriptEngine.connectorUpdateShort,
-    connectorUpdateByLongId: ScriptEngine.connectorUpdate,
-    showNotification: ScriptEngine.showNotification,
-    getConnectorRecords: ScriptEngine.getConnectorRecords,
-    getConnectorShortIds: ScriptEngine.getConnectorShortIds,
-    getConnectorByShortId: ScriptEngine.getConnectorByShortId,
-    currentPageName: ScriptEngine.getTpCurrentPageName,
-    connectorIdsChanged: ScriptEngine.connectorIdsChanged,
-    broadcastEvent: ScriptEngine.tpBroadcast,
-    onconnectorIdsChanged: (r, t=null) => onEventHandler(ScriptEngine.connectorIdsChanged, r, t),
-    onbroadcastEvent:      (r, t=null) => onEventHandler(ScriptEngine.tpBroadcast, r, t),
   }
 ;
+
+TPAPI.onconnectorIdsChanged = function(r, t=null) { onEventHandler(TPAPI.connectorIdsChanged, r, t); }
+TPAPI.onbroadcastEvent = function(r, t=null)  { onEventHandler(TPAPI.broadcastEvent, r, t); }
 
 function onEventHandler(sender, receiver, thisObj)
 {

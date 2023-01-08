@@ -49,6 +49,8 @@ enum ActionTokens : quint8 {
 	CA_ResetEngine,
 };
 
+Plugin *Plugin::instance = nullptr;
+
 using ScriptState = QHash<QByteArray, DynamicScript *>;
 Q_GLOBAL_STATIC(ScriptState, g_instances)
 
@@ -120,9 +122,11 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
   QObject(parent),
   client(new TPClientQt(PLUGIN_ID, this))
 {
+	instance = this;
 	client->setHostProperties(tpHost, tpPort);
 
 	connect(qApp, &QCoreApplication::aboutToQuit, this, &Plugin::quit);
+	connect(this, &Plugin::loggerRotateLogs, Logger::instance(), &Logger::rotateLogs);
 	connect(client, &TPClientQt::connected, this, &Plugin::onTpConnected);
 	connect(client, &TPClientQt::disconnected, this, &Plugin::exit);
 	connect(client, &TPClientQt::error, this, &Plugin::exit);
@@ -182,18 +186,6 @@ void Plugin::quit()
 void Plugin::initEngine()
 {
 	connect(ScriptEngine::instance(), &ScriptEngine::raiseError, this, &Plugin::onScriptEngineError, Qt::QueuedConnection);
-	connect(ScriptEngine::instance(), &ScriptEngine::stateValueUpdateByName, this, &Plugin::onStateUpdateByName, Qt::QueuedConnection);
-	connect(ScriptEngine::instance(), &ScriptEngine::stateValueUpdateById, this, &Plugin::tpStateUpdate, Qt::QueuedConnection);
-	connect(ScriptEngine::instance(), &ScriptEngine::stateCreate, this, &Plugin::tpStateCreate, Qt::QueuedConnection);
-	connect(ScriptEngine::instance(), &ScriptEngine::stateRemove, this, &Plugin::tpStateRemove, Qt::QueuedConnection);
-	connect(ScriptEngine::instance(), &ScriptEngine::choiceUpdate, this, &Plugin::tpChoiceUpdateStrList, Qt::QueuedConnection);
-	connect(ScriptEngine::instance(), &ScriptEngine::connectorUpdate, this, &Plugin::tpConnectorUpdate, Qt::QueuedConnection);
-	connect(ScriptEngine::instance(), &ScriptEngine::connectorUpdateShort, this, &Plugin::tpConnectorUpdateShort, Qt::QueuedConnection);
-	connect(ScriptEngine::instance(), &ScriptEngine::tpNotification, this, &Plugin::tpNotification, Qt::QueuedConnection);
-	connect(this, &Plugin::tpNotificationClicked, ScriptEngine::instance(), &ScriptEngine::onNotificationClicked, Qt::QueuedConnection);
-	connect(this, &Plugin::tpBroadcast, ScriptEngine::instance(), &ScriptEngine::tpBroadcast, Qt::QueuedConnection);
-
-	connect(this, &Plugin::loggerRotateLogs, Logger::instance(), &Logger::rotateLogs);
 }
 
 void Plugin::saveSettings()
@@ -248,7 +240,7 @@ DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool deferSta
 	DynamicScript *ds = g_instances->value(name, nullptr);
 	if (!ds && !failIfMissing) {
 		//qCDebug(lcPlugin) << dvName << "Creating";
-		ds = g_instances->insert(name, new DynamicScript(name, this)).value();
+		ds = g_instances->insert(name, new DynamicScript(name)).value();
 		if (!deferState)
 			createScriptState(ds);
 	}

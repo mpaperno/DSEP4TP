@@ -36,7 +36,6 @@ to any 3rd-party components used within.
 #include <QJSValueIterator>
 #include <QObject>
 #include <QMutex>
-#include <QNetworkAccessManager>
 
 #include "common.h"
 
@@ -60,6 +59,7 @@ to any 3rd-party components used within.
 
 #if SCRIPT_ENGINE_USE_QML
 // Used with QQmlEngine for XMLHttpRequest
+#include <QNetworkAccessManager>
 #include <QQmlNetworkAccessManagerFactory>
 class NetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
 {
@@ -91,13 +91,13 @@ class NetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
 };
 #endif
 
+class DynamicScript;
+
 namespace ScriptLib {
 	class Util;
 	struct TimerData;
+	class TPAPI;
 }
-
-class ConnectorData;
-class ConnectorRecord;
 
 class ScriptEngine : public QObject
 {
@@ -150,11 +150,7 @@ class ScriptEngine : public QObject
 		inline QJSValue dseObject() const { return globalObject().property("DSE"); }
 		inline bool isSharedInstance() const { return m_isShared; }
 		inline QByteArray currentInstanceName() const { return dseObject().property(QStringLiteral("INSTANCE_NAME")).toString().toUtf8(); }
-
-		Q_INVOKABLE ConnectorRecord getConnectorByShortId(QJSValue shortId);
-		Q_INVOKABLE QStringList getConnectorShortIds(QJSValue query = QJSValue());
-		Q_INVOKABLE QVector<ConnectorRecord> getConnectorRecords(QJSValue query = QJSValue());
-		Q_INVOKABLE static QString getTpCurrentPageName();
+		inline ScriptLib::TPAPI *TpApi() const { return tpapi; }
 
 		static inline JSError jsError(const QJSValue &err) { return JSError(err); }
 
@@ -162,22 +158,9 @@ class ScriptEngine : public QObject
 		void raiseError(const QJSValue &err) const;
 		// void resultReady(const QJSValue &val);
 
-		void stateValueUpdate(const QByteArray &);
-		void stateValueUpdateByName(const QByteArray &, const QByteArray &);
-		void stateValueUpdateById(const QByteArray &, const QByteArray &);
-		void stateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &);
-		void stateRemove(const QByteArray &);
-		void choiceUpdate(const QByteArray &, const QStringList &);
-		void connectorUpdate(const QByteArray &, uint8_t, bool = false);
-		void connectorUpdateShort(const QByteArray &, uint8_t);
-
-		void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList & = QVariantList());
-		void tpBroadcast(const QString &, const QVariantMap &);
-
-		void connectorIdsChanged(const QByteArray &instanceName, const QByteArray &shortId);
-
 	public Q_SLOTS:
 		inline void reset() { initScriptEngine(); }
+		void connectScriptInstance(DynamicScript *ds);
 		void clearInstanceData(const QByteArray &name);
 		void checkErrors() const;
 		void throwError(const QJSValue &err) const;
@@ -186,13 +169,6 @@ class ScriptEngine : public QObject
 		void throwError(QJSValue::ErrorType type, const QString &msg, const QByteArray &instName) const;
 		void throwError(QJSValue::ErrorType type, const QString &msg) const;
 		//void onScriptResultReady(const QVariant &vres) { if (se) emit resultReady(se->toScriptValue(vres)); }
-
-		void stateUpdate(const QByteArray &value) { emit stateValueUpdate(value); }
-		void stateUpdate(const QByteArray &name, const QByteArray &value) { emit stateValueUpdateByName(name, value); }
-		void stateUpdateById(const QByteArray &id, const QByteArray &value) { emit stateValueUpdateById(id, value); }
-
-		void showNotification(const QByteArray &id, const QByteArray &title, const QByteArray &msg, QVariantList options = QVariantList(), QJSValue callback = QJSValue());
-		void onNotificationClicked(const QString &notifyId, const QString &optionId);
 
 		QJSValue expressionValue(const QString &fromValue, const QByteArray &instName = QByteArray());
 		QJSValue scriptValue(const QString &fileName, const QString &expr, const QByteArray &instName = QByteArray());
@@ -212,7 +188,7 @@ class ScriptEngine : public QObject
 	private:
 		SCRIPT_ENGINE_BASE_TYPE *se = nullptr;
 		ScriptLib::Util *ulib = nullptr;
-		ConnectorData *connData = nullptr;
+		ScriptLib::TPAPI *tpapi = nullptr;
 		QByteArray m_currInstanceName;
 		bool m_isShared = false;
 		QMutex m_mutex;
@@ -223,8 +199,6 @@ class ScriptEngine : public QObject
 
 		ScriptEngine(bool isStatic, const QByteArray &instanceName = QByteArray(), QObject *p = nullptr);
 		void initScriptEngine();
-		QVariantMap initConnectorQuery(QJSValue query, ConnectorData **cdata);
-		ConnectorData *connectorData();
 
 		inline void setInstanceProperties(const QByteArray &instName)
 		{

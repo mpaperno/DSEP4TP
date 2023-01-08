@@ -85,7 +85,6 @@ class DynamicScript : public QObject
 		QDateTime m_scriptLastMod;
 		QReadWriteLock m_mutex;
 		ScriptEngine * m_engine = nullptr;
-		Plugin *m_plugin = nullptr;
 		QThread *m_thread = nullptr;
 
 	public:
@@ -97,16 +96,15 @@ class DynamicScript : public QObject
 		std::atomic_bool stateCreated = false;
 		DefaultType defaultType = DefaultType::NoDefault;
 
-		explicit DynamicScript(const QByteArray &name, Plugin *p) :
-		  QObject(/*p*/),
-		  m_plugin(p),
+		explicit DynamicScript(const QByteArray &name, QObject *p = nullptr) :
+		  QObject(p),
 		  name{name},
 		  tpStateName(DYNAMIC_VALUE_STATE_PRFX + name)
 		{
 			// These connections must be established for all instance types. Others may be made later when the Scope is set.
-			connect(this, &DynamicScript::scriptError, p, &Plugin::onDsScriptError, Qt::QueuedConnection);
+			connect(this, &DynamicScript::scriptError, Plugin::instance, &Plugin::onDsScriptError, Qt::QueuedConnection);
 			// Direct connection to socket where state ID is already fully qualified;
-			connect(this, &DynamicScript::dataReady, p->tpClient(), qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
+			connect(this, &DynamicScript::dataReady, Plugin::instance->tpClient(), qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
 			//connect(this, &DynamicScript::dataReady, p, &Plugin::tpStateUpdate);  // alternate
 			//qCDebug(lcPlugin) << name << "Created";
 		}
@@ -196,9 +194,9 @@ class DynamicScript : public QObject
 				return;
 			singleShot = ss;
 			if (ss)
-				connect(this, &DynamicScript::finished, m_plugin, &Plugin::onDsFinished);
+				connect(this, &DynamicScript::finished, Plugin::instance, &Plugin::onDsFinished);
 			else
-				disconnect(this, &DynamicScript::finished, m_plugin, &Plugin::onDsFinished);
+				disconnect(this, &DynamicScript::finished, Plugin::instance, &Plugin::onDsFinished);
 		}
 
 		void resetEngine()
@@ -298,26 +296,13 @@ class DynamicScript : public QObject
 				// Some of these don't apply to "one time" scripts at all since they don't have a state name and can't run background tasks.
 				if (!singleShot) {
 					// An unqualified stateUpdate command for this particular instance, must add our actual state ID before sending.
-					connect(m_engine, &ScriptEngine::stateValueUpdate, this, &DynamicScript::onEngineValueUpdate);
+					// Connect to notifications about TP events so they can be re-broadcast to scripts in this instance.
+					m_engine->connectScriptInstance(this);
 					// Instance-specific errors from background tasks.
 					connect(m_engine, &ScriptEngine::raiseError, this, &DynamicScript::scriptError);
-					// Connect to notifications about TP events so they can be re-broadcast to scripts in this instance.
-					connect(m_plugin, &Plugin::tpNotificationClicked, m_engine, &ScriptEngine::onNotificationClicked);
-					connect(m_plugin, &Plugin::tpBroadcast, m_engine, &ScriptEngine::tpBroadcast);
 					// Save the default value to global constant.
 					m_engine->dseObject().setProperty(QStringLiteral("INSTANCE_DEFAULT_VALUE"), QLatin1String(defaultValue));
 				}
-				// Global from script engine which needs name lookup because the state name is not fully qualified.
-				connect(m_engine, &ScriptEngine::stateValueUpdateByName, m_plugin, &Plugin::onStateUpdateByName);
-				// Direct(ish) connection to socket where state ID is already fully qualified;
-				connect(m_engine, &ScriptEngine::stateValueUpdateById, m_plugin, &Plugin::tpStateUpdate);
-				// Other direct connections from eponymous script functions.
-				connect(m_engine, &ScriptEngine::stateCreate, m_plugin, &Plugin::tpStateCreate);
-				connect(m_engine, &ScriptEngine::stateRemove, m_plugin, &Plugin::tpStateRemove);
-				connect(m_engine, &ScriptEngine::choiceUpdate, m_plugin, &Plugin::tpChoiceUpdateStrList);
-				connect(m_engine, &ScriptEngine::connectorUpdate, m_plugin, &Plugin::tpConnectorUpdate);
-				connect(m_engine, &ScriptEngine::connectorUpdateShort, m_plugin, &Plugin::tpConnectorUpdateShort);
-				connect(m_engine, &ScriptEngine::tpNotification, m_plugin, &Plugin::tpNotification);
 			}
 			else {
 				m_engine = ScriptEngine::instance();
@@ -377,9 +362,6 @@ class DynamicScript : public QObject
 		}
 
 	private Q_SLOTS:
-		void onEngineValueUpdate(const QByteArray &v) {
-			Q_EMIT dataReady(tpStateName, v);
-		}
 	public Q_SLOTS:
 		void evaluate()
 		{
@@ -448,6 +430,10 @@ class DynamicScript : public QObject
 				default:
 					return;
 			}
+		}
+
+		void onEngineValueUpdate(const QByteArray &v) {
+			Q_EMIT dataReady(tpStateName, v);
 		}
 
 	Q_SIGNALS:

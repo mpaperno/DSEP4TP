@@ -35,6 +35,8 @@ class Plugin : public QObject
 		explicit Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent = nullptr);
 		~Plugin();
 
+		static Plugin *instance;
+
 		struct SharedData
 		{
 			uint32_t tpVersion {0};
@@ -62,6 +64,9 @@ class Plugin : public QObject
 
 		void loggerRotateLogs() const;
 
+	public Q_SLOTS:
+		void onStateUpdateByName(const QByteArray &name, const QByteArray &value) const;
+
 	private Q_SLOTS:
 		void start();
 		void exit();
@@ -76,7 +81,6 @@ class Plugin : public QObject
 		void removeScriptState(DynamicScript *ds, bool delayListUpdate = false) const;
 		void raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type = tr("SCRIPT EXCEPTION")) const;
 		void clearScriptErrors();
-		void onStateUpdateByName(const QByteArray &name, const QByteArray &value) const;
 		void onDsScriptError(const QJSValue &e) const;
 		void onScriptEngineError(const QJSValue &e) const;
 		void onDsFinished();
@@ -96,7 +100,6 @@ class Plugin : public QObject
 
 		TPClientQt *client;
 		QTimer m_loadSettingsTmr;
-		static QString m_scriptsBaseDir;
 
 		friend class DynamicScript;
 };

@@ -21,11 +21,11 @@ to any 3rd-party components used within.
 #include "ScriptEngine.h"
 #include "Plugin.h"
 #include "utils.h"
-#include "ConnectorData.h"
 #include "ScriptingLibrary/AbortController.h"
 #include "ScriptingLibrary/Dir.h"
 #include "ScriptingLibrary/File.h"
 #include "ScriptingLibrary/Process.h"
+#include "ScriptingLibrary/TPAPI.h"
 #include "ScriptingLibrary/Util.h"
 
 #if !SCRIPT_ENGINE_USE_QML
@@ -65,20 +65,25 @@ ScriptEngine::ScriptEngine(bool isStatic, const QByteArray &instanceName, QObjec
 #endif
 	}
 	initScriptEngine();
-	connect(ConnectorData::instance(), &ConnectorData::connectorsUpdated, this, &ScriptEngine::connectorIdsChanged);
 }
 
 ScriptEngine::~ScriptEngine() {
 	delete ulib;
 	ulib = nullptr;
+	delete tpapi;
+	tpapi = nullptr;
 	if (se) {
 		se->collectGarbage();
 		se->deleteLater();
 		se = nullptr;
 	}
-	if (connData)
-		connData->deleteLater();
 	//qDebug() << this << "Destroyed";
+}
+
+void ScriptEngine::connectScriptInstance(DynamicScript *ds)
+{
+	tpapi->connectInstance(ds);
+	tpapi->connectSlots(Plugin::instance);
 }
 
 void ScriptEngine::initScriptEngine()
@@ -87,8 +92,16 @@ void ScriptEngine::initScriptEngine()
 		ulib->clearAllTimers();
 	}
 	else {
-		ulib = new ScriptLib::Util(this);  // 'this' is NOT the QObject parent.
+		ulib = new Util(this);  // 'this' is NOT the QObject parent.
 		QJSEngine::setObjectOwnership(ulib, QJSEngine::CppOwnership);
+	}
+
+	if (!tpapi) {
+		tpapi = new TPAPI(this);  // 'this' is NOT the QObject parent.
+		QJSEngine::setObjectOwnership(tpapi, QJSEngine::CppOwnership);
+		tpapi->connectSignals(Plugin::instance);
+		if (m_isShared)
+			tpapi->connectSlots(Plugin::instance, Qt::QueuedConnection);
 	}
 
 	QMutexLocker lock(&m_mutex);
@@ -127,6 +140,7 @@ void ScriptEngine::initScriptEngine()
 
 	se->globalObject().setProperty("ScriptEngine", se->newQObject(this));               // CPP ownership
 	se->globalObject().setProperty("Util", se->newQObject(ulib));                       // CPP ownership
+	se->globalObject().setProperty("TPAPI", se->newQObject(tpapi));                     // CPP ownership
 	se->globalObject().setProperty("Dir", se->newQObject(ScriptLib::Dir::instance()));  // static instance has CPP ownership
 	se->globalObject().setProperty("File", se->newQObject(new ScriptLib::File));        // QJSEngine has ownership
 	se->globalObject().setProperty("FS", se->newQMetaObject(&ScriptLib::FS::staticMetaObject));
@@ -332,125 +346,4 @@ void ScriptEngine::include(const QString &file) const
 #endif
 		throwError(res);
 	}
-}
-
-// static
-QString ScriptEngine::getTpCurrentPageName() { return Plugin::sharedData().tpCurrentPage; }
-
-ConnectorData *ScriptEngine::connectorData()
-{
-	if (connData)
-		return connData;
-	if (m_isShared)
-		return ConnectorData::instance();
-	connData = new ConnectorData(m_currInstanceName/*, this*/);
-	return connData;
-}
-
-QVariantMap ScriptEngine::initConnectorQuery(QJSValue query, ConnectorData **cdata)
-{
-	if (!query.isObject()) {
-		if (!query.isUndefined() && !query.isNull()) {
-			throwError(QJSValue::TypeError, tr("Parameter must be an object type"));
-			return QVariantMap();
-		}
-		query = se->newObject();
-	}
-
-	//QVariantMap q = query.toVariant().value<QVariantMap>();
-	//QString tmp;
-	//if (!q.contains(QStringLiteral("instanceName")) && !(tmp = currentInstanceName()).isEmpty())
-	//	q.insert(QStringLiteral("instanceName"), tmp);
-	//	if (!q.contains(QStringLiteral("instanceType")))
-	//		q.insert(QStringLiteral("instanceType"), dseObject().property(QStringLiteral("INSTANCE_TYPE")).toString());
-	//	if (!q.contains(QStringLiteral("defaultValue")) && !(tmp = dseObject().property(QStringLiteral("INSTANCE_DEFAULT_VALUE")).toString()).isEmpty())
-	//		q.insert(QStringLiteral("defaultValue"), tmp);
-
-	*cdata = connectorData();
-	return query.toVariant().value<QVariantMap>();
-}
-
-ConnectorRecord ScriptEngine::getConnectorByShortId(QJSValue shortId)
-{
-	if (!shortId.isString() || shortId.toString().isEmpty()) {
-		throwError(QJSValue::TypeError, tr("Parameter must be a non-empty connector shortId or search pattern string."));
-		return ConnectorRecord();
-	}
-	ConnectorData *cdata = connectorData();
-	QString errMsg;
-	const ConnectorRecord ret = cdata->getByShortId(shortId.toString().toUtf8(), &errMsg);
-	if (!errMsg.isEmpty())
-		throwError(QJSValue::TypeError, errMsg);
-	return ret;
-}
-
-QStringList ScriptEngine::getConnectorShortIds(QJSValue query)
-{
-	ConnectorData *cdata = nullptr;
-	const QVariantMap q = initConnectorQuery(query, &cdata);
-	if (!cdata)
-		return QStringList();
-
-	QString errMsg;
-	const QStringList ret = cdata->getShortIds(q, &errMsg);
-	if (!errMsg.isEmpty())
-		throwError(QJSValue::TypeError, errMsg);
-	return ret;
-}
-
-QVector<ConnectorRecord> ScriptEngine::getConnectorRecords(QJSValue query)
-{
-	ConnectorData *cdata = nullptr;
-	const QVariantMap q = initConnectorQuery(query, &cdata);
-	if (!cdata)
-		return QVector<ConnectorRecord>();
-
-	QString errMsg;
-	const QVector<ConnectorRecord> ret = cdata->records(q, &errMsg);
-	if (!errMsg.isEmpty())
-		throwError(QJSValue::TypeError, errMsg);
-	return ret;
-}
-
-void ScriptEngine::showNotification(const QByteArray &id, const QByteArray &title, const QByteArray &msg, QVariantList options, QJSValue callback)
-{
-	if (options.isEmpty())
-		options << QVariantMap({{ QStringLiteral("id"), QStringLiteral("option") }, { QStringLiteral("title"), QStringLiteral(" ") } });
-	if (callback.isCallable() || callback.isString())
-		m_notificationCallbacks.insert(id, callback);
-	emit tpNotification(id, title, msg, options);
-}
-
-void ScriptEngine::onNotificationClicked(const QString &notifyId, const QString &optionId)
-{
-	QJSValue cb = m_notificationCallbacks.value(notifyId.toUtf8());
-	if (!cb.isCallable() && !cb.isString())
-		return;
-
-	QJSValue res;
-	QJSValue thisObj;
-	const QJSValueList args { optionId, notifyId };
-	QJSManagedValue m;
-	if (m.isArray()) {
-		if (cb.property("length").toInt() > 1)
-			thisObj = cb.property(1);
-		m = QJSManagedValue(cb.property(0), se);
-	}
-	else {
-		m = QJSManagedValue(cb, se);
-	}
-	if (m.isFunction()) {
-		if (!thisObj.isUndefined() && !thisObj.isNull())
-			res = m.callWithInstance(thisObj, args);
-		else
-			res = m.call(args);
-	}
-	else if (m.isObject())
-		res = m.callAsConstructor(args);
-	else if (m.isString())
-		res = engine()->evaluate(m.toString());
-	else
-		return;
-
-	checkErrors();
 }
