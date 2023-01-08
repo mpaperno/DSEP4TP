@@ -21,6 +21,7 @@ to any 3rd-party components used within.
 #pragma once
 
 #include <QObject>
+#include <QJsonObject>
 #include <QMetaEnum>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -33,6 +34,7 @@ to any 3rd-party components used within.
 
 #ifdef DOXYGEN
 #define QByteArray String
+#define QJsonObject Object
 #endif
 
 /*!
@@ -53,11 +55,20 @@ All properties are read-only.
 class ConnectorRecord
 {
 		Q_GADGET
-		//! The State Name of the connector. This may be "ANONYMOUS" for sliders using the "Anonymous (One-Time) Script" connector/action.
-		Q_PROPERTY(QString instanceName MEMBER instanceName CONSTANT)
-		//! The type of connector action. Enumeration type, one of: "Eval", "Load", "Import", "Update", "OneTime"
-		//! __Note:__ When using this field in search criteria, the search value must be exactly one of the choices listed above, including case. No wildcards are allowed.
+		//! The "short connector ID" assigned by Touch Portal to this partulcar instance of a slider.
+		//! This is the ID to be used for sending connectorUpdate() messages back to Touch Portal.
+		Q_PROPERTY(QString shortId MEMBER shortId CONSTANT)
+		//! The full connectorId which Touch Portal uses to identify this type of connector action. This is the ID specified in the `entry.tp` plugin configuration JSON. \n
+		//! By convention this plugin uses IDs with "parts" separated by periods. For example `us.paperno.max.tpp.dse.conn.script.eval` \n
+		//! The IDs always start with the full plugin ID, followed by potentially other designators, and always ending with the actual "thing" name,
+		//! in this case the name of an action a connector should perform. The last part of an ID should always be unique.
+		Q_PROPERTY(QString connectorId MEMBER connectorId CONSTANT)
+		//! The type of connector action. May be either of:
+		//! - Enumeration type, one of: "Eval", "Load", "Import", "Update", "OneTime"
+		//! - Another string with an arbitrary action name, which is taken from the last part (when split on periods `.`) of the @ref connectorId property (see below).
 		Q_PROPERTY(QString actionType MEMBER actionType CONSTANT)
+		//! The State Name of the connector. This may be "ANONYMOUS" for "OneTime" @ref actionType connectors, or an empty string for non-enumerated `actionType` types.
+		Q_PROPERTY(QString instanceName MEMBER instanceName CONSTANT)
 		//! The type of scripting action. Enumeration type, one of: "Expression", "Script", "Module", "Unknown" (for Update type actions)
 		//! __Note:__ When using this field in search criteria, the search value must be exactly one of the choices listed above, including case. No wildcards are allowed.
 		Q_PROPERTY(QString inputType READ inputType CONSTANT)
@@ -69,12 +80,15 @@ class ConnectorRecord
 		Q_PROPERTY(QString alias MEMBER alias CONSTANT)
 		//! This is the Engine Instance type specified in the connector. One of: "Shared" or "Private"
 		Q_PROPERTY(QString instanceType READ instanceType CONSTANT)
-
-		//! The full connectorId which Touch Portal uses to identify this type of connector action type.
-		Q_PROPERTY(QString connectorId MEMBER connectorId CONSTANT)
-		//! The "short connector ID" assigned by Touch Portal to this partulcar instance of a slider.
-		//! This is the ID to be used for sending connectorUpdate() messages back to Touch Portal.
-		Q_PROPERTY(QString shortId MEMBER shortId CONSTANT)
+		/*! This property holds an object with any other Connector data members which were found but do not fit into any of the other data member property types.
+			__Note:__ This is for advanced use with custom connector definitions in a custom entry.tp file. By convention this plugin uses action/connector data IDs with
+			"parts" separated by periods. For example `us.paperno.max.tpp.dse.act.script.eval.expr` \n
+			The property is __returned__ as an `Object` type, possibly empty, with the last portion of the data ID (after the last period (`.`) separator, "expr" in the example above)
+			as key(s) with the corresponding value(s) from the user's entry. The value is always a String type. \n
+			The property is __searched__ (and stored) as compact serialized JSON text with both keys and values quoted. Eg. `{"rangeMin":"100","rangeMax":"1000"}` \n
+			The quotes and colons can be effectively used in search terms to limit the scope of the search. For example ```{ otherData: '"range*":"100?"' }```
+		*/
+		Q_PROPERTY(QJsonObject otherData MEMBER otherData CONSTANT)
 		//! A timestamp of when the notifaction about this connector was received from Touch Portal. The format is the common "milliseconds since epoch".
 		//! The latest notification will typically mean that slider actually exists in the user's page, whereas previous versions
 		//! may or may not still exist. Touch Portal does not notify when a connector was removed.
@@ -84,19 +98,58 @@ class ConnectorRecord
 		//! __Note:__ This property cannot be used in search queries.
 		Q_PROPERTY(bool isNull READ isNull CONSTANT)
 
-		// Disabled/undocumented, perhaps remove later.
-		// The Create State at Startup type specified in the connector. Enumeration type, one of: "NoDefault", "FixedValue", "CustomExpression", "MainExpression"
-		// __Note:__ When using this field in search criteria, the search value must be exactly one of the choices listed above, including case. No wildcards are allowed.
-		//Q_PROPERTY(QString defaultType READ defaultType CONSTANT SCRIPTABLE false)
-		// The Default Value/Expression specified in the connector setup.
-		//Q_PROPERTY(QByteArray defaultValue MEMBER defaultValue CONSTANT SCRIPTABLE false)
 
 	public:
+		enum Columns {
+			COL_ACTTYPE,
+			COL_NAME,
+			COL_EXPR,
+			COL_FILE,
+			COL_ALIAS,
+			COL_CONNID,
+			COL_SHORTID,
+			COL_OTHER,
+			COL_INPTYPE,
+			COL_INSTYPE,
+			COL_TS,
+		};
+
+		static const QStringList &columnNames() {
+			static const QStringList n {
+				"actionType",    // COL_ACTTYPE,
+				"instanceName",  // COL_NAME,
+				"expression",    // COL_EXPR,
+				"file",          // COL_FILE,
+				"alias",         // COL_ALIAS,
+				"connectorId",   // COL_CONNID,
+				"shortId",       // COL_SHORTID,
+				"otherData",     // COL_OTHER,
+				"inputType",     // COL_INPTYPE,
+				"instanceType",  // COL_INSTYPE,
+				"timestamp",     // COL_TS,
+			};
+			return n;
+		}
+
+		static const QStringList textPropertyNames() {
+			return columnNames().sliced(COL_ACTTYPE, COL_OTHER + 1);
+		}
+		static const QStringList enumPropertyNames() {
+			return columnNames().sliced(COL_INPTYPE, COL_INSTYPE + 1);
+		}
+		static const QMap<QString, QMetaEnum> &enumProperties()
+		{
+			static const QMap<QString, QMetaEnum> map {
+				{ columnNames().at(COL_INPTYPE), inputTypeMeta() },
+				{ columnNames().at(COL_INSTYPE), instanceTypeMeta() }
+			};
+			return map;
+		}
+
 		ConnectorRecord() {}
 
-		DynamicScript::InputType eInputType;
-		DynamicScript::Scope eInstanceType;
-		DynamicScript::DefaultType eDefaultType;
+		DynamicScript::InputType eInputType = DynamicScript::InputType::Unknown;
+		DynamicScript::Scope eInstanceType = DynamicScript::Scope::Unknown;
 		qint64 timestamp;
 		QByteArray actionType;
 		QByteArray instanceName;
@@ -105,67 +158,50 @@ class ConnectorRecord
 		QByteArray expression;
 		QByteArray file;
 		QByteArray alias;
-		QByteArray defaultValue;
+		QJsonObject otherData;
 
 		QString inputType() const { return inputTypeMeta().key((int)eInputType); }
 		QString instanceType() const { return instanceTypeMeta().key((int)eInstanceType); }
-		QString defaultType() const { return defaultTypeMeta().key((int)eDefaultType); }
 		bool isNull() const { return !timestamp; }
-
-		static const QStringList &columnNames() {
-			static const QStringList n {
-				"instanceName",  // 0
-				"actionType",    // 1
-				"inputType",     // 2
-				"expression",    // 3
-				"file",          // 4
-				"alias",         // 5
-				"instanceType",  // 6
-				"connectorId",   // 7
-				"shortId",       // 8
-				"timestamp"      // 9
-				//"defaultType",   // 10
-				//"defaultValue",  // 11
-			};
-			return n;
-		}
 
 		explicit ConnectorRecord(QSqlQuery *qry)
 		{
-			instanceName  = qry->value(0).toByteArray();
-			actionType    = qry->value(1).toByteArray();
-			eInputType    = DynamicScript::InputType(qry->value(2).toUInt());
-			expression    = qry->value(3).toByteArray();
-			file          = qry->value(4).toByteArray();
-			alias         = qry->value(5).toByteArray();
-			eInstanceType = DynamicScript::Scope(qry->value(6).toUInt());
-			connectorId   = qry->value(7).toByteArray();
-			shortId       = qry->value(8).toByteArray();
-			timestamp     = qry->value(9).toLongLong();
-			//eDefaultType  = DynamicScript::DefaultType(qry->value(10).toUInt());
-			//defaultValue  = qry->value(11).toByteArray();
+			instanceName  = qry->value(COL_NAME).toByteArray();
+			actionType    = qry->value(COL_ACTTYPE).toByteArray();
+			expression    = qry->value(COL_EXPR).toByteArray();
+			file          = qry->value(COL_FILE).toByteArray();
+			alias         = qry->value(COL_ALIAS).toByteArray();
+			connectorId   = qry->value(COL_CONNID).toByteArray();
+			shortId       = qry->value(COL_SHORTID).toByteArray();
+			timestamp     = qry->value(COL_TS).toLongLong();
+			eInputType    = DynamicScript::InputType(qry->value(COL_INPTYPE).toUInt());
+			eInstanceType = DynamicScript::Scope(qry->value(COL_INSTYPE).toUInt());
+			otherData     = QJsonDocument::fromJson(qry->value(COL_OTHER).toByteArray()).object();
 		}
 
 		void bindAll(QSqlQuery *qry) const
 		{
-			qry->bindValue(0,  qPrintable(instanceName));
-			qry->bindValue(1,  qPrintable(actionType));
-			qry->bindValue(2,  uint(eInputType));
-			qry->bindValue(3,  qPrintable(expression));
-			qry->bindValue(4,  qPrintable(file));
-			qry->bindValue(5,  qPrintable(alias));
-			qry->bindValue(6,  uint(eInstanceType));
-			qry->bindValue(7,  qPrintable(connectorId));
-			qry->bindValue(8, qPrintable(shortId));
-			qry->bindValue(9, QDateTime::currentMSecsSinceEpoch());
-			//qry->bindValue(10,  uint(eDefaultType));
-			//qry->bindValue(11,  qPrintable(defaultValue));
+			qry->bindValue(COL_NAME,  qPrintable(instanceName));
+			qry->bindValue(COL_ACTTYPE,  qPrintable(actionType));
+			qry->bindValue(COL_EXPR,  qPrintable(expression));
+			qry->bindValue(COL_FILE, qPrintable(file));
+			qry->bindValue(COL_ALIAS, qPrintable(alias));
+			qry->bindValue(COL_CONNID, qPrintable(connectorId));
+			qry->bindValue(COL_SHORTID, qPrintable(shortId));
+			qry->bindValue(COL_INPTYPE,  uint(eInputType));
+			qry->bindValue(COL_INSTYPE, uint(eInstanceType));
+			qry->bindValue(COL_OTHER, QJsonDocument(otherData).toJson(QJsonDocument::Compact));
+			qry->bindValue(COL_TS, QDateTime::currentMSecsSinceEpoch());
 		}
 
 		static const QMetaEnum inputTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DynamicScript::InputType>(); return m; }
 		static const QMetaEnum instanceTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DynamicScript::Scope>(); return m; }
-		static const QMetaEnum defaultTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DynamicScript::DefaultType>(); return m; }
 };
+
+
+// ---------------------------------
+// ConnectorData
+// ---------------------------------
 
 class ConnectorData : public QObject
 {
@@ -300,23 +336,16 @@ class ConnectorData : public QObject
 						filter << key + '=' + QString::number(e);
 				}
 			};
-			addEnumFltr(QStringLiteral("inputType"), ConnectorRecord::inputTypeMeta());
-			addEnumFltr(QStringLiteral("instanceType"), ConnectorRecord::instanceTypeMeta());
-			//addEnumFltr(QStringLiteral("defaultType"), ConnectorRecord::defaultTypeMeta());
+			for (const auto &prop : ConnectorRecord::enumProperties().asKeyValueRange())
+				addEnumFltr(prop.first, prop.second);
 
 			auto addStringFltr = [&](const QString &key) {
 				const QVariant &p = query.value(key);
 				if (p.canConvert<QString>())
 					filter << key + " GLOB '" + p.toString() + '\'';
 			};
-			addStringFltr(QStringLiteral("instanceName"));
-			addStringFltr(QStringLiteral("actionType"));
-			addStringFltr(QStringLiteral("expression"));
-			addStringFltr(QStringLiteral("file"));
-			addStringFltr(QStringLiteral("alias"));
-			addStringFltr(QStringLiteral("connectorId"));
-			addStringFltr(QStringLiteral("shortId"));
-			//addStringFltr(QStringLiteral("defaultValue"));
+			for (const auto &prop : ConnectorRecord::textPropertyNames())
+				addStringFltr(prop);
 
 			const QString orderBy = query.value(QStringLiteral("orderBy"), QStringLiteral("timestamp DESC")).toString();
 
@@ -365,19 +394,18 @@ class ConnectorData : public QObject
 
 			const QString sql(QStringLiteral(
 				"CREATE TABLE ConnectorData ("
-				"  instanceName varchar(100) NOT NULL,"
-				"  actionType   varchar(10)  NOT NULL,"
-				"  inputType    INTEGER      NOT NULL DEFAULT 0,"
+			  "  actionType   varchar(25)  NOT NULL,"
+				"  instanceName varchar(100) NOT NULL DEFAULT '',"
 				"  expression   TEXT         NOT NULL DEFAULT '',"
 				"  file         varchar(255) NOT NULL DEFAULT '',"
 				"  alias        varchar(30)  NOT NULL DEFAULT '',"
-				"  instanceType INTEGER      NOT NULL DEFAULT 0,"
 				"  connectorId  varchar(200) NOT NULL DEFAULT '',"
 				"  shortId      varchar(20)  NOT NULL UNIQUE,"
+			  "  otherData    TEXT         NOT NULL DEFAULT '{}',"
+			  "  inputType    INTEGER      NOT NULL DEFAULT 0,"
+			  "  instanceType INTEGER      NOT NULL DEFAULT 0,"
 				"  timestamp    INTEGER      NOT NULL,"
-				//"  defaultType  INTEGER      NOT NULL DEFAULT 0,"
-				//"  defaultValue TEXT         NOT NULL DEFAULT '',"
-				"  PRIMARY KEY(instanceName, actionType, inputType, expression, file, alias, instanceType)"  // , defaultType, defaultValue
+				"  PRIMARY KEY(inputType, instanceType, actionType, instanceName, expression, file, alias, otherData)"
 				") WITHOUT ROWID;"
 			));
 			if (!execQry(sql)) {
@@ -387,18 +415,9 @@ class ConnectorData : public QObject
 			}
 			qCDebug(lcPlugin) << "Created database definitions for" << m_db.connectionName() << m_db.databaseName();
 
-			execQry(QStringLiteral("CREATE INDEX IDX_instanceName ON ConnectorData (instanceName);"));
-			execQry(QStringLiteral("CREATE INDEX IDX_actionType   ON ConnectorData (actionType);"));
-			execQry(QStringLiteral("CREATE INDEX IDX_inputType    ON ConnectorData (inputType);"));
-			execQry(QStringLiteral("CREATE INDEX IDX_expression   ON ConnectorData (expression);"));
-			execQry(QStringLiteral("CREATE INDEX IDX_file         ON ConnectorData (file);"));
-			execQry(QStringLiteral("CREATE INDEX IDX_alias        ON ConnectorData (alias);"));
-			execQry(QStringLiteral("CREATE INDEX IDX_instanceType ON ConnectorData (instanceType);"));
-			execQry(QStringLiteral("CREATE INDEX IDX_shortId      ON ConnectorData (shortId);"));
-			execQry(QStringLiteral("CREATE INDEX IDX_connectorId  ON ConnectorData (connectorId);"));
-			execQry(QStringLiteral("CREATE INDEX IDX_timestamp    ON ConnectorData (timestamp);"));
-			//execQry(QStringLiteral("CREATE INDEX IDX_defaultType  ON ConnectorData (defaultType);"));
-			//execQry(QStringLiteral("CREATE INDEX IDX_defaultValue ON ConnectorData (defaultValue);"));
+			for (const auto &prop : ConnectorRecord::columnNames())
+				execQry(QStringLiteral("CREATE INDEX IDX_%1 ON ConnectorData (%1);").arg(prop));
+
 			m_db.commit();
 		}
 
