@@ -62,6 +62,7 @@ Plugin::SharedData &Plugin::sharedData() { return *g_sharedData; }
 
 static std::atomic_uint32_t g_errorCount = 0;
 static std::atomic_uint32_t g_singleShotCount = 0;
+static bool g_startupComplete = false;
 
 
 using TokenMapHash = QHash<QByteArray, int>;
@@ -202,6 +203,8 @@ void Plugin::initEngine()
 
 void Plugin::saveSettings()
 {
+	if (!g_startupComplete)
+		return;
 	int count = 0;
 	QSettings s;
 	s.beginGroup("DynamicStates");
@@ -242,6 +245,7 @@ void Plugin::loadSettings()
 	if (count)
 		qCInfo(lcPlugin) << "Loaded" << count << "saved instance(s) from settings.";
 	sendStateLists();
+	g_startupComplete = true;
 }
 
 DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool deferState, bool failIfMissing)
