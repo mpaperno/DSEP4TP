@@ -639,7 +639,6 @@ void Plugin::handleSettings(const QJsonObject &settings)
 			g_sharedData->scriptsBaseDir = QDir::fromNativeSeparators(next.value().toString());
 			if (!g_sharedData->scriptsBaseDir.endsWith('/'))
 				g_sharedData->scriptsBaseDir += '/';
-			//qCDebug(lcPlugin) << g_sharedData->scriptsBaseDir << settings;
 		}
 	}
 }
@@ -651,34 +650,38 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg)
 	const QList<QStringView> propList = QStringView(longConnId).split('|');
 	if (propList.size() < 2)
 		return;
-	const QByteArray &actIdStr = propList.at(0).split('.').last().toUtf8();
-	const ScriptAction act = (ScriptAction)tokenMap().value(actIdStr, SA_Unknown);
-	if (act == SA_Unknown) {
-		qCWarning(lcPlugin) << "Unknown action for this plugin:" << actIdStr;
-		return;
-	}
-	QHash<QByteArray, QStringView> tempMap;
+
+	QByteArray actIdStr = propList.at(0).split('.').last().toUtf8();
+	const int act = tokenMap().value(actIdStr, AT_Unknown);
+	if (act != AT_Unknown)
+		actIdStr = tokenToName().value(act, actIdStr);
+
+	ConnectorRecord cr;
+	cr.actionType = actIdStr;
+	cr.connectorId = propList.at(0).split('_').last().toUtf8();
+	cr.shortId = msg.value(QLatin1String("shortId")).toString().toUtf8();
+
 	QList<QStringView>::const_iterator it = propList.constBegin() + 1;
 	for (; it != propList.constEnd(); ++it) {
 		const auto dataPair = it->split('=');
-		tempMap.insert(dataPair.first().split('.').last().toUtf8(), dataPair.last());
+		const QByteArray id = dataPair.first().split('.').last().toUtf8();
+		const QStringView value = dataPair.last();
+		if (cr.instanceName.isEmpty() && !id.compare(QByteArrayLiteral("name")))
+			cr.instanceName = value.toUtf8();
+		else if (cr.eInstanceType == DynamicScript::Scope::Unknown && !id.compare(QByteArrayLiteral("scope")))
+			cr.eInstanceType = stringToScope(value);
+		else if (cr.expression.isEmpty() && !id.compare(QByteArrayLiteral("expr")))
+			cr.expression = value.toUtf8();
+		else if (cr.file.isEmpty() && !id.compare(QByteArrayLiteral("file")))
+			cr.file = value.toUtf8();
+		else if (cr.alias.isEmpty() && !id.compare(QByteArrayLiteral("alias")))
+			cr.alias = value.toUtf8();
+		else if (act == SA_SingleShot && cr.eInputType == DynamicScript::InputType::Unknown && !id.compare(QByteArrayLiteral("type")))
+			cr.eInputType = stringToInputType(value);
+		else
+			cr.otherData.insert(id, value.toString());
 	}
-
-	// Include single-shot connectors in tracking data?
-	//if (!tempMap.contains(QByteArrayLiteral("name")))
-	//	return;
-
-	ConnectorRecord cr;
-	cr.actionType = scriptActionNames().value(act);
-	cr.connectorId = propList.at(0).split('_').last().toUtf8();
-	cr.shortId = msg.value(QLatin1String("shortId")).toString().toUtf8();
-	cr.instanceName = tempMap.value(QByteArrayLiteral("name"), QStringLiteral("ANONYMOUS")).toUtf8();
-	cr.eInstanceType = stringToScope(tempMap.value(QByteArrayLiteral("scope"), QStringLiteral("Shared")));
-	cr.expression = tempMap.value(QByteArrayLiteral("expr"), QStringLiteral("")).toUtf8();
-	cr.file = tempMap.value(QByteArrayLiteral("file"), QStringLiteral("")).toUtf8();
-	cr.alias = tempMap.value(QByteArrayLiteral("alias"), QStringLiteral("")).toUtf8();
-	//cr.eDefaultType = stringToDefaultType(tempMap.value(QByteArrayLiteral("save"), QStringLiteral("No")));
-	//cr.defaultValue = tempMap.value(QByteArrayLiteral("default"), QStringLiteral("")).toUtf8();
+	//qDebug() << cr.actionType << cr.shortId << cr.otherData;
 
 	switch (act) {
 		case SA_Eval:
@@ -690,19 +693,9 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg)
 		case SA_Import:
 			cr.eInputType = DynamicScript::InputType::Module;
 			break;
-		case SA_SingleShot:
-			cr.eInputType = stringToInputType(tempMap.value("type"));
-			break;
-
 		case SA_Update:
 			if (DynamicScript *ds = getOrCreateInstance(cr.instanceName, true, true))
 				cr.eInputType = ds->inputType();
-			else
-				cr.eInputType = DynamicScript::InputType::Unknown;
-			break;
-
-		case SA_Unknown:
-			cr.eInputType = DynamicScript::InputType::Unknown;
 			break;
 	}
 
