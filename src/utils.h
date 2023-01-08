@@ -27,7 +27,6 @@ to any 3rd-party components used within.
 #include <QTimer>
 
 #include "common.h"
-#include "Plugin.h"
 
 namespace Utils {
 
@@ -44,16 +43,6 @@ static inline void runOnThread(QThread *qThread, Func &&func)
 		t->deleteLater();
 	});
 	QMetaObject::invokeMethod(t, "start", Qt::QueuedConnection);
-}
-
-static QString resolveFile(const QString &base)
-{
-	if (Plugin::sharedData().scriptsBaseDir.isEmpty() || base.isEmpty())
-		return base;
-	const QString tbase = QDir::fromNativeSeparators(base);
-	if (QDir::isAbsolutePath(tbase))
-		return tbase;
-	return QDir::cleanPath(Plugin::sharedData().scriptsBaseDir + tbase);
 }
 
 // unpacks an value which is a JS array into a list of individual JS values

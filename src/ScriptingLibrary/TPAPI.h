@@ -21,7 +21,6 @@ to any 3rd-party components used within.
 #pragma once
 
 #include <QJSManagedValue>
-#include <QMutex>
 #include <QObject>
 
 //#include "common.h"
@@ -29,6 +28,7 @@ to any 3rd-party components used within.
 #include "Plugin.h"
 #include "ScriptEngine.h"
 #include "ConnectorData.h"
+#include "DSE.h"
 
 #ifndef DOXYGEN
 namespace ScriptLib {
@@ -41,7 +41,6 @@ class TPAPI : public QObject
 	private:
 		ScriptEngine *se = nullptr;
 		ConnectorData *connData = nullptr;
-		QMutex m_mutex;
 		QHash<QByteArray, QJSValue> m_notificationCallbacks;
 
 	public:
@@ -128,7 +127,7 @@ class TPAPI : public QObject
 			return ret;
 		}
 
-		Q_INVOKABLE static QString currentPageName() { return Plugin::sharedData().tpCurrentPage; }
+		Q_INVOKABLE static QString currentPageName() { return DSE::tpCurrentPage; }
 
 	Q_SIGNALS:
 		void stateValueUpdate(const QByteArray &);

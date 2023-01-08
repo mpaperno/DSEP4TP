@@ -38,6 +38,7 @@ to any 3rd-party components used within.
 #include <QMutex>
 
 #include "common.h"
+#include "DSE.h"
 
 #define SCRIPT_ENGINE_CHECK_ERRORS(JSE) \
 	if (ScriptEngine *_scriptEngine = JSE->property("ScriptEngine").value<ScriptEngine *>()) { \
@@ -94,9 +95,9 @@ class NetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
 class DynamicScript;
 
 namespace ScriptLib {
+	class TPAPI;
 	class Util;
 	struct TimerData;
-	class TPAPI;
 }
 
 class ScriptEngine : public QObject
@@ -147,10 +148,10 @@ class ScriptEngine : public QObject
 
 		inline QJSEngine *engine() const { return se; }
 		inline QJSValue globalObject() const { return se ? se->globalObject() : QJSValue(); }
-		inline QJSValue dseObject() const { return globalObject().property("DSE"); }
+		inline DSE *dseObject() const { return dse; }
 		inline bool isSharedInstance() const { return m_isShared; }
-		inline QByteArray currentInstanceName() const { return dseObject().property(QStringLiteral("INSTANCE_NAME")).toString().toUtf8(); }
-		inline ScriptLib::TPAPI *TpApi() const { return tpapi; }
+		inline QByteArray currentInstanceName() const { return dse->instanceName; }
+		inline ScriptLib::TPAPI *tpApiObject() const { return tpapi; }
 
 		static inline JSError jsError(const QJSValue &err) { return JSError(err); }
 
@@ -187,12 +188,12 @@ class ScriptEngine : public QObject
 
 	private:
 		SCRIPT_ENGINE_BASE_TYPE *se = nullptr;
-		ScriptLib::Util *ulib = nullptr;
+		DSE *dse = nullptr;
 		ScriptLib::TPAPI *tpapi = nullptr;
+		ScriptLib::Util *ulib = nullptr;
 		QByteArray m_currInstanceName;
 		bool m_isShared = false;
 		QMutex m_mutex;
-		QHash<QByteArray, QJSValue> m_notificationCallbacks;
 #if SCRIPT_ENGINE_USE_QML
 		NetworkAccessManagerFactory m_factory;
 #endif
@@ -202,15 +203,13 @@ class ScriptEngine : public QObject
 
 		inline void setInstanceProperties(const QByteArray &instName)
 		{
-			if (m_isShared) {
-				dseObject().setProperty(QStringLiteral("INSTANCE_NAME"), QLatin1String(instName));
-			}
+			if (m_isShared)
+				dse->instanceName = instName;
 		}
 		inline void resetInstanceProperties()
 		{
-			if (m_isShared) {
-				dseObject().setProperty(QStringLiteral("INSTANCE_NAME"), QLatin1String(""));
-			}
+			if (m_isShared)
+				dse->instanceName.clear();
 		}
 
 		void evalScript(const QString &fn) const

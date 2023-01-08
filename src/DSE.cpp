@@ -18,16 +18,37 @@ of their respective licenses. The copyright notice above does not apply
 to any 3rd-party components used within.
 */
 
-#pragma once
-
-#include <QDebug>
-#include <QLoggingCategory>
-
 #include "version.h"
+#include "DSE.h"
 
-#ifdef QT_DEBUG
-static Q_LOGGING_CATEGORY(lcPlugin, PLUGIN_SYSTEM_NAME, QtDebugMsg)
+const quint32 DSE::pluginVersion { APP_VERSION };
+const QByteArray DSE::pluginVersionStr { QByteArrayLiteral(APP_VERSION_STR) };
+const QString DSE::platformOs {
+#if defined(Q_OS_ANDROID)
+	QStringLiteral("android")
+#elif defined(Q_OS_IOS)
+	QStringLiteral("ios")
+#elif defined(Q_OS_TVOS)
+	QStringLiteral("tvos")
+#elif defined(Q_OS_MAC)
+	QStringLiteral("osx")
+#elif defined(Q_OS_WIN)
+	QStringLiteral("windows")
+#elif defined(Q_OS_LINUX)
+	QStringLiteral("linux")
+#elif defined(Q_OS_QNX)
+	QStringLiteral("qnx")
+#elif defined(Q_OS_WASM)
+	QStringLiteral("wasm")
+#elif defined(Q_OS_UNIX)
+	QStringLiteral("unix")
 #else
-static Q_LOGGING_CATEGORY(lcPlugin, PLUGIN_SYSTEM_NAME, QtInfoMsg)
+	QStringLiteral("unknown")
 #endif
-static Q_LOGGING_CATEGORY(lcDse, "DSE", QtDebugMsg)
+};
+
+quint32 DSE::tpVersion {0};
+QString DSE::tpVersionStr;
+QString DSE::scriptsBaseDir;
+QByteArray DSE::tpCurrentPage;
+std::atomic_int DSE::defaultRepeatRate { 350 };

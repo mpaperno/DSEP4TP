@@ -37,16 +37,6 @@ class Plugin : public QObject
 
 		static Plugin *instance;
 
-		struct SharedData
-		{
-			uint32_t tpVersion {0};
-			QString tpVersionStr;
-			QString scriptsBaseDir;
-			QByteArray tpCurrentPage;
-		};
-
-		static SharedData &sharedData();
-
 	Q_SIGNALS:
 		void tpConnect();
 		void tpDisconnect();

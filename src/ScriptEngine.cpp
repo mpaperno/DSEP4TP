@@ -20,7 +20,6 @@ to any 3rd-party components used within.
 
 #include "ScriptEngine.h"
 #include "Plugin.h"
-#include "utils.h"
 #include "ScriptingLibrary/AbortController.h"
 #include "ScriptingLibrary/Dir.h"
 #include "ScriptingLibrary/File.h"
@@ -48,7 +47,7 @@ using namespace Utils;
 using namespace ScriptLib;
 
 ScriptEngine::ScriptEngine(bool isStatic, const QByteArray &instanceName, QObject *p) :
-  QObject(p),
+  QObject(p), dse{new DSE}, tpapi{new TPAPI(this)}, ulib{new Util(this)},
   m_currInstanceName(instanceName), m_isShared(isStatic)
 {
 	setObjectName(QLatin1String("ScriptEngine"));
@@ -64,6 +63,16 @@ ScriptEngine::ScriptEngine(bool isStatic, const QByteArray &instanceName, QObjec
 		qRegisterMetaType<QList<int> >();
 #endif
 	}
+
+	QJSEngine::setObjectOwnership(this, QJSEngine::CppOwnership);
+	QJSEngine::setObjectOwnership(dse, QJSEngine::CppOwnership);
+	QJSEngine::setObjectOwnership(tpapi, QJSEngine::CppOwnership);
+	QJSEngine::setObjectOwnership(ulib, QJSEngine::CppOwnership);
+
+	tpapi->connectSignals(Plugin::instance);
+	if (m_isShared)
+		tpapi->connectSlots(Plugin::instance, Qt::QueuedConnection);
+
 	initScriptEngine();
 }
 
@@ -72,6 +81,8 @@ ScriptEngine::~ScriptEngine() {
 	ulib = nullptr;
 	delete tpapi;
 	tpapi = nullptr;
+	delete dse;
+	dse = nullptr;
 	if (se) {
 		se->collectGarbage();
 		se->deleteLater();
@@ -88,31 +99,15 @@ void ScriptEngine::connectScriptInstance(DynamicScript *ds)
 
 void ScriptEngine::initScriptEngine()
 {
-	if (ulib) {
-		ulib->clearAllTimers();
-	}
-	else {
-		ulib = new Util(this);  // 'this' is NOT the QObject parent.
-		QJSEngine::setObjectOwnership(ulib, QJSEngine::CppOwnership);
-	}
-
-	if (!tpapi) {
-		tpapi = new TPAPI(this);  // 'this' is NOT the QObject parent.
-		QJSEngine::setObjectOwnership(tpapi, QJSEngine::CppOwnership);
-		tpapi->connectSignals(Plugin::instance);
-		if (m_isShared)
-			tpapi->connectSlots(Plugin::instance, Qt::QueuedConnection);
-	}
-
 	QMutexLocker lock(&m_mutex);
 	if (se) {
+		ulib->clearAllTimers();
 		se->collectGarbage();
 		se->deleteLater();
 		se = nullptr;
 	}
 
 	se = new SCRIPT_ENGINE_BASE_TYPE();
-	QJSEngine::setObjectOwnership(this, QJSEngine::CppOwnership);
 	se->setProperty("ScriptEngine", QVariant::fromValue(this));  // used by library scripts to raise uncaught exceptions
 
 #if !SCRIPT_ENGINE_USE_QML
@@ -120,9 +115,6 @@ void ScriptEngine::initScriptEngine()
 	se->handle()->initializeGlobal();    // HACK - this injects Date/Number formatting features... also XMLHttpRequest but using that crashes the program.
 	dse_add_qmlxmlhttprequest(se->handle());  // so we inject our own version which is modified to use a fixed netowrk manager and doesn't rely on qmlEngine.
 	dse_add_domexceptions(se->handle());
-	//	QQmlLocale::registerStringLocaleCompare(se->handle());  // this works
-	//	QQmlDateExtension::registerExtension(se->handle());     // thsese 2 don't bucause they're declared
-	//	QQmlNumberExtension::registerExtension(se->handle());   // static and defined in a qqmllocale.cpp
 #else
 	se->setNetworkAccessManagerFactory(&m_factory);
 	se->setOutputWarningsToStandardError(false);
@@ -130,15 +122,10 @@ void ScriptEngine::initScriptEngine()
 		for (const auto &ww : w)
 			qCWarning(lcPlugin).nospace() << ww;
 	}, Qt::DirectConnection);
-
-	//QQmlComponent root(se, ":/qml/root.qml", QQmlComponent::CompilationMode::PreferSynchronous, se);
-	//root.create();
-	//if (root.isError())
-	//	qDebug() << root.errors();
-	//se->globalObject().setProperty("rootQmlObject", se->newQObject(&root));
 #endif
 
 	se->globalObject().setProperty("ScriptEngine", se->newQObject(this));               // CPP ownership
+	se->globalObject().setProperty("DSE", se->newQObject(dse));                         // CPP ownership
 	se->globalObject().setProperty("Util", se->newQObject(ulib));                       // CPP ownership
 	se->globalObject().setProperty("TPAPI", se->newQObject(tpapi));                     // CPP ownership
 	se->globalObject().setProperty("Dir", se->newQObject(ScriptLib::Dir::instance()));  // static instance has CPP ownership
@@ -167,17 +154,10 @@ void ScriptEngine::initScriptEngine()
 	//evalScript(QStringLiteral(":/scripts/stringformat.js"));
 	//evalScript(QStringLiteral(":/scripts/global.js"));
 
-	QJSValue dse = dseObject();
-	dse.setProperty(QStringLiteral("PLUGIN_VERSION_NUM"), PLUGIN_VERSION);
-	dse.setProperty(QStringLiteral("PLUGIN_VERSION_STR"), QStringLiteral(PLUGIN_VERSION_STR));
-	dse.setProperty(QStringLiteral("SCRIPTS_BASE_DIR"), Plugin::sharedData().scriptsBaseDir.isEmpty() ? QDir::currentPath() : Plugin::sharedData().scriptsBaseDir);
-	dse.setProperty(QStringLiteral("TP_USER_DATA_PATH"), QString::fromUtf8(Utils::tpDataPath()));
-	dse.setProperty(QStringLiteral("TP_VERSION_CODE"), Plugin::sharedData().tpVersion);
-	dse.setProperty(QStringLiteral("TP_VERSION_STR"), Plugin::sharedData().tpVersionStr);
 	if (!m_isShared) {
-		dse.setProperty(QStringLiteral("INSTANCE_TYPE"), QStringLiteral("Private"));
+		dse->privateInstance = true;
 		if (!m_currInstanceName.isEmpty())
-			dse.setProperty(QStringLiteral("INSTANCE_NAME"), QLatin1String(m_currInstanceName));
+			dse->instanceName = m_currInstanceName;
 	}
 
 }
@@ -330,7 +310,7 @@ bool ScriptEngine::timerExpression(const ScriptLib::TimerData *timData)
 
 void ScriptEngine::include(const QString &file) const
 {
-	const QString script(File::read_impl(se, Utils::resolveFile(file), ScriptLib::FS::O_TEXT));
+	const QString script(File::read_impl(se, DSE::resolveFile(file), ScriptLib::FS::O_TEXT));
 	if (script.isEmpty()) {
 		checkErrors();
 		return;

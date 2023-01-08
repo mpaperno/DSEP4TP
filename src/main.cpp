@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationName(PLUGIN_SYSTEM_NAME);
 	QCoreApplication::setOrganizationName(PLUGIN_ORG_NAME);
 	QCoreApplication::setOrganizationDomain(PLUGIN_ORG_NAME);
-	QCoreApplication::setApplicationVersion(PLUGIN_VERSION_STR);
+	QCoreApplication::setApplicationVersion(APP_VERSION_STR);
 	QSettings::setDefaultFormat(QSettings::IniFormat);
 
 	Logger::instance()->installAppMessageHandler();

@@ -25,26 +25,12 @@ var
   clearInterval = Util.clearInterval,
   clearAllTimers = Util.clearAllTimers,
   clearInstanceTimers = Util.clearInstanceTimers,
-  include = ScriptEngine.include,
   btoa = Util.btoa,
   atob = Util.atob,
-  locale = Qt ? Qt.locale : function() {},
   hash = Util.hash,
-  TP = TPAPI,
-  DSE = {
-    PLUGIN_VERSION_NUM: 0,
-    PLUGIN_VERSION_STR: "",
-    SCRIPTS_BASE_DIR: "",
-    INSTANCE_TYPE: "Shared",
-    INSTANCE_NAME: "",
-    INSTANCE_DEFAULT_VALUE: "",
-    VALUE_STATE_PREFIX: "dsep.",
-    PLATFORM_OS: Qt ? Qt.platform.os : "unknown",
-    TP_USER_DATA_PATH: "",
-    TP_VERSION_CODE: 0,
-    TP_VERSION_STR: "",
-    instanceStateId: function() { return this.VALUE_STATE_PREFIX + this.INSTANCE_NAME; }
-  }
+  include = ScriptEngine.include,
+  locale = Qt ? Qt.locale : function() {},
+  TP = TPAPI
 ;
 
 TPAPI.onconnectorIdsChanged = function(r, t=null) { onEventHandler(TPAPI.connectorIdsChanged, r, t); }

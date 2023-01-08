@@ -26,6 +26,7 @@ to any 3rd-party components used within.
 
 #include "Plugin.h"
 #include "common.h"
+#include "DSE.h"
 #include "Logger.h"
 #include "DynamicScript.h"
 #include "ScriptEngine.h"
@@ -54,13 +55,9 @@ Plugin *Plugin::instance = nullptr;
 using ScriptState = QHash<QByteArray, DynamicScript *>;
 Q_GLOBAL_STATIC(ScriptState, g_instances)
 
-Q_GLOBAL_STATIC(Plugin::SharedData, g_sharedData)
-Plugin::SharedData &Plugin::sharedData() { return *g_sharedData; }
-
 static std::atomic_uint32_t g_errorCount = 0;
 static std::atomic_uint32_t g_singleShotCount = 0;
 static bool g_startupComplete = false;
-
 
 using TokenMapHash = QHash<QByteArray, int>;
 static const TokenMapHash &tokenMap()
@@ -326,8 +323,8 @@ void Plugin::clearScriptErrors()
 
 void Plugin::onStateUpdateByName(const QByteArray &name, const QByteArray &value) const
 {
-	qCDebug(lcPlugin) << "Sending state update" << DYNAMIC_VALUE_STATE_PRFX + name;
-	Q_EMIT tpStateUpdate(DYNAMIC_VALUE_STATE_PRFX + name, value);
+	//qCDebug(lcPlugin) << "Sending state update" << PLUGIN_STATE_ID_PREFIX + name;
+	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name, value);
 }
 
 void Plugin::onDsScriptError(const QJSValue &e) const
@@ -354,9 +351,9 @@ void Plugin::onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &se
 	qCInfo(lcPlugin).nospace().noquote()
 		<< PLUGIN_SHORT_NAME " Connected to Touch Portal v" << info.tpVersionString
 		<< " (" << info.tpVersionCode << "; SDK v" << info.sdkVersion
-		<< ") with entry.tp v" << info.pluginVersion << ", running v" << PLUGIN_VERSION_STR;
-	g_sharedData->tpVersion = info.tpVersionCode;
-	g_sharedData->tpVersionStr = info.tpVersionString;
+		<< ") with entry.tp v" << info.pluginVersion << ", running v" << APP_VERSION_STR;
+	DSE::tpVersion = info.tpVersionCode;
+	DSE::tpVersionStr = info.tpVersionString;
 	handleSettings(settings);
 	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.tpDataPath"), Utils::tpDataPath());
 	initEngine();
@@ -380,7 +377,7 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 				const QByteArray pgName = msg.value(QLatin1String("pageName")).toString().toUtf8().sliced(1).replace(".tml", QByteArray()).replace('\\', '/');
 				if (pgName.isEmpty())
 					return;
-				g_sharedData->tpCurrentPage = pgName;
+				DSE::tpCurrentPage = pgName;
 				data.insert(QLatin1String("pageName"), pgName);
 				Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.currentPage"), pgName);
 			}
@@ -628,9 +625,9 @@ void Plugin::handleSettings(const QJsonObject &settings)
 	QJsonObject::const_iterator next = settings.begin(), last = settings.end();
 	for (; next != last; ++next) {
 		if (next.key().startsWith(QStringLiteral("Script Files"))) {
-			g_sharedData->scriptsBaseDir = QDir::fromNativeSeparators(next.value().toString());
-			if (!g_sharedData->scriptsBaseDir.endsWith('/'))
-				g_sharedData->scriptsBaseDir += '/';
+			DSE::scriptsBaseDir = QDir::fromNativeSeparators(next.value().toString());
+			if (!DSE::scriptsBaseDir.endsWith('/'))
+				DSE::scriptsBaseDir += '/';
 		}
 	}
 }

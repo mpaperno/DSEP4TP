@@ -33,6 +33,7 @@ to any 3rd-party components used within.
 #include "common.h"
 #include "Plugin.h"
 #include "ScriptEngine.h"
+#include "DSE.h"
 #include "utils.h"
 
 class DynamicScript : public QObject
@@ -99,7 +100,7 @@ class DynamicScript : public QObject
 		explicit DynamicScript(const QByteArray &name, QObject *p = nullptr) :
 		  QObject(p),
 		  name{name},
-		  tpStateName(DYNAMIC_VALUE_STATE_PRFX + name)
+		  tpStateName(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name)
 		{
 			// These connections must be established for all instance types. Others may be made later when the Scope is set.
 			connect(this, &DynamicScript::scriptError, Plugin::instance, &Plugin::onDsScriptError, Qt::QueuedConnection);
@@ -301,7 +302,7 @@ class DynamicScript : public QObject
 					// Instance-specific errors from background tasks.
 					connect(m_engine, &ScriptEngine::raiseError, this, &DynamicScript::scriptError);
 					// Save the default value to global constant.
-					m_engine->dseObject().setProperty(QStringLiteral("INSTANCE_DEFAULT_VALUE"), QLatin1String(defaultValue));
+					m_engine->dseObject()->instanceDefault = defaultValue;
 				}
 			}
 			else {
@@ -340,7 +341,7 @@ class DynamicScript : public QObject
 				return false;
 			}
 			if (m_state.testFlag(State::FileLoadErrorState) || m_originalFile != file) {
-				QFileInfo fi(Utils::resolveFile(file));
+				QFileInfo fi(DSE::resolveFile(file));
 				if (!fi.exists()) {
 					//qCCritical(lcPlugin) << "File" << file << "not found for item" << name;
 					lastError = QStringLiteral("File not found: '") + file + '\'';

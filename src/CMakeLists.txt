@@ -56,8 +56,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 target_sources(${PROJECT_NAME} PRIVATE
   version.h
+  version.h.in
   main.cpp
   common.h
+  DSE.h
+  DSE.cpp
   Plugin.h
   Plugin.cpp
   ConnectorData.h
