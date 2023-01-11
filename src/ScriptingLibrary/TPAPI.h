@@ -29,6 +29,7 @@ to any 3rd-party components used within.
 #include "ScriptEngine.h"
 #include "ConnectorData.h"
 #include "DSE.h"
+#include "DynamicScript.h"
 
 #ifndef DOXYGEN
 namespace ScriptLib {

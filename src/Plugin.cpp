@@ -52,9 +52,6 @@ enum ActionTokens : quint8 {
 
 Plugin *Plugin::instance = nullptr;
 
-using ScriptState = QHash<QByteArray, DynamicScript *>;
-Q_GLOBAL_STATIC(ScriptState, g_instances)
-
 static std::atomic_uint32_t g_errorCount = 0;
 static std::atomic_uint32_t g_singleShotCount = 0;
 static bool g_startupComplete = false;
@@ -93,22 +90,22 @@ static const EnumNameHash &tokenToName()
 	return hash;
 }
 
-static DynamicScript::Scope stringToScope(QStringView str)
+static DSE::EngineInstanceType stringToScope(QStringView str)
 {
-	return str.at(0) == 'S' ? DynamicScript::Scope::Shared : DynamicScript::Scope::Private;
+	return str.at(0) == 'S' ? DSE::EngineInstanceType::Shared : DSE::EngineInstanceType::Private;
 }
 
-static DynamicScript::InputType stringToInputType(QStringView ityp)
+static DSE::ScriptInputType stringToInputType(QStringView ityp)
 {
-	return ityp.isEmpty() || ityp.at(0) == 'E' ? DynamicScript::InputType::Expression : ityp.at(0) == 'S' ? DynamicScript::InputType::Script : DynamicScript::InputType::Module;
+	return ityp.isEmpty() || ityp.at(0) == 'E' ? DSE::ScriptInputType::Expression : ityp.at(0) == 'S' ? DSE::ScriptInputType::Script : DSE::ScriptInputType::Module;
 }
 
-static DynamicScript::DefaultType stringToDefaultType(QStringView str)
+static DSE::ScriptDefaultType stringToDefaultType(QStringView str)
 {
-	return str.isEmpty() || str.at(0) == 'N' ? DynamicScript::DefaultType::NoDefault :
-	                                           str.at(0) == 'F' ? DynamicScript::DefaultType::FixedValue :
-	                                                              str.at(0) == 'C' ? DynamicScript::DefaultType::CustomExpression :
-	                                                                                 DynamicScript::DefaultType::MainExpression;
+	return str.isEmpty() || str.at(0) == 'N' ? DSE::ScriptDefaultType::NoDefault :
+	                                           str.at(0) == 'F' ? DSE::ScriptDefaultType::FixedValue :
+	                                                              str.at(0) == 'C' ? DSE::ScriptDefaultType::CustomExpression :
+	                                                                                 DSE::ScriptDefaultType::MainExpression;
 }
 
 // -----------------------------------
@@ -150,7 +147,7 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
 
 Plugin::~Plugin()
 {
-	for (DynamicScript *ds : qAsConst(*g_instances)) {
+	for (DynamicScript *ds : DSE::instances_const()) {
 		delete ds;
 	}
 
@@ -193,8 +190,8 @@ void Plugin::saveSettings()
 	QSettings s;
 	s.beginGroup("DynamicStates");
 	s.remove("");
-	for (DynamicScript * const ds : qAsConst(*g_instances)) {
-		if (ds->defaultType != DynamicScript::DefaultType::NoDefault) {
+	for (DynamicScript * const ds : DSE::instances_const()) {
+		if (ds->defaultType != DSE::ScriptDefaultType::NoDefault) {
 			s.setValue(ds->name, ds->serialize());
 			++count;
 		}
@@ -216,7 +213,7 @@ void Plugin::loadSettings()
 		ds->deserialize(s.value(dvName).toByteArray());
 		++count;
 		switch (ds->defaultType) {
-			case DynamicScript::DefaultType::FixedValue:
+			case DSE::ScriptDefaultType::FixedValue:
 				if (!ds->defaultValue.isEmpty())
 					sendScriptState(ds, ds->defaultValue);
 				break;
@@ -234,10 +231,10 @@ void Plugin::loadSettings()
 
 DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool deferState, bool failIfMissing)
 {
-	DynamicScript *ds = g_instances->value(name, nullptr);
+	DynamicScript *ds = DSE::instance(name);
 	if (!ds && !failIfMissing) {
 		//qCDebug(lcPlugin) << dvName << "Creating";
-		ds = g_instances->insert(name, new DynamicScript(name)).value();
+		ds = DSE::instances()->insert(name, new DynamicScript(name)).value();
 		if (!deferState)
 			createScriptState(ds);
 	}
@@ -247,9 +244,9 @@ DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool deferSta
 void Plugin::removeInstance(DynamicScript *ds)
 {
 	if (ds) {
-		if (ds->scope() == DynamicScript::Scope::Shared)
+		if (ds->instanceType() == DSE::EngineInstanceType::Shared)
 			ScriptEngine::instance()->clearInstanceData(ds->name);
-		g_instances->remove(ds->name);
+		DSE::instances()->remove(ds->name);
 		removeScriptState(ds);
 		delete ds;
 	}
@@ -257,13 +254,13 @@ void Plugin::removeInstance(DynamicScript *ds)
 
 void Plugin::sendStateLists() const
 {
-	QByteArrayList nameArry = g_instances->keys();
+	const QByteArrayList &nameArry = DSE::instanceKeys();
   Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.createdStatesList"), nameArry.join(','));
 	if (nameArry.size())
-		nameArry = QByteArrayList({ "All Instances", "All Shared Engine Instances", "All Private Engine Instances" }) + nameArry;
+		Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.plugin.instance.name"),
+	                        QByteArrayList({ "All Instances", "All Shared Engine Instances", "All Private Engine Instances" }) + nameArry);
 	else
-		nameArry = QByteArrayList({ QByteArrayLiteral("[ no instances created ]") });
-	Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.plugin.instance.name"), nameArry);
+		Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.plugin.instance.name"), { QByteArrayLiteral("[ no instances created ]") });
 }
 
 void Plugin::clearStateLists() const
@@ -478,10 +475,10 @@ void Plugin::scriptAction(TPClientQt::MessageType /*type*/, int act, const QMap<
 		raiseScriptError(dvName, tr("ValidationError: Instance not found for state name %1").arg(dvName.constData()), tr("VALIDATION ERROR"));
 		return;
 	}
-	DynamicScript::Scope scope = stringToScope(dataMap.value("scope", QStringLiteral("Shared")));
+	DSE::EngineInstanceType scope = stringToScope(dataMap.value("scope", QStringLiteral("Shared")));
 	const QString &dtyp = act == SA_SingleShot ? QString() : dataMap.value("save", QStringLiteral("No"));
-	DynamicScript::DefaultType defType = stringToDefaultType(dtyp);
-	const QByteArray defVal = defType != DynamicScript::DefaultType::NoDefault ? dataMap.value("default").toUtf8() : QByteArray();
+	DSE::ScriptDefaultType defType = stringToDefaultType(dtyp);
+	const QByteArray defVal = defType != DSE::ScriptDefaultType::NoDefault ? dataMap.value("default").toUtf8() : QByteArray();
 	QString expression = dataMap.value("expr");
 	if (connectorValue > -1) {
 		expression.replace(QLatin1String("${connector_value}"), QString::number(connectorValue), Qt::CaseInsensitive);
@@ -541,28 +538,28 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 	quint8 type = 0;  // named instance
 	QByteArray dvName = dataMap.value("name", "All").toUtf8();
 	if (dvName.startsWith("All "))
-		type = (dvName.at(4) == 'I' ? 255 : dvName.at(4) == 'S' ? (quint8)DynamicScript::Scope::Shared : dvName.at(4) == 'P' ? (quint8)DynamicScript::Scope::Private : 0);
+		type = (dvName.at(4) == 'I' ? 255 : dvName.at(4) == 'S' ? (quint8)DSE::EngineInstanceType::Shared : dvName.at(4) == 'P' ? (quint8)DSE::EngineInstanceType::Private : 0);
 	//qCDebug(lcPlugin) << "Command" << TPClientQt::getIndexedActionDataValue(0, data) << act << dvName;
 	switch (act)
 	{
 		case CA_DelInstance: {
 			if (type) {
-				QMutableHashIterator<QByteArray, DynamicScript *> it(*g_instances);
+				QMutableHashIterator<QByteArray, DynamicScript *> it(*DSE::instances());
 				while (it.hasNext()) {
 					it.next();
-					if (type == 255 || type == (quint8)it.value()->scope()) {
+					if (type == 255 || type == (quint8)it.value()->instanceType()) {
 						removeScriptState(it.value(), true);
 						delete it.value(); //->deleteLater();
 						it.remove();
 					}
 				}
-				if (type == 255 || type == (quint8)DynamicScript::Scope::Shared){
+				if (type == 255 || type == (quint8)DSE::EngineInstanceType::Shared){
 					ScriptEngine::instance()->reset();
 					qCInfo(lcPlugin) << "Shared Scripting Engine reset completed.";
 				}
 				sendStateLists();
 			}
-			else if (DynamicScript *ds = g_instances->value(dvName)) {
+			else if (DynamicScript *ds = DSE::instance(dvName)) {
 				removeInstance(ds);
 			}
 			else {
@@ -576,12 +573,12 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 		case CA_SetStateValue: {
 			const QByteArray stateValue = dataMap.value("value").toUtf8();
 			if (type) {
-				for (DynamicScript * const ds : qAsConst(*g_instances)) {
-					if (type == 255 || type == (quint8)ds->scope())
+				for (DynamicScript * const ds : DSE::instances_const()) {
+					if (type == 255 || type == (quint8)ds->instanceType())
 						sendScriptState(ds, stateValue);
 				}
 			}
-			else if (DynamicScript *ds = g_instances->value(dvName)) {
+			else if (DynamicScript *ds = DSE::instance(dvName)) {
 				sendScriptState(ds, stateValue);
 			}
 			else {
@@ -593,19 +590,19 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 
 		case CA_ResetEngine: {
 			if (!type) {
-				if (DynamicScript *ds = g_instances->value(dvName))
+				if (DynamicScript *ds = DSE::instance(dvName))
 					ds->resetEngine();
 				else
 					qCWarning(lcPlugin) << "Script not found for name:" << dvName;
 				return;
 			}
-			if (type == 255 || type == (quint8)DynamicScript::Scope::Private) {
-				for (DynamicScript * const ds : qAsConst(*g_instances)) {
-					if (ds->scope() == DynamicScript::Scope::Private)
+			if (type == 255 || type == (quint8)DSE::EngineInstanceType::Private) {
+				for (DynamicScript * const ds : DSE::instances_const()) {
+					if (ds->instanceType() == DSE::EngineInstanceType::Private)
 						ds->resetEngine();
 				}
 			}
-			if (type == 255 || type == (quint8)DynamicScript::Scope::Shared) {
+			if (type == 255 || type == (quint8)DSE::EngineInstanceType::Shared) {
 				ScriptEngine::instance()->reset();
 				qCInfo(lcPlugin) << "Shared Scripting Engine reset completed.";
 			}
@@ -657,7 +654,7 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg)
 		const QStringView value = dataPair.last();
 		if (cr.instanceName.isEmpty() && !id.compare(QByteArrayLiteral("name")))
 			cr.instanceName = value.toUtf8();
-		else if (cr.eInstanceType == DynamicScript::Scope::Unknown && !id.compare(QByteArrayLiteral("scope")))
+		else if (cr.eInstanceType == DSE::EngineInstanceType::Unknown && !id.compare(QByteArrayLiteral("scope")))
 			cr.eInstanceType = stringToScope(value);
 		else if (cr.expression.isEmpty() && !id.compare(QByteArrayLiteral("expr")))
 			cr.expression = value.toUtf8();
@@ -665,7 +662,7 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg)
 			cr.file = value.toUtf8();
 		else if (cr.alias.isEmpty() && !id.compare(QByteArrayLiteral("alias")))
 			cr.alias = value.toUtf8();
-		else if (act == SA_SingleShot && cr.eInputType == DynamicScript::InputType::Unknown && !id.compare(QByteArrayLiteral("type")))
+		else if (act == SA_SingleShot && cr.eInputType == DSE::ScriptInputType::Unknown && !id.compare(QByteArrayLiteral("type")))
 			cr.eInputType = stringToInputType(value);
 		else
 			cr.otherData.insert(id, value.toString());
@@ -674,13 +671,13 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg)
 
 	switch (act) {
 		case SA_Eval:
-			cr.eInputType = DynamicScript::InputType::Expression;
+			cr.eInputType = DSE::ScriptInputType::Expression;
 			break;
 		case SA_Load:
-			cr.eInputType = DynamicScript::InputType::Script;
+			cr.eInputType = DSE::ScriptInputType::Script;
 			break;
 		case SA_Import:
-			cr.eInputType = DynamicScript::InputType::Module;
+			cr.eInputType = DSE::ScriptInputType::Module;
 			break;
 		case SA_Update:
 			if (DynamicScript *ds = getOrCreateInstance(cr.instanceName, true, true))
@@ -690,3 +687,5 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg)
 
 	ConnectorData::instance()->insert(cr);
 }
+
+#include "moc_Plugin.cpp"

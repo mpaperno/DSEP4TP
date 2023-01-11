@@ -47,11 +47,14 @@ using namespace Utils;
 using namespace ScriptLib;
 
 ScriptEngine::ScriptEngine(bool isStatic, const QByteArray &instanceName, QObject *p) :
-  QObject(p), dse{new DSE}, tpapi{new TPAPI(this)}, ulib{new Util(this)},
+  QObject(p), dse{new DSE(this)}, tpapi{new TPAPI(this)}, ulib{new Util(this)},
   m_currInstanceName(instanceName), m_isShared(isStatic)
 {
 	setObjectName(QLatin1String("ScriptEngine"));
 	if (isStatic) {
+		qRegisterMetaType<DSE*>("DSE");
+		qRegisterMetaType<DynamicScript*>("DynamicScript");
+		qRegisterMetaType<QList<DynamicScript*> >();
 		qRegisterMetaType<ScriptLib::AbortController>("AbortController");
 		qRegisterMetaType<ScriptLib::AbortSignal>("AbortSignal");
 		qRegisterMetaType<ConnectorRecord>("ConnectorRecord");
@@ -89,12 +92,6 @@ ScriptEngine::~ScriptEngine() {
 		se = nullptr;
 	}
 	//qDebug() << this << "Destroyed";
-}
-
-void ScriptEngine::connectScriptInstance(DynamicScript *ds)
-{
-	tpapi->connectInstance(ds);
-	tpapi->connectSlots(Plugin::instance);
 }
 
 void ScriptEngine::initScriptEngine()
@@ -160,6 +157,12 @@ void ScriptEngine::initScriptEngine()
 			dse->instanceName = m_currInstanceName;
 	}
 
+}
+
+void ScriptEngine::connectNamedScriptInstance(DynamicScript *ds)
+{
+	tpapi->connectInstance(ds);
+	tpapi->connectSlots(Plugin::instance);
 }
 
 void ScriptEngine::clearInstanceData(const QByteArray &name)
@@ -327,3 +330,5 @@ void ScriptEngine::include(const QString &file) const
 		throwError(res);
 	}
 }
+
+#include "moc_ScriptEngine.cpp"

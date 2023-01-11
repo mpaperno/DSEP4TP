@@ -26,6 +26,7 @@ to any 3rd-party components used within.
 #include <QDir>
 #include <QHash>
 #include <QJSValue>
+#include <QMetaEnum>
 #include <QObject>
 #include <QPointer>
 #include <QProcessEnvironment>
@@ -37,22 +38,10 @@ to any 3rd-party components used within.
 #include "common.h"
 #include "utils.h"
 #include "ScriptEngine.h"
-#include "File.h"
 
 #ifndef DOXYGEN
 namespace ScriptLib {
 #endif
-
-/*
-class TestTimer : public QTimer {
-		Q_OBJECT
-	public:
-		using QTimer::QTimer;
-		virtual ~TestTimer() override { qCDebug(lcPlugin) << this << "Timer destroyed";  }
-	public Q_SLOTS:
-		void stop() { qCDebug(lcPlugin) << this << "Stopping!"; QTimer::stop(); }
-};
-*/
 
 struct TimerData
 {
@@ -106,7 +95,7 @@ class Util : public QObject
 		explicit Util(bool isStatic) : Util()
 		{
 			if (isStatic)
-				QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
+				QJSEngine::setObjectOwnership(this, QJSEngine::CppOwnership);
 		}
 
 		// Timers implementation

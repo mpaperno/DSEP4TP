@@ -20,6 +20,12 @@ to any 3rd-party components used within.
 
 #include "version.h"
 #include "DSE.h"
+#include "DynamicScript.h"
+#include "ScriptEngine.h"
+
+using namespace ScriptLib;
+
+Q_GLOBAL_STATIC(DSE::ScriptState, g_instances)
 
 const quint32 DSE::pluginVersion { APP_VERSION };
 const QByteArray DSE::pluginVersionStr { QByteArrayLiteral(APP_VERSION_STR) };
@@ -51,4 +57,69 @@ quint32 DSE::tpVersion {0};
 QString DSE::tpVersionStr;
 QString DSE::scriptsBaseDir;
 QByteArray DSE::tpCurrentPage;
-std::atomic_int DSE::defaultRepeatRate { 350 };
+std::atomic_int DSE::defaultRepeatRate { -1 };
+std::atomic_int DSE::defaultRepeatDelay { -1 };
+
+DSE::DSE(ScriptEngine *se, QObject *p) :
+  QObject(p), se(se)
+{
+	setObjectName("DSE");
+}
+
+DSE::ScriptState *DSE::instances()
+{
+	return g_instances;
+}
+
+const DSE::ScriptState &DSE::instances_const()
+{
+	return qAsConst(*g_instances);
+}
+
+QByteArrayList DSE::instanceKeys()
+{
+	return g_instances->keys();
+}
+
+QVariantList DSE::instanceNames()
+{
+	return QVariant::fromValue(g_instances->keys()).toList();
+}
+
+QList<DynamicScript *> DSE::instanceList()
+{
+	return g_instances->values();
+}
+
+DynamicScript *DSE::instance(const QByteArray &name)
+{
+	return g_instances->value(name, nullptr);
+}
+
+QByteArray DSE::instanceDefault() const {
+	if (DynamicScript *ds = instance(instanceName))
+		return ds->defaultValue;
+	return QByteArray();
+}
+
+void DSE::setDefaultActionRepeatRate(int ms)
+{
+	if (ms < 50)
+		ms = 50;
+	if (ms != defaultRepeatRate) {
+		defaultRepeatRate = ms;
+		Q_EMIT defaultActionRepeatRateChanged(ms);
+	}
+}
+
+void DSE::setDefaultActionRepeatDelay(int ms)
+{
+	if (ms < 50)
+		ms = 50;
+	if (ms != defaultRepeatDelay) {
+		defaultRepeatDelay = ms;
+		Q_EMIT defaultActionRepeatDelayChanged(ms);
+	}
+}
+
+#include "moc_DSE.cpp"

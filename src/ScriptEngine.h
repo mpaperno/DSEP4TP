@@ -161,7 +161,8 @@ class ScriptEngine : public QObject
 
 	public Q_SLOTS:
 		inline void reset() { initScriptEngine(); }
-		void connectScriptInstance(DynamicScript *ds);
+		//void connectScriptInstance(DynamicScript *ds);
+		void connectNamedScriptInstance(DynamicScript *ds);
 		void clearInstanceData(const QByteArray &name);
 		void checkErrors() const;
 		void throwError(const QJSValue &err) const;

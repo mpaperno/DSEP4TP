@@ -21,6 +21,7 @@ to any 3rd-party components used within.
 #pragma once
 
 #include <QObject>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <QMetaEnum>
 #include <QSqlDatabase>
@@ -28,7 +29,7 @@ to any 3rd-party components used within.
 #include <QSqlQuery>
 
 #include "common.h"
-#include "DynamicScript.h"
+#include "DSE.h"
 
 #define CONNECTOR_DATA_PRIMARY_DB_CONN_NAME   QStringLiteral("Shared")
 
@@ -140,16 +141,16 @@ class ConnectorRecord
 		static const QMap<QString, QMetaEnum> &enumProperties()
 		{
 			static const QMap<QString, QMetaEnum> map {
-				{ columnNames().at(COL_INPTYPE), inputTypeMeta() },
-				{ columnNames().at(COL_INSTYPE), instanceTypeMeta() }
+				{ columnNames().at(COL_INPTYPE), DSE::inputTypeMeta() },
+				{ columnNames().at(COL_INSTYPE), DSE::instanceTypeMeta() }
 			};
 			return map;
 		}
 
 		ConnectorRecord() {}
 
-		DynamicScript::InputType eInputType = DynamicScript::InputType::Unknown;
-		DynamicScript::Scope eInstanceType = DynamicScript::Scope::Unknown;
+		DSE::ScriptInputType eInputType = DSE::ScriptInputType::Unknown;
+		DSE::EngineInstanceType eInstanceType = DSE::EngineInstanceType::Unknown;
 		qint64 timestamp;
 		QByteArray actionType;
 		QByteArray instanceName;
@@ -160,8 +161,8 @@ class ConnectorRecord
 		QByteArray alias;
 		QJsonObject otherData;
 
-		QString inputType() const { return inputTypeMeta().key((int)eInputType); }
-		QString instanceType() const { return instanceTypeMeta().key((int)eInstanceType); }
+		QString inputType() const { return DSE::inputTypeMeta().key((int)eInputType); }
+		QString instanceType() const { return DSE::instanceTypeMeta().key((int)eInstanceType); }
 		bool isNull() const { return !timestamp; }
 
 		explicit ConnectorRecord(QSqlQuery *qry)
@@ -174,8 +175,8 @@ class ConnectorRecord
 			connectorId   = qry->value(COL_CONNID).toByteArray();
 			shortId       = qry->value(COL_SHORTID).toByteArray();
 			timestamp     = qry->value(COL_TS).toLongLong();
-			eInputType    = DynamicScript::InputType(qry->value(COL_INPTYPE).toUInt());
-			eInstanceType = DynamicScript::Scope(qry->value(COL_INSTYPE).toUInt());
+			eInputType    = DSE::ScriptInputType(qry->value(COL_INPTYPE).toUInt());
+			eInstanceType = DSE::EngineInstanceType(qry->value(COL_INSTYPE).toUInt());
 			otherData     = QJsonDocument::fromJson(qry->value(COL_OTHER).toByteArray()).object();
 		}
 
@@ -193,9 +194,6 @@ class ConnectorRecord
 			qry->bindValue(COL_OTHER, QJsonDocument(otherData).toJson(QJsonDocument::Compact));
 			qry->bindValue(COL_TS, QDateTime::currentMSecsSinceEpoch());
 		}
-
-		static const QMetaEnum inputTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DynamicScript::InputType>(); return m; }
-		static const QMetaEnum instanceTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DynamicScript::Scope>(); return m; }
 };
 
 

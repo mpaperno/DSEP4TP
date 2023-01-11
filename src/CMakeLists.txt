@@ -65,6 +65,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   Plugin.cpp
   ConnectorData.h
   DynamicScript.h
+  DynamicScript.cpp
   ScriptEngine.h
   ScriptEngine.cpp
   Logger.h
