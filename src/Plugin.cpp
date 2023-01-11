@@ -363,6 +363,8 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 	//qCDebug(lcPlugin) << msg;
 	switch (type) {
 		case TPClientQt::MessageType::action:
+		case TPClientQt::MessageType::down:
+		case TPClientQt::MessageType::up:
 		case TPClientQt::MessageType::connectorChange:
 			dispatchAction(type, msg);
 			return;
@@ -410,7 +412,7 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 
 void Plugin::dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg)
 {
-	const QString actId = msg.value(type == TPClientQt::MessageType::action ? QLatin1String("actionId") : QLatin1String("connectorId")).toString();
+	const QString actId = msg.value(type == TPClientQt::MessageType::connectorChange ? QLatin1String("connectorId") : QLatin1String("actionId")).toString();
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 	const QVector<QStringRef> actIdArry = actId.splitRef('.');
 #else
@@ -456,7 +458,7 @@ void Plugin::dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg
 	}
 }
 
-void Plugin::scriptAction(TPClientQt::MessageType /*type*/, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue)
+void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue)
 {
 	QByteArray dvName;
 	if (act == SA_SingleShot) {
@@ -475,6 +477,12 @@ void Plugin::scriptAction(TPClientQt::MessageType /*type*/, int act, const QMap<
 		raiseScriptError(dvName, tr("ValidationError: Instance not found for state name %1").arg(dvName.constData()), tr("VALIDATION ERROR"));
 		return;
 	}
+
+	if (type == TPClientQt::MessageType::up) {
+		ds->setRepeating(false);
+		return;
+	}
+
 	DSE::EngineInstanceType scope = stringToScope(dataMap.value("scope", QStringLiteral("Shared")));
 	const QString &dtyp = act == SA_SingleShot ? QString() : dataMap.value("save", QStringLiteral("No"));
 	DSE::ScriptDefaultType defType = stringToDefaultType(dtyp);
@@ -515,6 +523,8 @@ void Plugin::scriptAction(TPClientQt::MessageType /*type*/, int act, const QMap<
 			removeInstance(ds);
 		return;
 	}
+	if (type == TPClientQt::MessageType::down)
+		ds->setRepeating(true);
 	QMetaObject::invokeMethod(ds, "evaluate", Qt::QueuedConnection);
 }
 
