@@ -463,7 +463,7 @@ void Plugin::scriptAction(TPClientQt::MessageType /*type*/, int act, const QMap<
 		dvName = "ANON_" + QByteArray::number(++g_singleShotCount);
 	}
 	else {
-		dvName = dataMap.value("name").simplified().replace(' ', '_').toUtf8();
+		dvName = dataMap.value("name").trimmed().toUtf8();
 		if (dvName.isEmpty()) {
 			qCWarning(lcPlugin) << "Script state name missing for action" << tokenToName().value(act);
 			return;
