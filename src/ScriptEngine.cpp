@@ -35,14 +35,6 @@ to any 3rd-party components used within.
 #include "ScriptingLibrary/XmlHttpRequest.h"
 #endif
 
-#define EE_RETURN_FILE_ERROR_OBJ(FN, RES, MSG)  {                      \
-	RES.setProperty(QStringLiteral("fileName"), FN);                     \
-	const QString msg = SCRIPT_ENGINE_FORMAT_ERR_MSG(RES, ' ' + MSG +);  \
-	QJSValue ret = se->newErrorObject(RES.errorType(), msg);             \
-	ret.setProperty("cause", RES);                                       \
-	return ret;                                                          \
-}
-
 using namespace Utils;
 using namespace ScriptLib;
 
@@ -220,13 +212,28 @@ void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg) cons
 	throwError(se->newErrorObject(type, msg), QByteArray());
 }
 
+#define EVAL_WITH_INSTANCE(INAME, EVAL) \
+	if (m_isShared)                       \
+		dse->instanceName = (INAME);        \
+	EVAL                                  \
+	if (m_isShared)                       \
+		dse->instanceName.clear();
+
+#define EE_RETURN_FILE_ERROR_OBJ(FN, RES, MSG)  {                      \
+	RES.setProperty(QStringLiteral("fileName"), FN);                     \
+	const QString msg = SCRIPT_ENGINE_FORMAT_ERR_MSG(RES, ' ' + MSG +);  \
+	QJSValue ret = se->newErrorObject(RES.errorType(), msg);             \
+	ret.setProperty("cause", RES);                                       \
+	ret.setProperty("instanceName", instName.constData());               \
+	return ret;                                                          \
+}
+
 QJSValue ScriptEngine::expressionValue(const QString &fromValue, const QByteArray &instName)
 {
 	QMutexLocker lock(&m_mutex);
-	//AutoClearString acs(m_currInstanceName, instName, m_isShared);
-	setInstanceProperties(instName);
-	const QJSValue res = se->evaluate(fromValue);
-	resetInstanceProperties();
+	EVAL_WITH_INSTANCE(instName,
+		const QJSValue res = se->evaluate(fromValue);
+	)
 	//se->collectGarbage();
 	if (!res.isError())
 		return res;
@@ -247,11 +254,10 @@ QJSValue ScriptEngine::scriptValue(const QString &fileName, const QString &expr,
 		script += '\n' + expr;
 	//qCDebug(lcPlugin) << "File:" << fileName << "Contents:\n" << script;
 	QMutexLocker lock(&m_mutex);
-	//AutoClearString acs(m_currInstanceName, instName, m_isShared);
-	setInstanceProperties(instName);
-	QJSValue res = se->evaluate(script, fileName);
-	//collectGarbage();
-	resetInstanceProperties();
+	EVAL_WITH_INSTANCE(instName,
+		QJSValue res = se->evaluate(script, fileName);
+	)
+	//se->collectGarbage();
 	if (!res.isError())
 		return res;
 	EE_RETURN_FILE_ERROR_OBJ(fileName, res, tr("while evaluating '%1'").arg(expr)+);
@@ -260,7 +266,9 @@ QJSValue ScriptEngine::scriptValue(const QString &fileName, const QString &expr,
 QJSValue ScriptEngine::moduleValue(const QString &fileName, const QString &alias, const QString &expr, const QByteArray &instName)
 {
 	QMutexLocker lock(&m_mutex);
-	QJSValue mod = se->importModule(fileName);
+	EVAL_WITH_INSTANCE(instName,
+		QJSValue mod = se->importModule(fileName);
+	)
 	if (mod.isError()) {
 		EE_RETURN_FILE_ERROR_OBJ(fileName, mod, tr("while importing module"));
 	}
@@ -275,21 +283,21 @@ bool ScriptEngine::timerExpression(const ScriptLib::TimerData *timData)
 	QJSValue res;
 	bool ok = true;
 	m_mutex.lock();
-	setInstanceProperties(timData->instanceName);
-	QJSManagedValue m(timData->expression, se);
-	if (m.isFunction()) {
-		if (!timData->thisObject.isUndefined() && !timData->thisObject.isNull())
-			res = m.callWithInstance(timData->thisObject, timData->args);
+	EVAL_WITH_INSTANCE(timData->instanceName,
+		QJSManagedValue m(timData->expression, se);
+		if (m.isFunction()) {
+			if (!timData->thisObject.isUndefined() && !timData->thisObject.isNull())
+				res = m.callWithInstance(timData->thisObject, timData->args);
+			else
+				res = m.call(timData->args);
+		}
+		else if (m.isObject())
+			res = m.callAsConstructor(timData->args);
+		else if (m.isString())
+			res = engine()->evaluate(m.toString());
 		else
-			res = m.call(timData->args);
-	}
-	else if (m.isObject())
-		res = m.callAsConstructor(timData->args);
-	else if (m.isString())
-		res = engine()->evaluate(m.toString());
-	else
-		ok = false;
-	resetInstanceProperties();
+			ok = false;
+	)
 	m_mutex.unlock();
 
 	//qCDebug(lcPlugin) << this << "TimerEvent:" << Util::TimerData::toString(timerType, timerId) << instName << "invalid?" << remove << "error?" << res.isError() << "expr:" << expression.toString() << "; on thread" << QThread::currentThread() << "app" << qApp->thread();

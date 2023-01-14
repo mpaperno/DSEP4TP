@@ -202,17 +202,6 @@ class ScriptEngine : public QObject
 		ScriptEngine(bool isStatic, const QByteArray &instanceName = QByteArray(), QObject *p = nullptr);
 		void initScriptEngine();
 
-		inline void setInstanceProperties(const QByteArray &instName)
-		{
-			if (m_isShared)
-				dse->instanceName = instName;
-		}
-		inline void resetInstanceProperties()
-		{
-			if (m_isShared)
-				dse->instanceName.clear();
-		}
-
 		void evalScript(const QString &fn) const
 		{
 			bool ok;
