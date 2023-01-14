@@ -103,7 +103,7 @@ class TPAPI : public QObject
 		Q_INVOKABLE QStringList getConnectorShortIds(QJSValue query = QJSValue())
 		{
 			ConnectorData *cdata = nullptr;
-			const QVariantMap q = initConnectorQuery(query, &cdata);
+			const QMultiMap<QString, QVariant> q = initConnectorQuery(query, &cdata);
 			if (!cdata)
 				return QStringList();
 
@@ -117,7 +117,7 @@ class TPAPI : public QObject
 		Q_INVOKABLE QVector<ConnectorRecord> getConnectorRecords(QJSValue query = QJSValue())
 		{
 			ConnectorData *cdata = nullptr;
-			const QVariantMap q = initConnectorQuery(query, &cdata);
+			const QMultiMap<QString, QVariant> q = initConnectorQuery(query, &cdata);
 			if (!cdata)
 				return QVector<ConnectorRecord>();
 
@@ -205,18 +205,35 @@ class TPAPI : public QObject
 			return connData;
 		}
 
-		QVariantMap initConnectorQuery(QJSValue query, ConnectorData **cdata)
+		QMultiMap<QString, QVariant> initConnectorQuery(QJSValue query, ConnectorData **cdata)
 		{
+			if (query.isArray()) {
+				int len = query.property("length").toInt();
+				QMultiMap<QString, QVariant> ret;
+				for (int i=0; i < len; ++i) {
+					const QJSValue &v = query.property(i);
+					if (!v.isObject())
+						continue;
+					QJSValueIterator it(v);
+					while (it.hasNext()) {
+						it.next();
+						ret.insert(it.name(), it.value().toVariant());
+					}
+				}
+				*cdata = connectorData();
+				return ret;
+			}
+
 			if (!query.isObject()) {
 				if (!query.isUndefined() && !query.isNull()) {
 					se->throwError(QJSValue::TypeError, tr("Parameter must be an object type"));
-					return QVariantMap();
+					return QMultiMap<QString, QVariant>();
 				}
 				query = se->engine()->newObject();
 			}
 
 			*cdata = connectorData();
-			return query.toVariant().value<QVariantMap>();
+			return QMultiMap<QString, QVariant>(query.toVariant().value<QVariantMap>());
 		}
 
 
