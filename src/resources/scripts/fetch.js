@@ -112,7 +112,7 @@ var Headers = class
 		for (const i of items)
 			yield i;
 	}
-}
+};
 
 ////////////////////////////////////
 
@@ -204,11 +204,9 @@ var Response = class
 	xmlSync() { return this.bodyAs('document'); }
 
 	blob() { throw TypeError("Blob type not supported."); }
-}
+};
 
 ////////////////////////////////////
-
-var GlobalRequestDefaults = {};
 
 var Request = function(init, url = "")
 {
@@ -233,13 +231,15 @@ var Request = function(init, url = "")
 
 	if (typeof init === 'string' || init instanceof URL)
 		init = { url: init };
-	return Object.assign(this, GlobalRequestDefaults, init); // {...this, ...init};
+	return Object.assign(this, Request.GlobalDefaults, init); // {...this, ...init};
 }
+
+Request.GlobalDefaults = {};
 
 Request.prototype._fetch = function()
 {
-	_fetchSetupXhr(this);
-	return this.async ? fetchAsync(this) :  fetchSync(this);
+	Request._fetchSetupXhr(this);
+	return this.async ? Net.fetchAsync(this) : Net.fetchSync(this);
 }
 
 Request.prototype.get = function()
@@ -268,9 +268,7 @@ Request.prototype.put = function(data)
 	return this._fetch();
 }
 
-////////////////////////////////////
-
-function _fetchSetupOptions(options, url)
+Request._fetchSetupOptions = function(options, url)
 {
 	if (!(options instanceof Request))
 		options = new Request(options, url);
@@ -279,7 +277,7 @@ function _fetchSetupOptions(options, url)
 	return options;
 }
 
-function _fetchSetupXhr(req)
+Request._fetchSetupXhr = function(req)
 {
 	try {
 		if (!req.url)
@@ -310,55 +308,105 @@ function _fetchSetupXhr(req)
 		console.error(e);
 		req.error = e;
 	}
-}
-
-function fetch(url, options = {})
-{
-	options = _fetchSetupOptions(options, url);
-	options.async = true;
-	_fetchSetupXhr(options);
-	return fetchAsync(options);
-}
-
-function request(url, options = {})
-{
-	options = _fetchSetupOptions(options, url);
-	options.async = false;
-	return options;
-}
+};
 
 ////////////////////////////////////
 
-function fetchAsync(req)
-{
-	return new Promise((resolve, reject) =>
+(function() {
+	"use strict";
+
+	function fetch(url, options = {})
+	{
+		options = Request._fetchSetupOptions(options, url);
+		options.async = true;
+		Request._fetchSetupXhr(options);
+		return fetchAsync(options);
+	}
+
+	function request(url, options = {})
+	{
+		options = Request._fetchSetupOptions(options, url);
+		options.async = false;
+		return options;
+	}
+
+	////////////////////////////////////
+
+	function fetchAsync(req)
+	{
+		return new Promise((resolve, reject) =>
+		{
+			if (!(req instanceof Request)) {
+				reject(new ReferenceError("First argument to fetchAsync() must be a Request object."));
+				return;
+			}
+			if (!(req.xhr instanceof XMLHttpRequest)) {
+				reject(req.error || new ReferenceError("A valid XMLHttpRequest object is required in Request argument."));  // an Error
+				return;
+			}
+
+			req.xhr.onload = () => {
+				if (!req.rejectOnError || (req.xhr.status / 100 | 0) === 2)
+					resolve(response());
+				else
+					reject(domError(`Server responded with status code ${req.xhr.status}`, "NetworkError", DOMException.NETWORK_ERR));
+			};
+			req.xhr.onerror   = () => { reject(domError("Request network error", "NetworkError", DOMException.NETWORK_ERR)); };
+			req.xhr.ontimeout = () => { reject(domError("Request timed out", "TimeoutError", DOMException.TIMEOUT_ERR)); };
+			req.xhr.onabort   = () => { reject(domError("Request aborted", "AbortError", DOMException.ABORT_ERR)); };
+
+			if (typeof req.onprogress === 'function')
+				req.xhr.onprogress = req.onprogress;
+
+			if (req.signal && typeof req.signal.onabort === 'function')
+				req.signal.abort.connect(req.xhr, req.xhr.abort);
+
+			req.xhr.send(req.body);
+
+			function response() { return new Response(req.xhr); }
+
+			function domError(msg, type, code) {
+				let err = new DOMException(msg, type, code);
+				err.response = response();
+				return err;
+			}
+
+		});
+	}
+
+	function fetchSync(req)
 	{
 		if (!(req instanceof Request)) {
-			reject(new ReferenceError("First argument to fetchSync() must be a Request object."));
-			return;
+			if (req.noThrow)
+				return;
+			throw new ReferenceError("First argument to fetchSync() must be a Request object.");
 		}
 		if (!(req.xhr instanceof XMLHttpRequest)) {
-			reject(req.error || new ReferenceError("A valid XMLHttpRequest object is required in Request argument."));  // an Error
-			return;
+			if (req.noThrow)
+				return;
+			throw req.error || new ReferenceError("A valid XMLHttpRequest object is required in Request argument.");
 		}
 
+		let status = 0;
 		req.xhr.onload = () => {
 			if (!req.rejectOnError || (req.xhr.status / 100 | 0) === 2)
-				resolve(response());
-			else
-				reject(domError(`Server responded with status code ${req.xhr.status}`, "NetworkError", DOMException.NETWORK_ERR));
+				status = 1;
 		};
-		req.xhr.onerror   = () => { reject(domError("Request network error", "NetworkError", DOMException.NETWORK_ERR)); };
-		req.xhr.ontimeout = () => { reject(domError("Request timed out", "TimeoutError", DOMException.TIMEOUT_ERR)); };
-		req.xhr.onabort   = () => { reject(domError("Request aborted", "AbortError", DOMException.ABORT_ERR)); };
-
+		req.xhr.ontimeout = () => { status = 2; };
+		req.xhr.onabort   = () => { status = 3; };
 		if (typeof req.onprogress === 'function')
 			req.xhr.onprogress = req.onprogress;
-
 		if (req.signal && typeof req.signal.onabort === 'function')
 			req.signal.abort.connect(req.xhr, req.xhr.abort);
 
 		req.xhr.send(req.body);
+		if (status == 1 || req.noThrow)
+			return response();
+		if (status == 2)
+			throw domError("Request timed out", "TimeoutError", DOMException.TIMEOUT_ERR);
+		if (status == 3)
+			throw domError("Request aborted", "AbortError", DOMException.ABORT_ERR);
+		throw domError("Request network error", "NetworkError", DOMException.NETWORK_ERR);
 
 		function response() { return new Response(req.xhr); }
 
@@ -367,59 +415,21 @@ function fetchAsync(req)
 			err.response = response();
 			return err;
 		}
-
-	});
-}
-
-function fetchSync(req)
-{
-	if (!(req instanceof Request)) {
-		if (req.noThrow)
-			return;
-		throw new ReferenceError("First argument to fetchSync() must be a Request object.");
-	}
-	if (!(req.xhr instanceof XMLHttpRequest)) {
-		if (req.noThrow)
-			return;
-		throw req.error || new ReferenceError("A valid XMLHttpRequest object is required in Request argument.");
 	}
 
-	let status = 0;
-	req.xhr.onload = () => {
-		if (!req.rejectOnError || (req.xhr.status / 100 | 0) === 2)
-			status = 1;
+	Net = {
+		fetch: fetch,
+		request: request,
+		fetchSync: fetchSync,
+		fetchAsync: fetchAsync,
 	};
-	req.xhr.ontimeout = () => { status = 2; };
-	req.xhr.onabort   = () => { status = 3; };
-	if (typeof req.onprogress === 'function')
-		req.xhr.onprogress = req.onprogress;
-	if (req.signal && typeof req.signal.onabort === 'function')
-		req.signal.abort.connect(req.xhr, req.xhr.abort);
 
-	req.xhr.send(req.body);
-	if (status == 1 || req.noThrow)
-		return response();
-	if (status == 2)
-		throw domError("Request timed out", "TimeoutError", DOMException.TIMEOUT_ERR);
-	if (status == 3)
-		throw domError("Request aborted", "AbortError", DOMException.ABORT_ERR);
-	throw domError("Request network error", "NetworkError", DOMException.NETWORK_ERR);
+	// legacy, remove
+	GlobalRequestDefaults = Request.GlobalDefaults;
 
-	function response() { return new Response(req.xhr); }
-
-	function domError(msg, type, code) {
-		let err = new DOMException(msg, type, code);
-		err.response = response();
-		return err;
-	}
-}
+})();
 
 ////////////////////////////////////
 
-var Net =
-{
-	fetch: fetch,
-	request: request,
-	fetchSync: fetchSync,
-	fetchAsync: fetchAsync,
-}
+var Net;
+var GlobalRequestDefaults;  // legacy, remove

@@ -92,9 +92,9 @@ Request objects can be created directly, or implicitly by passing an initializer
 Additionally, `request()` will return a `Request` object, which has not been sent yet. The request can then be sent via one of the
 methods `get()`, `head()`, `post()`, or `put()`.
 
-\note A special object named `GlobalRequestDefaults` exists in the global scope which can be used to set default values on any created `Request` (either implicitly created
-in a call to `fetch()` or explicitly with `new Request()`). Simply define this variable somewhere in the the global scope of your script with whichever default options you
-would like to always be set (or set them individually with `GlobalRequestDefaults.property = value`). Any/all of the properties described below for the `Request` object can be set this way.
+\note `Request` has a static member object named `Request.GlobalDefaults` which can be used to set default values on any created `Request` (either implicitly created
+in a call to `fetch()` or explicitly with `new Request()`). Simply set this variable somewhere in your script with whichever default options you
+would like to always be set (or set them individually with `Request.GlobalDefaults.property = value`). Any/all of the properties described below for the `Request` object can be set this way.
 
 
 \class Response
