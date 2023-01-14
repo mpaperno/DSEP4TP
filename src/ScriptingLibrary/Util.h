@@ -91,13 +91,6 @@ class Util : public QObject
 		std::atomic_int m_nextTimerId = 0;
 		QHash<int, TimerData> m_timers;
 
-		// private c'tor for static instance  (not currently used)
-		explicit Util(bool isStatic) : Util()
-		{
-			if (isStatic)
-				QJSEngine::setObjectOwnership(this, QJSEngine::CppOwnership);
-		}
-
 		// Timers implementation
 
 		int startScriptTimer(TimerData::TimerType type, QJSValue expression, int delay, const QJSValueList &args = QJSValueList())
@@ -176,13 +169,7 @@ class Util : public QObject
 		// /end Timers
 
 	public:
-		static Util *instance()
-		{
-			static Util instance(true);
-			return &instance;
-		}
-
-		explicit Util(ScriptEngine *se = nullptr, QObject *p = nullptr) :
+		explicit Util(ScriptEngine *se, QObject *p = nullptr) :
 		  QObject(p), se(se)
 		{
 			setObjectName("DSE.Util");
@@ -297,30 +284,8 @@ class Util : public QObject
 		// \name Miscellaneous
 		// \{
 
-		// Read and evaluate `file` as JavaScript in the current scripting engine context (global object) at the location of this function call.
-		// Any errors produced by the script are raised and reported into the current context. Throws an `Error` type object if file loading fails (file not found/etc).
-		// To get just the contents of a file, w/out evaluating it, use `read()`.
-//		Q_INVOKABLE void include(const QString &file) const
-//		{
-//			QJSEngine *jse = qjsEngine(this);
-//			if (!jse)
-//				return;
-//			const QString script(File::read_impl(jse, file, FS::O_TEXT));
-//			if (script.isEmpty())
-//				return;
-
-//#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
-//			QStringList stack;
-//			const QJSValue res = jse->evaluate(script, file, 1, &stack);
-//			if (res.isError() || !stack.isEmpty()) {
-//#else
-//			const QJSValue res = se->engine()->evaluate(script, file);
-//			if (res.isError()) {
-//#endif
-//				jse->throwError(res);
-//				SCRIPT_ENGINE_CHECK_ERRORS(jse)
-//			}
-//		}
+		// Passthrough for ScriptEngine to avoid needing to register it in the global JS object.
+		Q_INVOKABLE void include(const QString &file) const { se->include(file); }
 
 		Q_INVOKABLE QString hash(const QByteArray &data, QString algorithm = QStringLiteral("md5"))
 		{

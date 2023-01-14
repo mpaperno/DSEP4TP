@@ -121,7 +121,7 @@ void ScriptEngine::initScriptEngine()
 	}, Qt::DirectConnection);
 #endif
 
-	se->globalObject().setProperty("ScriptEngine", se->newQObject(this));               // CPP ownership
+	//se->globalObject().setProperty("ScriptEngine", se->newQObject(this));               // CPP ownership
 	se->globalObject().setProperty("DSE", se->newQObject(dse));                         // CPP ownership
 	se->globalObject().setProperty("Util", se->newQObject(ulib));                       // CPP ownership
 	se->globalObject().setProperty("TPAPI", se->newQObject(tpapi));                     // CPP ownership

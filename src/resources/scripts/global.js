@@ -28,7 +28,7 @@ var
   btoa = Util.btoa,
   atob = Util.atob,
   hash = Util.hash,
-  include = ScriptEngine.include,
+  include = Util.include,
   locale = Qt ? Qt.locale : function() {},
   TP = TPAPI
 ;
