@@ -23,8 +23,10 @@ to any 3rd-party components used within.
 #include <QDir>
 #include <QJSValue>
 #include <QJSValueIterator>
+#include <QMutex>
 #include <QThread>
 #include <QTimer>
+#include <QWaitCondition>
 
 #include "common.h"
 
@@ -45,6 +47,20 @@ static inline void runOnThread(QThread *qThread, Func &&func)
 	QMetaObject::invokeMethod(t, "start", Qt::QueuedConnection);
 }
 
+template <typename Func>
+static inline void runOnThreadSync(QThread *qThread, Func &&func)
+{
+	QMutex m;
+	QWaitCondition wc;
+	runOnThread(qThread, [=, &wc]() {
+		func();
+		wc.notify_all();
+	});
+	m.lock();
+	wc.wait(&m);
+	m.unlock();
+}
+
 // unpacks an value which is a JS array into a list of individual JS values
 static QJSValueList jsArrayToValueList(const QJSValue &array)
 {
@@ -56,6 +72,43 @@ static QJSValueList jsArrayToValueList(const QJSValue &array)
 			list << array.property(i);
 	}
 	return list;
+}
+
+static float percentOfRange(float value, float rangeMin, float rangeMax)
+{
+  return ((rangeMax - rangeMin) * 0.01f * qAbs(value)) + rangeMin;
+}
+
+static float rangeValueToPercent(float value, float rangeMin, float rangeMax)
+{
+  const float dlta = rangeMax - rangeMin;
+  const float scale = dlta == 0.0f ? 100.0f : 100.0f / dlta;
+  return qBound(0.0f, (value - rangeMin) * scale, 100.0f);
+}
+
+static float connectorValueToRange(int value, float minRangeValue, float maxRangeValue,
+                                   const QMap<QString, QString> &dataMap, bool *ok = nullptr
+                                   /*, float *rMin = nullptr, float *rMax = nullptr*/ )
+{
+	float rangeMin = minRangeValue,
+	    rangeMax = maxRangeValue;
+	bool kk = true;
+	if (dataMap.contains("rangeMin")) {
+		float tmp = dataMap.value("rangeMin", "0").toFloat(&kk);
+		if (kk) {
+			rangeMin = qBound(minRangeValue, tmp, maxRangeValue);
+			tmp = dataMap.value("rangeMax", "0").toFloat(&kk);
+			if (kk)
+				rangeMax = qBound(minRangeValue, tmp, maxRangeValue);
+		}
+	}
+	if (ok)
+		*ok = kk;
+	//if (rMin)
+	//	*rMin = rangeMin;
+	//if (rMax)
+	//	*rMax = rangeMax;
+	return percentOfRange((float)qBound(0, value, 100), rangeMin, rangeMax);
 }
 
 // `o` is the object to iterate over
