@@ -48,7 +48,7 @@ if (!iVersion) {
 
 // Set default output path if not specified, based on debug/release type.
 if (!OUTPUT_PATH)
-    OUTPUT_PATH = path.join(__dirname, "..", "dist", (DEV_MODE ? "Debug" : path.join("Release", buildInfo.PLATFORM_OS)));
+    OUTPUT_PATH = path.join(__dirname, "..", "dist", (DEV_MODE ? "Debug" : buildInfo.PLATFORM_OS));
 
 // --------------------------------------
 // Define the base entry.tp object here
@@ -83,7 +83,17 @@ const entry_base =
             states: [],
             actions: [],
             connectors: [],
-            events: []
+            events: [
+                {
+                    id: PLUGIN_ID + ".event.pluginState",
+                    name: "Plugin running state change",
+                    format: "When the plugin runnings state changes to $val",
+                    type: "communicate",
+                    valueType: "choice",
+                    valueStateId: PLUGIN_ID + ".state.pluginState",
+                    valueChoices: ["Stopped", "Starting", "Started"],
+                },
+            ]
         },
         {
             id: PLUGIN_ID + ".cat.plugin",
@@ -93,7 +103,7 @@ const entry_base =
                 {
                     id: PLUGIN_ID + ".state.createdStatesList",
                     type: "text",
-                    desc : SHORT_NAME + ": List of created named instances",
+                    desc : SHORT_NAME + ": List of created script instances",
                     default : ""
                 },
                 {
@@ -109,6 +119,18 @@ const entry_base =
                     default : ""
                 },
                 {
+                    id: PLUGIN_ID + ".state.actRepeatDelay",
+                    type: "text",
+                    desc : SHORT_NAME + ": Default held action Repeat Delay (ms)",
+                    default : ""
+                },
+                {
+                    id: PLUGIN_ID + ".state.actRepeatRate",
+                    type: "text",
+                    desc : SHORT_NAME + ": Default held action Repeat Rate (ms)",
+                    default : ""
+                },
+                {
                     id: PLUGIN_ID + ".state.tpDataPath",
                     type: "text",
                     desc : SHORT_NAME + ": Touch Portal data folder (current user)",
@@ -119,7 +141,14 @@ const entry_base =
                     type: "text",
                     desc : SHORT_NAME + ": Name of Page currently active on TP device",
                     default : ""
-                }
+                },
+                {
+                    id: PLUGIN_ID + ".state.pluginState",
+                    type: "choice",
+                    desc : SHORT_NAME + ": Plugin running state",
+                    default : "Unknown",
+                    valueChoices: ["Stopped", "Starting", "Started"]
+                },
             ],
             actions: [],
             connectors: [],
@@ -223,8 +252,8 @@ function makeNumericData(id, label, dflt, min, max, allowDec = true) {
 // Shared functions which create both a format string and data array.
 
 function makeCommonData(id) {
-    let format = "State\nName{0}";
-    const data = [ makeTextData(id + ".name", "State Name") ];
+    let format = "Instance\n" + EM + "Name{0}";
+    const data = [ makeTextData(id + ".name", "Instance Name") ];
     return [ format, data ];
 }
 
@@ -233,18 +262,37 @@ function appendScopeData(id, data, defaultScope = "Shared") {
     let i = data.length;
     let format = ` Engine\nInstance{${i++}}`;
     data.push(
-        makeChoiceData(id + ".scope", "Engine Instance", ["Shared", "Private"], defaultScope),
+        makeChoiceData("script.d.scope", "Engine Instance", ["Shared", "Private"], defaultScope),
+        // makeChoiceData(id + ".scope", "Engine Instance", ["Shared", "Private"], defaultScope),
     );
     return format;
 }
 
-
-function appendSaveValueData(id, data) {
+function appendStateOptionData(id, data) {
     let i = data.length;
-    let format = ` | Create State\n| ${EM}at Startup{${i++}} Default\nValue/Expr{${i++}}`;
+    let format = `Create\n${EN}State{${i++}} Default\nValue/Expr{${i++}}`;
     data.push(
-        makeChoiceData(id + ".save", "Create at Startup", ["No", "Fixed\nValue", "Custom\nExpression", "Use Action's\nExpression"]),
+        makeChoiceData(id + ".state", "Create State", [
+            "No", 
+            "No & Delete Instance\nonce finished", 
+            "Yes", 
+            "Yes & at Startup with\nFixed Default Value", 
+            "Yes & at Startup with\nCustom Expression", 
+            "Yes & at Startup with\nAction's Expression"
+        ], "Yes"),
         makeTextData(id + ".default", "Default Value/Expression"),
+    );
+    return format;
+}
+
+function appendSliderStateOptionData(id, data) {
+    let format = `Create\n${EN}State{${data.length}}`;
+    data.push(
+        makeChoiceData(id + ".state", "Create State", [
+            "Yes", 
+            "No", 
+            // "No & Delete Instance\nonce finished"
+        ]),
     );
     return format;
 }
@@ -265,10 +313,13 @@ function addEvalAction(name)
         makeTextData(id + ".expr", "Expression"),
     );
     format += appendScopeData(id, data);
-    addConnector(id, name, descript, format, data);
-    data = data.map(a => ({...a}));  // deep copy
-    format += appendSaveValueData(id, data);
-    addAction(id, name, descript, format, data);
+
+    const connData = data.map(a => ({...a}));  // deep copy
+    const connFmt = format + appendSliderStateOptionData(id, connData);
+    addConnector(id, name, descript, connFmt, connData);
+
+    format += appendStateOptionData(id, data);
+    addAction(id, name, descript, format, data, true);
 }
 
 function addScriptAction(name) 
@@ -278,14 +329,14 @@ function addScriptAction(name)
         "An optional expression can be appended to the file contents, for example to run a function with dynamic value arguments. The expression must follow JS syntax rules (quote all strings).";
     let [format, data] = makeCommonData(id);
     let i = data.length;
-    format += `Script\n${EN}File{${i++}} Append\nExpression{${i++}}`;
+    format += `Script\n${EN}${SP}File{${i++}} Append\nExpression{${i++}}`;
     data.push(
         makeFileData(id + ".file", "Script File"),
         makeTextData(id + ".expr", "Append Expression", "run([arguments])"),
     );
     format += appendScopeData(id, data, "Private");
-    format += appendSaveValueData(id, data);
-    addAction(id, name, descript, format, data);
+    format += appendStateOptionData(id, data);
+    addAction(id, name, descript, format, data, true);
     // No connector for script types, too much I/O
 }
 
@@ -296,70 +347,83 @@ function addModuleAction(name)
         "Module properties are accessed via the alias (like in JS). An optional JavaScript expression can be evaluated after the import, eg. to run a function with dynamic value arguments.";
     let [format, data] = makeCommonData(id);
     let i = data.length;
-    format += `import {*}\nfrom (file){${i++}} as\n(alias){${i++}} and evaluate\nexpression{${i++}}`;
+    format += `import {*}\nfrom (file){${i++}} as\n(alias){${i++}} and evaluate\n${EN}expression{${i++}}`;
     data.push(
         makeFileData(id + ".file", "Module File"),
         makeTextData(id + ".alias", "Module Alias", "M"),
         makeTextData(id + ".expr", "Expression", "M.run([arguments])"),
     );
     format += appendScopeData(id, data, "Private");
-    addConnector(id, name, descript, format, data);
+
+    const connData = data.map(a => ({...a}));  // deep copy
+    const connFmt = format + appendSliderStateOptionData(id, connData);
+    addConnector(id, name, descript, connFmt, connData);
+
     data = data.map(a => ({...a}));  // deep copy
-    format += appendSaveValueData(id, data);
-    addAction(id, name, descript, format, data);
+    format += appendStateOptionData(id, data);
+    addAction(id, name, descript, format, data, true);
 }
 
 function addUpdateAction(name) 
 {
     const id = "script.update";
     const descript = SHORT_NAME + ": Update an Existing Instance Expression.\n" + 
-        "Use this action as a quick way to update an existing DSE instance with the same name. For example when using a script from several places it may be simpler to have the main definition only once.";
-    let [format, data] = makeCommonData(id);
-    let i = data.length;
-    format += `Evaluate\nExpression{${i++}}`;
-    data.push(
+        "Use this action as a quick way to update an existing DSE script instance with the same name. This is the most efficient way to evaluate an expression.";
+    const format = "Instance{0} Evaluate\nExpression{1}";
+    const data = [ 
+        makeChoiceData(id + ".name", "Instance Name", ["[ no instances created ]"], "select instance..."),
         makeTextData(id + ".expr", "Expression"),
-    );
-    addAction(id, name, descript, format, data);
-    addConnector(id, name, descript, format, data);
-}
-
-function addSingleShotAction(name) 
-{
-    const id = "script.oneshot";
-    const descript = SHORT_NAME + ": Run a One-Time/Anonymous Expression or Script/Module function.\n" + 
-        "This action does not create a State. It is meant for running code which does not return any value. Otherwise can be used the same as \"Evaluate,\" \"Load\" and \"Module\" actions.";  // (module alias is always \"M\")
-    let i = 0;
-    let format = `Action\nType{${i++}} Evaluate\nExpression{${i++}} File\n(if req'd){${i++}} Module\nalias (if req'd){${i++}}`;
-    // First the connector, which has fewer options than the action.
-    let data = [
-        makeChoiceData(id + ".type", "Script Type", ["Expression", "Module"]),
-        makeTextData(id + ".expr", "Expression"),
-        makeActionData(id + ".file", "file", "Script File", ""),
-        makeTextData(id + ".alias", "Module Alias", "M"),
     ];
+    // let [format, data] = makeCommonData(id);
+    // let i = data.length;
+    // format += `Evaluate\nExpression{${i++}}`;
+    // data.push( makeTextData(id + ".expr", "Expression"));
+    addAction(id, name, descript, format, data, true);
     addConnector(id, name, descript, format, data);
-    // Then the action, with more options.
-    data = data.map(a => ({...a}));  // deep copy
-    data[0].valueChoices = ["Expression", "Script", "Module"];
-    format += appendScopeData(id, data);
-    addAction(id, name, descript, format, data);
 }
 
 // System utility action
 
 function addSystemActions() 
 {
-    const id = "plugin.instance";
-    addAction(id, "Plugin Actions", 
-        SHORT_NAME + ": Plugin Actions. Choose an action to perform and which script instance(s) it should affect. \n" +
-            "'Delete Instance' removes the corresponding State from TP and any associated Private Engine. `Set State Value` updates the TP State. 'Reset Engine' means setting the global script environment back to default.", 
-        "Action: {0} Instance(s): {1} Value: {2} (if required)", 
+    var id = "plugin.instance";
+    addAction(id, "Instance Control Actions", 
+        SHORT_NAME + ": Instance Control Actions. Choose an action to perform and which script/engine instance(s) it should affect. \n" +
+            "'Delete Script' also removes any State or saved value, and deletes Private engine if no other Scripts are using it. " + 
+            "'Reset Engine' means setting the global script environment back to default. " + 
+            "'Delete Engine' also deletes any related Script Instances. ", 
+        "Action: {0} Instance(s): {1}", 
         [
-        makeChoiceData(id + ".action", "Action to Perform", ["Delete Instance", "Set State Value", "Reset Engine Environment"], ""),
-        makeChoiceData(id + ".name", "Instance for Action", ["[ no instances created ]"], ""),
-        makeTextData(id + ".value", "Set to Value"),
-        ]);
+            makeChoiceData(id + ".action", "Action to Perform", ["Delete Script Instance", "Reset Engine Environment", "Delete Engine Instance"], "select action..."),
+            makeChoiceData(id + ".name", "Instance for Action", ["[ no instances created ]"], "select instance..."),
+        ]
+    );
+
+    id = "plugin.repRate";
+    addAction(id, "Set Held Action Repeat Rate/Delay", 
+        SHORT_NAME + ": Set/Adjust Held Action Repeat Rate/Delay.\n" + 
+            "The value(s) can be set for either the global default or per existing script Instance. Fastest rate/shortest delay is 50 milliseconds.", 
+        "{0} the {1} Repeat {2} to/by {3} (milliseconds)", 
+        [
+            makeChoiceData(id + ".action", "Action", ["Set", "Increment", "Decrement"]),
+            makeChoiceData(id + ".name", "Instance(s)", ["Default"]),
+            makeChoiceData(id + ".param", "Parameter", ["Rate", "Delay", "Rate & Delay"]),
+            makeTextData(id + ".value", "To/By"),
+        ],
+        true
+    );
+    addConnector(id, "Set Held Action Repeat Rate/Delay", 
+        SHORT_NAME + ": Set Held Action Repeat Rate/Delay within a given range. \n" + 
+            "The value(s) can be set for either the global default or per existing script Instance. Fastest rate/shortest delay is 50 milliseconds.", 
+        "Set the {0} Held Action Repeat {1} in range of {2} to {3} (milliseconds, 50ms minimum)", 
+        [
+            makeChoiceData(id + ".name", "Instance(s)", ["Default"]),
+            makeChoiceData(id + ".param", "Parameter", ["Rate", "Delay", "Rate & Delay"]),
+            makeTextData(id + ".rangeMin", "Range Minimum", "1000"),
+            makeTextData(id + ".rangeMax", "Range Maximum", "100"),
+            makeTextData(id + ".action", "", "Set"),  // hidden
+        ]
+    );
 }
 
 
@@ -370,7 +434,6 @@ addEvalAction("Evaluate Expression");
 addScriptAction("Load Script File");
 addModuleAction("Import Module File");
 addUpdateAction("Update Existing Instance");
-addSingleShotAction("Anonymous (One-Time) Script");
 // Misc actions
 addSystemActions();
 
