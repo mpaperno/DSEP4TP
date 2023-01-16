@@ -76,7 +76,12 @@ class TPAPI : public QObject
 		void connectInstance(const DynamicScript *ds)
 		{
 			// Global from script engine which needs name lookup because the state name is not fully qualified.
-			connect(this, &TPAPI::stateValueUpdate, ds, &DynamicScript::onEngineValueUpdate);
+			connect(this, &TPAPI::stateValueUpdate, ds, &DynamicScript::stateUpdate, Qt::UniqueConnection);
+		}
+
+		void disconnectInstance(const DynamicScript *ds)
+		{
+			disconnect(this, &TPAPI::stateValueUpdate, ds, &DynamicScript::stateUpdate);
 		}
 
 		void connectSlots(const Plugin *plugin, Qt::ConnectionType ctype = Qt::AutoConnection)
@@ -144,7 +149,12 @@ class TPAPI : public QObject
 		void connectorIdsChanged(const QByteArray &instanceName, const QByteArray &shortId);
 
 	public Q_SLOTS:
-		inline void stateUpdate(const QByteArray &value) { Q_EMIT stateValueUpdate(value); }
+		inline void stateUpdate(const QByteArray &value) {
+			if (DynamicScript *ds = se->dseObject()->currentInstance())
+				ds->stateUpdate(value);
+			else
+				Q_EMIT stateValueUpdate(value);
+		}
 		inline void stateUpdate(const QByteArray &name, const QByteArray &value) { Q_EMIT stateValueUpdateByName(name, value); }
 		inline void stateUpdateById(const QByteArray &id, const QByteArray &value) { Q_EMIT stateValueUpdateById(id, value); }
 		inline void connectorUpdateShort(const QByteArray &id, uint8_t val) { Q_EMIT connectorUpdate(id, val); }
@@ -235,7 +245,6 @@ class TPAPI : public QObject
 			*cdata = connectorData();
 			return QMultiMap<QString, QVariant>(query.toVariant().value<QVariantMap>());
 		}
-
 
 };
 
