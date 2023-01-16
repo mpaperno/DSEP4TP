@@ -27,6 +27,7 @@ to any 3rd-party components used within.
 #include "TPClientQt.h"
 
 class DynamicScript;
+class ScriptEngine;
 
 class Plugin : public QObject
 {
@@ -45,6 +46,7 @@ class Plugin : public QObject
 		void tpStateRemove(const QByteArray &) const;
 		void tpChoiceUpdate(const QByteArray &, const QByteArrayList &) const;
 		void tpChoiceUpdateStrList(const QByteArray &, const QStringList &) const;
+		void tpChoiceUpdateInstance(const QByteArray &, const QByteArray &, const QByteArrayList &) const;
 		void tpConnectorUpdate(const QByteArray &, quint8, bool) const;
 		void tpConnectorUpdateShort(const QByteArray &, quint8) const;
 		void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList &) const;
@@ -63,29 +65,36 @@ class Plugin : public QObject
 		void quit();
 		void initEngine();
 		void saveSettings();
+		void savePluginSettings();
 		void loadSettings();
-		void sendStateLists() const;
-		void clearStateLists() const;
+		void removeInstance(DynamicScript *ds, bool removeFromGlobal = true, bool removeUnusedEngine = true);
+		void removeEngine(ScriptEngine *se, bool removeFromGlobal = true, bool removeScripts = true);
+		void sendInstanceLists() const;
+		void sendEngineLists() const;
+		void updateInstanceChoices(int token, const QByteArray &instId = QByteArray());
 		void sendScriptState(DynamicScript *ds, const QByteArray &value = QByteArray()) const;
-		void createScriptState(DynamicScript *ds) const;
-		void removeScriptState(DynamicScript *ds, bool delayListUpdate = false) const;
 		void raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type = tr("SCRIPT EXCEPTION")) const;
 		void clearScriptErrors();
+		void updateConnectors(const QMultiMap<QString, QVariant> &qry, int value, float rangeMin, float rangeMax);
 		void onDsScriptError(const QJSValue &e) const;
 		void onScriptEngineError(const QJSValue &e) const;
 		void onDsFinished();
+		void updateActionRepeatProperties(int ms, int param);
+		void onActionRepeatRateChanged(int ms);
+		void onActionRepeatDelayChanged(int ms);
 		void onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &settings);
 		void onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg);
 		void dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg);
 		void scriptAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue = -1);
-		void pluginAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap);
+		void pluginAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue);
 		void instanceControlAction(quint8 act, const QMap<QString, QString> &dataMap);
+		void setActionRepeatRate(TPClientQt::MessageType type, quint8 act, const QMap<QString, QString> &dataMap, qint32 connectorValue);
 		void handleSettings(const QJsonObject &settings);
 		void parseConnectorNotification(const QJsonObject &msg);
 
 	private:
-		DynamicScript *getOrCreateInstance(const QByteArray &name, bool deferState = false, bool failIfMissing = false);
-		void removeInstance(DynamicScript *ds);
+		ScriptEngine *getOrCreateEngine(const QByteArray &name, bool privateType = true, bool failIfMissing = false);
+		DynamicScript *getOrCreateInstance(const QByteArray &name, bool failIfMissing = false);
 		inline TPClientQt *tpClient() const { return client; }
 
 		TPClientQt *client;
