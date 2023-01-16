@@ -51,6 +51,32 @@ Math.toRadians = function(degrees) {
 	return degrees / 180 * Math.PI;
 };
 
+
+//! \fn number percentOfRange(number percentValue, number rangeMin, number rangeMax)
+//! \memberof Math
+//! Scales `percentValue` into the numeric range specified by `rangeMin` and `rangeMax` and returns the new value.
+//! In other words, "what value does this percentage represent within this range." This may return a value outside
+//! the given range if `percentValue` is greater or less than 100. `percentValue` is always treated as absolute.
+//! \n Either of `rangeMin` or `rangeMax` can be the larger number. The returned value will be proportional in either case.
+Math.percentOfRange = function(value, rangeMin, rangeMax)
+{
+  return ((rangeMax - rangeMin) * 0.01 * Math.abs(value)) + rangeMin;
+}
+
+//! \fn number rangeValueToPercent(number value, number rangeMin, number rangeMax)
+//! \memberof Math
+//! Returns the percentage of the `rangeMin` through `rangeMax` numeric range represented by `value`.
+//! In other words, "what percentage does this value represent of the given range."  This may return
+//! a percentage greater than 100 if `value` falls outside of `rangeMin` and `rangeMax`.
+//! \n Either of `rangeMin` or `rangeMax` can be the larger number. The returned percentage will be proportional in either case.
+Math.rangeValueToPercent = function(value, rangeMin, rangeMax)
+{
+  const dlta = rangeMax - rangeMin;
+  const scale = dlta == 0.0 ? 100.0 : 100.0 / dlta;
+  return (value - rangeMin) * scale;
+}
+
+
 // Math method aliases
 var abs = Math.abs,
 	acos = Math.acos,
@@ -91,5 +117,7 @@ var abs = Math.abs,
 	constrain = Math.constrain,
 	roundTo = Math.roundTo,
 	toDegrees = Math.toDegrees,
-	toRadians = Math.toRadians
+	toRadians = Math.toRadians,
+	percentOfRange = Math.percentOfRange,
+	rangeValueToPercent = Math.rangeValueToPercent
 ;
