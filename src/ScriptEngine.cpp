@@ -38,12 +38,16 @@ to any 3rd-party components used within.
 using namespace Utils;
 using namespace ScriptLib;
 
-ScriptEngine::ScriptEngine(bool isStatic, const QByteArray &instanceName, QObject *p) :
+ScriptEngine *ScriptEngine::sharedInstance = nullptr;
+
+ScriptEngine::ScriptEngine(const QByteArray &instanceName, QObject *p) :
   QObject(p), dse{new DSE(this)}, tpapi{new TPAPI(this)}, ulib{new Util(this)},
-  m_currInstanceName(instanceName), m_isShared(isStatic)
+  m_name(instanceName)
 {
 	setObjectName(QLatin1String("ScriptEngine"));
-	if (isStatic) {
+	if (!sharedInstance) {
+		sharedInstance = this;
+		m_isShared = true;
 		qRegisterMetaType<DSE*>("DSE");
 		qRegisterMetaType<DynamicScript*>("DynamicScript");
 		qRegisterMetaType<QList<DynamicScript*> >();
@@ -65,25 +69,36 @@ ScriptEngine::ScriptEngine(bool isStatic, const QByteArray &instanceName, QObjec
 	QJSEngine::setObjectOwnership(ulib, QJSEngine::CppOwnership);
 
 	tpapi->connectSignals(Plugin::instance);
-	if (m_isShared)
-		tpapi->connectSlots(Plugin::instance, Qt::QueuedConnection);
+	tpapi->connectSlots(Plugin::instance, Qt::QueuedConnection);
 
 	initScriptEngine();
+
+	if (!m_isShared) {
+		dse->privateInstance = true;
+		dse->instanceName = m_name;
+	}
+
+	m_thread = new QThread();
+	m_thread->setObjectName(m_name);
+	moveToThread(m_thread);
+	m_thread->start();
+
 }
 
-ScriptEngine::~ScriptEngine() {
+ScriptEngine::~ScriptEngine()
+{
+	QMutexLocker lock(&m_mutex);
 	delete ulib;
 	ulib = nullptr;
 	delete tpapi;
 	tpapi = nullptr;
 	delete dse;
 	dse = nullptr;
-	if (se) {
-		se->collectGarbage();
-		se->deleteLater();
-		se = nullptr;
-	}
-	//qDebug() << this << "Destroyed";
+	delete se;
+	se = nullptr;
+//	if (!m_isShared)
+//		moveToMainThread();
+	//qDebug() << this << m_name << "Destroyed";
 }
 
 void ScriptEngine::initScriptEngine()
@@ -143,18 +158,31 @@ void ScriptEngine::initScriptEngine()
 	//evalScript(QStringLiteral(":/scripts/stringformat.js"));
 	//evalScript(QStringLiteral(":/scripts/global.js"));
 
-	if (!m_isShared) {
-		dse->privateInstance = true;
-		if (!m_currInstanceName.isEmpty())
-			dse->instanceName = m_currInstanceName;
-	}
+	qCDebug(lcPlugin) << "Engine init completed for" << m_name;
+}
 
+void ScriptEngine::moveToMainThread()
+{
+	if (!m_thread)
+		return;
+	Utils::runOnThreadSync(m_thread, [&]() {
+		moveToThread(qApp->thread());
+	});
+	m_thread->quit();
+	m_thread->wait(1000);
+	delete m_thread;
+	m_thread = nullptr;
 }
 
 void ScriptEngine::connectNamedScriptInstance(DynamicScript *ds)
 {
 	tpapi->connectInstance(ds);
-	tpapi->connectSlots(Plugin::instance);
+	//tpapi->connectSlots(Plugin::instance);
+}
+
+void ScriptEngine::disconnectNamedScriptInstance(DynamicScript *ds)
+{
+	tpapi->disconnectInstance(ds);
 }
 
 void ScriptEngine::clearInstanceData(const QByteArray &name)
@@ -187,10 +215,10 @@ void ScriptEngine::throwError(const QJSValue &err) const
 
 void ScriptEngine::throwError(QJSValue err, const QByteArray &instName) const
 {
-	if (m_isShared && !instName.isEmpty())
-		err.setProperty("instanceName", QLatin1String(instName));
+	if (instName.isEmpty())
+		err.setProperty("instanceName", QLatin1String(dse->instanceName));
 	else
-		err.setProperty("instanceName", QLatin1String(m_currInstanceName));
+		err.setProperty("instanceName", QLatin1String(instName));
 	throwError(err);
 }
 
@@ -212,13 +240,6 @@ void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg) cons
 	throwError(se->newErrorObject(type, msg), QByteArray());
 }
 
-#define EVAL_WITH_INSTANCE(INAME, EVAL) \
-	if (m_isShared)                       \
-		dse->instanceName = (INAME);        \
-	EVAL                                  \
-	if (m_isShared)                       \
-		dse->instanceName.clear();
-
 #define EE_RETURN_FILE_ERROR_OBJ(FN, RES, MSG)  {                      \
 	RES.setProperty(QStringLiteral("fileName"), FN);                     \
 	const QString msg = SCRIPT_ENGINE_FORMAT_ERR_MSG(RES, ' ' + MSG +);  \
@@ -231,9 +252,8 @@ void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg) cons
 QJSValue ScriptEngine::expressionValue(const QString &fromValue, const QByteArray &instName)
 {
 	QMutexLocker lock(&m_mutex);
-	EVAL_WITH_INSTANCE(instName,
-		const QJSValue res = se->evaluate(fromValue);
-	)
+	dse->instanceName = instName;
+	const QJSValue res = se->evaluate(fromValue);
 	//se->collectGarbage();
 	if (!res.isError())
 		return res;
@@ -254,9 +274,8 @@ QJSValue ScriptEngine::scriptValue(const QString &fileName, const QString &expr,
 		script += '\n' + expr;
 	//qCDebug(lcPlugin) << "File:" << fileName << "Contents:\n" << script;
 	QMutexLocker lock(&m_mutex);
-	EVAL_WITH_INSTANCE(instName,
-		QJSValue res = se->evaluate(script, fileName);
-	)
+	dse->instanceName = instName;
+	QJSValue res = se->evaluate(script, fileName);
 	//se->collectGarbage();
 	if (!res.isError())
 		return res;
@@ -266,9 +285,8 @@ QJSValue ScriptEngine::scriptValue(const QString &fileName, const QString &expr,
 QJSValue ScriptEngine::moduleValue(const QString &fileName, const QString &alias, const QString &expr, const QByteArray &instName)
 {
 	QMutexLocker lock(&m_mutex);
-	EVAL_WITH_INSTANCE(instName,
-		QJSValue mod = se->importModule(fileName);
-	)
+	dse->instanceName = instName;
+	QJSValue mod = se->importModule(fileName);
 	if (mod.isError()) {
 		EE_RETURN_FILE_ERROR_OBJ(fileName, mod, tr("while importing module"));
 	}
@@ -283,21 +301,20 @@ bool ScriptEngine::timerExpression(const ScriptLib::TimerData *timData)
 	QJSValue res;
 	bool ok = true;
 	m_mutex.lock();
-	EVAL_WITH_INSTANCE(timData->instanceName,
-		QJSManagedValue m(timData->expression, se);
-		if (m.isFunction()) {
-			if (!timData->thisObject.isUndefined() && !timData->thisObject.isNull())
-				res = m.callWithInstance(timData->thisObject, timData->args);
-			else
-				res = m.call(timData->args);
-		}
-		else if (m.isObject())
-			res = m.callAsConstructor(timData->args);
-		else if (m.isString())
-			res = engine()->evaluate(m.toString());
+	Utils::AutoResetString ars(dse->instanceName, timData->instanceName);
+	QJSManagedValue m(timData->expression, se);
+	if (m.isFunction()) {
+		if (!timData->thisObject.isUndefined() && !timData->thisObject.isNull())
+			res = m.callWithInstance(timData->thisObject, timData->args);
 		else
-			ok = false;
-	)
+			res = m.call(timData->args);
+	}
+	else if (m.isObject())
+		res = m.callAsConstructor(timData->args);
+	else if (m.isString())
+		res = engine()->evaluate(m.toString());
+	else
+		ok = false;
 	m_mutex.unlock();
 
 	//qCDebug(lcPlugin) << this << "TimerEvent:" << Util::TimerData::toString(timerType, timerId) << instName << "invalid?" << remove << "error?" << res.isError() << "expr:" << expression.toString() << "; on thread" << QThread::currentThread() << "app" << qApp->thread();

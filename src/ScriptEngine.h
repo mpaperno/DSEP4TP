@@ -36,6 +36,7 @@ to any 3rd-party components used within.
 #include <QJSValueIterator>
 #include <QObject>
 #include <QMutex>
+#include <QThread>
 
 #include "common.h"
 #include "DSE.h"
@@ -135,21 +136,18 @@ class ScriptEngine : public QObject
 			}
 		};
 
-		static ScriptEngine *instance()
-		{
-			static ScriptEngine e(true);
-			return &e;
-		}
+		static ScriptEngine *sharedInstance;
+		static ScriptEngine *instance() { return sharedInstance; }
 
-		explicit ScriptEngine(const QByteArray &instanceName = QByteArray(), QObject *p = nullptr) :
-		  ScriptEngine(false, instanceName, p)
-		{ }
+		explicit ScriptEngine(const QByteArray &instanceName = QByteArray(), QObject *p = nullptr);
 		~ScriptEngine();
 
 		inline QJSEngine *engine() const { return se; }
 		inline QJSValue globalObject() const { return se ? se->globalObject() : QJSValue(); }
 		inline DSE *dseObject() const { return dse; }
 		inline bool isSharedInstance() const { return m_isShared; }
+		inline DSE::EngineInstanceType instanceType() const { return m_isShared ? DSE::EngineInstanceType::SharedInstance : DSE::EngineInstanceType::PrivateInstance; }
+		inline QByteArray name() const { return m_name; }
 		inline QByteArray currentInstanceName() const { return dse->instanceName; }
 		inline ScriptLib::TPAPI *tpApiObject() const { return tpapi; }
 
@@ -160,9 +158,13 @@ class ScriptEngine : public QObject
 		// void resultReady(const QJSValue &val);
 
 	public Q_SLOTS:
-		inline void reset() { initScriptEngine(); }
+		inline void reset() {
+			initScriptEngine();
+			qCInfo(lcPlugin) << (m_isShared ? "Shared" : "Private") << "Scripting Engine reset completed for" << name();
+		}
 		//void connectScriptInstance(DynamicScript *ds);
 		void connectNamedScriptInstance(DynamicScript *ds);
+		void disconnectNamedScriptInstance(DynamicScript *ds);
 		void clearInstanceData(const QByteArray &name);
 		void checkErrors() const;
 		void throwError(const QJSValue &err) const;
@@ -192,15 +194,15 @@ class ScriptEngine : public QObject
 		DSE *dse = nullptr;
 		ScriptLib::TPAPI *tpapi = nullptr;
 		ScriptLib::Util *ulib = nullptr;
-		QByteArray m_currInstanceName;
+		QThread *m_thread = nullptr;
+		QByteArray m_name;
 		bool m_isShared = false;
 		QMutex m_mutex;
 #if SCRIPT_ENGINE_USE_QML
 		NetworkAccessManagerFactory m_factory;
 #endif
-
-		ScriptEngine(bool isStatic, const QByteArray &instanceName = QByteArray(), QObject *p = nullptr);
 		void initScriptEngine();
+		void moveToMainThread();
 
 		void evalScript(const QString &fn) const
 		{
@@ -229,5 +231,7 @@ class ScriptEngine : public QObject
 				*ok = true;
 			return ret;
 		}
+
+		Q_DISABLE_COPY(ScriptEngine)
 
 };
