@@ -70,7 +70,7 @@ class ConnectorRecord
 		Q_PROPERTY(QString actionType MEMBER actionType CONSTANT)
 		//! The State Name of the connector. This may be "ANONYMOUS" for "OneTime" @ref actionType connectors, or an empty string for non-enumerated `actionType` types.
 		Q_PROPERTY(QString instanceName MEMBER instanceName CONSTANT)
-		//! The type of scripting action. Enumeration type, one of: `DSE.Expression`, `DSE.Script`, `DSE.Module`, `DSE.Unknown` \n
+		//! The type of scripting action. Enumeration type, one of: `DSE.ExpressionInput`, `DSE.ScriptInput`, `DSE.ModuleInput`, `DSE.UnknownInputType` \n
 		//! When used for search, an equivalent string may also be used, eg. "Expression", "Script", "Module", or "Unknown". Wildcards are not allowed.
 		Q_PROPERTY(DSE::ScriptInputType inputType MEMBER inputType CONSTANT)
 		//! The full expression string of the connector. This is exactly as entered in the slider setup, no variables or code is evaluated.
@@ -79,7 +79,7 @@ class ConnectorRecord
 		Q_PROPERTY(QString file MEMBER file CONSTANT)
 		//! The module import alias as specified in the connector. Only Module type connects will have an alias.
 		Q_PROPERTY(QString alias MEMBER alias CONSTANT)
-		//! This is the Engine Instance type specified in the connector. One of: `DSE.Shared` or `DSE.Private` \n
+		//! This is the Engine Instance type specified in the connector. One of: `DSE.SharedInstance` or `DSE.PrivateInstance` \n
 		//! When used for search, an equivalent string may also be used: "Shared" or "Private". Wildcards are not allowed.
 		Q_PROPERTY(DSE::EngineInstanceType instanceType MEMBER instanceType CONSTANT)
 		/*! This property holds an object with any other Connector data members which were found but do not fit into any of the other data member property types.
@@ -157,8 +157,8 @@ class ConnectorRecord
 
 		ConnectorRecord() {}
 
-		DSE::ScriptInputType inputType = DSE::ScriptInputType::Unknown;
-		DSE::EngineInstanceType instanceType = DSE::EngineInstanceType::Unknown;
+		DSE::ScriptInputType inputType = DSE::ScriptInputType::UnknownInputType;
+		DSE::EngineInstanceType instanceType = DSE::EngineInstanceType::UnknownInstanceType;
 		qint64 timestamp;
 		QByteArray actionType;
 		QByteArray instanceName;
