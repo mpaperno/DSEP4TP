@@ -179,6 +179,7 @@ class ScriptEngine : public QObject
 		QJSValue moduleValue(const QString &fileName, const QString &alias, const QString &expr, const QByteArray &instName = QByteArray());
 		bool timerExpression(const ScriptLib::TimerData *timData);
 		void include(const QString &file) const;
+		QJSValue require(const QString &file) const;
 
 		static void checkErrors(QJSEngine *e) {
 			if (!e)
@@ -203,6 +204,7 @@ class ScriptEngine : public QObject
 #endif
 		void initScriptEngine();
 		void moveToMainThread();
+		bool resolveFilePath(const QString &fileName, QString &resolvedFile) const;
 
 		void evalScript(const QString &fn) const
 		{

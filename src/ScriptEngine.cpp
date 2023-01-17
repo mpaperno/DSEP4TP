@@ -336,9 +336,47 @@ bool ScriptEngine::timerExpression(const ScriptLib::TimerData *timData)
 	return true;
 }
 
+bool ScriptEngine::resolveFilePath(const QString &fileName, QString &resolvedFile) const
+{
+	if (fileName.isEmpty())
+		return false;
+
+	if (QDir::isAbsolutePath(fileName)) {
+		resolvedFile = fileName;
+		return QFileInfo::exists(fileName);
+	}
+
+	// Try to resolve the file path relative to the currently running script.
+	// To do this we can get the current stack trace from the QV4 engine (bit of a hack since this is not public QJSEngine API).
+	// We can then traverse the stack from the top down looking for the first valid file path in the stack.
+	bool ok = false;
+	QString testFile;
+	const QV4::StackTrace trace = se->handle()->stackTrace();
+	for (const QV4::StackFrame &frame : trace) {
+		if (frame.source.isEmpty())
+			continue;
+		testFile = QFileInfo(QUrl(frame.source).toLocalFile()).path().append('/').append(fileName);
+		//qDebug() << fileName << frame.source << testFile;
+		if (QFileInfo::exists(testFile)) {
+			resolvedFile = testFile;
+			ok = true;
+		}
+		break;
+	}
+	// Fall back to resolving using default scripts folder
+	if (!ok)
+		resolvedFile = DSE::resolveFile(fileName);
+	return ok || QFileInfo::exists(resolvedFile);
+}
+
 void ScriptEngine::include(const QString &file) const
 {
-	const QString script(File::read_impl(se, DSE::resolveFile(file), ScriptLib::FS::O_TEXT));
+	QString resolvedFile;
+	if (!resolveFilePath(file, resolvedFile)) {
+		throwError(QJSValue::URIError, tr("File not found for include('%1'). Resolved file path: '%2'").arg(file, resolvedFile));
+		return;
+	}
+	const QString script(File::read_impl(se, resolvedFile, ScriptLib::FS::O_TEXT));
 	if (script.isEmpty()) {
 		checkErrors();
 		return;
@@ -346,14 +384,28 @@ void ScriptEngine::include(const QString &file) const
 
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
 	QStringList stack;
-	const QJSValue res = se->evaluate(script, file, 1, &stack);
+	QJSValue res = se->evaluate(script, file, 1, &stack);
 	if (res.isError() || !stack.isEmpty()) {
 #else
 	const QJSValue res = se->evaluate(script, file);
 	if (res.isError()) {
 #endif
-		throwError(res);
+		throwError(res, QByteArray());
 	}
+}
+
+QJSValue ScriptEngine::require(const QString &file) const
+{
+	QString resolvedFile;
+	if (!resolveFilePath(file, resolvedFile)) {
+		throwError(QJSValue::URIError, tr("File not found for require('%1'). Resolved file path: '%2'").arg(file, resolvedFile));
+		return se->newObject();
+	}
+	QJSValue mod = se->importModule(resolvedFile);
+	if (!mod.isError())
+		return mod;
+	throwError(mod, QByteArray());
+	return se->newObject();
 }
 
 #include "moc_ScriptEngine.cpp"

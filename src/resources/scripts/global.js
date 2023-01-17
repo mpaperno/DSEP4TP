@@ -29,6 +29,7 @@ var
   atob = Util.atob,
   hash = Util.hash,
   include = Util.include,
+  require = Util.require,
   locale = Qt ? Qt.locale : function() {},
   TP = TPAPI
 ;

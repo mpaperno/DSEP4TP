@@ -286,6 +286,7 @@ class Util : public QObject
 
 		// Passthrough for ScriptEngine to avoid needing to register it in the global JS object.
 		Q_INVOKABLE void include(const QString &file) const { se->include(file); }
+		Q_INVOKABLE QJSValue require(const QString &file) const { return se->require(file); }
 
 		Q_INVOKABLE QString hash(const QByteArray &data, QString algorithm = QStringLiteral("md5"))
 		{
