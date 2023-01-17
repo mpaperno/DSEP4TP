@@ -876,10 +876,12 @@ void Plugin::setActionRepeatRate(TPClientQt::MessageType type, quint8 act, const
 
 	bool globalInst = (instName == tokenToName(AT_Default));
 	DSE *dse = nullptr;
-	if (globalInst)
+	if (globalInst) {
 		dse = DSE::sharedInstance;
-	else if (DynamicScript *ds = DSE::instance(instName)) {
-		dse = ds->engine() ? ds->engine()->dseObject() : nullptr;
+	}
+	else {
+		if (DynamicScript *ds = DSE::instance(instName))
+			dse = ds->engine() ? ds->engine()->dseObject() : nullptr;
 		if (!dse) {
 			qCCritical(lcPlugin) << "Instance name" << instName << "not found or is invalid for action" << tokenToName(act) << "Repeat" << dataMap.value("param");
 			return;
