@@ -148,6 +148,8 @@ bool DynamicScript::setEngine(ScriptEngine *se)
 
 void DynamicScript::setCreateState(bool create)
 {
+	if (createState == create)
+		return;
 	createState = create;
 	if (!create)
 		removeTpState();
