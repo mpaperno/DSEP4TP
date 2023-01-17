@@ -26,6 +26,10 @@ to any 3rd-party components used within.
 
 #include "TPClientQt.h"
 
+QT_BEGIN_NAMESPACE
+class QJsonObject;
+class QThread;
+QT_END_NAMESPACE
 class DynamicScript;
 class ScriptEngine;
 
@@ -97,7 +101,8 @@ class Plugin : public QObject
 		DynamicScript *getOrCreateInstance(const QByteArray &name, bool failIfMissing = false);
 		inline TPClientQt *tpClient() const { return client; }
 
-		TPClientQt *client;
+		TPClientQt *client = nullptr;
+		QThread *clientThread = nullptr;
 		QTimer m_loadSettingsTmr;
 
 		friend class DynamicScript;

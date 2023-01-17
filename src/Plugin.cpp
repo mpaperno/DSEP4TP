@@ -22,7 +22,7 @@ to any 3rd-party components used within.
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMetaObject>
-//#include <QThread>
+#include <QThread>
 
 #include "Plugin.h"
 #include "common.h"
@@ -170,7 +170,8 @@ static DSE::ScriptDefaultType stringToStateType(QStringView str, bool *createSta
 
 Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
   QObject(parent),
-  client(new TPClientQt(PLUGIN_ID, this))
+  client(new TPClientQt(PLUGIN_ID/*, this*/)),
+  clientThread(new QThread())
 {
 	instance = this;
 	client->setHostProperties(tpHost, tpPort);
@@ -193,6 +194,9 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
 	connect(this, &Plugin::tpChoiceUpdateStrList, client, qOverload<const QByteArray &, const QStringList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpConnectorUpdate, client, qOverload<const QByteArray&, uint8_t, bool>(&TPClientQt::connectorUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpNotification, client, qOverload<const QByteArray&, const QByteArray&, const QByteArray&, const QVariantList&>(&TPClientQt::showNotification), Qt::QueuedConnection);
+
+	client->moveToThread(clientThread);
+	clientThread->start();
 
 	m_loadSettingsTmr.setSingleShot(true);
 	m_loadSettingsTmr.setInterval(750);
@@ -217,11 +221,14 @@ Plugin::~Plugin()
 	delete ScriptEngine::sharedInstance;
 	ScriptEngine::sharedInstance = nullptr;
 
-	if (client) {
-		client->disconnect();
-		delete client;
-		client = nullptr;
+	if (clientThread) {
+		clientThread->quit();
+		clientThread->wait();
+		clientThread->deleteLater();
+		clientThread = nullptr;
 	}
+	delete client;
+	client = nullptr;
 	qCInfo(lcPlugin) << PLUGIN_SHORT_NAME " exiting.";
 }
 
@@ -237,11 +244,15 @@ void Plugin::exit()
 
 void Plugin::quit()
 {
-	if (client && client->isConnected()) {
-		client->stateUpdate(PLUGIN_ID ".state.pluginState", "Stopped");
-		client->stateUpdate(PLUGIN_ID ".state.createdStatesList", "");
+	if (client) {
+		if (client->thread() != qApp->thread())
+			Utils::runOnThreadSync(client->thread(), [=]() { client->moveToThread(qApp->thread()); });
+		if (client->isConnected()) {
+			client->stateUpdate(PLUGIN_ID ".state.pluginState", "Stopped");
+			client->stateUpdate(PLUGIN_ID ".state.createdStatesList", "");
+			client->disconnect();
+		}
 	}
-	Q_EMIT tpDisconnect();
 	saveSettings();
 }
 
