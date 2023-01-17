@@ -30,6 +30,7 @@ to any 3rd-party components used within.
 #if !SCRIPT_ENGINE_USE_QML
 // use privates to inject Locale and Date/Number formatting features normally in QQmlEngine into QJSEngine
 #include <private/qqmllocale_p.h>
+#include <private/qv4global_p.h>
 #include <private/qv4engine_p.h>
 #include "ScriptingLibrary/DOMException.h"
 #include "ScriptingLibrary/XmlHttpRequest.h"
@@ -44,7 +45,7 @@ ScriptEngine::ScriptEngine(const QByteArray &instanceName, QObject *p) :
   QObject(p), dse{new DSE(this)}, tpapi{new TPAPI(this)}, ulib{new Util(this)},
   m_name(instanceName)
 {
-	setObjectName(QLatin1String("ScriptEngine"));
+	setObjectName(QLatin1String("ScriptEngine: ") + instanceName);
 	if (!sharedInstance) {
 		sharedInstance = this;
 		m_isShared = true;
@@ -79,7 +80,7 @@ ScriptEngine::ScriptEngine(const QByteArray &instanceName, QObject *p) :
 	}
 
 	m_thread = new QThread();
-	m_thread->setObjectName(m_name);
+	m_thread->setObjectName(objectName());
 	moveToThread(m_thread);
 	m_thread->start();
 
@@ -96,9 +97,9 @@ ScriptEngine::~ScriptEngine()
 	dse = nullptr;
 	delete se;
 	se = nullptr;
-//	if (!m_isShared)
-//		moveToMainThread();
-	//qDebug() << this << m_name << "Destroyed";
+	//if (!m_isShared)
+	//	moveToMainThread();
+	//qCDebug(lcPlugin) << this << m_name << "Destroyed";
 }
 
 void ScriptEngine::initScriptEngine()
@@ -128,7 +129,6 @@ void ScriptEngine::initScriptEngine()
 	}, Qt::DirectConnection);
 #endif
 
-	//se->globalObject().setProperty("ScriptEngine", se->newQObject(this));               // CPP ownership
 	se->globalObject().setProperty("DSE", se->newQObject(dse));                         // CPP ownership
 	se->globalObject().setProperty("Util", se->newQObject(ulib));                       // CPP ownership
 	se->globalObject().setProperty("TPAPI", se->newQObject(tpapi));                     // CPP ownership
@@ -197,8 +197,7 @@ void ScriptEngine::checkErrors() const
 	if (se->hasError()) {
 		QJSValue res = se->catchError();
 		if (!res.isUndefined() && !res.isNull()) {
-			res.setProperty(QStringLiteral("message"), SCRIPT_ENGINE_FORMAT_ERR_MSG(res));
-			Q_EMIT raiseError(res);
+			Q_EMIT engineError(JSError(res));
 		}
 	}
 #endif
@@ -207,9 +206,12 @@ void ScriptEngine::checkErrors() const
 void ScriptEngine::throwError(const QJSValue &err) const
 {
 	if (!err.isUndefined() && !err.isNull()) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
 		se->throwError(err);
 		checkErrors();
-		//Q_EMIT raiseError(err);
+#else
+		Q_EMIT engineError(JSError(err));
+#endif
 	}
 }
 
@@ -240,13 +242,13 @@ void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg) cons
 	throwError(se->newErrorObject(type, msg), QByteArray());
 }
 
-#define EE_RETURN_FILE_ERROR_OBJ(FN, RES, MSG)  {                      \
-	RES.setProperty(QStringLiteral("fileName"), FN);                     \
-	const QString msg = SCRIPT_ENGINE_FORMAT_ERR_MSG(RES, ' ' + MSG +);  \
-	QJSValue ret = se->newErrorObject(RES.errorType(), msg);             \
-	ret.setProperty("cause", RES);                                       \
-	ret.setProperty("instanceName", instName.constData());               \
-	return ret;                                                          \
+#define EE_RETURN_FILE_ERROR_OBJ(FN, RES, MSG) {                 \
+	RES.setProperty(QStringLiteral("fileName"), FN);               \
+	const QString msg = JSError(RES).toString(MSG);                \
+	QJSValue ret = se->newErrorObject(RES.errorType(), msg);       \
+	ret.setProperty("cause", RES);                                 \
+	ret.setProperty("instanceName", QString::fromUtf8(instName));  \
+	return ret;                                                    \
 }
 
 QJSValue ScriptEngine::expressionValue(const QString &fromValue, const QByteArray &instName)
@@ -257,7 +259,11 @@ QJSValue ScriptEngine::expressionValue(const QString &fromValue, const QByteArra
 	//se->collectGarbage();
 	if (!res.isError())
 		return res;
-	QJSValue ret = se->newErrorObject(res.errorType(), res.property("name").toString() + ": " + tr("while evaluating the expression") + " '" + fromValue + "': " + res.property("message").toString());
+	QJSValue ret = se->newErrorObject(res.errorType(),
+		res.property("name").toString() + ": " +
+		tr("while evaluating the expression") + " '" + fromValue + "': " +
+		res.property("message").toString()
+	);
 	ret.setProperty("cause", res);
 	return ret;
 }
@@ -279,7 +285,7 @@ QJSValue ScriptEngine::scriptValue(const QString &fileName, const QString &expr,
 	//se->collectGarbage();
 	if (!res.isError())
 		return res;
-	EE_RETURN_FILE_ERROR_OBJ(fileName, res, tr("while evaluating '%1'").arg(expr)+);
+	EE_RETURN_FILE_ERROR_OBJ(fileName, res, tr("while evaluating '%1'").arg(expr));
 }
 
 QJSValue ScriptEngine::moduleValue(const QString &fileName, const QString &alias, const QString &expr, const QByteArray &instName)
@@ -300,24 +306,26 @@ bool ScriptEngine::timerExpression(const ScriptLib::TimerData *timData)
 {
 	QJSValue res;
 	bool ok = true;
-	m_mutex.lock();
-	Utils::AutoResetString ars(dse->instanceName, timData->instanceName);
-	QJSManagedValue m(timData->expression, se);
-	if (m.isFunction()) {
-		if (!timData->thisObject.isUndefined() && !timData->thisObject.isNull())
-			res = m.callWithInstance(timData->thisObject, timData->args);
+	{
+		QMutexLocker lock(&m_mutex);
+		Utils::AutoResetString ars(dse->instanceName, timData->instanceName);
+		QJSManagedValue m(timData->expression, se);
+		if (m.isFunction()) {
+			if (timData->thisObject.isObject())
+				res = m.callWithInstance(timData->thisObject, timData->args);
+			else
+				res = m.call(timData->args);
+		}
+		else if (m.isObject())
+			res = m.callAsConstructor(timData->args);
+		else if (m.isString())
+			res = se->evaluate(m.toString());
 		else
-			res = m.call(timData->args);
+			ok = false;
 	}
-	else if (m.isObject())
-		res = m.callAsConstructor(timData->args);
-	else if (m.isString())
-		res = engine()->evaluate(m.toString());
-	else
-		ok = false;
-	m_mutex.unlock();
 
-	//qCDebug(lcPlugin) << this << "TimerEvent:" << Util::TimerData::toString(timerType, timerId) << instName << "invalid?" << remove << "error?" << res.isError() << "expr:" << expression.toString() << "; on thread" << QThread::currentThread() << "app" << qApp->thread();
+	//qCDebug(lcPlugin) << this << "TimerEvent:" << Util::TimerData::toString(timerType, timerId) << instName << "invalid?" << remove << "error?" << res.isError()
+	//   << "expr:" << expression.toString() << "; on thread" << QThread::currentThread() << "app" << qApp->thread();
 	if (!ok) {
 		const QString msg =  tr("TypeError: (with %1) expression '%2' cannot be evaluated (must be a callable or a string). Timer event cancelled.'").arg(timData->toString(), timData->expression.toString());
 		throwError(QJSValue::TypeError, msg, timData->instanceName);
@@ -328,11 +336,9 @@ bool ScriptEngine::timerExpression(const ScriptLib::TimerData *timData)
 		return false;
 	}
 	if (res.isError()) {
-		const QString msg = SCRIPT_ENGINE_FORMAT_ERR_MSG(res, " using " + timData->toString() +);
-		throwError(QJSValue::EvalError, msg, res, timData->instanceName);
+		throwError(res, timData->instanceName);
 		return false;
 	}
-
 	return true;
 }
 
@@ -356,7 +362,7 @@ bool ScriptEngine::resolveFilePath(const QString &fileName, QString &resolvedFil
 		if (frame.source.isEmpty())
 			continue;
 		testFile = QFileInfo(QUrl(frame.source).toLocalFile()).path().append('/').append(fileName);
-		//qDebug() << fileName << frame.source << testFile;
+		//qCDebug(lcPlugin) << fileName << frame.source << testFile;
 		if (QFileInfo::exists(testFile)) {
 			resolvedFile = testFile;
 			ok = true;

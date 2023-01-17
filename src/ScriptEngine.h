@@ -40,23 +40,11 @@ to any 3rd-party components used within.
 
 #include "common.h"
 #include "DSE.h"
+#include "JSError.h"
 
 #define SCRIPT_ENGINE_CHECK_ERRORS(JSE) \
 	if (ScriptEngine *_scriptEngine = JSE->property("ScriptEngine").value<ScriptEngine *>()) { \
 		_scriptEngine->checkErrors(); }
-
-
-#define SCRIPT_ENGINE_FORMAT_ERR_MSG(JSVAL, ...) [&]() {          \
-	const ScriptEngine::JSError err = ScriptEngine::jsError(JSVAL); \
-	QString errorMessage = err.name + ": " + err.message;           \
-	if (!err.fileName.isEmpty()) {                                  \
-		errorMessage += " (in file '" + err.fileName + '\'';          \
-		if (!err.lineNumber.isEmpty())                                \
-			errorMessage += " at line " + err.lineNumber;               \
-		errorMessage += __VA_ARGS__ ")";                              \
-	}                                                               \
-  return errorMessage;                                            \
-}()
 
 
 #if SCRIPT_ENGINE_USE_QML
@@ -105,37 +93,6 @@ class ScriptEngine : public QObject
 {
 	Q_OBJECT
 	public:
-		struct JSError
-		{
-			QJSValue::ErrorType type = QJSValue::NoError;
-			QString name;
-			QString message;
-			QString fileName;
-			QString lineNumber;
-			QString stack;
-			QJSValue cause;
-			explicit JSError(const QJSValue &err) {
-				QJSValue tmp;
-				type = err.isError() ? err.errorType() : QJSValue::GenericError;
-				if (!(tmp = err.property(QStringLiteral("name"))).isUndefined())
-					name = tmp.toString();
-				else
-					name = QStringLiteral("Error");
-				if (!(tmp = err.property(QStringLiteral("message"))).isUndefined())
-					message = tmp.toString();
-				else
-					message = err.toString();
-				if (!(tmp = err.property(QStringLiteral("fileName"))).isUndefined())
-					fileName = tmp.toString();
-				if (!(tmp = err.property(QStringLiteral("lineNumber"))).isUndefined())
-					lineNumber = tmp.toString();
-				if (!(tmp = err.property(QStringLiteral("stack"))).isUndefined())
-					stack = tmp.toString();
-				if (err.hasOwnProperty(QStringLiteral("cause")))
-					cause = err.property(QStringLiteral("cause"));
-			}
-		};
-
 		static ScriptEngine *sharedInstance;
 		static ScriptEngine *instance() { return sharedInstance; }
 
@@ -151,10 +108,9 @@ class ScriptEngine : public QObject
 		inline QByteArray currentInstanceName() const { return dse->instanceName; }
 		inline ScriptLib::TPAPI *tpApiObject() const { return tpapi; }
 
-		static inline JSError jsError(const QJSValue &err) { return JSError(err); }
-
 	Q_SIGNALS:
-		void raiseError(const QJSValue &err) const;
+		void raiseError(QJSValue err) const;
+		void engineError(const JSError &err) const;
 		// void resultReady(const QJSValue &val);
 
 	public Q_SLOTS:

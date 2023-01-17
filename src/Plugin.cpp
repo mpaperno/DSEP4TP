@@ -174,6 +174,9 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
   clientThread(new QThread())
 {
 	instance = this;
+
+	qRegisterMetaType<JSError>("JSError");
+
 	client->setHostProperties(tpHost, tpPort);
 
 	connect(qApp, &QCoreApplication::aboutToQuit, this, &Plugin::quit);
@@ -259,7 +262,7 @@ void Plugin::quit()
 void Plugin::initEngine()
 {
 	new ScriptEngine(QByteArrayLiteral("Shared"));
-	connect(ScriptEngine::instance(), &ScriptEngine::raiseError, this, &Plugin::onScriptEngineError, Qt::QueuedConnection);
+	connect(ScriptEngine::instance(), &ScriptEngine::engineError, this, &Plugin::onEngineError, Qt::QueuedConnection);
 	connect(DSE::sharedInstance, &DSE::defaultActionRepeatRateChanged, this, &Plugin::onActionRepeatRateChanged, Qt::QueuedConnection);
 	connect(DSE::sharedInstance, &DSE::defaultActionRepeatDelayChanged, this, &Plugin::onActionRepeatDelayChanged, Qt::QueuedConnection);
 }
@@ -333,7 +336,7 @@ ScriptEngine *Plugin::getOrCreateEngine(const QByteArray &name, bool privateType
 	if (!se && !failIfMissing) {
 		se = DSE::insert(name, new ScriptEngine(name));
 		// Instance-specific errors from background tasks.
-		connect(se, &ScriptEngine::raiseError, this, &Plugin::onScriptEngineError, Qt::QueuedConnection);
+		connect(se, &ScriptEngine::engineError, this, &Plugin::onEngineError, Qt::QueuedConnection);
 		sendEngineLists();
 	}
 	return se;
@@ -345,6 +348,8 @@ DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool failIfMi
 	if (!ds && !failIfMissing) {
 		//qCDebug(lcPlugin) << dvName << "Creating";
 		ds = DSE::insert(name, new DynamicScript(name));
+		connect(ds, &DynamicScript::scriptError, Plugin::instance, &Plugin::onScriptError, Qt::QueuedConnection);
+		connect(ds, &DynamicScript::dataReady, client, qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
 		sendInstanceLists();
 	}
 	return ds;
@@ -361,6 +366,7 @@ void Plugin::removeInstance(DynamicScript *ds, bool removeFromGlobal, bool remov
 		DSE::removeInstance(ds->name);
 		sendInstanceLists();
 	}
+	disconnect(ds, nullptr, this, nullptr);
 	qCInfo(lcPlugin) << "Deleted Script instance" << ds->name;
 	delete ds;
 
@@ -386,14 +392,15 @@ void Plugin::removeEngine(ScriptEngine *se, bool removeFromGlobal, bool removeSc
 		while (it != DSE::instances()->end()) {
 			if (it.value()->engine() == se) {
 				removeInstance(it.value(), false, false);
-				it = DSE::instances()->erase(it);
 				scriptsRemoved = true;
+				it = DSE::instances()->erase(it);
+				continue;
 			}
-			else {
-				++it;
-			}
+			++it;
 		}
 	}
+
+	disconnect(se, nullptr, this, nullptr);
 	if (removeFromGlobal) {
 		DSE::removeEngine(se->name());
 		sendEngineLists();
@@ -458,28 +465,6 @@ void Plugin::sendScriptState(DynamicScript *ds, const QByteArray &value) const
 		ds->stateUpdate(value);
 }
 
-void Plugin::raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type) const
-{
-	++g_errorCount;
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.errorCount"), QByteArray::number(g_errorCount));
-	QByteArray v;
-	if (dsName.isEmpty()) {
-		v = QStringLiteral("%1 [%2] %3").arg(g_errorCount, 3, 10, QLatin1Char('0')).arg(QTime::currentTime().toString("HH:mm:ss.zzz"), msg).toUtf8();
-		qCWarning(lcDse).noquote().nospace() << type << " [" << g_errorCount << "] " << msg;
-	}
-	else{
-		v = QStringLiteral("%1 [%2] %3 %4").arg(g_errorCount, 3, 10, QLatin1Char('0')).arg(QTime::currentTime().toString("HH:mm:ss.zzz"), dsName, msg).toUtf8();
-		qCWarning(lcDse).noquote().nospace() << type << " [" << g_errorCount << "] for instance '" << dsName << "': " << msg;
-	}
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.lastError"), v);
-}
-
-void Plugin::clearScriptErrors()
-{
-	g_errorCount = 0;
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.errorCount"), QByteArray::number(g_errorCount));
-}
-
 void Plugin::updateConnectors(const QMultiMap<QString, QVariant> &qry, int value, float rangeMin, float rangeMax)
 {
 	const auto connectors = ConnectorData::instance()->records(qry);
@@ -493,32 +478,7 @@ void Plugin::updateConnectors(const QMultiMap<QString, QVariant> &qry, int value
 	}
 }
 
-void Plugin::onStateUpdateByName(const QByteArray &name, const QByteArray &value) const
-{
-	//qCDebug(lcPlugin) << "Sending state update" << PLUGIN_STATE_ID_PREFIX + name;
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name, value);
-}
-
-void Plugin::onDsScriptError(const QJSValue &e) const
-{
-	if (DynamicScript *ds = qobject_cast<DynamicScript *>(sender()))
-		raiseScriptError(ds->name, e.property(QStringLiteral("message")).toString(), tr("SCRIPT EXCEPTION"));
-}
-
-void Plugin::onScriptEngineError(const QJSValue &e) const
-{
-	raiseScriptError(e.property(QStringLiteral("instanceName")).toString().toUtf8(), e.property(QStringLiteral("message")).toString(), tr("SCRIPT EXCEPTION"));
-}
-
-void Plugin::onDsFinished()
-{
-	if (DynamicScript *ds = qobject_cast<DynamicScript *>(sender())) {
-		if (ds->singleShot)
-			removeInstance(ds);
-	}
-}
-
-void Plugin::updateActionRepeatProperties(int ms, int param)
+void Plugin::updateActionRepeatProperties(int ms, int param) const
 {
 	savePluginSettings();
 	const QByteArray &paramName = tokenToName(param);
@@ -529,6 +489,57 @@ void Plugin::updateActionRepeatProperties(int ms, int param)
 		{"otherData",  QStringLiteral("*\"param\":\"*%1*\"*").arg(paramName)},
 		{"otherData",  QStringLiteral("*\"action\":\"%1\"*").arg(tokenToName(AT_Set))},
 	}, ms, 50.0f, 60000.0f);
+}
+
+void Plugin::raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type, const QString &stack) const
+{
+	const uint32_t count = ++g_errorCount;
+	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.errorCount"), QByteArray::number(count));
+	QByteArray v;
+	if (dsName.isEmpty()) {
+		v = QStringLiteral("%1 [%2] %3").arg(count, 3, 10, QLatin1Char('0')).arg(QTime::currentTime().toString("HH:mm:ss.zzz"), msg).toUtf8();
+		qCWarning(lcDse).noquote().nospace() << type << " [" << count << "] " << msg;
+	}
+	else {
+		v = QStringLiteral("%1 [%2] %3 %4").arg(count, 3, 10, QLatin1Char('0')).arg(QTime::currentTime().toString("HH:mm:ss.zzz"), dsName, msg).toUtf8();
+		qCWarning(lcDse).noquote().nospace() << type << " [" << count << "] for script instance '" << dsName << "': " << msg;
+	}
+	if (!stack.isEmpty())
+		qCInfo(lcDse).noquote().nospace() << "Stack trace [" << count << "]:\n" << stack.toUtf8();
+	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.lastError"), v);
+}
+
+void Plugin::clearScriptErrors()
+{
+	g_errorCount = 0;
+	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.errorCount"), QByteArrayLiteral("0"));
+}
+
+void Plugin::onScriptError(const JSError &e) const
+{
+	//qDebug() << sender() << e.stack;
+	if (DynamicScript *ds = qobject_cast<DynamicScript *>(sender()))
+		raiseScriptError(ds->name, e.message, tr("SCRIPT EXCEPTION"), e.stack);
+}
+
+void Plugin::onEngineError(const JSError &e) const
+{
+	//qDebug() << e.instanceName << e.stack;
+	raiseScriptError(e.instanceName.toUtf8(), e.toString(), tr("ENGINE EXCEPTION"), e.stack);
+}
+
+void Plugin::onDsFinished()
+{
+	if (DynamicScript *ds = qobject_cast<DynamicScript *>(sender())) {
+		if (ds->singleShot)
+			removeInstance(ds);
+	}
+}
+
+void Plugin::onStateUpdateByName(const QByteArray &name, const QByteArray &value) const
+{
+	//qCDebug(lcPlugin) << "Sending state update" << PLUGIN_STATE_ID_PREFIX + name;
+	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name, value);
 }
 
 void Plugin::onActionRepeatRateChanged(int ms) { updateActionRepeatProperties(ms, AT_Rate); }

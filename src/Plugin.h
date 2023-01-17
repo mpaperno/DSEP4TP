@@ -21,10 +21,10 @@ to any 3rd-party components used within.
 #pragma once
 
 #include <QObject>
-#include <QJSValue>
 #include <QTimer>
 
 #include "TPClientQt.h"
+#include "JSError.h"
 
 QT_BEGIN_NAMESPACE
 class QJsonObject;
@@ -77,15 +77,15 @@ class Plugin : public QObject
 		void sendEngineLists() const;
 		void updateInstanceChoices(int token, const QByteArray &instId = QByteArray());
 		void sendScriptState(DynamicScript *ds, const QByteArray &value = QByteArray()) const;
-		void raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type = tr("SCRIPT EXCEPTION")) const;
+		void updateActionRepeatProperties(int ms, int param) const;
+		void raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type, const QString &stack = QString()) const;
 		void clearScriptErrors();
 		void updateConnectors(const QMultiMap<QString, QVariant> &qry, int value, float rangeMin, float rangeMax);
-		void onDsScriptError(const QJSValue &e) const;
-		void onScriptEngineError(const QJSValue &e) const;
 		void onDsFinished();
-		void updateActionRepeatProperties(int ms, int param);
 		void onActionRepeatRateChanged(int ms);
 		void onActionRepeatDelayChanged(int ms);
+		void onScriptError(const JSError &e) const;
+		void onEngineError(const JSError &e) const;
 		void onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &settings);
 		void onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg);
 		void dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg);

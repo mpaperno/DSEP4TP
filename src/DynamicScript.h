@@ -31,6 +31,7 @@ to any 3rd-party components used within.
 #include <QWaitCondition>
 
 #include "DSE.h"
+#include "JSError.h"
 
 #ifdef DOXYGEN
 #define QByteArray String
@@ -305,7 +306,7 @@ class DynamicScript : public QObject
 
 	Q_SIGNALS:
 		void dataReady(const QByteArray &stateName, const QByteArray &result);
-		void scriptError(const QJSValue &e);
+		void scriptError(const JSError &e);
 		void finished();
 		void repeatRateChanged(int ms);
 		void repeatDelayChanged(int ms);

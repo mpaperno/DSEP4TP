@@ -33,13 +33,8 @@ DynamicScript::DynamicScript(const QByteArray &name, QObject *p) :
   name{name},
   tpStateId(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name)
 {
-	setObjectName("DSE.DynamicScript");
+	setObjectName("DynamicScript: " + name);
 	QJSEngine::setObjectOwnership(this, QJSEngine::CppOwnership);
-	connect(this, &DynamicScript::scriptError, Plugin::instance, &Plugin::onDsScriptError, Qt::QueuedConnection);
-	// Direct connection to socket where state ID is already fully qualified;
-	connect(this, &DynamicScript::dataReady, Plugin::instance->tpClient(), qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
-	//connect(this, &DynamicScript::dataReady, p, &Plugin::tpStateUpdate);  // alternate
-
 	//qCDebug(lcPlugin) << name << "Created";
 }
 
@@ -47,7 +42,7 @@ DynamicScript::~DynamicScript() {
 	//moveToMainThread();
 	QWriteLocker lock(&m_mutex);
 	setupRepeatTimer(false);
-//	qCDebug(lcPlugin) << name << "Destroyed";
+	//qCDebug(lcPlugin) << name << "Destroyed";
 }
 
 void DynamicScript::moveToMainThread()
@@ -365,7 +360,7 @@ void DynamicScript::evaluate()
 
 	m_state.setFlag(State::ScriptErrorState, res.isError());
 	if (m_state.testFlag(State::ScriptErrorState)) {
-		Q_EMIT scriptError(res);
+		Q_EMIT scriptError(JSError(res));
 		setRepeating(false);
 	}
 	else if (!res.isUndefined() && !res.isNull()) {

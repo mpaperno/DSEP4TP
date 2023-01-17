@@ -68,6 +68,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   DynamicScript.cpp
   ScriptEngine.h
   ScriptEngine.cpp
+  JSError.h
   Logger.h
   Logger.cpp
   TPClientQt.h
