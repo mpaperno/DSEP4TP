@@ -267,7 +267,7 @@ void Plugin::initEngine()
 	connect(DSE::sharedInstance, &DSE::defaultActionRepeatDelayChanged, this, &Plugin::onActionRepeatDelayChanged, Qt::QueuedConnection);
 }
 
-void Plugin::saveSettings()
+void Plugin::saveSettings() const
 {
 	if (!g_startupComplete)
 		return;
@@ -285,7 +285,7 @@ void Plugin::saveSettings()
 	qCInfo(lcPlugin) << "Saved" << count << "instance(s) to settings.";
 }
 
-void Plugin::savePluginSettings()
+void Plugin::savePluginSettings() const
 {
 	QSettings s;
 	s.beginGroup("Plugin");
@@ -355,7 +355,7 @@ DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool failIfMi
 	return ds;
 }
 
-void Plugin::removeInstance(DynamicScript *ds, bool removeFromGlobal, bool removeUnusedEngine)
+void Plugin::removeInstance(DynamicScript *ds, bool removeFromGlobal, bool removeUnusedEngine) const
 {
 	if (!ds)
 		return;
@@ -380,7 +380,7 @@ void Plugin::removeInstance(DynamicScript *ds, bool removeFromGlobal, bool remov
 	}
 }
 
-void Plugin::removeEngine(ScriptEngine *se, bool removeFromGlobal, bool removeScripts)
+void Plugin::removeEngine(ScriptEngine *se, bool removeFromGlobal, bool removeScripts) const
 {
 	if (!se || se->isSharedInstance())
 		return;
@@ -433,7 +433,7 @@ void Plugin::sendEngineLists() const
 	//Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.script.import.scope"), nameArry);
 }
 
-void Plugin::updateInstanceChoices(int token, const QByteArray &instId)
+void Plugin::updateInstanceChoices(int token, const QByteArray &instId) const
 {
 	QByteArrayList nameArry = token == AT_Engine ? DSE::engineKeys() : DSE::instanceKeys();
 	std::sort(nameArry.begin(), nameArry.end());
@@ -465,7 +465,7 @@ void Plugin::sendScriptState(DynamicScript *ds, const QByteArray &value) const
 		ds->stateUpdate(value);
 }
 
-void Plugin::updateConnectors(const QMultiMap<QString, QVariant> &qry, int value, float rangeMin, float rangeMax)
+void Plugin::updateConnectors(const QMultiMap<QString, QVariant> &qry, int value, float rangeMin, float rangeMax) const
 {
 	const auto connectors = ConnectorData::instance()->records(qry);
 	for (const auto &conn : connectors) {
@@ -528,7 +528,7 @@ void Plugin::onEngineError(const JSError &e) const
 	raiseScriptError(e.instanceName.toUtf8(), e.toString(), tr("ENGINE EXCEPTION"), e.stack);
 }
 
-void Plugin::onDsFinished()
+void Plugin::onDsFinished() const
 {
 	if (DynamicScript *ds = qobject_cast<DynamicScript *>(sender())) {
 		if (ds->singleShot)
@@ -542,8 +542,8 @@ void Plugin::onStateUpdateByName(const QByteArray &name, const QByteArray &value
 	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name, value);
 }
 
-void Plugin::onActionRepeatRateChanged(int ms) { updateActionRepeatProperties(ms, AT_Rate); }
-void Plugin::onActionRepeatDelayChanged(int ms) { updateActionRepeatProperties(ms, AT_Delay); }
+void Plugin::onActionRepeatRateChanged(int ms) const { updateActionRepeatProperties(ms, AT_Rate); }
+void Plugin::onActionRepeatDelayChanged(int ms) const { updateActionRepeatProperties(ms, AT_Delay); }
 
 void Plugin::onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &settings)
 {
@@ -887,7 +887,7 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 	}
 }
 
-void Plugin::setActionRepeatRate(TPClientQt::MessageType type, quint8 act, const QMap<QString, QString> &dataMap, qint32 connectorValue)
+void Plugin::setActionRepeatRate(TPClientQt::MessageType type, quint8 act, const QMap<QString, QString> &dataMap, qint32 connectorValue) const
 {
 	int param = tokenFromName(dataMap.value("param").toUtf8());
 	const QByteArray instName = dataMap.value("name").toUtf8();
@@ -947,7 +947,7 @@ void Plugin::setActionRepeatRate(TPClientQt::MessageType type, quint8 act, const
 	);
 }
 
-void Plugin::handleSettings(const QJsonObject &settings)
+void Plugin::handleSettings(const QJsonObject &settings) const
 {
 	//qCDebug(lcPlugin) << "Got settings object:" << settings;
 	QJsonObject::const_iterator next = settings.begin(), last = settings.end();
@@ -960,7 +960,7 @@ void Plugin::handleSettings(const QJsonObject &settings)
 	}
 }
 
-void Plugin::parseConnectorNotification(const QJsonObject &msg)
+void Plugin::parseConnectorNotification(const QJsonObject &msg) const
 {
 	//qCDebug(lcPlugin) << msg;
 	const QString longConnId(msg.value(QLatin1String("connectorId")).toString());
