@@ -32,10 +32,11 @@ to any 3rd-party components used within.
 #endif
 
 #include <QFile>
+#include <QJsonDocument>
 #include <QJSValue>
 #include <QJSValueIterator>
-#include <QObject>
 #include <QMutex>
+#include <QObject>
 #include <QThread>
 
 #include "common.h"
@@ -165,7 +166,7 @@ class ScriptEngine : public QObject
 		void evalScript(const QString &fn) const
 		{
 			bool ok;
-			const QString script = readFile(fn, &ok);
+			const QString script = QString::fromUtf8(readFile(fn, &ok));
 			if (!ok) {
 				qCWarning(lcPlugin) << script;
 				return;
@@ -175,19 +176,35 @@ class ScriptEngine : public QObject
 				qCCritical(lcPlugin) << "Exception in script" << fn << "at line" << res.property("lineNumber").toInt() << ":" << res.toString();
 		}
 
-		inline QString readFile(const QString &fn, bool *ok = nullptr) const
+		inline QByteArray readFile(const QString &fn, bool *ok = nullptr) const
 		{
 			QFile scriptFile(fn);
 			if (!scriptFile.open(QIODevice::ReadOnly)) {
 				if (ok)
 					*ok = false;
-				return "Error opening file '" + fn + "': " + scriptFile.errorString();
+				return ("Error opening file '" + fn + "': " + scriptFile.errorString()).toUtf8();
 			}
-			QString ret = scriptFile.readAll();
+			QByteArray ret = scriptFile.readAll();
 			scriptFile.close();
 			if (ok)
 				*ok = true;
 			return ret;
+		}
+
+		QJsonDocument loadJson(const QString &fileName, QString *error) const
+		{
+			bool ok;
+			const QByteArray jsData = readFile(fileName, &ok);
+			if (jsData.isEmpty()) {
+				*error = jsData;
+				return QJsonDocument();
+			}
+
+			QJsonParseError jspe;
+			const QJsonDocument jsDoc = QJsonDocument::fromJson(jsData, &jspe);
+			if (jsDoc.isNull())
+				*error = "Error loading JSON: " + jspe.errorString() + ' ' + fileName + " @ " + QString::number(jspe.offset);
+			return jsDoc;
 		}
 
 		Q_DISABLE_COPY(ScriptEngine)

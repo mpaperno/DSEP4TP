@@ -271,7 +271,7 @@ QJSValue ScriptEngine::expressionValue(const QString &fromValue, const QByteArra
 QJSValue ScriptEngine::scriptValue(const QString &fileName, const QString &expr, const QByteArray &instName)
 {
 	bool ok;
-	QString script = readFile(fileName, &ok);
+	QString script = QString::fromUtf8(readFile(fileName, &ok));
 	if (!ok)
 		return se->newErrorObject(QJSValue::URIError, tr("Could not read script file '%1': %2").arg(fileName, script));
 	if (script.trimmed().isEmpty())
@@ -392,6 +392,8 @@ void ScriptEngine::include(const QString &file) const
 	QStringList stack;
 	QJSValue res = se->evaluate(script, file, 1, &stack);
 	if (res.isError() || !stack.isEmpty()) {
+		if (!res.isError())
+			res = se->newErrorObject(QJSValue::EvalError, tr("include(%1) threw a non-Error exception. String value is: '%2'").arg(file, res.toString()));
 #else
 	const QJSValue res = se->evaluate(script, file);
 	if (res.isError()) {
@@ -407,6 +409,16 @@ QJSValue ScriptEngine::require(const QString &file) const
 		throwError(QJSValue::URIError, tr("File not found for require('%1'). Resolved file path: '%2'").arg(file, resolvedFile));
 		return se->newObject();
 	}
+
+	if (resolvedFile.endsWith(QLatin1String(".json"), Qt::CaseInsensitive)) {
+		QString jserr;
+		const QJsonDocument doc = loadJson(resolvedFile, &jserr);
+		if (jserr.isEmpty())
+			return doc.isObject() ? se->toScriptValue(doc.object()) : se->toScriptValue(doc.array());
+		throwError(QJSValue::EvalError, tr("Error parsing JSON for require('%1'): %2").arg(file, jserr));
+		return se->newObject();
+	}
+
 	QJSValue mod = se->importModule(resolvedFile);
 	if (!mod.isError())
 		return mod;
