@@ -90,9 +90,8 @@ class DynamicScript : public QObject
 		//! \name Type, Input and Engine properties.
 		//! \{
 
-		//! "Single shot" or "one-time" script instances are set to be automatically deleted once they are finished being evaluated. This is set with the Actino which
-		//! created this instance when using the "Create State: No & Delete Instance" option. This property is `true` if the instance was created using this option, or `false` otherwise.
-		//! \ref createState and \ref singleShot cannot both be `true` at the same time.  Setting \ref createState to `true` will clear the `singleShot` option.
+		//! "Single shot" or "one-time" script instances are set to be automatically deleted once they are finished being evaluated. These instances are created with the "Single-Shot" action.
+		//! This property is `true` if the instance was created using such an action, or `false` otherwise.
 		//! \n This property is read-only.
 		Q_PROPERTY(bool singleShot MEMBER singleShot CONSTANT)
 		//! The type of scripting action. `DSE.ScriptInputType` enumeration value, one of: `DSE.ExpressionInput`, `DSE.ScriptInput`, `DSE.ModuleInput`, `DSE.UnknownInputType`
@@ -287,7 +286,7 @@ class DynamicScript : public QObject
 		QByteArray engineName() const { return m_engineName; }
 
 		QByteArray serialize() const;
-		void deserialize(const QByteArray &data);
+		bool deserialize(const QByteArray &data);
 
 	public Q_SLOTS:
 		//! Send a Touch Portal State value update using this instance's `stateId` as the State ID.
@@ -315,15 +314,14 @@ class DynamicScript : public QObject
 
 	private Q_SLOTS:
 		// These are private to keep them hidden from scripting environment. `Plugin` is marked as friend to use these methods.
+		void createTpState();
+		void removeTpState();
 		void setSingleShot(bool ss = true);
 		void setRepeating(bool repeat = true);
 		void evaluate();
 		void evaluateDefault();
 
 		// these really _are_ private
-		void createOrRemoveTpState(bool create);
-		void createTpState();
-		void removeTpState();
 		void setupRepeatTimer(bool create = true);
 		void repeatEvaluate();
 

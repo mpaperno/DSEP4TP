@@ -143,21 +143,9 @@ bool DynamicScript::setEngine(ScriptEngine *se)
 
 void DynamicScript::setCreateState(bool create)
 {
-	if (createState == create)
-		return;
-	createState = create;
-	if (!create)
-		removeTpState();
-	else
-		setSingleShot(false);
-}
-
-void DynamicScript::createOrRemoveTpState(bool create)
-{
-	if (m_state.testFlag(TpStateCreatedFlag) != create) {
-		if (create)
-			createTpState();
-		else
+	if (createState != create) {
+		createState = create;
+		if (!create)
 			removeTpState();
 	}
 }
@@ -172,9 +160,11 @@ void DynamicScript::createTpState()
 
 void DynamicScript::removeTpState()
 {
-	m_state.setFlag(TpStateCreatedFlag, false);
-	Q_EMIT Plugin::instance->tpStateRemove(tpStateId);
-	qCDebug(lcPlugin) << "Removed instance State" << tpStateId;
+	if (m_state.testFlags(TpStateCreatedFlag)) {
+		m_state.setFlag(TpStateCreatedFlag, false);
+		Q_EMIT Plugin::instance->tpStateRemove(tpStateId);
+		qCDebug(lcPlugin) << "Removed instance State" << tpStateId;
+	}
 }
 
 void DynamicScript::setDefaultTypeValue(DSE::ScriptDefaultType defType, const QByteArray &def)
@@ -206,14 +196,14 @@ QByteArray DynamicScript::serialize() const
 	return ba;
 }
 
-void DynamicScript::deserialize(const QByteArray &data)
+bool DynamicScript::deserialize(const QByteArray &data)
 {
 	uint32_t version;
 	QDataStream ds(data);
 	ds >> version;
 	if (!version || version > SAVED_PROPERTIES_VERSION) {
 		qCCritical(lcPlugin) << "Cannot restore settings for" << name << "because settings version" << version << "is invalid or is newer than current version" << SAVED_PROPERTIES_VERSION;
-		return;
+		return false;
 	}
 
 	int scope, inpType, defType, repDelay, repRate;
@@ -236,13 +226,15 @@ void DynamicScript::deserialize(const QByteArray &data)
 		m_engineName = name;
 	}
 
+	setDefaultTypeValue((DSE::ScriptDefaultType)defType, deflt);
+	setCreateState(cs);
+
 	//qCDebug(lcPlugin) << name << (DSE::ScriptInputType)type << instType << file << deflt << (DSE::ScriptDefaultType)defType;
 	if (!setProperties((DSE::ScriptInputType)inpType, expr, file, alias, true)) {
 		qCCritical(lcPlugin) << "Cannot restore settings for" << name << "because the saved input type:" << inpType << "is unknown";
-		return;
+		return false;
 	}
-	setDefaultTypeValue((DSE::ScriptDefaultType)defType, deflt);
-	setCreateState(cs);
+	return !m_state.testAnyFlags(State::CriticalErrorState);
 }
 
 
