@@ -954,7 +954,7 @@ void Plugin::handleSettings(const QJsonObject &settings) const
 	for (; next != last; ++next) {
 		if (next.key().startsWith(QStringLiteral("Script Files"))) {
 			DSE::scriptsBaseDir = QDir::fromNativeSeparators(next.value().toString());
-			if (!DSE::scriptsBaseDir.endsWith('/'))
+			if (!DSE::scriptsBaseDir.isEmpty() && !DSE::scriptsBaseDir.endsWith('/'))
 				DSE::scriptsBaseDir += '/';
 		}
 	}
