@@ -42,7 +42,7 @@ enum ActionTokens : quint8 {
 	SA_Load,
 	SA_Import,
 	SA_Update,
-	SA_SingleShot,  // deprecated, remove
+	SA_SingleShot,
 
 	CA_Instance,
 	CA_DelScript,
@@ -65,7 +65,23 @@ enum ActionTokens : quint8 {
 	AT_Decrement,
 };
 
-Plugin *Plugin::instance = nullptr;
+enum TimerEventType : quint8 {
+	TE_None,
+	TE_RemoveScriptInstance,
+};
+
+struct TimerData {
+	TimerEventType type = TE_None;
+	QVariant data;
+	TimerData() {}
+	TimerData(TimerEventType t, const QVariant &d) : type(t), data(d) {}
+};
+
+using TimerDatahash = QHash<int, TimerData>;
+Q_GLOBAL_STATIC(TimerDatahash, g_timersData)
+
+using ScriptTimerHash = QHash<QByteArray, int>;
+Q_GLOBAL_STATIC(ScriptTimerHash, g_instanceDeleteTimers)
 
 static std::atomic_uint32_t g_errorCount = 0;
 static bool g_startupComplete = false;
@@ -114,6 +130,7 @@ static QByteArray tokenToName(int token, const QByteArray &deflt = QByteArray())
 		{ SA_Load,       "Load" },
 		{ SA_Import,     "Import" },
 		{ SA_Update,     "Update" },
+	  { SA_SingleShot, "Single-Shot" },
 
 	  { CA_Instance,       "instance" },
 	  { CA_DelScript,      "Delete Script Instance" },
@@ -143,7 +160,12 @@ static DSE::EngineInstanceType stringToScope(QStringView str, bool unknownIsPriv
 	return str == QStringLiteral("Shared") ? DSE::SharedInstance : (unknownIsPrivate || str == QStringLiteral("Private") ? DSE::PrivateInstance : DSE::UnknownInstanceType);
 }
 
-// legacy, remove
+static DSE::ScriptInputType stringToInputType(QStringView ityp)
+{
+	// SingleShot action type: "Expresson", "Load File", or "Module"
+	return ityp.isEmpty() || ityp.at(0) == 'E' ? DSE::ExpressionInput : ityp.at(0) == 'L' ? DSE::ScriptInput : ityp.at(0) == 'M' ? DSE::ModuleInput : DSE::UnknownInputType;
+}
+
 static DSE::ScriptDefaultType stringToDefaultType(QStringView str)
 {
 	return str.isEmpty() || str.at(0) == 'N' ? DSE::NoSavedDefault :
@@ -152,21 +174,11 @@ static DSE::ScriptDefaultType stringToDefaultType(QStringView str)
 	                                                                                 DSE::MainExprDefault;
 }
 
-static DSE::ScriptDefaultType stringToStateType(QStringView str, bool *createState, bool *singleShot)
-{
-	*createState = !str.isEmpty() && str.at(0) == 'Y';
-	*singleShot = !*createState && str.indexOf('&') > -1;
-	if (!*createState || str == QLatin1String("Yes"))
-		return DSE::NoSavedDefault;
-	int lbi = str.indexOf('\n') + 1;
-	if (lbi < 4)
-		return DSE::NoSavedDefault;
-	return str.at(lbi) == 'A' ? DSE::MainExprDefault : str.at(lbi) == 'C' ? DSE::CustomExprDefault : DSE::FixedValueDefault;
-}
-
 // -----------------------------------
 // Plugin
 // -----------------------------------
+
+Plugin *Plugin::instance = nullptr;
 
 Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
   QObject(parent),
@@ -361,7 +373,7 @@ void Plugin::removeInstance(DynamicScript *ds, bool removeFromGlobal, bool remov
 		return;
 	ScriptEngine *se = ds->engine();
 	ScriptEngine::instance()->clearInstanceData(ds->name);
-	ds->setCreateState(false);  // removes State if it was created
+	ds->removeTpState();
 	if (removeFromGlobal) {
 		DSE::removeInstance(ds->name);
 		sendInstanceLists();
@@ -411,6 +423,21 @@ void Plugin::removeEngine(ScriptEngine *se, bool removeFromGlobal, bool removeSc
 	delete se;
 }
 
+void Plugin::removeInstanceLater(DynamicScript *ds)
+{
+	if (!ds)
+		return;
+
+	int timId = g_instanceDeleteTimers->value(ds->name, -1);
+	if (timId > -1) {
+		killTimer(timId);
+		g_timersData->remove(timId);
+	}
+	timId = startTimer(ds->autoDeleteDelay, Qt::CoarseTimer);
+	(*g_instanceDeleteTimers)[ds->name] = timId;
+	g_timersData->emplace(timId, TE_RemoveScriptInstance, QVariant::fromValue(ds->name));
+}
+
 void Plugin::sendInstanceLists() const
 {
 	QByteArrayList nameArry = DSE::instanceKeys();
@@ -428,9 +455,6 @@ void Plugin::sendEngineLists() const
 	nameArry.prepend(tokenToName(AT_Private));
 	nameArry.prepend(tokenToName(AT_Shared));
 	Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.script.d.scope"), nameArry);
-	//Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.script.eval.scope"), nameArry);
-	//Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.script.load.scope"), nameArry);
-	//Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.script.import.scope"), nameArry);
 }
 
 void Plugin::updateInstanceChoices(int token, const QByteArray &instId) const
@@ -515,6 +539,24 @@ void Plugin::clearScriptErrors()
 	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.errorCount"), QByteArrayLiteral("0"));
 }
 
+
+void Plugin::timerEvent(QTimerEvent *ev)
+{
+	if (ev->timerId() > -1)
+		killTimer(ev->timerId());
+	else
+		return;
+
+	const TimerData timData = g_timersData->take(ev->timerId());
+	if (timData.type == TE_RemoveScriptInstance) {
+		const QByteArray instName = timData.data.toByteArray();
+		g_instanceDeleteTimers->remove(instName);
+		if (DynamicScript *ds = DSE::instance(instName))
+			removeInstance(ds);
+	}
+}
+
+
 void Plugin::onScriptError(const JSError &e) const
 {
 	//qDebug() << sender() << e.stack;
@@ -528,12 +570,12 @@ void Plugin::onEngineError(const JSError &e) const
 	raiseScriptError(e.instanceName.toUtf8(), e.toString(), tr("ENGINE EXCEPTION"), e.stack);
 }
 
-void Plugin::onDsFinished() const
+void Plugin::onDsFinished()
 {
-	if (DynamicScript *ds = qobject_cast<DynamicScript *>(sender())) {
-		if (ds->singleShot)
-			removeInstance(ds);
-	}
+	DynamicScript *ds = qobject_cast<DynamicScript *>(sender());
+	if (ds && !ds->singleShot)
+		removeInstanceLater(ds);
+	//removeInstance(ds);
 }
 
 void Plugin::onStateUpdateByName(const QByteArray &name, const QByteArray &value) const
@@ -675,14 +717,12 @@ void Plugin::dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg
 
 void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue)
 {
-	if (act == SA_SingleShot)  {
-		qCCritical(lcPlugin) << "Anyonymous script instances are no longer supported. Please use another type with 'Create State' set to 'No & Delete'.";
-		return;
-	}
-
 	const QByteArray dvName = dataMap.value("name").trimmed().toUtf8();
 	if (dvName.isEmpty()) {
-		qCCritical(lcPlugin) << "Script Instance Name missing for action" << tokenToName(act);
+		if (act == SA_SingleShot)
+			qCCritical(lcPlugin) << "Anyonymous script instances are no longer supported. Please use the new Single-Shot action type.";
+		else
+			qCCritical(lcPlugin) << "Script Instance Name missing for action" << tokenToName(act);
 		return;
 	}
 
@@ -716,25 +756,15 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 		}
 		ds->setEngine(scope == DSE::PrivateInstance ? getOrCreateEngine(engName) : ScriptEngine::instance());
 
-		bool createState = true;
-		bool singleShot = false;
 		const QString &stateParam = dataMap.value("state");
-		// Connectors do not have a default type parameter, only create state yes/no; Do not modify any previosly-set defaults.
-		if (type == TPClientQt::MessageType::connectorChange) {
-			if (!stateParam.isEmpty())
-				stringToStateType(stateParam, &createState, &singleShot);
-		}
-		else {
-			DSE::ScriptDefaultType defType;
-			// Preserve BC with v < 1.1.0.2
-			if (stateParam.isEmpty())
-				defType = stringToDefaultType(dataMap.value("save", QStringLiteral("No")));
-			else
-				defType = stringToStateType(stateParam, &createState, &singleShot);
+		// preserve BC with < v1.0 actions which all create a state (except SS types but thsoe are excluded, above).
+		ds->setCreateState(stateParam.isEmpty() || stateParam.at(0) == 'Y');
+
+		// Singlle-shot actions and all Connectors do not have a default type parameter; Do not modify any previosly-set defaults.
+		if (act != SA_SingleShot && type != TPClientQt::MessageType::connectorChange) {
+			DSE::ScriptDefaultType defType = stringToDefaultType(dataMap.value("save", QStringLiteral("No")));
 			ds->setDefaultTypeValue(defType, dataMap.value("default").toUtf8());
 		}
-		ds->setSingleShot(singleShot);
-		ds->setCreateState(createState);
 	}
 
 	QString expression = dataMap.value("expr");
@@ -756,9 +786,17 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 		case SA_Update:
 			ok = ds->setExpression(expression);
 			break;
+		case SA_SingleShot: {
+			ds->setSingleShot();
+			const QString &ityp = dataMap.value("type", QStringLiteral("E"));
+			ok = ds->setProperties(stringToInputType(ityp), expression, dataMap.value("file").trimmed(), dataMap.value("alias").trimmed());
+			break;
+		}
 	}
 	if (!ok) {
 		raiseScriptError(ds->name, tr("ValidationError: %1").arg(ds->lastError), tr("VALIDATION ERROR"));
+		if (ds->singleShot)
+			removeInstanceLater(ds);
 		return;
 	}
 	if (type == TPClientQt::MessageType::down)
@@ -993,6 +1031,8 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg) const
 			cr.file = value.toUtf8();
 		else if (cr.alias.isEmpty() && !id.compare(QByteArrayLiteral("alias")))
 			cr.alias = value.toUtf8();
+		else if (act == SA_SingleShot && cr.inputType == DSE::UnknownInputType && !id.compare(QByteArrayLiteral("type")))
+			cr.inputType = stringToInputType(value);
 		else
 			cr.otherData.insert(id, value.toString());
 	}

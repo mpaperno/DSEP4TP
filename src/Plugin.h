@@ -63,6 +63,9 @@ class Plugin : public QObject
 	public Q_SLOTS:
 		void onStateUpdateByName(const QByteArray &name, const QByteArray &value) const;
 
+	protected Q_SLOTS:
+		void timerEvent(QTimerEvent *ev) override;
+
 	private Q_SLOTS:
 		void start();
 		void exit();
@@ -73,6 +76,7 @@ class Plugin : public QObject
 		void loadSettings();
 		void removeInstance(DynamicScript *ds, bool removeFromGlobal = true, bool removeUnusedEngine = true) const;
 		void removeEngine(ScriptEngine *se, bool removeFromGlobal = true, bool removeScripts = true) const;
+		void removeInstanceLater(DynamicScript *ds);
 		void sendInstanceLists() const;
 		void sendEngineLists() const;
 		void updateInstanceChoices(int token, const QByteArray &instId = QByteArray()) const;
@@ -83,7 +87,7 @@ class Plugin : public QObject
 		void clearScriptErrors();
 		void onScriptError(const JSError &e) const;
 		void onEngineError(const JSError &e) const;
-		void onDsFinished() const;
+		void onDsFinished();
 		void onActionRepeatRateChanged(int ms) const;
 		void onActionRepeatDelayChanged(int ms) const;
 		void onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &settings);

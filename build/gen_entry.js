@@ -211,7 +211,7 @@ function addConnector(id, name, descript, format, data) {
         name: name,
         description: descript,
         format: String(format).format(data.map(d => `{$${d.id}$}`)),
-        data: data
+        data: data ? data.map(a => ({...a})) : []
     }
     category.connectors.push(action);
 }
@@ -257,10 +257,8 @@ function makeCommonData(id) {
     return [ format, data ];
 }
 
-
 function appendScopeData(id, data, defaultScope = "Shared") {
-    let i = data.length;
-    let format = ` Engine\nInstance{${i++}}`;
+    const format = `Engine\nInstance{${data.length}}`;
     data.push(
         makeChoiceData("script.d.scope", "Engine Instance", ["Shared", "Private"], defaultScope),
         // makeChoiceData(id + ".scope", "Engine Instance", ["Shared", "Private"], defaultScope),
@@ -268,35 +266,23 @@ function appendScopeData(id, data, defaultScope = "Shared") {
     return format;
 }
 
-function appendStateOptionData(id, data) {
-    let i = data.length;
-    let format = `Create\n${EN}State{${i++}} Default\nValue/Expr{${i++}}`;
+function appendStateOptionData(id, data, defaultVal = "Yes") {
+    let format = `Create\n${EN}State{${data.length}}`;
     data.push(
-        makeChoiceData(id + ".state", "Create State", [
-            "No", 
-            "No & Delete Instance\nonce finished", 
-            "Yes", 
-            "Yes & at Startup with\nFixed Default Value", 
-            "Yes & at Startup with\nCustom Expression", 
-            "Yes & at Startup with\nAction's Expression"
-        ], "Yes"),
+        makeChoiceData(id + ".state", "Create State", ["Yes", "No"], defaultVal),
+    );
+    return format;
+}
+
+function appendSaveOptionData(id, data) {
+    let i = data.length;
+    let format = `Load at\nStartup{${i++}} Default\nValue/Expr{${i++}}`;
+    data.push(
+        makeChoiceData(id + ".save", "Load at Startup", ["No", "Fixed Default\nValue", "Custom\nExpression", "Action's\nExpression"]),
         makeTextData(id + ".default", "Default Value/Expression"),
     );
     return format;
 }
-
-function appendSliderStateOptionData(id, data) {
-    let format = `Create\n${EN}State{${data.length}}`;
-    data.push(
-        makeChoiceData(id + ".state", "Create State", [
-            "Yes", 
-            "No", 
-            // "No & Delete Instance\nonce finished"
-        ]),
-    );
-    return format;
-}
-
 
 // --------------------------------------
 // Action creation functions
@@ -313,12 +299,9 @@ function addEvalAction(name)
         makeTextData(id + ".expr", "Expression"),
     );
     format += appendScopeData(id, data);
-
-    const connData = data.map(a => ({...a}));  // deep copy
-    const connFmt = format + appendSliderStateOptionData(id, connData);
-    addConnector(id, name, descript, connFmt, connData);
-
     format += appendStateOptionData(id, data);
+    addConnector(id, name, descript, format, data);
+    format += appendSaveOptionData(id, data);
     addAction(id, name, descript, format, data, true);
 }
 
@@ -334,8 +317,9 @@ function addScriptAction(name)
         makeFileData(id + ".file", "Script File"),
         makeTextData(id + ".expr", "Append Expression", "run([arguments])"),
     );
-    format += appendScopeData(id, data, "Private");
+    format += appendScopeData(id, data);
     format += appendStateOptionData(id, data);
+    format += appendSaveOptionData(id, data);
     addAction(id, name, descript, format, data, true);
     // No connector for script types, too much I/O
 }
@@ -353,14 +337,11 @@ function addModuleAction(name)
         makeTextData(id + ".alias", "Module Alias", "M"),
         makeTextData(id + ".expr", "Expression", "M.run([arguments])"),
     );
-    format += appendScopeData(id, data, "Private");
-
-    const connData = data.map(a => ({...a}));  // deep copy
-    const connFmt = format + appendSliderStateOptionData(id, connData);
-    addConnector(id, name, descript, connFmt, connData);
-
-    data = data.map(a => ({...a}));  // deep copy
+    format += appendScopeData(id, data);
     format += appendStateOptionData(id, data);
+    addConnector(id, name, descript, format, data);
+
+    format += appendSaveOptionData(id, data);
     addAction(id, name, descript, format, data, true);
 }
 
@@ -374,12 +355,32 @@ function addUpdateAction(name)
         makeChoiceData(id + ".name", "Instance Name", ["[ no instances created ]"], "select instance..."),
         makeTextData(id + ".expr", "Expression"),
     ];
-    // let [format, data] = makeCommonData(id);
-    // let i = data.length;
-    // format += `Evaluate\nExpression{${i++}}`;
-    // data.push( makeTextData(id + ".expr", "Expression"));
     addAction(id, name, descript, format, data, true);
     addConnector(id, name, descript, format, data);
+}
+
+function addSingleShotAction(name) 
+{
+    const id = "script.oneshot";
+    const descript = SHORT_NAME + ": Single-Shot Script Instance. This type of script instance is automatically deleted after being evaluated.\n" + 
+        "Otherwise can be used the same as the \"Evaluate,\" \"Load\" and \"Module\" actions. A file is required for 'Load File' and 'Module' action types.";
+    let [format, data] = makeCommonData(id);
+    let i = data.length;
+    format += `Action\n${EN}Type{${i++}} Evaluate\nExpression{${i++}} With\n${SP}File{${i++}} Module\n${EM}Alias{${i++}}`;
+    // First the connector, which has fewer options than the action.
+    data.push(
+        makeChoiceData(id + ".type", "Script Type", ["Expression", "Module"]),
+        makeTextData(id + ".expr", "Expression"),
+        makeActionData(id + ".file", "file", "Script File", ""),
+        makeTextData(id + ".alias", "Module Alias", "M"),
+    );
+    format += appendScopeData(id, data);
+    format += appendStateOptionData(id, data, "No");
+    addConnector(id, name, descript, format, data);
+    // Then the action, with more options.
+
+    data[1].valueChoices = ["Expression", "Load File", "Module"];
+    addAction(id, name, descript, format, data, true);
 }
 
 // System utility action
@@ -431,9 +432,10 @@ function addSystemActions()
 // Build the full entry.tp object for JSON dump
 
 addEvalAction("Evaluate Expression");
-addScriptAction("Load Script File");
-addModuleAction("Import Module File");
+addScriptAction("Load Script from File");
+addModuleAction("Import Module from File");
 addUpdateAction("Update Existing Instance");
+addSingleShotAction("Temporary Script Instance");
 // Misc actions
 addSystemActions();
 

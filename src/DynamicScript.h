@@ -90,10 +90,6 @@ class DynamicScript : public QObject
 		//! \name Type, Input and Engine properties.
 		//! \{
 
-		//! "Single shot" or "one-time" script instances are set to be automatically deleted once they are finished being evaluated. These instances are created with the "Single-Shot" action.
-		//! This property is `true` if the instance was created using such an action, or `false` otherwise.
-		//! \n This property is read-only.
-		Q_PROPERTY(bool singleShot MEMBER singleShot CONSTANT)
 		//! The type of scripting action. `DSE.ScriptInputType` enumeration value, one of: `DSE.ExpressionInput`, `DSE.ScriptInput`, `DSE.ModuleInput`, `DSE.UnknownInputType`
 		//! \n This property is read-only.
 		Q_PROPERTY(DSE::ScriptInputType inputType READ inputType CONSTANT)
@@ -117,9 +113,19 @@ class DynamicScript : public QObject
 		//! \name Persistence and Default value.
 		//! \{
 
-		//! The Create State at Startup selection. `DSE.ScriptDefaultType` enumeration value, one of: `DSE.NoSavedDefault`, `DSE.FixedValueDefault`, `DSE.CustomExprDefault`, `DSE.MainExprDefault`
+		//! "Single shot" or "one-time" script instances are set to be automatically deleted once they are finished being evaluated (after \ref autoDeleteDelay milliseconds).
+		//! These instances are created with the "Single-Shot" action. This property is `true` if the instance was created using such an action, or `false` otherwise.
+		//! Note that if the instance was set to create a Touch Portal State, the State will also be removed when the instance is deleted.
+		//! \n This property is read-only.  \sa autoDeleteDelay
+		Q_PROPERTY(bool singleShot MEMBER singleShot CONSTANT)
+		//! For "Single-Shot" type instances (\ref singleShot property is `true`), this property determines the delay time before the instance is automatically deleted. The value is in milliseconds.
+		//! The default delay time is 10 seconds (10,000 ms). If the instance created a Touch Portal State, the State is also removed after this delay time.  \sa singleShot
+		Q_PROPERTY(int autoDeleteDelay MEMBER autoDeleteDelay WRITE setAutoDeleteDelay)
+		//! The "Load at Startup" selection. `DSE.ScriptDefaultType` enumeration value, one of: `DSE.NoSavedDefault`, `DSE.FixedValueDefault`, `DSE.CustomExprDefault`, `DSE.MainExprDefault`
+		//! \sa defaultValue
 		Q_PROPERTY(DSE::ScriptDefaultType defaultType READ defaultType WRITE defaultType)
-		//! The default State value specified for saved instance, if any.
+		//! The default State value specified for saved instance, if any. Depending on the value of \ref defaultType,
+		//! this could be an empty string, a fixed default string value, or an expression to be evaluated.  \sa defaultType
 		Q_PROPERTY(QByteArray defaultValue READ defaultValue WRITE defaultValue)
 		//! \}
 
@@ -195,6 +201,7 @@ class DynamicScript : public QObject
 		QString lastError;
 		bool createState = false;
 		std::atomic_bool singleShot = false;
+		std::atomic_int autoDeleteDelay = 10 * 1000;
 
 		explicit DynamicScript(const QByteArray &name, QObject *p = nullptr);
 		~DynamicScript();
@@ -211,6 +218,8 @@ class DynamicScript : public QObject
 
 		DSE::ScriptInputType inputType() const { return m_inputType; }
 		DSE::EngineInstanceType instanceType() const { return m_scope; }
+
+		void setAutoDeleteDelay(int ms) { autoDeleteDelay = ms; }
 
 		DSE::ScriptDefaultType defaultType() const { return m_defaultType; }
 		void defaultType(DSE::ScriptDefaultType type) { m_defaultType = type; }
