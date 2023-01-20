@@ -15,7 +15,7 @@ const buildInfo = fs.existsSync("./version.json") ? JSON.parse(fs.readFileSync("
 
 // Defaults
 var VERSION = buildInfo.VERSION_STR;
-var VERSION_NUM = buildInfo.VERSION_NUM;
+var VERSION_NUM = parseInt(buildInfo.VERSION_NUM, 16);
 var OUTPUT_PATH = "";
 var DEV_MODE = false;
 
@@ -59,8 +59,8 @@ const entry_base =
     version: parseInt(iVersion.toString(16)),
     name: SHORT_NAME,
     id: PLUGIN_ID,
-    plugin_start_cmd: DEV_MODE ? '' : 'sh %TP_PLUGIN_FOLDER%' + SYSTEM_NAME + '/start.sh',
-    plugin_start_cmd_windows: DEV_MODE ? '' : '"%TP_PLUGIN_FOLDER%' + SYSTEM_NAME + '/bin/' + SYSTEM_NAME + '"',
+    plugin_start_cmd: DEV_MODE ? undefined : 'sh %TP_PLUGIN_FOLDER%' + SYSTEM_NAME + '/start.sh',
+    plugin_start_cmd_windows: DEV_MODE ? undefined : '"%TP_PLUGIN_FOLDER%' + SYSTEM_NAME + '/bin/' + SYSTEM_NAME + '"',
     configuration: {
         colorDark: "#1D3345",
         colorLight: "#305676",
@@ -73,6 +73,13 @@ const entry_base =
             type: "text",
             default: "",
             readOnly: false
+        },
+        {
+            name: "Settings Version",
+            desc: "Read-only property to track the last installed plugin version.",
+            type: "text",
+            default: "",
+            readOnly: true
         }
     ],
     categories: [
@@ -166,6 +173,7 @@ const entry_base =
     ]
 };
 
+
 // Default category to place actions and connectors into.
 const category = entry_base.categories[0];
 
@@ -199,8 +207,9 @@ function addAction(id, name, descript, format, data, hold = false) {
         description: descript,
         format: String(format).format(data.map(d => `{$${d.id}$}`)),
         hasHoldFunctionality: hold,
-        data: data
+        data: data ? data.map(a => ({...a})) : []
     }
+    addVersionData(id, action.data);
     category.actions.push(action);
 }
 
@@ -213,7 +222,12 @@ function addConnector(id, name, descript, format, data) {
         format: String(format).format(data.map(d => `{$${d.id}$}`)),
         data: data ? data.map(a => ({...a})) : []
     }
+    addVersionData(id, action.data);
     category.connectors.push(action);
+}
+
+function addVersionData(id, data) {
+    data.push(makeActionData(id + ".version", "number", "v", iVersion));
 }
 
 // Functions which create action/connector data members.
@@ -242,7 +256,7 @@ function makeChoiceData(id, label, choices, dflt) {
 }
 
 function makeNumericData(id, label, dflt, min, max, allowDec = true) {
-    const d = makeActionData(id, "number", label, dflt + '');
+    const d = makeActionData(id, "number", label, dflt);
     d.allowDecimals = allowDec;
     d.minValue = min;
     d.maxValue = max;

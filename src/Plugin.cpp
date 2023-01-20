@@ -51,6 +51,8 @@ enum ActionTokens : quint8 {
 	CA_SetStateValue,  // deprecated, remove
 	CA_RepeatRate,
 
+	ST_SettingsVersion,
+
 	AT_Script,
 	AT_Engine,
 	AT_Shared,
@@ -85,6 +87,7 @@ Q_GLOBAL_STATIC(ScriptTimerHash, g_instanceDeleteTimers)
 
 static std::atomic_uint32_t g_errorCount = 0;
 static bool g_startupComplete = false;
+static std::atomic_bool g_ignoreNextSettings = true;
 
 int tokenFromName(const QByteArray &name, int deflt = AT_Unknown)
 {
@@ -106,6 +109,8 @@ int tokenFromName(const QByteArray &name, int deflt = AT_Unknown)
 	  { "Set State Value",          CA_SetStateValue },   // BC with v < 1.1.0.2
 
 	  { "repRate",      CA_RepeatRate },
+
+	  { "Settings Version", ST_SettingsVersion },
 
 	  { "Script",       AT_Script },
 	  { "Engine",       AT_Engine },
@@ -138,6 +143,8 @@ static QByteArray tokenToName(int token, const QByteArray &deflt = QByteArray())
 	  { CA_ResetEngine,    "Reset Engine Environment" },
 	  { CA_SetStateValue,  "Set State Value" },
 	  { CA_RepeatRate,     "RepeatRate" },
+
+	  { ST_SettingsVersion, "Settings Version" },
 
 	  { AT_Script,    "Script" },
 	  { AT_Engine,    "Engine" },
@@ -189,6 +196,8 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
 
 	qRegisterMetaType<JSError>("JSError");
 
+	loadPluginSettings();
+
 	client->setHostProperties(tpHost, tpPort);
 
 	connect(qApp, &QCoreApplication::aboutToQuit, this, &Plugin::quit);
@@ -198,13 +207,14 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
 	connect(client, &TPClientQt::error, this, &Plugin::exit);
 	connect(client, &TPClientQt::message, this, &Plugin::onTpMessage, Qt::QueuedConnection);
 	connect(this, &Plugin::tpConnect, client, qOverload<>(&TPClientQt::connect), Qt::QueuedConnection);
-	connect(this, &Plugin::tpDisconnect, client, &TPClientQt::disconnect, Qt::DirectConnection);
+	//connect(this, &Plugin::tpDisconnect, client, &TPClientQt::disconnect, Qt::DirectConnection);
 	connect(this, &Plugin::tpStateUpdate, client, qOverload<const QByteArray &, const QByteArray &>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpStateCreate, client, qOverload<const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &>(&TPClientQt::createState), Qt::QueuedConnection);
 	connect(this, &Plugin::tpStateRemove, client, qOverload<const QByteArray &>(&TPClientQt::removeState), Qt::QueuedConnection);
 	connect(this, &Plugin::tpChoiceUpdate, client, qOverload<const QByteArray &, const QByteArrayList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpChoiceUpdateInstance, client, qOverload<const QByteArray &, const QByteArray &, const QByteArrayList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpConnectorUpdateShort, client, qOverload<const QByteArray&, uint8_t>(&TPClientQt::connectorUpdate), Qt::QueuedConnection);
+	connect(this, &Plugin::tpSettingUpdate, client, qOverload<const QByteArray&, const QByteArray &>(&TPClientQt::settingUpdate), Qt::QueuedConnection);
 	// These are just for scripting engine user functions, not used by plugin directly. Emitted by ScriptEngine.
 	connect(this, &Plugin::tpChoiceUpdateStrList, client, qOverload<const QByteArray &, const QStringList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpConnectorUpdate, client, qOverload<const QByteArray&, uint8_t, bool>(&TPClientQt::connectorUpdate), Qt::QueuedConnection);
@@ -215,7 +225,7 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
 
 	m_loadSettingsTmr.setSingleShot(true);
 	m_loadSettingsTmr.setInterval(750);
-	connect(&m_loadSettingsTmr, &QTimer::timeout, this, &Plugin::loadSettings);
+	connect(&m_loadSettingsTmr, &QTimer::timeout, this, &Plugin::loadStartupSettings);
 
 	Q_EMIT tpConnect();
 	//QMetaObject::invokeMethod(this, "start", Qt::QueuedConnection);
@@ -285,6 +295,12 @@ void Plugin::saveSettings() const
 		return;
 	int count = 0;
 	QSettings s;
+
+	s.beginGroup("Plugin");
+	s.setValue("SettingsVersion", APP_VERSION);
+	s.setValue("ScriptsBaseDir", DSE::scriptsBaseDir);
+	s.endGroup();
+
 	s.beginGroup("DynamicStates");
 	s.remove("");
 	for (DynamicScript * const ds : DSE::instances_const()) {
@@ -297,16 +313,13 @@ void Plugin::saveSettings() const
 	qCInfo(lcPlugin) << "Saved" << count << "instance(s) to settings.";
 }
 
-void Plugin::savePluginSettings() const
+void Plugin::loadPluginSettings()
 {
 	QSettings s;
-	s.beginGroup("Plugin");
-	s.setValue("actRepeatRate", DSE::defaultRepeatRate.load());
-	s.setValue("actRepeatDelay", DSE::defaultRepeatDelay.load());
-	s.endGroup();
+	DSE::scriptsBaseDir = s.value("Plugin/ScriptsBaseDir", QString()).toString();
 }
 
-void Plugin::loadSettings()
+void Plugin::loadStartupSettings()
 {
 	int count = 0;
 	QSettings s;
@@ -319,15 +332,18 @@ void Plugin::loadSettings()
 	s.beginGroup("DynamicStates");
 	const QStringList &childs = s.childKeys();
 	for (const QString &dvName : childs) {
-		// FIXME: TP doesn't fire state change events based on the default value.
-		// Best we can do now is send a blank default value and then the actual default (if it's not also blank).
 		DynamicScript *ds = getOrCreateInstance(dvName.toUtf8());
 		ds->deserialize(s.value(dvName).toByteArray());
-		if (ds->engineName().isEmpty()) {
-			qCCritical(lcPlugin) << "Engine name for script instance" << dvName << "is empty.";
-			continue;
+		if (ds->instanceType() == DSE::PrivateInstance) {
+			if (ds->engineName().isEmpty()) {
+				qCCritical(lcPlugin) << "Engine name for script instance" << dvName << "is empty.";
+				continue;
+			}
+			ds->setEngine(getOrCreateEngine(ds->engineName()));
 		}
-		ds->setEngine(getOrCreateEngine(ds->engineName(), ds->instanceType() == DSE::PrivateInstance));
+		else {
+			ds->setEngine(ScriptEngine::instance());
+		}
 		++count;
 		QMetaObject::invokeMethod(ds, "evaluateDefault", Qt::QueuedConnection);
 	}
@@ -337,13 +353,13 @@ void Plugin::loadSettings()
 
 	sendInstanceLists();
 	g_startupComplete = true;
+	g_ignoreNextSettings = true;
 	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.pluginState"), QByteArrayLiteral("Started"));
+	Q_EMIT tpSettingUpdate(tokenToName(ST_SettingsVersion), QByteArray::number(APP_VERSION));
 }
 
-ScriptEngine *Plugin::getOrCreateEngine(const QByteArray &name, bool privateType, bool failIfMissing)
+ScriptEngine *Plugin::getOrCreateEngine(const QByteArray &name, bool failIfMissing)
 {
-	if (!privateType)
-		return ScriptEngine::instance();
 	ScriptEngine *se = DSE::engine(name);
 	if (!se && !failIfMissing) {
 		se = DSE::insert(name, new ScriptEngine(name));
@@ -504,7 +520,6 @@ void Plugin::updateConnectors(const QMultiMap<QString, QVariant> &qry, int value
 
 void Plugin::updateActionRepeatProperties(int ms, int param) const
 {
-	savePluginSettings();
 	const QByteArray &paramName = tokenToName(param);
 	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.actRepeat") + paramName, QByteArray::number(ms));
 	updateConnectors({
@@ -513,6 +528,8 @@ void Plugin::updateActionRepeatProperties(int ms, int param) const
 		{"otherData",  QStringLiteral("*\"param\":\"*%1*\"*").arg(paramName)},
 		{"otherData",  QStringLiteral("*\"action\":\"%1\"*").arg(tokenToName(AT_Set))},
 	}, ms, 50.0f, 60000.0f);
+
+	QSettings().setValue("Plugin/actRepeat" + paramName, ms);
 }
 
 void Plugin::raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type, const QString &stack) const
@@ -649,7 +666,9 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 			break;
 
 		case TPClientQt::MessageType::settings:
-			handleSettings(msg);
+			if (!g_ignoreNextSettings)
+				handleSettings(msg);
+			g_ignoreNextSettings = false;
 			break;
 
 		case TPClientQt::MessageType::closePlugin:
@@ -994,6 +1013,13 @@ void Plugin::handleSettings(const QJsonObject &settings) const
 			DSE::scriptsBaseDir = QDir::fromNativeSeparators(next.value().toString());
 			if (!DSE::scriptsBaseDir.isEmpty() && !DSE::scriptsBaseDir.endsWith('/'))
 				DSE::scriptsBaseDir += '/';
+			continue;
+		}
+		if (!g_startupComplete && next.key().startsWith(tokenToName(ST_SettingsVersion))) {
+			if (next.value().toString().isEmpty())
+				qCInfo(lcPlugin) << "No saved Plugin Settings version; first-time use of plugin.";
+			else
+				qCInfo(lcPlugin).noquote().nospace() << "Saved Touch Portal Plugin Settings v" << next.value().toString() << "; Current v" << APP_VERSION;
 		}
 	}
 }

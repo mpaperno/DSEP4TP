@@ -54,6 +54,7 @@ class Plugin : public QObject
 		void tpConnectorUpdate(const QByteArray &, quint8, bool) const;
 		void tpConnectorUpdateShort(const QByteArray &, quint8) const;
 		void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList &) const;
+		void tpSettingUpdate(const QByteArray &, const QByteArray &);
 
 		void tpNotificationClicked(const QString &, const QString &) const;
 		void tpBroadcast(const QString &, const QVariantMap &) const;
@@ -72,8 +73,8 @@ class Plugin : public QObject
 		void quit();
 		void initEngine();
 		void saveSettings() const;
-		void savePluginSettings() const;
-		void loadSettings();
+		void loadPluginSettings();
+		void loadStartupSettings();
 		void removeInstance(DynamicScript *ds, bool removeFromGlobal = true, bool removeUnusedEngine = true) const;
 		void removeEngine(ScriptEngine *se, bool removeFromGlobal = true, bool removeScripts = true) const;
 		void removeInstanceLater(DynamicScript *ds);
@@ -101,7 +102,7 @@ class Plugin : public QObject
 		void parseConnectorNotification(const QJsonObject &msg) const;
 
 	private:
-		ScriptEngine *getOrCreateEngine(const QByteArray &name, bool privateType = true, bool failIfMissing = false);
+		ScriptEngine *getOrCreateEngine(const QByteArray &name, bool failIfMissing = false);
 		DynamicScript *getOrCreateInstance(const QByteArray &name, bool failIfMissing = false);
 		inline TPClientQt *tpClient() const { return client; }
 
