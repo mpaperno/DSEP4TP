@@ -290,9 +290,16 @@ function appendStateOptionData(id, data, defaultVal = "Yes") {
 
 function appendSaveOptionData(id, data) {
     let i = data.length;
-    let format = `Load at\nStartup{${i++}} Default\nValue/Expr{${i++}}`;
+    let format = `Instance\nPersistence{${i++}} Default\nValue/Expr{${i++}}`;
     data.push(
-        makeChoiceData(id + ".save", "Load at Startup", ["No", "Fixed Default\nValue", "Custom\nExpression", "Action's\nExpression"]),
+        // makeChoiceData(id + ".save", "Load at Startup", ["No", "Fixed Default\nValue", "Custom\nExpression", "Action's\nExpression"]),
+        makeChoiceData(id + ".save", "Persistence", [
+            "Current Session", 
+            "Delete After Run",
+            "Load at Startup with\nFixed Default Value", 
+            "Load at Startup with\nCustom Expression", 
+            "Load at Startup with\nAction's Expression"
+        ]),
         makeTextData(id + ".default", "Default Value/Expression"),
     );
     return format;
@@ -304,8 +311,8 @@ function appendSaveOptionData(id, data) {
 function addEvalAction(name) 
 {
     const id = "script.eval";
-    const descript = SHORT_NAME + ": Evaluate an Expression. Evaluation result, if any, is stored in the named State value.\n" + 
-        "Any JS is valid here, from simple math to string formatting to short scripts. TP State and Value macros can be embedded.";
+    const descript = SHORT_NAME + ": Evaluate an Expression. Evaluation result, if any, can be returned as a TP State value of the same Name as the Instance.\n" + 
+        "Any JavaScript is valid here, from simple math to string formatting to short scripts. TP State and Value macros can be embedded. Strings must be quoted.";
     let [format, data] = makeCommonData(id);
     let i = data.length;
     format += `Evaluate\nExpression{${i++}}`;
@@ -322,8 +329,8 @@ function addEvalAction(name)
 function addScriptAction(name) 
 {
     const id = "script.load";
-    const descript = SHORT_NAME + ": Load and Run a Script. Evaluation result, if any, is stored in the named State value.\n" +
-        "An optional expression can be appended to the file contents, for example to run a function with dynamic value arguments. The expression must follow JS syntax rules (quote all strings).";
+    const descript = SHORT_NAME + ": Load and Run a Script. Evaluation result, if any, can be returned as a TP State value of the same Name as the Instance.\n" +
+        "An optional expression can be appended to the file contents, for example to run a function with dynamic value arguments. JS syntax rules apply, strings must be quoted.";
     let [format, data] = makeCommonData(id);
     let i = data.length;
     format += `Script\n${EN}${SP}File{${i++}} Append\nExpression{${i++}}`;
@@ -362,8 +369,8 @@ function addModuleAction(name)
 function addUpdateAction(name) 
 {
     const id = "script.update";
-    const descript = SHORT_NAME + ": Update an Existing Instance Expression.\n" + 
-        "Use this action as a quick way to update an existing DSE script instance with the same name. This is the most efficient way to evaluate an expression.";
+    const descript = SHORT_NAME + ": Update an Existing Instance. Use this action as a quick way to evaluate an expression.\n" + 
+        "Any existing Script Instance can be used. If the Instance created a State, returning a value from this expression will update that State.";
     const format = "Instance{0} Evaluate\nExpression{1}";
     const data = [ 
         makeChoiceData(id + ".name", "Instance Name", ["[ no instances created ]"], "select instance..."),
@@ -371,30 +378,6 @@ function addUpdateAction(name)
     ];
     addAction(id, name, descript, format, data, true);
     addConnector(id, name, descript, format, data);
-}
-
-function addSingleShotAction(name) 
-{
-    const id = "script.oneshot";
-    const descript = SHORT_NAME + ": Single-Shot Script Instance. This type of script instance is automatically deleted after being evaluated.\n" + 
-        "Otherwise can be used the same as the \"Evaluate,\" \"Load\" and \"Module\" actions. A file is required for 'Load File' and 'Module' action types.";
-    let [format, data] = makeCommonData(id);
-    let i = data.length;
-    format += `Action\n${EN}Type{${i++}} Evaluate\nExpression{${i++}} With\n${SP}File{${i++}} Module\n${EM}Alias{${i++}}`;
-    // First the connector, which has fewer options than the action.
-    data.push(
-        makeChoiceData(id + ".type", "Script Type", ["Expression", "Module"]),
-        makeTextData(id + ".expr", "Expression"),
-        makeActionData(id + ".file", "file", "Script File", ""),
-        makeTextData(id + ".alias", "Module Alias", "M"),
-    );
-    format += appendScopeData(id, data);
-    format += appendStateOptionData(id, data, "No");
-    addConnector(id, name, descript, format, data);
-    // Then the action, with more options.
-
-    data[1].valueChoices = ["Expression", "Load File", "Module"];
-    addAction(id, name, descript, format, data, true);
 }
 
 // System utility action
@@ -449,7 +432,6 @@ addEvalAction("Evaluate Expression");
 addScriptAction("Load Script from File");
 addModuleAction("Import Module from File");
 addUpdateAction("Update Existing Instance");
-addSingleShotAction("Temporary Script Instance");
 // Misc actions
 addSystemActions();
 

@@ -113,15 +113,16 @@ class DynamicScript : public QObject
 		//! \name Persistence and Default value.
 		//! \{
 
-		//! "Single shot" or "one-time" script instances are set to be automatically deleted once they are finished being evaluated (after \ref autoDeleteDelay milliseconds).
-		//! These instances are created with the "Single-Shot" action. This property is `true` if the instance was created using such an action, or `false` otherwise.
+		//! "Single shot" or "temporary" script instances are set to be automatically deleted once they are finished being evaluated (after \ref autoDeleteDelay milliseconds).
+		//! These instances are created with the "Instance Persistence" option set to "Delete After Run". This property is `true` if the instance was created using this option, or `false` otherwise.
 		//! Note that if the instance was set to create a Touch Portal State, the State will also be removed when the instance is deleted.
 		//! \n This property is read-only.  \sa autoDeleteDelay
 		Q_PROPERTY(bool singleShot MEMBER singleShot CONSTANT)
 		//! For "Single-Shot" type instances (\ref singleShot property is `true`), this property determines the delay time before the instance is automatically deleted. The value is in milliseconds.
 		//! The default delay time is 10 seconds (10,000 ms). If the instance created a Touch Portal State, the State is also removed after this delay time.  \sa singleShot
 		Q_PROPERTY(int autoDeleteDelay MEMBER autoDeleteDelay WRITE setAutoDeleteDelay)
-		//! The "Load at Startup" selection. `DSE.ScriptDefaultType` enumeration value, one of: `DSE.NoSavedDefault`, `DSE.FixedValueDefault`, `DSE.CustomExprDefault`, `DSE.MainExprDefault`
+		//! The "Instance Persistence" option selection. `DSE.ScriptDefaultType` enumeration value, one of: `DSE.NoSavedDefault`, `DSE.FixedValueDefault`, `DSE.CustomExprDefault`, `DSE.MainExprDefault`
+		//! \n "Single Shot" instance types (\ref singleShot property is `true`) cannot have any type of default since they are never saved, and hence always return `DSE.NoSavedDefault` for this property.
 		//! \sa defaultValue
 		Q_PROPERTY(DSE::ScriptDefaultType defaultType READ defaultType WRITE defaultType)
 		//! The default State value specified for saved instance, if any. Depending on the value of \ref defaultType,
