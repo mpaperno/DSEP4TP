@@ -200,7 +200,7 @@ class DynamicScript : public QObject
 		QByteArray tpStateCategory;
 		QByteArray tpStateName;
 		QString lastError;
-		bool createState = false;
+		bool createState;
 		std::atomic_bool singleShot = false;
 		std::atomic_int autoDeleteDelay = 10 * 1000;
 

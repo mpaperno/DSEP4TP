@@ -31,7 +31,8 @@ constexpr static int MUTEX_LOCK_TIMEOUT_MS = 250;
 DynamicScript::DynamicScript(const QByteArray &name, QObject *p) :
   QObject(p),
   name{name},
-  tpStateId(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name)
+  tpStateId(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name),
+  createState(false)
 {
 	setObjectName("DynamicScript: " + name);
 	QJSEngine::setObjectOwnership(this, QJSEngine::CppOwnership);
@@ -128,7 +129,7 @@ bool DynamicScript::setEngine(ScriptEngine *se)
 				Utils::runOnThread(this->thread(), [this]() { this->moveToThread(m_engine->thread()); });
 		}
 		if (createState && !se->isSharedInstance()) {
-			// An unqualified stateUpdate command for this particular instance, must add our actual state ID before sending.
+			// An unqualified stateUpdate command for this particular instance must add our actual state ID before sending.
 			m_engine->connectNamedScriptInstance(this);
 		}
 		m_scope = se->instanceType();
@@ -145,8 +146,13 @@ void DynamicScript::setCreateState(bool create)
 {
 	if (createState != create) {
 		createState = create;
-		if (!create)
+		if (!create) {
 			removeTpState();
+		}
+		else if (m_engine && !m_engine->isSharedInstance()) {
+			// An unqualified stateUpdate command for this particular instance must add our actual state ID before sending.
+			m_engine->connectNamedScriptInstance(this);
+		}
 	}
 }
 
