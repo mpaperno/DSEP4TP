@@ -31,6 +31,8 @@ Q_GLOBAL_STATIC(DSE::EngineState, g_engines)
 Q_GLOBAL_STATIC(QReadWriteLock, g_engineMutex)
 
 DSE* DSE::sharedInstance = nullptr;
+DynamicScript *DSE::defaultScriptInstance = nullptr;
+
 const quint32 DSE::pluginVersion { APP_VERSION };
 const QByteArray DSE::pluginVersionStr { QByteArrayLiteral(APP_VERSION_STR) };
 const QString DSE::platformOs {

@@ -249,6 +249,7 @@ class DSE : public QObject
 		static std::atomic_int defaultRepeatDelay;
 
 		static DSE *sharedInstance;
+		static DynamicScript *defaultScriptInstance;
 
 		bool privateInstance { false };
 		QByteArray instanceName;
@@ -324,6 +325,11 @@ class DSE : public QObject
 
 		// deprecated, remove
 		inline QString instanceTypeStr() const { return instanceTypeMeta().key((int)instanceType()); };
+		//! Gets Touch Portal State ID of the current script's instance.
+		//! This is what Touch Portal actually uses to uniquely identify the state (not just the name by itself).
+		//! This is a convenience method that returns the same as `DSE.VALUE_STATE_PREFIX + DSE.INSTANCE_NAME`.
+		//! \deprecated{v1.1}
+		//! This function is deprecated and may be removed in a future version; `DSE.currentInstace()?.stateId` instead, for example.
 		Q_INVOKABLE QString instanceStateId() { return valueStatePrefix() + instanceName; }
 		QByteArray instanceDefault() const;
 

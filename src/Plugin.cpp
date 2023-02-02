@@ -238,6 +238,9 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
 
 Plugin::~Plugin()
 {
+	if (client)
+		disconnect(client, nullptr, this, nullptr);
+
 	QWriteLocker il(DSE::instances_mutex());
 	qDeleteAll(*DSE::instances());
 	DSE::instances()->clear();
@@ -248,6 +251,8 @@ Plugin::~Plugin()
 	DSE::engines()->clear();
 	el.unlock();
 
+	delete DSE::defaultScriptInstance;
+	DSE::defaultScriptInstance = nullptr;
 	delete ScriptEngine::sharedInstance;
 	ScriptEngine::sharedInstance = nullptr;
 
@@ -292,6 +297,14 @@ void Plugin::initEngine()
 	connect(ScriptEngine::instance(), &ScriptEngine::engineError, this, &Plugin::onEngineError, Qt::QueuedConnection);
 	connect(DSE::sharedInstance, &DSE::defaultActionRepeatRateChanged, this, &Plugin::onActionRepeatRateChanged, Qt::QueuedConnection);
 	connect(DSE::sharedInstance, &DSE::defaultActionRepeatDelayChanged, this, &Plugin::onActionRepeatDelayChanged, Qt::QueuedConnection);
+
+	// Default "anonymous" shared worker instance.
+	DynamicScript *ds = DSE::defaultScriptInstance = new DynamicScript(QByteArrayLiteral("Default Shared"));
+	ds->setEngine(ScriptEngine::instance());
+	ds->setExpressionProperties(QString());
+	connect(ds, &DynamicScript::scriptError, this, &Plugin::onScriptError, Qt::QueuedConnection);
+	// currently doesn't create or update any State... reserved for future use?
+	//connect(ds, &DynamicScript::dataReady, client, qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
 }
 
 void Plugin::saveSettings() const
@@ -375,13 +388,16 @@ ScriptEngine *Plugin::getOrCreateEngine(const QByteArray &name, bool failIfMissi
 	return se;
 }
 
-DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool failIfMissing)
+DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool forUpdateAction)
 {
 	DynamicScript *ds = DSE::instance(name);
-	if (!ds && !failIfMissing) {
+	if (!ds) {
+		if (forUpdateAction)
+			return (DSE::defaultScriptInstance->name == name ? DSE::defaultScriptInstance : nullptr);
+
 		//qCDebug(lcPlugin) << dvName << "Creating";
 		ds = DSE::insert(name, new DynamicScript(name));
-		connect(ds, &DynamicScript::scriptError, Plugin::instance, &Plugin::onScriptError, Qt::QueuedConnection);
+		connect(ds, &DynamicScript::scriptError, this, &Plugin::onScriptError, Qt::QueuedConnection);
 		connect(ds, &DynamicScript::dataReady, client, qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
 		sendInstanceLists();
 	}
@@ -464,8 +480,9 @@ void Plugin::sendInstanceLists() const
 	QByteArrayList nameArry = DSE::instanceKeys();
 	std::sort(nameArry.begin(), nameArry.end());
 	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.createdStatesList"), nameArry.join(',') + ',');
+	nameArry.prepend(DSE::defaultScriptInstance->name);
 	Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.script.update.name"), nameArry);
-	nameArry.prepend(tokenToName(AT_Default));
+	nameArry[0] = tokenToName(AT_Default);
 	Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.plugin.repRate.name"), nameArry);
 }
 
@@ -480,7 +497,8 @@ void Plugin::sendEngineLists() const
 
 void Plugin::updateInstanceChoices(int token, const QByteArray &instId) const
 {
-	QByteArrayList nameArry = token == AT_Engine ? DSE::engineKeys() : DSE::instanceKeys();
+	ActionTokens listType = token == CA_DelEngine || token == CA_ResetEngine ? AT_Engine : AT_Script;
+	QByteArrayList nameArry = listType == AT_Engine ? DSE::engineKeys() : DSE::instanceKeys();
 	std::sort(nameArry.begin(), nameArry.end());
 	if (nameArry.isEmpty()) {
 		nameArry.append(QByteArrayLiteral("[ no instances created ]"));
@@ -490,8 +508,7 @@ void Plugin::updateInstanceChoices(int token, const QByteArray &instId) const
 			nameArry.prepend(QByteArrayLiteral("All Private Engine Instances"));
 		}
 		else {
-			int what = token == CA_DelEngine || token == CA_ResetEngine ? AT_Engine : AT_Script;
-			const QByteArray &typeName = tokenToName(what);
+			const QByteArray &typeName = tokenToName(listType);
 			nameArry.prepend(QLatin1String("All Private %1 Instances").arg(typeName).toUtf8());
 			nameArry.prepend(QLatin1String("All Shared %1 Instances").arg(typeName).toUtf8());
 			nameArry.prepend(QByteArrayLiteral("All Instances"));
@@ -761,7 +778,7 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 		return;
 
 	if (act != SA_Update) {
-		QByteArray engName;
+		ScriptEngine *se;
 		const QString &strScope = dataMap.value("scope", QStringLiteral("Shared"));
 		DSE::EngineInstanceType scope = stringToScope(strScope);
 		// If a scope/instance type returns Unknown this means it should be a specific named engine instance.
@@ -771,14 +788,17 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 				raiseScriptError(dvName, tr("ValidationError: Engine name/type is empty for script instance '%1'.").arg(dvName.constData()), tr("VALIDATION ERROR"));
 				return;
 			}
-			engName = strScope.toUtf8();
-			scope = DSE::PrivateInstance;
+			se = getOrCreateEngine(strScope.toUtf8());
 		}
 		// Otherwise if the scope is explicitly "Private" then use the script instance name as the engine name.
 		else if (scope == DSE::PrivateInstance) {
-			engName = dvName;
+			se = getOrCreateEngine(dvName);
 		}
-		ds->setEngine(scope == DSE::PrivateInstance ? getOrCreateEngine(engName) : ScriptEngine::instance());
+		// Otherwise use the Shared instance.
+		else {
+			se = ScriptEngine::instance();
+		}
+		ds->setEngine(se);
 
 		const QString &stateParam = dataMap.value("state");
 		// preserve BC with < v1.1.0.2 actions which all create a state (except SS types but thsoe are excluded, above).

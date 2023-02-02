@@ -103,7 +103,7 @@ class Plugin : public QObject
 
 	private:
 		ScriptEngine *getOrCreateEngine(const QByteArray &name, bool failIfMissing = false);
-		DynamicScript *getOrCreateInstance(const QByteArray &name, bool failIfMissing = false);
+		DynamicScript *getOrCreateInstance(const QByteArray &name, bool forUpdateAction = false);
 		inline TPClientQt *tpClient() const { return client; }
 
 		TPClientQt *client = nullptr;
