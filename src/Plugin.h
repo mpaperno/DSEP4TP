@@ -77,6 +77,7 @@ class Plugin : public QObject
 		void loadStartupSettings();
 		void removeInstance(DynamicScript *ds, bool removeFromGlobal = true, bool removeUnusedEngine = true) const;
 		void removeEngine(ScriptEngine *se, bool removeFromGlobal = true, bool removeScripts = true) const;
+		void stopDeletionTimer(const QByteArray &name);
 		void removeInstanceLater(DynamicScript *ds);
 		void sendInstanceLists() const;
 		void sendEngineLists() const;

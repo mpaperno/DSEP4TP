@@ -20,9 +20,9 @@ var OUTPUT_PATH = "";
 var DEV_MODE = false;
 
 // Const
-const PLUGIN_ID = buildInfo.PLUGIN_ID;    
+const PLUGIN_ID = buildInfo.PLUGIN_ID;
 const SYSTEM_NAME = buildInfo.SYSTEM_NAME;
-const SHORT_NAME = buildInfo.SHORT_NAME;  
+const SHORT_NAME = buildInfo.SHORT_NAME;
 
 // Handle CLI arguments
 for (let i=2; i < process.argv.length; ++i) {
@@ -205,7 +205,7 @@ function addAction(id, name, descript, format, data, hold = false) {
         type: "communicate",
         tryInline: true,
         description: descript,
-        format: String(format).format(data.map(d => `{$${d.id}$}`)),
+        format: String(format).format(data?.map(d => `{$${d.id}$}`)),
         hasHoldFunctionality: hold,
         data: data ? data.map(a => ({...a})) : []
     }
@@ -280,27 +280,58 @@ function appendScopeData(id, data, defaultScope = "Shared") {
     return format;
 }
 
-function appendStateOptionData(id, data, defaultVal = "Yes") {
-    let format = `Create\n${EN}State{${data.length}}`;
+function appendPersistOptionData(id, data) {
+    let format = `Instance\nPersistence{${data.length}}`;
     data.push(
-        makeChoiceData(id + ".state", "Create State", ["Yes", "No"], defaultVal),
+        makeChoiceData(id + ".save", "Persistence", [
+            "Session",
+            "Saved",
+            "Temporary",
+        ]),
     );
     return format;
 }
 
-function appendSaveOptionData(id, data) {
-    let i = data.length;
-    let format = `Instance\nPersistence{${i++}} Default\nValue/Expr{${i++}}`;
+function appendStateOptionData(id, data) {
+    let defaultVal;
+    let format = `Create\n${EN}State{${data.length}}`;
     data.push(
-        // makeChoiceData(id + ".save", "Load at Startup", ["No", "Fixed Default\nValue", "Custom\nExpression", "Action's\nExpression"]),
-        makeChoiceData(id + ".save", "Persistence", [
-            "Current Session", 
-            "Delete After Run",
-            "Load at Startup with\nFixed Default Value", 
-            "Load at Startup with\nCustom Expression", 
-            "Load at Startup with\nAction's Expression"
-        ]),
+        makeChoiceData(id + ".state", "Create State", [
+            "No",
+            defaultVal =
+            "Yes, default type:\nFixed Value",
+            "Yes, default type:\nCustom Expression",
+            "Yes, default type:\nAction's Expression"], defaultVal),
+    );
+    return format + appendSaveOptionData(id, data);
+}
+
+function appendStateOnlyOptionData(id, data) {
+    data.push(
+        makeChoiceData(id + ".state", "Create State", ["Yes", "No"]),
+    );
+    return `Create\n${EN}State{${data.length-1}}`;
+}
+
+function appendSaveOptionData(id, data) {
+    // let format = appendPersistOptionData(id, data, true);
+    let format = `Default\nVal/Exp.{${data.length}}`;
+    data.push(
         makeTextData(id + ".default", "Default Value/Expression"),
+    );
+    return format;
+}
+
+function appendHoldOptionData(id, data) {
+    let format = `| On\n| Hold{${data.length}}`;
+    data.push(
+        makeChoiceData(id + ".activation", "Oh Hold Behavior", [
+            "On Press",
+            "On Press &\nRelease",
+            "On Press\nthen Repeat",
+            "Repeat\nafter Delay",
+            "On Release",
+        ]),
     );
     return format;
 }
@@ -308,10 +339,10 @@ function appendSaveOptionData(id, data) {
 // --------------------------------------
 // Action creation functions
 
-function addEvalAction(name) 
+function addEvalAction(name)
 {
     const id = "script.eval";
-    const descript = SHORT_NAME + ": Evaluate an Expression. Evaluation result, if any, can be returned as a TP State value of the same Name as the Instance.\n" + 
+    const descript = SHORT_NAME + ": Evaluate an Expression. Evaluation result, if any, can be returned as a TP State value of the same Name as the Instance.\n" +
         "Any JavaScript is valid here, from simple math to string formatting to short scripts. TP State and Value macros can be embedded. Strings must be quoted.";
     let [format, data] = makeCommonData(id);
     let i = data.length;
@@ -320,13 +351,15 @@ function addEvalAction(name)
         makeTextData(id + ".expr", "Expression"),
     );
     format += appendScopeData(id, data);
+    format += appendPersistOptionData(id, data);
+    const cdata = data.map(a => ({...a}));
+    addConnector(id, name, descript, format + appendStateOnlyOptionData(id, cdata), cdata);
     format += appendStateOptionData(id, data);
-    addConnector(id, name, descript, format, data);
-    format += appendSaveOptionData(id, data);
+    format += appendHoldOptionData(id, data);
     addAction(id, name, descript, format, data, true);
 }
 
-function addScriptAction(name) 
+function addScriptAction(name)
 {
     const id = "script.load";
     const descript = SHORT_NAME + ": Load and Run a Script. Evaluation result, if any, can be returned as a TP State value of the same Name as the Instance.\n" +
@@ -339,13 +372,14 @@ function addScriptAction(name)
         makeTextData(id + ".expr", "Append Expression", "run([arguments])"),
     );
     format += appendScopeData(id, data);
+    format += appendPersistOptionData(id, data);
     format += appendStateOptionData(id, data);
-    format += appendSaveOptionData(id, data);
+    format += appendHoldOptionData(id, data);
     addAction(id, name, descript, format, data, true);
     // No connector for script types, too much I/O
 }
 
-function addModuleAction(name) 
+function addModuleAction(name)
 {
     const id = "script.import";
     const descript = SHORT_NAME + ": Import a JavaScript Module. Modules can load other modules and are cached for improved performance.\n" +
@@ -410,10 +444,10 @@ function addSystemActions()
         ],
         true
     );
-    addConnector(id, "Set Held Action Repeat Rate/Delay", 
-        SHORT_NAME + ": Set Held Action Repeat Rate/Delay within a given range. \n" + 
-            "The value(s) can be set for either the global default or per existing script Instance. Fastest rate/shortest delay is 50 milliseconds.", 
-        "Set the {0} Held Action Repeat {1} in range of {2} to {3} (milliseconds, 50ms minimum)", 
+    addConnector(id, "Set Held Action Repeat Rate/Delay",
+        SHORT_NAME + ": Set Held Action Repeat Rate/Delay within a given range. \n" +
+            "The value(s) can be set for either the global default or per existing script Instance. Fastest rate/shortest delay is 50 milliseconds.",
+        "Set the {0} Held Action Repeat {1} in range of {2} to {3} (milliseconds, 50ms minimum)",
         [
             makeChoiceData(id + ".name", "Instance(s)", ["Default"]),
             makeChoiceData(id + ".param", "Parameter", ["Rate", "Delay", "Rate & Delay"]),
@@ -422,6 +456,10 @@ function addSystemActions()
             makeTextData(id + ".action", "", "Set"),  // hidden
         ]
     );
+
+    if (DEV_MODE) {
+        addAction("plugin.shutdown", "Shut Down", "Shut Down", "Shut down plugin");
+    }
 }
 
 

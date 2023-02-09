@@ -168,23 +168,53 @@ static DSE::EngineInstanceType stringToScope(QStringView str, bool unknownIsPriv
 }
 
 // legacy for v < 1.1.0.2
-static DSE::ScriptDefaultType stringToDefaultType(QStringView str)
+static DSE::StateDefaultType stringToDefaultType(QStringView str)
 {
-	return str.isEmpty() || str.at(0) == 'N' ? DSE::NoSavedDefault :
+	return str.isEmpty() || str.at(0) == 'N' ? DSE::NoStateUsed :
 	                                           str.at(0) == 'F' ? DSE::FixedValueDefault :
 	                                                              str.at(0) == 'C' ? DSE::CustomExprDefault :
 	                                                                                 DSE::MainExprDefault;
 }
 
-static DSE::ScriptDefaultType stringToDefaultType(QStringView str, bool *singleShot)
+static DSE::StateDefaultType stringToStateType(QStringView str)
 {
-	const int lbi = str.indexOf('\n') + 1;
-	if (lbi > 0)
-		return str.at(lbi) == 'A' ? DSE::MainExprDefault : str.at(lbi) == 'C' ? DSE::CustomExprDefault : DSE::FixedValueDefault;
-	if (str.startsWith(QLatin1String("Delete")))
-		*singleShot = true;
-	return DSE::NoSavedDefault;
+	//	"No",
+	//  "Yes, default type:\nFixed Value",
+	//  "Yes, default type:\nCustom Expression",
+	//  "Yes, default type:\nAction's Expression"
+	if (str.length() < 20 /*|| str.at(0) != 'Y'*/)
+		return DSE::NoStateUsed;
+
+	const QChar typ = str.at(19);
+	return typ == 'A' ? DSE::MainExprDefault : typ == 'C' ? DSE::CustomExprDefault : DSE::FixedValueDefault;
 }
+
+static DSE::PersistenceType stringToPersistenceType(QStringView str)
+{
+	// "Session", "Saved", "Temporary"
+	if (str.isEmpty() || (str.at(0) == 'S' && str.at(1) == 'e'))
+		return DSE::PersistenceType::PersistSession;
+	return str.at(0) == 'T' ? DSE::PersistenceType::PersistTemporary : DSE::PersistenceType::PersistSave;
+}
+
+static DSE::ActivationBehaviors stringToActivationType(QStringView str)
+{
+	//	"On Press",
+	//  "On Press &\nRelease",
+	//  "On Press\nthen Repeat",
+	//  "Repeat\nafter Delay",
+	//  "On Release"
+	if (str.length() < 4 || str.at(3) == 'R')
+		return DSE::ActivationBehavior::OnRelease;
+	if (str.at(0) == 'R')
+		return DSE::ActivationBehavior::RepeatOnHold;
+	if (str.length() < 10)
+		return DSE::ActivationBehavior::OnPress;
+	if (str.at(8) == '\n')
+		return DSE::ActivationBehavior::OnPress | DSE::ActivationBehavior::RepeatOnHold;
+	return DSE::ActivationBehavior::OnPress | DSE::ActivationBehavior::OnRelease;
+}
+
 
 // -----------------------------------
 // Plugin
@@ -460,19 +490,28 @@ void Plugin::removeEngine(ScriptEngine *se, bool removeFromGlobal, bool removeSc
 	delete se;
 }
 
+void Plugin::stopDeletionTimer(const QByteArray &name)
+{
+	if (int timId = g_instanceDeleteTimers->value(name, 0)) {
+		killTimer(timId);
+		(*g_instanceDeleteTimers)[name] = 0;
+		g_timersData->remove(timId);
+	}
+}
+
 void Plugin::removeInstanceLater(DynamicScript *ds)
 {
 	if (!ds)
 		return;
 
-	int timId = g_instanceDeleteTimers->value(ds->name, -1);
-	if (timId > -1) {
-		killTimer(timId);
-		g_timersData->remove(timId);
+	stopDeletionTimer(ds->name);
+	const int timId = startTimer(ds->autoDeleteDelay(), Qt::CoarseTimer);
+	if (timId) {
+		(*g_instanceDeleteTimers)[ds->name] = timId;
+		g_timersData->emplace(timId, TE_RemoveScriptInstance, QVariant::fromValue(ds->name));
+		return;
 	}
-	timId = startTimer(ds->autoDeleteDelay, Qt::CoarseTimer);
-	(*g_instanceDeleteTimers)[ds->name] = timId;
-	g_timersData->emplace(timId, TE_RemoveScriptInstance, QVariant::fromValue(ds->name));
+	qCWarning(lcPlugin) << "Could not start timer to remove instance" << ds->name;
 }
 
 void Plugin::sendInstanceLists() const
@@ -581,7 +620,7 @@ void Plugin::clearScriptErrors()
 
 void Plugin::timerEvent(QTimerEvent *ev)
 {
-	if (ev->timerId() > -1)
+	if (ev->timerId())
 		killTimer(ev->timerId());
 	else
 		return;
@@ -612,7 +651,7 @@ void Plugin::onEngineError(const JSError &e) const
 void Plugin::onDsFinished()
 {
 	DynamicScript *ds = qobject_cast<DynamicScript *>(sender());
-	if (ds && ds->singleShot)
+	if (ds && ds->isTemporary())
 		removeInstanceLater(ds);
 		//removeInstance(ds);
 }
@@ -761,7 +800,7 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 	const QByteArray dvName = dataMap.value("name").trimmed().toUtf8();
 	if (dvName.isEmpty()) {
 		if (act == SA_SingleShot)
-			qCCritical(lcPlugin) << "Anyonymous script instances are no longer supported. Please use another type with 'Persistence' set to 'Delete After Run'.";
+			qCCritical(lcPlugin) << "Anyonymous script instances are no longer supported. Please use another type with 'Persistence' set to 'Temporary'.";
 		else
 			qCCritical(lcPlugin) << "Script Instance Name missing for action" << tokenToName(act);
 		return;
@@ -773,9 +812,23 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 		return;
 	}
 
-	ds->setRepeating(false);
-	if (type == TPClientQt::MessageType::up)
+	stopDeletionTimer(ds->name);
+
+	// Always unset the pressed state first because we cannot have the same action running concurrently.
+	ds->setPressedState(false);
+	// If used "On-Hold" and this is a release event, invoke eval method and exit now.
+	// The script should handle whatever it needs to do with the data it already has.
+	if (type == TPClientQt::MessageType::up) {
+		QMetaObject::invokeMethod(ds, "evaluate", Qt::QueuedConnection);
 		return;
+	}
+
+	// When used in "On-Press" the action is actually fired by TP on button release.
+	if (type == TPClientQt::MessageType::action)
+		ds->setActivation(DSE::ActivationBehavior::OnRelease);
+	// If action is used in On-Hold then it may have separate on-press/hold/release behaviors.
+	else
+		ds->setActivation(stringToActivationType(dataMap.value("activation")));
 
 	if (act != SA_Update) {
 		ScriptEngine *se;
@@ -801,26 +854,45 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 		ds->setEngine(se);
 
 		const QString &stateParam = dataMap.value("state");
-		// preserve BC with < v1.1.0.2 actions which all create a state (except SS types but thsoe are excluded, above).
-		ds->setCreateState(stateParam.isEmpty() || stateParam.at(0) == 'Y');
-
-		// Connectors do not have a default type parameter; Do not modify any previosly-set defaults.
-		if (type != TPClientQt::MessageType::connectorChange) {
-			bool singleShot = false;
-			// Preserve BC with v < 1.1.0.2
-			DSE::ScriptDefaultType defType = stateParam.isEmpty() ?
-			                                   stringToDefaultType(dataMap.value("save", QStringLiteral("No"))) :
-			                                   stringToDefaultType(dataMap.value("save", QStringLiteral("No")), &singleShot);
-			ds->setDefaultTypeValue(defType, dataMap.value("default").toUtf8());
-			ds->setSingleShot(singleShot);
+		// preserve BC with < v1.2 actions which all create a state (except SS types but thsoe are excluded, above).
+		if (stateParam.isEmpty()) {
+			if (type == TPClientQt::MessageType::connectorChange) {
+				// Connectors do not have a "save" option; Do not modify any previosly-set defaults but make sure a State is created.
+				if (ds->defaultType() == DSE::StateDefaultType::NoStateUsed)
+					ds->setDefaultType(DSE::StateDefaultType::FixedValueDefault);
+			}
+			else {
+				// The "save" option only dictated if the instance was saved to settings; Interpret that into persistence and saved default properties.
+				DSE::StateDefaultType defType = stringToDefaultType(dataMap.value("save"));
+				ds->setPersistence(defType > DSE::StateDefaultType::NoStateUsed ? DSE::PersistenceType::PersistSave : DSE::PersistenceType::PersistSession);
+				if (defType == DSE::StateDefaultType::NoStateUsed)
+					defType = DSE::StateDefaultType::FixedValueDefault;
+				ds->setDefaultTypeValue(defType, dataMap.value("default").toUtf8());
+			}
 		}
-	}
+		// handle new action types for v1.2+
+		else {
+			ds->setPersistence(stringToPersistenceType(dataMap.value("save")));
+
+			if (type == TPClientQt::MessageType::connectorChange) {
+				// Connectors do not have a default type parameter, only State yes/no; Do not modify any previosly-set defaults.
+				DSE::StateDefaultType defType = stateParam.at(0) == 'N' ? DSE::StateDefaultType::NoStateUsed : DSE::StateDefaultType::FixedValueDefault;
+				if (defType == DSE::StateDefaultType::FixedValueDefault && ds->defaultType() == DSE::StateDefaultType::NoStateUsed)
+					ds->setDefaultType(DSE::StateDefaultType::FixedValueDefault);
+				else if (defType == DSE::StateDefaultType::NoStateUsed && ds->defaultType() > DSE::StateDefaultType::NoStateUsed)
+					ds->setDefaultType(DSE::StateDefaultType::NoStateUsed);
+			}
+			else {
+				ds->setDefaultTypeValue(stringToStateType(stateParam), dataMap.value("default").toUtf8());
+			}
+		}
+	}  // act != SA_Update
 
 	QString expression = dataMap.value("expr");
 	if (connectorValue > -1) {
 		expression.replace(QLatin1String("${connector_value}"), QString::number(connectorValue), Qt::CaseInsensitive);
 	}
-	bool ok;
+	bool ok = false;
 	switch (act)
 	{
 		case SA_Eval:
@@ -838,12 +910,15 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 	}
 	if (!ok) {
 		raiseScriptError(ds->name, tr("ValidationError: %1").arg(ds->lastError), tr("VALIDATION ERROR"));
-		if (ds->singleShot)
+		if (ds->isTemporary())
 			removeInstanceLater(ds);
 		return;
 	}
+
+	// Set pressed state if action is being used in "On-Hold" area.
 	if (type == TPClientQt::MessageType::down)
-		ds->setRepeating(true);
+		ds->setPressedState(true);
+
 	QMetaObject::invokeMethod(ds, "evaluate", Qt::QueuedConnection);
 }
 

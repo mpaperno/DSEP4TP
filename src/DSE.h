@@ -145,7 +145,7 @@ class DSE : public QObject
 		using EngineState = QHash<QByteArray, ScriptEngine *>;
 
 
-		// The enum properties is a workaround for enum types not being available in jsengine.
+		// The enum properties is a workaround for enum types not being available in QJSEngine.
 
 		//! Type of script engine instances.
 		enum EngineInstanceType : quint8 {
@@ -154,10 +154,10 @@ class DSE : public QObject
 			PrivateInstance,      //!< Private engine instance type.
 		};
 		Q_ENUM(EngineInstanceType)
+#ifndef DOXYGEN
 		static EngineInstanceType EngineInstanceType_UnknownInstanceType() { return UnknownInstanceType; }
 		static EngineInstanceType EngineInstanceType_SharedInstance()      { return SharedInstance; }
 		static EngineInstanceType EngineInstanceType_PrivateInstance()     { return PrivateInstance; }
-#ifndef DOXYGEN
 		Q_PROPERTY(EngineInstanceType UnknownInstanceType READ EngineInstanceType_UnknownInstanceType CONSTANT)
 		Q_PROPERTY(EngineInstanceType SharedInstance      READ EngineInstanceType_SharedInstance      CONSTANT)
 		Q_PROPERTY(EngineInstanceType PrivateInstance     READ EngineInstanceType_PrivateInstance     CONSTANT)
@@ -171,36 +171,75 @@ class DSE : public QObject
 			ModuleInput,       //!< Module file script input type.
 		};
 		Q_ENUM(ScriptInputType)
+#ifndef DOXYGEN
 		static ScriptInputType ScriptInputType_UnknownInputType() { return UnknownInputType; }
 		static ScriptInputType ScriptInputType_ExpressionInput()  { return ExpressionInput; }
 		static ScriptInputType ScriptInputType_ScriptInput()      { return ScriptInput; }
 		static ScriptInputType ScriptInputType_ModuleInput()      { return ModuleInput; }
-#ifndef DOXYGEN
 		Q_PROPERTY(ScriptInputType UnknownInputType  READ ScriptInputType_UnknownInputType CONSTANT)
 		Q_PROPERTY(ScriptInputType ExpressionInput   READ ScriptInputType_ExpressionInput  CONSTANT)
 		Q_PROPERTY(ScriptInputType ScriptInput       READ ScriptInputType_ScriptInput      CONSTANT)
 		Q_PROPERTY(ScriptInputType ModuleInput       READ ScriptInputType_ModuleInput      CONSTANT)
 #endif
 
-		//! Named instance default value types.
-		enum ScriptDefaultType : quint8 {
-			NoSavedDefault,      //!< No default, instance not saved or restored.
-			FixedValueDefault,   //!< Instance is saved, and restored with a fixed default value (specified in `DynamicScript.defaultValue`)
-			CustomExprDefault,   //!< Instance is saved, and restored by evaluating a custom expression (specified in `DynamicScript.defaultValue`)
-			MainExprDefault,     //!< Instance is saved, and restored by evaluating the same expression as specified for the last action to invoke this instance.
+		//! Script instance persistence types.
+		enum PersistenceType : quint8 {
+			PersistSession,     //!< Instance exists for the duration of current runtime sessions only.
+			PersistTemporary,   //!< Instance is deleted soon after evaluation.
+			PersistSave,        //!< Instance is saved to persistent settings at exit and restored at startup.
 		};
-		Q_ENUM(ScriptDefaultType)
-		static ScriptDefaultType ScriptDefaultType_NoSavedDefault()    { return NoSavedDefault; }
-		static ScriptDefaultType ScriptDefaultType_FixedValueDefault() { return FixedValueDefault; }
-		static ScriptDefaultType ScriptDefaultType_CustomExprDefault() { return CustomExprDefault; }
-		static ScriptDefaultType ScriptDefaultType_MainExprDefault()   { return MainExprDefault; }
+		Q_ENUM(PersistenceType)
 #ifndef DOXYGEN
-		Q_PROPERTY(ScriptDefaultType NoSavedDefault     READ ScriptDefaultType_NoSavedDefault    CONSTANT)
-		Q_PROPERTY(ScriptDefaultType FixedValueDefault  READ ScriptDefaultType_FixedValueDefault CONSTANT)
-		Q_PROPERTY(ScriptDefaultType CustomExprDefault  READ ScriptDefaultType_CustomExprDefault CONSTANT)
-		Q_PROPERTY(ScriptDefaultType MainExprDefault    READ ScriptDefaultType_MainExprDefault   CONSTANT)
+		static PersistenceType PersistenceType_PersistSession()   { return PersistSession; }
+		static PersistenceType PersistenceType_PersistTemporary() { return PersistTemporary; }
+		static PersistenceType PersistenceType_PersistSave()      { return PersistSave; }
+		Q_PROPERTY(PersistenceType PersistSession   READ PersistenceType_PersistSession   CONSTANT)
+		Q_PROPERTY(PersistenceType PersistTemporary READ PersistenceType_PersistTemporary CONSTANT)
+		Q_PROPERTY(PersistenceType PersistSave      READ PersistenceType_PersistSave      CONSTANT)
 #endif
 
+		//! Defines how an action should behave when it is being "activated" as in the case of a button.
+		//! A button technically how two transition states -- when pressed and when released. The time between those events
+		//! can also either be ignored, reacting only to the transition(s), or used to do something,
+		//! like repeat some command over and over. An action may also invoke different functions on initial press vs. on release.
+		//! \sa DynamicScript.activation
+		enum ActivationBehavior : quint8 {
+			NoActivation  = 0x00,   //!< The action is never activated, evaluation never happens.
+			OnPress       = 0x01,   //!< Evaluation happens on initial activation (eg: button press).
+			OnRelease     = 0x02,   //!< Evaluation happens on de-activation (eg: button release).
+			RepeatOnHold  = 0x04,   //!< Evaluation happens repeatedly while the action is active (eg: button is held down).
+		};
+		//! The `DSE.ActivationBehaviors` type stores an OR combination of `DSE.ActivationBehavior` values.
+		Q_DECLARE_FLAGS(ActivationBehaviors, ActivationBehavior)
+#ifndef DOXYGEN
+		static ActivationBehavior ActivationBehavior_NoActivation() { return NoActivation; }
+		static ActivationBehavior ActivationBehavior_OnPress()      { return OnPress; }
+		static ActivationBehavior ActivationBehavior_OnRelease()    { return OnRelease; }
+		static ActivationBehavior ActivationBehavior_RepeatOnHold() { return RepeatOnHold; }
+		Q_PROPERTY(ActivationBehavior NoActivation READ ActivationBehavior_NoActivation CONSTANT)
+		Q_PROPERTY(ActivationBehavior OnPress      READ ActivationBehavior_OnPress      CONSTANT)
+		Q_PROPERTY(ActivationBehavior OnRelease    READ ActivationBehavior_OnRelease    CONSTANT)
+		Q_PROPERTY(ActivationBehavior RepeatOnHold READ ActivationBehavior_RepeatOnHold CONSTANT)
+#endif
+
+		//! Script instance Touch Portal State creation setting and default value type.
+		enum StateDefaultType : quint8 {
+			NoStateUsed,         //!< No Touch Portal State is created or used at all.
+			FixedValueDefault,   //!< State is created with a fixed default value (specified in `DynamicScript.defaultValue`)
+			CustomExprDefault,   //!< State is created with default value coming from evaluating a custom expression (specified in `DynamicScript.defaultValue`)
+			MainExprDefault,     //!< State is created with default value coming from evaluating the same expression as specified in the action to invoke this instance.
+		};
+		Q_ENUM(StateDefaultType)
+#ifndef DOXYGEN
+		static StateDefaultType StateDefaultType_NoStateUsed()    { return NoStateUsed; }
+		static StateDefaultType StateDefaultType_FixedValueDefault() { return FixedValueDefault; }
+		static StateDefaultType StateDefaultType_CustomExprDefault() { return CustomExprDefault; }
+		static StateDefaultType StateDefaultType_MainExprDefault()   { return MainExprDefault; }
+		Q_PROPERTY(StateDefaultType NoSavedDefault     READ StateDefaultType_NoStateUsed       CONSTANT)
+		Q_PROPERTY(StateDefaultType FixedValueDefault  READ StateDefaultType_FixedValueDefault CONSTANT)
+		Q_PROPERTY(StateDefaultType CustomExprDefault  READ StateDefaultType_CustomExprDefault CONSTANT)
+		Q_PROPERTY(StateDefaultType MainExprDefault    READ StateDefaultType_MainExprDefault   CONSTANT)
+#endif
 
 		//! Action repeat property type.
 		enum RepeatProperty : quint8 {
@@ -209,10 +248,10 @@ class DSE : public QObject
 			AllRepeatProperties = RepeatRateProperty | RepeatDelayProperty   //!< OR combination of Rate and Delay properties.
 		};
 		Q_ENUM(RepeatProperty)
+#ifndef DOXYGEN
 		static RepeatProperty RepeatProperty_RepeatRateProperty()   { return RepeatRateProperty; }
 		static RepeatProperty RepeatProperty_RepeatDelayProperty()  { return RepeatDelayProperty; }
 		static RepeatProperty RepeatProperty_AllRepeatProperties()  { return AllRepeatProperties; }
-#ifndef DOXYGEN
 		Q_PROPERTY(RepeatProperty RepeatRateProperty  READ RepeatProperty_RepeatRateProperty  CONSTANT)
 		Q_PROPERTY(RepeatProperty RepeatDelayProperty READ RepeatProperty_RepeatDelayProperty CONSTANT)
 		Q_PROPERTY(RepeatProperty AllRepeatProperties READ RepeatProperty_AllRepeatProperties CONSTANT)
@@ -226,17 +265,16 @@ class DSE : public QObject
 			Decrement      //!< Set something relative to another value by decreasing it by a given value. More specific than `SetRelative`.
 		};
 		Q_ENUM(AdjustmentType)
+#ifndef DOXYGEN
 		static AdjustmentType AdjustmentType_SetAbsolute() { return SetAbsolute; }
 		static AdjustmentType AdjustmentType_SetRelative() { return SetRelative; }
 		static AdjustmentType AdjustmentType_Increment()   { return Increment; }
 		static AdjustmentType AdjustmentType_Decrement()   { return Decrement; }
-#ifndef DOXYGEN
 		Q_PROPERTY(AdjustmentType SetAbsolute READ AdjustmentType_SetAbsolute CONSTANT)
 		Q_PROPERTY(AdjustmentType SetRelative READ AdjustmentType_SetRelative CONSTANT)
 		Q_PROPERTY(AdjustmentType Increment   READ AdjustmentType_Increment   CONSTANT)
 		Q_PROPERTY(AdjustmentType Decrement   READ AdjustmentType_Decrement   CONSTANT)
 #endif
-
 
 		static const quint32 pluginVersion;
 		static const QByteArray pluginVersionStr;
@@ -307,7 +345,7 @@ class DSE : public QObject
 
 		static inline const QMetaEnum inputTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DSE::ScriptInputType>(); return m; }
 		static inline const QMetaEnum instanceTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DSE::EngineInstanceType>(); return m; }
-		static inline const QMetaEnum defaultTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DSE::ScriptDefaultType>(); return m; }
+		static inline const QMetaEnum defaultTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DSE::StateDefaultType>(); return m; }
 
 		static int defaultActionRepeatRate() { return defaultRepeatRate; }
 		static void setDefaultActionRepeatRate(int ms);
@@ -383,6 +421,9 @@ class DSE : public QObject
 Q_DECLARE_METATYPE(DSE*);
 Q_DECLARE_METATYPE(DSE::EngineInstanceType)
 Q_DECLARE_METATYPE(DSE::ScriptInputType)
-Q_DECLARE_METATYPE(DSE::ScriptDefaultType)
+Q_DECLARE_METATYPE(DSE::StateDefaultType)
 Q_DECLARE_METATYPE(DSE::RepeatProperty)
 Q_DECLARE_METATYPE(DSE::AdjustmentType)
+Q_DECLARE_METATYPE(DSE::ActivationBehavior)
+Q_DECLARE_METATYPE(DSE::ActivationBehaviors)
+Q_DECLARE_OPERATORS_FOR_FLAGS(DSE::ActivationBehaviors);
