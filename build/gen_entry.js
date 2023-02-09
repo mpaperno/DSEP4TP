@@ -393,49 +393,58 @@ function addModuleAction(name)
         makeTextData(id + ".expr", "Expression", "M.run([arguments])"),
     );
     format += appendScopeData(id, data);
+    format += appendPersistOptionData(id, data);
+    const cdata = data.map(a => ({...a}));
+    addConnector(id, name, descript, format + appendStateOnlyOptionData(id, cdata), cdata);
     format += appendStateOptionData(id, data);
-    addConnector(id, name, descript, format, data);
-
-    format += appendSaveOptionData(id, data);
+    format += appendHoldOptionData(id, data);
     addAction(id, name, descript, format, data, true);
 }
 
-function addUpdateAction(name) 
+function addUpdateAction(name)
 {
     const id = "script.update";
-    const descript = SHORT_NAME + ": Update an Existing Instance. Use this action as a quick way to evaluate an expression.\n" + 
+    const descript = SHORT_NAME + ": Update an Existing Instance. Use this action as a quick way to evaluate an expression.\n" +
         "Any existing Script Instance can be used. If the Instance created a State, returning a value from this expression will update that State.";
-    const format = "Instance{0} Evaluate\nExpression{1}";
-    const data = [ 
+    let format = "Instance{0} Evaluate\nExpression{1}";
+    const data = [
         makeChoiceData(id + ".name", "Instance Name", ["[ no instances created ]"], "select instance..."),
         makeTextData(id + ".expr", "Expression"),
     ];
-    addAction(id, name, descript, format, data, true);
     addConnector(id, name, descript, format, data);
+    format += appendHoldOptionData(id, data);
+    addAction(id, name, descript, format, data, true);
 }
 
 // System utility action
 
-function addSystemActions() 
+function addSystemActions()
 {
     var id = "plugin.instance";
-    addAction(id, "Instance Control Actions", 
+    addAction(id, "Instance Control Actions",
         SHORT_NAME + ": Instance Control Actions. Choose an action to perform and which script/engine instance(s) it should affect. \n" +
-            "'Delete Script' also removes any State or saved value, and deletes Private engine if no other Scripts are using it. " + 
-            "'Reset Engine' means setting the global script environment back to default. " + 
-            "'Delete Engine' also deletes any related Script Instances. ", 
-        "Action: {0} Instance(s): {1}", 
+            "'Delete Script' also deletes Private engine if no other Scripts are using it. " +
+            "'Reset Engine' means setting the global script environment back to default. " +
+            "'Delete Engine' also deletes any related Script Instances. ",
+        "Action: {0} Instance(s): {1}",
         [
-            makeChoiceData(id + ".action", "Action to Perform", ["Delete Script Instance", "Reset Engine Environment", "Delete Engine Instance"], "select action..."),
-            makeChoiceData(id + ".name", "Instance for Action", ["[ no instances created ]"], "select instance..."),
+            makeChoiceData(id + ".action", "Action to Perform", [
+                "Delete Script Instance",
+                "Save Script Instance",
+                "Load Script Instance",
+                "Remove Saved Instance Data",
+                "Reset Engine Environment",
+                "Delete Engine Instance"
+            ], "select an action..."),
+            makeChoiceData(id + ".name", "Instance for Action", ["[ no instances created ]"], "select an action first"),
         ]
     );
 
     id = "plugin.repRate";
-    addAction(id, "Set Held Action Repeat Rate/Delay", 
-        SHORT_NAME + ": Set/Adjust Held Action Repeat Rate/Delay.\n" + 
-            "The value(s) can be set for either the global default or per existing script Instance. Fastest rate/shortest delay is 50 milliseconds.", 
-        "{0} the {1} Repeat {2} to/by {3} (milliseconds)", 
+    addAction(id, "Set Held Action Repeat Rate/Delay",
+        SHORT_NAME + ": Set/Adjust Held Action Repeat Rate/Delay.\n" +
+            "The value(s) can be set for either the global default or per existing script Instance. Fastest rate/shortest delay is 50 milliseconds.",
+        "{0} the {1} Repeat {2} to/by {3} (milliseconds)",
         [
             makeChoiceData(id + ".action", "Action", ["Set", "Increment", "Decrement"]),
             makeChoiceData(id + ".name", "Instance(s)", ["Default"]),

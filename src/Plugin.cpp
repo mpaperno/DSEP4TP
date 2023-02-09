@@ -32,6 +32,9 @@ to any 3rd-party components used within.
 #include "ScriptEngine.h"
 #include "ConnectorData.h"
 
+#define SETTINGS_GROUP_PLUGIN    "Plugin"
+#define SETTINGS_GROUP_SCRIPTS   "DynamicStates"
+
 enum ActionTokens : quint8 {
 	AT_Unknown,
 
@@ -50,6 +53,10 @@ enum ActionTokens : quint8 {
 	CA_ResetEngine,
 	CA_SetStateValue,  // deprecated, BC with v < 1.1.0.2
 	CA_RepeatRate,
+	CA_SaveInstance,
+	CA_LoadInstance,
+	CA_DelSavedInstance,
+	CA_Shutdown,  // dev mode only
 
 	ST_SettingsVersion,
 
@@ -88,6 +95,7 @@ Q_GLOBAL_STATIC(ScriptTimerHash, g_instanceDeleteTimers)
 static std::atomic_uint32_t g_errorCount = 0;
 static bool g_startupComplete = false;
 static std::atomic_bool g_ignoreNextSettings = true;
+static std::atomic_bool g_shuttingDown = false;
 
 int tokenFromName(const QByteArray &name, int deflt = AT_Unknown)
 {
@@ -107,8 +115,12 @@ int tokenFromName(const QByteArray &name, int deflt = AT_Unknown)
 	  { "Delete Engine Instance",   CA_DelEngine },
 	  { "Reset Engine Environment", CA_ResetEngine },
 	  { "Set State Value",          CA_SetStateValue },   // deprecated, BC with v < 1.1.0.2
+	  { "Save Script Instance",     CA_SaveInstance },
+	  { "Load Script Instance",     CA_LoadInstance },
+	  { "Remove Saved Instance Data", CA_DelSavedInstance },
 
 	  { "repRate",      CA_RepeatRate },
+	  { "shutdown",     CA_Shutdown },
 
 	  { "Settings Version", ST_SettingsVersion },
 
@@ -268,8 +280,56 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
 
 Plugin::~Plugin()
 {
-	if (client)
+	if (!g_shuttingDown)
+		quit();
+
+	delete DSE::defaultScriptInstance;
+	DSE::defaultScriptInstance = nullptr;
+	delete ScriptEngine::sharedInstance;
+	ScriptEngine::sharedInstance = nullptr;
+
+	delete client;
+	client = nullptr;
+	delete clientThread;
+	clientThread = nullptr;
+	qCInfo(lcPlugin) << PLUGIN_SHORT_NAME " exiting.";
+}
+
+void Plugin::start()
+{
+	Q_EMIT tpConnect();
+}
+
+void Plugin::exit()
+{
+	if (!g_shuttingDown)
+		qApp->quit();
+}
+
+void Plugin::quit()
+{
+	if (g_shuttingDown)
+		return;
+	g_shuttingDown = true;
+
+	if (client) {
 		disconnect(client, nullptr, this, nullptr);
+		disconnect(this, nullptr, client, nullptr);
+		if (client->thread() != qApp->thread())
+			Utils::runOnThreadSync(client->thread(), [=]() { client->moveToThread(qApp->thread()); });
+		if (client->isConnected()) {
+			client->stateUpdate(PLUGIN_ID ".state.pluginState", "Stopped");
+			client->stateUpdate(PLUGIN_ID ".state.createdStatesList", "");
+			client->disconnect();
+		}
+	}
+
+	savePluginSettings();
+	saveAllInstances();
+
+	for (int timId : g_instanceDeleteTimers->values())
+		if (timId)
+			killTimer(timId);
 
 	QWriteLocker il(DSE::instances_mutex());
 	qDeleteAll(*DSE::instances());
@@ -281,44 +341,11 @@ Plugin::~Plugin()
 	DSE::engines()->clear();
 	el.unlock();
 
-	delete DSE::defaultScriptInstance;
-	DSE::defaultScriptInstance = nullptr;
-	delete ScriptEngine::sharedInstance;
-	ScriptEngine::sharedInstance = nullptr;
-
 	if (clientThread) {
 		clientThread->quit();
 		clientThread->wait();
-		clientThread->deleteLater();
-		clientThread = nullptr;
 	}
-	delete client;
-	client = nullptr;
-	qCInfo(lcPlugin) << PLUGIN_SHORT_NAME " exiting.";
-}
 
-void Plugin::start()
-{
-	Q_EMIT tpConnect();
-}
-
-void Plugin::exit()
-{
-	qApp->exit(0);
-}
-
-void Plugin::quit()
-{
-	if (client) {
-		if (client->thread() != qApp->thread())
-			Utils::runOnThreadSync(client->thread(), [=]() { client->moveToThread(qApp->thread()); });
-		if (client->isConnected()) {
-			client->stateUpdate(PLUGIN_ID ".state.pluginState", "Stopped");
-			client->stateUpdate(PLUGIN_ID ".state.createdStatesList", "");
-			client->disconnect();
-		}
-	}
-	saveSettings();
 }
 
 void Plugin::initEngine()
@@ -337,22 +364,47 @@ void Plugin::initEngine()
 	//connect(ds, &DynamicScript::dataReady, client, qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
 }
 
-void Plugin::saveSettings() const
+void Plugin::savePluginSettings() const
+{
+	QSettings s;
+	s.beginGroup(SETTINGS_GROUP_PLUGIN);
+	s.setValue("SettingsVersion", APP_VERSION);
+	s.setValue("ScriptsBaseDir", DSE::scriptsBaseDir);
+	s.endGroup();
+}
+
+void Plugin::loadPluginSettings()
+{
+	QSettings s;
+	DSE::scriptsBaseDir = s.value(SETTINGS_GROUP_PLUGIN "/ScriptsBaseDir", QString()).toString();
+}
+
+void Plugin::loadStartupSettings()
+{
+	QSettings s;
+	s.beginGroup(SETTINGS_GROUP_PLUGIN);
+	DSE::sharedInstance->setDefaultActionRepeatRate(s.value("actRepeatRate", 350).toInt());
+	DSE::sharedInstance->setDefaultActionRepeatDelay(s.value("actRepeatDelay", 350).toInt());
+	s.endGroup();
+
+	loadAllInstances();
+
+	g_startupComplete = true;
+	g_ignoreNextSettings = true;
+	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.pluginState"), QByteArrayLiteral("Started"));
+	Q_EMIT tpSettingUpdate(tokenToName(ST_SettingsVersion), QByteArray::number(APP_VERSION));
+}
+
+void Plugin::saveAllInstances() const
 {
 	if (!g_startupComplete)
 		return;
 	int count = 0;
 	QSettings s;
-
-	s.beginGroup("Plugin");
-	s.setValue("SettingsVersion", APP_VERSION);
-	s.setValue("ScriptsBaseDir", DSE::scriptsBaseDir);
-	s.endGroup();
-
-	s.beginGroup("DynamicStates");
+	s.beginGroup(SETTINGS_GROUP_SCRIPTS);
 	s.remove("");
 	for (DynamicScript * const ds : DSE::instances_const()) {
-		if (ds->defaultType() != DSE::NoSavedDefault) {
+		if (ds->persistence() == DSE::PersistSave) {
 			s.setValue(ds->name, ds->serialize());
 			++count;
 		}
@@ -361,52 +413,63 @@ void Plugin::saveSettings() const
 	qCInfo(lcPlugin) << "Saved" << count << "instance(s) to settings.";
 }
 
-void Plugin::loadPluginSettings()
+bool Plugin::saveScriptInstance(const QByteArray &name) const
 {
+	DynamicScript *ds = DSE::instance(name);
+	if (!ds /*|| ds->persistence() != DSE::PersistSave*/)
+		return false;
 	QSettings s;
-	DSE::scriptsBaseDir = s.value("Plugin/ScriptsBaseDir", QString()).toString();
+	const QString key(QByteArrayLiteral(SETTINGS_GROUP_SCRIPTS "/") + ds->name);
+	s.setValue(key, ds->serialize());
+	return true;
 }
 
-void Plugin::loadStartupSettings()
+void Plugin::loadAllInstances() const
 {
 	int count = 0;
 	QSettings s;
-
-	s.beginGroup("Plugin");
-	DSE::sharedInstance->setDefaultActionRepeatRate(s.value("actRepeatRate", 350).toInt());
-	DSE::sharedInstance->setDefaultActionRepeatDelay(s.value("actRepeatDelay", 350).toInt());
-	s.endGroup();
-
-	s.beginGroup("DynamicStates");
+	s.beginGroup(SETTINGS_GROUP_SCRIPTS);
 	const QStringList &childs = s.childKeys();
-	for (const QString &dvName : childs) {
-		DynamicScript *ds = getOrCreateInstance(dvName.toUtf8());
-		ds->deserialize(s.value(dvName).toByteArray());
-		if (ds->instanceType() == DSE::PrivateInstance) {
-			if (ds->engineName().isEmpty()) {
-				qCCritical(lcPlugin) << "Engine name for script instance" << dvName << "is empty.";
-				continue;
-			}
-			ds->setEngine(getOrCreateEngine(ds->engineName()));
-		}
-		else {
-			ds->setEngine(ScriptEngine::instance());
-		}
-		++count;
-		QMetaObject::invokeMethod(ds, "evaluateDefault", Qt::QueuedConnection);
-	}
 	s.endGroup();
-	if (count)
-		qCInfo(lcPlugin) << "Loaded" << count << "saved instance(s) from settings.";
+	for (const QString &dvName : childs) {
+		if (DynamicScript *ds = loadScriptInstance(dvName.toUtf8())) {
+			++count;
+			QMetaObject::invokeMethod(ds, "evaluateDefault", Qt::QueuedConnection);
+		}
+	}
+	qCInfo(lcPlugin) << "Loaded" << count << "saved instance(s) from settings.";
 
 	sendInstanceLists();
-	g_startupComplete = true;
-	g_ignoreNextSettings = true;
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.pluginState"), QByteArrayLiteral("Started"));
-	Q_EMIT tpSettingUpdate(tokenToName(ST_SettingsVersion), QByteArray::number(APP_VERSION));
 }
 
-ScriptEngine *Plugin::getOrCreateEngine(const QByteArray &name, bool failIfMissing)
+DynamicScript *Plugin::loadScriptInstance(const QByteArray &name) const
+{
+	DynamicScript *ds = getOrCreateInstance(name);
+	if (!loadScriptSettings(ds)) {
+		removeInstance(ds);
+		return nullptr;
+	}
+	if (ds->instanceType() == DSE::PrivateInstance) {
+		if (Q_UNLIKELY(ds->engineName().isEmpty())) {
+			qCWarning(lcPlugin) << "Engine name for script instance" << name << "is empty.";
+			return ds;
+		}
+		ds->setEngine(getOrCreateEngine(ds->engineName()));
+	}
+	else {
+		ds->setEngine(ScriptEngine::instance());
+	}
+	return ds;
+}
+
+bool Plugin::loadScriptSettings(DynamicScript *ds) const
+{
+	QSettings s;
+	const QString key(QByteArrayLiteral(SETTINGS_GROUP_SCRIPTS "/") + ds->name);
+	return s.contains(key) ? ds->deserialize(s.value(key).toByteArray()) : false;
+}
+
+ScriptEngine *Plugin::getOrCreateEngine(const QByteArray &name, bool failIfMissing) const
 {
 	ScriptEngine *se = DSE::engine(name);
 	if (!se && !failIfMissing) {
@@ -418,7 +481,7 @@ ScriptEngine *Plugin::getOrCreateEngine(const QByteArray &name, bool failIfMissi
 	return se;
 }
 
-DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool forUpdateAction)
+DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool forUpdateAction, bool loadSettings) const
 {
 	DynamicScript *ds = DSE::instance(name);
 	if (!ds) {
@@ -427,6 +490,8 @@ DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool forUpdat
 
 		//qCDebug(lcPlugin) << dvName << "Creating";
 		ds = DSE::insert(name, new DynamicScript(name));
+		if (loadSettings)
+			loadScriptSettings(ds);
 		connect(ds, &DynamicScript::scriptError, this, &Plugin::onScriptError, Qt::QueuedConnection);
 		connect(ds, &DynamicScript::dataReady, client, qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
 		sendInstanceLists();
@@ -537,20 +602,39 @@ void Plugin::sendEngineLists() const
 void Plugin::updateInstanceChoices(int token, const QByteArray &instId) const
 {
 	ActionTokens listType = token == CA_DelEngine || token == CA_ResetEngine ? AT_Engine : AT_Script;
-	QByteArrayList nameArry = listType == AT_Engine ? DSE::engineKeys() : DSE::instanceKeys();
-	std::sort(nameArry.begin(), nameArry.end());
+	QByteArrayList nameArry;
+	if (listType == AT_Engine) {
+		nameArry = DSE::engineKeys();
+	}
+	else if (token != CA_LoadInstance && token != CA_DelSavedInstance) {
+		nameArry = DSE::instanceKeys();
+	}
+	else {
+		QSettings s;
+		s.beginGroup(SETTINGS_GROUP_SCRIPTS);
+		const QStringList keys = s.childKeys();
+		s.endGroup();
+		if (keys.size()) {
+			nameArry.resize(keys.size());
+			std::transform(keys.cbegin(), keys.cend(), nameArry.begin(), [](const QString &s) { return s.toUtf8(); });
+		}
+	}
 	if (nameArry.isEmpty()) {
 		nameArry.append(QByteArrayLiteral("[ no instances created ]"));
 	}
 	else {
+		std::sort(nameArry.begin(), nameArry.end());
 		if (token == CA_DelEngine) {
 			nameArry.prepend(QByteArrayLiteral("All Private Engine Instances"));
 		}
-		else {
+		else if (token != CA_SaveInstance && token != CA_LoadInstance && token != CA_DelSavedInstance) {
 			const QByteArray &typeName = tokenToName(listType);
 			nameArry.prepend(QLatin1String("All Private %1 Instances").arg(typeName).toUtf8());
 			nameArry.prepend(QLatin1String("All Shared %1 Instances").arg(typeName).toUtf8());
 			nameArry.prepend(QByteArrayLiteral("All Instances"));
+		}
+		else {
+			nameArry.prepend(QByteArrayLiteral("All Persistent Script Instances"));
 		}
 	}
 	if (instId.isEmpty())
@@ -590,7 +674,7 @@ void Plugin::updateActionRepeatProperties(int ms, int param) const
 		{"otherData",  QStringLiteral("*\"action\":\"%1\"*").arg(tokenToName(AT_Set))},
 	}, ms, 50.0f, 60000.0f);
 
-	QSettings().setValue("Plugin/actRepeat" + paramName, ms);
+	QSettings().setValue(SETTINGS_GROUP_PLUGIN "/actRepeat" + paramName, ms);
 }
 
 void Plugin::raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type, const QString &stack) const
@@ -806,7 +890,7 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 		return;
 	}
 
-	DynamicScript *ds = getOrCreateInstance(dvName, act == SA_Update);
+	DynamicScript *ds = getOrCreateInstance(dvName, act == SA_Update, true);
 	if (!ds) {
 		raiseScriptError(dvName, tr("ValidationError: Could not find script instance '%1' for Update action.").arg(dvName.constData()), tr("VALIDATION ERROR"));
 		return;
@@ -924,10 +1008,13 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 
 void Plugin::pluginAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue)
 {
-	const int subAct = tokenFromName(dataMap.value("action").toUtf8());
-	if (subAct == AT_Unknown) {
-		qCCritical(lcPlugin) << "Unknown Command action:" << dataMap.value("action");
-		return;
+	int subAct = 0;
+	if (act != CA_Shutdown) {
+		subAct = tokenFromName(dataMap.value("action").toUtf8());
+		if (subAct == AT_Unknown) {
+			qCCritical(lcPlugin) << "Unknown Command action:" << dataMap.value("action");
+			return;
+		}
 	}
 
 	switch (act) {
@@ -936,6 +1023,10 @@ void Plugin::pluginAction(TPClientQt::MessageType type, int act, const QMap<QStr
 			break;
 		case CA_RepeatRate:
 			setActionRepeatRate(type, subAct, dataMap, connectorValue);
+			break;
+		case CA_Shutdown:
+			qCInfo(lcPlugin()) << "Got shutdown command, exiting.";
+			exit();
 			break;
 	}
 }
@@ -1020,6 +1111,39 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 			}
 			if (type == 255 || type == (quint8)DSE::SharedInstance)
 				ScriptEngine::instance()->reset();
+			return;
+		}
+
+		case CA_SaveInstance:
+			if (type)
+				saveAllInstances();
+			else if (saveScriptInstance(dvName))
+				qCInfo(lcPlugin) << "Saved script instance" << dvName << "to persistent storage.";
+			else
+				qCCritical(lcPlugin) << "Script instance not found for name:" << dvName;
+			return;
+
+		case CA_LoadInstance:
+			if (type)
+				loadAllInstances();
+			else if (loadScriptInstance(dvName))
+				qCInfo(lcPlugin) << "Loaded script instance" << dvName << "from persistent storage.";
+			else
+				qCCritical(lcPlugin) << "Script instance not found for name:" << dvName;
+			return;
+
+		case CA_DelSavedInstance: {
+			if (type) {
+				QSettings().remove(SETTINGS_GROUP_SCRIPTS);
+				qCInfo(lcPlugin) << "Removed all saved script instances!";
+			}
+			else if (QSettings().contains(SETTINGS_GROUP_SCRIPTS "/" + dvName)) {
+				QSettings().remove(SETTINGS_GROUP_SCRIPTS "/" + dvName);
+				qCInfo(lcPlugin) << "Removed saved data for script instance" << dvName << ".";
+			}
+			else {
+				qCWarning(lcPlugin) << "No saved data found for instance:" << dvName;
+			}
 			return;
 		}
 

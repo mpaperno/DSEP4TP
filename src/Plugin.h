@@ -72,9 +72,14 @@ class Plugin : public QObject
 		void exit();
 		void quit();
 		void initEngine();
-		void saveSettings() const;
+		void savePluginSettings() const;
+		void saveAllInstances() const;
+		void loadAllInstances() const;
 		void loadPluginSettings();
 		void loadStartupSettings();
+		bool saveScriptInstance(const QByteArray &name) const;
+		DynamicScript *loadScriptInstance(const QByteArray &name) const;
+		bool loadScriptSettings(DynamicScript *ds) const;
 		void removeInstance(DynamicScript *ds, bool removeFromGlobal = true, bool removeUnusedEngine = true) const;
 		void removeEngine(ScriptEngine *se, bool removeFromGlobal = true, bool removeScripts = true) const;
 		void stopDeletionTimer(const QByteArray &name);
@@ -103,8 +108,8 @@ class Plugin : public QObject
 		void parseConnectorNotification(const QJsonObject &msg) const;
 
 	private:
-		ScriptEngine *getOrCreateEngine(const QByteArray &name, bool failIfMissing = false);
-		DynamicScript *getOrCreateInstance(const QByteArray &name, bool forUpdateAction = false);
+		ScriptEngine *getOrCreateEngine(const QByteArray &name, bool failIfMissing = false) const;
+		DynamicScript *getOrCreateInstance(const QByteArray &name, bool forUpdateAction = false, bool loadSettings = false) const;
 		inline TPClientQt *tpClient() const { return client; }
 
 		TPClientQt *client = nullptr;
