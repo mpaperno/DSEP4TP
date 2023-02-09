@@ -158,6 +158,7 @@ void ScriptEngine::initScriptEngine()
 	//evalScript(QStringLiteral(":/scripts/stringformat.js"));
 	//evalScript(QStringLiteral(":/scripts/global.js"));
 
+	Q_EMIT engineInitComplete();
 	qCDebug(lcPlugin) << "Engine init completed for" << m_name;
 }
 
@@ -295,6 +296,10 @@ QJSValue ScriptEngine::moduleValue(const QString &fileName, const QString &alias
 	QJSValue mod = se->importModule(fileName);
 	if (mod.isError()) {
 		EE_RETURN_FILE_ERROR_OBJ(fileName, mod, tr("while importing module"));
+	}
+	else if (se->hasError()) {
+		checkErrors();
+		return QJSValue();
 	}
 	globalObject().setProperty(alias, mod);
 	lock.unlock();
