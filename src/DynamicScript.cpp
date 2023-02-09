@@ -133,6 +133,12 @@ bool DynamicScript::setEngine(ScriptEngine *se)
 		}
 		m_scope = se->instanceType();
 		m_engineName = se->name();
+
+		connect(m_engine, &ScriptEngine::engineAboutToReset, this, [=]()
+		{
+			m_storedDataVar = m_engine->engine()->fromScriptValue<QJsonObject>(m_storedData); // m_storedData.toVariant(QJSValue::ConvertJSObjects);
+			m_storedData = QJSValue();
+		});
 	}
 	else {
 		m_scope = DSE::EngineInstanceType::UnknownInstanceType;
@@ -180,6 +186,17 @@ void DynamicScript::setPersistence(DSE::PersistenceType newPersist)
 		disconnect(this, &DynamicScript::finished, Plugin::instance, &Plugin::onDsFinished);
 }
 
+QJSValue &DynamicScript::dataStorage()
+{
+	if (!m_storedData.isObject()) {
+		if (m_engine)
+			m_storedData = m_engine->engine()->toScriptValue(m_storedDataVar);
+		else
+			m_storedData = qvariant_cast<QJSValue>(m_storedDataVar.toVariantMap());
+	}
+	return m_storedData;
+}
+
 QByteArray DynamicScript::serialize() const
 {
 	QByteArray ba;
@@ -188,6 +205,15 @@ QByteArray DynamicScript::serialize() const
 	   << m_defaultValue << (int)m_defaultType
 	   << m_repeatDelay << m_repeatRate << (m_engine ? m_engine->name() : m_engineName) << tpStateCategory << tpStateName
 	   << (int)m_persist << (int)m_activation;
+	if (m_storedData.isObject()) {
+		if (m_engine)
+			ds << m_engine->engine()->fromScriptValue<QJsonObject>(m_storedData);
+		else
+			ds << QJsonObject::fromVariantMap(m_storedData.toVariant().toMap());
+	}
+	else {
+		ds << m_storedDataVar;
+	}
 	return ba;
 }
 
@@ -215,7 +241,7 @@ bool DynamicScript::deserialize(const QByteArray &data)
 		++inpType;
 	}
 	if (version > 2) {
-		ds >> repDelay >> repRate >> m_engineName >> tpStateCategory >> tpStateName >> persist >> act;
+		ds >> repDelay >> repRate >> m_engineName >> tpStateCategory >> tpStateName >> persist >> act >> m_storedDataVar;
 		m_repeatDelay = repDelay;
 		m_repeatRate = repRate;
 	}

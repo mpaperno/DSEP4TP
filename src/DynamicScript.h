@@ -24,6 +24,8 @@ to any 3rd-party components used within.
 #include <QDataStream>
 #include <QDateTime>
 #include <QDir>
+#include <QJsonObject>
+#include <QJSValue>
 #include <QObject>
 #include <QReadWriteLock>
 #include <QThread>
@@ -91,6 +93,37 @@ class DynamicScript : public QObject
 		//! Persistence essentially determines the lifespan of this script instance. "Session" persistence means it will exist until DSE exits. "Saved" means the instance data will be saved
 		//! to a settings file when DSE exits, and restored from settings the next time DSE starts. "Temporary" instances will be automatically deleted after a time span specified in \ref autoDeleteDelay.
 		Q_PROPERTY(DSE::PersistenceType persistence READ persistence WRITE setPersistence)
+		/*!
+			Persistent arbitrary data storage object which is attached to this script instance. This is a generic Object type on which properties can be created or deleted as necessary.
+			The property value(s) can be any __serializable__ (to/from JSON) data type, incuding a objects or arrays.
+			This data is stored with the script instance itself, not in the Engine the script is running in, so for example resetting the Engine instance will not affect this stored data, unlike
+			with local variables. This data is also saved and restored at startup with the rest of the instance properties if its \ref persistence property is `DSE.PersistSave`.
+			\par Note
+			To persist between Engine resets or Dynamic Script Engine runs (in saved settings), this data is saved and restored by converting it to/from JSON.
+			This means you _cannot_ restore a function-like Object (or class instance). Only plain data types, numbers and strings basically, will survive the JSON round-trip conversion. \n\n
+			For example, this will not work properly:
+			```js
+			let color = new Color('blue');
+			DSE.currentInstance().dataStore.color = color;
+			// typeof dataStore.color == Color,  BUT only until the data storage needs to be saved/restored...
+			// ... after JSON round-trip
+			color = DSE.currentInstance().dataStore.color;
+			// typeof color == Object;  color == { _a: 1, _b: 0, _format: 'name', _g: 128, .... }
+			```
+			Instead, save some way to restore a new instance of the object type to the same state as the saved one:
+			```js
+			DSE.currentInstance().dataStore.color = color.rgba()
+			// dataStore.color == { r: 0, g: 128, b: 0, a: 1 }
+			// ... after JSON round-trip, the Color type can accept the serialized 'rgba' object as input.
+			color = new Color(DSE.currentInstance().dataStore.color);
+			// color.isValid() == true; color.rgba() == { r: 0, g: 128, b: 0, a: 1 }
+			```
+			\warn Only use this object for data which actually needs to be saved and restored to/from persistent storage. For temporary/run-time variables it is far more
+			efficient to just create and use them "on the stack" in your script (like you normally would) vs. accessing the `dataStore` object repeatedly.
+
+			This property is read-only (meaning the actual storage object cannot be changed; properties of the object itself _can_ be fully manipulated).
+		*/
+		Q_PROPERTY(QJSValue dataStore READ dataStorage CONSTANT)
 		//! For temporary instances, where \ref persistence property is `DSE.PersistTemporary`, this property determines the delay time before the instance is automatically deleted. The value is in milliseconds.
 		//! The default delay time is 10 seconds (10,000 ms). If the instance created a Touch Portal State, the State is also removed after this delay time.  \sa persistence
 		Q_PROPERTY(int autoDeleteDelay READ autoDeleteDelay WRITE setAutoDeleteDelay)
@@ -211,6 +244,8 @@ class DynamicScript : public QObject
 		QString m_moduleAlias;
 		QByteArray m_defaultValue;
 		QByteArray m_engineName;
+		QJSValue m_storedData;
+		QJsonObject m_storedDataVar;
 		QDateTime m_scriptLastMod;
 		QReadWriteLock m_mutex;
 		ScriptEngine * m_engine = nullptr;
@@ -245,6 +280,7 @@ class DynamicScript : public QObject
 		void setPersistence(DSE::PersistenceType newPersist);
 		inline bool isTemporary() const { return m_persist == DSE::PersistenceType::PersistTemporary; }
 
+		QJSValue &dataStorage();
 
 		int autoDeleteDelay() const { return m_autoDeleteDelay; }
 		void setAutoDeleteDelay(int ms) { m_autoDeleteDelay = ms; }
