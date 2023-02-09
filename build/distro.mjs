@@ -3,7 +3,7 @@ import path from 'path';
 import { execSync } from 'child_process';
 
 const zip = process.env['ZIP_BIN'] || "zip"
-const dirname = path.dirname(process.argv0);  // __dirname
+const dirname = process.argv0.indexOf("node") > -1 ? dirname(process.argv[1]) : dirname(process.argv0);
 
 function copyFiles(srcDir, destDir, files) {
 	files.map(f => {

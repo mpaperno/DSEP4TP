@@ -18,7 +18,7 @@ if (!NODE_PATH) {
 
 const babel = await import('file:///'+ NODE_PATH + '/@babel/core/lib/index.js');
 
-const script_dir = dirname(process.argv0);  // __dirname
+const script_dir = process.argv0.indexOf("node") > -1 ? dirname(process.argv[1]) : dirname(process.argv0);
 
 export default function minify(src = null, dst = null)
 {

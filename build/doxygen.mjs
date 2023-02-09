@@ -8,7 +8,7 @@ import { readdirSync, rmSync, cpSync } from 'fs';
 import { resolve, join, dirname } from 'path';
 import { execSync } from 'child_process';
 
-const script_dir = dirname(process.argv0);  // __dirname
+const script_dir = process.argv0.indexOf("node") > -1 ? dirname(process.argv[1]) : dirname(process.argv0);  // __dirname
 
 export default function generate(doc_path = null, doxygen = null)
 {
