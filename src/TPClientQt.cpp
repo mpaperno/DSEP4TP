@@ -64,9 +64,12 @@ struct TPClientQt::Private
 				break;
 
 			case QAbstractSocket::UnconnectedState:
-				tpInfo.paired = false;
-				qCInfo(lcTPC) << "Closed TP Connection.";
+				if (tpInfo.paired) {
+					tpInfo.paired = false;
+					qCInfo(lcTPC) << "Closed Touch Portal Connection.";
+				}
 				break;
+
 			default:
 				break;
 		}
@@ -92,7 +95,7 @@ struct TPClientQt::Private
 			QThread::yieldCurrentThread();
 
 		if (!tpInfo.tpVersionCode) {
-			qCCritical(lcTPC) << "Could not pair with TP! Disconnecting.";
+			qCCritical(lcTPC) << "Could not pair with Touch Portal! Disconnecting.";
 			Q_EMIT q->error(QAbstractSocket::SocketTimeoutError);
 			QMetaObject::invokeMethod(q, "disconnect", Qt::QueuedConnection);
 		}
