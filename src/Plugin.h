@@ -92,6 +92,8 @@ class Plugin : public QObject
 		void updateActionRepeatProperties(int ms, int param) const;
 		void raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type, const QString &stack = QString()) const;
 		void clearScriptErrors();
+		void onClientDisconnect();
+		void onClientError(QAbstractSocket::SocketError);
 		void onScriptError(const JSError &e) const;
 		void onEngineError(const JSError &e) const;
 		void onDsFinished();

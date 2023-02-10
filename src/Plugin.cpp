@@ -45,13 +45,13 @@ enum ActionTokens : quint8 {
 	SA_Load,
 	SA_Import,
 	SA_Update,
-	SA_SingleShot,  // deprecated, BC with v < 1.1.0.2
+	SA_SingleShot,  // deprecated, BC with v < 1.2
 
 	CA_Instance,
 	CA_DelScript,
 	CA_DelEngine,
 	CA_ResetEngine,
-	CA_SetStateValue,  // deprecated, BC with v < 1.1.0.2
+	CA_SetStateValue,  // deprecated, BC with v < 1.2
 	CA_RepeatRate,
 	CA_SaveInstance,
 	CA_LoadInstance,
@@ -88,9 +88,11 @@ struct TimerData {
 
 using TimerDatahash = QHash<int, TimerData>;
 Q_GLOBAL_STATIC(TimerDatahash, g_timersData)
+Q_GLOBAL_STATIC(QReadWriteLock, g_timersDataMutex)
 
 using ScriptTimerHash = QHash<QByteArray, int>;
 Q_GLOBAL_STATIC(ScriptTimerHash, g_instanceDeleteTimers)
+Q_GLOBAL_STATIC(QReadWriteLock, g_instanceTimersMutex)
 
 static std::atomic_uint32_t g_errorCount = 0;
 static bool g_startupComplete = false;
@@ -107,14 +109,14 @@ int tokenFromName(const QByteArray &name, int deflt = AT_Unknown)
 	  { "load",    SA_Load },
 	  { "import",  SA_Import },
 	  { "update",  SA_Update },
-	  { "oneshot", SA_SingleShot },  // deprecated, BC with v < 1.1.0.2
+	  { "oneshot", SA_SingleShot },  // deprecated, BC with v < 1.2
 
 	  { "instance",                 CA_Instance },
 	  { "Delete Script Instance",   CA_DelScript },
-	  { "Delete Instance",          CA_DelScript },  // BC with v < 1.1.0.2
+	  { "Delete Instance",          CA_DelScript },  // BC with v < 1.2
 	  { "Delete Engine Instance",   CA_DelEngine },
 	  { "Reset Engine Environment", CA_ResetEngine },
-	  { "Set State Value",          CA_SetStateValue },   // deprecated, BC with v < 1.1.0.2
+	  { "Set State Value",          CA_SetStateValue },   // deprecated, BC with v < 1.2
 	  { "Save Script Instance",     CA_SaveInstance },
 	  { "Load Script Instance",     CA_LoadInstance },
 	  { "Remove Saved Instance Data", CA_DelSavedInstance },
@@ -179,7 +181,7 @@ static DSE::EngineInstanceType stringToScope(QStringView str, bool unknownIsPriv
 	return str == QStringLiteral("Shared") ? DSE::SharedInstance : (unknownIsPrivate || str == QStringLiteral("Private") ? DSE::PrivateInstance : DSE::UnknownInstanceType);
 }
 
-// legacy for v < 1.1.0.2
+// legacy for v < 1.2
 static DSE::StateDefaultType stringToDefaultType(QStringView str)
 {
 	return str.isEmpty() || str.at(0) == 'N' ? DSE::NoStateUsed :
@@ -250,8 +252,8 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
 	connect(qApp, &QCoreApplication::aboutToQuit, this, &Plugin::quit);
 	connect(this, &Plugin::loggerRotateLogs, Logger::instance(), &Logger::rotateLogs);
 	connect(client, &TPClientQt::connected, this, &Plugin::onTpConnected);
-	connect(client, &TPClientQt::disconnected, this, &Plugin::exit);
-	connect(client, &TPClientQt::error, this, &Plugin::exit);
+	connect(client, &TPClientQt::disconnected, this, &Plugin::onClientDisconnect);
+	connect(client, &TPClientQt::error, this, &Plugin::onClientError);
 	connect(client, &TPClientQt::message, this, &Plugin::onTpMessage, Qt::QueuedConnection);
 	connect(this, &Plugin::tpConnect, client, qOverload<>(&TPClientQt::connect), Qt::QueuedConnection);
 	//connect(this, &Plugin::tpDisconnect, client, &TPClientQt::disconnect, Qt::DirectConnection);
@@ -312,6 +314,11 @@ void Plugin::quit()
 		return;
 	g_shuttingDown = true;
 
+	QWriteLocker tl(g_timersDataMutex);
+	for (int timId : g_timersData->keys())
+		killTimer(timId);
+	tl.unlock();
+
 	if (client) {
 		disconnect(client, nullptr, this, nullptr);
 		disconnect(this, nullptr, client, nullptr);
@@ -326,10 +333,6 @@ void Plugin::quit()
 
 	savePluginSettings();
 	saveAllInstances();
-
-	for (int timId : g_instanceDeleteTimers->values())
-		if (timId)
-			killTimer(timId);
 
 	QWriteLocker il(DSE::instances_mutex());
 	qDeleteAll(*DSE::instances());
@@ -557,9 +560,13 @@ void Plugin::removeEngine(ScriptEngine *se, bool removeFromGlobal, bool removeSc
 
 void Plugin::stopDeletionTimer(const QByteArray &name)
 {
+	QReadLocker rdlock(g_instanceTimersMutex);
 	if (int timId = g_instanceDeleteTimers->value(name, 0)) {
 		killTimer(timId);
+		rdlock.unlock();
+		QWriteLocker wrlock(g_instanceTimersMutex);
 		(*g_instanceDeleteTimers)[name] = 0;
+		QWriteLocker tl(g_timersDataMutex);
 		g_timersData->remove(timId);
 	}
 }
@@ -572,7 +579,9 @@ void Plugin::removeInstanceLater(DynamicScript *ds)
 	stopDeletionTimer(ds->name);
 	const int timId = startTimer(ds->autoDeleteDelay(), Qt::CoarseTimer);
 	if (timId) {
+		QWriteLocker wrlock(g_instanceTimersMutex);
 		(*g_instanceDeleteTimers)[ds->name] = timId;
+		QWriteLocker tl(g_timersDataMutex);
 		g_timersData->emplace(timId, TE_RemoveScriptInstance, QVariant::fromValue(ds->name));
 		return;
 	}
@@ -709,13 +718,37 @@ void Plugin::timerEvent(QTimerEvent *ev)
 	else
 		return;
 
+	g_timersDataMutex->lockForWrite();
 	const TimerData timData = g_timersData->take(ev->timerId());
+	g_timersDataMutex->unlock();
 	if (timData.type == TE_RemoveScriptInstance) {
 		const QByteArray instName = timData.data.toByteArray();
-		g_instanceDeleteTimers->remove(instName);
+		g_instanceTimersMutex->lockForWrite();
+		(*g_instanceDeleteTimers)[instName] = 0;
+		g_instanceTimersMutex->unlock();
 		if (DynamicScript *ds = DSE::instance(instName))
 			removeInstance(ds);
 	}
+}
+
+void Plugin::onClientDisconnect()
+{
+	if (!g_shuttingDown) {
+		if (!g_startupComplete)
+			qCCritical(lcPlugin()) << "Unable to connect to Touch Portal, shutting down now.";
+		else
+			qCCritical(lcPlugin()) << "Unexpectedly disconnected from Touch Portal, shutting down now.";
+		exit();
+	}
+}
+
+void Plugin::onClientError(QAbstractSocket::SocketError /*e*/)
+{
+	if (g_startupComplete)
+		qCCritical(lcPlugin()) << "Lost connection to Touch Portal, shutting down now.";
+	else
+		qCCritical(lcPlugin()) << "Unable to connect to Touch Portal, shutting down now.";
+	exit();
 }
 
 
@@ -896,7 +929,9 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 		return;
 	}
 
-	stopDeletionTimer(ds->name);
+	// Stop possible deletion timer for temporary instance.
+	if (ds->persistence() == DSE::PersistenceType::PersistTemporary)
+		stopDeletionTimer(ds->name);
 
 	// Always unset the pressed state first because we cannot have the same action running concurrently.
 	ds->setPressedState(false);
@@ -1147,7 +1182,7 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 			return;
 		}
 
-		// Deprecated in v1.1; remove.
+		// Deprecated in v1.2; remove.
 		case CA_SetStateValue: {
 			const QByteArray stateValue = dataMap.value("value").toUtf8();
 			if (type) {
