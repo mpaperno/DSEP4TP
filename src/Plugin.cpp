@@ -355,6 +355,7 @@ void Plugin::initEngine()
 {
 	new ScriptEngine(QByteArrayLiteral("Shared"));
 	connect(ScriptEngine::instance(), &ScriptEngine::engineError, this, &Plugin::onEngineError, Qt::QueuedConnection);
+	connect(this, &Plugin::setActionRepeatProperty, DSE::sharedInstance, &DSE::setActionRepeatProperty, Qt::QueuedConnection);
 	connect(DSE::sharedInstance, &DSE::defaultActionRepeatRateChanged, this, &Plugin::onActionRepeatRateChanged, Qt::QueuedConnection);
 	connect(DSE::sharedInstance, &DSE::defaultActionRepeatDelayChanged, this, &Plugin::onActionRepeatDelayChanged, Qt::QueuedConnection);
 
@@ -1205,27 +1206,13 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 void Plugin::setActionRepeatRate(TPClientQt::MessageType type, quint8 act, const QMap<QString, QString> &dataMap, qint32 connectorValue) const
 {
 	int param = tokenFromName(dataMap.value("param").toUtf8());
-	const QByteArray instName = dataMap.value("name").toUtf8();
+	QByteArray instName = dataMap.value("name").toUtf8();
 	if ((param != AT_Rate && param != AT_Delay && param != AT_RateDelay) || instName.isEmpty()) {
 		qCCritical(lcPlugin) << "Invalid properties in action" << tokenToName(act) << "Repeat" << dataMap.value("param") << "for" << instName;
 		return;
 	}
 
-	bool globalInst = (instName == tokenToName(AT_Default));
-	DSE *dse = nullptr;
-	if (globalInst) {
-		dse = DSE::sharedInstance;
-	}
-	else {
-		if (DynamicScript *ds = DSE::instance(instName))
-			dse = ds->engine() ? ds->engine()->dseObject() : nullptr;
-		if (!dse) {
-			qCCritical(lcPlugin) << "Instance name" << instName << "not found or is invalid for action" << tokenToName(act) << "Repeat" << dataMap.value("param");
-			return;
-		}
-	}
-
-	dse->cancelRepeatingAction(/*DSE::ACT_ADJ_REPEAT*/);
+	DSE::sharedInstance->cancelRepeatingAction(/*DSE::ACT_ADJ_REPEAT*/);
 	if (type == TPClientQt::MessageType::up)
 		return;
 
@@ -1248,18 +1235,11 @@ void Plugin::setActionRepeatRate(TPClientQt::MessageType type, quint8 act, const
 		return;
 	}
 
+	if (instName == tokenToName(AT_Default))
+		instName.clear();
 	quint8 prop = param == AT_Rate ? DSE::RepeatRateProperty : (param == AT_Delay ? DSE::RepeatDelayProperty : DSE::AllRepeatProperties);
 	quint8 repAct = act == AT_Increment ? DSE::Increment : (act == AT_Decrement ? DSE::Decrement : DSE::SetAbsolute);
-	QMetaObject::invokeMethod(
-		dse,
-		"setActionRepeat",
-		Qt::QueuedConnection,
-		Q_ARG(quint8, prop),
-		Q_ARG(quint8, repAct),
-		Q_ARG(int, value),
-		Q_ARG(const QByteArray &, (globalInst ? QByteArray() : instName)),
-		Q_ARG(bool, type == TPClientQt::MessageType::down)
-	);
+	Q_EMIT setActionRepeatProperty(prop, repAct, value, instName, type == TPClientQt::MessageType::down);
 }
 
 void Plugin::handleSettings(const QJsonObject &settings) const

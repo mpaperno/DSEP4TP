@@ -25,6 +25,8 @@ to any 3rd-party components used within.
 
 using namespace ScriptLib;
 
+// all static data
+
 Q_GLOBAL_STATIC(DSE::ScriptState, g_instances)
 Q_GLOBAL_STATIC(QReadWriteLock, g_instanceMutex)
 Q_GLOBAL_STATIC(DSE::EngineState, g_engines)
@@ -65,16 +67,8 @@ QString DSE::scriptsBaseDir;
 QByteArray DSE::tpCurrentPage;
 std::atomic_int DSE::defaultRepeatRate { -1 };
 std::atomic_int DSE::defaultRepeatDelay { -1 };
-
-DSE::DSE(ScriptEngine *se, QObject *p) :
-  QObject(p), se(se)
-{
-	setObjectName("DSE");
-	if (!DSE::sharedInstance)
-		DSE::sharedInstance = this;
-}
-
-QByteArray DSE::engineInstanceName() const { return se->name(); }
+DSE::ActionRecrod DSE::g_actionData[ACT_ENUM_LAST] { ActionRecrod() };
+std::atomic_uint DSE::g_nextRepeaterId {0};
 
 DSE::ScriptState *DSE::instances() { return g_instances; }
 QReadWriteLock *DSE::instances_mutex() { return g_instanceMutex; }
@@ -154,13 +148,6 @@ QByteArrayList DSE::engineKeys()
 	return g_engines->keys();
 }
 
-
-QByteArray DSE::instanceDefault() const {
-	if (DynamicScript *ds = instance(instanceName))
-		return ds->defaultValue();
-	return QByteArray();
-}
-
 void DSE::setDefaultActionRepeatRate(int ms)
 {
 	if (ms < 50)
@@ -181,9 +168,27 @@ void DSE::setDefaultActionRepeatDelay(int ms)
 	}
 }
 
+// NON static
+
+DSE::DSE(ScriptEngine *se, QObject *p) :
+  QObject(p), se(se)
+{
+	setObjectName("DSE");
+	if (!DSE::sharedInstance)
+		DSE::sharedInstance = this;
+}
+
+QByteArray DSE::engineInstanceName() const { return se->name(); }
+
+QByteArray DSE::instanceDefault() const {
+	if (DynamicScript *ds = instance(instanceName))
+		return ds->defaultValue();
+	return QByteArray();
+}
+
 void DSE::setActionRepeat_impl(quint8 property, quint8 action, int ms, const QByteArray &forInstance, uint repeaterId)
 {
-	if (repeaterId && m_actionData[ACT_ADJ_REPEAT].repeaterId != repeaterId)
+	if (repeaterId && g_actionData[ACT_ADJ_REPEAT].repeaterId != repeaterId)
 		return;
 	int repRate = 0;
 	if (forInstance.isEmpty()) {
@@ -192,7 +197,7 @@ void DSE::setActionRepeat_impl(quint8 property, quint8 action, int ms, const QBy
 		else
 			setDefaultActionRepeatProperty(property, ms);
 		if (repeaterId)
-			repRate = defaultActionRepeatProperty(m_actionData[ACT_ADJ_REPEAT].isRepeating ? RepeatRateProperty : RepeatDelayProperty);
+			repRate = defaultActionRepeatProperty(g_actionData[ACT_ADJ_REPEAT].isRepeating ? RepeatRateProperty : RepeatDelayProperty);
 	}
 	else if (DynamicScript *ds = instance(forInstance)) {
 		if (action > SetAbsolute)
@@ -200,16 +205,16 @@ void DSE::setActionRepeat_impl(quint8 property, quint8 action, int ms, const QBy
 		else
 			ds->setRepeatProperty(property, ms);
 		if (repeaterId)
-			repRate = ds->repeatProperty(m_actionData[ACT_ADJ_REPEAT].isRepeating ? RepeatRateProperty : RepeatDelayProperty);
+			repRate = ds->repeatProperty(g_actionData[ACT_ADJ_REPEAT].isRepeating ? RepeatRateProperty : RepeatDelayProperty);
 	}
 	else {
 		se->throwError(QJSValue::GenericError, tr("setActionRepeat() - Script instance name %1 not found.").arg(forInstance));
 		return;
 	}
 	//qDebug() << property << action << ms << forInstance << repeaterId << m_repeaterId.load() << m_repeatingActions[ACT_ADJ_REPEAT_PROP] << repRate;
-	if (repeaterId && m_actionData[ACT_ADJ_REPEAT].repeaterId == repeaterId) {
+	if (repeaterId && g_actionData[ACT_ADJ_REPEAT].repeaterId == repeaterId) {
 		if (repRate >= 50) {
-			m_actionData[ACT_ADJ_REPEAT].isRepeating = true;
+			g_actionData[ACT_ADJ_REPEAT].isRepeating = true;
 			QTimer::singleShot(repRate, this, [=]() { setActionRepeat_impl(property, action, ms, forInstance, repeaterId); } );
 		}
 		else {
@@ -218,22 +223,22 @@ void DSE::setActionRepeat_impl(quint8 property, quint8 action, int ms, const QBy
 	}
 }
 
-void DSE::setActionRepeat(quint8 property, quint8 action, int ms, const QByteArray &forInstance, bool repeat)
+void DSE::setActionRepeatProperty(quint8 property, quint8 action, int ms, const QByteArray &forInstance, bool repeat)
 {
 	if (property > AllRepeatProperties || action > Decrement || !ms) {
 		se->throwError(QJSValue::RangeError, tr("setActionRepeat() - Invalid property/action/value parameters."));
 		return;
 	}
-	m_actionData[ACT_ADJ_REPEAT].repeaterId = repeat ? ++m_nextRepeaterId : 0;
+	g_actionData[ACT_ADJ_REPEAT].repeaterId = repeat ? ++g_nextRepeaterId : 0;
 	if ((action == Decrement && ms > 0) || (action == Increment && ms < 0))
 		ms = -ms;
-	setActionRepeat_impl(property, action, ms, forInstance, repeat ? m_actionData[ACT_ADJ_REPEAT].repeaterId.load() : 0);
+	setActionRepeat_impl(property, action, ms, forInstance, repeat ? g_actionData[ACT_ADJ_REPEAT].repeaterId.load() : 0);
 }
 
 void DSE::cancelRepeatingAction(quint8 act)
 {
-	m_actionData[act].repeaterId = 0;
-	m_actionData[act].isRepeating = false;
+	g_actionData[act].repeaterId = 0;
+	g_actionData[act].isRepeating = false;
 	//qDebug() << m_repeatingActions[act].repeaterId << m_repeatingActions[act].isRepeating;
 }
 
