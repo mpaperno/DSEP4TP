@@ -170,7 +170,6 @@ class ScriptEngine : public QObject
 		NetworkAccessManagerFactory m_factory;
 #endif
 		void initScriptEngine();
-		void moveToMainThread();
 		bool resolveFilePath(const QString &fileName, QString &resolvedFile) const;
 
 		void evalScript(const QString &fn) const

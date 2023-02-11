@@ -97,10 +97,14 @@ ScriptEngine::~ScriptEngine()
 	dse = nullptr;
 	delete se;
 	se = nullptr;
-	//if (!m_isShared)
-	//	moveToMainThread();
 	delete m_nam;
 	m_nam = nullptr;
+	if (m_thread) {
+		m_thread->quit();
+		m_thread->wait(1000);
+		delete m_thread;
+		m_thread = nullptr;
+	}
 	//qCDebug(lcPlugin) << this << m_name << "Destroyed";
 }
 
@@ -162,19 +166,6 @@ void ScriptEngine::initScriptEngine()
 
 	Q_EMIT engineInitComplete();
 	qCDebug(lcPlugin) << "Engine init completed for" << m_name;
-}
-
-void ScriptEngine::moveToMainThread()
-{
-	if (!m_thread)
-		return;
-	Utils::runOnThreadSync(m_thread, [&]() {
-		moveToThread(qApp->thread());
-	});
-	m_thread->quit();
-	m_thread->wait(1000);
-	delete m_thread;
-	m_thread = nullptr;
 }
 
 void ScriptEngine::connectNamedScriptInstance(DynamicScript *ds)
