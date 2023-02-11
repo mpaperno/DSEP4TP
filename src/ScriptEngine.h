@@ -36,6 +36,7 @@ to any 3rd-party components used within.
 #include <QJSValue>
 #include <QJSValueIterator>
 #include <QMutex>
+#include <QNetworkAccessManager>
 #include <QObject>
 #include <QThread>
 
@@ -50,7 +51,6 @@ to any 3rd-party components used within.
 
 #if SCRIPT_ENGINE_USE_QML
 // Used with QQmlEngine for XMLHttpRequest
-#include <QNetworkAccessManager>
 #include <QQmlNetworkAccessManagerFactory>
 class NetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
 {
@@ -108,6 +108,12 @@ class ScriptEngine : public QObject
 		inline QByteArray name() const { return m_name; }
 		inline QByteArray currentInstanceName() const { return dse->instanceName; }
 		inline ScriptLib::TPAPI *tpApiObject() const { return tpapi; }
+		inline QNetworkAccessManager *networkAccessManager()
+		{
+			if (!m_nam)
+				m_nam = new QNetworkAccessManager();
+			return m_nam;
+		}
 
 	Q_SIGNALS:
 		void raiseError(QJSValue err) const;
@@ -159,6 +165,7 @@ class ScriptEngine : public QObject
 		QByteArray m_name;
 		bool m_isShared = false;
 		QMutex m_mutex;
+		QNetworkAccessManager *m_nam = nullptr;
 #if SCRIPT_ENGINE_USE_QML
 		NetworkAccessManagerFactory m_factory;
 #endif

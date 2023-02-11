@@ -99,6 +99,8 @@ ScriptEngine::~ScriptEngine()
 	se = nullptr;
 	//if (!m_isShared)
 	//	moveToMainThread();
+	delete m_nam;
+	m_nam = nullptr;
 	//qCDebug(lcPlugin) << this << m_name << "Destroyed";
 }
 
@@ -113,7 +115,7 @@ void ScriptEngine::initScriptEngine()
 	}
 
 	se = new SCRIPT_ENGINE_BASE_TYPE();
-	se->setProperty("ScriptEngine", QVariant::fromValue(this));  // used by library scripts to raise uncaught exceptions
+	se->setProperty("ScriptEngine", QVariant::fromValue(this));  // used by library scripts to access this instance
 
 #if !SCRIPT_ENGINE_USE_QML
 	//se->installExtensions(QJSEngine::AllExtensions);

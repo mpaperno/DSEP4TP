@@ -1211,7 +1211,7 @@ public:
 
 		void setMimeType(const QByteArray &);
 
-		int timeout() const;
+		int timeout() const { return m_timeout; }
 		void setTimeout(int ms);
 
 		bool withCredentials() const;
@@ -1225,7 +1225,7 @@ public:
 
 	private slots:
     void readyRead();
-    void error(QNetworkReply::NetworkError);
+    void networkError(QNetworkReply::NetworkError);
     void finished();
 		void dlProgress(qint64, quint64);
 
@@ -1241,6 +1241,7 @@ private:
     QByteArray m_responseEntityBody;
     QByteArray m_data;
     int m_redirectCount;
+		int m_timeout;
 
     HeadersList m_headersList;
     void fillHeadersList();
@@ -1278,22 +1279,35 @@ private:
     QPointer<QNetworkReply> m_network;
     void destroyNetwork();
 
-    QNetworkAccessManager *m_nam;
-    inline QNetworkAccessManager *networkAccessManager() const { return m_nam; }
+		QNetworkAccessManager *m_nam;
+		bool m_ownNam;
+
+		void setNam(QV4::ExecutionEngine *e)
+		{
+			if (m_nam)
+				return;
+			if (ScriptEngine *se = e->publicEngine->property("ScriptEngine").value<ScriptEngine *>()) {
+				m_nam = se->networkAccessManager();
+				m_ownNam = false;
+				return;
+			}
+			m_nam = new QNetworkAccessManager();
+			m_ownNam = true;
+		}
 
     QString m_responseType;
-		QV4::PersistentValue m_parsedDocument;
+    QV4::PersistentValue m_parsedDocument;
 };
 
 
 
 QQmlXMLHttpRequest::QQmlXMLHttpRequest(QV4::ExecutionEngine *v4)
     : m_state(Unsent), m_errorFlag(false), m_sendFlag(false)
-    , m_redirectCount(0), m_gotXml(false)
-    , m_bTotal(-1), m_bTransfer(-1), m_error(QNetworkReply::NoError), m_redirect(-1)
-    , m_network(nullptr), m_nam(/*manager*/ new QNetworkAccessManager())
-    , m_responseType()
-    , m_parsedDocument()
+    , m_redirectCount(0), m_timeout(0)
+    , m_gotXml(false), m_bTotal(-1), m_bTransfer(-1)
+    , m_error(QNetworkReply::NoError), m_redirect(-1)
+    , m_network(nullptr), m_nam(nullptr), m_ownNam(false)
+    , m_responseType(), m_parsedDocument()
 {
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 	m_wasConstructedWithQmlContext = v4->callingQmlContext() != nullptr;
@@ -1304,11 +1318,11 @@ QQmlXMLHttpRequest::QQmlXMLHttpRequest(QV4::ExecutionEngine *v4)
 
 QQmlXMLHttpRequest::~QQmlXMLHttpRequest()
 {
-    destroyNetwork();
-		if (m_nam) {
-			m_nam->deleteLater();
-			m_nam = nullptr;
-		}
+	destroyNetwork();
+	if (m_ownNam && m_nam) {
+		m_nam->deleteLater();
+		m_nam = nullptr;
+	}
 }
 
 bool QQmlXMLHttpRequest::sendFlag() const
@@ -1409,20 +1423,9 @@ void QQmlXMLHttpRequest::setMimeType(const QByteArray &type)
 	m_mime = type;
 }
 
-int QQmlXMLHttpRequest::timeout() const
-{
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
-	return m_nam->transferTimeout();
-#else
-	return 0;
-#endif
+void QQmlXMLHttpRequest::setTimeout(int ms) {
+	m_timeout = ms;
 }
-
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
-void QQmlXMLHttpRequest::setTimeout(int ms) { m_nam->setTransferTimeout(ms); }
-#else
-void QQmlXMLHttpRequest::setTimeout(int ) { }
-#endif
 
 int QQmlXMLHttpRequest::redirect() const
 {
@@ -1451,6 +1454,7 @@ void QQmlXMLHttpRequest::setWithCredentials(bool with)
 ReturnedValue QQmlXMLHttpRequest::open(Object *thisObject /*, const QString &method, const QUrl &url, LoadType loadType*/)
 {
     destroyNetwork();
+		setNam(thisObject->engine());
     m_sendFlag = false;
     m_errorFlag = false;
 		m_error = QNetworkReply::NoError;
@@ -1551,6 +1555,9 @@ void QQmlXMLHttpRequest::requestFromUrl(const QUrl &url)
 
     request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::ManualRedirectPolicy);
     request.setUrl(url);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+		request.setTransferTimeout(m_timeout);
+#endif
 		m_responseUrl = url;
     if(m_method == QLatin1String("POST") ||
        m_method == QLatin1String("PUT")) {
@@ -1589,23 +1596,29 @@ void QQmlXMLHttpRequest::requestFromUrl(const QUrl &url)
         }
     }
 
+    if (Q_UNLIKELY(!m_nam)) {
+      qCritical() << "XMLHttpRequest: QNetworkAccessManager not set.";
+      networkError(QNetworkReply::InternalServerError);
+      return;
+    }
+
     if (m_method == QLatin1String("GET")) {
-        m_network = networkAccessManager()->get(request);
+        m_network = m_nam->get(request);
     } else if (m_method == QLatin1String("HEAD")) {
-        m_network = networkAccessManager()->head(request);
+        m_network = m_nam->head(request);
     } else if (m_method == QLatin1String("POST")) {
-        m_network = networkAccessManager()->post(request, m_data);
+        m_network = m_nam->post(request, m_data);
     } else if (m_method == QLatin1String("PUT")) {
-        m_network = networkAccessManager()->put(request, m_data);
+        m_network = m_nam->put(request, m_data);
     } else if (m_method == QLatin1String("DELETE")) {
-        m_network = networkAccessManager()->deleteResource(request);
+        m_network = m_nam->deleteResource(request);
     } else if ((m_method == QLatin1String("OPTIONS")) ||
                m_method == QLatin1String("PROPFIND") ||
                m_method == QLatin1String("PATCH")) {
         QBuffer *buffer = new QBuffer;
         buffer->setData(m_data);
         buffer->open(QIODevice::ReadOnly);
-        m_network = networkAccessManager()->sendCustomRequest(request, QByteArray(m_method.toUtf8().constData()), buffer);
+        m_network = m_nam->sendCustomRequest(request, QByteArray(m_method.toUtf8().constData()), buffer);
         buffer->setParent(m_network);
     }
 
@@ -1613,21 +1626,19 @@ void QQmlXMLHttpRequest::requestFromUrl(const QUrl &url)
         if (m_network->bytesAvailable() > 0)
             readyRead();
 
-        QNetworkReply::NetworkError networkError = m_network->error();
-        if (networkError != QNetworkReply::NoError) {
-            error(networkError);
+        QNetworkReply::NetworkError netErr = m_network->error();
+        if (netErr != QNetworkReply::NoError) {
+            networkError(netErr);
         } else {
             finished();
         }
-    } else {
-        QObject::connect(m_network, SIGNAL(readyRead()),
-                         this, SLOT(readyRead()));
-        QObject::connect(m_network, SIGNAL(errorOccurred(QNetworkReply::NetworkError)),
-                         this, SLOT(error(QNetworkReply::NetworkError)));
-        QObject::connect(m_network, SIGNAL(finished()),
-                         this, SLOT(finished()));
-				QObject::connect(m_network, &QNetworkReply::downloadProgress, this, &QQmlXMLHttpRequest::dlProgress);
-				QObject::connect(m_network, &QNetworkReply::uploadProgress, this, &QQmlXMLHttpRequest::dlProgress);
+    }
+		else {
+			QObject::connect(m_network, &QNetworkReply::readyRead, this, &QQmlXMLHttpRequest::readyRead);
+			QObject::connect(m_network, &QNetworkReply::errorOccurred, this, &QQmlXMLHttpRequest::networkError);
+			QObject::connect(m_network, &QNetworkReply::finished, this, &QQmlXMLHttpRequest::finished);
+			QObject::connect(m_network, &QNetworkReply::downloadProgress, this, &QQmlXMLHttpRequest::dlProgress);
+			QObject::connect(m_network, &QNetworkReply::uploadProgress, this, &QQmlXMLHttpRequest::dlProgress);
 		}
 }
 
@@ -1721,7 +1732,7 @@ void QQmlXMLHttpRequest::readyRead()
 //    else return name;
 //}
 
-void QQmlXMLHttpRequest::error(QNetworkReply::NetworkError error)
+void QQmlXMLHttpRequest::networkError(QNetworkReply::NetworkError error)
 {
     m_status =
         m_network->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -1747,8 +1758,8 @@ void QQmlXMLHttpRequest::error(QNetworkReply::NetworkError error)
         error == QNetworkReply::OperationNotImplementedError ||
         error == QNetworkReply::ServiceUnavailableError ||
         error == QNetworkReply::UnknownServerError ||
-		    // this is the "error" option for the XHR.redirect property
-		    (error == QNetworkReply::ContentReSendError && m_redirect != QNetworkRequest::UserVerifiedRedirectPolicy)) {
+        // this is the "error" option for the XHR.redirect property
+        (error == QNetworkReply::ContentReSendError && m_redirect != QNetworkRequest::UserVerifiedRedirectPolicy)) {
         m_state = Loading;
         dispatchCallbackSafely();
     } else {
@@ -1756,7 +1767,7 @@ void QQmlXMLHttpRequest::error(QNetworkReply::NetworkError error)
         m_responseEntityBody = QByteArray();
     }
 
-		m_error = error;
+    m_error = error;
     m_state = Done;
     dispatchCallbackSafely();
 }
@@ -1833,9 +1844,9 @@ void QQmlXMLHttpRequest::finished()
 
     m_thisObject.clear();
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
-		m_qmlContext.reset();
+    m_qmlContext.reset();
 #else
-		m_qmlContext = nullptr;
+    m_qmlContext = nullptr;
 #endif
 }
 
@@ -1878,8 +1889,8 @@ QV4::ReturnedValue QQmlXMLHttpRequest::jsonResponseBody(QV4::ExecutionEngine* en
 {
     if (m_parsedDocument.isEmpty()) {
         DseJsonParser parser(engine, rawResponseBody());
-				Scope scope(engine);
-				QJsonParseError error;
+        Scope scope(engine);
+        QJsonParseError error;
         ScopedValue jsonObject(scope, parser.parse(&error));
         if (error.error != QJsonParseError::NoError)
             return engine->throwSyntaxError(tr("JSON.parse Error: '%1' at position %2").arg(error.errorString()).arg(error.offset));
