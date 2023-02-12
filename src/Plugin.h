@@ -63,37 +63,47 @@ class Plugin : public QObject
 
 		void loggerRotateLogs() const;
 
-	public Q_SLOTS:
-		void onStateUpdateByName(const QByteArray &name, const QByteArray &value) const;
-
-	protected Q_SLOTS:
-		void timerEvent(QTimerEvent *ev) override;
-
 	private Q_SLOTS:
-		void start();
+		//void start();
 		void exit();
 		void quit();
+
+	private:
 		void initEngine();
+
 		void savePluginSettings() const;
 		void saveAllInstances() const;
 		void loadAllInstances() const;
 		void loadPluginSettings();
 		void loadStartupSettings();
+
 		bool saveScriptInstance(const QByteArray &name) const;
 		DynamicScript *loadScriptInstance(const QByteArray &name) const;
 		bool loadScriptSettings(DynamicScript *ds) const;
+		ScriptEngine *getOrCreateEngine(const QByteArray &name, bool failIfMissing = false) const;
+		DynamicScript *getOrCreateInstance(const QByteArray &name, bool forUpdateAction = false, bool loadSettings = false) const;
 		void removeInstance(DynamicScript *ds, bool removeFromGlobal = true, bool removeUnusedEngine = true) const;
 		void removeEngine(ScriptEngine *se, bool removeFromGlobal = true, bool removeScripts = true) const;
 		void stopDeletionTimer(const QByteArray &name);
 		void removeInstanceLater(DynamicScript *ds);
+
 		void sendInstanceLists() const;
 		void sendEngineLists() const;
 		void updateInstanceChoices(int token, const QByteArray &instId = QByteArray()) const;
 		void sendScriptState(DynamicScript *ds, const QByteArray &value = QByteArray()) const;
 		void updateConnectors(const QMultiMap<QString, QVariant> &qry, int value, float rangeMin, float rangeMax) const;
 		void updateActionRepeatProperties(int ms, int param) const;
+
 		void raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type, const QString &stack = QString()) const;
 		void clearScriptErrors();
+
+	public Q_SLOTS:
+		void onStateUpdateByName(const QByteArray &name, const QByteArray &value) const;  // used by TPAPI
+
+	protected Q_SLOTS:
+		void timerEvent(QTimerEvent *ev) override;
+
+	private Q_SLOTS:
 		void onClientDisconnect();
 		void onClientError(QAbstractSocket::SocketError);
 		void onScriptError(const JSError &e) const;
@@ -103,18 +113,16 @@ class Plugin : public QObject
 		void onActionRepeatDelayChanged(int ms) const;
 		void onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &settings);
 		void onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg);
+
+	private:
 		void dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg);
 		void scriptAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue = -1);
 		void pluginAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue);
 		void instanceControlAction(quint8 act, const QMap<QString, QString> &dataMap);
 		void setActionRepeatRate(TPClientQt::MessageType type, quint8 act, const QMap<QString, QString> &dataMap, qint32 connectorValue) const;
+
 		void handleSettings(const QJsonObject &settings) const;
 		void parseConnectorNotification(const QJsonObject &msg) const;
-
-	private:
-		ScriptEngine *getOrCreateEngine(const QByteArray &name, bool failIfMissing = false) const;
-		DynamicScript *getOrCreateInstance(const QByteArray &name, bool forUpdateAction = false, bool loadSettings = false) const;
-		inline TPClientQt *tpClient() const { return client; }
 
 		TPClientQt *client = nullptr;
 		QThread *clientThread = nullptr;

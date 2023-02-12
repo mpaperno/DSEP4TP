@@ -151,11 +151,15 @@ static QByteArray tokenToName(int token, const QByteArray &deflt = QByteArray())
 		{ SA_Update,     "Update" },
 	  { SA_SingleShot, "Anonymous (One-Time)" },  // deprecated
 
-	  { CA_Instance,       "instance" },
-	  { CA_DelScript,      "Delete Script Instance" },
-	  { CA_DelScript,      "Delete Engine Instance" },
-	  { CA_ResetEngine,    "Reset Engine Environment" },
-	  { CA_SetStateValue,  "Set State Value" },  // deprecated
+	  { CA_Instance,        "instance" },
+	  { CA_DelScript,        "Delete Script Instance" },
+	  { CA_DelScript,        "Delete Engine Instance" },
+	  { CA_ResetEngine,      "Reset Engine Environment" },
+	  { CA_SetStateValue,    "Set State Value" },  // deprecated
+	  { CA_SaveInstance,     "Save Script Instance" },
+	  { CA_LoadInstance,     "Load Script Instance" },
+	  { CA_DelSavedInstance, "Remove Saved Instance Data" },
+
 	  { CA_RepeatRate,     "Repeat Rate/Delay" },
 
 	  { ST_SettingsVersion, "Settings Version" },
@@ -297,10 +301,10 @@ Plugin::~Plugin()
 	qCInfo(lcPlugin) << PLUGIN_SHORT_NAME " exiting.";
 }
 
-void Plugin::start()
-{
-	Q_EMIT tpConnect();
-}
+//void Plugin::start()
+//{
+//	Q_EMIT tpConnect();
+//}
 
 void Plugin::exit()
 {
@@ -732,6 +736,12 @@ void Plugin::timerEvent(QTimerEvent *ev)
 	}
 }
 
+void Plugin::onStateUpdateByName(const QByteArray &name, const QByteArray &value) const
+{
+	//qCDebug(lcPlugin) << "Sending state update" << PLUGIN_STATE_ID_PREFIX + name;
+	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name, value);
+}
+
 void Plugin::onClientDisconnect()
 {
 	if (!g_shuttingDown) {
@@ -772,12 +782,6 @@ void Plugin::onDsFinished()
 	if (ds && ds->isTemporary())
 		removeInstanceLater(ds);
 		//removeInstance(ds);
-}
-
-void Plugin::onStateUpdateByName(const QByteArray &name, const QByteArray &value) const
-{
-	//qCDebug(lcPlugin) << "Sending state update" << PLUGIN_STATE_ID_PREFIX + name;
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name, value);
 }
 
 void Plugin::onActionRepeatRateChanged(int ms) const { updateActionRepeatProperties(ms, AT_Rate); }
