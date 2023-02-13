@@ -23,6 +23,10 @@ to any 3rd-party components used within.
 #include <QTcpSocket>
 #include <QThread>
 #include <QDebug>
+#if TP_CLIENT_ENABLE_SEND_QUEUE
+#include <QCoreApplication>
+#include <QQueue>
+#endif
 
 #include "TPClientQt.h"
 
@@ -39,7 +43,11 @@ struct TPClientQt::Private
 	  q(q),
 	  socket(new QTcpSocket(q)),
 	  pluginId(pluginId)
-	{ }
+	{
+#if TP_CLIENT_ENABLE_SEND_QUEUE
+		messageQ.reserve(100);
+#endif
+	}
 
 	inline void onSockStateChanged(QAbstractSocket::SocketState s)
 	{
@@ -141,6 +149,25 @@ struct TPClientQt::Private
 		Q_EMIT q->message(type, msg);
 	}
 
+	void write(const QByteArray &data) const
+	{
+		if (!socket || !socket->isWritable())
+			return;
+		const int len = data.length();
+		qint64 bw = 0, sbw = 0;
+		do {
+			sbw = socket->write(data);
+			bw += sbw;
+		}
+		while (bw != len && sbw > -1);
+		if (sbw < 0) {
+			qCCritical(lcTPC()) << "Socket write error: " << socket->errorString();
+			q->disconnect();
+			return;
+		}
+		socket->write("\n", 1);
+	}
+
 	QJsonObject arrayToObj(const QJsonValue &arry) const
 	{
 		QJsonObject ret;
@@ -164,6 +191,12 @@ struct TPClientQt::Private
 	uint16_t tpPort = 12136;
 	int connTimeout = 10000;  // ms
 	TPClientQt::TPInfo tpInfo;
+#if TP_CLIENT_ENABLE_SEND_QUEUE
+	std::atomic_bool enableSendQueue = false;
+	std::atomic_bool inQueue = false;
+	QQueue<QByteArray> messageQ;
+#endif
+
 	friend class TPClientQt;
 };
 
@@ -233,6 +266,10 @@ void TPClientQt::setHostProperties(const QString &nameOrAddress, uint16_t port)
 int TPClientQt::connectionTimeout() const { return d_const->connTimeout; }
 void TPClientQt::setConnectionTimeout(int timeoutMs) { d->connTimeout = timeoutMs; }
 
+#if TP_CLIENT_ENABLE_SEND_QUEUE
+void TPClientQt::setSendQueueEnabled(bool enable) { d->enableSendQueue = enable; }
+bool TPClientQt::sendQueueEnabled() const { return d->enableSendQueue; }
+#endif
 
 void TPClientQt::connect()
 {
@@ -265,21 +302,32 @@ void TPClientQt::disconnect() const
 
 void TPClientQt::write(const QByteArray &data) const
 {
-	if (!d_const->socket || !d_const->socket->isWritable())
+#if TP_CLIENT_ENABLE_SEND_QUEUE
+	if (d_const->enableSendQueue) {
+		static qint64 lastSend = 0;
+
+		d->messageQ.enqueue(data);
+		if (d->inQueue)
+			return;
+
+		d->inQueue = true;
+		QElapsedTimer tim;
+		tim.start();
+		qint64 nextEl = qMax(0LL, lastSend - tim.msecsSinceReference());
+		while (!d->messageQ.isEmpty()) {
+			//qDebug() << "Queue length" << d_const->messageQ.size() << "next:" << nextEl << "now:" << tim.elapsed() << tim.nsecsElapsed();
+			while(tim.elapsed() < nextEl)
+				QCoreApplication::processEvents(QEventLoop::AllEvents);
+			d->write(d->messageQ.dequeue());
+			++nextEl;
+		}
+		lastSend = tim.msecsSinceReference() + 1;
+		d->inQueue = false;
+		//qDebug() << "Queue length" << d_const->messageQ.size() << d_const->sendTimer->interval();
 		return;
-	const int len = data.length();
-	qint64 bw = 0, sbw = 0;
-	do {
-		sbw = d_const->socket->write(data);
-		bw += sbw;
 	}
-	while (bw != len && sbw > -1);
-	if (sbw < 0) {
-		qCCritical(lcTPC()) << "Socket write error: " << d->socket->errorString();
-		disconnect();
-		return;
-	}
-	d_const->socket->write("\n", 1);
+#endif
+	d_const->write(data);
 }
 
 // private

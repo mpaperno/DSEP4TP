@@ -45,6 +45,10 @@ to any 3rd-party components used within.
 	#endif
 #endif
 
+#ifndef TP_CLIENT_ENABLE_SEND_QUEUE
+	#define TP_CLIENT_ENABLE_SEND_QUEUE 0
+#endif
+
 Q_DECLARE_LOGGING_CATEGORY(lcTPC);
 
 /**
@@ -164,6 +168,11 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		//! A timeout of `<= 0` will make the client _not_ wait for a successful pair response from TP and will assume it is connected as long as the network socket is open.
 		//! The default value is 10000 (10s). Call this method with no argument to reset the timeout value to default.  \sa connectionTimeout()
 		void setConnectionTimeout(int timeoutMs = 10000);
+
+#if TP_CLIENT_ENABLE_SEND_QUEUE
+		Q_INVOKABLE void setSendQueueEnabled(bool enable = true);
+		bool sendQueueEnabled() const;
+#endif
 
 		//! \}
 
