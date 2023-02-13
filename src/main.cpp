@@ -60,6 +60,7 @@ to any 3rd-party components used within.
 #define OPT_LOGSROT   QStringLiteral("r")  // rotate logs now
 #define OPT_XITERLY   QStringLiteral("x")  // exit w/out starting
 #define OPT_TPHOSTP   QStringLiteral("t")  // TP host:port
+#define OPT_PLUGNID   QStringLiteral("i")  // plugin ID
 
 
 void sigHandler(int s)
@@ -121,15 +122,23 @@ int main(int argc, char *argv[])
 		{ {OPT_LOGSROT, QStringLiteral("rotate")},  qApp->translate("main", "Rotate log file(s) on startup (starts with empty logs). Only enabled log(s) (with -f or -j) are rotated.") },
 		{ {OPT_XITERLY, QStringLiteral("exit")},    qApp->translate("main", "Exit w/out starting. For example after rotating logs.") },
 		{ {OPT_TPHOSTP, QStringLiteral("tphost")},  qApp->translate("main", "Touch Portal host address and optional port number in the format of 'host_name_or_address[:port_number]'. Default is '127.0.0.1:12136'."), QStringLiteral("host[:port]") },
+		{ {OPT_PLUGNID, QStringLiteral("pluginid")},qApp->translate("main", "Use a custom Touch Portal Plugin ID for this instance (only use with custom entry.tp)."), QStringLiteral("ID") },
 	});
 	clp.addHelpOption();
 	clp.addVersionOption();
 	clp.process(a);
 
+	QString pluginId {};  // leave empty for default
+	if (clp.isSet(OPT_PLUGNID) && clp.value(OPT_PLUGNID) != PLUGIN_ID) {
+		pluginId = clp.value(OPT_PLUGNID);
+		QCoreApplication::setOrganizationName(pluginId);
+		QCoreApplication::setOrganizationDomain(pluginId);
+	}
+
 	// Prevent multiple instances.
-	RunGuard guard( PLUGIN_NAME );
+	RunGuard guard( pluginId.isEmpty() ? PLUGIN_ID : pluginId );
 	if (!guard.tryToRun()) {
-		std::cout << "Another instance is already running. Quitting now." << std::endl;
+		std::cout << "Another instance of this application with ID " << guard.keyString().toStdString() << " is already running. Quitting now." << std::endl;
 		return 0;
 	}
 
@@ -242,6 +251,6 @@ int main(int argc, char *argv[])
   std::signal(SIGBREAK, sigHandler);
 #endif
 
-	Plugin p(tpHost, tpPort);
+	Plugin p(tpHost, tpPort, pluginId.toUtf8());
 	return a.exec();
 }

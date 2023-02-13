@@ -23,6 +23,7 @@ to any 3rd-party components used within.
 #include <QObject>
 #include <QTimer>
 
+#include "strings.h"
 #include "TPClientQt.h"
 #include "JSError.h"
 
@@ -37,7 +38,7 @@ class Plugin : public QObject
 {
 		Q_OBJECT
 	public:
-		explicit Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent = nullptr);
+		explicit Plugin(const QString &tpHost, uint16_t tpPort, const QByteArray &pluginId = QByteArray(), QObject *parent = nullptr);
 		~Plugin();
 
 		static Plugin *instance;
@@ -124,9 +125,12 @@ class Plugin : public QObject
 		void handleSettings(const QJsonObject &settings) const;
 		void parseConnectorNotification(const QJsonObject &msg) const;
 
+		const QByteArray m_pluginId;
 		TPClientQt *client = nullptr;
 		QThread *clientThread = nullptr;
 		QTimer m_loadSettingsTmr;
+		QByteArray m_stateIds[Strings::SID_ENUM_MAX];
+		QByteArray m_choiceListIds[Strings::CLID_ENUM_MAX];
 
 		friend class DynamicScript;
 };

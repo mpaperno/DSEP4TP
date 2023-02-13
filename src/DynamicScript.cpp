@@ -31,7 +31,7 @@ constexpr static int MUTEX_LOCK_TIMEOUT_MS = 250;
 DynamicScript::DynamicScript(const QByteArray &name, QObject *p) :
   QObject(p),
   name{name},
-  tpStateId(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name)
+  tpStateId(DSE::valueStatePrefix + name)
 {
 	setObjectName("DynamicScript: " + name);
 	QJSEngine::setObjectOwnership(this, QJSEngine::CppOwnership);

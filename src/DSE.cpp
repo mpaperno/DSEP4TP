@@ -27,14 +27,6 @@ using namespace ScriptLib;
 
 // all static data
 
-Q_GLOBAL_STATIC(DSE::ScriptState, g_instances)
-Q_GLOBAL_STATIC(QReadWriteLock, g_instanceMutex)
-Q_GLOBAL_STATIC(DSE::EngineState, g_engines)
-Q_GLOBAL_STATIC(QReadWriteLock, g_engineMutex)
-
-DSE* DSE::sharedInstance = nullptr;
-DynamicScript *DSE::defaultScriptInstance = nullptr;
-
 const quint32 DSE::pluginVersion { APP_VERSION };
 const QByteArray DSE::pluginVersionStr { QByteArrayLiteral(APP_VERSION_STR) };
 const QString DSE::platformOs {
@@ -61,14 +53,28 @@ const QString DSE::platformOs {
 #endif
 };
 
+QString DSE::scriptsBaseDir;
+QByteArray DSE::valueStatePrefix { QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) };
+
 quint32 DSE::tpVersion {0};
 QString DSE::tpVersionStr;
-QString DSE::scriptsBaseDir;
 QByteArray DSE::tpCurrentPage;
+
 std::atomic_int DSE::defaultRepeatRate { -1 };
 std::atomic_int DSE::defaultRepeatDelay { -1 };
 DSE::ActionRecrod DSE::g_actionData[ACT_ENUM_LAST] { ActionRecrod() };
 std::atomic_uint DSE::g_nextRepeaterId {0};
+
+// Script & Engine instance management
+//
+
+DSE* DSE::sharedInstance = nullptr;
+DynamicScript *DSE::defaultScriptInstance = nullptr;
+
+Q_GLOBAL_STATIC(DSE::ScriptState, g_instances)
+Q_GLOBAL_STATIC(QReadWriteLock, g_instanceMutex)
+Q_GLOBAL_STATIC(DSE::EngineState, g_engines)
+Q_GLOBAL_STATIC(QReadWriteLock, g_engineMutex)
 
 DSE::ScriptState *DSE::instances() { return g_instances; }
 QReadWriteLock *DSE::instances_mutex() { return g_instanceMutex; }
@@ -147,6 +153,10 @@ QByteArrayList DSE::engineKeys()
 	QReadLocker l(g_engineMutex);
 	return g_engines->keys();
 }
+
+
+// Repeat rate/delay handlers
+//
 
 void DSE::setDefaultActionRepeatRate(int ms)
 {

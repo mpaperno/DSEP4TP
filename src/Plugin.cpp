@@ -24,8 +24,8 @@ to any 3rd-party components used within.
 #include <QMetaObject>
 #include <QThread>
 
-#include "Plugin.h"
 #include "common.h"
+#include "Plugin.h"
 #include "DSE.h"
 #include "Logger.h"
 #include "DynamicScript.h"
@@ -35,44 +35,7 @@ to any 3rd-party components used within.
 #define SETTINGS_GROUP_PLUGIN    "Plugin"
 #define SETTINGS_GROUP_SCRIPTS   "DynamicStates"
 
-enum ActionTokens : quint8 {
-	AT_Unknown,
-
-	AH_Script,
-	AH_Plugin,
-
-	SA_Eval,
-	SA_Load,
-	SA_Import,
-	SA_Update,
-	SA_SingleShot,  // deprecated, BC with v < 1.2
-
-	CA_Instance,
-	CA_DelScript,
-	CA_DelEngine,
-	CA_ResetEngine,
-	CA_SetStateValue,  // deprecated, BC with v < 1.2
-	CA_RepeatRate,
-	CA_SaveInstance,
-	CA_LoadInstance,
-	CA_DelSavedInstance,
-	CA_Shutdown,  // dev mode only
-
-	ST_SettingsVersion,
-
-	AT_Script,
-	AT_Engine,
-	AT_Shared,
-	AT_Private,
-	AT_Default,
-	AT_All,
-	AT_Rate,
-	AT_Delay,
-	AT_RateDelay,
-	AT_Set,
-	AT_Increment,
-	AT_Decrement,
-};
+using namespace Strings;
 
 enum TimerEventType : quint8 {
 	TE_None,
@@ -94,95 +57,14 @@ using ScriptTimerHash = QHash<QByteArray, int>;
 Q_GLOBAL_STATIC(ScriptTimerHash, g_instanceDeleteTimers)
 Q_GLOBAL_STATIC(QReadWriteLock, g_instanceTimersMutex)
 
-static std::atomic_uint32_t g_errorCount = 0;
-static bool g_startupComplete = false;
-static std::atomic_bool g_ignoreNextSettings = true;
-static std::atomic_bool g_shuttingDown = false;
+bool g_startupComplete = false;
+std::atomic_bool g_ignoreNextSettings = true;
+std::atomic_bool g_shuttingDown = false;
+std::atomic_uint32_t g_errorCount = 0;
 
-int tokenFromName(const QByteArray &name, int deflt = AT_Unknown)
+static DSE::EngineInstanceType stringToScope(const QByteArray &str, bool unknownIsPrivate = false)
 {
-	static const QHash<QByteArray, int> hash = {
-		{ "script",  AH_Script },
-	  { "plugin",  AH_Plugin },
-
-		{ "eval",    SA_Eval },
-	  { "load",    SA_Load },
-	  { "import",  SA_Import },
-	  { "update",  SA_Update },
-	  { "oneshot", SA_SingleShot },  // deprecated, BC with v < 1.2
-
-	  { "instance",                 CA_Instance },
-	  { "Delete Script Instance",   CA_DelScript },
-	  { "Delete Instance",          CA_DelScript },  // BC with v < 1.2
-	  { "Delete Engine Instance",   CA_DelEngine },
-	  { "Reset Engine Environment", CA_ResetEngine },
-	  { "Set State Value",          CA_SetStateValue },   // deprecated, BC with v < 1.2
-	  { "Save Script Instance",     CA_SaveInstance },
-	  { "Load Script Instance",     CA_LoadInstance },
-	  { "Remove Saved Instance Data", CA_DelSavedInstance },
-
-	  { "repRate",      CA_RepeatRate },
-	  { "shutdown",     CA_Shutdown },
-
-	  { "Settings Version", ST_SettingsVersion },
-
-	  { "Script",       AT_Script },
-	  { "Engine",       AT_Engine },
-	  { "Shared",       AT_Shared },
-	  { "Private",      AT_Private },
-	  { "Default",      AT_Default },
-	  { "All",          AT_All },
-	  { "Rate",         AT_Rate },
-	  { "Delay",        AT_Delay },
-	  { "Rate & Delay", AT_RateDelay },
-	  { "Set",          AT_Set },
-	  { "Increment",    AT_Increment },
-	  { "Decrement",    AT_Decrement },
-	};
-	return hash.value(name, deflt);
-}
-
-static QByteArray tokenToName(int token, const QByteArray &deflt = QByteArray())
-{
-	static const QHash<int, QByteArray> hash = {
-		{ SA_Eval,       "Eval" },
-		{ SA_Load,       "Load" },
-		{ SA_Import,     "Import" },
-		{ SA_Update,     "Update" },
-	  { SA_SingleShot, "Anonymous (One-Time)" },  // deprecated
-
-	  { CA_Instance,        "instance" },
-	  { CA_DelScript,        "Delete Script Instance" },
-	  { CA_DelScript,        "Delete Engine Instance" },
-	  { CA_ResetEngine,      "Reset Engine Environment" },
-	  { CA_SetStateValue,    "Set State Value" },  // deprecated
-	  { CA_SaveInstance,     "Save Script Instance" },
-	  { CA_LoadInstance,     "Load Script Instance" },
-	  { CA_DelSavedInstance, "Remove Saved Instance Data" },
-
-	  { CA_RepeatRate,     "Repeat Rate/Delay" },
-
-	  { ST_SettingsVersion, "Settings Version" },
-
-	  { AT_Script,    "Script" },
-	  { AT_Engine,    "Engine" },
-	  { AT_Shared,    "Shared" },
-	  { AT_Private,   "Private" },
-	  { AT_Default,   "Default" },
-	  { AT_All,       "All" },
-	  { AT_Rate,      "Rate" },
-	  { AT_Delay,     "Delay" },
-	  { AT_RateDelay, "Rate & Delay" },
-	  { AT_Set,       "Set" },
-	  { AT_Increment, "Increment" },
-	  { AT_Decrement, "Decrement" },
-	};
-	return hash.value(token, deflt);
-}
-
-static DSE::EngineInstanceType stringToScope(QStringView str, bool unknownIsPrivate = false)
-{
-	return str == QStringLiteral("Shared") ? DSE::SharedInstance : (unknownIsPrivate || str == QStringLiteral("Private") ? DSE::PrivateInstance : DSE::UnknownInstanceType);
+	return str == tokenToName(AT_Shared) ? DSE::SharedInstance : (unknownIsPrivate || str == tokenToName(AT_Private) ? DSE::PrivateInstance : DSE::UnknownInstanceType);
 }
 
 // legacy for v < 1.2
@@ -240,9 +122,10 @@ static DSE::ActivationBehaviors stringToActivationType(QStringView str)
 
 Plugin *Plugin::instance = nullptr;
 
-Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
+Plugin::Plugin(const QString &tpHost, uint16_t tpPort, const QByteArray &pluginId, QObject *parent) :
   QObject(parent),
-  client(new TPClientQt(PLUGIN_ID/*, this*/)),
+  m_pluginId(!pluginId.isEmpty() ? pluginId : QByteArrayLiteral(PLUGIN_ID)),
+  client(new TPClientQt(m_pluginId /*, this*/)),
   clientThread(new QThread())
 {
 	instance = this;
@@ -251,7 +134,21 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, QObject *parent) :
 
 	loadPluginSettings();
 
+	if (m_pluginId != PLUGIN_ID)
+		DSE::valueStatePrefix = m_pluginId + '.';
+
 	client->setHostProperties(tpHost, tpPort);
+	// Set up constant IDs of things we send to TP like states and choice list updates.
+	{
+		auto const &tokens = tokenStrings();
+		for (int i = 0; i < SID_ENUM_MAX; ++i)
+			m_stateIds[i] =  m_pluginId + QByteArrayLiteral(".state.") + tokens[i];
+	}
+	{
+		auto const &tokens = choiceListTokenStrings();
+		for (int i = 0; i < CLID_ENUM_MAX; ++i)
+			m_choiceListIds[i] =  m_pluginId + QByteArrayLiteral(".act.") + tokens[i];
+	}
 
 	connect(qApp, &QCoreApplication::aboutToQuit, this, &Plugin::quit);
 	connect(this, &Plugin::loggerRotateLogs, Logger::instance(), &Logger::rotateLogs);
@@ -329,8 +226,8 @@ void Plugin::quit()
 		if (client->thread() != qApp->thread())
 			Utils::runOnThreadSync(client->thread(), [=]() { client->moveToThread(qApp->thread()); });
 		if (client->isConnected()) {
-			client->stateUpdate(PLUGIN_ID ".state.pluginState", "Stopped");
-			client->stateUpdate(PLUGIN_ID ".state.createdStatesList", "");
+			client->stateUpdate(m_stateIds[SID_PluginState], tokenToName(AT_Stopped));
+			client->stateUpdate(m_stateIds[SID_CreatedInstanceList], QByteArray());
 			client->disconnect();
 		}
 	}
@@ -399,7 +296,7 @@ void Plugin::loadStartupSettings()
 
 	g_startupComplete = true;
 	g_ignoreNextSettings = true;
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.pluginState"), QByteArrayLiteral("Started"));
+	Q_EMIT tpStateUpdate(m_stateIds[SID_PluginState], tokenToName(AT_Started));
 	Q_EMIT tpSettingUpdate(tokenToName(ST_SettingsVersion), QByteArray::number(APP_VERSION));
 }
 
@@ -597,11 +494,11 @@ void Plugin::sendInstanceLists() const
 {
 	QByteArrayList nameArry = DSE::instanceKeys();
 	std::sort(nameArry.begin(), nameArry.end());
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.createdStatesList"), nameArry.join(',') + ',');
+	Q_EMIT tpStateUpdate(m_stateIds[SID_CreatedInstanceList], nameArry.join(',') + ',');
 	nameArry.prepend(DSE::defaultScriptInstance->name);
-	Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.script.update.name"), nameArry);
+	Q_EMIT tpChoiceUpdate(m_choiceListIds[CLID_ScriptUpdateInstanceName], nameArry);
 	nameArry[0] = tokenToName(AT_Default);
-	Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.plugin.repRate.name"), nameArry);
+	Q_EMIT tpChoiceUpdate(m_choiceListIds[CLID_RepeatPropertyScriptName], nameArry);
 }
 
 void Plugin::sendEngineLists() const
@@ -610,7 +507,7 @@ void Plugin::sendEngineLists() const
 	std::sort(nameArry.begin(), nameArry.end());
 	nameArry.prepend(tokenToName(AT_Private));
 	nameArry.prepend(tokenToName(AT_Shared));
-	Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.script.d.scope"), nameArry);
+	Q_EMIT tpChoiceUpdate(m_choiceListIds[CLID_ScriptActionEngineScope], nameArry);
 }
 
 void Plugin::updateInstanceChoices(int token, const QByteArray &instId) const
@@ -651,10 +548,12 @@ void Plugin::updateInstanceChoices(int token, const QByteArray &instId) const
 			nameArry.prepend(QByteArrayLiteral("All Persistent Script Instances"));
 		}
 	}
-	if (instId.isEmpty())
-		Q_EMIT tpChoiceUpdate(QByteArrayLiteral(PLUGIN_ID ".act.plugin.instance.name"), nameArry);
-	else
-		Q_EMIT tpChoiceUpdateInstance(QByteArrayLiteral(PLUGIN_ID ".act.plugin.instance.name"), instId, nameArry);
+	if (instId.isEmpty()) {
+		Q_EMIT tpChoiceUpdate(m_choiceListIds[CLID_PluginControlInstanceName], nameArry);
+	}
+	else {
+		Q_EMIT tpChoiceUpdateInstance(m_choiceListIds[CLID_PluginControlInstanceName], instId, nameArry);
+	}
 }
 
 // Only used by deprecated CA_SetStateValue action.
@@ -679,10 +578,10 @@ void Plugin::updateConnectors(const QMultiMap<QString, QVariant> &qry, int value
 
 void Plugin::updateActionRepeatProperties(int ms, int param) const
 {
+	Q_EMIT tpStateUpdate(m_stateIds[param == AT_Rate ? SID_ActRepeatDelay : SID_ActRepeatDelay], QByteArray::number(ms));
 	const QByteArray &paramName = tokenToName(param);
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.actRepeat") + paramName, QByteArray::number(ms));
 	updateConnectors({
-		{"actionType", tokenToName(CA_RepeatRate)},
+		{"actionType", tokenToName(AID_RepeatRate)},
 		{"instanceName", tokenToName(AT_Default)},
 		{"otherData",  QStringLiteral("*\"param\":\"*%1*\"*").arg(paramName)},
 		{"otherData",  QStringLiteral("*\"action\":\"%1\"*").arg(tokenToName(AT_Set))},
@@ -694,7 +593,7 @@ void Plugin::updateActionRepeatProperties(int ms, int param) const
 void Plugin::raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type, const QString &stack) const
 {
 	const uint32_t count = ++g_errorCount;
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.errorCount"), QByteArray::number(count));
+	Q_EMIT tpStateUpdate(m_stateIds[SID_ErrorCount], QByteArray::number(count));
 	QByteArray v;
 	if (dsName.isEmpty()) {
 		v = QStringLiteral("%1 [%2] %3").arg(count, 3, 10, QLatin1Char('0')).arg(QTime::currentTime().toString("HH:mm:ss.zzz"), msg).toUtf8();
@@ -706,13 +605,13 @@ void Plugin::raiseScriptError(const QByteArray &dsName, const QString &msg, cons
 	}
 	if (!stack.isEmpty())
 		qCInfo(lcDse).noquote().nospace() << "Stack trace [" << count << "]:\n" << stack.toUtf8();
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.lastError"), v);
+	Q_EMIT tpStateUpdate(m_stateIds[SID_LastError], v);
 }
 
 void Plugin::clearScriptErrors()
 {
 	g_errorCount = 0;
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.errorCount"), QByteArrayLiteral("0"));
+	Q_EMIT tpStateUpdate(m_stateIds[SID_ErrorCount], QByteArrayLiteral("0"));
 }
 
 
@@ -739,7 +638,7 @@ void Plugin::timerEvent(QTimerEvent *ev)
 void Plugin::onStateUpdateByName(const QByteArray &name, const QByteArray &value) const
 {
 	//qCDebug(lcPlugin) << "Sending state update" << PLUGIN_STATE_ID_PREFIX + name;
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_STATE_ID_PREFIX) + name, value);
+	Q_EMIT tpStateUpdate(DSE::valueStatePrefix + name, value);
 }
 
 void Plugin::onClientDisconnect()
@@ -790,14 +689,14 @@ void Plugin::onActionRepeatDelayChanged(int ms) const { updateActionRepeatProper
 void Plugin::onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &settings)
 {
 	qCInfo(lcPlugin).nospace().noquote()
-		<< PLUGIN_SHORT_NAME " Connected to Touch Portal v" << info.tpVersionString
+		<< PLUGIN_SHORT_NAME " v" APP_VERSION_STR " Connected to Touch Portal v" << info.tpVersionString
 		<< " (" << info.tpVersionCode << "; SDK v" << info.sdkVersion
-		<< ") with entry.tp v" << info.pluginVersion << ", running v" << APP_VERSION_STR;
+		<< ") for plugin ID " << m_pluginId << " with entry.tp v" << info.pluginVersion;
 	DSE::tpVersion = info.tpVersionCode;
 	DSE::tpVersionStr = info.tpVersionString;
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.pluginState"), QByteArrayLiteral("Starting"));
+	Q_EMIT tpStateUpdate(m_stateIds[SID_PluginState], tokenToName(AT_Starting));
 	handleSettings(settings);
-	Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.tpDataPath"), Utils::tpDataPath());
+	Q_EMIT tpStateUpdate(m_stateIds[SID_TpDataPath], Utils::tpDataPath());
 	initEngine();
 	clearScriptErrors();
 	m_loadSettingsTmr.start();
@@ -815,7 +714,7 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 			return;
 
 		case TPClientQt::MessageType::listChange: {
-			if (!msg.value("actionId").toString().endsWith(tokenToName(CA_Instance)))
+			if (!msg.value("actionId").toString().endsWith(tokenStrings()[AID_InstanceControl]))
 				return;
 			if (!msg.value("listId").toString().endsWith(QLatin1String(".action")))
 				return;
@@ -835,7 +734,7 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 					return;
 				DSE::tpCurrentPage = pgName;
 				data.insert(QLatin1String("pageName"), pgName);
-				Q_EMIT tpStateUpdate(QByteArrayLiteral(PLUGIN_ID ".state.currentPage"), pgName);
+				Q_EMIT tpStateUpdate(m_stateIds[SID_TpCurrentPage], pgName);
 			}
 			Q_EMIT tpBroadcast(event, data);
 			break;
@@ -921,14 +820,14 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 {
 	const QByteArray dvName = dataMap.value("name").trimmed().toUtf8();
 	if (dvName.isEmpty()) {
-		if (act == SA_SingleShot)
+		if (act == AID_SingleShot)
 			qCCritical(lcPlugin) << "Anyonymous script instances are no longer supported. Please use another type with 'Persistence' set to 'Temporary'.";
 		else
 			qCCritical(lcPlugin) << "Script Instance Name missing for action" << tokenToName(act);
 		return;
 	}
 
-	DynamicScript *ds = getOrCreateInstance(dvName, act == SA_Update, true);
+	DynamicScript *ds = getOrCreateInstance(dvName, act == AID_Update, true);
 	if (!ds) {
 		raiseScriptError(dvName, tr("ValidationError: Could not find script instance '%1' for Update action.").arg(dvName.constData()), tr("VALIDATION ERROR"));
 		return;
@@ -954,9 +853,9 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 	else
 		ds->setActivation(stringToActivationType(dataMap.value("activation")));
 
-	if (act != SA_Update) {
+	if (act != AID_Update) {
 		ScriptEngine *se;
-		const QString &strScope = dataMap.value("scope", QStringLiteral("Shared"));
+		const QByteArray &strScope = dataMap.value("scope", QStringLiteral("Shared")).toUtf8();
 		DSE::EngineInstanceType scope = stringToScope(strScope);
 		// If a scope/instance type returns Unknown this means it should be a specific named engine instance.
 		if (scope == DSE::UnknownInstanceType) {
@@ -965,7 +864,7 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 				raiseScriptError(dvName, tr("ValidationError: Engine name/type is empty for script instance '%1'.").arg(dvName.constData()), tr("VALIDATION ERROR"));
 				return;
 			}
-			se = getOrCreateEngine(strScope.toUtf8());
+			se = getOrCreateEngine(strScope);
 		}
 		// Otherwise if the scope is explicitly "Private" then use the script instance name as the engine name.
 		else if (scope == DSE::PrivateInstance) {
@@ -1010,7 +909,7 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 				ds->setDefaultTypeValue(stringToStateType(stateParam), dataMap.value("default").toUtf8());
 			}
 		}
-	}  // act != SA_Update
+	}  // act != AID_Update
 
 	QString expression = dataMap.value("expr");
 	if (connectorValue > -1) {
@@ -1019,16 +918,16 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 	bool ok = false;
 	switch (act)
 	{
-		case SA_Eval:
+		case AID_Eval:
 			ok = ds->setExpressionProperties(expression);
 			break;
-		case SA_Load:
+		case AID_Load:
 			ok = ds->setScriptProperties(dataMap.value("file").trimmed(), expression);
 			break;
-		case SA_Import:
+		case AID_Import:
 			ok = ds->setModuleProperties(dataMap.value("file").trimmed(), dataMap.value("alias").trimmed(), expression);
 			break;
-		case SA_Update:
+		case AID_Update:
 			ok = ds->setExpression(expression);
 			break;
 	}
@@ -1049,7 +948,7 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 void Plugin::pluginAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue)
 {
 	int subAct = 0;
-	if (act != CA_Shutdown) {
+	if (act != AID_Shutdown) {
 		subAct = tokenFromName(dataMap.value("action").toUtf8());
 		if (subAct == AT_Unknown) {
 			qCCritical(lcPlugin) << "Unknown Command action:" << dataMap.value("action");
@@ -1058,13 +957,13 @@ void Plugin::pluginAction(TPClientQt::MessageType type, int act, const QMap<QStr
 	}
 
 	switch (act) {
-		case CA_Instance:
+		case AID_InstanceControl:
 			instanceControlAction(subAct, dataMap);
 			break;
-		case CA_RepeatRate:
+		case AID_RepeatRate:
 			setActionRepeatRate(type, subAct, dataMap, connectorValue);
 			break;
-		case CA_Shutdown:
+		case AID_Shutdown:
 			qCInfo(lcPlugin()) << "Got shutdown command, exiting.";
 			exit();
 			break;
@@ -1277,7 +1176,7 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg) const
 	QByteArray actIdStr = propList.at(0).split('.').last().toUtf8();
 	const int act = tokenFromName(actIdStr);
 	if (act != AT_Unknown)
-		actIdStr = tokenToName(act, actIdStr);
+		actIdStr = act < STRING_TOKENS_COUNT ? QByteArray(tokenStrings()[act]) : tokenToName(act, actIdStr);
 
 	ConnectorRecord cr;
 	cr.actionType = actIdStr;
@@ -1289,31 +1188,31 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg) const
 		const auto dataPair = it->split('=');
 		const QByteArray id = dataPair.first().split('.').last().toUtf8();
 		const QStringView value = dataPair.last();
-		if (cr.instanceName.isEmpty() && !id.compare(QByteArrayLiteral("name")))
+		if (cr.instanceName.isEmpty() && !id.compare(tokenStrings()[ADID_InstanceName]))
 			cr.instanceName = value.toUtf8();
-		else if (cr.instanceType == DSE::UnknownInstanceType && !id.compare(QByteArrayLiteral("scope")))
-			cr.instanceType = stringToScope(value, true);
-		else if (cr.expression.isEmpty() && !id.compare(QByteArrayLiteral("expr")))
+		else if (cr.instanceType == DSE::UnknownInstanceType && !id.compare(tokenStrings()[ADID_EngineScope]))
+			cr.instanceType = stringToScope(value.toUtf8(), true);
+		else if (cr.expression.isEmpty() && !id.compare(tokenStrings()[ADID_Expression]))
 			cr.expression = value.toUtf8();
-		else if (cr.file.isEmpty() && !id.compare(QByteArrayLiteral("file")))
+		else if (cr.file.isEmpty() && !id.compare(tokenStrings()[ADID_ScriptFile]))
 			cr.file = value.toUtf8();
-		else if (cr.alias.isEmpty() && !id.compare(QByteArrayLiteral("alias")))
+		else if (cr.alias.isEmpty() && !id.compare(tokenStrings()[ADID_ModuleAlias]))
 			cr.alias = value.toUtf8();
 		else
 			cr.otherData.insert(id, value.toString());
 	}
 
 	switch (act) {
-		case SA_Eval:
+		case AID_Eval:
 			cr.inputType = DSE::ExpressionInput;
 			break;
-		case SA_Load:
+		case AID_Load:
 			cr.inputType = DSE::ScriptInput;
 			break;
-		case SA_Import:
+		case AID_Import:
 			cr.inputType = DSE::ModuleInput;
 			break;
-		case SA_Update:
+		case AID_Update:
 			if (DynamicScript *ds = DSE::instance(cr.instanceName))
 				cr.inputType = ds->inputType();
 			break;

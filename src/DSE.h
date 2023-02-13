@@ -68,7 +68,7 @@ class DSE : public QObject
 		Q_PROPERTY(QString SCRIPTS_BASE_DIR READ getScriptsBaseDir CONSTANT)
 		//! The prefix added by the plugin to an script instance's Name to form a unique State ID, before creating or updating it in Touch Portal.
 		//! Touch Portal uses the unique ID to identify States. \sa `DynamicScript.stateId`
-		Q_PROPERTY(QString VALUE_STATE_PREFIX READ valueStatePrefix CONSTANT)
+		Q_PROPERTY(QString VALUE_STATE_PREFIX MEMBER valueStatePrefix CONSTANT)
 		//! This property contains the name of the Touch Portal parent cateogry into which newly created States will be placed by default.
 		//! This is where the States will appear in Touch Portal selector lists (which sort States at all). The category will always appear as a child of
 		//! the main "Dynamic Script Engine" category.  \sa DynamicScript.stateParentCategory
@@ -290,10 +290,14 @@ class DSE : public QObject
 		static const quint32 pluginVersion;
 		static const QByteArray pluginVersionStr;
 		static const QString platformOs;
+
+		static QString scriptsBaseDir;
+		static QByteArray valueStatePrefix;
+
 		static quint32 tpVersion;
 		static QString tpVersionStr;
-		static QString scriptsBaseDir;
 		static QByteArray tpCurrentPage;
+
 		static std::atomic_int defaultRepeatRate;
 		static std::atomic_int defaultRepeatDelay;
 
@@ -340,7 +344,6 @@ class DSE : public QObject
 
 		QByteArray engineInstanceName() const;
 
-		static inline QString valueStatePrefix() { return QStringLiteral(PLUGIN_STATE_ID_PREFIX); }
 		static inline QString stateParentCategory() { return QStringLiteral(PLUGIN_DYNAMIC_STATES_PARENT); }
 		static inline QString tpDataPath() { return QString::fromUtf8(Utils::tpDataPath()); }
 		static inline QString getScriptsBaseDir() { return scriptsBaseDir.isEmpty() ? QDir::currentPath() : scriptsBaseDir; }
@@ -379,7 +382,7 @@ class DSE : public QObject
 		//! This is a convenience method that returns the same as `DSE.VALUE_STATE_PREFIX + DSE.INSTANCE_NAME`.
 		//! \deprecated{v1.2}
 		//! This function is deprecated and may be removed in a future version; `DSE.currentInstace()?.stateId` instead, for example.
-		Q_INVOKABLE QString instanceStateId() { return valueStatePrefix() + instanceName; }
+		Q_INVOKABLE QString instanceStateId() { return QString(DSE::valueStatePrefix + instanceName); }
 		QByteArray instanceDefault() const;
 
 	public Q_SLOTS:

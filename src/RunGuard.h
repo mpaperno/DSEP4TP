@@ -33,6 +33,8 @@ class RunGuard
 				release();
 			}
 
+			QString keyString() const { return key; }
+
 			bool isAnotherRunning()
 			{
 				if ( sharedMem.isAttached() )
