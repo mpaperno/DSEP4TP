@@ -30,7 +30,7 @@ to any 3rd-party components used within.
 #include <QJsonValue>
 #include <QVariant>
 
-#define TP_CLIENT_VERSION_STR  "1.0.0"
+#define TP_CLIENT_VERSION_STR  "1.0.1"
 
 // The client can be built as a dynamic library by defining `TPCLIENT_BUILD_DLL` (exports symbols),
 // or the header can be used when linking to a DLL by defining `TPCLIENT_USE_DLL` (imports symbols).
@@ -57,9 +57,9 @@ Messages from TP are delivered via the `message(MessageType, const QJsonObject &
 passes the message data on as a `QJsonObject`. Beyond determining the message type, no other processing is done on the incoming data.
 
 Sending messages to TP can be done at 3 different levels:
-	* The (very overloaded) methods provided by this class which have names eponymous with the corresponding TP API message types. Eg: `stateUpdate()`, `showNotification()`, etc.
-	* Arbitrary JSON object via the `send()` method or from a serialized `QVariantMap` via `sendMap()`;
-	* Raw bytes with the `write()` method.
+- The (very overloaded) methods provided by this class which have names eponymous with the corresponding TP API message types. Eg: `stateUpdate()`, `showNotification()`, etc.
+- Arbitrary JSON object via the `send()` method or from a serialized `QVariantMap` via `sendMap()`;
+- Raw bytes with the `write()` method.
 
 The client emits `connected()`, `disconnected()`, and `error()` signals to notify the plugin of connection status and network state changes.
 Disconnections may happen spontaneously for a number of reasons (socket error, TP quitting, etc). Notably, `error()` is emitted if the initial connection to Touch Portal fails.
@@ -72,11 +72,11 @@ arrays into more user-friendly structures). See the `actionData*()` function ref
 
 The client depends on the `QtCore` and `QtNetwork` libraries/modules. Tested with Qt versions `5.12.12`, `5.15.7`, `6.4.1`.
 
-Some minimal logging is performed via QLoggingCategory named "TPClientQt". By default, in Debug builds (`QT_DEBUG` defined) Debug-level messages (and above) are emitted,
+Some minimal logging is performed via `QLoggingCategory` named "TPClientQt". By default, in Debug builds (`QT_DEBUG` defined) Debug-level messages (and above) are emitted,
 while on other builds the minimum level is set to Warning.
 This can be controlled as usual per Qt logging categories, eg. with `QT_LOGGING_RULES` env. var, config file, or eg. `QLoggingCategory::setFilterRules("TPClientQt.info = true");`.
 
-**NOTE:** \n
+__NOTE:__ \n
 All methods and functions in this class are reentrant. Not thread-safe: do not attempt to send messages from multiple threads w/out serializing the access (mutex, etc).
 
 The TPClientQt itself can be moved into a new thread if desired, as long as the above conditions remain true.
@@ -104,8 +104,8 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		Q_ENUM(MessageType)
 
 		//! Structure to hold information about current Touch Portal session. Populated from the initial 'info' message properties upon connection.
-		//! Member names are eponymous with the properties of the 'info' message (except `paired`, see note on that). \sa tpInfo()
-		//! This struct is registered with Qt meta system and is suitable for queued signals/slots.
+		//! Member names are eponymous with the properties of the 'info' message (except `paired`, see note on that).
+		//! This struct is registered with Qt meta system and is suitable for queued signals/slots.  \sa tpInfo()
 		struct TPInfo {
 			bool paired = false;          //!< true if actively connected to TP; expects that 'status' == 'paired' in initial 'info' message. Reset to `false` when disconnected from TP.
 			uint16_t sdkVersion = 0;      //!< Supported SDK version.
@@ -116,7 +116,7 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		};
 
 		//! Structure for action/connector data id = value pairs sent from TP. Each action/connector sends an array of these.
-		//! Used with some convenience functions in this class.  \sa getIndexedActionData()
+		//! Used with some convenience functions in this class.  \sa actionDataItem(), actionDataToItemArray()
 		struct ActionDataItem {
 			QString id;      //!< ID of the action data member.
 			QString value;   //!< Current value of the data member.
@@ -129,7 +129,7 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		explicit TPClientQt(const char *pluginId, QObject *parent = nullptr);
 		~TPClientQt();
 
-		// Properties
+		//! \name  Properties
 		//! \{
 
 		//! Returns true if connected to Touch Portal, false otherwise.
@@ -174,9 +174,9 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		void connected(const TPClientQt::TPInfo &tpInfo, const QJsonObject &settings);
 		//! Emitted upon disconnection from Touch Portal, either from an explicit call to `close()` **or** if the connection is closed unexpectedly,
 		//! by the remote host (eg. Touch Portal exits) or some other unrecoverable socket error. It is the responsibility of the plugin to take
-		//! any appropriate action after a disconnection or error event. The last error, if any, can be retrieved via `error()` method.
+		//! any appropriate action after a disconnection or error event. The last error, if any, can be retrieved via `socketError()` method.
 		void disconnected();
-		//! Emitted in case of error upon initial connection or unexpected termination. This would typically be what is reported by the QTcpSocket being used,
+		//! Emitted in case of error upon initial connection or unexpected termination. This would typically be what is reported by the `QTcpSocket` being used,
 		//! but during initial connection attempt it may also return one of:
 		//! * `QAbstractSocket::ConnectionRefusedError` - Touch Portal refused connection with an invalid status in 'info' message.
 		//! * `QAbstractSocket::SocketTimeoutError` - Network connection was established but Touch Portal didn't respond to our 'pair' message within the `connectionTimeout()` period.
@@ -188,7 +188,7 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		void message(TPClientQt::MessageType type, const QJsonObject &message);
 
 	public:
-		// Convenience methods / High level API; primary overloads, not for signal/slots connections.
+		//! \name  Convenience methods / High level API; primary overloads, not for signal/slots connections.
 		//! \{
 
 		//! Send a state update with given `id` and `value` strings.
@@ -259,8 +259,9 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 
 		//! \}
 
-		// Low level API
+		//! \name  Low level API
 		//! \{
+
 		//! Low-level API: Serializes a JSON object to UTF8 bytes. `object` should contain one TP message. This can be then be sent to TP via `write()` method.
 		QByteArray encode(const QJsonObject &object) const { return QJsonDocument(object).toJson(QJsonDocument::Compact); }
 		//! \}
@@ -268,12 +269,12 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 	public Q_SLOTS:
 #define qsvPrintable(SV)  (SV).toUtf8().constData()
 
-		// Connection handlers
+		//! \name  Connection handlers
 		//! \{
 
 		//! Initiate a connection to Touch Portal. The plugin ID (set in constructor or with `setPluginId()` must be valid.
 		//! This first tries to open a network socket connection, and if that succeeds then the initial 'pair' message is sent to Touch Portal.
-		//! Upon upon actual successful pairing, meaning an 'info' message response was received from TP with 'status' == "paired", the `connected()` signal is emitted.
+		//! Upon actual successful pairing, meaning an 'info' message response was received from TP with 'status' == "paired", the `connected()` signal is emitted.
 		//! If either the initial socket connection or pairing with TP fails within the `connectionTimeout()` period, then the `error(QAbstractSocket::SocketError)` signal is emitted.
 		//! If `connectionTimeout()` is `<= 0` then the client will not wait for a successful pair response from TP and will assume it is connected as long as the network socket is open.
 		//! \sa error() signal, connectionTimeout(), setConnectionTimeout()
@@ -290,7 +291,7 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 
 		//! \}
 
-		// Low level API
+		//! \name  Low level API
 		//! \{
 
 		//! Low-level API: Send JSON message data to Touch Portal. `object` should contain one TP message.
@@ -304,7 +305,7 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 
 		//! \}
 
-		// Convenience methods / High level API, Overloads & Slots
+		//! \name Convenience methods / High level API, Overloads & Slots
 		//! \{
 
 		//! Send a state update with given `id` and `value` strings.
@@ -408,7 +409,7 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		//! \}
 
 	public:
-		// Static helper functions
+		//! \name  Static helper functions
 		//! \{
 
 		//! Returns the action data object (id and value as `ActionDataItem` struct) at given index in the given array of action/connector data values (as sent from TP),

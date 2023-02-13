@@ -204,12 +204,8 @@ QAbstractSocket::SocketError TPClientQt::socketError() const { return d_const->s
 QString TPClientQt::errorString() const { return d_const->lastError; }
 
 const TPClientQt::TPInfo &TPClientQt::tpInfo() const { return d_const->tpInfo; }
+
 QString TPClientQt::pluginId() const { return d_const->pluginId; }
-QString TPClientQt::hostName() const { return d_const->tpHost; }
-uint16_t TPClientQt::hostPort() const { return d_const->tpPort; }
-int TPClientQt::connectionTimeout() const { return d_const->connTimeout; }
-
-
 bool TPClientQt::setPluginId(const char *pluginId)
 {
 	if (!pluginId || !strlen(pluginId)) {
@@ -224,6 +220,8 @@ bool TPClientQt::setPluginId(const char *pluginId)
 	return true;
 }
 
+QString TPClientQt::hostName() const { return d_const->tpHost; }
+uint16_t TPClientQt::hostPort() const { return d_const->tpPort; }
 void TPClientQt::setHostProperties(const QString &nameOrAddress, uint16_t port)
 {
 	if (!nameOrAddress.isEmpty())
@@ -232,10 +230,9 @@ void TPClientQt::setHostProperties(const QString &nameOrAddress, uint16_t port)
 		d->tpPort = port;
 }
 
-void TPClientQt::setConnectionTimeout(int timeoutMs)
-{
-	d->connTimeout = timeoutMs;
-}
+int TPClientQt::connectionTimeout() const { return d_const->connTimeout; }
+void TPClientQt::setConnectionTimeout(int timeoutMs) { d->connTimeout = timeoutMs; }
+
 
 void TPClientQt::connect()
 {
@@ -321,3 +318,5 @@ void TPClientQt::onReadyRead()
 		d->onTpMessage(iMsgType, msg);
 	}
 }
+
+#include "moc_TPClientQt.cpp"
