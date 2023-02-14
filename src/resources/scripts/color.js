@@ -929,7 +929,7 @@ function polyad(color, n) {
     var result = [tinycolor(color)];
     var increment = 360 / n;
     for(var i = 1; i < n; i++) {
-        result.push(tinycolor({ h: (h + (i * increment)) % 360, s: hsl.s, l: hsl.l }));
+        result.push(tinycolor({ h: (h + (i * increment)) % 360, s: hsl.s, l: hsl.l, a: color._a }));
     }
 
     return result;
@@ -941,8 +941,8 @@ function splitcomplement(color) {
     var h = hsl.h;
     return [
         tinycolor(color),
-        tinycolor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l}),
-        tinycolor({ h: (h + 216) % 360, s: hsl.s, l: hsl.l})
+        tinycolor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l, a: color._a}),
+        tinycolor({ h: (h + 216) % 360, s: hsl.s, l: hsl.l, a: color._a})
     ];
 }
 
@@ -963,12 +963,12 @@ function analogous(color, results, slices) {
 function monochromatic(color, results) {
     results = results && results > 0 ? results : 6;  // mod - MP
     var hsv = tinycolor(color).toHsv();
-    var h = hsv.h, s = hsv.s, v = hsv.v;
+    var h = hsv.h, s = hsv.s, v = hsv.v, a = color._a;
     var ret = [];
     var modification = 1 / results;
 
     while (results--) {
-        ret.push(tinycolor({ h: h, s: s, v: v}));
+        ret.push(tinycolor({ h: h, s: s, v: v, a: a}));
         v = (v + modification) % 1;
     }
 
