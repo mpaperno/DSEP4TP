@@ -167,6 +167,7 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, const QByteArray &pluginI
 	connect(this, &Plugin::tpSettingUpdate, client, qOverload<const QByteArray&, const QByteArray &>(&TPClientQt::settingUpdate), Qt::QueuedConnection);
 	// These are just for scripting engine user functions, not used by plugin directly. Emitted by ScriptEngine.
 	connect(this, &Plugin::tpChoiceUpdateStrList, client, qOverload<const QByteArray &, const QStringList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
+	connect(this, &Plugin::tpChoiceUpdateInstanceStrList, client, qOverload<const QByteArray &, const QByteArray &, const QStringList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpConnectorUpdate, client, qOverload<const QByteArray&, uint8_t, bool>(&TPClientQt::connectorUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpNotification, client, qOverload<const QByteArray&, const QByteArray&, const QByteArray&, const QVariantList&>(&TPClientQt::showNotification), Qt::QueuedConnection);
 
@@ -711,18 +712,18 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 		case TPClientQt::MessageType::up:
 		case TPClientQt::MessageType::connectorChange:
 			dispatchAction(type, msg);
-			return;
+			break;
 
 		case TPClientQt::MessageType::listChange: {
 			if (!msg.value("actionId").toString().endsWith(tokenStrings()[AID_InstanceControl]))
-				return;
+				break;
 			if (!msg.value("listId").toString().endsWith(QLatin1String(".action")))
-				return;
+				break;
 			int token = tokenFromName(msg.value("value").toString().toUtf8());
 			if (token != AT_Unknown) {
 				updateInstanceChoices(token, msg.value("instanceId").toString().toUtf8());
 			}
-			return;
+			break;
 		}
 
 		case TPClientQt::MessageType::broadcast: {
@@ -761,11 +762,12 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 		case TPClientQt::MessageType::notificationOptionClicked:
 			// passthrough to any scripts which may be listening on a callback.
 			Q_EMIT tpNotificationClicked(msg.value(QLatin1String("notificationId")).toString(), msg.value(QLatin1String("optionId")).toString());
-			return;
+			break;
 
 		default:
-			return;
+			break;
 	}
+	Q_EMIT tpMessageEvent(msg);
 }
 
 void Plugin::dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg)

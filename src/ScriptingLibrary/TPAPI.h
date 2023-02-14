@@ -68,8 +68,10 @@ class TPAPI : public QObject
 			connect(this, &TPAPI::stateCreate, plugin, &Plugin::tpStateCreate, ctype);
 			connect(this, &TPAPI::stateRemove, plugin, &Plugin::tpStateRemove, ctype);
 			connect(this, &TPAPI::choiceUpdate, plugin, &Plugin::tpChoiceUpdateStrList, ctype);
+			connect(this, &TPAPI::choiceUpdateInstance, plugin, &Plugin::tpChoiceUpdateInstanceStrList, ctype);
 			connect(this, &TPAPI::connectorUpdateByLongId, plugin, &Plugin::tpConnectorUpdate, ctype);
 			connect(this, &TPAPI::connectorUpdate, plugin, &Plugin::tpConnectorUpdateShort, ctype);
+			connect(this, &TPAPI::settingUpdate, plugin, &Plugin::tpSettingUpdate, ctype);
 			connect(this, &TPAPI::tpNotification, plugin, &Plugin::tpNotification, ctype);
 		}
 
@@ -89,6 +91,7 @@ class TPAPI : public QObject
 			// Connect to notifications about TP events so they can be re-broadcast to scripts in this instance.
 			connect(plugin, &Plugin::tpNotificationClicked, this, &TPAPI::onNotificationClicked, ctype);
 			connect(plugin, &Plugin::tpBroadcast, this, &TPAPI::broadcastEvent, ctype);
+			connect(plugin, &Plugin::tpMessageEvent, this, &TPAPI::messageEvent, ctype);
 		}
 
 		Q_INVOKABLE ConnectorRecord getConnectorByShortId(QJSValue shortId)
@@ -136,15 +139,17 @@ class TPAPI : public QObject
 		Q_INVOKABLE static QString currentPageName() { return DSE::tpCurrentPage; }
 
 	Q_SIGNALS:
-		void stateValueUpdate(const QByteArray &);
-		void stateValueUpdateByName(const QByteArray &, const QByteArray &);
-		void stateValueUpdateById(const QByteArray &, const QByteArray &);
+		// Invokable by scripts
 		void stateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &);
 		void stateRemove(const QByteArray &);
 		void choiceUpdate(const QByteArray &, const QStringList &);
+		void choiceUpdateInstance(const QByteArray &, const QByteArray &, const QStringList &);
 		void connectorUpdateByLongId(const QByteArray &, uint8_t, bool = false);
 		void connectorUpdate(const QByteArray &, uint8_t);
+		void settingUpdate(const QByteArray &name, const QByteArray &value);
 
+		// Connectable by scripts
+		void messageEvent(const QJsonObject &message);
 		void broadcastEvent(const QString &, const QVariantMap &);
 		void connectorIdsChanged(const QByteArray &instanceName, const QByteArray &shortId);
 
@@ -165,7 +170,7 @@ class TPAPI : public QObject
 				options << QVariantMap({{ QStringLiteral("id"), QStringLiteral("option") }, { QStringLiteral("title"), QStringLiteral(" ") } });
 			if (callback.isCallable() || callback.isString())
 				m_notificationCallbacks.insert(id, callback);
-			emit tpNotification(id, title, msg, options);
+			Q_EMIT tpNotification(id, title, msg, options);
 		}
 
 		void onNotificationClicked(const QString &notifyId, const QString &optionId)
@@ -203,6 +208,9 @@ class TPAPI : public QObject
 		}
 
 	private:
+		Q_SIGNAL void stateValueUpdate(const QByteArray &);
+		Q_SIGNAL void stateValueUpdateByName(const QByteArray &, const QByteArray &);
+		Q_SIGNAL void stateValueUpdateById(const QByteArray &, const QByteArray &);
 		Q_SIGNAL void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList & = QVariantList());
 
 		ConnectorData *connectorData()

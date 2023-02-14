@@ -52,11 +52,13 @@ class Plugin : public QObject
 		void tpChoiceUpdate(const QByteArray &, const QByteArrayList &) const;
 		void tpChoiceUpdateStrList(const QByteArray &, const QStringList &) const;
 		void tpChoiceUpdateInstance(const QByteArray &, const QByteArray &, const QByteArrayList &) const;
+		void tpChoiceUpdateInstanceStrList(const QByteArray &, const QByteArray &, const QStringList &) const;
 		void tpConnectorUpdate(const QByteArray &, quint8, bool) const;
 		void tpConnectorUpdateShort(const QByteArray &, quint8) const;
 		void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList &) const;
 		void tpSettingUpdate(const QByteArray &, const QByteArray &);
 
+		void tpMessageEvent(const QJsonObject &msg);
 		void tpNotificationClicked(const QString &, const QString &) const;
 		void tpBroadcast(const QString &, const QVariantMap &) const;
 

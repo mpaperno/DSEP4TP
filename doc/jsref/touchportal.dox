@@ -74,6 +74,19 @@ public:
 */
 
 /*!
+  \fn void choiceUpdateInstance(String id, String instanceId, Array<String> values)
+  \memberof TP
+  \ingroup TPAPI
+  \static
+  Update a list of choices for a selector with given `id` and specific `instanceId`.
+  `id` must be a fully qualified ID of some existing action data member. \n
+  `instanceId` is the internal Touch Portal ID of a specific action instance. This is typically obtained from a 'listChange' Touch Portal message,
+    but could also be obtained from the button ID or page source code. \n
+  `values` should be an array of strings.
+  \since v1.2
+*/
+
+/*!
   \fn void connectorUpdate(String shortId, int value)
   \memberof TP
   \ingroup TPAPI
@@ -101,7 +114,7 @@ public:
   This method could in theory be used to update sliders with connectors provided by other plugins. In practice it is fairly limited since the full `connectorId`
   must be 200 characters or less, and coming up with those IDs in the first place can be challenging. However you may find some use for it after all.
   \sa [Touch Portal Connectors API](https://www.touch-portal.com/api/index.php?section=connectors)
-  \since v1.1.0
+  \since v1.1
 */
 
 /*!
@@ -135,6 +148,15 @@ public:
   \sa @ref example_fetch_and_notify, [Touch Portal Notifications API](https://www.touch-portal.com/api/index.php?section=notifications)
 */
 
+/*!
+  \fn void settingUpdate(String name, String value)
+  \memberof TP
+  \ingroup TPAPI
+  \static
+  Update a plugin Setting in Touch Portal named `name` to `value`.  This only works for settings of the current plugin (defined in corresponding entry.tp).
+  \since v1.2
+*/
+
 //! \}
 
 /*!
@@ -164,6 +186,19 @@ public:
 
 */
 //! \{
+
+/*!
+  \fn void messageEvent(Object message)
+  \memberof TP
+  \ingroup TPAPI
+  \static
+  This event is emitted upon every Touch Portal message received by this plugin.
+  The `message` parameter is an object representing the "raw" message data received from Touch Portal (originally as a JSON object).
+  Each message will have a `type` property indicating the message type. Refer to Touch Portal API for further details on each message type
+  and data it contains.
+
+  \since v1.2
+*/
 
 /*!
   \fn void broadcastEvent(String event, Object data)

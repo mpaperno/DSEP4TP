@@ -36,13 +36,14 @@ var
 
 TPAPI.onconnectorIdsChanged = function(r, t=null) { onEventHandler(TPAPI.connectorIdsChanged, r, t); }
 TPAPI.onbroadcastEvent = function(r, t=null)  { onEventHandler(TPAPI.broadcastEvent, r, t); }
+TPAPI.onmessageEvent = function(r, t=null)  { onEventHandler(TPAPI.messageEvent, r, t); }
 
 function onEventHandler(sender, receiver, thisObj)
 {
   if (thisObj && typeof receiver === 'function')
     sender.connect(thisObj, receiver);
   else
-    sender.connect(receiver); 
+    sender.connect(receiver);
 }
 
 Object.defineProperty(AbortController, Symbol.hasInstance, {
