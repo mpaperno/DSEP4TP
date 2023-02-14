@@ -114,9 +114,9 @@ bool DynamicScript::setEngine(ScriptEngine *se)
 
 	if (m_engine) {
 		qCWarning(lcPlugin) << "Switching engine instances could lead to unexpected results and plugin instability.";
-		if (!m_engine->isSharedInstance())
-			m_engine->disconnectNamedScriptInstance(this);
+		m_engine->clearInstanceData(this);
 		disconnect(m_engine, nullptr, this, nullptr);
+		serializeStoredData();
 	}
 	m_engine = se;
 
@@ -134,11 +134,7 @@ bool DynamicScript::setEngine(ScriptEngine *se)
 		m_scope = se->instanceType();
 		m_engineName = se->name();
 
-		connect(m_engine, &ScriptEngine::engineAboutToReset, this, [=]()
-		{
-			m_storedDataVar = m_engine->engine()->fromScriptValue<QJsonObject>(m_storedData); // m_storedData.toVariant(QJSValue::ConvertJSObjects);
-			m_storedData = QJSValue();
-		});
+		connect(m_engine, &ScriptEngine::engineAboutToReset, this, &DynamicScript::serializeStoredData);
 	}
 	else {
 		m_scope = DSE::EngineInstanceType::UnknownInstanceType;
@@ -343,6 +339,17 @@ void DynamicScript::setPressed(bool isPressed)
 
 	m_state.setFlag(State::PressedState, isPressed);
 	Q_EMIT pressedStateChanged(isPressed);
+}
+
+void DynamicScript::serializeStoredData()
+{
+	if (m_engine)
+		m_storedDataVar = m_engine->engine()->fromScriptValue<QJsonObject>(m_storedData);
+	else if (m_storedData.isObject())
+		m_storedDataVar = QJsonObject::fromVariantMap(m_storedData.toVariant(QJSValue::ConvertJSObjects).toMap());
+	else if (!m_storedDataVar.isEmpty())
+		m_storedDataVar = QJsonObject();
+	m_storedData = QJSValue();
 }
 
 void DynamicScript::setupRepeatTimer(bool create)

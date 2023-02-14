@@ -405,6 +405,7 @@ class DynamicScript : public QObject
 		void evaluateDefault();
 
 		// these really _are_ private
+		void serializeStoredData();
 		void createTpState(bool useActualDefault = false);
 		void setCreateState();
 		void setPressed(bool isPressed);

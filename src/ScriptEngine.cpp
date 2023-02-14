@@ -179,10 +179,14 @@ void ScriptEngine::disconnectNamedScriptInstance(DynamicScript *ds)
 	tpapi->disconnectInstance(ds);
 }
 
-void ScriptEngine::clearInstanceData(const QByteArray &name)
+void ScriptEngine::clearInstanceData(DynamicScript *ds)
 {
+	if (!ds)
+		return;
 	if (ulib)
-		ulib->clearInstanceTimers(name);
+		ulib->clearInstanceTimers(ds->name);
+	if (!m_isShared)
+		disconnectNamedScriptInstance(ds);
 }
 
 void ScriptEngine::checkErrors() const

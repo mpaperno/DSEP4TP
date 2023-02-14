@@ -409,7 +409,7 @@ void Plugin::removeInstance(DynamicScript *ds, bool removeFromGlobal, bool remov
 	if (!ds)
 		return;
 	ScriptEngine *se = ds->engine();
-	ScriptEngine::instance()->clearInstanceData(ds->name);
+	ScriptEngine::instance()->clearInstanceData(ds);
 	ds->removeTpState();
 	if (removeFromGlobal) {
 		DSE::removeInstance(ds->name);

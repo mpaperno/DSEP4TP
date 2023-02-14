@@ -131,7 +131,7 @@ class ScriptEngine : public QObject
 		//void connectScriptInstance(DynamicScript *ds);
 		void connectNamedScriptInstance(DynamicScript *ds);
 		void disconnectNamedScriptInstance(DynamicScript *ds);
-		void clearInstanceData(const QByteArray &name);
+		void clearInstanceData(DynamicScript *ds);
 		void checkErrors() const;
 		void throwError(const QJSValue &err) const;
 		void throwError(QJSValue err, const QByteArray &instName) const;
