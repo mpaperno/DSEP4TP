@@ -145,12 +145,16 @@ class LogFileDevice : public QFile
 		  m_category(category),
 		  m_rotate(rotate),
 		  m_keep(keep),
-		  m_t(new QThread(this))
+		  m_t(new QThread(/*this*/))
 		{
+			m_t->setObjectName("FileLogger_" + QFileInfo(*this).baseName());
 			moveToThread(m_t);
 		}
 
-		//~LogFileDevice() { qDebug() << this << "Destroyed"; }
+		~LogFileDevice() {
+			m_t->deleteLater();
+			//qDebug() << this << "Destroyed";
+		}
 
 		bool isSameFile(const QString &otherFile) const { return normalizePath(otherFile) == fileName(); }
 
@@ -250,7 +254,7 @@ class LogFileDevice : public QFile
 			//std::cout << this << " Stopping" << std::endl;
 			closeFile();
 			m_t->quit();
-			//m_t->wait();
+			m_t->wait();
 			Q_EMIT stopped();
 		}
 
