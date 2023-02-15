@@ -39,9 +39,17 @@ enum StateIdToken
 	SID_ENUM_MAX
 };
 
+enum ActionHandlerToken
+{
+	AHID_Script = SID_ENUM_MAX,
+	AHID_Plugin,
+
+	AHID_ENUM_MAX,
+};
+
 enum ActionIdToken
 {
-	AID_Eval = SID_ENUM_MAX,
+	AID_Eval = AHID_ENUM_MAX,
 	AID_Load,
 	AID_Import,
 	AID_Update,
@@ -71,41 +79,43 @@ enum ActionDataIdToken
 
 enum StringDataTokensLast { STRING_TOKENS_COUNT = ADID_ENUM_MAX };
 
-static const char * const * tokenStrings()
+static constexpr const char * g_tokenStrings[STRING_TOKENS_COUNT]
 {
-	static constexpr const char * tokens[STRING_TOKENS_COUNT]
-	{
-		"createdStatesList",
-		"lastError",
-		"errorCount",
-		"actRepeatDelay",
-		"actRepeatRate",
-		"tpDataPath",
-		"currentPage",
-		"pluginState",
+	"createdStatesList",
+	"lastError",
+	"errorCount",
+	"actRepeatDelay",
+	"actRepeatRate",
+	"tpDataPath",
+	"currentPage",
+	"pluginState",
 
-		"eval",
-		"load",
-		"import",
-		"update",
-		"oneshot",
+	"script",
+	"plugin",
 
-		"instance",
-		"repRate",
-		"shutdown",
+	"eval",
+	"load",
+	"import",
+	"update",
+	"oneshot",
 
-		"name",
-		"scope",
-		"save",
-		"state",
-		"default",
-		"activation",
-		"expr",
-		"file",
-		"alias"
-	};
-	return tokens;
-}
+	"instance",
+	"repRate",
+	"shutdown",
+
+	"name",
+	"scope",
+	"save",
+	"state",
+	"default",
+	"activation",
+	"expr",
+	"file",
+	"alias"
+};
+
+static const char * const * tokenStrings() { return g_tokenStrings; }
+
 
 enum ChoiceListIdToken
 {
@@ -117,23 +127,18 @@ enum ChoiceListIdToken
 	CLID_ENUM_MAX
 };
 
-static const char * const * choiceListTokenStrings()
+static constexpr const char * g_listTokenStrings[CLID_ENUM_MAX]
 {
-	static constexpr const char * tokens[CLID_ENUM_MAX]
-	{
-		"script.update.name",
-		"plugin.repRate.name",
-		"script.d.scope",
-		"plugin.instance.name",
-	};
-	return tokens;
-}
+	"script.update.name",
+	"plugin.repRate.name",
+	"script.d.scope",
+	"plugin.instance.name",
+};
+
+static const char * const * choiceListTokenStrings() { return g_listTokenStrings; }
 
 enum ActionTokens {
 	AT_Unknown = STRING_TOKENS_COUNT + 1,
-
-	AH_Script,
-	AH_Plugin,
 
 	CA_DelScript,
 	CA_DelEngine,
@@ -143,7 +148,9 @@ enum ActionTokens {
 	CA_LoadInstance,
 	CA_DelSavedInstance,
 
+	ST_ScriptsBaseDir,
 	ST_SettingsVersion,
+	ST_LoadScriptAtStart,
 
 	AT_Script,
 	AT_Engine,
@@ -164,53 +171,10 @@ enum ActionTokens {
 	AT_Stopped,
 };
 
-static int tokenFromName(const QByteArray &name, int deflt = AT_Unknown)
-{
-	static const QHash<QByteArray, int> hash = {
-		{ "script",  AH_Script },
-	  { "plugin",  AH_Plugin },
-
-		{ tokenStrings()[AID_Eval],       AID_Eval },
-	  { tokenStrings()[AID_Load],       AID_Load },
-	  { tokenStrings()[AID_Import],     AID_Import },
-	  { tokenStrings()[AID_Update],     AID_Update },
-	  { tokenStrings()[AID_SingleShot], AID_SingleShot },
-
-	  { tokenStrings()[AID_InstanceControl], AID_InstanceControl },
-	  { tokenStrings()[AID_RepeatRate],      AID_RepeatRate },
-	  { tokenStrings()[AID_Shutdown],        AID_Shutdown },
-
-	  { "Delete Script Instance",   CA_DelScript },
-	  { "Delete Instance",          CA_DelScript },       // deprecated, BC with v < 1.2
-	  { "Delete Engine Instance",   CA_DelEngine },
-	  { "Reset Engine Environment", CA_ResetEngine },
-	  { "Set State Value",          CA_SetStateValue },   // deprecated, BC with v < 1.2
-	  { "Save Script Instance",     CA_SaveInstance },
-	  { "Load Script Instance",     CA_LoadInstance },
-	  { "Remove Saved Instance Data", CA_DelSavedInstance },
-
-	  { "Settings Version", ST_SettingsVersion },
-
-	  { "Script",       AT_Script },
-	  { "Engine",       AT_Engine },
-	  { "Shared",       AT_Shared },
-	  { "Private",      AT_Private },
-	  { "Default",      AT_Default },
-	  { "All",          AT_All },
-	  { "Rate",         AT_Rate },
-	  { "Delay",        AT_Delay },
-	  { "Rate & Delay", AT_RateDelay },
-	  { "Set",          AT_Set },
-	  { "Increment",    AT_Increment },
-	  { "Decrement",    AT_Decrement },
-	};
-	return hash.value(name, deflt);
-}
-
 static QByteArray tokenToName(int token, const QByteArray &deflt = QByteArray())
 {
-	// These are mappings to human-usable names, not necessarily IDs
 	static const QHash<int, QByteArray> hash = {
+	  // These are mappings to human-usable names, not IDs
 		{ AID_Eval,            "Eval" },
 		{ AID_Load,            "Load" },
 		{ AID_Import,          "Import" },
@@ -220,16 +184,26 @@ static QByteArray tokenToName(int token, const QByteArray &deflt = QByteArray())
 	  { AID_RepeatRate,      "Repeat Rate/Delay" },
 	  { AID_Shutdown,        "Shutdown" },  // debug builds only
 
+	  // These are actual strings used in selector lists to determine action to perform
 	  { CA_DelScript,        "Delete Script Instance" },
-	  { CA_DelScript,        "Delete Engine Instance" },
+	  { CA_DelEngine,        "Delete Engine Instance" },
 	  { CA_ResetEngine,      "Reset Engine Environment" },
 	  { CA_SetStateValue,    "Set State Value" },  // deprecated
 	  { CA_SaveInstance,     "Save Script Instance" },
 	  { CA_LoadInstance,     "Load Script Instance" },
 	  { CA_DelSavedInstance, "Remove Saved Instance Data" },
 
-	  { ST_SettingsVersion, "Settings Version" },
+	  // Settings are all key'd by their names, so these are verbatim as they'll come from TP
+	  { ST_ScriptsBaseDir, "Script Files Base Directory" },
+	  { ST_SettingsVersion,   "Settings Version" },
+	  { ST_LoadScriptAtStart, "Load Script At Startup" },
 
+	  // Plugin running state State values, used in Event evaluation.
+	  { AT_Starting,  "Starting" },
+	  { AT_Started,   "Started" },
+	  { AT_Stopped,   "Stopped" },
+
+	  // Misc. keywords used in various places but which need to be consistent
 	  { AT_Script,    "Script" },
 	  { AT_Engine,    "Engine" },
 	  { AT_Shared,    "Shared" },
@@ -243,11 +217,81 @@ static QByteArray tokenToName(int token, const QByteArray &deflt = QByteArray())
 	  { AT_Increment, "Increment" },
 	  { AT_Decrement, "Decrement" },
 
-	  { AT_Starting,  "Starting" },
-	  { AT_Started,   "Started" },
-	  { AT_Stopped,   "Stopped" },
 	};
 	return hash.value(token, deflt);
+}
+
+static QByteArray tokenToId(int token, const QByteArray &deflt = QByteArray())
+{
+	static const QHash<int, QByteArray> hash = {
+	  { AHID_Script, g_tokenStrings[AHID_Script] },
+	  { AHID_Plugin, g_tokenStrings[AHID_Plugin] },
+
+		{ AID_Eval,            g_tokenStrings[AID_Eval] },
+		{ AID_Load,            g_tokenStrings[AID_Load] },
+		{ AID_Import,          g_tokenStrings[AID_Import] },
+		{ AID_Update,          g_tokenStrings[AID_Update] },
+	  { AID_SingleShot,      g_tokenStrings[AID_SingleShot] },  // deprecated
+	  { AID_InstanceControl, g_tokenStrings[AID_InstanceControl] },
+	  { AID_RepeatRate,      g_tokenStrings[AID_RepeatRate] },
+	  { AID_Shutdown,        g_tokenStrings[AID_Shutdown] },  // debug builds only
+
+	  { ADID_InstanceName, g_tokenStrings[ADID_InstanceName] },
+		{ ADID_EngineScope,  g_tokenStrings[ADID_EngineScope] },
+		{ ADID_Persistence,  g_tokenStrings[ADID_Persistence] },
+		{ ADID_StateOption,  g_tokenStrings[ADID_StateOption] },
+		{ ADID_StateDefault, g_tokenStrings[ADID_StateDefault] },
+		{ ADID_Activation,   g_tokenStrings[ADID_Activation] },
+		{ ADID_Expression,   g_tokenStrings[ADID_Expression] },
+		{ ADID_ScriptFile,   g_tokenStrings[ADID_ScriptFile] },
+		{ ADID_ModuleAlias,  g_tokenStrings[ADID_ModuleAlias] },
+	};
+	return hash.value(token, deflt);
+}
+
+static int tokenFromName(const QByteArray &name, int deflt = AT_Unknown)
+{
+	static const QHash<QByteArray, int> hash = {
+		{ g_tokenStrings[AHID_Script],  AHID_Script },
+	  { g_tokenStrings[AHID_Plugin],  AHID_Plugin },
+
+		{ g_tokenStrings[AID_Eval],       AID_Eval },
+	  { g_tokenStrings[AID_Load],       AID_Load },
+	  { g_tokenStrings[AID_Import],     AID_Import },
+	  { g_tokenStrings[AID_Update],     AID_Update },
+	  { g_tokenStrings[AID_SingleShot], AID_SingleShot },
+
+	  { g_tokenStrings[AID_InstanceControl], AID_InstanceControl },
+	  { g_tokenStrings[AID_RepeatRate],      AID_RepeatRate },
+	  { g_tokenStrings[AID_Shutdown],        AID_Shutdown },
+
+	  { tokenToName(CA_DelScript),        CA_DelScript },
+	  { "Delete Instance",                CA_DelScript },       // deprecated, BC with v < 1.2
+	  { tokenToName(CA_DelEngine),        CA_DelEngine },
+	  { tokenToName(CA_ResetEngine),      CA_ResetEngine },
+	  { tokenToName(CA_SetStateValue),    CA_SetStateValue },   // deprecated, BC with v < 1.2
+	  { tokenToName(CA_SaveInstance),     CA_SaveInstance },
+	  { tokenToName(CA_LoadInstance),     CA_LoadInstance },
+	  { tokenToName(CA_DelSavedInstance), CA_DelSavedInstance },
+
+	  { tokenToName(ST_ScriptsBaseDir),    ST_ScriptsBaseDir },
+	  { tokenToName(ST_SettingsVersion),   ST_SettingsVersion },
+	  { tokenToName(ST_LoadScriptAtStart), ST_LoadScriptAtStart },
+
+	  { tokenToName(AT_Script),    AT_Script },
+	  { tokenToName(AT_Engine),    AT_Engine },
+	  { tokenToName(AT_Shared),    AT_Shared },
+	  { tokenToName(AT_Private),   AT_Private },
+	  { tokenToName(AT_Default),   AT_Default },
+	  { tokenToName(AT_All),       AT_All },
+	  { tokenToName(AT_Rate),      AT_Rate },
+	  { tokenToName(AT_Delay),     AT_Delay },
+	  { tokenToName(AT_RateDelay), AT_RateDelay },
+	  { tokenToName(AT_Set),       AT_Set },
+	  { tokenToName(AT_Increment), AT_Increment },
+	  { tokenToName(AT_Decrement), AT_Decrement },
+	};
+	return hash.value(name, deflt);
 }
 
 }  // namespace Strings

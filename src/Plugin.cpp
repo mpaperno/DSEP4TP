@@ -35,6 +35,11 @@ to any 3rd-party components used within.
 #define SETTINGS_GROUP_PLUGIN    "Plugin"
 #define SETTINGS_GROUP_SCRIPTS   "DynamicStates"
 
+#define SETTINGS_KEY_VERSION         "SettingsVersion"
+#define SETTINGS_KEY_SCRIPTS_DIR     "ScriptsBaseDir"
+#define SETTINGS_KEY_ACT_RPT_RATE    "actRepeatRate"
+#define SETTINGS_KEY_ACT_RPT_DELAY   "actRepeatDelay"
+
 using namespace Strings;
 
 enum TimerEventType : quint8 {
@@ -274,23 +279,23 @@ void Plugin::savePluginSettings() const
 {
 	QSettings s;
 	s.beginGroup(SETTINGS_GROUP_PLUGIN);
-	s.setValue("SettingsVersion", APP_VERSION);
-	s.setValue("ScriptsBaseDir", DSE::scriptsBaseDir);
+	s.setValue(SETTINGS_KEY_VERSION, APP_VERSION);
+	s.setValue(SETTINGS_KEY_SCRIPTS_DIR, DSE::scriptsBaseDir);
 	s.endGroup();
 }
 
 void Plugin::loadPluginSettings()
 {
 	QSettings s;
-	DSE::scriptsBaseDir = s.value(SETTINGS_GROUP_PLUGIN "/ScriptsBaseDir", QString()).toString();
+	DSE::scriptsBaseDir = s.value(SETTINGS_GROUP_PLUGIN "/" SETTINGS_KEY_SCRIPTS_DIR, QString()).toString();
 }
 
 void Plugin::loadStartupSettings()
 {
 	QSettings s;
 	s.beginGroup(SETTINGS_GROUP_PLUGIN);
-	DSE::sharedInstance->setDefaultActionRepeatRate(s.value("actRepeatRate", 350).toInt());
-	DSE::sharedInstance->setDefaultActionRepeatDelay(s.value("actRepeatDelay", 350).toInt());
+	DSE::sharedInstance->setDefaultActionRepeatRate(s.value(SETTINGS_KEY_ACT_RPT_RATE, 350).toInt());
+	DSE::sharedInstance->setDefaultActionRepeatDelay(s.value(SETTINGS_KEY_ACT_RPT_DELAY, 350).toInt());
 	s.endGroup();
 
 	loadAllInstances();
@@ -580,15 +585,18 @@ void Plugin::updateConnectors(const QMultiMap<QString, QVariant> &qry, int value
 void Plugin::updateActionRepeatProperties(int ms, int param) const
 {
 	Q_EMIT tpStateUpdate(m_stateIds[param == AT_Rate ? SID_ActRepeatDelay : SID_ActRepeatDelay], QByteArray::number(ms));
-	const QByteArray &paramName = tokenToName(param);
 	updateConnectors({
-		{"actionType", tokenToName(AID_RepeatRate)},
+		{"actionType", tokenToId(AID_RepeatRate)},
 		{"instanceName", tokenToName(AT_Default)},
-		{"otherData",  QStringLiteral("*\"param\":\"*%1*\"*").arg(paramName)},
+		{"otherData",  QStringLiteral("*\"param\":\"*%1*\"*").arg(tokenToName(param))},
 		{"otherData",  QStringLiteral("*\"action\":\"%1\"*").arg(tokenToName(AT_Set))},
 	}, ms, 50.0f, 60000.0f);
 
-	QSettings().setValue(SETTINGS_GROUP_PLUGIN "/actRepeat" + paramName, ms);
+	// TODO: delay settings write
+	if (param == AT_Rate)
+		QSettings().setValue(SETTINGS_GROUP_PLUGIN "/" SETTINGS_KEY_ACT_RPT_RATE, ms);
+	else
+		QSettings().setValue(SETTINGS_GROUP_PLUGIN "/" SETTINGS_KEY_ACT_RPT_DELAY, ms);
 }
 
 void Plugin::raiseScriptError(const QByteArray &dsName, const QString &msg, const QString &type, const QString &stack) const
@@ -715,7 +723,7 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 			break;
 
 		case TPClientQt::MessageType::listChange: {
-			if (!msg.value("actionId").toString().endsWith(tokenStrings()[AID_InstanceControl]))
+			if (!msg.value("actionId").toString().endsWith(tokenToId(AID_InstanceControl)))
 				break;
 			if (!msg.value("listId").toString().endsWith(QLatin1String(".action")))
 				break;
@@ -805,11 +813,11 @@ void Plugin::dispatchAction(TPClientQt::MessageType type, const QJsonObject &msg
 	qint32 connVal = type == TPClientQt::MessageType::connectorChange ? msg.value(QLatin1String("value")).toInt(0) : -1;
 
 	switch(handler) {
-		case AH_Script:
+		case AHID_Script:
 			scriptAction(type, act, dataMap, connVal);
 			break;
 
-		case AH_Plugin:
+		case AHID_Plugin:
 			pluginAction(type, act, dataMap, connVal);
 			break;
 
@@ -949,13 +957,10 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 
 void Plugin::pluginAction(TPClientQt::MessageType type, int act, const QMap<QString, QString> &dataMap, qint32 connectorValue)
 {
-	int subAct = 0;
-	if (act != AID_Shutdown) {
-		subAct = tokenFromName(dataMap.value("action").toUtf8());
-		if (subAct == AT_Unknown) {
-			qCCritical(lcPlugin) << "Unknown Command action:" << dataMap.value("action");
-			return;
-		}
+	const int subAct = tokenFromName(dataMap.value("action").toUtf8());
+	if (subAct == AT_Unknown && act != AID_Shutdown) {
+		qCCritical(lcPlugin) << "Unknown Command action:" << dataMap.value("action");
+		return;
 	}
 
 	switch (act) {
@@ -975,8 +980,8 @@ void Plugin::pluginAction(TPClientQt::MessageType type, int act, const QMap<QStr
 void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dataMap)
 {
 	quint8 type = 0;  // named instance
-	QByteArray dvName = dataMap.value("name", "All").toUtf8();
-	if (dvName.startsWith("All "))
+	QByteArray dvName = dataMap.value("name").toUtf8();
+	if (dvName.size() > 4 && dvName.startsWith(tokenToName(AT_All)))
 		type = (dvName.at(4) == 'I' ? 255 : dvName.at(4) == 'S' ? (quint8)DSE::SharedInstance : dvName.at(4) == 'P' ? (quint8)DSE::PrivateInstance : 0);
 
 	switch (act)
@@ -1150,20 +1155,18 @@ void Plugin::setActionRepeatRate(TPClientQt::MessageType type, quint8 act, const
 void Plugin::handleSettings(const QJsonObject &settings) const
 {
 	//qCDebug(lcPlugin) << "Got settings object:" << settings;
-	QJsonObject::const_iterator next = settings.begin(), last = settings.end();
-	for (; next != last; ++next) {
-		if (next.key().startsWith(QStringLiteral("Script Files"))) {
-			DSE::scriptsBaseDir = QDir::fromNativeSeparators(next.value().toString());
-			if (!DSE::scriptsBaseDir.isEmpty() && !DSE::scriptsBaseDir.endsWith('/'))
-				DSE::scriptsBaseDir += '/';
-			continue;
-		}
-		if (!g_startupComplete && next.key().startsWith(tokenToName(ST_SettingsVersion))) {
-			if (next.value().toString().isEmpty())
-				qCInfo(lcPlugin) << "No saved Plugin Settings version; first-time use of plugin.";
-			else
-				qCInfo(lcPlugin).noquote().nospace() << "Saved Touch Portal Plugin Settings v" << next.value().toString() << "; Current v" << APP_VERSION;
-		}
+	QJsonValue val;
+	if (!(val = settings.value(tokenToName(ST_ScriptsBaseDir))).isUndefined()) {
+		DSE::scriptsBaseDir = QDir::fromNativeSeparators(val.toString().trimmed());
+		if (!DSE::scriptsBaseDir.isEmpty() && !DSE::scriptsBaseDir.endsWith('/'))
+			DSE::scriptsBaseDir += '/';
+	}
+	if (!g_startupComplete && !(val = settings.value(tokenToName(ST_SettingsVersion))).isUndefined()) {
+		// Currently not actually doing anything based on stored plugin settings, except a log message. Reserved for future use.
+		if (val.toString().isEmpty())
+			qCInfo(lcPlugin) << "No saved Plugin Settings version; first-time use of plugin.";
+		else
+			qCInfo(lcPlugin).noquote().nospace() << "Saved Touch Portal Plugin Settings v" << val.toString() << "; Current v" << APP_VERSION;
 	}
 }
 
@@ -1178,7 +1181,7 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg) const
 	QByteArray actIdStr = propList.at(0).split('.').last().toUtf8();
 	const int act = tokenFromName(actIdStr);
 	if (act != AT_Unknown)
-		actIdStr = act < STRING_TOKENS_COUNT ? QByteArray(tokenStrings()[act]) : tokenToName(act, actIdStr);
+		actIdStr = act < STRING_TOKENS_COUNT ? tokenToId(act) : tokenToName(act, actIdStr);
 
 	ConnectorRecord cr;
 	cr.actionType = actIdStr;
@@ -1190,15 +1193,15 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg) const
 		const auto dataPair = it->split('=');
 		const QByteArray id = dataPair.first().split('.').last().toUtf8();
 		const QStringView value = dataPair.last();
-		if (cr.instanceName.isEmpty() && !id.compare(tokenStrings()[ADID_InstanceName]))
+		if (cr.instanceName.isEmpty() && !id.compare(tokenToId(ADID_InstanceName)))
 			cr.instanceName = value.toUtf8();
-		else if (cr.instanceType == DSE::UnknownInstanceType && !id.compare(tokenStrings()[ADID_EngineScope]))
+		else if (cr.instanceType == DSE::UnknownInstanceType && !id.compare(tokenToId(ADID_EngineScope)))
 			cr.instanceType = stringToScope(value.toUtf8(), true);
-		else if (cr.expression.isEmpty() && !id.compare(tokenStrings()[ADID_Expression]))
+		else if (cr.expression.isEmpty() && !id.compare(tokenToId(ADID_Expression)))
 			cr.expression = value.toUtf8();
-		else if (cr.file.isEmpty() && !id.compare(tokenStrings()[ADID_ScriptFile]))
+		else if (cr.file.isEmpty() && !id.compare(tokenToId(ADID_ScriptFile)))
 			cr.file = value.toUtf8();
-		else if (cr.alias.isEmpty() && !id.compare(tokenStrings()[ADID_ModuleAlias]))
+		else if (cr.alias.isEmpty() && !id.compare(tokenToId(ADID_ModuleAlias)))
 			cr.alias = value.toUtf8();
 		else
 			cr.otherData.insert(id, value.toString());
