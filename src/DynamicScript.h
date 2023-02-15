@@ -71,20 +71,25 @@ class DynamicScript : public QObject
 		Q_PROPERTY(DSE::ScriptInputType inputType READ inputType CONSTANT)
 		//! The full expression string. This is as received from Touch Portal, possibly with any TP macros already evaluated.
 		//! \n This property is read-only.
-		Q_PROPERTY(QString expression MEMBER m_expr CONSTANT)
+		Q_PROPERTY(QString expression READ expression CONSTANT)
 		//! The script/module file, if any. Only `DSE.ScriptInput` and `DSE.ModuleInput` \ref inputType instances will have a file, the value will be empty otherwise.
+		//! This is the actual string value specified in the Action "Script File" property which created this Script instance.
+		//! The \ref scriptFileResolved property contains the absolute system path to the file being loaded, potentially after resolving and normalizing the given name against the default script path.
 		//! \n This property is read-only.
-		Q_PROPERTY(QString file MEMBER m_file CONSTANT)
+		Q_PROPERTY(QString scriptFile READ scriptFile CONSTANT)
+		//! This property contains the absolute system path to the \ref scriptFile being loaded, potentially after resolving and normalizing the given name against the default script path.
+		//! \n This property is read-only.
+		Q_PROPERTY(QString scriptFileResolved READ scriptFileResolved CONSTANT)
 		//! The module import alias. Only `Module` type instances will have an alias.
 		//! \n This property is read-only.
-		Q_PROPERTY(QString alias MEMBER m_moduleAlias CONSTANT)
+		Q_PROPERTY(QString moduleAlias READ moduleAlias CONSTANT)
 		//! This is the Engine Instance type which this script is using for its execution environment. `DSE.EngineInstanceType` enumeration value, one of: `DSE.SharedInstance` or `DSE.PrivateInstance`
 		//! \n This property is read-only.
 		Q_PROPERTY(DSE::EngineInstanceType engineType READ instanceType CONSTANT)
 		//! The name of the engine instance this script instance is using for its execution environment. The engine instance is specified in the Action which created this script instance.
 		//! For `Private` type script instances this may nor may not be the same as the `name` property. For `Shared` instance types this is always "Shared".
 		//! \n This property is read-only.
-		Q_PROPERTY(QString engineName MEMBER m_engineName CONSTANT)
+		Q_PROPERTY(QString engineName READ engineName CONSTANT)
 		//! \}
 
 		//! \name Persistence properties.
@@ -275,6 +280,11 @@ class DynamicScript : public QObject
 
 		DSE::ScriptInputType inputType() const { return m_inputType; }
 		DSE::EngineInstanceType instanceType() const { return m_scope; }
+
+		QString scriptFile() const { return m_originalFile; }
+		QString scriptFileResolved() const { return m_file; }
+		QString expression() const { return m_expr; }
+		QString moduleAlias() const { return m_moduleAlias; }
 
 		DSE::PersistenceType persistence() const { return m_persist; }
 		void setPersistence(DSE::PersistenceType newPersist);
