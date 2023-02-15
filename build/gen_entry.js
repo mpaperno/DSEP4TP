@@ -75,6 +75,14 @@ const entry_base =
             readOnly: false
         },
         {
+            name: "Load Script At Startup",
+            desc: "Optional script file to load at plugin startup, after Touch Portal has connected. This gets loaded into the Shared Engine instance. " +
+                "Absolute path or relative to Script File Base Directory.",
+            type: "text",
+            default: "",
+            readOnly: false
+        },
+        {
             name: "Settings Version",
             desc: "Read-only property to track the last installed plugin version.",
             type: "text",

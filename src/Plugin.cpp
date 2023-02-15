@@ -37,6 +37,7 @@ to any 3rd-party components used within.
 
 #define SETTINGS_KEY_VERSION         "SettingsVersion"
 #define SETTINGS_KEY_SCRIPTS_DIR     "ScriptsBaseDir"
+#define SETTINGS_KEY_STARTUP_SCRIPT  "LoadScriptAtStartup"
 #define SETTINGS_KEY_ACT_RPT_RATE    "actRepeatRate"
 #define SETTINGS_KEY_ACT_RPT_DELAY   "actRepeatDelay"
 
@@ -380,6 +381,22 @@ bool Plugin::loadScriptSettings(DynamicScript *ds) const
 	return s.contains(key) ? ds->deserialize(s.value(key).toByteArray()) : false;
 }
 
+void Plugin::loadStartupScript()
+{
+	QString file = QSettings().value(SETTINGS_GROUP_PLUGIN "/" SETTINGS_KEY_STARTUP_SCRIPT, QString()).toString();
+	if (!file.isEmpty()) {
+		if (DSE::defaultScriptInstance->setScriptProperties(file, QString())) {
+			qCInfo(lcPlugin) << "Loading startup script" << DSE::defaultScriptInstance->scriptFileResolved();
+			QMetaObject::invokeMethod(DSE::defaultScriptInstance, "evaluate", Qt::QueuedConnection);
+			return;
+		}
+		raiseScriptError(DSE::defaultScriptInstance->name,
+		                 tr("ValidationError: Startup Script - %1").arg(DSE::defaultScriptInstance->lastError),
+		                 tr("VALIDATION ERROR"));
+	}
+
+}
+
 ScriptEngine *Plugin::getOrCreateEngine(const QByteArray &name, bool failIfMissing) const
 {
 	ScriptEngine *se = DSE::engine(name);
@@ -708,6 +725,7 @@ void Plugin::onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &se
 	Q_EMIT tpStateUpdate(m_stateIds[SID_TpDataPath], Utils::tpDataPath());
 	initEngine();
 	clearScriptErrors();
+	loadStartupScript();
 	m_loadSettingsTmr.start();
 }
 
@@ -1160,6 +1178,9 @@ void Plugin::handleSettings(const QJsonObject &settings) const
 		DSE::scriptsBaseDir = QDir::fromNativeSeparators(val.toString().trimmed());
 		if (!DSE::scriptsBaseDir.isEmpty() && !DSE::scriptsBaseDir.endsWith('/'))
 			DSE::scriptsBaseDir += '/';
+	}
+	if (!(val = settings.value(tokenToName(ST_LoadScriptAtStart))).isUndefined()) {
+		QSettings().setValue(SETTINGS_GROUP_PLUGIN "/" SETTINGS_KEY_STARTUP_SCRIPT, val.toString().trimmed());
 	}
 	if (!g_startupComplete && !(val = settings.value(tokenToName(ST_SettingsVersion))).isUndefined()) {
 		// Currently not actually doing anything based on stored plugin settings, except a log message. Reserved for future use.

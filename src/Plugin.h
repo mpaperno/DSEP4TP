@@ -73,6 +73,7 @@ class Plugin : public QObject
 
 	private:
 		void initEngine();
+		void loadStartupScript();
 
 		void savePluginSettings() const;
 		void saveAllInstances() const;
