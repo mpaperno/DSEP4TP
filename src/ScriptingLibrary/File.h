@@ -76,11 +76,14 @@ class File : public QObject
 		{
 			setObjectName("File");
 #ifdef Q_OS_WIN
-			qt_ntfs_permission_lookup = 1; // turn NTFS checking on
+			qt_ntfs_permission_lookup++; // turn NTFS checking on
 #endif
 		}
 
 		virtual ~File() {
+#ifdef Q_OS_WIN
+			qt_ntfs_permission_lookup--; // turn NTFS checking off
+#endif
 			//qCDebug(lcPlugin) << this << "Destroyed";
 		}
 
