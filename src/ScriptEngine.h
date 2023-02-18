@@ -102,6 +102,7 @@ class ScriptEngine : public QObject
 
 		inline QJSEngine *engine() const { return se; }
 		inline QJSValue globalObject() const { return se ? se->globalObject() : QJSValue(); }
+		inline QJSValue registeredModules() const { return globalObject().property("registeredModules"); }
 		inline DSE *dseObject() const { return dse; }
 		inline bool isSharedInstance() const { return m_isShared; }
 		inline DSE::EngineInstanceType instanceType() const { return m_isShared ? DSE::EngineInstanceType::SharedInstance : DSE::EngineInstanceType::PrivateInstance; }
@@ -169,6 +170,7 @@ class ScriptEngine : public QObject
 #if SCRIPT_ENGINE_USE_QML
 		NetworkAccessManagerFactory m_factory;
 #endif
+
 		void initScriptEngine();
 		bool resolveFilePath(const QString &fileName, QString &resolvedFile) const;
 

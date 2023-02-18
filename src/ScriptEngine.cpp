@@ -21,6 +21,7 @@ to any 3rd-party components used within.
 #include "ScriptEngine.h"
 #include "Plugin.h"
 #include "ScriptingLibrary/AbortController.h"
+#include "ScriptingLibrary/Clipboard.h"
 #include "ScriptingLibrary/Dir.h"
 #include "ScriptingLibrary/File.h"
 #include "ScriptingLibrary/Process.h"
@@ -163,6 +164,10 @@ void ScriptEngine::initScriptEngine()
 	//evalScript(QStringLiteral(":/scripts/string.js"));
 	//evalScript(QStringLiteral(":/scripts/stringformat.js"));
 	//evalScript(QStringLiteral(":/scripts/global.js"));
+
+	QJSValue modules = registeredModules();
+	modules.setProperty("clipboard", se->newQObject(ScriptLib::Clipboard::instance()));
+	se->registerModule("clipboard", modules.property("clipboard"));
 
 	Q_EMIT engineInitComplete();
 	qCDebug(lcPlugin) << "Engine init completed for" << m_name;
@@ -406,6 +411,16 @@ void ScriptEngine::include(const QString &file) const
 
 QJSValue ScriptEngine::require(const QString &file) const
 {
+	// If no file extension, assume a registered named module is requested.
+	if (file.indexOf('.') < 0) {
+		QJSValue module;
+		if ((module = registeredModules().property(file)).isObject())
+			return module;
+		qCWarning(lcDse()) << "Registered module name" << file << "not found. Attempting file search...";
+		//throwError(QJSValue::URIError, tr("Module name not found for require('%1').").arg(file));
+		//return se->newObject();
+	}
+
 	QString resolvedFile;
 	if (!resolveFilePath(file, resolvedFile)) {
 		throwError(QJSValue::URIError, tr("File not found for require('%1'). Resolved file path: '%2'").arg(file, resolvedFile));
@@ -422,9 +437,12 @@ QJSValue ScriptEngine::require(const QString &file) const
 	}
 
 	QJSValue mod = se->importModule(resolvedFile);
-	if (!mod.isError())
+	if (mod.isError())
+		throwError(mod, QByteArray());
+	else if (se->hasError())
+		checkErrors();
+	else
 		return mod;
-	throwError(mod, QByteArray());
 	return se->newObject();
 }
 

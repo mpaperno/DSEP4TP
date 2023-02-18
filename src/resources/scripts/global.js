@@ -31,7 +31,10 @@ var
   include = Util.include,
   require = Util.require,
   locale = Qt ? Qt.locale : function() {},
-  TP = TPAPI
+  TP = TPAPI,
+  registeredModules = {
+    "clipboard": undefined
+  }
 ;
 
 TPAPI.onconnectorIdsChanged = function(r, t=null) { onEventHandler(TPAPI.connectorIdsChanged, r, t); }
