@@ -209,6 +209,27 @@ class DSE : public QObject
 		Q_PROPERTY(PersistenceType PersistSave      READ PersistenceType_PersistSave      CONSTANT)
 #endif
 
+		//! Script instance saved default value type. These values determine what happens when a script instance is restored from persistent storage.
+		//! \sa DynamicScript.defaultType
+		enum SavedDefaultType : quint8 {
+			NoSavedDefault,      //!< The instance is not saved in persistent settings, default value type is not applicatble.
+			FixedValueDefault,   //!< Instance is created with a fixed default or empty value (specified in `DynamicScript.defaultValue`)
+			CustomExprDefault,   //!< Instance is created with default value coming from evaluating a custom expression (specified in `DynamicScript.defaultValue`)
+			MainExprDefault,     //!< Instance is created with default value coming from evaluating the last saved primary expression
+			                     //!  (exactly as last sent from the corresponding Touch Portal action/connector).
+		};
+		Q_ENUM(SavedDefaultType)
+#ifndef DOXYGEN
+		static SavedDefaultType SavedDefaultType_NoSavedDefault()    { return NoSavedDefault; }
+		static SavedDefaultType SavedDefaultType_FixedValueDefault() { return FixedValueDefault; }
+		static SavedDefaultType SavedDefaultType_CustomExprDefault() { return CustomExprDefault; }
+		static SavedDefaultType SavedDefaultType_MainExprDefault()   { return MainExprDefault; }
+		Q_PROPERTY(SavedDefaultType NoSavedDefault     READ SavedDefaultType_NoSavedDefault    CONSTANT)
+		Q_PROPERTY(SavedDefaultType FixedValueDefault  READ SavedDefaultType_FixedValueDefault CONSTANT)
+		Q_PROPERTY(SavedDefaultType CustomExprDefault  READ SavedDefaultType_CustomExprDefault CONSTANT)
+		Q_PROPERTY(SavedDefaultType MainExprDefault    READ SavedDefaultType_MainExprDefault   CONSTANT)
+#endif
+
 		//! Defines how an action should behave when it is being "activated" as in the case of a button.
 		//! A button technically how two transition states -- when pressed and when released. The time between those events
 		//! can also either be ignored, reacting only to the transition(s), or used to do something,
@@ -231,25 +252,6 @@ class DSE : public QObject
 		Q_PROPERTY(ActivationBehavior OnPress      READ ActivationBehavior_OnPress      CONSTANT)
 		Q_PROPERTY(ActivationBehavior OnRelease    READ ActivationBehavior_OnRelease    CONSTANT)
 		Q_PROPERTY(ActivationBehavior RepeatOnHold READ ActivationBehavior_RepeatOnHold CONSTANT)
-#endif
-
-		//! Script instance Touch Portal State creation setting and default value type.
-		enum StateDefaultType : quint8 {
-			NoStateUsed,         //!< No Touch Portal State is created or used at all.
-			FixedValueDefault,   //!< State is created with a fixed default value (specified in `DynamicScript.defaultValue`)
-			CustomExprDefault,   //!< State is created with default value coming from evaluating a custom expression (specified in `DynamicScript.defaultValue`)
-			MainExprDefault,     //!< State is created with default value coming from evaluating the same expression as specified in the action to invoke this instance.
-		};
-		Q_ENUM(StateDefaultType)
-#ifndef DOXYGEN
-		static StateDefaultType StateDefaultType_NoStateUsed()    { return NoStateUsed; }
-		static StateDefaultType StateDefaultType_FixedValueDefault() { return FixedValueDefault; }
-		static StateDefaultType StateDefaultType_CustomExprDefault() { return CustomExprDefault; }
-		static StateDefaultType StateDefaultType_MainExprDefault()   { return MainExprDefault; }
-		Q_PROPERTY(StateDefaultType NoSavedDefault     READ StateDefaultType_NoStateUsed       CONSTANT)
-		Q_PROPERTY(StateDefaultType FixedValueDefault  READ StateDefaultType_FixedValueDefault CONSTANT)
-		Q_PROPERTY(StateDefaultType CustomExprDefault  READ StateDefaultType_CustomExprDefault CONSTANT)
-		Q_PROPERTY(StateDefaultType MainExprDefault    READ StateDefaultType_MainExprDefault   CONSTANT)
 #endif
 
 		//! Action repeat property type.
@@ -428,7 +430,7 @@ class DSE : public QObject
 Q_DECLARE_METATYPE(DSE*);
 Q_DECLARE_METATYPE(DSE::EngineInstanceType)
 Q_DECLARE_METATYPE(DSE::ScriptInputType)
-Q_DECLARE_METATYPE(DSE::StateDefaultType)
+Q_DECLARE_METATYPE(DSE::SavedDefaultType)
 Q_DECLARE_METATYPE(DSE::RepeatProperty)
 Q_DECLARE_METATYPE(DSE::AdjustmentType)
 Q_DECLARE_METATYPE(DSE::ActivationBehavior)

@@ -82,7 +82,7 @@ class Plugin : public QObject
 		void loadStartupSettings();
 
 		bool saveScriptInstance(const QByteArray &name) const;
-		DynamicScript *loadScriptInstance(const QByteArray &name) const;
+		bool loadScriptInstance(const QByteArray &name) const;
 		bool loadScriptSettings(DynamicScript *ds) const;
 		ScriptEngine *getOrCreateEngine(const QByteArray &name, bool failIfMissing = false) const;
 		DynamicScript *getOrCreateInstance(const QByteArray &name, bool forUpdateAction = false, bool loadSettings = false) const;

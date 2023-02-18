@@ -52,6 +52,7 @@ It has properties representing some of the action parameters which can be set in
 Most properties are read-only, but a few can be set at runtime such as the default type/value and held action repeating delay/rate.
 
 A DynamicScript object instance can be retrieved with the `DSE` object functions such as `DSE.currentInstance()`, `DSE.instance()`, or `DSE.instanceList()`.
+They cannot be created directly (eg. `new DynamicScript()` will not work).
 
 \since v1.1
 */
@@ -98,6 +99,16 @@ class DynamicScript : public QObject
 		//! Persistence essentially determines the lifespan of this script instance. "Session" persistence means it will exist until DSE exits. "Saved" means the instance data will be saved
 		//! to a settings file when DSE exits, and restored from settings the next time DSE starts. "Temporary" instances will be automatically deleted after a time span specified in \ref autoDeleteDelay.
 		Q_PROPERTY(DSE::PersistenceType persistence READ persistence WRITE setPersistence)
+		//! When \ref persistence is of `DSE.PersistSave` type, this property value determines what happens when this instance is initially loaded from storage.
+		//! `DSE.SavedDefaultType` enumeration value, one of: `DSE.FixedValueDefault`, `DSE.CustomExprDefault`, `DSE.MainExprDefault`
+		//! \sa defaultValue, persistence
+		Q_PROPERTY(DSE::SavedDefaultType defaultType READ defaultType WRITE setDefaultType)
+		//! The default value specified for saved instance, if any. Depending on the value of \ref defaultType, this could be an empty string, a fixed default string value, or an expression to be evaluated.
+		//! \sa defaultType, persistence
+		Q_PROPERTY(QByteArray defaultValue READ defaultValue WRITE setDefaultValue)
+		//! For temporary instances, where \ref persistence property is `DSE.PersistTemporary`, this property determines the delay time before the instance is automatically deleted. The value is in milliseconds.
+		//! The default delay time is 10 seconds (10,000 ms). If the instance created a Touch Portal State, the State is also removed after this delay time.  \sa persistence
+		Q_PROPERTY(int autoDeleteDelay READ autoDeleteDelay WRITE setAutoDeleteDelay)
 		/*!
 			Persistent arbitrary data storage object which is attached to this script instance. This is a generic Object type on which properties can be created or deleted as necessary.
 			The property value(s) can be any __serializable__ (to/from JSON) data type, incuding a objects or arrays.
@@ -129,9 +140,6 @@ class DynamicScript : public QObject
 			This property is read-only (meaning the actual storage object cannot be changed; properties of the object itself _can_ be fully manipulated).
 		*/
 		Q_PROPERTY(QJSValue dataStore READ dataStorage CONSTANT)
-		//! For temporary instances, where \ref persistence property is `DSE.PersistTemporary`, this property determines the delay time before the instance is automatically deleted. The value is in milliseconds.
-		//! The default delay time is 10 seconds (10,000 ms). If the instance created a Touch Portal State, the State is also removed after this delay time.  \sa persistence
-		Q_PROPERTY(int autoDeleteDelay READ autoDeleteDelay WRITE setAutoDeleteDelay)
 		//! \}
 
 		//! \name Touch Portal State properties.
@@ -140,31 +148,24 @@ class DynamicScript : public QObject
 		//! This property value is `true` when when this script instance was created with "Create State" set to "Yes" by the corresponding action, and `false` otherwise.
 		//! Changing this property from `false` to `true` will create a new Touch Portal State, and toggling from `true` to `false` will remove the State from Touch Portal.
 		//! State creation happens "laziliy," meaning one will be created before a State update is to be sent (if ever). State removal, on the other hand, is immediate.  \sa stateCreated
-		//Q_PROPERTY(bool createState MEMBER createState WRITE setCreateState)
-
-		//! The "Create State" option selection. `DSE.StateDefaultType` enumeration value, one of: `DSE.NoStateUsed`, `DSE.FixedValueDefault`, `DSE.CustomExprDefault`, `DSE.MainExprDefault`
-		//! \sa stateDefaultValue
-		Q_PROPERTY(DSE::StateDefaultType stateDefaultType READ defaultType WRITE setDefaultType)
-		//! The default State value specified for saved instance, if any. Depending on the value of \ref stateDefaultType,
-		//! this could be an empty string, a fixed default string value, or an expression to be evaluated.  \sa stateDefaultType
-		Q_PROPERTY(QByteArray stateDefaultValue READ defaultValue WRITE setDefaultValue)
+		Q_PROPERTY(bool createState READ createState WRITE setCreateState)
 		//! The State ID of this instance as used with Touch Portal to uniquely identify this State, if any.
-		//! This value will be empty when \ref stateDefaultType property is `DSE.NoStateUsed`. If not empty, this is typically in the form of `DSE.VALUE_STATE_PREFIX + name`.
+		//! This value will be empty when \ref createState property is `false`. If not empty, this is typically in the form of `DSE.VALUE_STATE_PREFIX + name`.
 		//! \n This property is read-only.
 		Q_PROPERTY(QString stateId READ stateId CONSTANT)
 		//! The "friendly name" of the created State (if any), as it will appear in Touch Portal selector lists. By default this is the same as the \ref name property.
 		//! \n If this property is set by a script or expression in the initial evaluation (when the Action creating it is first used), then the State will be created with the new name.
-		//! \n Changing this property _after_ the State has already been created will have no effect. Either set it before changing the \ref stateDefaultType property,
-		//! or toggle \ref stateDefaultType to `DSE.NoStateUsed` and then to another value to re-create the State under the new parent category. \sa stateDefaultType, stateCreated
+		//! \n Changing this property _after_ the State has already been created will have no effect. Either set it before changing the \ref createState property,
+		//! or toggle \ref createState to `false` and then `true` again to re-create the State under the new parent category. \sa createState, stateCreated
 		Q_PROPERTY(QString stateName READ stateName WRITE stateName)
 		//! This property holds the name of the Touch Portal parent cateogry into which the created State (if any) will be placed.
 		//! By default the property is not explicitly set, and reading it will return the global default value (`DSE.VALUE_STATE_PARENT_CATEOGRY`).
 		//! \n If this property is set by a script or expression in the initial evaluation (when the Action creating it is first used), then the State will be created with the new name.
-		//! \n Changing this property _after_ the State has already been created will have no effect. Either set it before changing the \ref stateDefaultType property,
-		//! or toggle \ref stateDefaultType to `DSE.NoStateUsed` and then to another value to re-create the State under the new parent category.   \sa stateDefaultType, stateCreated
+		//! \n Changing this property _after_ the State has already been created will have no effect. Either set it before changing the \ref createState property,
+		//! or toggle \ref createState to `false` and then to `true` again to re-create the State under the new parent category.   \sa createState, stateCreated
 		Q_PROPERTY(QString stateParentCategory READ stateCategory WRITE stateCategory)
-		//! This read-only property value is `true` if a Touch Portal State has already been created for this script instance, `false` otherwise. This should always be `false` if \ref stateDefaultType is `DSE.NoStateUsed`.
-		//! \n This property is read-only.
+		//! This read-only property value is `true` if a Touch Portal State has been created for this script instance, `false` otherwise. This should always be `false` if \ref createState is `false`.
+		//! \n This property is read-only.  \sa createState
 		Q_PROPERTY(bool stateCreated READ stateCreated CONSTANT)
 		//! \}
 
@@ -235,7 +236,8 @@ class DynamicScript : public QObject
 		DSE::ActivationBehaviors m_activation = DSE::ActivationBehavior::OnRelease; // | DSE::ActivationBehavior::RepeatOnHold;
 		DSE::PersistenceType m_persist = DSE::PersistenceType::PersistSession;
 		DSE::EngineInstanceType m_scope = DSE::EngineInstanceType::UnknownInstanceType;
-		DSE::StateDefaultType m_defaultType = DSE::StateDefaultType::NoStateUsed;
+		DSE::SavedDefaultType m_defaultType = DSE::SavedDefaultType::FixedValueDefault;
+		std::atomic_bool m_createState = false;
 		std::atomic_int m_autoDeleteDelay = 10 * 1000;
 		std::atomic_int m_repeatRate = -1;
 		std::atomic_int m_repeatDelay = -1;
@@ -266,7 +268,8 @@ class DynamicScript : public QObject
 		explicit DynamicScript(const QByteArray &name, QObject *p = nullptr);
 		~DynamicScript();
 
-		inline bool createState() const { return m_defaultType != DSE::StateDefaultType::NoStateUsed; }
+		inline bool createState() const { return m_createState; }
+		void setCreateState(bool create);
 
 		// returns empty if createState == false
 		QByteArray stateId() const { return createState() ? tpStateId : QByteArray(); }
@@ -295,13 +298,13 @@ class DynamicScript : public QObject
 		int autoDeleteDelay() const { return m_autoDeleteDelay; }
 		void setAutoDeleteDelay(int ms) { m_autoDeleteDelay = ms; }
 
-		DSE::StateDefaultType defaultType() const { return m_defaultType; }
-		void setDefaultType(DSE::StateDefaultType type);
+		DSE::SavedDefaultType defaultType() const { return m_defaultType; }
+		void setDefaultType(DSE::SavedDefaultType type);
 
 		QByteArray defaultValue() const { return m_defaultValue; }
 		void setDefaultValue(const QByteArray &value) { m_defaultValue = value; }
 
-		void setDefaultTypeValue(DSE::StateDefaultType defType, const QByteArray &def)
+		void setDefaultTypeValue(DSE::SavedDefaultType defType, const QByteArray &def)
 		{
 			setDefaultType(defType);
 			setDefaultValue(def);
@@ -385,12 +388,12 @@ class DynamicScript : public QObject
 
 	public Q_SLOTS:
 		//! Send a Touch Portal State value update using this instance's `stateId` as the State ID.
-		//! If \ref stateDefaultType property is `DSE.NoStateUsed` then calling this method has no effect. \n
-		//! Using this method is equivalent to (for example, assuming `ds` is an instance of DynamicScript): `TP.stateUpdateById(ds.stateId, value)`
+		//! If \ref createState property is `false` then calling this method has no effect. \n
+		//! This method will create the Touch Portal State if it has not already been created.
 		inline void stateUpdate(const QByteArray &value) {
 			if (createState()) {
 				// FIXME: TP v3.1 doesn't fire state change events based on the default value; v3.2 might.
-				createTpState(/*m_defaultType != DSE::StateDefaultType::MainExprDefault*/);
+				createTpState(/*m_defaultType != DSE::SavedDefaultType::MainExprDefault*/);
 				Q_EMIT dataReady(tpStateId, value);
 				//qCDebug(lcPlugin) << "DynamicScript instance" << name << "sending result:" << value;
 			}
@@ -399,9 +402,6 @@ class DynamicScript : public QObject
 		void setPressedState(bool isPressed);
 
 	Q_SIGNALS:
-		void dataReady(const QByteArray &stateName, const QByteArray &result);
-		void scriptError(const JSError &e);
-		void finished();
 		void repeatRateChanged(int ms);
 		void repeatDelayChanged(int ms);
 		void activeRepeatRateChanged(int ms);
@@ -410,24 +410,47 @@ class DynamicScript : public QObject
 
 	private Q_SLOTS:
 		// These are private to keep them hidden from scripting environment. `Plugin` is marked as friend to use these methods.
-		void removeTpState();
 		void evaluate();
 		void evaluateDefault();
 
 		// these really _are_ private
 		void serializeStoredData();
-		void createTpState(bool useActualDefault = false);
-		void setCreateState();
 		void setPressed(bool isPressed);
 		void setupRepeatTimer(bool create = true);
 		void repeatEvaluate();
 		QByteArray getDefaultValue();
 
 	private:
-		void moveToMainThread();
+		Q_SIGNAL void dataReady(const QByteArray &stateName, const QByteArray &result);
+		Q_SIGNAL void stateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &) const;
+		Q_SIGNAL void stateRemove(const QByteArray &) const;
+		Q_SIGNAL void scriptError(const JSError &e);
+		Q_SIGNAL void finished();
+
+		//void moveToMainThread();
 		bool setExpr(const QString &expr);
 		bool setFile(const QString &file);
 		bool scheduleRepeatIfNeeded();
+
+		inline void createTpState(bool useActualDefault = false)
+		{
+			// FIXME: TP v3.1 doesn't fire state change events based on the default value; v3.2 might.
+			if (!m_state.testFlags(TpStateCreatedFlag)) {
+				m_state.setFlag(TpStateCreatedFlag, true);
+				const QByteArray val = useActualDefault ? getDefaultValue() : QByteArray();
+				Q_EMIT stateCreate(tpStateId, stateCategory(), stateName(), val);
+				qCDebug(lcPlugin) << "Created instance State" << tpStateId << "in" << stateCategory();
+			}
+		}
+
+		inline void removeTpState()
+		{
+			if (m_state.testFlags(TpStateCreatedFlag)) {
+				m_state.setFlag(TpStateCreatedFlag, false);
+				Q_EMIT stateRemove(tpStateId);
+				qCDebug(lcPlugin) << "Removed instance State" << tpStateId;
+			}
+		}
 
 		friend class Plugin;
 		Q_DISABLE_COPY(DynamicScript)

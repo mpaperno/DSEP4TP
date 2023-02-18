@@ -74,33 +74,39 @@ static DSE::EngineInstanceType stringToScope(const QByteArray &str, bool unknown
 }
 
 // legacy for v < 1.2
-static DSE::StateDefaultType stringToDefaultType(QStringView str)
+static DSE::SavedDefaultType stringToDefaultType(QStringView str)
 {
-	return str.isEmpty() || str.at(0) == 'N' ? DSE::NoStateUsed :
-	                                           str.at(0) == 'F' ? DSE::FixedValueDefault :
-	                                                              str.at(0) == 'C' ? DSE::CustomExprDefault :
-	                                                                                 DSE::MainExprDefault;
-}
-
-static DSE::StateDefaultType stringToStateType(QStringView str)
-{
-	//	"No",
-	//  "Yes, default type:\nFixed Value",
-	//  "Yes, default type:\nCustom Expression",
-	//  "Yes, default type:\nAction's Expression"
-	if (str.length() < 20 /*|| str.at(0) != 'Y'*/)
-		return DSE::NoStateUsed;
-
-	const QChar typ = str.at(19);
-	return typ == 'A' ? DSE::MainExprDefault : typ == 'C' ? DSE::CustomExprDefault : DSE::FixedValueDefault;
+	return str.isEmpty() || str[0] == 'N' ? DSE::NoSavedDefault :
+	                                        str[0] == 'F' ? DSE::FixedValueDefault :
+	                                                        str[0] == 'C' ? DSE::CustomExprDefault :
+	                                                                        DSE::MainExprDefault;
 }
 
 static DSE::PersistenceType stringToPersistenceType(QStringView str)
 {
-	// "Session", "Saved", "Temporary"
-	if (str.isEmpty() || (str.at(0) == 'S' && str.at(1) == 'e'))
-		return DSE::PersistenceType::PersistSession;
-	return str.at(0) == 'T' ? DSE::PersistenceType::PersistTemporary : DSE::PersistenceType::PersistSave;
+	// "Session",
+	// "Temporary",
+	// "Saved, load with:\n ....", ...
+	if (str.size() > 18)
+		return DSE::PersistenceType::PersistSave;
+	return str.empty() || str[0] == 'S' ? DSE::PersistenceType::PersistSession : DSE::PersistenceType::PersistTemporary;
+}
+
+static DSE::SavedDefaultType stringToSavedDefaultType(QStringView str)
+{
+	//"Saved, load with:\n Fixed Value",
+	//"Saved, load with:\n Custom Expression",
+	//"Saved, load with:\n Last Expression"
+	if (str.size() < 20)
+		return DSE::SavedDefaultType::NoSavedDefault;
+	switch (str[19].toLatin1()) {
+		case 'C':
+			return DSE::CustomExprDefault;
+		case 'L':
+			return DSE::MainExprDefault;
+		default:
+			return DSE::FixedValueDefault;
+	}
 }
 
 static DSE::ActivationBehaviors stringToActivationType(QStringView str)
@@ -110,13 +116,13 @@ static DSE::ActivationBehaviors stringToActivationType(QStringView str)
 	//  "On Press\nthen Repeat",
 	//  "Repeat\nafter Delay",
 	//  "On Release"
-	if (str.length() < 4 || str.at(3) == 'R')
+	if (str.size() < 4 || str[3] == 'R')
 		return DSE::ActivationBehavior::OnRelease;
-	if (str.at(0) == 'R')
+	if (str[0] == 'R')
 		return DSE::ActivationBehavior::RepeatOnHold;
-	if (str.length() < 10)
+	if (str.size() < 10)
 		return DSE::ActivationBehavior::OnPress;
-	if (str.at(8) == '\n')
+	if (str[8] == '\n')
 		return DSE::ActivationBehavior::OnPress | DSE::ActivationBehavior::RepeatOnHold;
 	return DSE::ActivationBehavior::OnPress | DSE::ActivationBehavior::OnRelease;
 }
@@ -344,34 +350,33 @@ void Plugin::loadAllInstances() const
 	const QStringList &childs = s.childKeys();
 	s.endGroup();
 	for (const QString &dvName : childs) {
-		if (DynamicScript *ds = loadScriptInstance(dvName.toUtf8())) {
+		if (loadScriptInstance(dvName.toUtf8()))
 			++count;
-			QMetaObject::invokeMethod(ds, "evaluateDefault", Qt::QueuedConnection);
-		}
 	}
 	qCInfo(lcPlugin) << "Loaded" << count << "saved instance(s) from settings.";
 
 	sendInstanceLists();
 }
 
-DynamicScript *Plugin::loadScriptInstance(const QByteArray &name) const
+bool Plugin::loadScriptInstance(const QByteArray &name) const
 {
 	DynamicScript *ds = getOrCreateInstance(name);
 	if (!loadScriptSettings(ds)) {
 		removeInstance(ds);
-		return nullptr;
+		return false;
 	}
 	if (ds->instanceType() == DSE::PrivateInstance) {
 		if (Q_UNLIKELY(ds->engineName().isEmpty())) {
 			qCWarning(lcPlugin) << "Engine name for script instance" << name << "is empty.";
-			return ds;
+			return true;
 		}
 		ds->setEngine(getOrCreateEngine(ds->engineName()));
 	}
 	else {
 		ds->setEngine(ScriptEngine::instance());
 	}
-	return ds;
+	QMetaObject::invokeMethod(ds, "evaluateDefault", Qt::QueuedConnection);
+	return true;
 }
 
 bool Plugin::loadScriptSettings(DynamicScript *ds) const
@@ -422,6 +427,8 @@ DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool forUpdat
 			loadScriptSettings(ds);
 		connect(ds, &DynamicScript::scriptError, this, &Plugin::onScriptError, Qt::QueuedConnection);
 		connect(ds, &DynamicScript::dataReady, client, qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
+		connect(ds, &DynamicScript::stateCreate, client, qOverload<const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &>(&TPClientQt::createState), Qt::QueuedConnection);
+		connect(ds, &DynamicScript::stateRemove, client, qOverload<const QByteArray &>(&TPClientQt::removeState), Qt::QueuedConnection);
 		sendInstanceLists();
 	}
 	return ds;
@@ -434,11 +441,12 @@ void Plugin::removeInstance(DynamicScript *ds, bool removeFromGlobal, bool remov
 	ScriptEngine *se = ds->engine();
 	ScriptEngine::instance()->clearInstanceData(ds);
 	ds->removeTpState();
+	disconnect(ds, nullptr, this, nullptr);
+	disconnect(ds, nullptr, client, nullptr);
 	if (removeFromGlobal) {
 		DSE::removeInstance(ds->name);
 		sendInstanceLists();
 	}
-	disconnect(ds, nullptr, this, nullptr);
 	qCInfo(lcPlugin) << "Deleted Script instance" << ds->name;
 	delete ds;
 
@@ -904,37 +912,30 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 		}
 		ds->setEngine(se);
 
+		// The "state" data value introduced in v1.2
 		const QString &stateParam = dataMap.value("state");
-		// preserve BC with < v1.2 actions which all create a state (except SS types but thsoe are excluded, above).
-		if (stateParam.isEmpty()) {
-			if (type == TPClientQt::MessageType::connectorChange) {
-				// Connectors do not have a "save" option; Do not modify any previosly-set defaults but make sure a State is created.
-				if (ds->defaultType() == DSE::StateDefaultType::NoStateUsed)
-					ds->setDefaultType(DSE::StateDefaultType::FixedValueDefault);
-			}
-			else {
-				// The "save" option only dictated if the instance was saved to settings; Interpret that into persistence and saved default properties.
-				DSE::StateDefaultType defType = stringToDefaultType(dataMap.value("save"));
-				ds->setPersistence(defType > DSE::StateDefaultType::NoStateUsed ? DSE::PersistenceType::PersistSave : DSE::PersistenceType::PersistSession);
-				if (defType == DSE::StateDefaultType::NoStateUsed)
-					defType = DSE::StateDefaultType::FixedValueDefault;
-				ds->setDefaultTypeValue(defType, dataMap.value("default").toUtf8());
-			}
-		}
-		// handle new action types for v1.2+
-		else {
-			ds->setPersistence(stringToPersistenceType(dataMap.value("save")));
+		// preserve BC with < v1.2 actions which all create a state (except SS types but those are excluded, above).
+		ds->setCreateState(stateParam.isEmpty() || stateParam.at(0) == 'Y');
 
-			if (type == TPClientQt::MessageType::connectorChange) {
-				// Connectors do not have a default type parameter, only State yes/no; Do not modify any previosly-set defaults.
-				DSE::StateDefaultType defType = stateParam.at(0) == 'N' ? DSE::StateDefaultType::NoStateUsed : DSE::StateDefaultType::FixedValueDefault;
-				if (defType == DSE::StateDefaultType::FixedValueDefault && ds->defaultType() == DSE::StateDefaultType::NoStateUsed)
-					ds->setDefaultType(DSE::StateDefaultType::FixedValueDefault);
-				else if (defType == DSE::StateDefaultType::NoStateUsed && ds->defaultType() > DSE::StateDefaultType::NoStateUsed)
-					ds->setDefaultType(DSE::StateDefaultType::NoStateUsed);
+		// handle new action types for v1.2+
+		if (Q_LIKELY(!stateParam.isEmpty())) {
+			// The "save" parameter has persistence setting for both actions and connectors
+			const QString &saveParam = dataMap.value("save");
+			ds->setPersistence(stringToPersistenceType(saveParam));
+			// for actions, not connectors, the "save" property can also set the default saved value type
+			if (type != TPClientQt::MessageType::connectorChange && ds->persistence() == DSE::PersistenceType::PersistSave)
+				ds->setDefaultTypeValue(stringToSavedDefaultType(saveParam), dataMap.value("default").toUtf8());
+		}
+		// Handle < v1.2 actions; Deprecated
+		else if (type != TPClientQt::MessageType::connectorChange) {
+			// The "save" option only dictated if the instance was saved to settings; Interpret that into persistence and saved default properties.
+			DSE::SavedDefaultType defType = stringToDefaultType(dataMap.value("save"));
+			if (defType == DSE::SavedDefaultType::NoSavedDefault) {
+				ds->setPersistence(DSE::PersistenceType::PersistSession);
 			}
 			else {
-				ds->setDefaultTypeValue(stringToStateType(stateParam), dataMap.value("default").toUtf8());
+				ds->setPersistence(DSE::PersistenceType::PersistSave);
+				ds->setDefaultTypeValue(defType, dataMap.value("default").toUtf8());
 			}
 		}
 	}  // act != AID_Update

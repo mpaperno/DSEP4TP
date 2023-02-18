@@ -45,14 +45,14 @@ DynamicScript::~DynamicScript() {
 	//qCDebug(lcPlugin) << name << "Destroyed";
 }
 
-void DynamicScript::moveToMainThread()
-{
-	if (this->thread() == qApp->thread())
-		return;
-	Utils::runOnThreadSync(this->thread(), [&]() {
-		moveToThread(qApp->thread());
-	});
-}
+//void DynamicScript::moveToMainThread()
+//{
+//	if (this->thread() == qApp->thread())
+//		return;
+//	Utils::runOnThreadSync(this->thread(), [&]() {
+//		moveToThread(qApp->thread());
+//	});
+//}
 
 bool DynamicScript::setExpressionProperties(const QString &expr)
 {
@@ -143,15 +143,12 @@ bool DynamicScript::setEngine(ScriptEngine *se)
 	return !(m_state.setFlag(State::UninitializedState, !se) & State::CriticalErrorState);
 }
 
-void DynamicScript::setDefaultType(DSE::StateDefaultType type)
+void DynamicScript::setDefaultType(DSE::SavedDefaultType type)
 {
 	if (m_defaultType == type)
 		return;
 	QWriteLocker lock(&m_mutex);
-	bool prevState = createState();
 	m_defaultType = type;
-	if (createState() != prevState)
-		setCreateState();
 }
 
 void DynamicScript::setActivation(DSE::ActivationBehaviors behavior)
@@ -198,7 +195,7 @@ QByteArray DynamicScript::serialize() const
 	QByteArray ba;
 	QDataStream ds(&ba, QIODevice::WriteOnly);
 	ds << SAVED_PROPERTIES_VERSION << int(m_engine ? m_engine->instanceType() : m_scope) << (int)m_inputType << m_expr << m_file << m_moduleAlias
-	   << m_defaultValue << (int)m_defaultType
+	   << m_defaultValue << (int)m_defaultType << m_createState
 	   << m_repeatDelay << m_repeatRate << (m_engine ? m_engine->name() : m_engineName) << tpStateCategory << tpStateName
 	   << (int)m_persist << (int)m_activation;
 	if (m_storedData.isObject()) {
@@ -231,13 +228,15 @@ bool DynamicScript::deserialize(const QByteArray &data)
 	ds >> scope >> inpType >> expr >> file >> alias >> m_defaultValue >> defType;
 
 	m_scope = (DSE::EngineInstanceType)scope;
+	m_defaultType = (DSE::SavedDefaultType)defType;
 
+	bool createState = true;
 	// DSE::ScriptInputType enum values changed in v2.
 	if (version == 1) {
 		++inpType;
 	}
 	if (version > 2) {
-		ds >> repDelay >> repRate >> m_engineName >> tpStateCategory >> tpStateName >> persist >> act >> m_storedDataVar;
+		ds >> createState >> repDelay >> repRate >> m_engineName >> tpStateCategory >> tpStateName >> persist >> act >> m_storedDataVar;
 		m_repeatDelay = repDelay;
 		m_repeatRate = repRate;
 	}
@@ -247,7 +246,7 @@ bool DynamicScript::deserialize(const QByteArray &data)
 
 	setPersistence((DSE::PersistenceType)persist);
 	setActivation((DSE::ActivationBehaviors)act);
-	setDefaultType((DSE::StateDefaultType)defType);
+	setCreateState(createState);
 
 	//qCDebug(lcPlugin) << name << (DSE::ScriptInputType)type << instType << file << deflt << (DSE::ScriptDefaultType)defType;
 	if (!setProperties((DSE::ScriptInputType)inpType, expr, file, alias, true)) {
@@ -292,34 +291,18 @@ bool DynamicScript::setFile(const QString &file)
 	return true;
 }
 
-void DynamicScript::setCreateState()
+void DynamicScript::setCreateState(bool create)
 {
-	if (!createState()) {
+	if (m_createState == create)
+		return;
+
+	m_createState = create;
+	if (!create) {
 		removeTpState();
 	}
 	else if (m_engine && !m_engine->isSharedInstance()) {
 		// An unqualified stateUpdate command for this particular instance must add our actual state ID before sending.
 		m_engine->connectNamedScriptInstance(this);
-	}
-}
-
-void DynamicScript::createTpState(bool useActualDefault)
-{
-	// FIXME: TP v3.1 doesn't fire state change events based on the default value; v3.2 might.
-	if (!m_state.testFlags(TpStateCreatedFlag)) {
-		m_state.setFlag(TpStateCreatedFlag, true);
-		const QByteArray val = useActualDefault ? getDefaultValue() : QByteArray();
-		Q_EMIT Plugin::instance->tpStateCreate(tpStateId, stateCategory(), stateName(), val);
-		qCDebug(lcPlugin) << "Created instance State" << tpStateId << "in" << stateCategory();
-	}
-}
-
-void DynamicScript::removeTpState()
-{
-	if (m_state.testFlags(TpStateCreatedFlag)) {
-		m_state.setFlag(TpStateCreatedFlag, false);
-		Q_EMIT Plugin::instance->tpStateRemove(tpStateId);
-		qCDebug(lcPlugin) << "Removed instance State" << tpStateId;
 	}
 }
 
@@ -482,7 +465,7 @@ QByteArray DynamicScript::getDefaultValue()
 		return QByteArray();
 
 	QReadLocker lock(&m_mutex);
-	const QString expr = m_defaultType == DSE::StateDefaultType::CustomExprDefault ? m_defaultValue : m_defaultType == DSE::StateDefaultType::MainExprDefault ? m_expr : QByteArray();
+	const QString expr = m_defaultType == DSE::SavedDefaultType::CustomExprDefault ? m_defaultValue : m_defaultType == DSE::SavedDefaultType::MainExprDefault ? m_expr : QByteArray();
 	QJSValue res;
 	switch (m_inputType) {
 		case DSE::ScriptInputType::ExpressionInput:
@@ -510,7 +493,7 @@ QByteArray DynamicScript::getDefaultValue()
 		Q_EMIT scriptError(JSError(res));
 	}
 
-	if (m_defaultType == DSE::StateDefaultType::FixedValueDefault)
+	if (m_defaultType == DSE::SavedDefaultType::FixedValueDefault)
 		return m_defaultValue;
 
 	if (!res.isUndefined() && !res.isNull() && !res.isError())

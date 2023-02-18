@@ -288,42 +288,45 @@ function appendScopeData(id, data, defaultScope = "Shared") {
     return format;
 }
 
-function appendPersistOptionData(id, data) {
-    let format = `Instance\nPersistence{${data.length}}`;
-    data.push(
-        makeChoiceData(id + ".save", "Persistence", [
-            "Session",
-            "Saved",
-            "Temporary",
-        ]),
-    );
-    return format;
-}
-
 function appendStateOptionData(id, data) {
-    let defaultVal;
-    let format = `Create\n${EN}State{${data.length}}`;
-    data.push(
-        makeChoiceData(id + ".state", "Create State", [
-            "No",
-            defaultVal =
-            "Yes, default type:\nFixed Value",
-            "Yes, default type:\nCustom Expression",
-            "Yes, default type:\nAction's Expression"], defaultVal),
-    );
-    return format + appendSaveOptionData(id, data);
-}
-
-function appendStateOnlyOptionData(id, data) {
     data.push(
         makeChoiceData(id + ".state", "Create State", ["Yes", "No"]),
     );
     return `Create\n${EN}State{${data.length-1}}`;
 }
 
+function appendPersistOptionData(id, data) {
+    let format = `| Instance\n| Persistence{${data.length}}`;
+    data.push(
+        makeChoiceData(id + ".save", "Persistence", [
+            "Session",
+            "Temporary",
+            "Saved, load with:\n"+
+            " Fixed Value",
+            "Saved, load with:\n"+
+            " Custom Expression",
+            "Saved, load with:\n"+
+            " Last Expression"
+        ]),
+    );
+    return format + appendSaveOptionData(id, data);
+}
+
+function appendPersistOnlyOptionData(id, data) {
+    let format = `Instance\nPersistence{${data.length}}`;
+    data.push(
+        makeChoiceData(id + ".save", "Persistence", [
+            "Session",
+            "Temporary",
+            "Saved",
+        ]),
+    );
+    return format;
+}
+
 function appendSaveOptionData(id, data) {
     // let format = appendPersistOptionData(id, data, true);
-    let format = `Default\nVal/Exp.{${data.length}}`;
+    let format = `Load w/\nVal/Expr{${data.length}}`;
     data.push(
         makeTextData(id + ".default", "Default Value/Expression"),
     );
@@ -359,10 +362,10 @@ function addEvalAction(name)
         makeTextData(id + ".expr", "Expression"),
     );
     format += appendScopeData(id, data);
-    format += appendPersistOptionData(id, data);
-    const cdata = data.map(a => ({...a}));
-    addConnector(id, name, descript, format + appendStateOnlyOptionData(id, cdata), cdata);
     format += appendStateOptionData(id, data);
+    const cdata = data.map(a => ({...a}));
+    addConnector(id, name, descript, format + appendPersistOnlyOptionData(id, cdata), cdata);
+    format += appendPersistOptionData(id, data);
     format += appendHoldOptionData(id, data);
     addAction(id, name, descript, format, data, true);
 }
@@ -380,8 +383,8 @@ function addScriptAction(name)
         makeTextData(id + ".expr", "Append Expression", "run([arguments])"),
     );
     format += appendScopeData(id, data);
-    format += appendPersistOptionData(id, data);
     format += appendStateOptionData(id, data);
+    format += appendPersistOptionData(id, data);
     format += appendHoldOptionData(id, data);
     addAction(id, name, descript, format, data, true);
     // No connector for script types, too much I/O
@@ -401,10 +404,10 @@ function addModuleAction(name)
         makeTextData(id + ".expr", "Expression", "M.run([arguments])"),
     );
     format += appendScopeData(id, data);
-    format += appendPersistOptionData(id, data);
-    const cdata = data.map(a => ({...a}));
-    addConnector(id, name, descript, format + appendStateOnlyOptionData(id, cdata), cdata);
     format += appendStateOptionData(id, data);
+    const cdata = data.map(a => ({...a}));
+    addConnector(id, name, descript, format + appendPersistOnlyOptionData(id, cdata), cdata);
+    format += appendPersistOptionData(id, data);
     format += appendHoldOptionData(id, data);
     addAction(id, name, descript, format, data, true);
 }
