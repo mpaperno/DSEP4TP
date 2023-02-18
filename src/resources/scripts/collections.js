@@ -19,26 +19,26 @@ to any 3rd-party components used within.
 */
 
 /*!
-	\fn string fromBase64(data)
+	\fn String fromBase64(any data)
 	\memberof ArrayBuffer
 	\static
 	Creates and returns a new `ArrayBuffer` from the contents of Base64-encoded string `data`.
   This is a static function. Use it like `var buffer = ArrayBuffer.fromBase64(data)`.
 
-	Equivalent to `atob(data)`.
+	Equivalent to `atob(data)`. \sa toBase64(), atob()
 */
 ArrayBuffer.fromBase64 = function(data) { return Util.fromBase64(data); };
 
 /*!
-	\fn string toBase64()
+	\fn String toBase64()
 	\memberof ArrayBuffer
 	Returns the contents of this buffer as a Base64-encoded string.
-	Equivalent to `btoa(buffer)`.
+	Equivalent to `btoa(buffer)`.  \sa fromBase64(), btoa()
 */
 ArrayBuffer.prototype.toBase64 = function() { return Util.toBase64(this); };
 
 /*!
-  \fn string toHex(char separator)
+  \fn String toHex(char separator)
   \memberof ArrayBuffer
   Returns the contents of this buffer as a hex encoded string.
   \param separator Optional **single** separator character to place between each byte in the output.
@@ -52,11 +52,3 @@ ArrayBuffer.prototype.toBase64 = function() { return Util.toBase64(this); };
   ```
 */
 ArrayBuffer.prototype.toHex = function(separator) { return Util.baToHex(this, separator || 0); };
-
-/*
-	\fn string toBase64()
-	\memberof TypedArray
-	Returns the contents of this array's buffer as a Base64-encoded string.
-	Equivalent to `btoa(array.buffer)`.
-*/
-//TypedArray.prototype.toBase64 = function() { return Util.toBase64(this.buffer); };

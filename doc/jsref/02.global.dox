@@ -3,14 +3,14 @@
 /*!
 
 
-	\fn ArrayBuffer atob(data)
+	\fn ArrayBuffer atob(any data)
 	\memberof Global
   \static
   Decodes `data` bytes of base-64 encoded plain text and returns it as binary data ("ascii to binary") in a `ArrayBuffer` container.
   `data` can be a string or `ArrayBuffer` (or similar collection of ASCII bytes).
   Note that strings are automatically converted to ASCII (Latin 1 encoding). To avoid any conversion, pass an `ArrayBuffer` (or similar).
 
-	\fn String btoa(data)
+	\fn String btoa(any data)
 	\memberof Global
   \static
   Returns `data` bytes as base-64 encoded plain text ("binary to ascii"). `data` can be a `ArrayBuffer` or a string.
@@ -40,7 +40,7 @@
   Normally this is taken care of automatically by the script engine on a regular basis, but this function can be used
   to explicitly initiate collection as soon as possible.
 
-  \fn String hash(data, string algorithm = "md5")
+  \fn String hash(any data, String algorithm = "md5")
   \memberof Global
   \static
   Returns a cryptographic hash of `data` using given `algorithm` as a string of hexadecimal characters.
@@ -67,16 +67,78 @@
   Throws a `TypeError` if `algorithm` isn't one of the types listed above.
 
 
-	\fn void include(string scriptFile)
+	\fn void include(String scriptFile)
 	\memberof Global
   \static
 	Read and evaluate `scriptFile` as JavaScript in the current scripting engine context (global object) at the location of this function call.
-	Any errors produced by the script are raised and reported into the current context. Throws an `Error` type if file loading fails (file not found/etc).
+	Any errors produced by the script are raised and reported into the current context.
 
   To get just the contents of a file, w/out evaluating it, use `File.read()`.
 
-  If a relative `scriptFile` path is used, it is resolved using the plugin's **Script Files Base Directory** setting in Touch Portal.
-  If no specific setting is provided, paths are relative to the plugin's install location.  See `DSE.SCRIPTS_BASE_DIR` for more details.
+  If a relative `scriptFile` path is used:
+  - It is first resolved relative to the current script/module file (in which the `include()` call is used).
+  - If that fails (the file is not found), it is then resolved using the current value of the `DSE.SCRIPTS_BASE_DIR` property
+  (the plugin's **Script Files Base Directory** setting in Touch Portal or relative to the plugin's install location).
+  - If the included file still cannot be located at that point, an exception is thrown.
+
+  \throws Error - file loading fails for any reason (file not found/etc).
+  \sa require()
+
+
+  \fn void require(String id)
+  \memberof Global
+  \static
+  Used to import all or part of JavaScript modules or JSON objects. The `id` parameter specifies the name of a module or file to import from,
+  which can be a relative or absolute path to a file, or the name of a previously-registered module (for example provided with the plugin's default
+  environment or registered by the user).
+
+  Files with a `.json` extension are treated as JSON objects. All other file names are treated as ECMAScript Modules. Note that there is
+  currently no support for _CommonJS_-style module features (within the modules themselves).
+
+  If a relative file path is used in the `id` parameter, then:
+  - It is first resolved relative to the current script/module file (in which the `require()` call is used).
+  - If that fails (the file is not found), it is then resolved using the current value of the `DSE.SCRIPTS_BASE_DIR` property
+  (the plugin's **Script Files Base Directory** setting in Touch Portal or relative to the plugin's install location).
+  - If the included file still cannot be located at that point, an exception is thrown.
+
+  `require()` can be used anywhere within a script, not just at the top like `import` statements. This also means modules or objects can be imported
+  conditionally, inside an `if` block, for example.
+
+  `require()` mimics parts of both ECMAScript `import()` method and the Node.js `require()` function. Unlike the former, it is synchronous. Unlike
+  the latter, it does not provide any additional features to the module being loaded (eg. "global" variables like `module.exports`).
+
+  Examples:
+  ```js
+  // Importing a local module with a path relative to the current
+  // script's directory. (On Windows, this would resolve to .\path\myLocalModule.)
+  const myModule = require('./path/myModule');
+  // All of the module's exported functions/variables are now available in the `myModule` scope/namespace.
+
+  // Importing only some of a module's exports:
+  const { valueToClipboard } = require("../examples/Clipboard/clipboard.mjs");
+  // The `valueToClipboard()` function is now available in the current namespace.
+
+  // Using an alias for the import:
+  const { toString: genericToString } = require("../genericModule.mjs");
+  // The `genericToString()` function is now in the current namespace as an alias to `isString()` exported from "genericModule.mjs".
+
+  // Importing a JSON file:
+  const jsonData = require('./path/filename.json');
+  // All JSON objects from the file are now available in the `jsonData` scope/namespace.
+
+  // Importing a specific object from a JSON file:
+  const { item } = require('./path/filename.json');
+  // The `item` object is now available in the current namespace.
+
+  // Importing a specific object from a JSON file with an alias:
+  const { result.item: jsonDataItem } = require('./path/filename.json');
+  // The `jsonDataItem` object is now available in the current namespace as an alias to the `result.item` object from the file.
+  ```
+
+  \throws Error - file loading fails for any reason (file not found/etc).
+  \sa include()
+  \since v1.2
+
 
 
   \fn Locale locale(name)
@@ -150,82 +212,5 @@
 
 */
 
-class Global {
-  public:
-  //! \static
-  //! The DSE object contains constants related to the plugin environment.
-  struct DSE {
-    /*!
-      Current DSE plugin version number in `"MAJOR.MINOR.PATCH.BUILD[-name]"` string format. Eg. "1.0.0.2" or "1.2.0.1-beta1".
-      At least one of the digits always increments for each new published version. The build number increments for any/each new pre-release (alpha/beta)
-      version and again on the final (it may increment in irregular intervals).
-    */
-    String PLUGIN_VERSION_STR;
-
-    /*!
-    Current DSE plugin version number in integer format.
-
-    This is a "binary coded decimal" where<br />
-    `((MAJOR << 24) | (MINOR << 16) | (PATCH << 8) | BUILD)` (each part is limited to values 0-99).<br />
-    If formatted in hexadecimal this will match the version "number" that Touch Portal shows in the plugin's settings.<br />
-    E.g. `"1.2.30.4" == 16920580 == 0x01023004` or "01023004" as shown in Touch Portal. <br />
-    The possible "name" part of a version is ignored (the build number increments for each new pre-release alpha/beta version and again on the final release).
-    */
-    int PLUGIN_VERSION_NUM;
-
-    //! The base directory path for script files. This is either the path specified in the plugin's "Script Files Base Directory" setting (in Touch Portal),
-    //! or the plugin's current working directory (which is the default when nothing is specified in the setting).
-    String SCRIPTS_BASE_DIR;
-
-    //! The scope of the current script's engine, either "Shared" or "Private".
-    String INSTANCE_TYPE;
-
-    //! The name of the current script's instance (State Name), as specified in the corresponding
-  	//! Touch Portal action which is running the script/expression.
-    String INSTANCE_NAME;
-
-    //! This is the default value as specified in the action which created this script instance, which may be empty/blank (but not null/undefined).
-    //! \note This property is empty in Shared instance types. \sa `DSE.INSTANCE_TYPE`
-    String INSTANCE_DEFAULT_VALUE;
-
-    /*!
-      This property contains the name of the operating system running the plugin.
-      Possible values are:
-      <pre>
-        "linux" - Linux
-        "osx" - macOS
-        "unix" - Other Unix-based OS
-        "windows" - Windows
-        "android" - Android
-        "ios" - iOS
-        "winrt" - WinRT / UWP
-        "wasm" - WebAssembly
-      </pre>
-    */
-    String PLATFORM_OS;
-
-    //! The prefix added by the plugin to an instance's State Name before sending to Touch Portal to ensure uniqueness. Touch Portal uses the unique ID
-    //! to identify States. \sa `DSE.instanceStateId()`
-    String VALUE_STATE_PREFIX;
-
-    //! Contains the value of the current system user's Touch Portal settings directory path. This should be the same as shown in Touch Portal
-    //! _Settings -> Info -> Data folder_ field. The value is determined at plugin startup based on the current user and operating system. \n
-    //! Note that on Windows the path is separated with `/` (not backslashes). Backslashes are annoying in JavaScript and in just about every usage
-    //! the forward slashes work just as well.
-    String TP_USER_DATA_PATH;
-
-    //! Numeric version of currently connected Touch Portal desktop application. eg. `301007`
-    int TP_VERSION_CODE;
-
-    //! String version of currently connected Touch Portal desktop application. eg. "3.1.7.0.0"
-    String TP_VERSION_STR;
-
-    //! \static
-    //! Gets Touch Portal State ID of the current script's instance.
-    //! This is what Touch Portal actually uses to uniquely identify the state (not just the name by itself).
-  	//! This is a convenience method that returns the same as `DSE.VALUE_STATE_PREFIX + DSE.INSTANCE_NAME`.
-    static String instanceStateId();
-
-  } DSE;
-};
+class Global {};
 

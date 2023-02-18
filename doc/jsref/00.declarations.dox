@@ -11,6 +11,10 @@ This reference contains a list of standard ECMAScript objects, functions and pro
 \defgroup JSExt JavaScript Object Extensions
 Extensions to the global environment and standard JavaScript objects such as Date, Number, String, and others.
 
+\defgroup PluginAPI Plugin API
+Objects for interacting with the Dynamic Script Engine plugin environment and script instances.
+- `DSE` - The DSE object contains constants and functions related to the plugin environment. It can also be used to query `DynamicScript` instances.
+- `DynamicScript` - DynamicScript represents an instance of an expression, file, or module being evaluated using a scripting engine.
 
 \defgroup FetchAPI Fetch Network API
 \brief The Fetch API provides an interface for fetching network or local resources.
@@ -45,7 +49,8 @@ since all those limits would apply here as well (in other words, this plugin can
 
 
 \defgroup Util Utilities
-Contains general utility classes.
+Contains general utility classes and modules.
+- The `Clipboard` module provides interaction with the operating system's clipboard features.
 - The `Color` class provides methods and functions for working with color values.
 - The `Env` object provides access to the system environment variables.
 - The `Locale` class provides locale specific properties and formatted data.

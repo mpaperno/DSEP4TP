@@ -61,7 +61,7 @@ Math.toRadians = function(degrees) {
 Math.percentOfRange = function(value, rangeMin, rangeMax)
 {
   return ((rangeMax - rangeMin) * 0.01 * Math.abs(value)) + rangeMin;
-}
+};
 
 //! \fn number rangeValueToPercent(number value, number rangeMin, number rangeMax)
 //! \memberof Math
@@ -74,7 +74,7 @@ Math.rangeValueToPercent = function(value, rangeMin, rangeMax)
   const dlta = rangeMax - rangeMin;
   const scale = dlta == 0.0 ? 100.0 : 100.0 / dlta;
   return (value - rangeMin) * scale;
-}
+};
 
 
 // Math method aliases

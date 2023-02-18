@@ -4,7 +4,7 @@
 namespace Net {
 
 /*!
-\fn Promise fetch(url, options)
+\fn Promise fetch(String url, object options = {})
 \static
 
 The `Net.fetch()` method starts the process of fetching a resource from the network, returning a Promise object which is fulfilled once a result is available.
@@ -49,10 +49,10 @@ Net.fetch("https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png")
 See [Fetch and Notify](@ref example_fetch_and_notify) for a more complete example using JSON a data request.
 
 */
-static Promise fetch(url, options = {});
+static Promise fetch(String url, object options = {});
 
 /*!
-\fn Response request(url, options = {})
+\fn Response request(String url, object options = {})
 \static
 This is a fully synchronous version of `Net.fetch()`. Instead of returning a Promise, `Net.request()` returns a `Request` object type.
 The returned `Request` can then be used to invoke its methods which actually send the request: `Request.get()`, `Request.head()`, `Request.post()`, and `Request.put()`.
@@ -79,7 +79,7 @@ If error trapping isn't important, the image data could be returned directly fro
 object's `signal` property in order to terminate the request from another process (eg. a timer).
 
 */
-static Promise request(url, options = {});
+static Promise request(String url, object options = {});
 
 }  // namespace Net
 
@@ -303,6 +303,18 @@ class Request
 */
   Q_PROPERTY(XMLHttpRequest xhr READ xhr WRITE xhr)
   XMLHttpRequest xhr = null;
+
+public:
+/*!
+  \property Object GlobalDefaults
+  \memberof Request
+  \static
+  This global static object can be used to set default values on any created `Request` (either implicitly created
+  in a call to `fetch()` or explicitly with `new Request()`). Simply set this variable somewhere in your script with whichever default options you
+  would like to always be set (or set them individually with `Request.GlobalDefaults.property = value`). Any/all of the properties described below for the `Request` object can be set this way.
+  \since v1.2
+*/
+  static Object GlobalDefaults = {};
 
 };
 

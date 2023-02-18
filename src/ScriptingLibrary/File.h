@@ -100,7 +100,7 @@ class File : public QObject
 		Q_INVOKABLE QByteArray read(const QString &file, const QString &mode) const { return read(file, modeToFlags(mode)); }
 
 		//! Reads a file in text mode and returns the contents as a string.
-		//! Set `mode` to 'b' to read in binary mode and return byte array. Default is to read as text and return a string.
+		//! This is a convenience method which is equivalent to calling `String(File.read(file));`
 		//! \throws ReferenceError is thrown if file loading fails (file not found/etc) and returns and empty string.
 		Q_INVOKABLE QString readText(const QString &file) const { return QString(read(file, O_TEXT)); }
 
