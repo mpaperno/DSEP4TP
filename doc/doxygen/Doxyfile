@@ -32,7 +32,9 @@ ALIASES                = \
                          "pacc=\par Access functions:^^" \
                          "psig=\par Notifier signal:^^" \
                          "intern=\par<b>Internal use only.</b>" \
-                         "qflags{2}=<p>The \ref \1 type stores an OR combination of \ref \2 values.</p>"
+                         "qflags{2}=<p>The \ref \1 type stores an OR combination of \ref \2 values.</p>" \
+                         "deprecated{1}=\par Deprecated (since \1):^^" \
+
 
 #---------------------------------------------------------------------------
 # Build related configuration options
@@ -46,18 +48,18 @@ HIDE_UNDOC_CLASSES     = YES
 HIDE_FRIEND_COMPOUNDS  = YES
 HIDE_SCOPE_NAMES       = YES
 HIDE_COMPOUND_REFERENCE = YES
-FORCE_LOCAL_INCLUDES   = YES
-INLINE_INFO            = NO
-SORT_MEMBER_DOCS       = NO
-SORT_BRIEF_DOCS        = NO
-SORT_MEMBERS_CTORS_1ST = YES
-SORT_GROUP_NAMES       = NO
-SORT_BY_SCOPE_NAME     = YES
 SHOW_INCLUDE_FILES     = NO
 SHOW_HEADERFILE        = NO
 SHOW_USED_FILES        = NO
 SHOW_FILES             = NO
 SHOW_NAMESPACES        = NO
+SORT_MEMBER_DOCS       = NO
+SORT_BRIEF_DOCS        = NO
+SORT_MEMBERS_CTORS_1ST = YES
+SORT_GROUP_NAMES       = NO
+SORT_BY_SCOPE_NAME     = YES
+FORCE_LOCAL_INCLUDES   = YES
+INLINE_INFO            = NO
 LAYOUT_FILE            = DoxygenLayout.xml
 
 #---------------------------------------------------------------------------
@@ -82,6 +84,8 @@ INPUT                  = \
                          ../jsref \
                          ../../src/resources/scripts \
                          ../../src/ScriptingLibrary \
+                         ../../src/DSE.h \
+                         ../../src/DynamicScript.h \
                          ../../src/ConnectorData.h \
                          ../../resources/examples \
 
@@ -226,11 +230,15 @@ PREDEFINED = \
         DOXYGEN=1 \
         QString="String" \
         QLatin1String="String" \
-        QJSValue="object" \
+        QJSValue="Object" \
         QDateTime="Date" \
         QStringList="Array<String>" \
+        QByteArrayList="Array<String>" \
+        QVariantList="Array<String>" \
         QStringLiteral=\
         QByteArrayLiteral=\
+        QList=Array\
+        QVector=Array\
         quint32="uint" \
         qint64="int" \
         quint16="uint" \
@@ -239,6 +247,7 @@ PREDEFINED = \
         static=\
         const=\
         ScriptLib=\
+        MEMBER=READ\
         Q_INVOKABLE=\ 
         Q_SLOTS=\
         Q_GADGET="Q_OBJECT"\

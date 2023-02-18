@@ -70,24 +70,56 @@ div.contents {
 	padding: 0px 3%;
 }
 
-a.el, a.elRef {
+table.memberdecls div.groupHeader {
+	padding-bottom: 5px;
+	font-weight: 600;
+}
+
+h2.groupheader {
+	box-shadow: none;
+	border-bottom: 1px solid var(--separator-color);
+}
+
+a.el, 
+a.elRef {
 	color: #009b00 !important;
 	font-weight: normal;
 }
 
-a.el:visited, a.elRef:visited {
+/*a.el:visited, 
+a.elRef:visited {
 	color: #007800 !important;
 	font-weight: normal;
-}
+}*/
 
-html.dark-mode a.el, a.elRef {
-	color: #06d206 !important;
-	font-weight: normal;
-}
-
-html.dark-mode a.el:visited, html.dark-mode a.elRef:visited {
+html.dark-mode a.el, 
+html.dark-mode a.elRef {
 	color: #01b501 !important;
 	font-weight: normal;
+}
+
+/*html.dark-mode a.el:visited, 
+html.dark-mode a.elRef:visited {
+	color: #01b501 !important;
+	font-weight: normal;
+}
+*/
+
+/* unique link colors in member tables for local links vs. links to other pages */
+ .memItemRight a.el[href*="#"],
+ .memdoc a.el[href*="#"],
+ .memItemRight a.elRef[href*="#"],
+ .memdoc a.elRef[href*="#"] 
+ {
+  color: #e86d00 !important;
+}
+
+html.dark-mode .memItemRight a.el[href*="#"],
+html.dark-mode .memdoc a.el[href*="#"],
+html.dark-mode .memItemRight a.elRef[href*="#"] ,
+html.dark-mode .memdoc a.elRef[href*="#"] 
+{
+  color: #eab106 !important;
 }
 
 /*a[target=_blank] {
@@ -137,7 +169,7 @@ table.doxtable th {
 
 .hide-on-site { display: none; }
 
-h1:has(> #autotoc_md10) {
+h1:has(> #autotoc_md11) {
   visibility: hidden;
 }
 
