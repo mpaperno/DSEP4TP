@@ -128,6 +128,8 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
   Network
   Qml
   Sql
+  Gui
+  Svg
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -135,6 +137,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   Qt${QT_VERSION_MAJOR}::Network
   Qt${QT_VERSION_MAJOR}::Qml
   Qt${QT_VERSION_MAJOR}::Sql
+  Qt${QT_VERSION_MAJOR}::Gui
+  Qt${QT_VERSION_MAJOR}::Svg
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${Qt${QT_VERSION_MAJOR}Qml_PRIVATE_INCLUDE_DIRS})

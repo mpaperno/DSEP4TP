@@ -18,7 +18,7 @@ of their respective licenses. The copyright notice above does not apply
 to any 3rd-party components used within.
 */
 
-#include <QCoreApplication>
+#include <QGuiApplication>
 #include <QCommandLineParser>
 #include <QLoggingCategory>
 #include <QSettings>
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 	// set to enable debug output
 	//qputenv("QML_XHR_DUMP", "1");
 
-	QCoreApplication a(argc, argv);
+	QGuiApplication a(argc, argv);
 	QCoreApplication::setApplicationName(PLUGIN_SYSTEM_NAME);
 	QCoreApplication::setOrganizationName(PLUGIN_ORG_NAME);
 	QCoreApplication::setOrganizationDomain(PLUGIN_ORG_NAME);
