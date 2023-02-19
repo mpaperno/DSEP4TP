@@ -21,11 +21,6 @@ First, the plugin provides two permanent States which reflect scripting errors a
 
 Check the [Line Logger example](@ref example_line_logger) for a script/button combination which will store and display the last few errors received.
 
-There is also:
-* **List of created named instances** - This state contains a list of all the dynamic expression/script instances created by the plugin.
-  It may be useful to check (visually or with a conditional expression) whether an instance exists, for example to indicate an error condition if it doesn't
-	or only create a new instance inside an Event if it doesn't already exist.
-
 ## Logging
 
 The plugin logs operational message to a file. Two, actually. They are both located in your Touch Portal configuration folder, in the 'plugins/DSEP4TP' subfolder;
@@ -87,6 +82,23 @@ You can force a rotation of the logs from a terminal/command/shell window by run
 
 The log files have an "emergency limit" of 1GB in case something goes haywire. If this limit is reached, further logging to that file is
 disabled until the plugin is restarted.
+
+## Plugin Crashes
+
+Like with any programming, it is possible to "crash" whatever environment you're programming in, whether it's a Web page script that locks up the browser tab
+or an errant device driver that brings down the whole operating system. Running scripts inside this plugin's JavaScript engine is no exception (pun intended).
+
+While the engine is fairly robust about handling normal scripting exceptions it can detect, doing things that would normally be problematic, like
+deleting an object while it is still in use for example, will likely be problematic here as well. Especially while working on some new, relatively
+complex script, crashes are definitely possible (I've certainly caused them while testing all this stuff).
+
+So if you're in the middle of working on some script and everything stops working all of a sudden, check that the plugin is still running.
+
+Having said that, I do _not_ consider plugin crashes "normal" under typical operation and with relatively "clean" scripts running.
+**If you suspect the plugin is crashing for some reason beyond your control, _please_ let me know!** I can't fix it if I don't know it's broken.
+(File a bug report on [GitHub](https://github.com/mpaperno/DSEP4TP/issues) or find me on [Discord](https://discord.gg/sdvqk2MHwj), as two options).
+
+---
 
 <span class="next_section_button">
 Read Next: [Scripting Syntax and Caveats](Scripting.md)

@@ -4,7 +4,7 @@
 [![Latest Release](https://img.shields.io/github/v/release/mpaperno/DSEP4TP?include_prereleases&display_name=release)](https://github.com/mpaperno/DSEP4TP/releases)
 ![Supported Platforms](https://img.shields.io/badge/platforms-Windows%20|%20MacOS%20|%20Linux-AA7722)
 [![GPLv3 License](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE.GPL.txt)
-[![Discord](https://img.shields.io/static/v1?style=flat&color=7289DA&&labelColor=7289DA&message=Discord%20Chat&label=&logo=discord&logoColor=white)](https://discord.gg/FhYsZNFgyw)
+[![Discord](https://img.shields.io/static/v1?style=flat&color=7289DA&&labelColor=7289DA&message=Discord%20Chat&label=&logo=discord&logoColor=white)](https://discord.gg/pvVsJ6gy3y)
 <!-- <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/mpaperno/DSEP4TP?color=green&label=LoC&logo=cplusplus&logoColor=f34b7d"> -->
 
 
@@ -76,7 +76,8 @@ global Value or a plugin State and will be replaced by Touch Portal with the act
 * JavaScript scripts of any complexity can be loaded from file(s) and functions within those scripts can be invoked with dynamic arguments
   (eg. from Touch Portal states/values).
 * Use simple "standalone" scripts or full **JS modules**, which can import other modules and are also cached between uses for excellent performance.
-* An `include()` function is available to read an evaluate any block of code from another file, for easy code re-use within standalone scripts or modules.
+* An `include()` function is available to read an evaluate any block of code from another file, and `require()` to import modules or parts of them,
+  both available for easy code re-use within standalone scripts or modules.
 * Full `console.log()` (and family) support for debugging/etc; output is sent to a separate plugin log file dedicated for scripting output and errors.
 * Scripts can **run in the background**, for example processing timed events or callbacks from asynchronous processes (eg. a network request or file system watcher).
 * Scripts can **send State/Value updates to Touch Portal** at any time, and they can also create and remove states, among other things
@@ -88,16 +89,18 @@ global Value or a plugin State and will be replaced by Touch Portal with the act
   * Flexible **string, date, and number formatting** with .NET [String.Format style](@ref String.format()) or ["printf"](@ref sprintf()) style functions.
   * Support for **timed/recurring operations** with `setTimeout()`/`setInterval()`.
   * **Network requests** supported via familiar [Fetch API](@ref FetchAPI) and [XMLHttpRequest](@ref stdlib-xmlhttpreq).
-  * **Touch Portal [interaction](@ref TP)**: update any State or global Value, create and remove States, change Slider positions, send Notifications, and more.
+  * **Touch Portal [interaction](@ref TP)**: update any State or global Value, create and remove States, change Slider positions, send Notifications, and
+    much more (in fact full interaction with Touch Portal, as a plugin, is available to the script environment).
   * **Color manipulation**/utility library.
   * **External command and application launching** with optional inter-process data exchange using `Process` class.
-  * **Clipboard interactions** (see [Clipboard example](@ref example_clipboard) module);
+  * Sophisticated system-level **Clipboard interactions** using a provided module.
   * Lots of convenience extensions to built-in JS objects like Date, Number, Math and String.
   * Other [global](@ref Global) object extensions and [utilities](@ref Util),
     eg. for encoding/decoding **base-64 data**, **environment variable** access, **locale data**, **hashing algorithms**, and more.
   * Infinitely **extensible** via either JavaScript libraries/modules _or_ C++ integration.
 * Any expression/script action can be **saved to persistent settings** and re-created automatically at startup,
-  with a number of options for what the default value should be (fixed, custom expression, etc).
+  with a number of options for what the default value should be (fixed, custom expression, etc). Script instances can also save their own custom data
+  structures to preserve state between runs.
 * Expressions and scripts can run in either a single Shared scripting engine instance or in separated **Private engine instances** to keep environments isolated.
   Instances are _persistent_ throughout the life of the plugin (or until deleted explicitly).
 * **Multi-threaded** for quick response times and non-blocking behavior (long-running scripts will not prevent other scripts from running).
@@ -145,16 +148,21 @@ Or use the provided [example script](@ref example_fetch_and_notify) to check for
 
 [Full Documentation & Examples @ dse.tpp.max.paperno.us](https://dse.tpp.max.paperno.us) - includes this README as well.
 
+[Plugin Quick Start.](https://dse.tpp.max.paperno.us/plugin_quick_start.html)
+
 </div>
 
 -------------
 ## Support and Discussion
 
-Use the [Issues](https://github.com/mpaperno/DSEP4TP/issues) feature for bug reports and concise feature suggestions.
-
+Use the GitHub [Issues](https://github.com/mpaperno/DSEP4TP/issues) feature for bug reports and concise feature suggestions.
 Use [Discussions](https://github.com/mpaperno/DSEP4TP/discussions) for any other topic.
 
-There is also the [Touch Portal Discord Server](https://discord.gg/MgxQb8r) room [#dynamic-script-engine](https://discord.com/channels/548426182698467339/750791488501448887) for discussion, ideas, and support.
+There is also a [Discord support forum](https://discord.gg/sdvqk2MHwj) on my server, an [announcements channel](https://discord.gg/ZXy3m6Y7Ba),
+and discussion rooms on my server @ [#dse-general](https://discord.gg/pvVsJ6gy3y)
+and at Touch Portal's Discord server channel [#dynamic-script-engine](https://discord.gg/FhYsZNFgyw)
+
+**All feedback and input is always welcome! I'd love to know how you're using _DSEP_!**
 
 -------------
 ## Troubleshooting

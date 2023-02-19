@@ -101,6 +101,9 @@
   (the plugin's **Script Files Base Directory** setting in Touch Portal or relative to the plugin's install location).
   - If the included file still cannot be located at that point, an exception is thrown.
 
+  `require()` can also be used to import built-in named modules (provided by %DSE). These are documented separately. Currently there is no way to add
+  custom named modules, but this may change in the future.  For an example (and so far the only module), see `Clipboard`.
+
   `require()` can be used anywhere within a script, not just at the top like `import` statements. This also means modules or objects can be imported
   conditionally, inside an `if` block, for example.
 
