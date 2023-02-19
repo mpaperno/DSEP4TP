@@ -105,7 +105,7 @@ class ScriptEngine : public QObject
 		inline QJSValue registeredModules() const { return globalObject().property("registeredModules"); }
 		inline DSE *dseObject() const { return dse; }
 		inline bool isSharedInstance() const { return m_isShared; }
-		inline DSE::EngineInstanceType instanceType() const { return m_isShared ? DSE::EngineInstanceType::SharedInstance : DSE::EngineInstanceType::PrivateInstance; }
+		inline DseNS::EngineInstanceType instanceType() const { return m_isShared ? DseNS::EngineInstanceType::SharedInstance : DseNS::EngineInstanceType::PrivateInstance; }
 		inline QByteArray name() const { return m_name; }
 		inline QByteArray currentInstanceName() const { return dse->instanceName; }
 		inline ScriptLib::TPAPI *tpApiObject() const { return tpapi; }

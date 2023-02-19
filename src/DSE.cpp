@@ -23,6 +23,7 @@ to any 3rd-party components used within.
 #include "DynamicScript.h"
 #include "ScriptEngine.h"
 
+using namespace DseNS;
 using namespace ScriptLib;
 
 // all static data

@@ -25,6 +25,8 @@ to any 3rd-party components used within.
 #include "ScriptEngine.h"
 #include "utils.h"
 
+using namespace DseNS;
+
 constexpr static uint32_t SAVED_PROPERTIES_VERSION = 3;
 constexpr static int MUTEX_LOCK_TIMEOUT_MS = 250;
 
@@ -57,7 +59,7 @@ DynamicScript::~DynamicScript() {
 bool DynamicScript::setExpressionProperties(const QString &expr)
 {
 	QWriteLocker lock(&m_mutex);
-	m_inputType = DSE::ScriptInputType::ExpressionInput;
+	m_inputType = ScriptInputType::ExpressionInput;
 	bool ok = setExpr(expr);
 	return !(m_state.setFlag(State::PropertyErrorState, !ok) & State::CriticalErrorState);
 }
@@ -65,7 +67,7 @@ bool DynamicScript::setExpressionProperties(const QString &expr)
 bool DynamicScript::setScriptProperties(const QString &file, const QString &expr)
 {
 	QWriteLocker lock(&m_mutex);
-	m_inputType = DSE::ScriptInputType::ScriptInput;
+	m_inputType = ScriptInputType::ScriptInput;
 	bool ok = setFile(file);
 	if (ok)
 		setExpr(expr);  // expression is not required
@@ -75,7 +77,7 @@ bool DynamicScript::setScriptProperties(const QString &file, const QString &expr
 bool DynamicScript::setModuleProperties(const QString &file, const QString &alias, const QString &expr)
 {
 	QWriteLocker lock(&m_mutex);
-	m_inputType = DSE::ScriptInputType::ModuleInput;
+	m_inputType = ScriptInputType::ModuleInput;
 	bool ok = setFile(file);
 	if (ok) {
 		m_moduleAlias = alias.isEmpty() ? QStringLiteral("M") : alias;
@@ -84,14 +86,14 @@ bool DynamicScript::setModuleProperties(const QString &file, const QString &alia
 	return !(m_state.setFlag(State::PropertyErrorState, !ok) & State::CriticalErrorState);
 }
 
-bool DynamicScript::setProperties(DSE::ScriptInputType type, const QString &expr, const QString &file, const QString &alias, bool ignoreErrors)
+bool DynamicScript::setProperties(ScriptInputType type, const QString &expr, const QString &file, const QString &alias, bool ignoreErrors)
 {
 	switch(type) {
-		case DSE::ScriptInputType::ExpressionInput:
+		case ScriptInputType::ExpressionInput:
 			return setExpressionProperties(expr) || ignoreErrors;
-		case DSE::ScriptInputType::ScriptInput:
+		case ScriptInputType::ScriptInput:
 			return setScriptProperties(file, expr) || ignoreErrors;
-		case DSE::ScriptInputType::ModuleInput:
+		case ScriptInputType::ModuleInput:
 			return setModuleProperties(file, alias, expr) || ignoreErrors;
 		default:
 			return false;
@@ -137,13 +139,13 @@ bool DynamicScript::setEngine(ScriptEngine *se)
 		connect(m_engine, &ScriptEngine::engineAboutToReset, this, &DynamicScript::serializeStoredData);
 	}
 	else {
-		m_scope = DSE::EngineInstanceType::UnknownInstanceType;
+		m_scope = EngineInstanceType::UnknownInstanceType;
 		m_engineName.clear();
 	}
 	return !(m_state.setFlag(State::UninitializedState, !se) & State::CriticalErrorState);
 }
 
-void DynamicScript::setDefaultType(DSE::SavedDefaultType type)
+void DynamicScript::setDefaultType(SavedDefaultType type)
 {
 	if (m_defaultType == type)
 		return;
@@ -151,7 +153,7 @@ void DynamicScript::setDefaultType(DSE::SavedDefaultType type)
 	m_defaultType = type;
 }
 
-void DynamicScript::setActivation(DSE::ActivationBehaviors behavior)
+void DynamicScript::setActivation(ActivationBehaviors behavior)
 {
 	if (m_activation == behavior)
 		return;
@@ -166,14 +168,14 @@ void DynamicScript::setPressedState(bool isPressed)
 	setPressed(isPressed);
 }
 
-void DynamicScript::setPersistence(DSE::PersistenceType newPersist)
+void DynamicScript::setPersistence(PersistenceType newPersist)
 {
 	if (m_persist == newPersist)
 		return;
 
 	QWriteLocker lock(&m_mutex);
 	m_persist = newPersist;
-	if (newPersist == DSE::PersistenceType::PersistTemporary)
+	if (newPersist == PersistenceType::PersistTemporary)
 		connect(this, &DynamicScript::finished, Plugin::instance, &Plugin::onDsFinished, Qt::UniqueConnection);
 	else
 		disconnect(this, &DynamicScript::finished, Plugin::instance, &Plugin::onDsFinished);
@@ -221,17 +223,17 @@ bool DynamicScript::deserialize(const QByteArray &data)
 	}
 
 	int scope, inpType, defType, repDelay, repRate,
-	    persist = DSE::PersistenceType::PersistSave,
-	    act = DSE::ActivationBehavior::OnRelease;
+	    persist = PersistenceType::PersistSave,
+	    act = ActivationBehavior::OnRelease;
 	QString expr, file, alias;
 	QByteArray deflt;
 	ds >> scope >> inpType >> expr >> file >> alias >> m_defaultValue >> defType;
 
-	m_scope = (DSE::EngineInstanceType)scope;
-	m_defaultType = (DSE::SavedDefaultType)defType;
+	m_scope = (EngineInstanceType)scope;
+	m_defaultType = (SavedDefaultType)defType;
 
 	bool createState = true;
-	// DSE::ScriptInputType enum values changed in v2.
+	// ScriptInputType enum values changed in v2.
 	if (version == 1) {
 		++inpType;
 	}
@@ -240,16 +242,16 @@ bool DynamicScript::deserialize(const QByteArray &data)
 		m_repeatDelay = repDelay;
 		m_repeatRate = repRate;
 	}
-	else if (m_scope == DSE::EngineInstanceType::PrivateInstance && m_engineName.isEmpty()) {
+	else if (m_scope == EngineInstanceType::PrivateInstance && m_engineName.isEmpty()) {
 		m_engineName = name;
 	}
 
-	setPersistence((DSE::PersistenceType)persist);
-	setActivation((DSE::ActivationBehaviors)act);
+	setPersistence((PersistenceType)persist);
+	setActivation((ActivationBehaviors)act);
 	setCreateState(createState);
 
-	//qCDebug(lcPlugin) << name << (DSE::ScriptInputType)type << instType << file << deflt << (DSE::ScriptDefaultType)defType;
-	if (!setProperties((DSE::ScriptInputType)inpType, expr, file, alias, true)) {
+	//qCDebug(lcPlugin) << name << (ScriptInputType)type << instType << file << deflt << (ScriptDefaultType)defType;
+	if (!setProperties((ScriptInputType)inpType, expr, file, alias, true)) {
 		qCCritical(lcPlugin) << "Cannot restore settings for" << name << "because the saved input type:" << inpType << "is unknown";
 		return false;
 	}
@@ -379,7 +381,7 @@ void DynamicScript::repeatEvaluate()
 
 bool DynamicScript::scheduleRepeatIfNeeded()
 {
-	if (m_activation.testFlags(DSE::ActivationBehavior::RepeatOnHold) && (m_maxRepeatCount < 0 || m_repeatCount < m_maxRepeatCount)) {
+	if (m_activation.testFlags(ActivationBehavior::RepeatOnHold) && (m_maxRepeatCount < 0 || m_repeatCount < m_maxRepeatCount)) {
 		const int delay = m_repeatCount > 0 ? effectiveRepeatRate() : effectiveRepeatDelay();
 		if (delay >= 50) {
 			setupRepeatTimer();
@@ -393,17 +395,17 @@ bool DynamicScript::scheduleRepeatIfNeeded()
 
 void DynamicScript::evaluate()
 {
-	if (m_state.testAnyFlags(State::CriticalErrorState) || m_activation == DSE::ActivationBehavior::NoActivation)
+	if (m_state.testAnyFlags(State::CriticalErrorState) || m_activation == ActivationBehavior::NoActivation)
 		return;
 
 	if (m_state.testFlags(State::HoldReleasedState)) {
 		m_state.setFlag(State::HoldReleasedState, false);
-		if (!m_activation.testFlags(DSE::ActivationBehavior::OnRelease)) {
+		if (!m_activation.testFlags(ActivationBehavior::OnRelease)) {
 			Q_EMIT finished();
 			return;
 		}
 	}
-	else if (isPressed() && !m_activation.testFlags(DSE::ActivationBehavior::OnPress) && !m_state.testFlags(State::RepeatingState)) {
+	else if (isPressed() && !m_activation.testFlags(ActivationBehavior::OnPress) && !m_state.testFlags(State::RepeatingState)) {
 		scheduleRepeatIfNeeded();
 		return;
 	}
@@ -416,15 +418,15 @@ void DynamicScript::evaluate()
 	m_state.setFlag(State::EvaluatingNowState, true);
 	QJSValue res;
 	switch (m_inputType) {
-		case DSE::ScriptInputType::ExpressionInput:
+		case ScriptInputType::ExpressionInput:
 			res = m_engine->expressionValue(m_expr, name);
 			break;
 
-		case DSE::ScriptInputType::ScriptInput:
+		case ScriptInputType::ScriptInput:
 			res = m_engine->scriptValue(m_file, m_expr, name);
 			break;
 
-		case DSE::ScriptInputType::ModuleInput:
+		case ScriptInputType::ModuleInput:
 			res = m_engine->moduleValue(m_file, m_moduleAlias, m_expr, name);
 			break;
 
@@ -465,20 +467,20 @@ QByteArray DynamicScript::getDefaultValue()
 		return QByteArray();
 
 	QReadLocker lock(&m_mutex);
-	const QString expr = m_defaultType == DSE::SavedDefaultType::CustomExprDefault ? m_defaultValue : m_defaultType == DSE::SavedDefaultType::MainExprDefault ? m_expr : QByteArray();
+	const QString expr = m_defaultType == SavedDefaultType::CustomExprDefault ? m_defaultValue : m_defaultType == SavedDefaultType::MainExprDefault ? m_expr : QByteArray();
 	QJSValue res;
 	switch (m_inputType) {
-		case DSE::ScriptInputType::ExpressionInput:
+		case ScriptInputType::ExpressionInput:
 			if (!expr.isEmpty())
 				res = m_engine->expressionValue(expr, name);
 			break;
 
-		case DSE::ScriptInputType::ScriptInput:
+		case ScriptInputType::ScriptInput:
 			if (!m_state.testFlags(State::FileLoadErrorState))
 				res = m_engine->scriptValue(m_file, expr, name);
 			break;
 
-		case DSE::ScriptInputType::ModuleInput:
+		case ScriptInputType::ModuleInput:
 			if (!m_state.testFlags(State::FileLoadErrorState))
 				res = m_engine->moduleValue(m_file, m_moduleAlias, expr, name);
 			break;
@@ -493,7 +495,7 @@ QByteArray DynamicScript::getDefaultValue()
 		Q_EMIT scriptError(JSError(res));
 	}
 
-	if (m_defaultType == DSE::SavedDefaultType::FixedValueDefault)
+	if (m_defaultType == SavedDefaultType::FixedValueDefault)
 		return m_defaultValue;
 
 	if (!res.isUndefined() && !res.isNull() && !res.isError())

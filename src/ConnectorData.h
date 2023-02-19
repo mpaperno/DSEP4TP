@@ -29,7 +29,7 @@ to any 3rd-party components used within.
 #include <QSqlQuery>
 
 #include "common.h"
-#include "DSE.h"
+#include "DSE_NS.h"
 
 #define CONNECTOR_DATA_PRIMARY_DB_CONN_NAME   QStringLiteral("Shared")
 
@@ -72,7 +72,7 @@ class ConnectorRecord
 		Q_PROPERTY(QString instanceName MEMBER instanceName CONSTANT)
 		//! The type of scripting action. Enumeration type, one of: `DSE.ExpressionInput`, `DSE.ScriptInput`, `DSE.ModuleInput`, `DSE.UnknownInputType` \n
 		//! When used for search, an equivalent string may also be used, eg. "Expression", "Script", "Module", or "Unknown". Wildcards are not allowed.
-		Q_PROPERTY(DSE::ScriptInputType inputType MEMBER inputType CONSTANT)
+		Q_PROPERTY(DseNS::ScriptInputType inputType MEMBER inputType CONSTANT)
 		//! The full expression string of the connector. This is exactly as entered in the slider setup, no variables or code is evaluated.
 		Q_PROPERTY(QString expression MEMBER expression CONSTANT)
 		//! The script/module file as specified in the connector, if any. Only Script and Module connector types will have a file.
@@ -81,7 +81,7 @@ class ConnectorRecord
 		Q_PROPERTY(QString alias MEMBER alias CONSTANT)
 		//! This is the Engine Instance type specified in the connector. One of: `DSE.SharedInstance` or `DSE.PrivateInstance` \n
 		//! When used for search, an equivalent string may also be used: "Shared" or "Private". Wildcards are not allowed.
-		Q_PROPERTY(DSE::EngineInstanceType instanceType MEMBER instanceType CONSTANT)
+		Q_PROPERTY(DseNS::EngineInstanceType instanceType MEMBER instanceType CONSTANT)
 		/*! This property holds an object with any other Connector data members which were found but do not fit into any of the other data member property types.
 			__Note:__ This is for advanced use with custom connector definitions in a custom entry.tp file. By convention this plugin uses action/connector data IDs with
 			"parts" separated by periods. For example `us.paperno.max.tpp.dse.act.script.eval.expr` \n
@@ -149,16 +149,16 @@ class ConnectorRecord
 		static const QMap<QString, QMetaEnum> &enumProperties()
 		{
 			static const QMap<QString, QMetaEnum> map {
-				{ columnNames().at(COL_INPTYPE), DSE::inputTypeMeta() },
-				{ columnNames().at(COL_INSTYPE), DSE::instanceTypeMeta() }
+				{ columnNames().at(COL_INPTYPE), DseNS::inputTypeMeta() },
+				{ columnNames().at(COL_INSTYPE), DseNS::instanceTypeMeta() }
 			};
 			return map;
 		}
 
 		ConnectorRecord() {}
 
-		DSE::ScriptInputType inputType = DSE::ScriptInputType::UnknownInputType;
-		DSE::EngineInstanceType instanceType = DSE::EngineInstanceType::UnknownInstanceType;
+		DseNS::ScriptInputType inputType = DseNS::ScriptInputType::UnknownInputType;
+		DseNS::EngineInstanceType instanceType = DseNS::EngineInstanceType::UnknownInstanceType;
 		qint64 timestamp;
 		QByteArray actionType;
 		QByteArray instanceName;
@@ -169,8 +169,8 @@ class ConnectorRecord
 		QByteArray alias;
 		QJsonObject otherData;
 
-		QString inputTypeStr() const { return DSE::inputTypeMeta().key((int)inputType); }
-		QString instanceTypeStr() const { return DSE::instanceTypeMeta().key((int)instanceType); }
+		QString inputTypeStr() const { return DseNS::inputTypeMeta().key((int)inputType); }
+		QString instanceTypeStr() const { return DseNS::instanceTypeMeta().key((int)instanceType); }
 		bool isNull() const { return !timestamp; }
 
 		explicit ConnectorRecord(QSqlQuery *qry)
@@ -183,8 +183,8 @@ class ConnectorRecord
 			connectorId   = qry->value(COL_CONNID).toByteArray();
 			shortId       = qry->value(COL_SHORTID).toByteArray();
 			timestamp     = qry->value(COL_TS).toLongLong();
-			inputType    = DSE::ScriptInputType(qry->value(COL_INPTYPE).toUInt());
-			instanceType = DSE::EngineInstanceType(qry->value(COL_INSTYPE).toUInt());
+			inputType    = DseNS::ScriptInputType(qry->value(COL_INPTYPE).toUInt());
+			instanceType = DseNS::EngineInstanceType(qry->value(COL_INSTYPE).toUInt());
 			otherData     = QJsonDocument::fromJson(qry->value(COL_OTHER).toByteArray()).object();
 		}
 

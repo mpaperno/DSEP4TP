@@ -85,6 +85,7 @@ INPUT                  = \
                          ../../src/resources/scripts \
                          ../../src/ScriptingLibrary \
                          ../../src/DSE.h \
+                         ../../src/DSE_NS.h \
                          ../../src/DynamicScript.h \
                          ../../src/ConnectorData.h \
                          ../../resources/examples \
@@ -149,7 +150,7 @@ EXAMPLE_PATH           = ../../resources/examples
 EXAMPLE_PATTERNS       = *.js *.mjs
 EXAMPLE_RECURSIVE      = YES
 
-IMAGE_PATH             = \ 
+IMAGE_PATH             = \
                          ../../resources/examples
 
 FILTER_PATTERNS        =
@@ -225,9 +226,11 @@ GENERATE_XML           = NO
 ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = YES
 EXPAND_ONLY_PREDEF     = NO
-INCLUDE_PATH           = 
+INCLUDE_PATH           =
 PREDEFINED = \
         DOXYGEN=1 \
+        ScriptLib=\
+        DseNS=DSE\
         QString="String" \
         QLatin1String="String" \
         QJSValue="Object" \
@@ -246,9 +249,8 @@ PREDEFINED = \
         qint8="int" \
         static=\
         const=\
-        ScriptLib=\
         MEMBER=READ\
-        Q_INVOKABLE=\ 
+        Q_INVOKABLE=\
         Q_SLOTS=\
         Q_GADGET="Q_OBJECT"\
         Q_SIGNALS="public"\

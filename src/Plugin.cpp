@@ -41,6 +41,7 @@ to any 3rd-party components used within.
 #define SETTINGS_KEY_ACT_RPT_RATE    "actRepeatRate"
 #define SETTINGS_KEY_ACT_RPT_DELAY   "actRepeatDelay"
 
+using namespace DseNS;
 using namespace Strings;
 
 enum TimerEventType : quint8 {
@@ -68,48 +69,50 @@ std::atomic_bool g_ignoreNextSettings = true;
 std::atomic_bool g_shuttingDown = false;
 std::atomic_uint32_t g_errorCount = 0;
 
-static DSE::EngineInstanceType stringToScope(const QByteArray &str, bool unknownIsPrivate = false)
+static DseNS::EngineInstanceType stringToScope(const QByteArray &str, bool unknownIsPrivate = false)
 {
-	return str == tokenToName(AT_Shared) ? DSE::SharedInstance : (unknownIsPrivate || str == tokenToName(AT_Private) ? DSE::PrivateInstance : DSE::UnknownInstanceType);
+	return str == tokenToName(AT_Shared) ? EngineInstanceType::SharedInstance :
+	                                       (unknownIsPrivate || str == tokenToName(AT_Private) ? EngineInstanceType::PrivateInstance :
+	                                                                                             EngineInstanceType::UnknownInstanceType);
 }
 
 // legacy for v < 1.2
-static DSE::SavedDefaultType stringToDefaultType(QStringView str)
+static DseNS::SavedDefaultType stringToDefaultType(QStringView str)
 {
-	return str.isEmpty() || str[0] == 'N' ? DSE::NoSavedDefault :
-	                                        str[0] == 'F' ? DSE::FixedValueDefault :
-	                                                        str[0] == 'C' ? DSE::CustomExprDefault :
-	                                                                        DSE::MainExprDefault;
+	return str.isEmpty() || str[0] == 'N' ? SavedDefaultType::NoSavedDefault :
+	                                        str[0] == 'F' ? SavedDefaultType::FixedValueDefault :
+	                                                        str[0] == 'C' ? SavedDefaultType::CustomExprDefault :
+	                                                                        SavedDefaultType::MainExprDefault;
 }
 
-static DSE::PersistenceType stringToPersistenceType(QStringView str)
+static DseNS::PersistenceType stringToPersistenceType(QStringView str)
 {
 	// "Session",
 	// "Temporary",
 	// "Saved, load with:\n ....", ...
 	if (str.size() > 18)
-		return DSE::PersistenceType::PersistSave;
-	return str.empty() || str[0] == 'S' ? DSE::PersistenceType::PersistSession : DSE::PersistenceType::PersistTemporary;
+		return PersistenceType::PersistSave;
+	return str.empty() || str[0] == 'S' ? PersistenceType::PersistSession : PersistenceType::PersistTemporary;
 }
 
-static DSE::SavedDefaultType stringToSavedDefaultType(QStringView str)
+static DseNS::SavedDefaultType stringToSavedDefaultType(QStringView str)
 {
 	//"Saved, load with:\n Fixed Value",
 	//"Saved, load with:\n Custom Expression",
 	//"Saved, load with:\n Last Expression"
 	if (str.size() < 20)
-		return DSE::SavedDefaultType::NoSavedDefault;
+		return SavedDefaultType::NoSavedDefault;
 	switch (str[19].toLatin1()) {
 		case 'C':
-			return DSE::CustomExprDefault;
+			return SavedDefaultType::CustomExprDefault;
 		case 'L':
-			return DSE::MainExprDefault;
+			return SavedDefaultType::MainExprDefault;
 		default:
-			return DSE::FixedValueDefault;
+			return SavedDefaultType::FixedValueDefault;
 	}
 }
 
-static DSE::ActivationBehaviors stringToActivationType(QStringView str)
+static DseNS::ActivationBehaviors stringToActivationType(QStringView str)
 {
 	//	"On Press",
 	//  "On Press &\nRelease",
@@ -117,14 +120,14 @@ static DSE::ActivationBehaviors stringToActivationType(QStringView str)
 	//  "Repeat\nafter Delay",
 	//  "On Release"
 	if (str.size() < 4 || str[3] == 'R')
-		return DSE::ActivationBehavior::OnRelease;
+		return ActivationBehavior::OnRelease;
 	if (str[0] == 'R')
-		return DSE::ActivationBehavior::RepeatOnHold;
+		return ActivationBehavior::RepeatOnHold;
 	if (str.size() < 10)
-		return DSE::ActivationBehavior::OnPress;
+		return ActivationBehavior::OnPress;
 	if (str[8] == '\n')
-		return DSE::ActivationBehavior::OnPress | DSE::ActivationBehavior::RepeatOnHold;
-	return DSE::ActivationBehavior::OnPress | DSE::ActivationBehavior::OnRelease;
+		return ActivationBehavior::OnPress | ActivationBehavior::RepeatOnHold;
+	return ActivationBehavior::OnPress | ActivationBehavior::OnRelease;
 }
 
 
@@ -322,7 +325,7 @@ void Plugin::saveAllInstances() const
 	s.beginGroup(SETTINGS_GROUP_SCRIPTS);
 	s.remove("");
 	for (DynamicScript * const ds : DSE::instances_const()) {
-		if (ds->persistence() == DSE::PersistSave) {
+		if (ds->persistence() == PersistenceType::PersistSave) {
 			s.setValue(ds->name, ds->serialize());
 			++count;
 		}
@@ -334,7 +337,7 @@ void Plugin::saveAllInstances() const
 bool Plugin::saveScriptInstance(const QByteArray &name) const
 {
 	DynamicScript *ds = DSE::instance(name);
-	if (!ds /*|| ds->persistence() != DSE::PersistSave*/)
+	if (!ds)
 		return false;
 	QSettings s;
 	const QString key(QByteArrayLiteral(SETTINGS_GROUP_SCRIPTS "/") + ds->name);
@@ -365,7 +368,7 @@ bool Plugin::loadScriptInstance(const QByteArray &name) const
 		removeInstance(ds);
 		return false;
 	}
-	if (ds->instanceType() == DSE::PrivateInstance) {
+	if (ds->instanceType() == EngineInstanceType::PrivateInstance) {
 		if (Q_UNLIKELY(ds->engineName().isEmpty())) {
 			qCWarning(lcPlugin) << "Engine name for script instance" << name << "is empty.";
 			return true;
@@ -870,7 +873,7 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 	}
 
 	// Stop possible deletion timer for temporary instance.
-	if (ds->persistence() == DSE::PersistenceType::PersistTemporary)
+	if (ds->persistence() == PersistenceType::PersistTemporary)
 		stopDeletionTimer(ds->name);
 
 	// Always unset the pressed state first because we cannot have the same action running concurrently.
@@ -884,7 +887,7 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 
 	// When used in "On-Press" the action is actually fired by TP on button release.
 	if (type == TPClientQt::MessageType::action)
-		ds->setActivation(DSE::ActivationBehavior::OnRelease);
+		ds->setActivation(ActivationBehavior::OnRelease);
 	// If action is used in On-Hold then it may have separate on-press/hold/release behaviors.
 	else
 		ds->setActivation(stringToActivationType(dataMap.value("activation")));
@@ -892,9 +895,9 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 	if (act != AID_Update) {
 		ScriptEngine *se;
 		const QByteArray &strScope = dataMap.value("scope", QStringLiteral("Shared")).toUtf8();
-		DSE::EngineInstanceType scope = stringToScope(strScope);
+		EngineInstanceType scope = stringToScope(strScope);
 		// If a scope/instance type returns Unknown this means it should be a specific named engine instance.
-		if (scope == DSE::UnknownInstanceType) {
+		if (scope == EngineInstanceType::UnknownInstanceType) {
 			// Make sure it's not an empty name.
 			if (strScope.isEmpty()) {
 				raiseScriptError(dvName, tr("ValidationError: Engine name/type is empty for script instance '%1'.").arg(dvName.constData()), tr("VALIDATION ERROR"));
@@ -903,7 +906,7 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 			se = getOrCreateEngine(strScope);
 		}
 		// Otherwise if the scope is explicitly "Private" then use the script instance name as the engine name.
-		else if (scope == DSE::PrivateInstance) {
+		else if (scope == EngineInstanceType::PrivateInstance) {
 			se = getOrCreateEngine(dvName);
 		}
 		// Otherwise use the Shared instance.
@@ -923,18 +926,18 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 			const QString &saveParam = dataMap.value("save");
 			ds->setPersistence(stringToPersistenceType(saveParam));
 			// for actions, not connectors, the "save" property can also set the default saved value type
-			if (type != TPClientQt::MessageType::connectorChange && ds->persistence() == DSE::PersistenceType::PersistSave)
+			if (type != TPClientQt::MessageType::connectorChange && ds->persistence() == PersistenceType::PersistSave)
 				ds->setDefaultTypeValue(stringToSavedDefaultType(saveParam), dataMap.value("default").toUtf8());
 		}
 		// Handle < v1.2 actions; Deprecated
 		else if (type != TPClientQt::MessageType::connectorChange) {
 			// The "save" option only dictated if the instance was saved to settings; Interpret that into persistence and saved default properties.
-			DSE::SavedDefaultType defType = stringToDefaultType(dataMap.value("save"));
-			if (defType == DSE::SavedDefaultType::NoSavedDefault) {
-				ds->setPersistence(DSE::PersistenceType::PersistSession);
+			SavedDefaultType defType = stringToDefaultType(dataMap.value("save"));
+			if (defType == SavedDefaultType::NoSavedDefault) {
+				ds->setPersistence(PersistenceType::PersistSession);
 			}
 			else {
-				ds->setPersistence(DSE::PersistenceType::PersistSave);
+				ds->setPersistence(PersistenceType::PersistSave);
 				ds->setDefaultTypeValue(defType, dataMap.value("default").toUtf8());
 			}
 		}
@@ -1000,8 +1003,12 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 {
 	quint8 type = 0;  // named instance
 	QByteArray dvName = dataMap.value("name").toUtf8();
-	if (dvName.size() > 4 && dvName.startsWith(tokenToName(AT_All)))
-		type = (dvName.at(4) == 'I' ? 255 : dvName.at(4) == 'S' ? (quint8)DSE::SharedInstance : dvName.at(4) == 'P' ? (quint8)DSE::PrivateInstance : 0);
+	if (dvName.size() > 4 && dvName.startsWith(tokenToName(AT_All))) {
+		type = (dvName.at(4) == 'I' ? 255 :
+		                              dvName.at(4) == 'S' ? (quint8)EngineInstanceType::SharedInstance :
+		                                                    dvName.at(4) == 'P' ? (quint8)EngineInstanceType::PrivateInstance :
+		                                                                          0);
+	}
 
 	switch (act)
 	{
@@ -1031,7 +1038,7 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 		}
 
 		case CA_DelEngine: {
-			if (type == (quint8)DSE::SharedInstance){
+			if (type == (quint8)EngineInstanceType::SharedInstance){
 				qCCritical(lcPlugin) << "Cannot delete the shared engine instance.";
 				return;
 			}
@@ -1039,7 +1046,7 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 				QWriteLocker l(DSE::engines_mutex());
 				DSE::EngineState::iterator it = DSE::engines()->begin();
 				while (it != DSE::engines()->end()) {
-					if ((type == 255 || type == (quint8)DSE::PrivateInstance) && !it.value()->isSharedInstance()) {
+					if ((type == 255 || type == (quint8)EngineInstanceType::PrivateInstance) && !it.value()->isSharedInstance()) {
 						removeEngine(it.value(), false);
 						it = DSE::engines()->erase(it);
 					}
@@ -1068,13 +1075,13 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 					qCCritical(lcPlugin) << "Engine instance not found for name:" << dvName;
 				return;
 			}
-			if (type == 255 || type == (quint8)DSE::PrivateInstance) {
+			if (type == 255 || type == (quint8)EngineInstanceType::PrivateInstance) {
 				for (ScriptEngine * const se : DSE::engines_const()) {
 					if (!se->isSharedInstance())
 						se->reset();
 				}
 			}
-			if (type == 255 || type == (quint8)DSE::SharedInstance)
+			if (type == 255 || type == (quint8)EngineInstanceType::SharedInstance)
 				ScriptEngine::instance()->reset();
 			return;
 		}
@@ -1166,8 +1173,8 @@ void Plugin::setActionRepeatRate(TPClientQt::MessageType type, quint8 act, const
 
 	if (instName == tokenToName(AT_Default))
 		instName.clear();
-	quint8 prop = param == AT_Rate ? DSE::RepeatRateProperty : (param == AT_Delay ? DSE::RepeatDelayProperty : DSE::AllRepeatProperties);
-	quint8 repAct = act == AT_Increment ? DSE::Increment : (act == AT_Decrement ? DSE::Decrement : DSE::SetAbsolute);
+	quint8 prop = param == AT_Rate ? RepeatProperty::RepeatRateProperty : (param == AT_Delay ? RepeatProperty::RepeatDelayProperty : RepeatProperty::AllRepeatProperties);
+	quint8 repAct = act == AT_Increment ? AdjustmentType::Increment : (act == AT_Decrement ? AdjustmentType::Decrement : SetAbsolute);
 	Q_EMIT setActionRepeatProperty(prop, repAct, value, instName, type == TPClientQt::MessageType::down);
 }
 
@@ -1217,7 +1224,7 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg) const
 		const QStringView value = dataPair.last();
 		if (cr.instanceName.isEmpty() && !id.compare(tokenToId(ADID_InstanceName)))
 			cr.instanceName = value.toUtf8();
-		else if (cr.instanceType == DSE::UnknownInstanceType && !id.compare(tokenToId(ADID_EngineScope)))
+		else if (cr.instanceType == EngineInstanceType::UnknownInstanceType && !id.compare(tokenToId(ADID_EngineScope)))
 			cr.instanceType = stringToScope(value.toUtf8(), true);
 		else if (cr.expression.isEmpty() && !id.compare(tokenToId(ADID_Expression)))
 			cr.expression = value.toUtf8();
@@ -1231,13 +1238,13 @@ void Plugin::parseConnectorNotification(const QJsonObject &msg) const
 
 	switch (act) {
 		case AID_Eval:
-			cr.inputType = DSE::ExpressionInput;
+			cr.inputType = ScriptInputType::ExpressionInput;
 			break;
 		case AID_Load:
-			cr.inputType = DSE::ScriptInput;
+			cr.inputType = ScriptInputType::ScriptInput;
 			break;
 		case AID_Import:
-			cr.inputType = DSE::ModuleInput;
+			cr.inputType = ScriptInputType::ModuleInput;
 			break;
 		case AID_Update:
 			if (DynamicScript *ds = DSE::instance(cr.instanceName))

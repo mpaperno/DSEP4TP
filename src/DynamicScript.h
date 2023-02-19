@@ -54,7 +54,7 @@ Most properties are read-only, but a few can be set at runtime such as the defau
 A DynamicScript object instance can be retrieved with the `DSE` object functions such as `DSE.currentInstance()`, `DSE.instance()`, or `DSE.instanceList()`.
 They cannot be created directly (eg. `new DynamicScript()` will not work).
 
-\since v1.1
+\since v1.2
 */
 class DynamicScript : public QObject
 {
@@ -69,7 +69,7 @@ class DynamicScript : public QObject
 
 		//! The type of scripting action. `DSE.ScriptInputType` enumeration value, one of: `DSE.ExpressionInput`, `DSE.ScriptInput`, `DSE.ModuleInput`, `DSE.UnknownInputType`
 		//! \n This property is read-only.
-		Q_PROPERTY(DSE::ScriptInputType inputType READ inputType CONSTANT)
+		Q_PROPERTY(DseNS::ScriptInputType inputType READ inputType CONSTANT)
 		//! The full expression string. This is as received from Touch Portal, possibly with any TP macros already evaluated.
 		//! \n This property is read-only.
 		Q_PROPERTY(QString expression READ expression CONSTANT)
@@ -86,7 +86,7 @@ class DynamicScript : public QObject
 		Q_PROPERTY(QString moduleAlias READ moduleAlias CONSTANT)
 		//! This is the Engine Instance type which this script is using for its execution environment. `DSE.EngineInstanceType` enumeration value, one of: `DSE.SharedInstance` or `DSE.PrivateInstance`
 		//! \n This property is read-only.
-		Q_PROPERTY(DSE::EngineInstanceType engineType READ instanceType CONSTANT)
+		Q_PROPERTY(DseNS::EngineInstanceType engineType READ instanceType CONSTANT)
 		//! The name of the engine instance this script instance is using for its execution environment. The engine instance is specified in the Action which created this script instance.
 		//! For `Private` type script instances this may nor may not be the same as the `name` property. For `Shared` instance types this is always "Shared".
 		//! \n This property is read-only.
@@ -98,11 +98,11 @@ class DynamicScript : public QObject
 
 		//! Persistence essentially determines the lifespan of this script instance. "Session" persistence means it will exist until DSE exits. "Saved" means the instance data will be saved
 		//! to a settings file when DSE exits, and restored from settings the next time DSE starts. "Temporary" instances will be automatically deleted after a time span specified in \ref autoDeleteDelay.
-		Q_PROPERTY(DSE::PersistenceType persistence READ persistence WRITE setPersistence)
+		Q_PROPERTY(DseNS::PersistenceType persistence READ persistence WRITE setPersistence)
 		//! When \ref persistence is of `DSE.PersistSave` type, this property value determines what happens when this instance is initially loaded from storage.
 		//! `DSE.SavedDefaultType` enumeration value, one of: `DSE.FixedValueDefault`, `DSE.CustomExprDefault`, `DSE.MainExprDefault`
 		//! \sa defaultValue, persistence
-		Q_PROPERTY(DSE::SavedDefaultType defaultType READ defaultType WRITE setDefaultType)
+		Q_PROPERTY(DseNS::SavedDefaultType defaultType READ defaultType WRITE setDefaultType)
 		//! The default value specified for saved instance, if any. Depending on the value of \ref defaultType, this could be an empty string, a fixed default string value, or an expression to be evaluated.
 		//! \sa defaultType, persistence
 		Q_PROPERTY(QByteArray defaultValue READ defaultValue WRITE setDefaultValue)
@@ -184,7 +184,7 @@ class DynamicScript : public QObject
 		//! - `DSE.OnPress | DSE.OnRelease` - Evaluates expression on initial button press and again when it is released.
 		//! - `DSE.RepeatOnHold` - Ignores the initial button press and then starts repeating the evaluation after \ref effectiveRepeatDelay ms, until it is released.
 		//! - `DSE.OnRelease` - Evaluates expression only when button is released. This is the default behavior when using an action in Touch Portal's "On Pressed" button setup (which actually triggers actions upon button release).
-		Q_PROPERTY(DSE::ActivationBehaviors activation READ activation WRITE setActivation)
+		Q_PROPERTY(DseNS::ActivationBehaviors activation READ activation WRITE setActivation)
 		//! The default action repeat rate for this particular instance, in milliseconds. If `-1` (default) then the global default rate is used.  \sa activeRepeatRate, DSE.defaultActionRepeatRate
 		Q_PROPERTY(int repeatRate READ repeatRate WRITE setRepeatRate NOTIFY repeatRateChanged)
 		//! The default action repeat delay for this particular instance, in milliseconds. If `-1` (default) then the global default rate is used.  \sa activeRepeatDelay, DSE.defaultActionRepeatDelay
@@ -232,11 +232,11 @@ class DynamicScript : public QObject
 		Q_DECLARE_FLAGS(States, State)
 
 		States m_state = State::UninitializedState;
-		DSE::ScriptInputType m_inputType = DSE::ScriptInputType::UnknownInputType;
-		DSE::ActivationBehaviors m_activation = DSE::ActivationBehavior::OnRelease; // | DSE::ActivationBehavior::RepeatOnHold;
-		DSE::PersistenceType m_persist = DSE::PersistenceType::PersistSession;
-		DSE::EngineInstanceType m_scope = DSE::EngineInstanceType::UnknownInstanceType;
-		DSE::SavedDefaultType m_defaultType = DSE::SavedDefaultType::FixedValueDefault;
+		DseNS::ScriptInputType m_inputType = DseNS::ScriptInputType::UnknownInputType;
+		DseNS::ActivationBehaviors m_activation = DseNS::ActivationBehavior::OnRelease; // | DseNS::ActivationBehavior::RepeatOnHold;
+		DseNS::PersistenceType m_persist = DseNS::PersistenceType::PersistSession;
+		DseNS::EngineInstanceType m_scope = DseNS::EngineInstanceType::UnknownInstanceType;
+		DseNS::SavedDefaultType m_defaultType = DseNS::SavedDefaultType::FixedValueDefault;
 		std::atomic_bool m_createState = false;
 		std::atomic_int m_autoDeleteDelay = 10 * 1000;
 		std::atomic_int m_repeatRate = -1;
@@ -281,37 +281,37 @@ class DynamicScript : public QObject
 		QByteArray stateName() const { return tpStateName.isEmpty() ? name : tpStateName; }
 		void stateName(const QString &value) { tpStateName = value.toUtf8(); }
 
-		DSE::ScriptInputType inputType() const { return m_inputType; }
-		DSE::EngineInstanceType instanceType() const { return m_scope; }
+		DseNS::ScriptInputType inputType() const { return m_inputType; }
+		DseNS::EngineInstanceType instanceType() const { return m_scope; }
 
 		QString scriptFile() const { return m_originalFile; }
 		QString scriptFileResolved() const { return m_file; }
 		QString expression() const { return m_expr; }
 		QString moduleAlias() const { return m_moduleAlias; }
 
-		DSE::PersistenceType persistence() const { return m_persist; }
-		void setPersistence(DSE::PersistenceType newPersist);
-		inline bool isTemporary() const { return m_persist == DSE::PersistenceType::PersistTemporary; }
+		DseNS::PersistenceType persistence() const { return m_persist; }
+		void setPersistence(DseNS::PersistenceType newPersist);
+		inline bool isTemporary() const { return m_persist == DseNS::PersistenceType::PersistTemporary; }
 
 		QJSValue &dataStorage();
 
 		int autoDeleteDelay() const { return m_autoDeleteDelay; }
 		void setAutoDeleteDelay(int ms) { m_autoDeleteDelay = ms; }
 
-		DSE::SavedDefaultType defaultType() const { return m_defaultType; }
-		void setDefaultType(DSE::SavedDefaultType type);
+		DseNS::SavedDefaultType defaultType() const { return m_defaultType; }
+		void setDefaultType(DseNS::SavedDefaultType type);
 
 		QByteArray defaultValue() const { return m_defaultValue; }
 		void setDefaultValue(const QByteArray &value) { m_defaultValue = value; }
 
-		void setDefaultTypeValue(DSE::SavedDefaultType defType, const QByteArray &def)
+		void setDefaultTypeValue(DseNS::SavedDefaultType defType, const QByteArray &def)
 		{
 			setDefaultType(defType);
 			setDefaultValue(def);
 		}
 
-		DSE::ActivationBehaviors activation() const { return m_activation; }
-		void setActivation(DSE::ActivationBehaviors behavior);
+		DseNS::ActivationBehaviors activation() const { return m_activation; }
+		void setActivation(DseNS::ActivationBehaviors behavior);
 
 		inline bool isPressed() const { return m_state.testFlags(State::PressedState); }
 		inline bool isRepeating() const { return m_state.testFlags(State::RepeatingState); }
@@ -361,12 +361,12 @@ class DynamicScript : public QObject
 			}
 		}
 
-		int repeatProperty(quint8 property) { return (property & DSE::RepeatRateProperty) ? m_repeatRate : m_repeatDelay; }
+		int repeatProperty(quint8 property) { return (property & DseNS::RepeatRateProperty) ? m_repeatRate : m_repeatDelay; }
 		void setRepeatProperty(quint8 property, int ms)
 		{
-			if (property & DSE::RepeatRateProperty)
+			if (property & DseNS::RepeatRateProperty)
 				setRepeatRate(ms);
-			if (property & DSE::RepeatDelayProperty)
+			if (property & DseNS::RepeatDelayProperty)
 				setRepeatDelay(ms);
 		}
 
@@ -376,7 +376,7 @@ class DynamicScript : public QObject
 		bool setExpressionProperties(const QString &expr);
 		bool setScriptProperties(const QString &file, const QString &expr);
 		bool setModuleProperties(const QString &file, const QString &alias, const QString &expr);
-		bool setProperties(DSE::ScriptInputType type, const QString &expr, const QString &file = QString(), const QString &alias = QString(), bool ignoreErrors = false);
+		bool setProperties(DseNS::ScriptInputType type, const QString &expr, const QString &file = QString(), const QString &alias = QString(), bool ignoreErrors = false);
 		bool setExpression(const QString &expr);
 
 		bool setEngine(ScriptEngine *se);
@@ -393,7 +393,7 @@ class DynamicScript : public QObject
 		inline void stateUpdate(const QByteArray &value) {
 			if (createState()) {
 				// FIXME: TP v3.1 doesn't fire state change events based on the default value; v3.2 might.
-				createTpState(/*m_defaultType != DSE::SavedDefaultType::MainExprDefault*/);
+				createTpState(/*m_defaultType != DseNS::SavedDefaultType::MainExprDefault*/);
 				Q_EMIT dataReady(tpStateId, value);
 				//qCDebug(lcPlugin) << "DynamicScript instance" << name << "sending result:" << value;
 			}

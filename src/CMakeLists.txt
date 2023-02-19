@@ -60,6 +60,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   main.cpp
   common.h
   strings.h
+  DSE_NS.h
   DSE.h
   DSE.cpp
   Plugin.h
