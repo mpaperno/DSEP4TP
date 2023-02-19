@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.24)
 
-set (VERSION_STR 1.1.0.2)
-set (VERSION_NUM 1010002)
-set (VERSION_SFX "")
+set (VERSION_STR 1.2.0.1)
+set (VERSION_NUM 1020001)
+set (VERSION_SFX -beta1)
 set (PROJECT_FULL_NAME  "Dynamic Script Engine Plugin for Touch Portal")
 set (PROJECT_SHORT_NAME "Dynamic Script Engine")
 set (PROJECT_ORG_NAME   "DynamicScriptEngine")
@@ -184,7 +184,7 @@ elseif(isLinux)
   set(qt_ver ${QT_VERSION_MAJOR})
   set(qt_libs "")
   foreach(qt_lib
-    Qt${qt_ver}Core.so.${qt_ver} Qt${qt_ver}Network.so.${qt_ver} Qt${qt_ver}Qml.so.${qt_ver} Qt${qt_ver}Sql.so.${qt_ver}
+    Qt${qt_ver}Core.so.${qt_ver} Qt${qt_ver}Network.so.${qt_ver} Qt${qt_ver}Qml.so.${qt_ver} Qt${qt_ver}Sql.so.${qt_ver} Qt${qt_ver}Gui.so.${qt_ver} Qt${qt_ver}Svg.so.${qt_ver}
     icui18n.so.56 icuuc.so.56 icudata.so.56
   )
     list(APPEND qt_libs "${CMAKE_PREFIX_PATH}/lib/lib${qt_lib}")
@@ -193,6 +193,9 @@ elseif(isLinux)
     "file(INSTALL ${qt_libs} DESTINATION \"${CMAKE_INSTALL_PREFIX}/bin\" FOLLOW_SYMLINK_CHAIN)"
     COMPONENT Runtime)
   install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/networkinformation" TYPE BIN)
+  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/iconengines" TYPE BIN)
+  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/imageformats" TYPE BIN)
+  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/platforms" TYPE BIN)
   install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/tls" TYPE BIN)
   install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/sqldrivers" TYPE BIN)
 
@@ -206,11 +209,7 @@ else()  # Mac
   add_custom_target(deployqt
     COMMAND ${MACDEPLOYQT_EXECUTABLE} "${bundle_path}"
     COMMAND rm -f -r "${bundle_path}/Contents/Frameworks/QtDBus.framework"
-    COMMAND rm -f -r "${bundle_path}/Contents/Frameworks/QtGui.framework"
-    COMMAND rm -f -r "${bundle_path}/Contents/Frameworks/QtSvg.framework"
     COMMAND rm -f -r "${bundle_path}/Contents/Frameworks/QtWidgets.framework"
-    COMMAND rm -f -r "${bundle_path}/Contents/Plugins/iconengines"
-    COMMAND rm -f -r "${bundle_path}/Contents/Plugins/imageformats"
     COMMAND rm -f -r "${bundle_path}/Contents/Plugins/styles"
     DEPENDS ${PROJECT_NAME}
     WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}
