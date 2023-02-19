@@ -397,10 +397,10 @@ function addModuleAction(name)
         "Module properties are accessed via the alias (like in JS). An optional JavaScript expression can be evaluated after the import, eg. to run a function with dynamic value arguments.";
     let [format, data] = makeCommonData(id);
     let i = data.length;
-    format += `import {*}\nfrom (file){${i++}} as\n(alias){${i++}} and evaluate\n${EN}expression{${i++}}`;
+    format += `import {*}\nas (alias){${i++}} from\n(file){${i++}} and evaluate\n${EN}expression{${i++}}`;
     data.push(
-        makeFileData(id + ".file", "Module File"),
         makeTextData(id + ".alias", "Module Alias", "M"),
+        makeFileData(id + ".file", "Module File"),
         makeTextData(id + ".expr", "Expression", "M.run([arguments])"),
     );
     format += appendScopeData(id, data);
