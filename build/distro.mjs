@@ -3,7 +3,7 @@ import path from 'path';
 import { execSync } from 'child_process';
 
 const zip = process.env['ZIP_BIN'] || "zip"
-const dirname = process.argv0.indexOf("node") > -1 ? dirname(process.argv[1]) : dirname(process.argv0);
+const script_dir = process.argv0.indexOf("node") > -1 ? path.dirname(process.argv[1]) : path.dirname(process.argv0);
 
 function copyFiles(srcDir, destDir, files) {
 	files.map(f => {
@@ -13,8 +13,8 @@ function copyFiles(srcDir, destDir, files) {
 
 export default function makeDistro(platform = null, dirs = {}, buildInfo = null)
 {
-	buildInfo = buildInfo || JSON.parse(fs.readFileSync(path.join(dirname, "version.json"), "utf8"));
-	const root = dirs.root || path.resolve(dirname, "../");
+	buildInfo = buildInfo || JSON.parse(fs.readFileSync(path.join(script_dir, "version.json"), "utf8"));
+	const root = dirs.root || path.resolve(script_dir, "../");
 	const dist = dirs.dist || path.join(root, "dist");
 	//const bins = dirs.bins || path.join(build, "bin");
 	platform = platform || buildInfo.PLATFORM_OS || (process.platform === "win32" ? "Windows" : process.platform === "darwin" ? "MacOS" : "Linux");
@@ -24,7 +24,7 @@ export default function makeDistro(platform = null, dirs = {}, buildInfo = null)
 	var result;
 
 	console.info("Generating entry.tp");
-	result = execSync(`node ${path.resolve(dirname, "./gen_entry.js")} -v ${buildInfo.VERSION_STR} -o ${build}`);
+	result = execSync(`node ${path.resolve(script_dir, "./gen_entry.js")} -v ${buildInfo.VERSION_STR} -o ${build}`);
 	console.info(String(result));
 
 	console.info("Copying files to", build);
