@@ -59,7 +59,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   version.h.in
   main.cpp
   common.h
-  strings.h
+  dse_strings.h
   DSE_NS.h
   DSE.h
   DSE.cpp

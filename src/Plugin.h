@@ -23,7 +23,7 @@ to any 3rd-party components used within.
 #include <QObject>
 #include <QTimer>
 
-#include "strings.h"
+#include "dse_strings.h"
 #include "TPClientQt.h"
 #include "JSError.h"
 
