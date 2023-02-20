@@ -1,9 +1,13 @@
 # Change Log
 **Dynamic Script Engine Plugin for Touch Portal**: changes by version number and release date.
 
+---
+## 1.1.0.2 (20-Feb-2023)
+- No changes since 1.1.0.1-beta1.
+- Final version in the v1.1.x series.
 
 ---
-## 1.1.0.0-beta1 (05-Jan-2023)
+## 1.1.0.1-beta1 (05-Jan-2023)
 - Added Connector (Slider) counterparts for most of the plugin's existing Actions (except "Load Script").
 - Added Connector/Slider instance tracking database for managing mapping and lookups of "short" connector IDs (for sending updates back to Touch Portal).
 - Added new State to reflect current system user's Touch Portal settings directory path (workaround until TP v3.2 adds native values for that).
