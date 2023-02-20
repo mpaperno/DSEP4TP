@@ -13,10 +13,13 @@ var searchData=
   ['o_5ftrunc_10',['O_TRUNC',['../class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda62d2c5d0a909350af1b4f4fd95297555',1,'FS']]],
   ['o_5fwronly_11',['O_WRONLY',['../class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda50c690d82aa242ada5c1c8e4e240b4fe',1,'FS']]],
   ['ok_12',['ok',['../class_response.html#a1d67bd6634a9002df97231d8c8dbc66c',1,'Response']]],
-  ['onprogress_13',['onprogress',['../class_request.html#a9a4865a3f854a077c7522a139b34e8eb',1,'Request']]],
-  ['open_14',['open',['../class_file_handle.html#a74cf2cc4d83d9e7240615bd2451446b6',1,'FileHandle::open(::FS::OpenMode mode)'],['../class_file_handle.html#af9a906bc7e3198b34bd25f65e1e5985a',1,'FileHandle::open(String &amp;mode)']]],
-  ['openerror_15',['OpenError',['../class_f_s.html#aa3ec0b4d641bd69b9e91852d9974bfdea14d536aa4f10161dcf259ce15008a50c',1,'FS']]],
-  ['openmode_16',['OpenMode',['../class_f_s.html#a7be6482aea7db661a3686265110283dd',1,'FS']]],
-  ['openmode_17',['openMode',['../class_file_handle.html#a459c3714e8bc10a872184bc4c19b70b6',1,'FileHandle']]],
-  ['openmodeflag_18',['OpenModeFlag',['../class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bd',1,'FS']]]
+  ['onpress_13',['OnPress',['../class_d_s_e.html#ab9a18188d72570ea7c433ec229797ad1a8108a1aed90a03a70261890a0212b270',1,'DSE']]],
+  ['onprogress_14',['onprogress',['../class_request.html#a9a4865a3f854a077c7522a139b34e8eb',1,'Request']]],
+  ['onrelease_15',['OnRelease',['../class_d_s_e.html#ab9a18188d72570ea7c433ec229797ad1ae9a8ff62f1730ec91cfcec2e61571093',1,'DSE']]],
+  ['open_16',['open',['../class_file_handle.html#a74cf2cc4d83d9e7240615bd2451446b6',1,'FileHandle::open(::FS::OpenMode mode)'],['../class_file_handle.html#af9a906bc7e3198b34bd25f65e1e5985a',1,'FileHandle::open(String &amp;mode)']]],
+  ['openerror_17',['OpenError',['../class_f_s.html#aa3ec0b4d641bd69b9e91852d9974bfdea14d536aa4f10161dcf259ce15008a50c',1,'FS']]],
+  ['openmode_18',['OpenMode',['../class_f_s.html#a7be6482aea7db661a3686265110283dd',1,'FS']]],
+  ['openmode_19',['openMode',['../class_file_handle.html#a459c3714e8bc10a872184bc4c19b70b6',1,'FileHandle']]],
+  ['openmodeflag_20',['OpenModeFlag',['../class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bd',1,'FS']]],
+  ['otherdata_21',['otherData',['../class_connector_record.html#a0ad8c9125161601d20d89f6b3641cd4e',1,'ConnectorRecord']]]
 ];

@@ -1,0 +1,827 @@
+<!-- HTML header for doxygen 1.9.4-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dynamic Script Engine Plugin for Touch Portal: Clipboard</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md11']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/mpaperno/DSEP4TP" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" fill="url(#gradient)"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    <linearGradient id="gradient" x1="0.5" x2="0.5" y1="0" y2="1">
+        <stop class="first-stop" offset="0%"></stop>
+        <stop class="last-stop" offset="100%"></stop>
+    </linearGradient>
+    </svg>
+</a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
+  <td id="projectalign">
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_clipboard.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#properties">Properties</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="class_clipboard-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">Clipboard<div class="ingroups"><a class="el" href="group___util.html">Utilities</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><p >The <a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a> class offers a simple mechanism to copy and paste data between applications. </p>
+<p ><a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a> features are implemented as a module named <code>clipboard</code>. Use an <code>import</code> statement (from another module) or <code><a class="el" href="class_global.html#a8d2c911c2adcaa8d385d699deb7b8b5b" title="Used to import all or part of JavaScript modules or JSON objects.">require()</a></code> function call (from any code) to import desired features.</p>
+<div class="fragment"><div class="line"><span class="keyword">import</span> clipboard from <span class="stringliteral">&quot;clipboard&quot;</span>;</div>
+<div class="line"><span class="comment">// or</span></div>
+<div class="line"><span class="keyword">import</span> { text as clipboardText } from <span class="stringliteral">&quot;clipboard&quot;</span>;</div>
+</div><!-- fragment --><p >Or using <code><a class="el" href="class_global.html#a8d2c911c2adcaa8d385d699deb7b8b5b" title="Used to import all or part of JavaScript modules or JSON objects.">require()</a></code>: </p><div class="fragment"><div class="line"><span class="keyword">const</span> clipboard = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
+<div class="line"><span class="comment">// or</span></div>
+<div class="line"><span class="keyword">const</span> { text: clipboardText } = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
+</div><!-- fragment --><p ><a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a> data can potentially contain multiple types of data, identified by a MIME (or "media") type. For example copying text from a Web page may put it on the clipboard in both plain-text and HTML formats ("text/plain" and "text/html" MIME types, respectively).</p>
+<p >The <code><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a></code>, <code><a class="el" href="class_clipboard.html#a1a73ff700c3cc3fed8ed24712dfe506e" title="This function sets the current system clipboard value as a plain text String type (ASCII/UTF8/UTF16)....">setText()</a></code>, <code><a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a></code> and <code><a class="el" href="class_clipboard.html#a183eae51819a0d03be5dc4b2c8bbdd8f" title="Sets the current system clipboard value as raw bytes. It is written to the clipboard as &quot;application/...">setData()</a></code> function versions with no parameters operate with "text/plain" and "application/octet-stream" default MIME types (as further explained in their documentation). Alternatively, the more explicit function overloads can be used which allow specifying a MIME type.</p>
+<p >On MacOS and Linux/X11 systems there are two other "clipboard modes" available besides the primary shared clipbaord. <br  />
+On X11 this can work with whatever text is currently selected in a focused application (<code>Clipboard.Selection</code> mode). <br  />
+On MacOS there is a special "search buffer" which can be shared between applications (<code>Clipboard.SearchBuffer</code> mode). <br  />
+Most of the functions in this class accept an optional <code>mode</code> parameter which sets which clipboard to use. By default the main clipboard is used, and on Windows this is the only clipboard mode available. <br  />
+See <a class="el" href="class_clipboard.html#ab83f6dc74fb6722c27270d2e2e8bdd07">supportsSelection</a>, <a class="el" href="class_clipboard.html#ac75fb733e107b31a0d40702e21db31e8">supportsFindBuffer</a>, and <a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911">Mode</a> enumeration docs for more details.</p>
+<h3><a class="anchor" id="autotoc_md92"></a>
+Usage examples</h3>
+<h4><a class="anchor" id="autotoc_md93"></a>
+Copy text to clipboard</h4>
+<div class="fragment"><div class="line"><span class="keyword">const</span> { setText } = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
+<div class="line">setText(<span class="stringliteral">&quot;This text will be copied to the clipboard&quot;</span>);</div>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md94"></a>
+Get text from clipboard</h4>
+<div class="fragment"><div class="line"><span class="keyword">const</span> { text: clipboardText } = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
+<div class="line">let text = clipboardText();</div>
+<div class="line"><span class="comment">// text == &quot;This text will be copied to the clipboard&quot;</span></div>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md95"></a>
+Copy the contents of a text file to the clipboard</h4>
+<div class="fragment"><div class="line"><span class="keyword">const</span> { setText: copy } = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
+<div class="line"><span class="keywordflow">try</span> {</div>
+<div class="line">  copy(<a class="code hl_class" href="class_file.html">File</a>.<a class="code hl_function" href="class_file.html#a22b1c4d4cc1ae85a1d288ec0b2bb8845">readText</a>(<span class="stringliteral">&quot;path/to/myFile.txt&quot;</span>));</div>
+<div class="line">}</div>
+<div class="line"><span class="keywordflow">catch</span> (e) {</div>
+<div class="line">  console.error(<span class="stringliteral">&quot;Error reading file: &quot;</span>, e);</div>
+<div class="line">}</div>
+<div class="ttc" id="aclass_file_html"><div class="ttname"><a href="class_file.html">File</a></div><div class="ttdoc">The File class provides access to... files. Shocking.</div><div class="ttdef"><b>Definition:</b> File.h:58</div></div>
+<div class="ttc" id="aclass_file_html_a22b1c4d4cc1ae85a1d288ec0b2bb8845"><div class="ttname"><a href="class_file.html#a22b1c4d4cc1ae85a1d288ec0b2bb8845">File::readText</a></div><div class="ttdeci">String readText(String &amp;file)</div><div class="ttdoc">Reads a file in text mode and returns the contents as a string. This is a convenience method which is...</div><div class="ttdef"><b>Definition:</b> File.h:105</div></div>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md96"></a>
+Copy an image from a file to the clipboard</h4>
+<div class="fragment"><div class="line"><span class="keyword">const</span> { setData: copy } = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
+<div class="line"><span class="keywordflow">try</span> {</div>
+<div class="line">  copy(<span class="stringliteral">&quot;image/png&quot;</span>, <a class="code hl_class" href="class_file.html">File</a>.<a class="code hl_function" href="class_file.html#adeac7b35b88465029c6be619ae67fbaf">read</a>(<span class="stringliteral">&quot;path/to/myImage.png&quot;</span>, <span class="charliteral">&#39;b&#39;</span>));</div>
+<div class="line">}</div>
+<div class="line"><span class="keywordflow">catch</span> (e) {</div>
+<div class="line">  console.error(<span class="stringliteral">&quot;Error reading file: &quot;</span>, e);</div>
+<div class="line">}</div>
+<div class="ttc" id="aclass_file_html_adeac7b35b88465029c6be619ae67fbaf"><div class="ttname"><a href="class_file.html#adeac7b35b88465029c6be619ae67fbaf">File::read</a></div><div class="ttdeci">ArrayBuffer read(String &amp;file, ::FS::OpenMode mode=O_TEXT)</div><div class="ttdoc">Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....</div><div class="ttdef"><b>Definition:</b> File.h:96</div></div>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md97"></a>
+Get text from the clipboard, preferring HTML format if it is available.</h4>
+<div class="fragment"><div class="line"><span class="keyword">const</span> clipboard = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
+<div class="line">let text = clipboard.hasMimeType(<span class="stringliteral">&quot;text/html&quot;</span>) ? clipboard.text(<span class="stringliteral">&quot;html&quot;</span>) : clipboard.text();</div>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md98"></a>
+Loop over all available formats on the clipboard and log the contents of each one as a string.</h4>
+<div class="fragment"><div class="line"><span class="keyword">const</span> { mimeTypes, data: clipboardData } = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
+<div class="line"><span class="keyword">const</span> availableTypes = mimeTypes();</div>
+<div class="line"><span class="keywordflow">for</span> (<span class="keyword">const</span> type of availableTypes)</div>
+<div class="line">  console.log(type + <span class="stringliteral">&quot; :&quot;</span>, <span class="charliteral">&#39;\n&#39;</span>, clipboardData(type).toString());</div>
+</div><!-- fragment --> </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a46c8a310cf4c094f8c80e1cb8dc1f911"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911">Mode</a> </td></tr>
+<tr class="separator:a46c8a310cf4c094f8c80e1cb8dc1f911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:ac75fb733e107b31a0d40702e21db31e8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#ac75fb733e107b31a0d40702e21db31e8">supportsFindBuffer</a> = QGuiApplication::clipboard()-&gt;supportsFindBuffer()</td></tr>
+<tr class="separator:ac75fb733e107b31a0d40702e21db31e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab83f6dc74fb6722c27270d2e2e8bdd07"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#ab83f6dc74fb6722c27270d2e2e8bdd07">supportsSelection</a> = QGuiApplication::clipboard()-&gt;supportsSelection()</td></tr>
+<tr class="separator:ab83f6dc74fb6722c27270d2e2e8bdd07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:afabd52c8dfdf6105b0bb920c0680d6f7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#afabd52c8dfdf6105b0bb920c0680d6f7">dataAvailable</a> (int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:afabd52c8dfdf6105b0bb920c0680d6f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a842a79cc997bb22d48592ac99f3446c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a842a79cc997bb22d48592ac99f3446c5">textAvailable</a> (int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:a842a79cc997bb22d48592ac99f3446c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e3b4e391aad5305bb3983bcd41bcba7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a0e3b4e391aad5305bb3983bcd41bcba7">text</a> (int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:a0e3b4e391aad5305bb3983bcd41bcba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a7d3e4f3ab478dce1d04db36df673e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a2a7d3e4f3ab478dce1d04db36df673e4">text</a> (<a class="el" href="class_string.html">String</a> subType, int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:a2a7d3e4f3ab478dce1d04db36df673e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a73ff700c3cc3fed8ed24712dfe506e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a1a73ff700c3cc3fed8ed24712dfe506e">setText</a> (<a class="el" href="class_string.html">String</a> text, int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:a1a73ff700c3cc3fed8ed24712dfe506e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad79cb9b653c993b0bf1021575c7eee38"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#ad79cb9b653c993b0bf1021575c7eee38">setText</a> (<a class="el" href="class_string.html">String</a> subType, <a class="el" href="class_string.html">String</a> text, int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:ad79cb9b653c993b0bf1021575c7eee38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afffd9c3ca8a6da960370721799106f59"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_array_buffer.html">ArrayBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59">data</a> (int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:afffd9c3ca8a6da960370721799106f59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cd80faf77d8fdfb1702aca32769cdc9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_array_buffer.html">ArrayBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a5cd80faf77d8fdfb1702aca32769cdc9">data</a> (<a class="el" href="class_string.html">String</a> mimeType, int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:a5cd80faf77d8fdfb1702aca32769cdc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a183eae51819a0d03be5dc4b2c8bbdd8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a183eae51819a0d03be5dc4b2c8bbdd8f">setData</a> (<a class="el" href="class_array_buffer.html">ArrayBuffer</a> data, int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:a183eae51819a0d03be5dc4b2c8bbdd8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ca1ca07dc1ea994770633ceca77fc2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a3ca1ca07dc1ea994770633ceca77fc2d">setData</a> (<a class="el" href="class_string.html">String</a> mimeType, <a class="el" href="class_array_buffer.html">ArrayBuffer</a> data, int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:a3ca1ca07dc1ea994770633ceca77fc2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f1384d6e6d816eee6a36d3087df8aaf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a6f1384d6e6d816eee6a36d3087df8aaf">clear</a> (int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:a6f1384d6e6d816eee6a36d3087df8aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a673686a23d3deea5bd26b8d386099f85"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a673686a23d3deea5bd26b8d386099f85">hasMimeType</a> (<a class="el" href="class_string.html">String</a> mimeType, int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:a673686a23d3deea5bd26b8d386099f85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72819d2ff7699966276fab9025de0220"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a72819d2ff7699966276fab9025de0220">hasMediaType</a> (<a class="el" href="class_string.html">String</a> mediaType, int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:a72819d2ff7699966276fab9025de0220"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88ded2b8de05c5feed2168589eb21514"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="class_string.html">String</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a88ded2b8de05c5feed2168589eb21514">mimeTypes</a> (<a class="el" href="class_string.html">String</a> mimeType, int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
+<tr class="separator:a88ded2b8de05c5feed2168589eb21514"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Events</div></td></tr>
+<tr class="memitem:a5220255ba5ca03f2fdcf72046aa3bfdd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a5220255ba5ca03f2fdcf72046aa3bfdd">clipboardChanged</a> ()</td></tr>
+<tr class="separator:a5220255ba5ca03f2fdcf72046aa3bfdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ce6bd27f981bdfd40172d41c3f0403a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a8ce6bd27f981bdfd40172d41c3f0403a">findBufferChanged</a> ()</td></tr>
+<tr class="separator:a8ce6bd27f981bdfd40172d41c3f0403a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d85de554564e69188e34457b463de1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a1d85de554564e69188e34457b463de1b">selectionChanged</a> ()</td></tr>
+<tr class="separator:a1d85de554564e69188e34457b463de1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a46c8a310cf4c094f8c80e1cb8dc1f911" name="a46c8a310cf4c094f8c80e1cb8dc1f911"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46c8a310cf4c094f8c80e1cb8dc1f911">&#9670;&nbsp;</a></span>Mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911">Mode</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This enumeration is used in the <code>mode</code> argument of several methods and controls which part of the system clipboard is used. <br  />
+With <code><a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a></code> mode (the deafult for all methods), the data is stored/retrieved with the global clipboard. <br  />
+If mode is <code>Selection</code>, the data is stored/retrieved with the global mouse selection (requires a supporting system, eg. X11). <br  />
+If mode is <code>FindBuffer</code>, the data is stored/retrieved with the search string buffer (eg. on MacOS). </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#ac75fb733e107b31a0d40702e21db31e8" title="This property value is true if the system clipboard supports a separate search buffer,...">supportsFindBuffer</a>, <a class="el" href="class_clipboard.html#ab83f6dc74fb6722c27270d2e2e8bdd07" title="This property value is true if the system clipboard supports mouse selection, or false otherwise....">supportsSelection</a> </dd></dl>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2" name="a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2"></a>Clipboard&#160;</td><td class="fielddoc"><p >Indicates that data should be stored and retrieved from the global clipboard. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a46c8a310cf4c094f8c80e1cb8dc1f911a6ff9dd0d34f65181173c1e4bc39939de" name="a46c8a310cf4c094f8c80e1cb8dc1f911a6ff9dd0d34f65181173c1e4bc39939de"></a>Selection&#160;</td><td class="fielddoc"><p >Indicates that data should be stored and retrieved from the global mouse selection. </p>
+<p >Support for Selection is provided only on systems with a global mouse selection (e.g. X11). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a46c8a310cf4c094f8c80e1cb8dc1f911a70fa396fb43ffd6c357897a2b90f8116" name="a46c8a310cf4c094f8c80e1cb8dc1f911a70fa396fb43ffd6c357897a2b90f8116"></a>FindBuffer&#160;</td><td class="fielddoc"><p >Indicates that data should be stored and retrieved from the Find buffer. </p>
+<p >This mode is used for holding search strings on macOS. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="ac75fb733e107b31a0d40702e21db31e8" name="ac75fb733e107b31a0d40702e21db31e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac75fb733e107b31a0d40702e21db31e8">&#9670;&nbsp;</a></span>supportsFindBuffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool supportsFindBuffer = QGuiApplication::clipboard()-&gt;supportsFindBuffer()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This property value is <code>true</code> if the system clipboard supports a separate search buffer, or <code>false</code> otherwise. This is only supported on MacOS and possibly some Android systems. </p>
+
+</div>
+</div>
+<a id="ab83f6dc74fb6722c27270d2e2e8bdd07" name="ab83f6dc74fb6722c27270d2e2e8bdd07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab83f6dc74fb6722c27270d2e2e8bdd07">&#9670;&nbsp;</a></span>supportsSelection</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool supportsSelection = QGuiApplication::clipboard()-&gt;supportsSelection()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This property value is <code>true</code> if the system clipboard supports mouse selection, or <code>false</code> otherwise. Mouse selection is generally only supported on X11-based systems (Linux, BSD, etc). </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a5220255ba5ca03f2fdcf72046aa3bfdd" name="a5220255ba5ca03f2fdcf72046aa3bfdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5220255ba5ca03f2fdcf72046aa3bfdd">&#9670;&nbsp;</a></span>clipboardChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void clipboardChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is raised whenever the contents of the system clipboard change. Use <code><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a></code>, <code><a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a></code>, or the other methods to get the current value after receiving this event. </p>
+
+</div>
+</div>
+<a id="a8ce6bd27f981bdfd40172d41c3f0403a" name="a8ce6bd27f981bdfd40172d41c3f0403a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ce6bd27f981bdfd40172d41c3f0403a">&#9670;&nbsp;</a></span>findBufferChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void findBufferChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is raised whenever the contents of the Find text change on MacOS. Use <code><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a></code>, <code><a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a></code>, etc methods with <code>mode</code> argument set to <code>Clipboard.FindBuffer</code> to get the current value after receiving this event. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#ac75fb733e107b31a0d40702e21db31e8" title="This property value is true if the system clipboard supports a separate search buffer,...">supportsFindBuffer</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1d85de554564e69188e34457b463de1b" name="a1d85de554564e69188e34457b463de1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d85de554564e69188e34457b463de1b">&#9670;&nbsp;</a></span>selectionChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void selectionChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is raised whenever the contents of the system selection change. Use <code><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a></code>, <code><a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a></code>, etc, methods with <code>mode</code> argument set to <code>Clipboard.Selection</code> to get the current value after receiving this event. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#ab83f6dc74fb6722c27270d2e2e8bdd07" title="This property value is true if the system clipboard supports mouse selection, or false otherwise....">supportsSelection</a> </dd></dl>
+
+</div>
+</div>
+<a id="afabd52c8dfdf6105b0bb920c0680d6f7" name="afabd52c8dfdf6105b0bb920c0680d6f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afabd52c8dfdf6105b0bb920c0680d6f7">&#9670;&nbsp;</a></span>dataAvailable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool dataAvailable </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if the current system clipboard contains any type of data at all (ie. is not empty), or <code>false</code> otherwise (if the clipboard is empty). <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#a842a79cc997bb22d48592ac99f3446c5" title="Returns true if the current system clipboard contains any type of string data, or false otherwise....">textAvailable()</a>, <a class="el" href="class_clipboard.html#a673686a23d3deea5bd26b8d386099f85" title="Checks if the clipboard contains data with full MIME type mimeType and returns true or false....">hasMimeType()</a>, <a class="el" href="class_clipboard.html#a72819d2ff7699966276fab9025de0220" title="Checks if the clipboard contains data with base MIME type mediaType and returns true or false....">hasMediaType()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a842a79cc997bb22d48592ac99f3446c5" name="a842a79cc997bb22d48592ac99f3446c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a842a79cc997bb22d48592ac99f3446c5">&#9670;&nbsp;</a></span>textAvailable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool textAvailable </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if the current system clipboard contains any type of string data, or <code>false</code> otherwise. <a class="el" href="class_string.html" title="Extends String object.">String</a> data would be any type with a "text" primary MIME type, eg "text/plain", "text/html", "text/csv", etc. <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#afabd52c8dfdf6105b0bb920c0680d6f7" title="Returns true if the current system clipboard contains any type of data at all (ie....">dataAvailable()</a>, <a class="el" href="class_clipboard.html#a673686a23d3deea5bd26b8d386099f85" title="Checks if the clipboard contains data with full MIME type mimeType and returns true or false....">hasMimeType()</a>, <a class="el" href="class_clipboard.html#a72819d2ff7699966276fab9025de0220" title="Checks if the clipboard contains data with base MIME type mediaType and returns true or false....">hasMediaType()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a0e3b4e391aad5305bb3983bcd41bcba7" name="a0e3b4e391aad5305bb3983bcd41bcba7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e3b4e391aad5305bb3983bcd41bcba7">&#9670;&nbsp;</a></span>text() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> text </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the current system clipboard value as a plain text <a class="el" href="class_string.html" title="Extends String object.">String</a> type (ASCII/UTF8/UTF16). If the clipboard contains multipe value data types it will return: </p>
+<ul>
+<li>"text/plain" type with charset=utf-8 is preferred, if it exists (this supports the full Unicode character range, it is just expressed in the most portable UTF-8 format);</li>
+<li>"text/plain" type with any or no character encoding specified, if that exists;</li>
+<li>the first "text" type found will be returned (eg. "text/html", "text/csv", etc);</li>
+</ul>
+<p >if no text types are found, or the clipboard is entirely empty, an empty string is returned.</p>
+<p >To specify an explicit text type, use the <code><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a></code> function version which takes that option as the first parameter (see below). <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#a88ded2b8de05c5feed2168589eb21514" title="Returns an array of formats contained in the clipboard, if any. This is a list of MIME types for whic...">mimeTypes()</a>, <a class="el" href="class_clipboard.html#a673686a23d3deea5bd26b8d386099f85" title="Checks if the clipboard contains data with full MIME type mimeType and returns true or false....">hasMimeType()</a>, <a class="el" href="class_clipboard.html#a1a73ff700c3cc3fed8ed24712dfe506e" title="This function sets the current system clipboard value as a plain text String type (ASCII/UTF8/UTF16)....">setText()</a>, <a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a2a7d3e4f3ab478dce1d04db36df673e4" name="a2a7d3e4f3ab478dce1d04db36df673e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a7d3e4f3ab478dce1d04db36df673e4">&#9670;&nbsp;</a></span>text() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> text </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>subType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the clipboard text with MIME subtype <code>subType</code>, or an empty string if the clipboard does not contain any text of the given subtype. The subtype is <em>just</em> the part after "text/" of a MIME type, eg. "plain", "html", "csv", etc. It can optionally include peropery(ies), for example a character encoding like "plain;charset=utf-8". The name search is case-insensitive. <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#a673686a23d3deea5bd26b8d386099f85" title="Checks if the clipboard contains data with full MIME type mimeType and returns true or false....">hasMimeType()</a>, <a class="el" href="class_clipboard.html#a1a73ff700c3cc3fed8ed24712dfe506e" title="This function sets the current system clipboard value as a plain text String type (ASCII/UTF8/UTF16)....">setText()</a>, <a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911" title="This enumeration is used in the mode argument of several methods and controls which part of the syste...">Clipboard.Mode</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1a73ff700c3cc3fed8ed24712dfe506e" name="a1a73ff700c3cc3fed8ed24712dfe506e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a73ff700c3cc3fed8ed24712dfe506e">&#9670;&nbsp;</a></span>setText() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> setText </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function sets the current system clipboard value as a plain text <a class="el" href="class_string.html" title="Extends String object.">String</a> type (ASCII/UTF8/UTF16). It is written to the clipboard as "text/plain" MIME type. <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#a183eae51819a0d03be5dc4b2c8bbdd8f" title="Sets the current system clipboard value as raw bytes. It is written to the clipboard as &quot;application/...">setData()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad79cb9b653c993b0bf1021575c7eee38" name="ad79cb9b653c993b0bf1021575c7eee38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad79cb9b653c993b0bf1021575c7eee38">&#9670;&nbsp;</a></span>setText() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> setText </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>subType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the clipboard text with MIME subtype <code>subType</code> to <code>text</code>. The subtype is <em>just</em> the part after "text/" of a MIME type, eg. "plain", "html", "csv", etc. <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a>, <a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911" title="This enumeration is used in the mode argument of several methods and controls which part of the syste...">Clipboard.Mode</a> </dd></dl>
+
+</div>
+</div>
+<a id="afffd9c3ca8a6da960370721799106f59" name="afffd9c3ca8a6da960370721799106f59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afffd9c3ca8a6da960370721799106f59">&#9670;&nbsp;</a></span>data() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> data </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the current system clipboard value as raw bytes. <br  />
+When reading the value: </p>
+<ul>
+<li>if the clipboard has no data, an empty <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> is returned;</li>
+<li>if the clipboard contains data of only one MIME type (or with no type specified), then that data is returned;</li>
+<li>if the clipboard contains multiple data types:<ul>
+<li>it first looks for data with an "application/octet-stream" MIME type;</li>
+<li>if that fails, the first MIME type that starts with "application" will be returned;</li>
+<li>if no such types were found, then the first data type is returned.</li>
+</ul>
+</li>
+</ul>
+<p >To specify a MIME type, use <code><a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a></code> function version which takes that as the first parameter. <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#a183eae51819a0d03be5dc4b2c8bbdd8f" title="Sets the current system clipboard value as raw bytes. It is written to the clipboard as &quot;application/...">setData()</a>, <a class="el" href="class_clipboard.html#a88ded2b8de05c5feed2168589eb21514" title="Returns an array of formats contained in the clipboard, if any. This is a list of MIME types for whic...">mimeTypes()</a>, <a class="el" href="class_clipboard.html#a673686a23d3deea5bd26b8d386099f85" title="Checks if the clipboard contains data with full MIME type mimeType and returns true or false....">hasMimeType()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a5cd80faf77d8fdfb1702aca32769cdc9" name="a5cd80faf77d8fdfb1702aca32769cdc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cd80faf77d8fdfb1702aca32769cdc9">&#9670;&nbsp;</a></span>data() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> data </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>mimeType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the raw byte data associated with MIME type <code>mimeType</code> from the current system clipboard. If the clipboard didn't have the specified MIME type, then an empty <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a> is returned. <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#a673686a23d3deea5bd26b8d386099f85" title="Checks if the clipboard contains data with full MIME type mimeType and returns true or false....">hasMimeType()</a>, <a class="el" href="class_clipboard.html#a183eae51819a0d03be5dc4b2c8bbdd8f" title="Sets the current system clipboard value as raw bytes. It is written to the clipboard as &quot;application/...">setData()</a>, <a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data</a>, <a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text</a>, <a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911" title="This enumeration is used in the mode argument of several methods and controls which part of the syste...">Clipboard.Mode</a> </dd></dl>
+
+</div>
+</div>
+<a id="a183eae51819a0d03be5dc4b2c8bbdd8f" name="a183eae51819a0d03be5dc4b2c8bbdd8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a183eae51819a0d03be5dc4b2c8bbdd8f">&#9670;&nbsp;</a></span>setData() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_array_buffer.html">ArrayBuffer</a>&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the current system clipboard value as raw bytes. It is written to the clipboard as "application/octet-stream" MIME type. <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a>, setDataType() </dd></dl>
+
+</div>
+</div>
+<a id="a3ca1ca07dc1ea994770633ceca77fc2d" name="a3ca1ca07dc1ea994770633ceca77fc2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ca1ca07dc1ea994770633ceca77fc2d">&#9670;&nbsp;</a></span>setData() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>mimeType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_array_buffer.html">ArrayBuffer</a>&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set raw byte data with MIME type <code>mimeType</code> to <code>data</code> on the current system clipboard. The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a>, <a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data</a>, <a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text</a>, <a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911" title="This enumeration is used in the mode argument of several methods and controls which part of the syste...">Clipboard.Mode</a> </dd></dl>
+
+</div>
+</div>
+<a id="a6f1384d6e6d816eee6a36d3087df8aaf" name="a6f1384d6e6d816eee6a36d3087df8aaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f1384d6e6d816eee6a36d3087df8aaf">&#9670;&nbsp;</a></span>clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void clear </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clears the system clipboard of all values. <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+
+</div>
+</div>
+<a id="a673686a23d3deea5bd26b8d386099f85" name="a673686a23d3deea5bd26b8d386099f85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a673686a23d3deea5bd26b8d386099f85">&#9670;&nbsp;</a></span>hasMimeType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hasMimeType </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>mimeType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if the clipboard contains data with full MIME type <code>mimeType</code> and returns <code>true</code> or <code>false</code>. The full MIME type is a combination of type, subtype, and possibly one or more parameters/values. For example: "text/plain" or "text/plain;charset=UTF-8" <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#a88ded2b8de05c5feed2168589eb21514" title="Returns an array of formats contained in the clipboard, if any. This is a list of MIME types for whic...">mimeTypes()</a>, <a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911" title="This enumeration is used in the mode argument of several methods and controls which part of the syste...">Clipboard.Mode</a> </dd></dl>
+
+</div>
+</div>
+<a id="a72819d2ff7699966276fab9025de0220" name="a72819d2ff7699966276fab9025de0220"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72819d2ff7699966276fab9025de0220">&#9670;&nbsp;</a></span>hasMediaType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hasMediaType </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>mediaType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if the clipboard contains data with base MIME <em>type</em> <code>mediaType</code> and returns <code>true</code> or <code>false</code>. The "media type" is the first part of a full MIME type before the slash (<code>/</code>), w/out a subtype or parameters. For example: "text", "application", "image", etc. <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#a88ded2b8de05c5feed2168589eb21514" title="Returns an array of formats contained in the clipboard, if any. This is a list of MIME types for whic...">mimeTypes()</a>, <a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911" title="This enumeration is used in the mode argument of several methods and controls which part of the syste...">Clipboard.Mode</a> </dd></dl>
+
+</div>
+</div>
+<a id="a88ded2b8de05c5feed2168589eb21514" name="a88ded2b8de05c5feed2168589eb21514"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88ded2b8de05c5feed2168589eb21514">&#9670;&nbsp;</a></span>mimeTypes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; <a class="el" href="class_string.html">String</a> &gt; mimeTypes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>mimeType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns an array of formats contained in the clipboard, if any. This is a list of MIME types for which the object can return suitable data. The formats in the list are in a priority order. <br  />
+ The opitonal <code>mode</code> argument is used to control which part of the system clipboard is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#a673686a23d3deea5bd26b8d386099f85" title="Checks if the clipboard contains data with full MIME type mimeType and returns true or false....">hasMimeType()</a>, <a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911" title="This enumeration is used in the mode argument of several methods and controls which part of the syste...">Clipboard.Mode</a>, <a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a>, <a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a> </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.4-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_clipboard.html">Clipboard</a></li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
+</body>
+</html>

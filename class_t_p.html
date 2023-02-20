@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -148,12 +148,16 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ga0aaaeb9b83e48c1e3d22da36b094e3e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae7d8c2628651f151b682696b93e6144b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gae7d8c2628651f151b682696b93e6144b">choiceUpdate</a> (<a class="el" href="class_string.html">String</a> id, Array&lt; <a class="el" href="class_string.html">String</a> &gt; values)</td></tr>
 <tr class="separator:gae7d8c2628651f151b682696b93e6144b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacae20c335934ed5d1c2177a533c352a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gacae20c335934ed5d1c2177a533c352a6">choiceUpdateInstance</a> (<a class="el" href="class_string.html">String</a> id, <a class="el" href="class_string.html">String</a> instanceId, Array&lt; <a class="el" href="class_string.html">String</a> &gt; values)</td></tr>
+<tr class="separator:gacae20c335934ed5d1c2177a533c352a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae18d5fec12d5b68429d55edd2362f65f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gae18d5fec12d5b68429d55edd2362f65f">connectorUpdate</a> (<a class="el" href="class_string.html">String</a> shortId, int value)</td></tr>
 <tr class="separator:gae18d5fec12d5b68429d55edd2362f65f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf86e2a30789e2d9ec7390b6da4c5105e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gaf86e2a30789e2d9ec7390b6da4c5105e">connectorUpdateByLongId</a> (<a class="el" href="class_string.html">String</a> connectorId, int value)</td></tr>
 <tr class="separator:gaf86e2a30789e2d9ec7390b6da4c5105e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4cb619ba8002feed0b4ac0de9a4beac4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4">showNotification</a> (<a class="el" href="class_string.html">String</a> notificationId, <a class="el" href="class_string.html">String</a> title, <a class="el" href="class_string.html">String</a> message, Array&lt; Object &gt; options=[],&lt; Function|<a class="el" href="class_string.html">String</a>|Array &gt; callback=null)</td></tr>
 <tr class="separator:ga4cb619ba8002feed0b4ac0de9a4beac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga88679c0a062fe4043425cf7a3dd9286e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga88679c0a062fe4043425cf7a3dd9286e">settingUpdate</a> (<a class="el" href="class_string.html">String</a> name, <a class="el" href="class_string.html">String</a> value)</td></tr>
+<tr class="separator:ga88679c0a062fe4043425cf7a3dd9286e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9a7f39df44a32f7073aee63a76d68935"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga9a7f39df44a32f7073aee63a76d68935">stateUpdate</a> (<a class="el" href="class_string.html">String</a> value)</td></tr>
 <tr class="separator:ga9a7f39df44a32f7073aee63a76d68935"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafc6bf30d8db05af572c9733456bf5e69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gafc6bf30d8db05af572c9733456bf5e69">stateUpdate</a> (<a class="el" href="class_string.html">String</a> name, <a class="el" href="class_string.html">String</a> value)</td></tr>
@@ -170,13 +174,15 @@ Static Public Member Functions</h2></td></tr>
 <div class="line"><span class="comment">// OR  (note the switched parameter order)</span></div>
 <div class="line"><a class="code hl_class" href="class_t_p.html">TP</a>.eventName.connect(myObject, myObject.myHandler);</div>
 </div><!-- fragment --> </div></td></tr>
+<tr class="memitem:ga8bfa677ae39341fe9fc6afa0499a7ae1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga8bfa677ae39341fe9fc6afa0499a7ae1">messageEvent</a> (Object message)</td></tr>
+<tr class="separator:ga8bfa677ae39341fe9fc6afa0499a7ae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3a83390c18003bfe554072ad76484d72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga3a83390c18003bfe554072ad76484d72">broadcastEvent</a> (<a class="el" href="class_string.html">String</a> event, Object data)</td></tr>
 <tr class="separator:ga3a83390c18003bfe554072ad76484d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaee52eadb7d6b546e43e1d312e685214a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#gaee52eadb7d6b546e43e1d312e685214a">connectorIdsChanged</a> (<a class="el" href="class_string.html">String</a> instanceName, <a class="el" href="class_string.html">String</a> shortId)</td></tr>
 <tr class="separator:gaee52eadb7d6b546e43e1d312e685214a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Connector Data</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p >Touch Portal reports connector instances to the plugin via <code>shortConnectorIdNotification</code> messages.</p>
-<p >These messages are parsed and logged into a database. The functions in this group can be used to query the data based on various criteria about logged connectors. The connector short IDs can then be used to send updates back to Touch Portal, which will move the corresponding slider(s) into a particular position. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group___t_p_a_p_i.html#gaee52eadb7d6b546e43e1d312e685214a" title="This event is emitted whenever a shortConnectorIdNotification message from Touch Portal has been rece...">connectorIdsChanged()</a>, <a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a>, <a class="el" href="plugin_connectors.html#plugin_connectors_updating">Updating Sliders from Scripts</a>, <a class="el" href="example_color_picker.html">Color Picker Example</a>, <a href="https://www.touch-portal.com/api/index.php?section=connectors" target="_blank">Touch Portal Connectors API</a> </dd></dl>
+<p >These messages are parsed and logged into a database. The functions in this group can be used to query the data based on various criteria about logged connectors. The connector short IDs can then be used to send updates back to Touch Portal, which will move the corresponding slider(s) into a particular position. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group___t_p_a_p_i.html#gaee52eadb7d6b546e43e1d312e685214a" title="This event is emitted whenever a shortConnectorIdNotification message from Touch Portal has been rece...">connectorIdsChanged()</a>, <a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a>, <a class="el" href="plugin_connectors.html#plugin_connectors_updating">Updating Sliders from Scripts</a>, <a class="el" href="example_color_picker.html">Color Mixer Example</a>, <a href="https://www.touch-portal.com/api/index.php?section=connectors" target="_blank">Touch Portal Connectors API</a> </dd></dl>
 </div></td></tr>
 <tr class="memitem:ga0a3a527fe1dfb180f5cc7636ada537b9"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="class_string.html">String</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___t_p_a_p_i.html#ga0a3a527fe1dfb180f5cc7636ada537b9">getConnectorShortIds</a> (Object criteria={})</td></tr>
 <tr class="separator:ga0a3a527fe1dfb180f5cc7636ada537b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -197,7 +203,7 @@ Static Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_t_p.html">TP</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

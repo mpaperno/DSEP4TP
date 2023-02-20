@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -126,8 +126,8 @@ $(document).ready(function(){initNavTree('example_fetch_and_notify.html',''); in
   <div class="headertitle"><div class="title">Fetch and Notify Example - GitHub Release Version Check </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicValues_DynamicValuesTPP_resources_examples_FetchAndNotify_README"></a> </p><div class="hide-on-site"></div><div class="hide-on-site"><b>See the <a href="https://mpaperno.github.io/DSEP4TP/example_fetch_and_notify.html" target="_blank">published documentation</a> for a properly formatted version of this README.</b> </div><p >This example demonstrates serveral things:</p><ol type="1">
-<li>Getting some data from a Web site using <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code>, which in this case is in JSON format.</li>
+<div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicScriptEngine_DSEP4TP_resources_examples_FetchAndNotify_README"></a> </p><div class="hide-on-site"></div><div class="hide-on-site"><b>See the <a href="https://mpaperno.github.io/DSEP4TP/example_fetch_and_notify.html" target="_blank">published documentation</a> for a properly formatted version of this README.</b> </div><p >This example demonstrates serveral things:</p><ol type="1">
+<li>Getting some data from a Web site using <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code>, which in this case is in JSON format.</li>
 <li>Extracting useful information from the JSON data.</li>
 <li>Sending a Notification message to Touch Portal with <code><a class="el" href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification()</a></code>, which a user can interact with.</li>
 <li>Handle any choice (click) the user made in the notification dialog and open a Web browser with <a class="el" href="class_process.html">Process.startCommand()</a>.</li>
@@ -207,11 +207,11 @@ $(document).ready(function(){initNavTree('example_fetch_and_notify.html',''); in
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                let callback = <span class="keyword">function</span>(choiceId, notificationId) { </div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                    console.log(`The option ID <span class="stringliteral">&#39;${choiceId}&#39;</span> was selected <span class="keywordflow">for</span> notification ID <span class="stringliteral">&#39;${notificationId}&#39;</span>.`);</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                    <span class="comment">// This should open the default browser with the download URL. The command depends on the operating system.</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                    <span class="keywordflow">if</span> (DSE.PLATFORM_OS === <span class="stringliteral">&quot;windows&quot;</span>)</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                    <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a> === <span class="stringliteral">&quot;windows&quot;</span>)</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_process.html">Process</a>().startCommand(`explorer <span class="stringliteral">&quot;${result.html_url}&quot;</span>`);  <span class="comment">// also possibly &#39;start firefox&#39; or &#39;start chrome&#39;</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (DSE.PLATFORM_OS === <span class="stringliteral">&quot;osx&quot;</span>)</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a> === <span class="stringliteral">&quot;osx&quot;</span>)</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_process.html">Process</a>().startCommand(`open <span class="stringliteral">&quot;${result.html_url}&quot;</span>`);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (DSE.PLATFORM_OS === <span class="stringliteral">&quot;linux&quot;</span>)</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a> === <span class="stringliteral">&quot;linux&quot;</span>)</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_process.html">Process</a>().startCommand(`xdg-open <span class="stringliteral">&quot;${result.html_url}&quot;</span>`);  <span class="comment">// or possibly &#39;sensible-browser&#39; on Ubuntu</span></div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                }</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
@@ -254,11 +254,13 @@ $(document).ready(function(){initNavTree('example_fetch_and_notify.html',''); in
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        iVersion = iVersion &lt;&lt; 8 | ((parseInt(part) || 0) &amp; 0xFF);</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keywordflow">return</span> iVersion;</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
+<div class="ttc" id="aclass_d_s_e_html"><div class="ttname"><a href="class_d_s_e.html">DSE</a></div><div class="ttdoc">The DSE object contains constants and functions related to the plugin environment....</div></div>
+<div class="ttc" id="aclass_d_s_e_html_a22a427d26809ca8b886c7039cc11af9c"><div class="ttname"><a href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">DSE::PLATFORM_OS</a></div><div class="ttdeci">String PLATFORM_OS</div><div class="ttdoc">This property contains the name of the operating system running the plugin.</div><div class="ttdef"><b>Definition:</b> DSE.h:95</div></div>
 <div class="ttc" id="aclass_process_html"><div class="ttname"><a href="class_process.html">Process</a></div><div class="ttdoc">The Process class allows interaction with external processes, such as launching a system command or r...</div><div class="ttdef"><b>Definition:</b> Process.h:62</div></div>
 <div class="ttc" id="aclass_t_p_html"><div class="ttname"><a href="class_t_p.html">TP</a></div><div class="ttdoc">The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...</div><div class="ttdef"><b>Definition:</b> touchportal.dox:7</div></div>
 <div class="ttc" id="agroup___t_p_a_p_i_html_ga4cb619ba8002feed0b4ac0de9a4beac4"><div class="ttname"><a href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4">TP::showNotification</a></div><div class="ttdeci">void showNotification(String notificationId, String title, String message, Array&lt; Object &gt; options=[],&lt; Function|String|Array &gt; callback=null)</div><div class="ttdoc">Creates or raises a user notification in the Touch Portal window.</div></div>
 <div class="ttc" id="anamespace_net_html"><div class="ttname"><a href="namespace_net.html">Net</a></div><div class="ttdoc">The Net namespace contains static functions for working with network requests.</div><div class="ttdef"><b>Definition:</b> fetch.dox:4</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md72"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md110"></a>
 Example usage on a button</h2>
 <p ><a href="example_check_gh_release_button_flow.png" target="image" title="Click for full version in new window."><img src="example_check_gh_release_button_flow.png" alt="" class="inline"/> </a> </p>
 </div></div><!-- contents -->
@@ -269,7 +271,7 @@ Example usage on a button</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="plugin_examples.html">Examples</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

@@ -39,11 +39,19 @@ var NAVTREE =
     [ "Troubleshooting", "index.html#autotoc_md15", null ],
     [ "Credits", "index.html#autotoc_md17", null ],
     [ "Copyright, License, and Disclaimer", "index.html#autotoc_md19", null ],
-    [ "Change Log", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html", [
-      [ "1.1.0.0-beta1 (05-Jan-2023)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md22", null ],
-      [ "1.0.0.3 (05-Jan-2023)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md24", null ],
-      [ "1.0.0.2-beta2 (28-Dec-2022)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md26", null ],
-      [ "1.0.0.1-beta1 (26-Dec-2022)", "md__d___devel__touch_portal__dynamic_values__dynamic_values_t_p_p__c_h_a_n_g_e_l_o_g.html#autotoc_md28", null ]
+    [ "Change Log", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html", [
+      [ "1.2.0.1-beta1 (20-Feb-2023)", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md22", [
+        [ "Plugin Core", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md23", null ],
+        [ "Changes to Actions/Connectors", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md24", null ],
+        [ "New States/Event", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md25", null ],
+        [ "JavaScript Library", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md26", null ],
+        [ "Documentation", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md27", null ]
+      ] ],
+      [ "1.1.0.2 (20-Feb-2023)", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md29", null ],
+      [ "1.1.0.1-beta1 (05-Jan-2023)", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md31", null ],
+      [ "1.0.0.3 (05-Jan-2023)", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md33", null ],
+      [ "1.0.0.2-beta2 (28-Dec-2022)", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md35", null ],
+      [ "1.0.0.1-beta1 (26-Dec-2022)", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md37", null ]
     ] ],
     [ "Plugin Documentation", "documentation.html", "documentation" ],
     [ "Examples", "plugin_examples.html", "plugin_examples" ],
@@ -54,7 +62,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "class_array_buffer.html",
-"class_locale.html#a95bcd427644c0dba04dbc64acf5690f8"
+"class_file.html#a010aaca24d57b4a0dde604740c49eac5",
+"group___fetch_a_p_i.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

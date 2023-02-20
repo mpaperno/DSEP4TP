@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -126,15 +126,16 @@ $(document).ready(function(){initNavTree('class_request.html',''); initResizable
   <div class="summary">
 <a href="#properties">Properties</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_request-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Request<div class="ingroups"><a class="el" href="group___fetch_a_p_i.html">Fetch Network API</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p >The <a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a> interface of the Fetch API represents a resource request. </p>
-<p ><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a> objects can be created directly, or implicitly by passing an initializer object to <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> or <code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> as the <code>options</code> argument.</p>
+<p ><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a> objects can be created directly, or implicitly by passing an initializer object to <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> or <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> as the <code>options</code> argument.</p>
 <p >Additionally, <code>request()</code> will return a <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> object, which has not been sent yet. The request can then be sent via one of the methods <code><a class="el" href="class_request.html#ad8421577f9c123b41380edac65f16e0c" title="Performs a &quot;GET&quot; request on the current url.">get()</a></code>, <code><a class="el" href="class_request.html#ac64e4007cda33e87c55c652985109190" title="Performs a &quot;HEAD&quot; request on the current url.">head()</a></code>, <code><a class="el" href="class_request.html#ada2849f5eb9fd4375cd60ce0e5519427" title="Performs a &quot;POST&quot; request on the current url.">post()</a></code>, or <code><a class="el" href="class_request.html#acb0f45f7a2f073eeb1ae86f4dbaee869" title="Performs a &quot;PUT&quot; request on the current url.">put()</a></code>.</p>
-<dl class="section note"><dt>Note</dt><dd>A special object named <code>GlobalRequestDefaults</code> exists in the global scope which can be used to set default values on any created <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> (either implicitly created in a call to <code>fetch()</code> or explicitly with <code>new <a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request()</a></code>). Simply define this variable somewhere in the the global scope of your script with whichever default options you would like to always be set (or set them individually with <code>GlobalRequestDefaults.property = value</code>). Any/all of the properties described below for the <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> object can be set this way. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd><code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> has a static member object named <code><a class="el" href="class_request.html#ab379177f5504e2f6930ac675d4848a1a" title="This global static object can be used to set default values on any created Request (either implicitly...">Request.GlobalDefaults</a></code> which can be used to set default values on any created <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> (either implicitly created in a call to <code>fetch()</code> or explicitly with <code>new <a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request()</a></code>). Simply set this variable somewhere in your script with whichever default options you would like to always be set (or set them individually with <code>Request.GlobalDefaults.property = value</code>). Any/all of the properties described below for the <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> object can be set this way. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -175,6 +176,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ada2849f5eb9fd4375cd60ce0e5519427"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb0f45f7a2f073eeb1ae86f4dbaee869"><td class="memItemLeft" align="right" valign="top">&lt; Promise|<a class="el" href="class_response.html">Response</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#acb0f45f7a2f073eeb1ae86f4dbaee869">put</a> (data)</td></tr>
 <tr class="separator:acb0f45f7a2f073eeb1ae86f4dbaee869"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ab379177f5504e2f6930ac675d4848a1a"><td class="memItemLeft" align="right" valign="top">Object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#ab379177f5504e2f6930ac675d4848a1a">GlobalDefaults</a> = {}</td></tr>
+<tr class="separator:ab379177f5504e2f6930ac675d4848a1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Property Documentation</h2>
 <a id="a67f05f928cc6cd21ba443bf6cf7cd0bc" name="a67f05f928cc6cd21ba443bf6cf7cd0bc"></a>
@@ -315,8 +321,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>This options only applies to <code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code>. </p>
-<p >If set to <code>true</code> then <code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> will <em>not</em> throw any exceptions in case of request failure, and instead just return whatever Result is available regardless of actual status. This is a non-standard option. </p>
+<p>This options only applies to <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code>. </p>
+<p >If set to <code>true</code> then <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> will <em>not</em> throw any exceptions in case of request failure, and instead just return whatever Result is available regardless of actual status. This is a non-standard option. </p>
 
 </div>
 </div>
@@ -401,8 +407,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>If set to <code>true</code>, <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> will <em>reject</em> the promise if the returned HTTP status code is not in the 200-299 range, the same way as if a network error occurred. </p>
-<p >See <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> for details on the various response handling options. This is a non-standard option. </p>
+<p>If set to <code>true</code>, <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> will <em>reject</em> the promise if the returned HTTP status code is not in the 200-299 range, the same way as if a network error occurred. </p>
+<p >See <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> for details on the various response handling options. This is a non-standard option. </p>
 
 </div>
 </div>
@@ -533,7 +539,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This is the underlying <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a> object which will actually handle the request. </p>
-<p >This is usually set up automatically by <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> or <code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code>, but an existing <code>XMLHttpRequest</code> could be provided here instead. The <code>XMLHttpRequest</code> must be in <code>UNSENT</code> or <code>OPENED</code> <code>readyState</code>. </p>
+<p >This is usually set up automatically by <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> or <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code>, but an existing <code>XMLHttpRequest</code> could be provided here instead. The <code>XMLHttpRequest</code> must be in <code>UNSENT</code> or <code>OPENED</code> <code>readyState</code>. </p>
 
 </div>
 </div>
@@ -555,8 +561,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Performs a "GET" request on the current <code>url</code>. </p>
 <dl class="section return"><dt>Returns</dt><dd><ul>
-<li>If <code>async</code> property is <code>true</code> then a <code>Promise</code> object, same as <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> would return.</li>
-<li>If <code>async</code> property is <code>false</code> then a <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> object, same as <code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> would return. </li>
+<li>If <code>async</code> property is <code>true</code> then a <code>Promise</code> object, same as <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> would return.</li>
+<li>If <code>async</code> property is <code>false</code> then a <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> object, same as <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> would return. </li>
 </ul>
 </dd></dl>
 
@@ -579,8 +585,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Performs a "HEAD" request on the current <code>url</code>. </p>
 <dl class="section return"><dt>Returns</dt><dd><ul>
-<li>If <code>async</code> property is <code>true</code> then a <code>Promise</code> object, same as <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> would return.</li>
-<li>If <code>async</code> property is <code>false</code> then a <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> object, same as <code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> would return. </li>
+<li>If <code>async</code> property is <code>true</code> then a <code>Promise</code> object, same as <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> would return.</li>
+<li>If <code>async</code> property is <code>false</code> then a <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> object, same as <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> would return. </li>
 </ul>
 </dd></dl>
 
@@ -610,8 +616,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><ul>
-<li>If <code>async</code> property is <code>true</code> then a <code>Promise</code> object, same as <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> would return.</li>
-<li>If <code>async</code> property is <code>false</code> then a <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> object, same as <code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> would return. </li>
+<li>If <code>async</code> property is <code>true</code> then a <code>Promise</code> object, same as <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> would return.</li>
+<li>If <code>async</code> property is <code>false</code> then a <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> object, same as <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> would return. </li>
 </ul>
 </dd></dl>
 
@@ -641,10 +647,28 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><ul>
-<li>If <code>async</code> property is <code>true</code> then a <code>Promise</code> object, same as <code><a class="el" href="namespace_net.html#aff159107ca0e66250febdb631c22cb8a" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> would return.</li>
-<li>If <code>async</code> property is <code>false</code> then a <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> object, same as <code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> would return. </li>
+<li>If <code>async</code> property is <code>true</code> then a <code>Promise</code> object, same as <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> would return.</li>
+<li>If <code>async</code> property is <code>false</code> then a <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> object, same as <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> would return. </li>
 </ul>
 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="ab379177f5504e2f6930ac675d4848a1a" name="ab379177f5504e2f6930ac675d4848a1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab379177f5504e2f6930ac675d4848a1a">&#9670;&nbsp;</a></span>GlobalDefaults</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Object GlobalDefaults = {}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This global static object can be used to set default values on any created <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> (either implicitly created in a call to <code>fetch()</code> or explicitly with <code>new <a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request()</a></code>). </p>
+<p >Simply set this variable somewhere in your script with whichever default options you would like to always be set (or set them individually with <code>Request.GlobalDefaults.property = value</code>). Any/all of the properties described below for the <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> object can be set this way. </p><dl class="section since"><dt>Since</dt><dd>v1.2 </dd></dl>
 
 </div>
 </div>
@@ -655,7 +679,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_request.html">Request</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

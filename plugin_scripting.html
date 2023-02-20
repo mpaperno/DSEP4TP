@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -127,12 +127,12 @@ $(document).ready(function(){initNavTree('plugin_scripting.html',''); initResiza
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md36">JavaScript Syntax Rules</a></li>
-<li class="level1"><a href="#autotoc_md37">Escaping Problem Characters</a></li>
+<ul><li class="level1"><a href="#autotoc_md63">JavaScript Syntax Rules</a></li>
+<li class="level1"><a href="#autotoc_md64">Escaping Problem Characters</a></li>
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_pages_Scripting"></a></p>
-<h1><a class="anchor" id="autotoc_md36"></a>
+<h1><a class="anchor" id="autotoc_md63"></a>
 JavaScript Syntax Rules</h1>
 <p >The plugin evaluates JavaScript, so it follows that all JS syntax rules apply here as well. In particular:</p>
 <ul>
@@ -148,7 +148,7 @@ JavaScript Syntax Rules</h1>
 <p >I should note here that in some cases you may want to specifically include a "special character" like a newline to create a line break in resulting text. This is perfectly legal, so to speak. For example the following would produce text with a line break in it:<br  />
  <code>Format("Expression result:\n{0:F2} things", ${value:MyValue} * .24)</code> </p><div class="fragment"><div class="line">Expression result:</div>
 <div class="line">55.21 things</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md37"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md64"></a>
 Escaping Problem Characters</h1>
 <p >One way to deal with this is to use Touch Portal's replace-in-value action to escape any problem characters in the input. For example, this is a screenshot from an action which takes the last error message reported by the script engine and sends it to a script (which color-codes and appends the line to the past few errors and returns that as a new State):</p>
 <p ><a href="images/actions/example-escape.jpg" target="fullSizeImg"><img src="images/actions/example-escape.jpg" alt="" class="inline"/></a></p>
@@ -165,7 +165,7 @@ Escaping Problem Characters</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

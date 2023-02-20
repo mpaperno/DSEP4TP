@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -123,10 +123,10 @@ $(document).ready(function(){initNavTree('example_clipboard.html',''); initResiz
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">Clipboard Utility Example </div></div>
+  <div class="headertitle"><div class="title"><a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a> Utility Example </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicValues_DynamicValuesTPP_resources_examples_Clipboard_README"></a>Utility module for working with the system clipboard.</p>
+<div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicScriptEngine_DSEP4TP_resources_examples_Clipboard_README"></a>Utility module for working with the system clipboard.</p>
 <div class="hide-on-site"></div><div class="hide-on-site"><b>See the <a href="https://mpaperno.github.io/DSEP4TP/example_clipboard.html" target="_blank">published documentation</a> for a properly formatted version of this README.</b> </div><p >This is really a useful utility for copying text to and from the system clipboard. It can write the contents of either a variable or a file to the clipboard, and also read the current clipboard contents into a file or return it as a string value.</p>
 <p >As an example, it demonstrates the use of <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> to launch an external program, wait for it to finish, and in the case of <code>clipboardToValue()</code>, read what the program printed/returned to standard output (in this case the contents of the clipboard).</p>
 <p >The clipboard interactions are done by invoking the appropriate system utility based on which operating system the plugin is currently running on. On Windows this is the built-in <code>clip</code> command for writing to the clipboard, and a <code>PowerShell</code> command for reading. On MacOS the built-in <code>pbcopy</code> and <code>pbpaste</code> commands are used, while on Linux the <code>xclip</code> utility is used (which may require installation).</p>
@@ -146,12 +146,12 @@ $(document).ready(function(){initNavTree('example_clipboard.html',''); initResiz
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>export <span class="keyword">function</span> valueToClipboard(value)</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>  var cmd;</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>  <span class="keywordflow">if</span> (DSE.PLATFORM_OS.startsWith(<span class="stringliteral">&quot;win&quot;</span>))</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>  <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a>.startsWith(<span class="stringliteral">&quot;win&quot;</span>))</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    cmd = <span class="stringliteral">&#39;cmd /C &quot;@echo.|set /p temp=&#39;</span> + value + <span class="stringliteral">&#39;|clip&quot;&#39;</span>;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (DSE.PLATFORM_OS === <span class="stringliteral">&quot;osx&quot;</span>)</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a> === <span class="stringliteral">&quot;osx&quot;</span>)</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    cmd = <span class="stringliteral">&#39;echo -n &quot;&#39;</span> + value + <span class="stringliteral">&#39;&quot;|pbcopy&#39;</span>;</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>  <span class="comment">// Linux requires &#39;xclip&#39; installed.</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (DSE.PLATFORM_OS === <span class="stringliteral">&quot;linux&quot;</span>)</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a> === <span class="stringliteral">&quot;linux&quot;</span>)</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    cmd = <span class="stringliteral">&#39;echo -n &quot;&#39;</span> + value + <span class="stringliteral">&#39;&quot;|xclip -selection clipboard&#39;</span>;</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>  <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keywordflow">return</span>;</div>
@@ -163,12 +163,12 @@ $(document).ready(function(){initNavTree('example_clipboard.html',''); initResiz
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>export <span class="keyword">function</span> fileToClipboard(file)</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>{</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  var cmd;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  <span class="keywordflow">if</span> (DSE.PLATFORM_OS.startsWith(<span class="stringliteral">&quot;win&quot;</span>))</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a>.startsWith(<span class="stringliteral">&quot;win&quot;</span>))</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    cmd = <span class="stringliteral">&#39;cmd /C &quot;@type &quot;&quot;&#39;</span> + file + <span class="stringliteral">&#39;&quot;&quot; | clip&quot;&#39;</span>;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (DSE.PLATFORM_OS === <span class="stringliteral">&quot;osx&quot;</span>)</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a> === <span class="stringliteral">&quot;osx&quot;</span>)</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    cmd = <span class="stringliteral">&#39;cat &quot;&#39;</span> + file + <span class="stringliteral">&#39;&quot; | pbcopy&#39;</span>;</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  <span class="comment">// Linux requires &#39;xclip&#39; installed.</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (DSE.PLATFORM_OS === <span class="stringliteral">&quot;linux&quot;</span>)</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a> === <span class="stringliteral">&quot;linux&quot;</span>)</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    cmd = <span class="stringliteral">&#39;xclip -selection clipboard &quot;&#39;</span> + file + <span class="charliteral">&#39;&quot;&#39;</span>;</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">return</span>;</div>
@@ -180,12 +180,12 @@ $(document).ready(function(){initNavTree('example_clipboard.html',''); initResiz
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>export <span class="keyword">function</span> clipboardToValue()</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>{</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  var cmd;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <span class="keywordflow">if</span> (DSE.PLATFORM_OS.startsWith(<span class="stringliteral">&quot;win&quot;</span>))</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a>.startsWith(<span class="stringliteral">&quot;win&quot;</span>))</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    cmd = <span class="stringliteral">&#39;powershell.exe -Command &quot;&amp; { Get-Clipboard -Raw | Write-Host -NoNewLine }&quot;&#39;</span>;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (DSE.PLATFORM_OS === <span class="stringliteral">&quot;osx&quot;</span>)</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a> === <span class="stringliteral">&quot;osx&quot;</span>)</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    cmd = <span class="stringliteral">&#39;pbpaste&#39;</span>;</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <span class="comment">// Linux requires &#39;xclip&#39; installed.</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (DSE.PLATFORM_OS === <span class="stringliteral">&quot;linux&quot;</span>)</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a> === <span class="stringliteral">&quot;linux&quot;</span>)</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    cmd = <span class="stringliteral">&#39;xclip -selection clipboard -o&#39;</span>;</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;Unknown operating system!&quot;</span>;</div>
@@ -198,12 +198,12 @@ $(document).ready(function(){initNavTree('example_clipboard.html',''); initResiz
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>export <span class="keyword">function</span> clipboardToFile(file)</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>{</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  var cmd;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  <span class="keywordflow">if</span> (DSE.PLATFORM_OS.startsWith(<span class="stringliteral">&quot;win&quot;</span>))</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a>.startsWith(<span class="stringliteral">&quot;win&quot;</span>))</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    cmd = <span class="stringliteral">&#39;powershell.exe -Command &quot;&amp; { Get-Clipboard -Raw | Write-Host -NoNewLine }&quot; 1&gt; &quot;&#39;</span> + file + <span class="charliteral">&#39;&quot;&#39;</span>;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (DSE.PLATFORM_OS === <span class="stringliteral">&quot;osx&quot;</span>)</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a> === <span class="stringliteral">&quot;osx&quot;</span>)</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    cmd = <span class="stringliteral">&#39;pbpaste &gt; &quot;&#39;</span> + file + <span class="charliteral">&#39;&quot;&#39;</span>;</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  <span class="comment">// Linux requires &#39;xclip&#39; installed.</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (DSE.PLATFORM_OS === <span class="stringliteral">&quot;linux&quot;</span>)</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">PLATFORM_OS</a> === <span class="stringliteral">&quot;linux&quot;</span>)</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    cmd = <span class="stringliteral">&#39;xclip -selection clipboard -o &gt; &quot;&#39;</span> + file + <span class="charliteral">&#39;&quot;&#39;</span>;</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">return</span>;</div>
@@ -218,6 +218,8 @@ $(document).ready(function(){initNavTree('example_clipboard.html',''); initResiz
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>  p.waitForFinished();</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>  <span class="keywordflow">return</span> p;</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>}</div>
+<div class="ttc" id="aclass_d_s_e_html"><div class="ttname"><a href="class_d_s_e.html">DSE</a></div><div class="ttdoc">The DSE object contains constants and functions related to the plugin environment....</div></div>
+<div class="ttc" id="aclass_d_s_e_html_a22a427d26809ca8b886c7039cc11af9c"><div class="ttname"><a href="class_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c">DSE::PLATFORM_OS</a></div><div class="ttdeci">String PLATFORM_OS</div><div class="ttdoc">This property contains the name of the operating system running the plugin.</div><div class="ttdef"><b>Definition:</b> DSE.h:95</div></div>
 <div class="ttc" id="aclass_process_html"><div class="ttname"><a href="class_process.html">Process</a></div><div class="ttdoc">The Process class allows interaction with external processes, such as launching a system command or r...</div><div class="ttdef"><b>Definition:</b> Process.h:62</div></div>
 <div class="ttc" id="aclass_string_html"><div class="ttname"><a href="class_string.html">String</a></div><div class="ttdoc">Extends String object.</div></div>
 </div><!-- fragment --> </div></div><!-- contents -->
@@ -228,7 +230,7 @@ $(document).ready(function(){initNavTree('example_clipboard.html',''); initResiz
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="plugin_examples.html">Examples</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

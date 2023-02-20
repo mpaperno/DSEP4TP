@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['touch_20portal_20api_20_28tp_29_0',['Touch Portal API (TP)',['../group___t_p_a_p_i.html',1,'']]]
+  ['standard_20js_20objects_20and_20functions_0',['Standard JS Objects and Functions',['../group___e_c_m_a_std.html',1,'']]]
 ];

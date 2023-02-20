@@ -1,0 +1,283 @@
+<!-- HTML header for doxygen 1.9.4-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dynamic Script Engine Plugin for Touch Portal: Quick Start</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md11']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/mpaperno/DSEP4TP" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" fill="url(#gradient)"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    <linearGradient id="gradient" x1="0.5" x2="0.5" y1="0" y2="1">
+        <stop class="first-stop" offset="0%"></stop>
+        <stop class="last-stop" offset="100%"></stop>
+    </linearGradient>
+    </svg>
+</a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
+  <td id="projectalign">
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('plugin_quick_start.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Quick Start </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#autotoc_md54">Basic Action Usage</a><ul><li class="level2"><a href="#autotoc_md55">Note: The action creates the State!</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#autotoc_md57">Getting Dynamic</a><ul><li class="level2"><a href="#autotoc_md59">Using Values and States in Expressions</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#autotoc_md61">Sliding Around</a></li>
+</ul>
+</div>
+<div class="textblock"><p ><a class="anchor" id="md_pages_QuickStart"></a></p>
+<p >Relatively quick, anyway. Let's skip the theory and get down to it. If you're already familiar with how Touch Portal works then you'll be able to grok most of this quickly and skip through basics. If you're a relative beginner, hopefully I've included enough details to get going.</p>
+<p >On that note, make sure the plugin is actually installed first. The instructions for download and install are on the front page in the <a href="index.html#autotoc_md7" target="_blank">Download and Install</a> section. Check.</p>
+<h1><a class="anchor" id="autotoc_md54"></a>
+Basic Action Usage</h1>
+<ol>
+<li>
+Create a new Touch Portal button on any page. Give it a name and/or background so you can find it later! </li>
+<li>
+Add the <em>Dynamic Script Engine -&gt; Evaluate Expression</em> Action to the button, from the menu on the left. </li>
+<li>
+Fill out the <em>Instance Name</em> field. It could be anything, but let's say <code>DSE_Example</code> because that's nice and boring. </li>
+<li>
+<p class="startli">In the <em>Evaluate Expression</em> field put <code>2 + 2</code> <br  />
+ (I <em>did</em> say this was <em>basic</em>).</p>
+<p class="interli">The button should look something like this (click the images for larger versions):</p>
+<p class="interli"><a href="images/quickstart/basic_button_1.png" target="fullSizeImg"><img src="images/quickstart/basic_button_1.png" alt="" style="max-width: 640px" class="inline"/></a> </p>
+<p class="endli"></p>
+</li>
+<li>
+Save this button, then go to your Touch Portal device (Android/iOS), find this new button and press it. (That's technically 3 steps, but stick with me.) </li>
+<li>
+<em>Nothing</em> will happen! Or at least apparently so... </li>
+<li>
+Edit this same button again, this time selecting the <em>On Event</em> tab. </li>
+<li>
+Add a <em>Logic -&gt; Dynamic Text Updater</em> Event from the left menu. (<em>Values -&gt; When Plug-in State Changes</em> could also be used.) </li>
+<li>
+<p class="startli">Click the <code>+</code> button next to the text field and navigate to the <em>Dynamic Script Engine -&gt; Dynamic Values</em> category, where you should now be able to select a new State named "DSE_Example".</p>
+<p class="interli">It should look something like this (the screenshot obviously also has other State's I've created, but ignore those).</p>
+<p class="endli"><a href="images/quickstart/basic_button_1_event.png" target="fullSizeImg"><img src="images/quickstart/basic_button_1_event.png" alt="" style="max-width: 640px" class="inline"/></a>  </p>
+</li>
+<li>
+<p class="startli">Save this button again. Now look at it on the TP device... the button should now say "4" on it!<br  />
+ Pretty exciting, right? And quite handy in case one forgets what 2 + 2 equals.</p>
+<p class="interli"><img src="images/quickstart/basic_button_1_result.png" alt="" class="inline"/> </p>
+<p class="endli"></p>
+</li>
+</ol>
+<p ><br  clear="all" />
+</p>
+<h2><a class="anchor" id="autotoc_md55"></a>
+Note: The action creates the State!</h2>
+<p >One important takeaway here is that <b>the State we created will not exist until that button gets pushed once</b> (or rather until the action which creates the State gets activated, somehow). This is why we need the 2-step process to set up the button &ndash; one to create the action so we can trigger it, and the second step to actually use the new State for something.</p>
+<hr  />
+ <h1><a class="anchor" id="autotoc_md57"></a>
+Getting Dynamic</h1>
+<p >To make things slightly more interesting let's create a Touch Portal "Global Value" we can use to test with, and a way to change it.<br  />
+ (If you already have some global Value to use for testing, you can just use that and skip the first 2 steps.)</p>
+<ol>
+<li>
+<a href="images/quickstart/tp-value-dialog.png" target="fullSizeImg"><img src="images/quickstart/tp-value-dialog.png" alt="" height="164" align="right" class="inline"/></a> Go to the Touch Portal "Values" tab, click the <code>+</code> then <em>Add Value</em>.  </li>
+<li>
+Fill out the fields in the dialog. <ul>
+<li>
+You can use any ID and Name you want, but for the example I'll use <code>DSE_Example_1</code> for both. </li>
+<li>
+Default value of <code>0</code> (zero). </li>
+<li>
+Value Type: Number </li>
+</ul>
+<br  clear="all" />
+  </li>
+<li>
+<p class="startli">Add some way to change the test Value. A Slider with a <em>Set Value</em> Connector works nicely:</p>
+<p class="interli"></p>
+<p class="interli"><a href="images/quickstart/tp-value-slider.png" target="fullSizeImg"><img src="images/quickstart/tp-value-slider.png" alt="" style="max-width: 480px" class="inline"/></a></p>
+<p class="endli"></p>
+</li>
+</ol>
+<hr  />
+<p >OK, the slider will change the Value in a range of 0 (at the bottom) to 100 (at the top). Let's say we want to reverse that, so as we slide up the value changes from 100 to 0 instead. Let's edit our example button from the first section.</p>
+<p >We want our <em>Evaluate Expression</em> to run whenever the global Value "DSE_Example_1" changes. To do that we can copy that action from the "On Pressed" tab to the "On Event" tab, and then make a small edit to the expression.</p>
+<ol>
+<li>
+Edit the button, copy the action from the "On Pressed" tab (right-click on it -&gt; "copy all selected actions"), then switch to the "On Events" tab.  </li>
+<li>
+Add a <em>Values -&gt; When Value Changes</em> Event from the left menu. <ul>
+<li>
+In the first dropdown list find and select the "DSE_Example_1" Value created earlier. </li>
+<li>
+In the second list select "does not change to". </li>
+<li>
+In the last field enter <code>-1</code> (minus one). </li>
+</ul>
+</li>
+<li>
+Right-click on the bottom part of that Event and select "Paste all copied actions." This should put the action inside the Event (if it doesn't just drag it in there).  </li>
+<li>
+<p class="startli">Edit the <em>Evaluate Expression</em> value so it now uses the global Value we created as "input" to a math expression (still pretty basic here):<br  />
+ <code>100 - ${value:DSE_Example_1}</code></p>
+<p class="endli"></p>
+</li>
+</ol>
+<p >The "On Event" tab should now look like this:<br  />
+ </p>
+<p ><a href="images/quickstart/dynamic_button_events_1.png" target="fullSizeImg"><img src="images/quickstart/dynamic_button_events_1.png" alt="" style="max-width: 640px" class="inline"/></a></p>
+<p >Save that button, then go move the slider on the TP device's screen. The button's text should update to show the reversed version of the global Value. You can see the Value's actual... err.. value, change in the Values tab. Very valuable, verily. (sorry)</p>
+<p >You may notice the text on the button doesn't update very quickly and will lag behind where the slider really is. That's because the "Dynamic Text Updater" Event only updates every 500 milliseconds, at best. This may sound fast but it's not (relatively speaking).</p>
+<p >To fix this, replace the "Dynamic Text Updater" Event with a "When Plug-in State Changes" Event, and add a "Change button visuals" action inside there which changes the button's text.</p>
+<p ><a href="images/quickstart/dynamic_button_events_2.png" target="fullSizeImg"><img src="images/quickstart/dynamic_button_events_2.png" alt="" style="max-width: 640px" class="inline"/></a></p>
+<p >The updates will now be almost instant as you move the slider.</p>
+<h2><a class="anchor" id="autotoc_md59"></a>
+Using Values and States in Expressions</h2>
+<p >While this was not an especially practical example, the key point here is that you can use <em>any</em> existing Value or State as part of an expression. They don't have to be numeric, and the produced result can also be in any format you need. The values/states can be passed to many of the plugin's built-in functions (lots of math and formatting options, for example) to get desired results back. And with the more "advanced" actions available in this plugin (which can use custom script files), the values/states can be sent to more sophisticated functions as well.</p>
+<hr  />
+ <h1><a class="anchor" id="autotoc_md61"></a>
+Sliding Around</h1>
+<p >As a last "quick start" example I'll show how to use a Slider with one of the plugin's Connectors.</p>
+<p >It will do the same thing as the example above, but without a Touch Portal Value. Which is redundant since a Slider already produces a value of 0-100 that we can use directly.</p>
+<ol>
+<li>
+Edit the Slider from the example above (or create a copy). Replace the Connector with <em>Dynamic Script Engine - Evaluate Expression</em> from the left menu.  </li>
+<li>
+Use the same "Instance Name" as before &ndash; <code>DSE_Example</code> (or whatever you used). This will make sure the State also has the same name as the previous tests, and the button from the last example will update to show the State's value, w/out any modifications. </li>
+<li>
+<p class="startli">For the Expression value put in <code>100 - ${connector_value}</code></p>
+<p class="interli"><code>${connector_value}</code> is a special token/macro which is replaced <em>by the plugin</em> (not Touch Portal) with the value sent by the Slider (which is currently, as of TP v3.1, always in the range of 0 - 100). This is done <em>before</em> evaluating the expression.</p>
+<p class="interli">So what our expression does in the end is subtract the current value of the slider from 100. Which is exactly what the previous example did with the global Value.</p>
+<p class="interli"></p>
+<p class="interli"><a href="images/quickstart/dynamic_slider.png" target="fullSizeImg"><img src="images/quickstart/dynamic_slider.png" alt="" style="max-width: 640px" class="inline"/></a></p>
+<p class="interli"></p>
+<p class="interli"></p>
+<p class="endli"></p>
+</li>
+<li>
+<p class="startli">That's it. Save the slider and go move it around on the TP device. The value displayed on the button should update in the range of 100 to 0, as it did in the last example.</p>
+<p class="endli"></p>
+</li>
+</ol>
+<hr  />
+<p ><span class="next_section_button"> Continue the Journey: <a class="el" href="plugin_basics.html#md_pages_Basic">Basic Principles</a> </span> </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.4-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
+</body>
+</html>

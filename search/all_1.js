@@ -12,7 +12,7 @@ var searchData=
   ['bodyused_9',['bodyUsed',['../class_response.html#a0350bba0a639bd43c04849212b037d57',1,'Response']]],
   ['broadcastevent_10',['broadcastEvent',['../group___t_p_a_p_i.html#ga3a83390c18003bfe554072ad76484d72',1,'TP']]],
   ['btime_11',['btime',['../class_file_handle.html#a264ba3f4987576812cc58c6004cf590e',1,'FileHandle::btime()'],['../class_file.html#ac21f502ea823d9bcd5bfa5342a4cec78',1,'File::btime()']]],
-  ['btoa_12',['btoa',['../class_global.html#ad745041e7f308db60a37d8ada0ce3a1c',1,'Global']]],
+  ['btoa_12',['btoa',['../class_global.html#a929df78f9b2b8be07ef885ab4ec02f57',1,'Global']]],
   ['bufferasync_13',['bufferAsync',['../class_response.html#a8925148e7a8612dabe163205fa01f27a',1,'Response']]],
   ['buffersync_14',['bufferSync',['../class_response.html#ad15d08bdbd6bc59d9b2514e055b250bb',1,'Response']]],
   ['bytesavailable_15',['bytesAvailable',['../class_file_handle.html#a30d1c07a0f0a39db58329f6612212f03',1,'FileHandle']]],

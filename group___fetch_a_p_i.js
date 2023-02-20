@@ -18,7 +18,8 @@ var group___fetch_a_p_i =
       [ "get", "class_request.html#ad8421577f9c123b41380edac65f16e0c", null ],
       [ "head", "class_request.html#ac64e4007cda33e87c55c652985109190", null ],
       [ "post", "class_request.html#ada2849f5eb9fd4375cd60ce0e5519427", null ],
-      [ "put", "class_request.html#acb0f45f7a2f073eeb1ae86f4dbaee869", null ]
+      [ "put", "class_request.html#acb0f45f7a2f073eeb1ae86f4dbaee869", null ],
+      [ "GlobalDefaults", "class_request.html#ab379177f5504e2f6930ac675d4848a1a", null ]
     ] ],
     [ "Response", "class_response.html", [
       [ "async", "class_response.html#a3a33462ee2a725f19a5b920fff903e3f", null ],

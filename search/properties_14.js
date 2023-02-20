@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['zerodigit_0',['zeroDigit',['../class_locale.html#a6c8a7c92736101237fe2a21b40de781e',1,'Locale']]]
+  ['xhr_0',['xhr',['../class_request.html#ac3fe8d04e595f00a7b0710564b333829',1,'Request::xhr()'],['../class_response.html#ac3fe8d04e595f00a7b0710564b333829',1,'Response::xhr()']]]
 ];

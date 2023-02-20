@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -126,7 +126,7 @@ $(document).ready(function(){initNavTree('example_line_logger.html',''); initRes
   <div class="headertitle"><div class="title">Line Logger Example </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicValues_DynamicValuesTPP_resources_examples_LineLogger_README"></a>This is an example of collecting (accumulating) lines of text from a State or Value.</p>
+<div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicScriptEngine_DSEP4TP_resources_examples_LineLogger_README"></a>This is an example of collecting (accumulating) lines of text from a State or Value.</p>
 <div class="hide-on-site"></div><div class="hide-on-site"><b>See the <a href="https://mpaperno.github.io/DSEP4TP/example_line_logger.html" target="_blank">published documentation</a> for a properly formatted version of this README.</b> </div><p >When the state/value changes, the new text is sent to this script. It stores the last few lines and sends them back as a new State. The number of stored lines can be specified as a parameter to the <code>append()</code> function.</p>
 <p >This particular example is tailored to collecting script errors from this plugin itself. It could be used as in the included Touch Portal button.</p>
 <p >As described in Status and Logging, every time an unhandled script error is detected the plugin updates the <em><b>Last script instance error</b></em> State with the error message. A Touch Portal event handler detects the change and sends that line of text to this script. The script optionally also color-codes some parts of the error message; the error number, time stamp, and instance name.</p>
@@ -165,12 +165,13 @@ $(document).ready(function(){initNavTree('example_line_logger.html',''); initRes
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>}</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment">// Convenience function to clear the saved lines. Optional message to return as TP state value.</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>export <span class="keyword">function</span> clear(returnString = <span class="stringliteral">&quot;Script Log Cleared!&quot;</span>) {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>export <span class="keyword">function</span> <a class="code hl_function" href="class_clipboard.html#a6f1384d6e6d816eee6a36d3087df8aaf">clear</a>(returnString = <span class="stringliteral">&quot;Script Log Cleared!&quot;</span>) {</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  log_data = [];</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="keywordflow">if</span> (typeof returnString !== <span class="stringliteral">&#39;undefined&#39;</span>)</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordflow">return</span> returnString;</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md73"></a>
+<div class="ttc" id="aclass_clipboard_html_a6f1384d6e6d816eee6a36d3087df8aaf"><div class="ttname"><a href="class_clipboard.html#a6f1384d6e6d816eee6a36d3087df8aaf">Clipboard::clear</a></div><div class="ttdeci">void clear(int mode=Mode.Clipboard)</div><div class="ttdoc">Clears the system clipboard of all values.   The opitonal mode argument is used to control which part...</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md111"></a>
 Example usage on a button</h2>
 <p ><a href="example_line_logger_button_flow.png" target="image" title="Click for full version in new window."><img src="example_line_logger_button_flow.png" alt="" class="inline"/> </a> </p>
 </div></div><!-- contents -->
@@ -181,7 +182,7 @@ Example usage on a button</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="plugin_examples.html">Examples</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

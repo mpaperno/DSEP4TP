@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -145,6 +145,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2977a3d24cb7ef479953f00918c063ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2bb26e91a408a5abe89cd02a2bb4445"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_math.html#ae2bb26e91a408a5abe89cd02a2bb4445">toRadians</a> (number degrees)</td></tr>
 <tr class="separator:ae2bb26e91a408a5abe89cd02a2bb4445"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca3c234211640bee981aaf576117dc87"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_math.html#aca3c234211640bee981aaf576117dc87">percentOfRange</a> (number percentValue, number rangeMin, number rangeMax)</td></tr>
+<tr class="separator:aca3c234211640bee981aaf576117dc87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b78a995ae584997966b29aea5579042"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_math.html#a8b78a995ae584997966b29aea5579042">rangeValueToPercent</a> (number value, number rangeMin, number rangeMax)</td></tr>
+<tr class="separator:a8b78a995ae584997966b29aea5579042"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a53efc2dcfced77d30083e84a38572130" name="a53efc2dcfced77d30083e84a38572130"></a>
@@ -289,6 +293,80 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aca3c234211640bee981aaf576117dc87" name="aca3c234211640bee981aaf576117dc87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca3c234211640bee981aaf576117dc87">&#9670;&nbsp;</a></span>percentOfRange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">number percentOfRange </td>
+          <td>(</td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>percentValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>rangeMin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>rangeMax</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Scales <code>percentValue</code> into the numeric range specified by <code>rangeMin</code> and <code>rangeMax</code> and returns the new value. In other words, "what value does this percentage represent within this range." This may return a value outside the given range if <code>percentValue</code> is greater or less than 100. <code>percentValue</code> is always treated as absolute. <br  />
+ Either of <code>rangeMin</code> or <code>rangeMax</code> can be the larger number. The returned value will be proportional in either case. </p>
+
+</div>
+</div>
+<a id="a8b78a995ae584997966b29aea5579042" name="a8b78a995ae584997966b29aea5579042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b78a995ae584997966b29aea5579042">&#9670;&nbsp;</a></span>rangeValueToPercent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">number rangeValueToPercent </td>
+          <td>(</td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>rangeMin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>rangeMax</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the percentage of the <code>rangeMin</code> through <code>rangeMax</code> numeric range represented by <code>value</code>. In other words, "what percentage does this value represent of the given range." This may return a percentage greater than 100 if <code>value</code> falls outside of <code>rangeMin</code> and <code>rangeMax</code>. <br  />
+ Either of <code>rangeMin</code> or <code>rangeMax</code> can be the larger number. The returned percentage will be proportional in either case. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.4-->
@@ -296,7 +374,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_math.html">Math</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

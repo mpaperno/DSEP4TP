@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -135,19 +135,19 @@ $(document).ready(function(){initNavTree('class_array_buffer.html',''); initResi
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aba7b605c9d75b159455e8231fbb43ca7"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array_buffer.html#aba7b605c9d75b159455e8231fbb43ca7">toBase64</a> ()</td></tr>
-<tr class="separator:aba7b605c9d75b159455e8231fbb43ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2ca71f9e77c698e1228986864548d19"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array_buffer.html#ad2ca71f9e77c698e1228986864548d19">toHex</a> (char separator)</td></tr>
-<tr class="separator:ad2ca71f9e77c698e1228986864548d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1db415f2f252811818848b7c55570ba6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array_buffer.html#a1db415f2f252811818848b7c55570ba6">toBase64</a> ()</td></tr>
+<tr class="separator:a1db415f2f252811818848b7c55570ba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdb60263dccc4f18a99671a91ed2c93a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array_buffer.html#abdb60263dccc4f18a99671a91ed2c93a">toHex</a> (char separator)</td></tr>
+<tr class="separator:abdb60263dccc4f18a99671a91ed2c93a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a82b6dd964452468bedb6507e731e27fb"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array_buffer.html#a82b6dd964452468bedb6507e731e27fb">fromBase64</a> (data)</td></tr>
-<tr class="separator:a82b6dd964452468bedb6507e731e27fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8ae124164fd3873936489bc7d2595be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array_buffer.html#ad8ae124164fd3873936489bc7d2595be">fromBase64</a> (any data)</td></tr>
+<tr class="separator:ad8ae124164fd3873936489bc7d2595be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a82b6dd964452468bedb6507e731e27fb" name="a82b6dd964452468bedb6507e731e27fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82b6dd964452468bedb6507e731e27fb">&#9670;&nbsp;</a></span>fromBase64()</h2>
+<a id="ad8ae124164fd3873936489bc7d2595be" name="ad8ae124164fd3873936489bc7d2595be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8ae124164fd3873936489bc7d2595be">&#9670;&nbsp;</a></span>fromBase64()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,9 +156,9 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string fromBase64 </td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> fromBase64 </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
+          <td class="paramtype">any&#160;</td>
           <td class="paramname"><em>data</em></td><td>)</td>
           <td></td>
         </tr>
@@ -172,18 +172,18 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Creates and returns a new <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> from the contents of Base64-encoded string <code>data</code>. </p>
 <p >This is a static function. Use it like <code>var buffer = ArrayBuffer.fromBase64(data)</code>.</p>
-<p >Equivalent to <code><a class="el" href="class_global.html#aaac1708acf0bef57d9d26fe7ed5bf629" title="Decodes data bytes of base-64 encoded plain text and returns it as binary data (&quot;ascii to binary&quot;) in...">atob(data)</a></code>. </p>
+<p >Equivalent to <code>atob(data)</code>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_array_buffer.html#a1db415f2f252811818848b7c55570ba6" title="Returns the contents of this buffer as a Base64-encoded string.">toBase64()</a>, <a class="el" href="class_global.html#a963803b64f2a59c40ab53fdba2e40dda" title="Decodes data bytes of base-64 encoded plain text and returns it as binary data (&quot;ascii to binary&quot;) in...">atob()</a> </dd></dl>
 
 </div>
 </div>
-<a id="aba7b605c9d75b159455e8231fbb43ca7" name="aba7b605c9d75b159455e8231fbb43ca7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba7b605c9d75b159455e8231fbb43ca7">&#9670;&nbsp;</a></span>toBase64()</h2>
+<a id="a1db415f2f252811818848b7c55570ba6" name="a1db415f2f252811818848b7c55570ba6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1db415f2f252811818848b7c55570ba6">&#9670;&nbsp;</a></span>toBase64()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string toBase64 </td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> toBase64 </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -192,18 +192,18 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the contents of this buffer as a Base64-encoded string. </p>
-<p >Equivalent to <code>btoa(buffer)</code>. </p>
+<p >Equivalent to <code>btoa(buffer)</code>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_array_buffer.html#ad8ae124164fd3873936489bc7d2595be" title="Creates and returns a new ArrayBuffer from the contents of Base64-encoded string data.">fromBase64()</a>, <a class="el" href="class_global.html#a929df78f9b2b8be07ef885ab4ec02f57" title="Returns data bytes as base-64 encoded plain text (&quot;binary to ascii&quot;).">btoa()</a> </dd></dl>
 
 </div>
 </div>
-<a id="ad2ca71f9e77c698e1228986864548d19" name="ad2ca71f9e77c698e1228986864548d19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2ca71f9e77c698e1228986864548d19">&#9670;&nbsp;</a></span>toHex()</h2>
+<a id="abdb60263dccc4f18a99671a91ed2c93a" name="abdb60263dccc4f18a99671a91ed2c93a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdb60263dccc4f18a99671a91ed2c93a">&#9670;&nbsp;</a></span>toHex()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string toHex </td>
+          <td class="memname"><a class="el" href="class_string.html">String</a> toHex </td>
           <td>(</td>
           <td class="paramtype">char&#160;</td>
           <td class="paramname"><em>separator</em></td><td>)</td>
@@ -232,7 +232,7 @@ Static Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_array_buffer.html">ArrayBuffer</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

@@ -1,0 +1,319 @@
+<!-- HTML header for doxygen 1.9.4-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dynamic Script Engine Plugin for Touch Portal: Change Log</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md11']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/mpaperno/DSEP4TP" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" fill="url(#gradient)"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    <linearGradient id="gradient" x1="0.5" x2="0.5" y1="0" y2="1">
+        <stop class="first-stop" offset="0%"></stop>
+        <stop class="last-stop" offset="100%"></stop>
+    </linearGradient>
+    </svg>
+</a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
+  <td id="projectalign">
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Change Log </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p ><b>Dynamic Script Engine Plugin for Touch Portal</b>: changes by version number and release date.</p>
+<hr  />
+ <h1><a class="anchor" id="autotoc_md22"></a>
+1.2.0.1-beta1 (20-Feb-2023)</h1>
+<p >This version bring a number of fundamental changes, all of which hopefully make the system more flexible overall. I've preserved backwards compatibility with actions/connectors from the previous versions, except in the case of the "One-Time" action (details below). I encourage everyone to update to the new versions of the actions/connectors, but please do let me know if you find "regression" issues which break existing actions/connectors. An update to the new version is meant to be as seamless as possible.</p>
+<h2><a class="anchor" id="autotoc_md23"></a>
+Plugin Core</h2>
+<ul>
+<li>New paradigm decouples "Script" (Expression/File/Module) instances from Engine instances and from Touch Portal States:<ul>
+<li>Creating a Touch Portal State for each named Script instance is now optional. <b>Consequently, the "State Name" field for each action has been renamed to "Instance Name."</b></li>
+<li>Private Engine instances can now be independent from Script instances; they become their own named entities which can be re-used.</li>
+<li>Script instances can be run in any existing Private Engine instances (or create their own, or run in Shared engine, as before).</li>
+<li>Engine instances now "own" the system thread they (and all associated Scripts) run in.</li>
+</ul>
+</li>
+<li>Added support for using Actions in "On Hold" Touch Portal button setup, with multiple behavior options:<ul>
+<li>Activation options: On Press and/or On Release, Press and Repeat, Repeat After Delay.</li>
+<li>Repeat delay and rate (interval) are controllable at both global default and per-instance levels.</li>
+<li>Current repeat delay, rate, and maximum number of repeats can be set via instance properties.</li>
+</ul>
+</li>
+<li>Script instance properties and methods are now available in the JavaScript environment, allowing extended code-level functionality and customization (details below).</li>
+<li>Scripts can now keep data in persistent storage which is saved and restored at plugin startup (for example to preserve state/settings between sessions).</li>
+<li>Any Script Instance can now be set to "temporary persistence" and deleted automatically after a delay. This removes the need for a separate "one-time" action.</li>
+<li>Added a plugin Setting to load/run a script file at plugin startup.</li>
+<li>Added stack trace logging for unhandled script exceptions.</li>
+<li>Added command-line switch to specify the Touch Portal Plugin ID to use in all communications (for advanced usage with custom entry.tp configuration).</li>
+<li>Fixed/removed automatic replacement of spaces with underscores in Touch Portal State names/IDs.</li>
+<li>Fixed all saved instances being removed if plugin is started w/out available Touch Portal host.</li>
+<li>The "Shared" Engine instance now runs in its own system thread so as not to impact core plugin functions.</li>
+<li>The Touch Portal network client (responsible for core communications) has also been moved to its own thread.</li>
+<li>Miscellaneous optimizations, cleanups, and stability improvements.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md24"></a>
+Changes to Actions/Connectors</h2>
+<ul>
+<li>Added "Create State" option to each of the primary Script actions (Expression/File/Module). This is now also where the State's default value type is set.</li>
+<li>Added "Instance Persistence" option which controls if a Script instance only exists for the current session, is saved at shutdown and loaded at startup, or is temporary (replaces "One-Time" action).<ul>
+<li><b>REMOVED:</b> the "Anonymous (One-Time) Script" action (redundant with the more flexible new system).<br  />
+ Unfortunately due to internal changes backwards compatibility could not be preserved in this one case.</li>
+</ul>
+</li>
+<li>Script Instances can now use any existing Engine instance (eg. created by another Script) in addition to Shared and Private engine types as previously;<ul>
+<li>Selecting the "Private" choice effectively creates a new private Engine with the same name as the Script. This reproduces the previous behavior.</li>
+</ul>
+</li>
+<li>Added "On Hold" option to each Script action type which controls when exactly Script evaluation happens if an Action is used in "On Hold" button setup tab.</li>
+<li>The "Update Existing Instance" action/connector:<ul>
+<li>Now uses a choice list to select an existing Script instance to update (instead of having to type one in).</li>
+<li>Can run an expression in a "Shared Default" instance which evaluates in the Shared engine scope but independent of any specific named Script instance (and does not create a Touch Portal State).</li>
+</ul>
+</li>
+<li>Renamed "Plugin Actions" to "Instance Control Actions" and:<ul>
+<li>Resets are now performed on named Engine instances, not Script Instances (this matters if multiple scripts share the same engine).</li>
+<li>Added option to Delete Engine Instance(s).</li>
+<li>Added options to Save, Load, and Remove Script Instance data to/from persistent storage.</li>
+<li><b>DEPRECATED:</b> "Set State Value" option;<br  />
+ Existing instances will continue to work for now but cannot be edited; Support will be fully removed in the next major version;</li>
+</ul>
+</li>
+<li>Added "Set Held Action Repeat Rate/Delay" action &amp; connector to set/adjust repeat rate/delay at both global default and instance-specific levels.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md25"></a>
+New States/Event</h2>
+<ul>
+<li>Added "Plugin running state" (stopped/starting/started) Touch Portal State and Event;</li>
+<li>Added "Default held action Repeat Delay" and "Default held action Repeat Rate" States;</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md26"></a>
+JavaScript Library</h2>
+<ul>
+<li>Added global <code><a class="el" href="class_global.html#a8d2c911c2adcaa8d385d699deb7b8b5b" title="Used to import all or part of JavaScript modules or JSON objects.">require()</a></code> function to import JS modules or JSON objects (whole or individual components) into any script, as an alternative to the <code>import ... from ...</code> syntax (which only works from other modules). This mimics the Node.js/CommonJS function(ality) of the same name.</li>
+<li>Script Instance properties and methods are now exposed to the JavaScript environment as <code><a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a></code> objects (see docs for details).<ul>
+<li>This essentially gives direct access to all properties of the Touch Portal action/connector which is being used to create or run the Script instance, as well as extended features and options which are not practical to configure using the Touch Portal interface.</li>
+<li>Among other features, scripts can now control the parent category their State will be sorted into as well as the "friendly" name displayed in Touch Portal selector lists (which no longer has to match the underlying State ID).</li>
+</ul>
+</li>
+<li>Added native <code><a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a></code> module for interacting with operating system clipboard features.</li>
+<li>Added properties and methods to <code><a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a></code> object for working with <code><a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a></code> and Engine instances. A few properties have also been deprecated.<ul>
+<li>Added properties:<ul>
+<li><code><a class="el" href="class_d_s_e.html#a9fcb9184f94fe30ca21b38a79a50b8fc" title="This property contains the name of the Touch Portal parent cateogry into which newly created States w...">DSE.VALUE_STATE_PARENT_CATEOGRY</a></code></li>
+<li><code><a class="el" href="class_d_s_e.html#a508c23fed1db2def9dcc5909e6058537" title="The global default action repeat rate (interval), in milliseconds. The rate is the amount of time to ...">DSE.defaultActionRepeatRate</a></code>, <code><a class="el" href="class_d_s_e.html#a160ac07aa28b67916ac5de14ddf7967e" title="The global default action repeat delay, in milliseconds. The delay is the amount of time before a hel...">DSE.defaultActionRepeatDelay</a></code></li>
+<li><code><a class="el" href="class_d_s_e.html#ab9a5bce1c70c8e0ce149b14c61883c76" title="Returns the engine instance type associated with the current script instance, one of DSE....">DSE.engineInstanceType</a></code>, <code><a class="el" href="class_d_s_e.html#a8fdafb6d79f0dda3eb452e47ed26b99e" title="Returns the name of the engine instance associated with the current script instance....">DSE.engineInstanceName</a></code>, <code><a class="el" href="class_d_s_e.html#aa49a3f2dca5af1a80e61b7a7676580d3" title="The Instance Name of the script currently being evaluated, as specified in the corresponding Touch Po...">DSE.currentInstanceName</a></code></li>
+</ul>
+</li>
+<li>Added methods:<ul>
+<li><code><a class="el" href="class_d_s_e.html#a75772c2c90dcccaa883c44867c7da11a" title="Returns the script instance with given name, if any, otherwise returns null.">DSE.instance()</a></code>, <code><a class="el" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01" title="Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....">DSE.currentInstance()</a></code>, <code>DSE.instanceNames()</code>;</li>
+<li><code><a class="el" href="class_d_s_e.html#a8f0f47c9fbd3c17983601884938c4c64" title="Convenience method to set the action repeat rate and/or delay prooperties on either the global defaul...">DSE.setActionRepeat()</a></code>, <code><a class="el" href="class_d_s_e.html#ade0fa026012b57c6b704f6bd84d9c93d" title="Convenience method to adjust the action repeat rate and/or delay prooperties on either the global def...">DSE.adjustActionRepeat()</a></code></li>
+</ul>
+</li>
+<li>Added enumeration constants for various <code><a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a></code> property values.</li>
+<li><b>DEPRECATED:</b> These will continue to work for now but will be removed in the next major version. See documentation for alternatives.<ul>
+<li><code><a class="el" href="class_d_s_e.html#a4481c249770248e82fdfde844b20eda7" title="Gets Touch Portal State ID of the current script&#39;s instance. This is what Touch Portal actually uses ...">DSE.instanceStateId()</a></code> method;</li>
+<li><code><a class="el" href="class_d_s_e.html#a11574da2b0d598cf85e836ca8f931e59" title="The scope of the current script&#39;s engine, either &quot;Shared&quot; or &quot;Private&quot;.">DSE.INSTANCE_TYPE</a></code>, <code><a class="el" href="class_d_s_e.html#a0c06106c7b24661aa69a420c329b7231" title="The the current script&#39;s Instance Name, as specified in the corresponding Touch Portal action which i...">DSE.INSTANCE_NAME</a></code>, <code><a class="el" href="class_d_s_e.html#a266a028521364de9b0fba0a4e11be447" title="This is the default value as specified in the action which created this script instance,...">DSE.INSTANCE_DEFAULT_VALUE</a></code> properties;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Touch Portal API:<ul>
+<li>Added <code><a class="el" href="group___t_p_a_p_i.html#ga8bfa677ae39341fe9fc6afa0499a7ae1" title="This event is emitted upon every Touch Portal message received by this plugin.">TP.messageEvent()</a></code> which passes through every command/data message received from Touch Portal by the plugin.</li>
+<li>Added <code><a class="el" href="group___t_p_a_p_i.html#gacae20c335934ed5d1c2177a533c352a6" title="Update a list of choices for a selector with given id and specific instanceId.">TP.choiceUpdateInstance()</a></code> and <code><a class="el" href="group___t_p_a_p_i.html#ga88679c0a062fe4043425cf7a3dd9286e" title="Update a plugin Setting in Touch Portal named name to value.">TP.settingUpdate()</a></code> methods.</li>
+</ul>
+</li>
+<li>Fixed that <code><a class="el" href="namespace_net.html" title="The Net namespace contains static functions for working with network requests.">Net</a></code> API functions (internal and public) were mistakenly available in global scope.</li>
+<li>Moved/renamed <code>GlobalRequestDefaults</code> to <code><a class="el" href="class_request.html#ab379177f5504e2f6930ac675d4848a1a" title="This global static object can be used to set default values on any created Request (either implicitly...">Request.GlobalDefaults</a></code> (the former is now an alias for the latter but will be removed in a future version).</li>
+<li>Added <code><a class="el" href="class_math.html#aca3c234211640bee981aaf576117dc87" title="Scales percentValue into the numeric range specified by rangeMin and rangeMax and returns the new val...">Math.percentOfRange()</a></code> and <code><a class="el" href="class_math.html#a8b78a995ae584997966b29aea5579042" title="Returns the percentage of the rangeMin through rangeMax numeric range represented by value....">Math.rangeValueToPercent()</a></code> functions.</li>
+<li>Fixed <code><a class="el" href="class_color.html#adfb086b470804a4f7dc911d2dd148cab" title="Returns an array of up to n colors harmonious with this color.">Color.polyad()</a></code>, <code>Color.splitcomplement()</code> and <code>Color.analogous()</code> to preserve original alpha channel value.</li>
+<li><b>CHANGED:</b> The global <code><a class="el" href="class_global.html#a9a2f63936ebd900b99db0f306f6bd491" title="Read and evaluate scriptFile as JavaScript in the current scripting engine context (global object) at...">include()</a></code> function when used with relative paths will now first try to resolve the specified file relative to the <em>current script/module file's location</em>. If that fails, it falls back to the previous behavior using the plugin's <em>Script Files Base Directory</em> setting.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md27"></a>
+Documentation</h2>
+<ul>
+<li>Updated main <em>Plugin Documentation</em> pages to reflect changes in actions/connectors and features (including the new overall relationship between Script instances, Engine instances, and Touch Portal States).</li>
+<li>Added <em>Plugin Documentation -&gt; "Quick Start"</em> page.</li>
+<li>Added <em>Plugin Documentation -&gt; "Settings, States and Events"</em> page.</li>
+<li>Added new JS Library Reference category for <em>Plugin API</em> objects (<code><a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a></code> and <code><a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a></code>).</li>
+<li>Added and updated references for all new or changed API.</li>
+</ul>
+<hr  />
+ <h1><a class="anchor" id="autotoc_md29"></a>
+1.1.0.2 (20-Feb-2023)</h1>
+<ul>
+<li>No changes since 1.1.0.1-beta1.</li>
+<li>Final version in the v1.1.x series.</li>
+</ul>
+<hr  />
+ <h1><a class="anchor" id="autotoc_md31"></a>
+1.1.0.1-beta1 (05-Jan-2023)</h1>
+<ul>
+<li>Added Connector (Slider) counterparts for most of the plugin's existing Actions (except "Load Script").</li>
+<li>Added Connector/Slider instance tracking database for managing mapping and lookups of "short" connector IDs (for sending updates back to Touch Portal).</li>
+<li>Added new State to reflect current system user's Touch Portal settings directory path (workaround until <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> v3.2 adds native values for that).</li>
+<li>Added new State: "Name of Page currently active on TP device."</li>
+<li>Touch Portal API:<ul>
+<li>Added methods and an event for Connector ID lookup/search/tracking, eg. for sending Slider position updates to Touch Portal.</li>
+<li>Added Touch Portal "broadcast" message event passthrough (eg. to notify scripts when user navigates to a new page).</li>
+<li>Added <code><a class="el" href="group___t_p_a_p_i.html#ga417e3c190b82210f1884750cd1722dad" title="Returns the name of the page the user last opened on their Touch Portal device (not in the desktop pa...">TP.currentPageName()</a></code> lookup function.</li>
+</ul>
+</li>
+<li>JavaScript Library:<ul>
+<li>Added <code><a class="el" href="class_string.html#ab59b43907986e8261cb52502dde01807" title="Appends string line to current string, and returns a new block with up to maxLines lines.">String.appendLine()</a></code> and <code><a class="el" href="class_string.html#a01d64a40d4b7e1ddac8408d3651d59fa" title="Splits string text into lines based on separator and returns maxLines of text starting at fromLine (z...">String.getLines()</a></code> functions (both static and prototype).</li>
+<li>Added <code><a class="el" href="class_d_s_e.html#ad4c637593248bf85390e0b0360b57070" title="Contains the value of the current system user&#39;s Touch Portal settings directory path....">DSE.TP_USER_DATA_PATH</a></code> property (current system user's Touch Portal settings directory), <code><a class="el" href="class_d_s_e.html#a3ab530ca47f957d165666f7f06ddec55" title="Numeric version of currently connected Touch Portal desktop application. eg. 301007">DSE.TP_VERSION_CODE</a></code> and <code><a class="el" href="class_d_s_e.html#a99fa779327f953e68be75c4c35637c67" title="String version of currently connected Touch Portal desktop application. eg. &quot;3.1.7....">DSE.TP_VERSION_STR</a></code>.</li>
+</ul>
+</li>
+<li>Documentation &amp; Examples:<ul>
+<li>Moved Touch Portal API references into their own category.</li>
+<li>Added documentation for new Touch Portal API functions/features.</li>
+<li>New v3 of <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> Picker example page and script, using new "native" connector/slider functionality and adding some more features.</li>
+<li>Other minor updates and clarifications.</li>
+</ul>
+</li>
+</ul>
+<p >Thanks for everyone's input so far!</p>
+<hr  />
+ <h1><a class="anchor" id="autotoc_md33"></a>
+1.0.0.3 (05-Jan-2023)</h1>
+<ul>
+<li>Fix evaluation at startup of default value expressions for saved states when the default type was set to "use action's expression" and the default value field was left blank.</li>
+<li>Fix "Anonymous (One-Shot)" type script instances not being properly deleted after finishing.</li>
+<li>Touch Portal API:<ul>
+<li>Set default <a class="el" href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">showNotification()</a> option name to a minimal required empty space character instead of "Dismiss" prompt which doesn't actually do anything anyway.</li>
+</ul>
+</li>
+</ul>
+<hr  />
+ <h1><a class="anchor" id="autotoc_md35"></a>
+1.0.0.2-beta2 (28-Dec-2022)</h1>
+<ul>
+<li>Fix crash on engine environment reset action.</li>
+<li>Fix missing <code>Number.prototype.round()</code> function.</li>
+<li>Add <code>TP.connectorUpdateShort()</code> method.</li>
+<li>Add <a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a> and <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> Picker examples.</li>
+</ul>
+<hr  />
+ <h1><a class="anchor" id="autotoc_md37"></a>
+1.0.0.1-beta1 (26-Dec-2022)</h1>
+<ul>
+<li>Initial release! </li>
+</ul>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.4-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
+</body>
+</html>

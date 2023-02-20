@@ -1,5 +1,31 @@
 var group___util =
 [
+    [ "Clipboard", "class_clipboard.html", [
+      [ "Mode", "class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911", [
+        [ "Clipboard", "class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2", null ],
+        [ "Selection", "class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a6ff9dd0d34f65181173c1e4bc39939de", null ],
+        [ "FindBuffer", "class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a70fa396fb43ffd6c357897a2b90f8116", null ]
+      ] ],
+      [ "supportsFindBuffer", "class_clipboard.html#ac75fb733e107b31a0d40702e21db31e8", null ],
+      [ "supportsSelection", "class_clipboard.html#ab83f6dc74fb6722c27270d2e2e8bdd07", null ],
+      [ "clipboardChanged", "class_clipboard.html#a5220255ba5ca03f2fdcf72046aa3bfdd", null ],
+      [ "findBufferChanged", "class_clipboard.html#a8ce6bd27f981bdfd40172d41c3f0403a", null ],
+      [ "selectionChanged", "class_clipboard.html#a1d85de554564e69188e34457b463de1b", null ],
+      [ "dataAvailable", "class_clipboard.html#afabd52c8dfdf6105b0bb920c0680d6f7", null ],
+      [ "textAvailable", "class_clipboard.html#a842a79cc997bb22d48592ac99f3446c5", null ],
+      [ "text", "class_clipboard.html#a0e3b4e391aad5305bb3983bcd41bcba7", null ],
+      [ "text", "class_clipboard.html#a2a7d3e4f3ab478dce1d04db36df673e4", null ],
+      [ "setText", "class_clipboard.html#a1a73ff700c3cc3fed8ed24712dfe506e", null ],
+      [ "setText", "class_clipboard.html#ad79cb9b653c993b0bf1021575c7eee38", null ],
+      [ "data", "class_clipboard.html#afffd9c3ca8a6da960370721799106f59", null ],
+      [ "data", "class_clipboard.html#a5cd80faf77d8fdfb1702aca32769cdc9", null ],
+      [ "setData", "class_clipboard.html#a183eae51819a0d03be5dc4b2c8bbdd8f", null ],
+      [ "setData", "class_clipboard.html#a3ca1ca07dc1ea994770633ceca77fc2d", null ],
+      [ "clear", "class_clipboard.html#a6f1384d6e6d816eee6a36d3087df8aaf", null ],
+      [ "hasMimeType", "class_clipboard.html#a673686a23d3deea5bd26b8d386099f85", null ],
+      [ "hasMediaType", "class_clipboard.html#a72819d2ff7699966276fab9025de0220", null ],
+      [ "mimeTypes", "class_clipboard.html#a88ded2b8de05c5feed2168589eb21514", null ]
+    ] ],
     [ "Process", "class_process.html", [
       [ "program", "class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554", null ],
       [ "setProgram", "class_process.html#aaee8446f9a75de259ef640dbd0c1590c", null ],

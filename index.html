@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -126,7 +126,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
   <div class="headertitle"><div class="title">Dynamic Script Engine Plugin for Touch Portal </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicValues_DynamicValuesTPP_README"></a> <a href="https://www.touch-portal.com" target="_blank"><img src="https://img.shields.io/static/v1?style=flat&amp;labelColor=5884b3&amp;color=black&amp;label=made%20for&amp;message=Touch%20Portal&amp;logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAetJREFUeNp0UruqWlEQXUePb1HERi18gShYWVqJYGeXgF+Qzh9IGh8QiOmECIYkpRY21pZWFnZaqWBhUG4KjWih4msys8FLbrhZMOfsx6w1e9beWjAYBOMtx0eOGBEZzuczrtcreAyTyQSz2QxN04j3f3J84vim8+cNR4s3rKfTSUQQi8UQjUYlGYvFAtPpVIQ0u90eZrGvnHLXuOKcB1GpkkqlUCqVEA6HsVqt4HA4EAgEMJvNUC6XMRwOwWTRfhIi3e93WK1W1Go1dbTBYIDj8YhOp4NIJIJGo4FEIoF8Po/JZAKLxQIIUSIUChGrEy9Sr9cjQTKZJJvNRtlsVs3r9Tq53W6Vb+Cy0rQyQtd1OJ1O9b/dbpCTyHoul1O9z+dzGI1Gla7jFUiyGBWPx9FsNpHJZNBqtdDtdlXfAv3vZLmCB6SiJIlJhUIB/X7/cS0viXI8n8+nrBcRIblcLlSrVez3e4jrD6LsK3O8Xi8Vi0ViJ4nVid2kB3a7HY3HY2q325ROp8nv94s5d0XkSsR90OFwoOVySaPRiF6DiHs8nmdXn+QInIxKpaJclWe4Xq9fxGazAQvDYBAKfssDeMeD7zITc1gR/4M8isvlIn2+F3N+cIjMB76j4Ha7fb7bf8H7v5j0hYef/wgwAKl+FUPYXaLjAAAAAElFTkSuQmCC" alt="Made for Touch Portal" class="inline"/></a> <a href="https://github.com/mpaperno/DSEP4TP/releases" target="_blank"><img src="https://img.shields.io/github/v/release/mpaperno/DSEP4TP?include_prereleases&amp;display_name=release" alt="Latest Release" class="inline"/></a> <img src="https://img.shields.io/badge/platforms-Windows%20|%20MacOS%20|%20Linux-AA7722" alt="Supported Platforms" class="inline"/> <a href="LICENSE.GPL.txt" target="_blank"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="GPLv3 License" style="pointer-events: none;" class="inline"/></a> <a href="https://discord.gg/FhYsZNFgyw" target="_blank"><img src="https://img.shields.io/static/v1?style=flat&amp;color=7289DA&amp;&amp;labelColor=7289DA&amp;message=Discord%20Chat&amp;label=&amp;logo=discord&amp;logoColor=white" alt="Discord" class="inline"/></a></p>
+<div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicScriptEngine_DSEP4TP_README"></a> <a href="https://www.touch-portal.com" target="_blank"><img src="https://img.shields.io/static/v1?style=flat&amp;labelColor=5884b3&amp;color=black&amp;label=made%20for&amp;message=Touch%20Portal&amp;logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAetJREFUeNp0UruqWlEQXUePb1HERi18gShYWVqJYGeXgF+Qzh9IGh8QiOmECIYkpRY21pZWFnZaqWBhUG4KjWih4msys8FLbrhZMOfsx6w1e9beWjAYBOMtx0eOGBEZzuczrtcreAyTyQSz2QxN04j3f3J84vim8+cNR4s3rKfTSUQQi8UQjUYlGYvFAtPpVIQ0u90eZrGvnHLXuOKcB1GpkkqlUCqVEA6HsVqt4HA4EAgEMJvNUC6XMRwOwWTRfhIi3e93WK1W1Go1dbTBYIDj8YhOp4NIJIJGo4FEIoF8Po/JZAKLxQIIUSIUChGrEy9Sr9cjQTKZJJvNRtlsVs3r9Tq53W6Vb+Cy0rQyQtd1OJ1O9b/dbpCTyHoul1O9z+dzGI1Gla7jFUiyGBWPx9FsNpHJZNBqtdDtdlXfAv3vZLmCB6SiJIlJhUIB/X7/cS0viXI8n8+nrBcRIblcLlSrVez3e4jrD6LsK3O8Xi8Vi0ViJ4nVid2kB3a7HY3HY2q325ROp8nv94s5d0XkSsR90OFwoOVySaPRiF6DiHs8nmdXn+QInIxKpaJclWe4Xq9fxGazAQvDYBAKfssDeMeD7zITc1gR/4M8isvlIn2+F3N+cIjMB76j4Ha7fb7bf8H7v5j0hYef/wgwAKl+FUPYXaLjAAAAAElFTkSuQmCC" alt="Made for Touch Portal" class="inline"/></a> <a href="https://github.com/mpaperno/DSEP4TP/releases" target="_blank"><img src="https://img.shields.io/github/v/release/mpaperno/DSEP4TP?include_prereleases&amp;display_name=release" alt="Latest Release" class="inline"/></a> <img src="https://img.shields.io/badge/platforms-Windows%20|%20MacOS%20|%20Linux-AA7722" alt="Supported Platforms" class="inline"/> <a href="LICENSE.GPL.txt" target="_blank"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="GPLv3 License" style="pointer-events: none;" class="inline"/></a> <a href="https://discord.gg/pvVsJ6gy3y" target="_blank"><img src="https://img.shields.io/static/v1?style=flat&amp;color=7289DA&amp;&amp;labelColor=7289DA&amp;message=Discord%20Chat&amp;label=&amp;logo=discord&amp;logoColor=white" alt="Discord" class="inline"/></a></p>
 <p ><b>A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with <a href="https://www.touch-portal.com/" target="_blank">Touch Portal</a> macro launcher software.</b></p>
 <p ><b>This is the ultimate in Touch Portal extensibility short of writing your own plugin.</b></p>
 <div class="hide-on-site"></div><div class="hide-on-site"><b>Visit <a href="https://dse.tpp.max.paperno.us" target="_blank">dse.tpp.max.paperno.us</a> for all details, including this README.</b></div><div class="hide-on-site"></div><hr  />
@@ -179,11 +179,11 @@ One-liner Expressions</h2>
 </ul>
 </li>
 <li>Send an image to use as a Touch Portal button icon. E.g. with dynamic image name:<ul>
-<li>&lsquo;<a class="el" href="class_file.html#adeac7b35b88465029c6be619ae67fbaf" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("images/status_icon_${value:MyVariable}.png", 'b&rsquo;).<a class="el" href="class_array_buffer.html#aba7b605c9d75b159455e8231fbb43ca7" title="Returns the contents of this buffer as a Base64-encoded string.">toBase64()</a>`</li>
+<li>&lsquo;<a class="el" href="class_file.html#adeac7b35b88465029c6be619ae67fbaf" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("images/status_icon_${value:MyVariable}.png", 'b&rsquo;).<a class="el" href="class_array_buffer.html#a1db415f2f252811818848b7c55570ba6" title="Returns the contents of this buffer as a Base64-encoded string.">toBase64()</a>`</li>
 </ul>
 </li>
 <li>Get an image from the Internet for a button icon:<ul>
-<li><code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request</a>("https://dse.tpp.max.paperno.us/images/logo/icon_64.png").<a class="el" href="class_request.html#ad8421577f9c123b41380edac65f16e0c" title="Performs a &quot;GET&quot; request on the current url.">get()</a>.<a class="el" href="class_response.html#a2aadfd39a6cb5ad16b449b1f603398de">base64()</a></code></li>
+<li><code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request</a>("https://dse.tpp.max.paperno.us/images/logo/icon_64.png").<a class="el" href="class_request.html#ad8421577f9c123b41380edac65f16e0c" title="Performs a &quot;GET&quot; request on the current url.">get()</a>.<a class="el" href="class_response.html#a2aadfd39a6cb5ad16b449b1f603398de">base64()</a></code></li>
 </ul>
 </li>
 <li>Read any number of lines from a file, starting from beginning, end, or a specific line number. E.g. read the last 5 lines of a log with a dynamic name:<ul>
@@ -195,7 +195,7 @@ One-liner Expressions</h2>
 </ul>
 </li>
 <li>Or get JSON from a Web site and display a named value from the data:<ul>
-<li><code><a class="el" href="namespace_net.html#a422d9ed80b57c68e03b1204e8daa8162" title="This is a fully synchronous version of Net.fetch().">Net.request</a>("https://jsonplaceholder.typicode.com/todos/1").<a class="el" href="class_request.html#ad8421577f9c123b41380edac65f16e0c" title="Performs a &quot;GET&quot; request on the current url.">get()</a>.<a class="el" href="class_response.html#a4fdd4b681730e8d1ff673920760d1ee8">json()</a>.title</code></li>
+<li><code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request</a>("https://jsonplaceholder.typicode.com/todos/1").<a class="el" href="class_request.html#ad8421577f9c123b41380edac65f16e0c" title="Performs a &quot;GET&quot; request on the current url.">get()</a>.<a class="el" href="class_response.html#a4fdd4b681730e8d1ff673920760d1ee8">json()</a>.title</code></li>
 </ul>
 </li>
 <li>Update any State or Value in Touch Portal:<ul>
@@ -212,7 +212,7 @@ Scripts</h2>
 <ul>
 <li>JavaScript scripts of any complexity can be loaded from file(s) and functions within those scripts can be invoked with dynamic arguments (eg. from Touch Portal states/values).</li>
 <li>Use simple "standalone" scripts or full <b>JS modules</b>, which can import other modules and are also cached between uses for excellent performance.</li>
-<li>An <code><a class="el" href="class_global.html#a6de7d2398ea7fcdee0b8cb30a417c3b2" title="Read and evaluate scriptFile as JavaScript in the current scripting engine context (global object) at...">include()</a></code> function is available to read an evaluate any block of code from another file, for easy code re-use within standalone scripts or modules.</li>
+<li>An <code><a class="el" href="class_global.html#a9a2f63936ebd900b99db0f306f6bd491" title="Read and evaluate scriptFile as JavaScript in the current scripting engine context (global object) at...">include()</a></code> function is available to read an evaluate any block of code from another file, and <code><a class="el" href="class_global.html#a8d2c911c2adcaa8d385d699deb7b8b5b" title="Used to import all or part of JavaScript modules or JSON objects.">require()</a></code> to import modules or parts of them, both available for easy code re-use within standalone scripts or modules.</li>
 <li>Full <code>console.log()</code> (and family) support for debugging/etc; output is sent to a separate plugin log file dedicated for scripting output and errors.</li>
 <li>Scripts can <b>run in the background</b>, for example processing timed events or callbacks from asynchronous processes (eg. a network request or file system watcher).</li>
 <li>Scripts can <b>send State/Value updates to Touch Portal</b> at any time, and they can also create and remove states, among other things (you can literally write a simple Touch Portal "plugin" using the scripting engine itself).</li>
@@ -225,16 +225,16 @@ Overall</h2>
 <li>Flexible <b>string, date, and number formatting</b> with .NET <a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String.Format style</a> or <a class="el" href="class_global.html#aa4c3e7234b2093ab35795ec8e12751fd">&quot;printf&quot;</a> style functions.</li>
 <li>Support for <b>timed/recurring operations</b> with <code>setTimeout()</code>/<code>setInterval()</code>.</li>
 <li><b>Network requests</b> supported via familiar <a class="el" href="group___fetch_a_p_i.html">Fetch API</a> and <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a>.</li>
-<li><b>Touch Portal <a class="el" href="class_t_p.html">interaction</a></b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and more.</li>
+<li><b>Touch Portal <a class="el" href="class_t_p.html">interaction</a></b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and much more (in fact full interaction with Touch Portal, as a plugin, is available to the script environment).</li>
 <li><b><a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> manipulation</b>/utility library.</li>
 <li><b>External command and application launching</b> with optional inter-process data exchange using <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> class.</li>
-<li><b>Clipboard interactions</b> (see <a class="el" href="example_clipboard.html">Clipboard example</a> module);</li>
+<li>Sophisticated system-level <b><a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a> interactions</b> using a provided module.</li>
 <li>Lots of convenience extensions to built-in JS objects like <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend the standard Number prototype.">Number</a>, <a class="el" href="class_math.html" title="Math Object Extensions">Math</a> and <a class="el" href="class_string.html" title="Extends String object.">String</a>.</li>
 <li>Other <a class="el" href="class_global.html">global</a> object extensions and <a class="el" href="group___util.html">utilities</a>, eg. for encoding/decoding <b>base-64 data</b>, <b>environment variable</b> access, <b>locale data</b>, <b>hashing algorithms</b>, and more.</li>
 <li>Infinitely <b>extensible</b> via either JavaScript libraries/modules <em>or</em> C++ integration.</li>
 </ul>
 </li>
-<li>Any expression/script action can be <b>saved to persistent settings</b> and re-created automatically at startup, with a number of options for what the default value should be (fixed, custom expression, etc).</li>
+<li>Any expression/script action can be <b>saved to persistent settings</b> and re-created automatically at startup, with a number of options for what the default value should be (fixed, custom expression, etc). Script instances can also save their own custom data structures to preserve state between runs.</li>
 <li>Expressions and scripts can run in either a single Shared scripting engine instance or in separated <b>Private engine instances</b> to keep environments isolated. Instances are <em>persistent</em> throughout the life of the plugin (or until deleted explicitly).</li>
 <li><b>Multi-threaded</b> for quick response times and non-blocking behavior (long-running scripts will not prevent other scripts from running).</li>
 <li>Extensively <b>documented</b>, with <b>examples</b> and scripting <b>reference</b>.</li>
@@ -274,12 +274,12 @@ Update Notifications</h2>
 <div class="hide-on-site"></div><div class="hide-on-site"><hr  />
  </div><h1><a class="anchor" id="autotoc_md11"></a>
 Documentation</h1>
-<div class="hide-on-site"> <a href="https://dse.tpp.max.paperno.us" target="_blank">Full Documentation &amp; Examples @ dse.tpp.max.paperno.us</a> - includes this README as well.</div><div class="hide-on-site"></div><hr  />
+<div class="hide-on-site"> <a href="https://dse.tpp.max.paperno.us" target="_blank">Full Documentation &amp; Examples @ dse.tpp.max.paperno.us</a> - includes this README as well.</div><div class="hide-on-site"><a href="https://dse.tpp.max.paperno.us/plugin_quick_start.html" target="_blank">Plugin Quick Start.</a></div><div class="hide-on-site"></div><hr  />
  <h1><a class="anchor" id="autotoc_md13"></a>
 Support and Discussion</h1>
-<p >Use the <a href="https://github.com/mpaperno/DSEP4TP/issues" target="_blank">Issues</a> feature for bug reports and concise feature suggestions.</p>
-<p >Use <a href="https://github.com/mpaperno/DSEP4TP/discussions" target="_blank">Discussions</a> for any other topic.</p>
-<p >There is also the <a href="https://discord.gg/MgxQb8r" target="_blank">Touch Portal Discord Server</a> room <a href="https://discord.com/channels/548426182698467339/750791488501448887" target="_blank">#dynamic-script-engine</a> for discussion, ideas, and support.</p>
+<p >Use the GitHub <a href="https://github.com/mpaperno/DSEP4TP/issues" target="_blank">Issues</a> feature for bug reports and concise feature suggestions. Use <a href="https://github.com/mpaperno/DSEP4TP/discussions" target="_blank">Discussions</a> for any other topic.</p>
+<p >There is also a <a href="https://discord.gg/sdvqk2MHwj" target="_blank">Discord support forum</a> on my server, an <a href="https://discord.gg/ZXy3m6Y7Ba" target="_blank">announcements channel</a>, and discussion rooms on my server @ <a href="https://discord.gg/pvVsJ6gy3y" target="_blank">#dse-general</a> and at Touch Portal's Discord server channel <a href="https://discord.gg/FhYsZNFgyw" target="_blank">#dynamic-script-engine</a></p>
+<p ><b>All feedback and input is always welcome! I'd love to know how you're using <em>DSEP</em>!</b></p>
 <hr  />
  <h1><a class="anchor" id="autotoc_md15"></a>
 Troubleshooting</h1>
@@ -315,7 +315,7 @@ Copyright, License, and Disclaimer</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

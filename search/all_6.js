@@ -8,5 +8,6 @@ var searchData=
   ['getlines_5',['getLines',['../class_string.html#a01d64a40d4b7e1ddac8408d3651d59fa',1,'String::getLines(int maxLines, int fromLine=0, String separator=&apos;\n&apos;)'],['../class_string.html#ade93873d0adaaeaadfcfeed7a6337ac0',1,'String::getLines(String text, int maxLines, int fromLine=0, String separator=&apos;\n&apos;)']]],
   ['getsaturation_6',['getSaturation',['../class_color.html#a45d3734fd6c897723acd3cb8e5e6fa3b',1,'Color']]],
   ['global_7',['Global',['../class_global.html',1,'']]],
-  ['groupseparator_8',['groupSeparator',['../class_locale.html#a13880a40e90ea1540b08e909479f68cb',1,'Locale']]]
+  ['globaldefaults_8',['GlobalDefaults',['../class_request.html#ab379177f5504e2f6930ac675d4848a1a',1,'Request']]],
+  ['groupseparator_9',['groupSeparator',['../class_locale.html#a13880a40e90ea1540b08e909479f68cb',1,'Locale']]]
 ];

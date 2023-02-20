@@ -1,35 +1,22 @@
 var group___j_s_ext =
 [
     [ "Global", "class_global.html", [
-      [ "DSE", "struct_global_1_1_d_s_e.html", [
-        [ "instanceStateId", "struct_global_1_1_d_s_e.html#a4481c249770248e82fdfde844b20eda7", null ],
-        [ "PLUGIN_VERSION_STR", "struct_global_1_1_d_s_e.html#a5607fbed6d48bdbfcd98098b493d9597", null ],
-        [ "PLUGIN_VERSION_NUM", "struct_global_1_1_d_s_e.html#a1af15d8f43e81a7c53d8136113280c8a", null ],
-        [ "SCRIPTS_BASE_DIR", "struct_global_1_1_d_s_e.html#afe413c1a3c23f6295d91750d3befc567", null ],
-        [ "INSTANCE_TYPE", "struct_global_1_1_d_s_e.html#a11574da2b0d598cf85e836ca8f931e59", null ],
-        [ "INSTANCE_NAME", "struct_global_1_1_d_s_e.html#a0c06106c7b24661aa69a420c329b7231", null ],
-        [ "INSTANCE_DEFAULT_VALUE", "struct_global_1_1_d_s_e.html#a266a028521364de9b0fba0a4e11be447", null ],
-        [ "PLATFORM_OS", "struct_global_1_1_d_s_e.html#a22a427d26809ca8b886c7039cc11af9c", null ],
-        [ "VALUE_STATE_PREFIX", "struct_global_1_1_d_s_e.html#a9ea97d47f3eceb37022e7c94f58bb3d4", null ],
-        [ "TP_USER_DATA_PATH", "struct_global_1_1_d_s_e.html#ad4c637593248bf85390e0b0360b57070", null ],
-        [ "TP_VERSION_CODE", "struct_global_1_1_d_s_e.html#a5e6920570e66d3efa71cec6614a42e5a", null ],
-        [ "TP_VERSION_STR", "struct_global_1_1_d_s_e.html#a99fa779327f953e68be75c4c35637c67", null ]
-      ] ],
-      [ "atob", "class_global.html#aaac1708acf0bef57d9d26fe7ed5bf629", null ],
-      [ "btoa", "class_global.html#ad745041e7f308db60a37d8ada0ce3a1c", null ],
+      [ "atob", "class_global.html#a963803b64f2a59c40ab53fdba2e40dda", null ],
+      [ "btoa", "class_global.html#a929df78f9b2b8be07ef885ab4ec02f57", null ],
       [ "clearAllTimers", "class_global.html#ace3c9a285f81fbf9e6b86561ee499435", null ],
       [ "clearInstanceTimers", "class_global.html#a25ab0f723af351e520068ce7ae77468e", null ],
       [ "gc", "class_global.html#a83706e696f5a5ee8b6d789cf08d64d73", null ],
-      [ "hash", "class_global.html#aed70f585a2f84914284cf77c7fd58503", null ],
-      [ "include", "class_global.html#a6de7d2398ea7fcdee0b8cb30a417c3b2", null ],
+      [ "hash", "class_global.html#a3c640bdaf09d70be7ced3be94f768cf2", null ],
+      [ "include", "class_global.html#a9a2f63936ebd900b99db0f306f6bd491", null ],
+      [ "require", "class_global.html#a8d2c911c2adcaa8d385d699deb7b8b5b", null ],
       [ "locale", "class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588", null ],
       [ "Format", "class_global.html#a27f7e21ddf66fa9aaaf37ec4734f504c", null ],
       [ "sprintf", "class_global.html#aa4c3e7234b2093ab35795ec8e12751fd", null ]
     ] ],
     [ "ArrayBuffer", "class_array_buffer.html", [
-      [ "fromBase64", "class_array_buffer.html#a82b6dd964452468bedb6507e731e27fb", null ],
-      [ "toBase64", "class_array_buffer.html#aba7b605c9d75b159455e8231fbb43ca7", null ],
-      [ "toHex", "class_array_buffer.html#ad2ca71f9e77c698e1228986864548d19", null ]
+      [ "fromBase64", "class_array_buffer.html#ad8ae124164fd3873936489bc7d2595be", null ],
+      [ "toBase64", "class_array_buffer.html#a1db415f2f252811818848b7c55570ba6", null ],
+      [ "toHex", "class_array_buffer.html#abdb60263dccc4f18a99671a91ed2c93a", null ]
     ] ],
     [ "Date", "class_date.html", [
       [ "clone", "class_date.html#aeeb148b5688e69f7b6fd92fab0445957", null ],
@@ -53,7 +40,9 @@ var group___j_s_ext =
       [ "constrain", "class_math.html#a0196c3b9b73a6da330c4fab9cfd1f851", null ],
       [ "roundTo", "class_math.html#a3bf8d748d3c4af419876eebedfdcc52b", null ],
       [ "toDegrees", "class_math.html#a2977a3d24cb7ef479953f00918c063ed", null ],
-      [ "toRadians", "class_math.html#ae2bb26e91a408a5abe89cd02a2bb4445", null ]
+      [ "toRadians", "class_math.html#ae2bb26e91a408a5abe89cd02a2bb4445", null ],
+      [ "percentOfRange", "class_math.html#aca3c234211640bee981aaf576117dc87", null ],
+      [ "rangeValueToPercent", "class_math.html#a8b78a995ae584997966b29aea5579042", null ]
     ] ],
     [ "Number", "class_number.html", [
       [ "round", "class_number.html#a2976963ff8c410133040d33ae41a46d6", null ],

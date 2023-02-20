@@ -1,0 +1,1218 @@
+<!-- HTML header for doxygen 1.9.4-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dynamic Script Engine Plugin for Touch Portal: DynamicScript</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md11']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/mpaperno/DSEP4TP" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" fill="url(#gradient)"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    <linearGradient id="gradient" x1="0.5" x2="0.5" y1="0" y2="1">
+        <stop class="first-stop" offset="0%"></stop>
+        <stop class="last-stop" offset="100%"></stop>
+    </linearGradient>
+    </svg>
+</a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
+  <td id="projectalign">
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_dynamic_script.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#properties">Properties</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="class_dynamic_script-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">DynamicScript<div class="ingroups"><a class="el" href="group___plugin_a_p_i.html">Plugin API</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><p ><a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a> represents an instance of an expression, script file, or module being evaluated using a scripting engine. </p>
+<p >In other words, this is the type of object created by the plugin when a user invokes one of the scripting type actions this plugin provides.</p>
+<p >It has properties representing some of the action parameters which can be set in an action/connector, such as the State/instance Name, expression, file, and so on. Most properties are read-only, but a few can be set at runtime such as the default type/value and held action repeating delay/rate.</p>
+<p >A <a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a> object instance can be retrieved with the <code><a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a></code> object functions such as <code><a class="el" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01" title="Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....">DSE.currentInstance()</a></code>, <code><a class="el" href="class_d_s_e.html#a75772c2c90dcccaa883c44867c7da11a" title="Returns the script instance with given name, if any, otherwise returns null.">DSE.instance()</a></code>, or <code><a class="el" href="class_d_s_e.html#a35ec6ea52566b77ef242da739741a5e9" title="Returns all currently existing script instances as an iteratable array-like object (iterate with of e...">DSE.instanceList()</a></code>. They cannot be created directly (eg. <code>new <a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript()</a></code> will not work).</p>
+<dl class="section since"><dt>Since</dt><dd>v1.2 </dd></dl>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a9a2326f35466e54c36c070829245c557"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a9a2326f35466e54c36c070829245c557">name</a></td></tr>
+<tr class="separator:a9a2326f35466e54c36c070829245c557"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Type, Input and Engine properties.</div></td></tr>
+<tr class="memitem:a6d3b70ae6b817223ea2f380e06f6c599"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_s_e.html#ac501f3d14f752ce1c92cc40c18180f28">DSE::ScriptInputType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a6d3b70ae6b817223ea2f380e06f6c599">inputType</a></td></tr>
+<tr class="separator:a6d3b70ae6b817223ea2f380e06f6c599"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7db9a71a3954fa572de18e1e4e3e9838"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a7db9a71a3954fa572de18e1e4e3e9838">expression</a></td></tr>
+<tr class="separator:a7db9a71a3954fa572de18e1e4e3e9838"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c98cfbef302bb28a0961430d250bdd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a8c98cfbef302bb28a0961430d250bdd6">scriptFile</a></td></tr>
+<tr class="separator:a8c98cfbef302bb28a0961430d250bdd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf95b86f61ec89522b08f3500367ce1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#adf95b86f61ec89522b08f3500367ce1f">scriptFileResolved</a></td></tr>
+<tr class="separator:adf95b86f61ec89522b08f3500367ce1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86bf4a6461408e8b33f5005d8708978e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a86bf4a6461408e8b33f5005d8708978e">moduleAlias</a></td></tr>
+<tr class="separator:a86bf4a6461408e8b33f5005d8708978e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a204c28502265567652e5b10142df018e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_s_e.html#a225fc2be0cdcc8561461be9b48073cc2">DSE::EngineInstanceType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a204c28502265567652e5b10142df018e">engineType</a></td></tr>
+<tr class="separator:a204c28502265567652e5b10142df018e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af223e08c09d71010515fccaa3f9c977a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#af223e08c09d71010515fccaa3f9c977a">engineName</a></td></tr>
+<tr class="separator:af223e08c09d71010515fccaa3f9c977a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Persistence properties.</div></td></tr>
+<tr class="memitem:a0e153e90afa5b4a75f8edd789db9e7d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_s_e.html#a334a469c78be0cde1c0e0f3271b138ab">DSE::PersistenceType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5">persistence</a></td></tr>
+<tr class="separator:a0e153e90afa5b4a75f8edd789db9e7d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a831748d097962f93bfcbd8a9fb196e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8e">DSE::SavedDefaultType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a6a831748d097962f93bfcbd8a9fb196e">defaultType</a></td></tr>
+<tr class="separator:a6a831748d097962f93bfcbd8a9fb196e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a7009d98eadb866597cb3f57254b8a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a8a7009d98eadb866597cb3f57254b8a3">defaultValue</a></td></tr>
+<tr class="separator:a8a7009d98eadb866597cb3f57254b8a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a500d0c102dbf346352cdc0811a150d70"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a500d0c102dbf346352cdc0811a150d70">autoDeleteDelay</a></td></tr>
+<tr class="separator:a500d0c102dbf346352cdc0811a150d70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1491c2faf59c2e7f407f2e828e8ce281"><td class="memItemLeft" align="right" valign="top">Object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a1491c2faf59c2e7f407f2e828e8ce281">dataStore</a></td></tr>
+<tr class="separator:a1491c2faf59c2e7f407f2e828e8ce281"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Touch Portal State properties.</div></td></tr>
+<tr class="memitem:aea2a09278e8f17ea66e2b7056f9d3b83"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83">createState</a></td></tr>
+<tr class="separator:aea2a09278e8f17ea66e2b7056f9d3b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d26a6c2cb5c4b6693d392c52b64a607"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a9d26a6c2cb5c4b6693d392c52b64a607">stateId</a></td></tr>
+<tr class="separator:a9d26a6c2cb5c4b6693d392c52b64a607"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44126e4a04f3f07d78268525813df552"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a44126e4a04f3f07d78268525813df552">stateName</a></td></tr>
+<tr class="separator:a44126e4a04f3f07d78268525813df552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08f1d3778231a67c6f67a416bc6bf572"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a08f1d3778231a67c6f67a416bc6bf572">stateParentCategory</a></td></tr>
+<tr class="separator:a08f1d3778231a67c6f67a416bc6bf572"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88d008ad22a5394160786a0f0524d039"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a88d008ad22a5394160786a0f0524d039">stateCreated</a></td></tr>
+<tr class="separator:a88d008ad22a5394160786a0f0524d039"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Action behaviour properties &ndash; how the instance reacts to various input types like button press/release/hold.</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section note"><dt>Note</dt><dd>This whole section is actually somewhat of a workaround for how Touch Portal allows "On Hold" button behaviors to be specified. All this configuration should really be on the control/button side, not in the action(s) the control is triggering. Eg. separate action for press vs. release, whether to repeat while held or not, repeat delay/rate, etc. </dd></dl>
+</div></td></tr>
+<tr class="memitem:ae96f1bba519224118b4a2c7c3bd34e05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_s_e.html#af7262a06f33cd4f3d23e517892527e1c">DSE::ActivationBehaviors</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#ae96f1bba519224118b4a2c7c3bd34e05">activation</a></td></tr>
+<tr class="separator:ae96f1bba519224118b4a2c7c3bd34e05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4689fa97164715dff945af6b036b6b99"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a4689fa97164715dff945af6b036b6b99">repeatRate</a></td></tr>
+<tr class="separator:a4689fa97164715dff945af6b036b6b99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fdeb08c2e445baa7edb72397bf56f5b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a1fdeb08c2e445baa7edb72397bf56f5b">repeatDelay</a></td></tr>
+<tr class="separator:a1fdeb08c2e445baa7edb72397bf56f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab17f8cd54ce24d13b26bb6567ed863bf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#ab17f8cd54ce24d13b26bb6567ed863bf">activeRepeatRate</a></td></tr>
+<tr class="separator:ab17f8cd54ce24d13b26bb6567ed863bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3e102b02d542d92437bd8a91a387aa8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#ae3e102b02d542d92437bd8a91a387aa8">activeRepeatDelay</a></td></tr>
+<tr class="separator:ae3e102b02d542d92437bd8a91a387aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad001aa6c200db8cdd5299ece92f09fb2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#ad001aa6c200db8cdd5299ece92f09fb2">effectiveRepeatRate</a></td></tr>
+<tr class="separator:ad001aa6c200db8cdd5299ece92f09fb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb032c293343caa56a8d98d2e9c2efcd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#aeb032c293343caa56a8d98d2e9c2efcd">effectiveRepeatDelay</a></td></tr>
+<tr class="separator:aeb032c293343caa56a8d98d2e9c2efcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c6c46b1bf1ca4265ee772d713353f8b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a5c6c46b1bf1ca4265ee772d713353f8b">maxRepeatCount</a></td></tr>
+<tr class="separator:a5c6c46b1bf1ca4265ee772d713353f8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd385bb0169297e60c07587a3df79ae2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#abd385bb0169297e60c07587a3df79ae2">repeatCount</a></td></tr>
+<tr class="separator:abd385bb0169297e60c07587a3df79ae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af948da45b36ff3106569689878b07f76"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a></td></tr>
+<tr class="separator:af948da45b36ff3106569689878b07f76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1351de5234bac2d378240bdfac6e90c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">isPressed</a></td></tr>
+<tr class="separator:ab1351de5234bac2d378240bdfac6e90c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ae43da0e6f16ee34db59fbe284e942624"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#ae43da0e6f16ee34db59fbe284e942624">stateUpdate</a> (<a class="el" href="class_string.html">String</a> &amp;value)</td></tr>
+<tr class="separator:ae43da0e6f16ee34db59fbe284e942624"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a640eb3c435abcfe65e13558fc738b915"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a640eb3c435abcfe65e13558fc738b915">evaluate</a> ()</td></tr>
+<tr class="separator:a640eb3c435abcfe65e13558fc738b915"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99770fb3fbb3d852b744110552b4403f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a99770fb3fbb3d852b744110552b4403f">setPressedState</a> (bool <a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">isPressed</a>)</td></tr>
+<tr class="separator:a99770fb3fbb3d852b744110552b4403f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Events</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p >All these events correspond to changes in property values, provided as a way for a script to take some immediate action based on a new value for that property, vs, say, having to check the values periodically with a timer.</p>
+<p >Callbacks can be attached to, or detached from, events by using the <code>connect()</code> and <code>disconnect()</code> syntax. For example: </p><div class="fragment"><div class="line"><span class="keyword">function</span> onPressStateChange(<a class="code hl_property" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">isPressed</a>) {</div>
+<div class="line">  console.log(<span class="stringliteral">&quot;The button has been &quot;</span> + (<a class="code hl_property" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">isPressed</a> ? <span class="stringliteral">&quot;pressed&quot;</span> : <span class="stringliteral">&quot;released&quot;</span>));</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_class" href="class_d_s_e.html">DSE</a>.pressedStateChanged.connect(onPressStateChange);</div>
+<div class="line"><span class="comment">// ... later, to disconnect:</span></div>
+<div class="line"><a class="code hl_class" href="class_d_s_e.html">DSE</a>.pressedStateChanged.disconnect(onPressStateChange);</div>
+<div class="ttc" id="aclass_d_s_e_html"><div class="ttname"><a href="class_d_s_e.html">DSE</a></div><div class="ttdoc">The DSE object contains constants and functions related to the plugin environment....</div></div>
+<div class="ttc" id="aclass_dynamic_script_html_ab1351de5234bac2d378240bdfac6e90c"><div class="ttname"><a href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">DynamicScript::isPressed</a></div><div class="ttdeci">bool isPressed</div><div class="ttdoc">This property value is true if a button using an Action which invokes this script is currently being ...</div><div class="ttdef"><b>Definition:</b> DynamicScript.h:218</div></div>
+</div><!-- fragment --> </div></td></tr>
+<tr class="memitem:a7103fdb182a9bbdd58fe216fec573450"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a7103fdb182a9bbdd58fe216fec573450">pressedStateChanged</a> (bool <a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">isPressed</a>)</td></tr>
+<tr class="separator:a7103fdb182a9bbdd58fe216fec573450"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cec208838d7a8d283ee16ed0bb9ea3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a8cec208838d7a8d283ee16ed0bb9ea3b">repeatingStateChanged</a> (bool <a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a>)</td></tr>
+<tr class="separator:a8cec208838d7a8d283ee16ed0bb9ea3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2755bc9aab61465e9fe880ed9d791db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#ae2755bc9aab61465e9fe880ed9d791db">repeatCountChanged</a> (int <a class="el" href="class_dynamic_script.html#abd385bb0169297e60c07587a3df79ae2">repeatCount</a>)</td></tr>
+<tr class="separator:ae2755bc9aab61465e9fe880ed9d791db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46d6d720878aa3753135bd0724c822e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a46d6d720878aa3753135bd0724c822e8">repeatRateChanged</a> (int ms)</td></tr>
+<tr class="separator:a46d6d720878aa3753135bd0724c822e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c7362d3b25c82dde107417d8e1c975e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a2c7362d3b25c82dde107417d8e1c975e">repeatDelayChanged</a> (int ms)</td></tr>
+<tr class="separator:a2c7362d3b25c82dde107417d8e1c975e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ae32d8b2148d59d1d7b1bc30ea770f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a9ae32d8b2148d59d1d7b1bc30ea770f4">activeRepeatRateChanged</a> (int ms)</td></tr>
+<tr class="separator:a9ae32d8b2148d59d1d7b1bc30ea770f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a185f19bb3dc548cf633ac41c14903d56"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a185f19bb3dc548cf633ac41c14903d56">activeRepeatDelayChanged</a> (int ms)</td></tr>
+<tr class="separator:a185f19bb3dc548cf633ac41c14903d56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a9a2326f35466e54c36c070829245c557" name="a9a2326f35466e54c36c070829245c557"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a2326f35466e54c36c070829245c557">&#9670;&nbsp;</a></span>name</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> name</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The Instance Name of this script instance as specified in the corresponding Action which created it. <br  />
+ This property is read-only. </p>
+
+</div>
+</div>
+<a id="a6d3b70ae6b817223ea2f380e06f6c599" name="a6d3b70ae6b817223ea2f380e06f6c599"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d3b70ae6b817223ea2f380e06f6c599">&#9670;&nbsp;</a></span>inputType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d_s_e.html#ac501f3d14f752ce1c92cc40c18180f28">DSE::ScriptInputType</a> inputType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The type of scripting action. <code><a class="el" href="class_d_s_e.html#ac501f3d14f752ce1c92cc40c18180f28" title="Input types for script actions.">DSE.ScriptInputType</a></code> enumeration value, one of: <code><a class="el" href="class_d_s_e.html#ac501f3d14f752ce1c92cc40c18180f28a2a555094f9de0fd0477fbf72ac7bd493" title="Expression input type.">DSE.ExpressionInput</a></code>, <code><a class="el" href="class_d_s_e.html#ac501f3d14f752ce1c92cc40c18180f28a675f48149d7d186797fe6a8dafdc0f17" title="Script file input type.">DSE.ScriptInput</a></code>, <code><a class="el" href="class_d_s_e.html#ac501f3d14f752ce1c92cc40c18180f28ac6a59495f41209d6b4c28fb821cdd9d0" title="Module file script input type.">DSE.ModuleInput</a></code>, <code><a class="el" href="class_d_s_e.html#ac501f3d14f752ce1c92cc40c18180f28a8110c8a0b4c4c596f31cf5e2adb025d5" title="Unknown script input type.">DSE.UnknownInputType</a></code> <br  />
+ This property is read-only. </p>
+
+</div>
+</div>
+<a id="a7db9a71a3954fa572de18e1e4e3e9838" name="a7db9a71a3954fa572de18e1e4e3e9838"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7db9a71a3954fa572de18e1e4e3e9838">&#9670;&nbsp;</a></span>expression</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> expression</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The full expression string. This is as received from Touch Portal, possibly with any <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> macros already evaluated. <br  />
+ This property is read-only. </p>
+
+</div>
+</div>
+<a id="a8c98cfbef302bb28a0961430d250bdd6" name="a8c98cfbef302bb28a0961430d250bdd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c98cfbef302bb28a0961430d250bdd6">&#9670;&nbsp;</a></span>scriptFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> scriptFile</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The script/module file, if any. Only <code><a class="el" href="class_d_s_e.html#ac501f3d14f752ce1c92cc40c18180f28a675f48149d7d186797fe6a8dafdc0f17" title="Script file input type.">DSE.ScriptInput</a></code> and <code><a class="el" href="class_d_s_e.html#ac501f3d14f752ce1c92cc40c18180f28ac6a59495f41209d6b4c28fb821cdd9d0" title="Module file script input type.">DSE.ModuleInput</a></code> <a class="el" href="class_dynamic_script.html#a6d3b70ae6b817223ea2f380e06f6c599">inputType</a> instances will have a file, the value will be empty otherwise. This is the actual string value specified in the Action "Script File" property which created this Script instance. The <a class="el" href="class_dynamic_script.html#adf95b86f61ec89522b08f3500367ce1f">scriptFileResolved</a> property contains the absolute system path to the file being loaded, potentially after resolving and normalizing the given name against the default script path. <br  />
+ This property is read-only. </p>
+
+</div>
+</div>
+<a id="adf95b86f61ec89522b08f3500367ce1f" name="adf95b86f61ec89522b08f3500367ce1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf95b86f61ec89522b08f3500367ce1f">&#9670;&nbsp;</a></span>scriptFileResolved</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> scriptFileResolved</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This property contains the absolute system path to the <a class="el" href="class_dynamic_script.html#a8c98cfbef302bb28a0961430d250bdd6">scriptFile</a> being loaded, potentially after resolving and normalizing the given name against the default script path. <br  />
+ This property is read-only. </p>
+
+</div>
+</div>
+<a id="a86bf4a6461408e8b33f5005d8708978e" name="a86bf4a6461408e8b33f5005d8708978e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86bf4a6461408e8b33f5005d8708978e">&#9670;&nbsp;</a></span>moduleAlias</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> moduleAlias</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The module import alias. Only <code>Module</code> type instances will have an alias. <br  />
+ This property is read-only. </p>
+
+</div>
+</div>
+<a id="a204c28502265567652e5b10142df018e" name="a204c28502265567652e5b10142df018e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a204c28502265567652e5b10142df018e">&#9670;&nbsp;</a></span>engineType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d_s_e.html#a225fc2be0cdcc8561461be9b48073cc2">DSE::EngineInstanceType</a> engineType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This is the Engine Instance type which this script is using for its execution environment. <code><a class="el" href="class_d_s_e.html#a225fc2be0cdcc8561461be9b48073cc2" title="Type of script engine instances.">DSE.EngineInstanceType</a></code> enumeration value, one of: <code><a class="el" href="class_d_s_e.html#a225fc2be0cdcc8561461be9b48073cc2a969af82f245e4f02ec8826eb179f03dc" title="Shared engine instance type.">DSE.SharedInstance</a></code> or <code><a class="el" href="class_d_s_e.html#a225fc2be0cdcc8561461be9b48073cc2ad562cc901ed1238e5bbd0fb2bb703ad0" title="Private engine instance type.">DSE.PrivateInstance</a></code> <br  />
+ This property is read-only. </p>
+
+</div>
+</div>
+<a id="af223e08c09d71010515fccaa3f9c977a" name="af223e08c09d71010515fccaa3f9c977a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af223e08c09d71010515fccaa3f9c977a">&#9670;&nbsp;</a></span>engineName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> engineName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The name of the engine instance this script instance is using for its execution environment. The engine instance is specified in the Action which created this script instance. For <code>Private</code> type script instances this may nor may not be the same as the <code>name</code> property. For <code>Shared</code> instance types this is always "Shared". <br  />
+ This property is read-only. </p>
+
+</div>
+</div>
+<a id="a0e153e90afa5b4a75f8edd789db9e7d5" name="a0e153e90afa5b4a75f8edd789db9e7d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e153e90afa5b4a75f8edd789db9e7d5">&#9670;&nbsp;</a></span>persistence</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d_s_e.html#a334a469c78be0cde1c0e0f3271b138ab">DSE::PersistenceType</a> persistence</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Persistence essentially determines the lifespan of this script instance. "Session" persistence means it will exist until <a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a> exits. "Saved" means the instance data will be saved to a settings file when <a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a> exits, and restored from settings the next time <a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a> starts. "Temporary" instances will be automatically deleted after a time span specified in <a class="el" href="class_dynamic_script.html#a500d0c102dbf346352cdc0811a150d70">autoDeleteDelay</a>. </p>
+
+</div>
+</div>
+<a id="a6a831748d097962f93bfcbd8a9fb196e" name="a6a831748d097962f93bfcbd8a9fb196e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a831748d097962f93bfcbd8a9fb196e">&#9670;&nbsp;</a></span>defaultType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8e">DSE::SavedDefaultType</a> defaultType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>When <a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5">persistence</a> is of <code><a class="el" href="class_d_s_e.html#a334a469c78be0cde1c0e0f3271b138aba6caf6e9315f0511de944df128d79c07b" title="Instance is saved to persistent settings at exit and restored at startup.">DSE.PersistSave</a></code> type, this property value determines what happens when this instance is initially loaded from storage. <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8e" title="Script instance saved default value type. These values determine what happens when a script instance ...">DSE.SavedDefaultType</a></code> enumeration value, one of: <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8ea9cebf95f9a1b57a133551767a8eaaf4d" title="Instance is created with a fixed default or empty value (specified in DynamicScript....">DSE.FixedValueDefault</a></code>, <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8eab6c58ea0d72c40bbd8ce930c866a020b" title="Instance is created with default value coming from evaluating a custom expression (specified in Dynam...">DSE.CustomExprDefault</a></code>, <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8ea79f133a532e8cf488d53527321681a4a" title="Instance is created with default value coming from evaluating the last saved primary expression (exac...">DSE.LastExprDefault</a></code> </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a8a7009d98eadb866597cb3f57254b8a3" title="The default value specified for saved instance, if any. Depending on the value of defaultType,...">defaultValue</a>, <a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5" title="Persistence essentially determines the lifespan of this script instance. &quot;Session&quot; persistence means ...">persistence</a> </dd></dl>
+
+</div>
+</div>
+<a id="a8a7009d98eadb866597cb3f57254b8a3" name="a8a7009d98eadb866597cb3f57254b8a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a7009d98eadb866597cb3f57254b8a3">&#9670;&nbsp;</a></span>defaultValue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> defaultValue</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The default value specified for saved instance, if any. Depending on the value of <a class="el" href="class_dynamic_script.html#a6a831748d097962f93bfcbd8a9fb196e">defaultType</a>, this could be an empty string, a fixed default string value, or an expression to be evaluated. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a6a831748d097962f93bfcbd8a9fb196e" title="When persistence is of DSE.PersistSave type, this property value determines what happens when this in...">defaultType</a>, <a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5" title="Persistence essentially determines the lifespan of this script instance. &quot;Session&quot; persistence means ...">persistence</a> </dd></dl>
+
+</div>
+</div>
+<a id="a500d0c102dbf346352cdc0811a150d70" name="a500d0c102dbf346352cdc0811a150d70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a500d0c102dbf346352cdc0811a150d70">&#9670;&nbsp;</a></span>autoDeleteDelay</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int autoDeleteDelay</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>For temporary instances, where <a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5">persistence</a> property is <code><a class="el" href="class_d_s_e.html#a334a469c78be0cde1c0e0f3271b138aba4b02e0e852f3174ed74a906b58a4cd04" title="Instance is deleted soon after evaluation.">DSE.PersistTemporary</a></code>, this property determines the delay time before the instance is automatically deleted. The value is in milliseconds. The default delay time is 10 seconds (10,000 ms). If the instance created a Touch Portal State, the State is also removed after this delay time. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5" title="Persistence essentially determines the lifespan of this script instance. &quot;Session&quot; persistence means ...">persistence</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1491c2faf59c2e7f407f2e828e8ce281" name="a1491c2faf59c2e7f407f2e828e8ce281"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1491c2faf59c2e7f407f2e828e8ce281">&#9670;&nbsp;</a></span>dataStore</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Object dataStore</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Persistent arbitrary data storage object which is attached to this script instance. </p>
+<p >This is a generic Object type on which properties can be created or deleted as necessary. The property value(s) can be any <b>serializable</b> (to/from JSON) data type, incuding a objects or arrays. This data is stored with the script instance itself, not in the Engine the script is running in, so for example resetting the Engine instance will not affect this stored data, unlike with local variables. This data is also saved and restored at startup with the rest of the instance properties if its <a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5">persistence</a> property is <code><a class="el" href="class_d_s_e.html#a334a469c78be0cde1c0e0f3271b138aba6caf6e9315f0511de944df128d79c07b" title="Instance is saved to persistent settings at exit and restored at startup.">DSE.PersistSave</a></code>. </p><dl class="section user"><dt>Note</dt><dd>To persist between Engine resets or Dynamic Script Engine runs (in saved settings), this data is saved and restored by converting it to/from JSON. This means you <em>cannot</em> restore a function-like Object (or class instance). Only plain data types, numbers and strings basically, will survive the JSON round-trip conversion. <br  />
+<br  />
+For example, this will not work properly: <div class="fragment"><div class="line">let color = <span class="keyword">new</span> <a class="code hl_class" href="class_color.html">Color</a>(<span class="stringliteral">&#39;blue&#39;</span>);</div>
+<div class="line"><a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_function" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">currentInstance</a>().<a class="code hl_property" href="class_dynamic_script.html#a1491c2faf59c2e7f407f2e828e8ce281">dataStore</a>.color = color;</div>
+<div class="line"><span class="comment">// typeof dataStore.color == Color,  BUT only until the data storage needs to be saved/restored...</span></div>
+<div class="line"><span class="comment">// ... after JSON round-trip</span></div>
+<div class="line">color = <a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_function" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">currentInstance</a>().<a class="code hl_property" href="class_dynamic_script.html#a1491c2faf59c2e7f407f2e828e8ce281">dataStore</a>.color;</div>
+<div class="line"><span class="comment">// typeof color == Object;  color == { _a: 1, _b: 0, _format: &#39;name&#39;, _g: 128, .... }</span></div>
+<div class="ttc" id="aclass_color_html"><div class="ttname"><a href="class_color.html">Color</a></div><div class="ttdoc">Provides functions for working with color.</div></div>
+<div class="ttc" id="aclass_d_s_e_html_a4dc79d45688d568fdb138dac9b0c6c01"><div class="ttname"><a href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">DSE::currentInstance</a></div><div class="ttdeci">DynamicScript currentInstance()</div><div class="ttdoc">Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....</div><div class="ttdef"><b>Definition:</b> DSE.h:292</div></div>
+<div class="ttc" id="aclass_dynamic_script_html_a1491c2faf59c2e7f407f2e828e8ce281"><div class="ttname"><a href="class_dynamic_script.html#a1491c2faf59c2e7f407f2e828e8ce281">DynamicScript::dataStore</a></div><div class="ttdeci">Object dataStore</div><div class="ttdoc">Persistent arbitrary data storage object which is attached to this script instance.</div><div class="ttdef"><b>Definition:</b> DynamicScript.h:142</div></div>
+</div><!-- fragment --> Instead, save some way to restore a new instance of the object type to the same state as the saved one: <div class="fragment"><div class="line"><a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_function" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">currentInstance</a>().<a class="code hl_property" href="class_dynamic_script.html#a1491c2faf59c2e7f407f2e828e8ce281">dataStore</a>.color = color.rgba()</div>
+<div class="line"><span class="comment">// dataStore.color == { r: 0, g: 128, b: 0, a: 1 }</span></div>
+<div class="line"><span class="comment">// ... after JSON round-trip, the Color type can accept the serialized &#39;rgba&#39; object as input.</span></div>
+<div class="line">color = <span class="keyword">new</span> <a class="code hl_class" href="class_color.html">Color</a>(<a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_function" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">currentInstance</a>().<a class="code hl_property" href="class_dynamic_script.html#a1491c2faf59c2e7f407f2e828e8ce281">dataStore</a>.color);</div>
+<div class="line"><span class="comment">// color.isValid() == true; color.rgba() == { r: 0, g: 128, b: 0, a: 1 }</span></div>
+</div><!-- fragment --> \warn Only use this object for data which actually needs to be saved and restored to/from persistent storage. For temporary/run-time variables it is far more efficient to just create and use them "on the stack" in your script (like you normally would) vs. accessing the <code>dataStore</code> object repeatedly.</dd></dl>
+<p>This property is read-only (meaning the actual storage object cannot be changed; properties of the object itself <em>can</em> be fully manipulated). </p>
+
+</div>
+</div>
+<a id="aea2a09278e8f17ea66e2b7056f9d3b83" name="aea2a09278e8f17ea66e2b7056f9d3b83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea2a09278e8f17ea66e2b7056f9d3b83">&#9670;&nbsp;</a></span>createState</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool createState</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This property value is <code>true</code> when when this script instance was created with "Create State" set to "Yes" by the corresponding action, and <code>false</code> otherwise. Changing this property from <code>false</code> to <code>true</code> will create a new Touch Portal State, and toggling from <code>true</code> to <code>false</code> will remove the State from Touch Portal. State creation happens "laziliy," meaning one will be created before a State update is to be sent (if ever). State removal, on the other hand, is immediate. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a88d008ad22a5394160786a0f0524d039" title="This read-only property value is true if a Touch Portal State has been created for this script instan...">stateCreated</a> </dd></dl>
+
+</div>
+</div>
+<a id="a9d26a6c2cb5c4b6693d392c52b64a607" name="a9d26a6c2cb5c4b6693d392c52b64a607"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d26a6c2cb5c4b6693d392c52b64a607">&#9670;&nbsp;</a></span>stateId</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> stateId</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The State ID of this instance as used with Touch Portal to uniquely identify this State, if any. This value will be empty when <a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83">createState</a> property is <code>false</code>. If not empty, this is typically in the form of <code><a class="el" href="class_d_s_e.html#a9ea97d47f3eceb37022e7c94f58bb3d4" title="The prefix added by the plugin to an script instance&#39;s Name to form a unique State ID,...">DSE.VALUE_STATE_PREFIX</a> + name</code>. <br  />
+ This property is read-only. </p>
+
+</div>
+</div>
+<a id="a44126e4a04f3f07d78268525813df552" name="a44126e4a04f3f07d78268525813df552"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44126e4a04f3f07d78268525813df552">&#9670;&nbsp;</a></span>stateName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> stateName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The "friendly name" of the created State (if any), as it will appear in Touch Portal selector lists. By default this is the same as the <a class="el" href="class_dynamic_script.html#a9a2326f35466e54c36c070829245c557">name</a> property. <br  />
+ If this property is set by a script or expression in the initial evaluation (when the Action creating it is first used), then the State will be created with the new name. <br  />
+ Changing this property <em>after</em> the State has already been created will have no effect. Either set it before changing the <a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83">createState</a> property, or toggle <a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83">createState</a> to <code>false</code> and then <code>true</code> again to re-create the State under the new parent category. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83" title="This property value is true when when this script instance was created with &quot;Create State&quot; set to &quot;Ye...">createState</a>, <a class="el" href="class_dynamic_script.html#a88d008ad22a5394160786a0f0524d039" title="This read-only property value is true if a Touch Portal State has been created for this script instan...">stateCreated</a> </dd></dl>
+
+</div>
+</div>
+<a id="a08f1d3778231a67c6f67a416bc6bf572" name="a08f1d3778231a67c6f67a416bc6bf572"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08f1d3778231a67c6f67a416bc6bf572">&#9670;&nbsp;</a></span>stateParentCategory</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> stateParentCategory</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This property holds the name of the Touch Portal parent cateogry into which the created State (if any) will be placed. By default the property is not explicitly set, and reading it will return the global default value (<code><a class="el" href="class_d_s_e.html#a9fcb9184f94fe30ca21b38a79a50b8fc" title="This property contains the name of the Touch Portal parent cateogry into which newly created States w...">DSE.VALUE_STATE_PARENT_CATEOGRY</a></code>). <br  />
+ If this property is set by a script or expression in the initial evaluation (when the Action creating it is first used), then the State will be created with the new name. <br  />
+ Changing this property <em>after</em> the State has already been created will have no effect. Either set it before changing the <a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83">createState</a> property, or toggle <a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83">createState</a> to <code>false</code> and then to <code>true</code> again to re-create the State under the new parent category. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83" title="This property value is true when when this script instance was created with &quot;Create State&quot; set to &quot;Ye...">createState</a>, <a class="el" href="class_dynamic_script.html#a88d008ad22a5394160786a0f0524d039" title="This read-only property value is true if a Touch Portal State has been created for this script instan...">stateCreated</a> </dd></dl>
+
+</div>
+</div>
+<a id="a88d008ad22a5394160786a0f0524d039" name="a88d008ad22a5394160786a0f0524d039"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88d008ad22a5394160786a0f0524d039">&#9670;&nbsp;</a></span>stateCreated</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool stateCreated</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This read-only property value is <code>true</code> if a Touch Portal State has been created for this script instance, <code>false</code> otherwise. This should always be <code>false</code> if <a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83">createState</a> is <code>false</code>. <br  />
+ This property is read-only. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83" title="This property value is true when when this script instance was created with &quot;Create State&quot; set to &quot;Ye...">createState</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae96f1bba519224118b4a2c7c3bd34e05" name="ae96f1bba519224118b4a2c7c3bd34e05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae96f1bba519224118b4a2c7c3bd34e05">&#9670;&nbsp;</a></span>activation</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d_s_e.html#af7262a06f33cd4f3d23e517892527e1c">DSE::ActivationBehaviors</a> activation</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The <code>activation</code> property determines how the instance will behave when a control (eg. button) using this instance is activated (eg. pressed, held, or released). <br  />
+This property is primarily relevant when an action is used in a Touch Portal "On Hold" button setup, and is usually set by the "On Hold" action options. <br  />
+The value can be any OR combination of <code><a class="el" href="class_d_s_e.html#ab9a18188d72570ea7c433ec229797ad1" title="Defines how an action should behave when it is being &quot;activated&quot; as in the case of a button....">DSE.ActivationBehavior</a></code> enumeration flags. <br  />
+For example: </p>
+<ul>
+<li><code><a class="el" href="class_d_s_e.html#ab9a18188d72570ea7c433ec229797ad1a8108a1aed90a03a70261890a0212b270" title="Evaluation happens on initial activation (eg: button press).">DSE.OnPress</a></code> - Evaluates expression on initial button press only.</li>
+<li><code><a class="el" href="class_d_s_e.html#ab9a18188d72570ea7c433ec229797ad1a8108a1aed90a03a70261890a0212b270" title="Evaluation happens on initial activation (eg: button press).">DSE.OnPress</a> | <a class="el" href="class_d_s_e.html#ab9a18188d72570ea7c433ec229797ad1a6f06cd12650e4aa80d03f020384b3636" title="Evaluation happens repeatedly while the action is active (eg: button is held down).">DSE.RepeatOnHold</a></code> - Evaluates expression on initial button press and repeatedly while it is held.</li>
+<li><code><a class="el" href="class_d_s_e.html#ab9a18188d72570ea7c433ec229797ad1a8108a1aed90a03a70261890a0212b270" title="Evaluation happens on initial activation (eg: button press).">DSE.OnPress</a> | <a class="el" href="class_d_s_e.html#ab9a18188d72570ea7c433ec229797ad1ae9a8ff62f1730ec91cfcec2e61571093" title="Evaluation happens on de-activation (eg: button release).">DSE.OnRelease</a></code> - Evaluates expression on initial button press and again when it is released.</li>
+<li><code><a class="el" href="class_d_s_e.html#ab9a18188d72570ea7c433ec229797ad1a6f06cd12650e4aa80d03f020384b3636" title="Evaluation happens repeatedly while the action is active (eg: button is held down).">DSE.RepeatOnHold</a></code> - Ignores the initial button press and then starts repeating the evaluation after <a class="el" href="class_dynamic_script.html#aeb032c293343caa56a8d98d2e9c2efcd">effectiveRepeatDelay</a> ms, until it is released.</li>
+<li><code><a class="el" href="class_d_s_e.html#ab9a18188d72570ea7c433ec229797ad1ae9a8ff62f1730ec91cfcec2e61571093" title="Evaluation happens on de-activation (eg: button release).">DSE.OnRelease</a></code> - Evaluates expression only when button is released. This is the default behavior when using an action in Touch Portal's "On Pressed" button setup (which actually triggers actions upon button release). </li>
+</ul>
+
+</div>
+</div>
+<a id="a4689fa97164715dff945af6b036b6b99" name="a4689fa97164715dff945af6b036b6b99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4689fa97164715dff945af6b036b6b99">&#9670;&nbsp;</a></span>repeatRate</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int repeatRate</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The default action repeat rate for this particular instance, in milliseconds. If <code>-1</code> (default) then the global default rate is used. </p>
+<dl class="section see"><dt>See also</dt><dd>, <a class="el" href="class_dynamic_script.html#ab17f8cd54ce24d13b26bb6567ed863bf" title="The action repeat rate for the currently repeating script action, in milliseconds....">activeRepeatRate</a>, <a class="el" href="class_d_s_e.html#a508c23fed1db2def9dcc5909e6058537" title="The global default action repeat rate (interval), in milliseconds. The rate is the amount of time to ...">DSE.defaultActionRepeatRate</a>, <a class="el" href="class_dynamic_script.html#a46d6d720878aa3753135bd0724c822e8" title="This event is emitted when the value of the repeatRate property changes. The ms parameter value refle...">repeatRateChanged()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1fdeb08c2e445baa7edb72397bf56f5b" name="a1fdeb08c2e445baa7edb72397bf56f5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fdeb08c2e445baa7edb72397bf56f5b">&#9670;&nbsp;</a></span>repeatDelay</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int repeatDelay</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The default action repeat delay for this particular instance, in milliseconds. If <code>-1</code> (default) then the global default rate is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#ae3e102b02d542d92437bd8a91a387aa8" title="The action repeat delay time for the currently repeating script action, in milliseconds....">activeRepeatDelay</a>, <a class="el" href="class_d_s_e.html#a160ac07aa28b67916ac5de14ddf7967e" title="The global default action repeat delay, in milliseconds. The delay is the amount of time before a hel...">DSE.defaultActionRepeatDelay</a>, <a class="el" href="class_dynamic_script.html#a2c7362d3b25c82dde107417d8e1c975e" title="This event is emitted when the value of the repeatDelay property changes. The ms parameter value refl...">repeatDelayChanged()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ab17f8cd54ce24d13b26bb6567ed863bf" name="ab17f8cd54ce24d13b26bb6567ed863bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab17f8cd54ce24d13b26bb6567ed863bf">&#9670;&nbsp;</a></span>activeRepeatRate</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int activeRepeatRate</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The action repeat rate for the <em>currently repeating</em> script action, in milliseconds. Changes to this value are only relevant while an action is actively repeating (<a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a> == <code>true</code>). If <code>-1</code> (default) then <a class="el" href="class_dynamic_script.html#a4689fa97164715dff945af6b036b6b99">repeatRate</a> or the global default rate is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a9ae32d8b2148d59d1d7b1bc30ea770f4" title="This event is emitted when the value of the activeRepeatRate property changes. The ms parameter value...">activeRepeatRateChanged()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae3e102b02d542d92437bd8a91a387aa8" name="ae3e102b02d542d92437bd8a91a387aa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3e102b02d542d92437bd8a91a387aa8">&#9670;&nbsp;</a></span>activeRepeatDelay</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int activeRepeatDelay</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The action repeat delay time for the <em>currently repeating</em> script action, in milliseconds. Changes to this value are only relevant while an action is actively repeating (<a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a> == <code>true</code>). If <code>-1</code> (default) then <a class="el" href="class_dynamic_script.html#a1fdeb08c2e445baa7edb72397bf56f5b">repeatDelay</a> or the global default delay is used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a185f19bb3dc548cf633ac41c14903d56" title="This event is emitted when the value of the activeRepeatDelay property changes. The ms parameter valu...">activeRepeatDelayChanged()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad001aa6c200db8cdd5299ece92f09fb2" name="ad001aa6c200db8cdd5299ece92f09fb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad001aa6c200db8cdd5299ece92f09fb2">&#9670;&nbsp;</a></span>effectiveRepeatRate</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int effectiveRepeatRate</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The currently effective action repeat rate which is either the global default rate, or this instance's <a class="el" href="class_dynamic_script.html#a4689fa97164715dff945af6b036b6b99">repeatRate</a> if set, or <a class="el" href="class_dynamic_script.html#ab17f8cd54ce24d13b26bb6567ed863bf">activeRepeatRate</a> if it was set and <a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a> is <code>true</code>. <br  />
+ This property is read-only. </p>
+
+</div>
+</div>
+<a id="aeb032c293343caa56a8d98d2e9c2efcd" name="aeb032c293343caa56a8d98d2e9c2efcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb032c293343caa56a8d98d2e9c2efcd">&#9670;&nbsp;</a></span>effectiveRepeatDelay</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int effectiveRepeatDelay</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The currently effective action repeat delay which is either the global default delay, or this instance's <a class="el" href="class_dynamic_script.html#a1fdeb08c2e445baa7edb72397bf56f5b">repeatDelay</a> if set, or <a class="el" href="class_dynamic_script.html#ae3e102b02d542d92437bd8a91a387aa8">activeRepeatDelay</a> if it was set and <a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a> is <code>true</code>. <br  />
+ This property is read-only. </p>
+
+</div>
+</div>
+<a id="a5c6c46b1bf1ca4265ee772d713353f8b" name="a5c6c46b1bf1ca4265ee772d713353f8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c6c46b1bf1ca4265ee772d713353f8b">&#9670;&nbsp;</a></span>maxRepeatCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int maxRepeatCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get or set the maximum number of times this action will repeat when held. A value of <code>-1</code> (default) means to repeat an unlimited number of times. Setting the value to <code>0</code> effectively disables repeating. </p>
+
+</div>
+</div>
+<a id="abd385bb0169297e60c07587a3df79ae2" name="abd385bb0169297e60c07587a3df79ae2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd385bb0169297e60c07587a3df79ae2">&#9670;&nbsp;</a></span>repeatCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int repeatCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of times the current, or last, repeating action of this instance has repeated. The property is reset to zero when the <a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a> property changes from <code>false</code> to <code>true</code> &ndash; that is, every time the repetition is about to start, but before the initial <a class="el" href="class_dynamic_script.html#aeb032c293343caa56a8d98d2e9c2efcd">effectiveRepeatDelay</a> time has passed. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#ae2755bc9aab61465e9fe880ed9d791db" title="This event is emitted when the value of the repeatCount property changes, meaning whenever the evalua...">repeatCountChanged()</a>, <a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76" title="true if this script evaluation is currently repeating, false otherwise. The value changes to true eve...">isRepeating</a>, <a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c" title="This property value is true if a button using an Action which invokes this script is currently being ...">isPressed</a> <br  />
+ This property is read-only. </dd></dl>
+
+</div>
+</div>
+<a id="af948da45b36ff3106569689878b07f76" name="af948da45b36ff3106569689878b07f76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af948da45b36ff3106569689878b07f76">&#9670;&nbsp;</a></span>isRepeating</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isRepeating</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>true</code> if this script evaluation is currently repeating, <code>false</code> otherwise. The value changes to <code>true</code> every time the repetition is about to start, but before the initial <a class="el" href="class_dynamic_script.html#aeb032c293343caa56a8d98d2e9c2efcd">effectiveRepeatDelay</a> time has passed. For example it is possible to cancel a repitition before it even starts by setting <a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">isPressed</a> to <code>false</code> whenever whenever this property changes. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a8cec208838d7a8d283ee16ed0bb9ea3b" title="This event is emitted when an evaluation starts or stops repeating (as per the activation property)....">repeatingStateChanged()</a> <br  />
+ This property is read-only. </dd></dl>
+
+</div>
+</div>
+<a id="ab1351de5234bac2d378240bdfac6e90c" name="ab1351de5234bac2d378240bdfac6e90c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1351de5234bac2d378240bdfac6e90c">&#9670;&nbsp;</a></span>isPressed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isPressed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This property value is <code>true</code> if a button using an Action which invokes this script is currently being held down, <code>false</code> otherwise. The value can be changed by setting the property or calling the <code><a class="el" href="class_dynamic_script.html#a99770fb3fbb3d852b744110552b4403f" title="This method provides direct control over the current &quot;pressed state&quot; of this script instance,...">setPressedState()</a></code> method, which has further documentation on what this means. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a7103fdb182a9bbdd58fe216fec573450" title="This event is only emitted when an action is used in an &quot;On Hold&quot; button setup.">pressedStateChanged()</a> </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae43da0e6f16ee34db59fbe284e942624" name="ae43da0e6f16ee34db59fbe284e942624"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae43da0e6f16ee34db59fbe284e942624">&#9670;&nbsp;</a></span>stateUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void stateUpdate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Send a Touch Portal State value update using this instance's <code>stateId</code> as the State ID. If <a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83">createState</a> property is <code>false</code> then calling this method has no effect. <br  />
+This method will create the Touch Portal State if it has not already been created. </p>
+
+</div>
+</div>
+<a id="a640eb3c435abcfe65e13558fc738b915" name="a640eb3c435abcfe65e13558fc738b915"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a640eb3c435abcfe65e13558fc738b915">&#9670;&nbsp;</a></span>evaluate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void evaluate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callling this method causes the instance to evaluate its current <a class="el" href="class_dynamic_script.html#a7db9a71a3954fa572de18e1e4e3e9838">expression</a>, basically as if it was invoked from a Touch Portal Action or Connector. </p>
+<p >This includes loading any script file or importing a module as per the current <a class="el" href="class_dynamic_script.html#a6d3b70ae6b817223ea2f380e06f6c599">inputType</a>, <a class="el" href="class_dynamic_script.html#a8c98cfbef302bb28a0961430d250bdd6">scriptFile</a>, and <a class="el" href="class_dynamic_script.html#a86bf4a6461408e8b33f5005d8708978e">moduleAlias</a> property settings.</p>
+<p ><b>Note</b> that we cannot retrieve data/values <em>from</em> Touch Portal directly, it has to send them to us via an Action. So if the <a class="el" href="class_dynamic_script.html#a7db9a71a3954fa572de18e1e4e3e9838">expression</a> originally gets some data value(s) provided by TP itself (from a Value or State), the <em>last</em> data it sent gets evaluated. There is no way to retrieve a more current value, and in fact the script instance itself isn't even aware that some Value or State was involved in the first place (it only gets the data from the Value/State, not the name or ID). </p>
+
+</div>
+</div>
+<a id="a99770fb3fbb3d852b744110552b4403f" name="a99770fb3fbb3d852b744110552b4403f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99770fb3fbb3d852b744110552b4403f">&#9670;&nbsp;</a></span>setPressedState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setPressedState </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>isPressed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method provides direct control over the current "pressed state" of this script instance, which can be <code>true</code> or <code>false</code>. </p>
+<p >Normally an instance can be "pressed" and "released" when its corresponding Action is used in a Touch Portal button's "On Hold" setup tab. An action used there sends two events to the plugin, one for the "down" event, when the button is first pressed, and another for the "up" event.</p>
+<p >Setting the pressed state to <code>false</code> while an action's button is being held and is repeating, for example, will cancel any further repeats, just as if the button had been released by the user. Setting the pressed state to <code>true</code> will not have any immediate effect until the next time the the action's expression is evaluated, either by using its corresponding action in Touch Portal, or by calling the <code><a class="el" href="class_dynamic_script.html#a640eb3c435abcfe65e13558fc738b915" title="Callling this method causes the instance to evaluate its current expression, basically as if it was i...">evaluate()</a></code> method. Once evaluation is performed, the behavior will depend on the current value of the <a class="el" href="class_dynamic_script.html#ae96f1bba519224118b4a2c7c3bd34e05">activation</a> property (eg. the action could start repeating, wait for a delay, or be "armed" for a release/up event). </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c" title="This property value is true if a button using an Action which invokes this script is currently being ...">isPressed</a>, <a class="el" href="class_dynamic_script.html#a7103fdb182a9bbdd58fe216fec573450" title="This event is only emitted when an action is used in an &quot;On Hold&quot; button setup.">pressedStateChanged()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a7103fdb182a9bbdd58fe216fec573450" name="a7103fdb182a9bbdd58fe216fec573450"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7103fdb182a9bbdd58fe216fec573450">&#9670;&nbsp;</a></span>pressedStateChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pressedStateChanged </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>isPressed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is only emitted when an action is used in an "On Hold" button setup. </p>
+<p >When the button using this action is first pressed down, this event is emitted with the <code>isPressed</code> parameter set to <code>true</code>. When the button is later released, the event is emitted again with the parameter set to <code>false</code>.</p>
+<p >The event is emitted regardless of the <a class="el" href="class_dynamic_script.html#ae96f1bba519224118b4a2c7c3bd34e05">activation</a> property value, as long as the button is being used in the "On Hold" tab (when an action is used in the "On Pressed" tab setup, it is actually only activated when the button is <em>released</em>, so this event would have no relevance). <br  />
+This allows custom behavior for a button from within a script handler &ndash; for example different actions could be performed on button press vs. release. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c" title="This property value is true if a button using an Action which invokes this script is currently being ...">isPressed</a>, <a class="el" href="class_dynamic_script.html#a99770fb3fbb3d852b744110552b4403f" title="This method provides direct control over the current &quot;pressed state&quot; of this script instance,...">setPressedState()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a8cec208838d7a8d283ee16ed0bb9ea3b" name="a8cec208838d7a8d283ee16ed0bb9ea3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cec208838d7a8d283ee16ed0bb9ea3b">&#9670;&nbsp;</a></span>repeatingStateChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void repeatingStateChanged </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>isRepeating</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is emitted when an evaluation starts or stops repeating (as per the <a class="el" href="class_dynamic_script.html#ae96f1bba519224118b4a2c7c3bd34e05">activation</a> property). The <code>isRepeating</code> parameter reflects the current (new) value of the <a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a> property. </p>
+
+</div>
+</div>
+<a id="ae2755bc9aab61465e9fe880ed9d791db" name="ae2755bc9aab61465e9fe880ed9d791db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2755bc9aab61465e9fe880ed9d791db">&#9670;&nbsp;</a></span>repeatCountChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void repeatCountChanged </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>repeatCount</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is emitted when the value of the <a class="el" href="class_dynamic_script.html#abd385bb0169297e60c07587a3df79ae2">repeatCount</a> property changes, meaning whenever the evaluation is repeated, or when a new "repetition" starts. See <a class="el" href="class_dynamic_script.html#abd385bb0169297e60c07587a3df79ae2">repeatCount</a> for more details. The <code>repeatCount</code> parameter value reflects the current (new) <a class="el" href="class_dynamic_script.html#abd385bb0169297e60c07587a3df79ae2">repeatCount</a> property value. </p>
+
+</div>
+</div>
+<a id="a46d6d720878aa3753135bd0724c822e8" name="a46d6d720878aa3753135bd0724c822e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46d6d720878aa3753135bd0724c822e8">&#9670;&nbsp;</a></span>repeatRateChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void repeatRateChanged </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ms</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is emitted when the value of the <a class="el" href="class_dynamic_script.html#a4689fa97164715dff945af6b036b6b99">repeatRate</a> property changes. The <code>ms</code> parameter value reflects the current (new) <a class="el" href="class_dynamic_script.html#a4689fa97164715dff945af6b036b6b99">repeatRate</a> property value. </p>
+
+</div>
+</div>
+<a id="a2c7362d3b25c82dde107417d8e1c975e" name="a2c7362d3b25c82dde107417d8e1c975e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c7362d3b25c82dde107417d8e1c975e">&#9670;&nbsp;</a></span>repeatDelayChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void repeatDelayChanged </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ms</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is emitted when the value of the <a class="el" href="class_dynamic_script.html#a1fdeb08c2e445baa7edb72397bf56f5b">repeatDelay</a> property changes. The <code>ms</code> parameter value reflects the current (new) <a class="el" href="class_dynamic_script.html#a1fdeb08c2e445baa7edb72397bf56f5b">repeatDelay</a> property value. </p>
+
+</div>
+</div>
+<a id="a9ae32d8b2148d59d1d7b1bc30ea770f4" name="a9ae32d8b2148d59d1d7b1bc30ea770f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ae32d8b2148d59d1d7b1bc30ea770f4">&#9670;&nbsp;</a></span>activeRepeatRateChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void activeRepeatRateChanged </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ms</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is emitted when the value of the <a class="el" href="class_dynamic_script.html#ab17f8cd54ce24d13b26bb6567ed863bf">activeRepeatRate</a> property changes. The <code>ms</code> parameter value reflects the current (new) <a class="el" href="class_dynamic_script.html#ab17f8cd54ce24d13b26bb6567ed863bf">activeRepeatRate</a> property value. </p>
+
+</div>
+</div>
+<a id="a185f19bb3dc548cf633ac41c14903d56" name="a185f19bb3dc548cf633ac41c14903d56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a185f19bb3dc548cf633ac41c14903d56">&#9670;&nbsp;</a></span>activeRepeatDelayChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void activeRepeatDelayChanged </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ms</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is emitted when the value of the <a class="el" href="class_dynamic_script.html#ae3e102b02d542d92437bd8a91a387aa8">activeRepeatDelay</a> property changes. The <code>ms</code> parameter value reflects the current (new) <a class="el" href="class_dynamic_script.html#ae3e102b02d542d92437bd8a91a387aa8">activeRepeatDelay</a> property value. </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.4-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_dynamic_script.html">DynamicScript</a></li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
+</body>
+</html>

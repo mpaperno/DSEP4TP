@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.1.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
    </div>
   </td>
  </tr>
@@ -127,31 +127,29 @@ $(document).ready(function(){initNavTree('plugin_status_and_logging.html',''); i
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md38">Introduction</a></li>
-<li class="level1"><a href="#autotoc_md39">Status States</a></li>
-<li class="level1"><a href="#autotoc_md40">Logging</a><ul><li class="level2"><a href="#autotoc_md41">&quot;Console&quot; Log</a></li>
-<li class="level2"><a href="#autotoc_md42">Plugin Log</a></li>
-<li class="level2"><a href="#autotoc_md43">Logging Options</a></li>
+<ul><li class="level1"><a href="#autotoc_md66">Introduction</a></li>
+<li class="level1"><a href="#autotoc_md67">Status States</a></li>
+<li class="level1"><a href="#autotoc_md68">Logging</a><ul><li class="level2"><a href="#autotoc_md69">&quot;Console&quot; Log</a></li>
+<li class="level2"><a href="#autotoc_md70">Plugin Log</a></li>
+<li class="level2"><a href="#autotoc_md71">Logging Options</a></li>
 </ul>
 </li>
+<li class="level1"><a href="#autotoc_md72">Plugin Crashes</a></li>
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_pages_Status"></a></p>
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md66"></a>
 Introduction</h1>
 <p >Inevitably, writing scripting expressions of any complexity beyond basic "2 + 2" is going to cause an error sooner or later. Maybe due to syntax or some unexpected value being passed to a function. It happens.</p>
 <p >The plugin has a number of ways to provide feedback about errors and facilitate debugging. There are also extensive file logging options available.</p>
-<h1><a class="anchor" id="autotoc_md39"></a>
+<h1><a class="anchor" id="autotoc_md67"></a>
 Status States</h1>
 <p >First, the plugin provides two permanent States which reflect scripting errors as they happen:</p><ul>
 <li><b>Cumulative script error count</b> - A running count of script errors which increments on each exception. This is useful as a trigger for some Touch Portal event which would notify you that a new error occurred. A button that turns red or something.</li>
 <li><b>Last script instance error</b> - This state will update every time the error count changes and will contain the text of the last error message. This could be shown somewhere in a Touch Portal page for example. The error message includes the error number (which always increments) and a time stamp, so therefore will always be unique and can be safely used in Touch Portal's "when plug-in state changes" event.</li>
 </ul>
 <p >Check the <a class="el" href="example_line_logger.html">Line Logger example</a> for a script/button combination which will store and display the last few errors received.</p>
-<p >There is also:</p><ul>
-<li><b>List of created named instances</b> - This state contains a list of all the dynamic expression/script instances created by the plugin. It may be useful to check (visually or with a conditional expression) whether an instance exists, for example to indicate an error condition if it doesn't or only create a new instance inside an Event if it doesn't already exist.</li>
-</ul>
-<h1><a class="anchor" id="autotoc_md40"></a>
+<h1><a class="anchor" id="autotoc_md68"></a>
 Logging</h1>
 <p >The plugin logs operational message to a file. Two, actually. They are both located in your Touch Portal configuration folder, in the 'plugins/DSEP4TP' subfolder; the path looks like this:<br  />
 </p><ul>
@@ -160,7 +158,7 @@ Logging</h1>
 <li>Linux: <code>~/.config/TouchPortal/plugins/DSEP4TP/logs</code></li>
 </ul>
 <p >The two log files are:</p>
-<h2><a class="anchor" id="autotoc_md41"></a>
+<h2><a class="anchor" id="autotoc_md69"></a>
 "Console" Log</h2>
 <p >Scripting errors are logged to their own file in the log folder named <code>console.log</code>. You can also write your own messages to this log by using the typical JavaScript <code>console.log()</code> (and family) of functions.</p>
 <p >This should be the first point of reference when something doesn't work right (usual symptom: "nothing happens when I run the script.") When actively working on a script or expression, it will save a lot of time to keep a constant eye on the log (and the error states described above).</p>
@@ -174,12 +172,12 @@ Logging</h1>
 <li><a href="https://ss64.com/bash/tail.html" target="_blank">Linux</a> terminal <div class="fragment"><div class="line">tail -F -n 10 ~/.config/TouchPortal/plugins/DSEP4TP/logs/console.log</div>
 </div><!-- fragment --></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md42"></a>
+<h2><a class="anchor" id="autotoc_md70"></a>
 Plugin Log</h2>
 <p >The main plugin log, cleverly named <code>plugin.log</code>, is where all messages are written, including general operational information from the plugin, especially any errors it may have encountered that are not directly related to your scripts (but maybe to the actions you're sending to the plugin, like a missing required data field, or some other overall operational issue).</p>
 <p >This log <em>also</em> includes script engine errors (same ones as in <em>console.log</em>). It can be helpful to get the "full picture" if something particularly insidious is going wrong.</p>
 <p >The <code>plugin.log</code>'s location is the same as shown above for <code>console.log</code> on each operating system type.</p>
-<h2><a class="anchor" id="autotoc_md43"></a>
+<h2><a class="anchor" id="autotoc_md71"></a>
 Logging Options</h2>
 <p >The logs are rotated daily. The previous days' log is renamed with a date stamp and a new one is started. By default the last 3 days' worth of logs are kept (the current one + 3 historical logs).</p>
 <p >You can force a rotation of the logs from a terminal/command/shell window by running the plugin (w/out starting it) with the following command:<br  />
@@ -192,6 +190,13 @@ Logging Options</h2>
 <li>Use <code>-h</code> to see all command-line options.</li>
 </ul>
 <p >The log files have an "emergency limit" of 1GB in case something goes haywire. If this limit is reached, further logging to that file is disabled until the plugin is restarted.</p>
+<h1><a class="anchor" id="autotoc_md72"></a>
+Plugin Crashes</h1>
+<p >Like with any programming, it is possible to "crash" whatever environment you're programming in, whether it's a Web page script that locks up the browser tab or an errant device driver that brings down the whole operating system. Running scripts inside this plugin's JavaScript engine is no exception (pun intended).</p>
+<p >While the engine is fairly robust about handling normal scripting exceptions it can detect, doing things that would normally be problematic, like deleting an object while it is still in use for example, will likely be problematic here as well. Especially while working on some new, relatively complex script, crashes are definitely possible (I've certainly caused them while testing all this stuff).</p>
+<p >So if you're in the middle of working on some script and everything stops working all of a sudden, check that the plugin is still running.</p>
+<p >Having said that, I do <em>not</em> consider plugin crashes "normal" under typical operation and with relatively "clean" scripts running. <b>If you suspect the plugin is crashing for some reason beyond your control, <em>please</em> let me know!</b> I can't fix it if I don't know it's broken. (<a class="el" href="class_file.html" title="The File class provides access to... files. Shocking.">File</a> a bug report on <a href="https://github.com/mpaperno/DSEP4TP/issues" target="_blank">GitHub</a> or find me on <a href="https://discord.gg/sdvqk2MHwj" target="_blank">Discord</a>, as two options).</p>
+<hr  />
 <p ><span class="next_section_button"> Read Next: <a class="el" href="plugin_scripting.html#md_pages_Scripting">Scripting Syntax and Caveats</a> </span> </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
@@ -201,7 +206,7 @@ Logging Options</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.1.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>
