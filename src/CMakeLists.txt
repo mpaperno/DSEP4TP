@@ -178,26 +178,37 @@ if (isWin)
 elseif(isLinux)
   set_target_properties(${PROJECT_NAME} PROPERTIES
     CMAKE_BUILD_RPATH_USE_ORIGIN TRUE
-    INSTALL_RPATH "$ORIGIN"
+    INSTALL_RPATH "$ORIGIN/lib"
   )
+  set(install_dest "${CMAKE_INSTALL_PREFIX}/bin")
   #install(TARGETS ${PROJECT_NAME} RUNTIME_DEPENDENCIES DESTINATION bin)  # all C++ libs
   set(qt_ver ${QT_VERSION_MAJOR})
   set(qt_libs "")
   foreach(qt_lib
-    Qt${qt_ver}Core.so.${qt_ver} Qt${qt_ver}Network.so.${qt_ver} Qt${qt_ver}Qml.so.${qt_ver} Qt${qt_ver}Sql.so.${qt_ver} Qt${qt_ver}Gui.so.${qt_ver} Qt${qt_ver}Svg.so.${qt_ver}
+    Qt${qt_ver}Core.so.${qt_ver} Qt${qt_ver}Network.so.${qt_ver} Qt${qt_ver}Qml.so.${qt_ver} Qt${qt_ver}Sql.so.${qt_ver}
+    Qt${qt_ver}Gui.so.${qt_ver} Qt${qt_ver}Svg.so.${qt_ver} Qt${qt_ver}DBus.so.${qt_ver} Qt${qt_ver}OpenGL.so.${qt_ver}
+    Qt${qt_ver}XcbQpa.so.${qt_ver} Qt${qt_ver}EglFSDeviceIntegration.so.${qt_ver} Qt${qt_ver}EglFsKmsSupport.so.${qt_ver}
+    Qt${qt_ver}WaylandClient.so.${qt_ver} Qt${qt_ver}WaylandEglClientHwIntegration.so.${qt_ver} Qt${qt_ver}WlShellIntegration.so.${qt_ver}
     icui18n.so.56 icuuc.so.56 icudata.so.56
   )
     list(APPEND qt_libs "${CMAKE_PREFIX_PATH}/lib/lib${qt_lib}")
   endforeach()
-  install(CODE
-    "file(INSTALL ${qt_libs} DESTINATION \"${CMAKE_INSTALL_PREFIX}/bin\" FOLLOW_SYMLINK_CHAIN)"
-    COMPONENT Runtime)
-  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/networkinformation" TYPE BIN)
-  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/iconengines" TYPE BIN)
-  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/imageformats" TYPE BIN)
-  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/platforms" TYPE BIN)
-  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/tls" TYPE BIN)
-  install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/sqldrivers" TYPE BIN)
+  install(CODE "
+    file(INSTALL ${qt_libs} DESTINATION \"${install_dest}/lib\" FOLLOW_SYMLINK_CHAIN)
+    file(WRITE \"${install_dest}/qt.conf\" \"[Paths]\nPlugins=plugins\nLibraries=lib\n\")
+    " COMPONENT Runtime)
+  foreach(qt_plugin
+    networkinformation
+    iconengines
+    imageformats
+    platforms
+    platforminputcontexts
+    tls
+    sqldrivers
+    xcbglintegrations
+  )
+    install(DIRECTORY "${CMAKE_PREFIX_PATH}/plugins/${qt_plugin}" DESTINATION "${install_dest}/plugins")
+  endforeach()
 
 else()  # Mac
   set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -208,7 +219,6 @@ else()  # Mac
   set(bundle_path "${CMAKE_INSTALL_PREFIX}/$<TARGET_FILE_NAME:${PROJECT_NAME}>.app")
   add_custom_target(deployqt
     COMMAND ${MACDEPLOYQT_EXECUTABLE} "${bundle_path}"
-    COMMAND rm -f -r "${bundle_path}/Contents/Frameworks/QtDBus.framework"
     COMMAND rm -f -r "${bundle_path}/Contents/Frameworks/QtWidgets.framework"
     COMMAND rm -f -r "${bundle_path}/Contents/Plugins/styles"
     DEPENDS ${PROJECT_NAME}
