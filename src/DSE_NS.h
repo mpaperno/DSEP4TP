@@ -58,7 +58,7 @@ enum SavedDefaultType : quint8 {
 	NoSavedDefault,      //!< The instance is not saved in persistent settings, default value type is not applicatble.
 	FixedValueDefault,   //!< Instance is created with a fixed default or empty value (specified in `DynamicScript.defaultValue`)
 	CustomExprDefault,   //!< Instance is created with default value coming from evaluating a custom expression (specified in `DynamicScript.defaultValue`)
-	MainExprDefault,     //!< Instance is created with default value coming from evaluating the last saved primary expression
+	LastExprDefault,     //!< Instance is created with default value coming from evaluating the last saved primary expression
 	                     //!  (exactly as last sent from the corresponding Touch Portal action/connector).
 };
 Q_ENUM_NS(SavedDefaultType)

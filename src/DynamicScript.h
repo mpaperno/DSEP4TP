@@ -100,7 +100,7 @@ class DynamicScript : public QObject
 		//! to a settings file when DSE exits, and restored from settings the next time DSE starts. "Temporary" instances will be automatically deleted after a time span specified in \ref autoDeleteDelay.
 		Q_PROPERTY(DseNS::PersistenceType persistence READ persistence WRITE setPersistence)
 		//! When \ref persistence is of `DSE.PersistSave` type, this property value determines what happens when this instance is initially loaded from storage.
-		//! `DSE.SavedDefaultType` enumeration value, one of: `DSE.FixedValueDefault`, `DSE.CustomExprDefault`, `DSE.MainExprDefault`
+		//! `DSE.SavedDefaultType` enumeration value, one of: `DSE.FixedValueDefault`, `DSE.CustomExprDefault`, `DSE.LastExprDefault`
 		//! \sa defaultValue, persistence
 		Q_PROPERTY(DseNS::SavedDefaultType defaultType READ defaultType WRITE setDefaultType)
 		//! The default value specified for saved instance, if any. Depending on the value of \ref defaultType, this could be an empty string, a fixed default string value, or an expression to be evaluated.
@@ -185,15 +185,15 @@ class DynamicScript : public QObject
 		//! - `DSE.RepeatOnHold` - Ignores the initial button press and then starts repeating the evaluation after \ref effectiveRepeatDelay ms, until it is released.
 		//! - `DSE.OnRelease` - Evaluates expression only when button is released. This is the default behavior when using an action in Touch Portal's "On Pressed" button setup (which actually triggers actions upon button release).
 		Q_PROPERTY(DseNS::ActivationBehaviors activation READ activation WRITE setActivation)
-		//! The default action repeat rate for this particular instance, in milliseconds. If `-1` (default) then the global default rate is used.  \sa activeRepeatRate, DSE.defaultActionRepeatRate
+		//! The default action repeat rate for this particular instance, in milliseconds. If `-1` (default) then the global default rate is used.  \sa, activeRepeatRate, DSE.defaultActionRepeatRate, repeatRateChanged()
 		Q_PROPERTY(int repeatRate READ repeatRate WRITE setRepeatRate NOTIFY repeatRateChanged)
-		//! The default action repeat delay for this particular instance, in milliseconds. If `-1` (default) then the global default rate is used.  \sa activeRepeatDelay, DSE.defaultActionRepeatDelay
+		//! The default action repeat delay for this particular instance, in milliseconds. If `-1` (default) then the global default rate is used.  \sa activeRepeatDelay, DSE.defaultActionRepeatDelay, repeatDelayChanged()
 		Q_PROPERTY(int repeatDelay READ repeatDelay WRITE setRepeatDelay NOTIFY repeatDelayChanged)
 		//! The action repeat rate for the _currently repeating_ script action, in milliseconds. Changes to this value are only relevant while an action is actively repeating (\ref isRepeating == `true`).
-		//!  If `-1` (default) then \ref repeatRate or the global default rate is used.
+		//!  If `-1` (default) then \ref repeatRate or the global default rate is used.  \sa activeRepeatRateChanged()
 		Q_PROPERTY(int activeRepeatRate READ activeRepeatRate WRITE setActiveRepeatRate NOTIFY activeRepeatRateChanged)
 		//! The action repeat delay time for the _currently repeating_ script action, in milliseconds. Changes to this value are only relevant while an action is actively repeating (\ref isRepeating == `true`).
-		//!  If `-1` (default) then \ref repeatDelay or the global default delay is used.
+		//!  If `-1` (default) then \ref repeatDelay or the global default delay is used.  \sa activeRepeatDelayChanged()
 		Q_PROPERTY(int activeRepeatDelay READ activeRepeatDelay WRITE setActiveRepeatDelay NOTIFY activeRepeatDelayChanged)
 		//! The currently effective action repeat rate which is either the global default rate, or this instance's \ref repeatRate if set, or \ref activeRepeatRate if it was set and \ref isRepeating is `true`.
 		//! \n This property is read-only.
@@ -203,12 +203,19 @@ class DynamicScript : public QObject
 		Q_PROPERTY(int effectiveRepeatDelay READ effectiveRepeatDelay CONSTANT)
 		//! Get or set the maximum number of times this action will repeat when held. A value of `-1` (default) means to repeat an unlimited number of times. Setting the value to `0` effectively disables repeating.
 		Q_PROPERTY(int maxRepeatCount READ maxRepeatCount WRITE setMaxRepeatCount)
-		//! The number of times the current, or last, repeating action of this instance has repeated. The property is reset to zero when the action if first invoked.
+		//! The number of times the current, or last, repeating action of this instance has repeated. The property is reset to zero when the \ref isRepeating property changes
+		//! from `false` to `true` -- that is, every time the repetition is about to start, but before the initial \ref effectiveRepeatDelay time has passed. \sa repeatCountChanged(), isRepeating, isPressed
 		//! \n This property is read-only.
-		Q_PROPERTY(int repeatCount READ repeatCount CONSTANT)
-		//! `true` if an Action using this instance is currently repeating, `false` otherwise.
+		Q_PROPERTY(int repeatCount READ repeatCount NOTIFY repeatCountChanged)
+		//! `true` if this script evaluation is currently repeating, `false` otherwise.
+		//! The value changes to `true` every time the repetition is about to start, but before the initial \ref effectiveRepeatDelay time has passed.
+		//! For example it is possible to cancel a repitition before it even starts by setting \ref isPressed to `false` whenever whenever this property changes. \sa repeatingStateChanged()
 		//! \n This property is read-only.
-		Q_PROPERTY(bool isRepeating READ isRepeating CONSTANT)
+		Q_PROPERTY(bool isRepeating READ isRepeating NOTIFY repeatingStateChanged)
+		//! This property value is `true` if a button using an Action which invokes this script is currently being held down, `false` otherwise.
+		//! The value can be changed by setting the property or calling the `setPressedState()` method, which has further documentation on what this means.
+		//! \sa pressedStateChanged()
+		Q_PROPERTY(bool isPressed READ isPressed WRITE setPressedState NOTIFY pressedStateChanged)
 		//! \}
 
 		enum State : quint16 {
@@ -393,29 +400,120 @@ class DynamicScript : public QObject
 		inline void stateUpdate(const QByteArray &value) {
 			if (createState()) {
 				// FIXME: TP v3.1 doesn't fire state change events based on the default value; v3.2 might.
-				createTpState(/*m_defaultType != DseNS::SavedDefaultType::MainExprDefault*/);
+				createTpState(/*m_defaultType != DseNS::SavedDefaultType::LastExprDefault*/);
 				Q_EMIT dataReady(tpStateId, value);
 				//qCDebug(lcPlugin) << "DynamicScript instance" << name << "sending result:" << value;
 			}
 		}
 
+		/*!
+			Callling this method causes the instance to evaluate its current \ref expression, basically as if it was invoked
+			from a Touch Portal Action or Connector. This includes loading any script file or importing a module
+			as per the current \ref inputType, \ref scriptFile, and \ref moduleAlias property settings.
+
+			__Note__ that we cannot retrieve data/values _from_ Touch Portal directly, it has to send them to us via an
+			Action. So if the \ref expression originally gets some data value(s) provided by %TP itself (from a Value or State),
+			the _last_ data it sent gets evaluated. There is no way to retrieve a more current value, and in fact the script
+			instance itself isn't even aware that some Value or State was involved in the first place
+			(it only gets the data from the Value/State, not the name or ID).
+		*/
+		void evaluate();
+
+		/*!
+			This method provides direct control over the current "pressed state" of this script instance, which can be `true` or `false`.
+			Normally an instance can be "pressed" and "released" when its corresponding Action is used in a Touch Portal button's
+			"On Hold" setup tab. An action used there sends two events to the plugin, one for the "down" event, when the button
+			is first pressed, and another for the "up" event.
+
+			Setting the pressed state to `false` while an action's button is being held and is repeating, for example,
+			will cancel any further repeats, just as if the button had been released by the user.
+			Setting the pressed state to `true` will not have any immediate effect until the next time the the action's expression
+			is evaluated, either by using its corresponding action in Touch Portal, or by calling the `evaluate()` method.
+			Once evaluation is performed, the behavior will depend on the current value of the \ref activation property (eg. the action
+			could start repeating, wait for a delay, or be "armed" for a release/up event).
+			\sa isPressed, pressedStateChanged()
+		*/
 		void setPressedState(bool isPressed);
 
 	Q_SIGNALS:
+		/*!
+			\name Events
+			All these events correspond to changes in property values, provided as a way for a script to take some
+			immediate action based on a new value for that property, vs, say, having to check the values periodically with a timer.
+
+			Callbacks can be attached to, or detached from, events by using the `connect()` and `disconnect()` syntax. For example:
+			```js
+			function onPressStateChange(isPressed) {
+				console.log("The button has been " + (isPressed ? "pressed" : "released"));
+			}
+
+			DSE.pressedStateChanged.connect(onPressStateChange);
+			// ... later, to disconnect:
+			DSE.pressedStateChanged.disconnect(onPressStateChange);
+			```
+
+			\{
+		*/
+
+		/*!
+			This event is only emitted when an action is used in an "On Hold" button setup. When the button using this action
+			is first pressed down, this event is emitted with the `isPressed` parameter set to `true`. When the button is later
+			released, the event is emitted again with the parameter set to `false`.
+
+			The event is emitted regardless of the \ref activation property value, as long as the button is being used in the "On Hold" tab
+			(when an action is used in the "On Pressed" tab setup, it is actually only activated when the button is _released_, so this event
+			would have no relevance). \n
+			This allows custom behavior for a button from within a script handler -- for example different actions could be performed
+			on button press vs. release.
+			\sa isPressed, setPressedState()
+		*/
+		void pressedStateChanged(bool isPressed);
+		//! This event is emitted when an evaluation starts or stops repeating (as per the \ref activation property).
+		//! The `isRepeating` parameter reflects the current (new) value of the \ref isRepeating property.
+		void repeatingStateChanged(bool isRepeating);
+		//! This event is emitted when the value of the \ref repeatCount property changes, meaning whenever the evaluation is repeated,
+		//! or when a new "repetition" starts. See \ref repeatCount for more details.
+		//! The `repeatCount` parameter value reflects the current (new) \ref repeatCount property value.
+		void repeatCountChanged(int repeatCount);
+		//! This event is emitted when the value of the \ref repeatRate property changes.
+		//! The `ms` parameter value reflects the current (new) \ref repeatRate property value.
 		void repeatRateChanged(int ms);
+		//! This event is emitted when the value of the \ref repeatDelay property changes.
+		//! The `ms` parameter value reflects the current (new) \ref repeatDelay property value.
 		void repeatDelayChanged(int ms);
+		//! This event is emitted when the value of the \ref activeRepeatRate property changes.
+		//! The `ms` parameter value reflects the current (new) \ref activeRepeatRate property value.
 		void activeRepeatRateChanged(int ms);
+		//! This event is emitted when the value of the \ref activeRepeatDelay property changes.
+		//! The `ms` parameter value reflects the current (new) \ref activeRepeatDelay property value.
 		void activeRepeatDelayChanged(int ms);
-		void pressedStateChanged(bool isHeld);
+
+		//! \}
 
 	private Q_SLOTS:
-		// These are private to keep them hidden from scripting environment. `Plugin` is marked as friend to use these methods.
-		void evaluate();
+		// This is private to keep it hidden from scripting environment (for now?). `Plugin` is marked as friend to use these methods.
 		void evaluateDefault();
 
 		// these really _are_ private
-		void serializeStoredData();
+
+		inline void setRepeating(bool repeating)
+		{
+			if (m_state.testFlags(State::RepeatingState) == repeating)
+				return;
+			m_state.setFlag(State::RepeatingState, repeating);
+			if (repeating) {
+				m_activeRepeatRate = -1;
+				m_repeatCount = 0;
+				Q_EMIT repeatCountChanged(0);
+			}
+			else {
+				m_state.setFlag(State::HoldReleasedState, true);
+			}
+			Q_EMIT repeatingStateChanged(repeating);
+		}
+
 		void setPressed(bool isPressed);
+		void serializeStoredData();
 		void setupRepeatTimer(bool create = true);
 		void repeatEvaluate();
 		QByteArray getDefaultValue();

@@ -82,7 +82,7 @@ static DseNS::SavedDefaultType stringToDefaultType(QStringView str)
 	return str.isEmpty() || str[0] == 'N' ? SavedDefaultType::NoSavedDefault :
 	                                        str[0] == 'F' ? SavedDefaultType::FixedValueDefault :
 	                                                        str[0] == 'C' ? SavedDefaultType::CustomExprDefault :
-	                                                                        SavedDefaultType::MainExprDefault;
+	                                                                        SavedDefaultType::LastExprDefault;
 }
 
 static DseNS::PersistenceType stringToPersistenceType(QStringView str)
@@ -106,7 +106,7 @@ static DseNS::SavedDefaultType stringToSavedDefaultType(QStringView str)
 		case 'C':
 			return SavedDefaultType::CustomExprDefault;
 		case 'L':
-			return SavedDefaultType::MainExprDefault;
+			return SavedDefaultType::LastExprDefault;
 		default:
 			return SavedDefaultType::FixedValueDefault;
 	}

@@ -108,18 +108,26 @@ namespace DSE
 
 		//! The global default action repeat rate (interval), in milliseconds. The rate is the amount of time to wait between repeat activations a held action.
 		//! The repeat rate takes effect _after_ the initial repeat delay. Minimum interval is 50ms. \n
-		//! This property has a change notification event: `defaultActionRepeatRateChanged(int ms)`. A callback can be attached to this method by using the `connect()` syntax, eg:
+		//! This property has a change notification event: `defaultActionRepeatRateChanged(int ms)`.
+		//! A callback can be attached to, or detached from, this method by using the `connect()` and `disconnect()` syntax, eg:
 		//! ```js
-		//! DSE.defaultActionRepeatRateChanged.connect( (ms) => { console.log("Repeat Rate changed to " + ms); } );
+		//! function onRateChanged(ms) { console.log("Repeat Rate changed to " + ms); }
+		//! DSE.defaultActionRepeatRateChanged.connect(onRateChanged);
+		//! // ... later, to disconnect:
+		//! DSE.defaultActionRepeatRateChanged.disconnect(onRateChanged);
 		//! ```
 		//!  \sa defaultActionRepeatDelay, DynamicScript.repeatRate
 		//! \since v1.2
 		Q_PROPERTY(int defaultActionRepeatRate READ defaultActionRepeatRate WRITE setDefaultActionRepeatRate NOTIFY defaultActionRepeatRateChanged)
 		//! The global default action repeat delay, in milliseconds. The delay is the amount of time before a held action starts repeating, after the initial activation.
 		//! After this initial delay, the action will be repeated at the current repeat rate. Minimum delay is 50ms.
-		//! This property has a change notification event: `defaultActionRepeatDelayChanged(int ms)`. A callback can be attached to this method by using the `connect()` syntax, eg:
+		//! This property has a change notification event: `defaultActionRepeatDelayChanged(int ms)`.
+		//! A callback can be attached to, or detached from, this method by using the `connect()` and `disconnect()` syntax, eg:
 		//! ```js
-		//! DSE.defaultActionRepeatDelayChanged.connect( (ms) => { console.log("Repeat Delay changed to " + ms); } );
+		//! function onDelayChanged(ms) { console.log("Repeat Delay changed to " + ms); }
+		//! DSE.defaultActionRepeatDelayChanged.connect(onDelayChanged);
+		//! // ... later, to disconnect:
+		//! DSE.defaultActionRepeatDelayChanged.disconnect(onDelayChanged);
 		//! ```
 		//! \sa defaultActionRepeatRate, DynamicScript.repeatDelay
 		//! \since v1.2
@@ -184,11 +192,11 @@ namespace DSE
 		static DseNS::SavedDefaultType SavedDefaultType_NoSavedDefault()    { return DseNS::NoSavedDefault; }
 		static DseNS::SavedDefaultType SavedDefaultType_FixedValueDefault() { return DseNS::FixedValueDefault; }
 		static DseNS::SavedDefaultType SavedDefaultType_CustomExprDefault() { return DseNS::CustomExprDefault; }
-		static DseNS::SavedDefaultType SavedDefaultType_MainExprDefault()   { return DseNS::MainExprDefault; }
+		static DseNS::SavedDefaultType SavedDefaultType_LastExprDefault()   { return DseNS::LastExprDefault; }
 		Q_PROPERTY(DseNS::SavedDefaultType NoSavedDefault     READ SavedDefaultType_NoSavedDefault    CONSTANT)
 		Q_PROPERTY(DseNS::SavedDefaultType FixedValueDefault  READ SavedDefaultType_FixedValueDefault CONSTANT)
 		Q_PROPERTY(DseNS::SavedDefaultType CustomExprDefault  READ SavedDefaultType_CustomExprDefault CONSTANT)
-		Q_PROPERTY(DseNS::SavedDefaultType MainExprDefault    READ SavedDefaultType_MainExprDefault   CONSTANT)
+		Q_PROPERTY(DseNS::SavedDefaultType LastExprDefault    READ SavedDefaultType_LastExprDefault   CONSTANT)
 
 		static DseNS::ActivationBehavior ActivationBehavior_NoActivation() { return DseNS::NoActivation; }
 		static DseNS::ActivationBehavior ActivationBehavior_OnPress()      { return DseNS::OnPress; }

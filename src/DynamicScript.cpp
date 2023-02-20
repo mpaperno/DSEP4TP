@@ -313,16 +313,10 @@ void DynamicScript::setPressed(bool isPressed)
 	if (m_state.testFlags(State::PressedState) == isPressed)
 		return;
 
-	if (this->isPressed()) {
-		m_state.setFlag(State::RepeatingState, false);
-		m_state.setFlag(State::HoldReleasedState, true);
-	}
-	else {
-		m_repeatCount = 0;
-		m_activeRepeatRate = -1;
-	}
-
 	m_state.setFlag(State::PressedState, isPressed);
+	if (!isPressed)
+		setRepeating(false);
+
 	Q_EMIT pressedStateChanged(isPressed);
 }
 
@@ -372,9 +366,10 @@ void DynamicScript::repeatEvaluate()
 		if (m_maxRepeatCount < 0 || m_repeatCount < m_maxRepeatCount) {
 			++m_repeatCount;
 			evaluate();
+			Q_EMIT repeatCountChanged(m_repeatCount);
 			return;
 		}
-		m_state.setFlag(State::RepeatingState, false);
+		setRepeating(false);
 	}
 	setupRepeatTimer(false);
 }
@@ -386,7 +381,7 @@ bool DynamicScript::scheduleRepeatIfNeeded()
 		if (delay >= 50) {
 			setupRepeatTimer();
 			m_repeatTim->start(delay);
-			m_state.setFlag(State::RepeatingState, true);
+			setRepeating(true);
 			return true;
 		}
 	}
@@ -467,7 +462,7 @@ QByteArray DynamicScript::getDefaultValue()
 		return QByteArray();
 
 	QReadLocker lock(&m_mutex);
-	const QString expr = m_defaultType == SavedDefaultType::CustomExprDefault ? m_defaultValue : m_defaultType == SavedDefaultType::MainExprDefault ? m_expr : QByteArray();
+	const QString expr = m_defaultType == SavedDefaultType::CustomExprDefault ? m_defaultValue : m_defaultType == SavedDefaultType::LastExprDefault ? m_expr : QByteArray();
 	QJSValue res;
 	switch (m_inputType) {
 		case ScriptInputType::ExpressionInput:
