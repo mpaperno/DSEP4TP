@@ -130,13 +130,13 @@ static void dumpJsvRecursive(const QJSValue &o, int level = 0)
 static QByteArray tpDataPath()
 {
 #ifdef Q_OS_WIN
-	const QByteArray ret = QDir::fromNativeSeparators(qgetenv("APPDATA")).toUtf8();
+	const QString ret = QDir::fromNativeSeparators(qgetenv("APPDATA"));
 #elif defined(Q_OS_MAC)
-	const QByteArray ret = QByteArrayLiteral("~/Documents");
+	const QString ret = QDir::homePath() + QStringLiteral("/Documents");
 #else // Linux
-	const QByteArray ret = QByteArrayLiteral("~/.config");
+	const QString ret = QDir::homePath() + QStringLiteral("/.config");
 #endif
-	return ret + QByteArrayLiteral("/TouchPortal");
+	return QDir(ret + QStringLiteral("/TouchPortal")).absolutePath().toUtf8();
 }
 
 template<typename S>
