@@ -3,7 +3,7 @@ A script and page example of an interface for choosing a color.
 
 <div class="hide-on-site">
 
-**See the [published documentation](https://dse.tpp.max.paperno.us/example_color_mixer.html) for a properly formatted version of this README.**
+**See the [published documentation](https://dse.tpp.max.paperno.us/example_color_picker.html) for a properly formatted version of this README.**
 </div>
 
 Besides being an actual useful tool, this example demonstrates how to use several available classes and Touch Portal integration features.
@@ -70,6 +70,16 @@ https://github.com/mpaperno/DSEP4TP/tree/next/resources/examples/ColorMixer/
    Touch Portal (or restart this plugin).
 5. The "INITIAL SETUP" button should turn into a white color swatch and the page is ready for use.
 6. If you make any changes to the included script file, you need to use the "Reset Module" button to clear out the old script version before your changes will be detected.
+
+#### Background Image
+
+The background image is in a 16:9 aspect ratio. This should generally work for any screen resolution or aspect. The exception may be
+the horizontal marks next to the sliders, which may not properly reflect the actual slider extents on screens with different
+aspect ratios, or if the Touch Portal title/tool bar is displayed (eg. on iOS or Android with "full screen" feature disabled).
+
+An alternate background image, without the slider position markings, is available here: [background_nomarks.jpg](https://github.com/mpaperno/DSEP4TP/raw/next/resources/examples/ColorMixer/background_nomarks.jpg) <br/>
+The default background image, _with_ the slider position markings, is available here: [background.jpg](https://github.com/mpaperno/DSEP4TP/raw/next/resources/examples/ColorMixer/background.jpg) <br/>
+The background image source design in Illustrator format is available here: [background.ai](https://github.com/mpaperno/DSEP4TP/raw/next/resources/examples/ColorMixer/background.ai)
 
 #### The "color picker" button
 You may notice that button on the bottom row with the technicolor dropper icon. This is meant to launch a "color picker" utility on your computer,
