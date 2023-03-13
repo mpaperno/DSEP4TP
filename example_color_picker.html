@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('example_color_picker.html',''); initRe
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicScriptEngine_DSEP4TP_resources_examples_ColorMixer_README"></a>A script and page example of an interface for choosing a color.</p>
-<div class="hide-on-site"></div><div class="hide-on-site"><b>See the <a href="https://dse.tpp.max.paperno.us/example_color_mixer.html" target="_blank">published documentation</a> for a properly formatted version of this README.</b> </div><p >Besides being an actual useful tool, this example demonstrates how to use several available classes and Touch Portal integration features. To create similar functionality would typically require a dedicated plugin in itself. But with <em><a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a></em> it can be created with some relatively simple scripting, and customized "on the fly" without editing configuration files or restarting Touch Portal for each change (also not needing yet another network client and process running in the background).</p>
+<div class="hide-on-site"></div><div class="hide-on-site"><b>See the <a href="https://dse.tpp.max.paperno.us/example_color_picker.html" target="_blank">published documentation</a> for a properly formatted version of this README.</b> </div><p >Besides being an actual useful tool, this example demonstrates how to use several available classes and Touch Portal integration features. To create similar functionality would typically require a dedicated plugin in itself. But with <em><a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a></em> it can be created with some relatively simple scripting, and customized "on the fly" without editing configuration files or restarting Touch Portal for each change (also not needing yet another network client and process running in the background).</p>
 <h2><a class="anchor" id="autotoc_md105"></a>
 Plugin components and features used:</h2>
 <ul>
@@ -167,11 +167,17 @@ Initial page setup</h2>
 <li>If you make any changes to the included script file, you need to use the "Reset Module" button to clear out the old script version before your changes will be detected.</li>
 </ol>
 <h3><a class="anchor" id="autotoc_md108"></a>
+Background Image</h3>
+<p >The background image is in a 16:9 aspect ratio. This should generally work for any screen resolution or aspect. The exception may be the horizontal marks next to the sliders, which may not properly reflect the actual slider extents on screens with different aspect ratios, or if the Touch Portal title/tool bar is displayed (eg. on iOS or Android with "full screen" feature disabled).</p>
+<p >An alternate background image, without the slider position markings, is available here: <a href="https://github.com/mpaperno/DSEP4TP/raw/next/resources/examples/ColorMixer/background_nomarks.jpg" target="_blank">background_nomarks.jpg</a> <br  />
+ The default background image, <em>with</em> the slider position markings, is available here: <a href="https://github.com/mpaperno/DSEP4TP/raw/next/resources/examples/ColorMixer/background.jpg" target="_blank">background.jpg</a> <br  />
+ The background image source design in Illustrator format is available here: <a href="https://github.com/mpaperno/DSEP4TP/raw/next/resources/examples/ColorMixer/background.ai" target="_blank">background.ai</a></p>
+<h3><a class="anchor" id="autotoc_md109"></a>
 The "color picker" button</h3>
 <p >You may notice that button on the bottom row with the technicolor dropper icon. This is meant to launch a "color picker" utility on your computer, which would then copy the color from any part of the screen you click on to the clipboard. This utility is going to be operating system-specific, and you may prefer one over another.</p>
 <p >The current button on the page is set up to launch the Windows 10/11 "Power Toys" <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> Picker utility by pressing its default shortcut key combination of <code>WIN+SHIFT+C</code>. (<em>Power Toys</em> is a collection of utilities from a Microsoft-supported but independent open-source project.) You may of course prefer some other utility, and if you're on MacOS or Linux then clearly you'll need some other option.</p>
 <p >After the button is pressed, the script will wait up to 30 seconds for the clipboard contents to change. If the clipboard is updated, the new clipboard value is checked to see if it contains a valid color. And if it does, then the main selected color is changed to that value.</p>
-<h2><a class="anchor" id="autotoc_md109"></a>
+<h2><a class="anchor" id="autotoc_md110"></a>
 Color Mixer script</h2>
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* Dynamic Script Engine - Color Mixer Script</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"></span> </div>
