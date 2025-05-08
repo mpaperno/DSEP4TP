@@ -120,10 +120,13 @@ static void dumpJsvRecursive(const QJSValue &o, int level = 0)
 		while (it.hasNext()) {
 			it.next();
 			qCDebug(lcPlugin).noquote() << QString("    ").repeated(level) << it.name() << "=" << it.value().toString();
-			if (it.value().isQObject())
+			if (it.value().isQObject() && !it.value().strictlyEquals(obj.prototype()))
 				dumpJsvRecursive(it.value(), level + 1);
 		}
-		obj = obj.prototype();
+		if (obj.prototype().isObject() && !obj.strictlyEquals(obj.prototype()))
+			obj = obj.prototype();
+		else
+			break;
 	}
 }
 
@@ -144,16 +147,16 @@ struct AutoResetString
 {
 	S &original;
 	S temp;
-	bool doReset;
-	AutoResetString(S &orig, const S &temp, bool doReset = true) :
-	  original(orig), doReset(doReset)
-	{
-		if (doReset) {
-			this->temp = std::move(orig);
-			original = temp;
-		}
-	}
-	~AutoResetString() { if (doReset) original = std::move(temp); }
+	explicit constexpr AutoResetString(S &orig, S temp) :
+	  original(orig), temp(qExchange(orig, std::move(temp)))
+	{	}
+
+#if __cpp_constexpr >= 201907L
+	constexpr
+#endif
+	~AutoResetString() { original = std::move(temp); }
+
+	Q_DISABLE_COPY(AutoResetString)
 };
 
 template<typename S>
