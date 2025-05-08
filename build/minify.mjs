@@ -20,7 +20,7 @@ const babel = await import('file:///'+ NODE_PATH + '/@babel/core/lib/index.js');
 
 const script_dir = process.argv0.indexOf("node") > -1 ? dirname(process.argv[1]) : dirname(process.argv0);
 
-export default function minify(src = null, dst = null)
+export default function minify(src = null, dst = null, exclude = [])
 {
   src = src || resolve(script_dir, "../src/resources/scripts/");
   dst = dst || join(src, "jslib.min.js");
@@ -29,7 +29,7 @@ export default function minify(src = null, dst = null)
   let dirent;
   let code = "";
   while ((dirent = dir.readSync()) !== null) {
-    if (!dirent.name.endsWith('.js') || dirent.name.endsWith('.min.js') /*|| dirent.name == 'global.js'*/)
+    if (!dirent.name.endsWith('.js') || dirent.name.endsWith('.min.js') || exclude.indexOf(dirent.name) > -1)
       continue;
     const fn = join(src, dirent.name);
     console.log("Reading source file " + fn);
@@ -48,4 +48,4 @@ export default function minify(src = null, dst = null)
   console.log("Wrote minified source to " + dst);
 }
 
-minify();
+minify(/*null, null, ['global.js']*/);
