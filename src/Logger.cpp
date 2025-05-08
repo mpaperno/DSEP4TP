@@ -163,8 +163,13 @@ class LogFileDevice : public QFile
 		void logMessage(const Logger::MessageLogContext &context)
 		{
 			static const QRegularExpression cleanFuncRx(R"(^(?:\w+ )+([\w:]+).*$)");
-			if (!isOpen() || m_logLevel > context.level || (!m_category.isEmpty() && !m_category.contains(context.category)))
+			if (!isOpen() ||
+			    m_logLevel > context.level ||
+			    ( !m_category.isEmpty() && !m_category.contains(context.category.split('.').first()) )
+			) {
 				return;
+			}
+
 			QByteArray pattern = categoryPatterns->value(context.category, defaultCategoryPattern);
 			formatLogString(pattern, {
 				QDateTime::currentDateTime().toString(logDateTimeFormat).toUtf8(),
