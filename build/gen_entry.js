@@ -23,6 +23,8 @@ var DEV_MODE = false;
 const PLUGIN_ID = buildInfo.PLUGIN_ID;
 const SYSTEM_NAME = buildInfo.SYSTEM_NAME;
 const SHORT_NAME = buildInfo.SHORT_NAME;
+const DESCRIPTION = buildInfo.DESCRIPTION;
+const HOMEPAGE = buildInfo.HOMEPAGE;
 
 // Handle CLI arguments
 for (let i=2; i < process.argv.length; ++i) {
@@ -50,12 +52,15 @@ if (!iVersion) {
 if (!OUTPUT_PATH)
     OUTPUT_PATH = path.join(__dirname, "..", "dist", (DEV_MODE ? "Debug" : buildInfo.PLATFORM_OS));
 
+const ICON_PATH = '%TP_PLUGIN_FOLDER%' + SYSTEM_NAME + '/icon.png';
+
 // --------------------------------------
 // Define the base entry.tp object here
 
 const entry_base =
 {
     sdk: 6,
+    api: 10,
     version: parseInt(iVersion.toString(16)),
     name: SHORT_NAME,
     id: PLUGIN_ID,
@@ -64,37 +69,46 @@ const entry_base =
     configuration: {
         colorDark: "#1D3345",
         colorLight: "#305676",
-        parentCategory: "misc"
+        parentCategory: "tools"
     },
+    settingsDescription: DESCRIPTION +
+        " For more details please visit the plugin's home page at: " + HOMEPAGE + "\n" +
+        "Plugin Version: " + VERSION,
     settings: [
         {
             name: "Script Files Base Directory",
-            desc: "Paths to script/module files in actions will be relative to this directory, instead of the plugin's installation folder.",
             type: "text",
             default: "",
-            readOnly: false
+            readOnly: false,
+            tooltip: {
+                body: "Relative paths to script/module files specified in plugin actions will be relative to this directory, instead of the plugin's installation folder."
+            },
         },
         {
             name: "Load Script At Startup",
-            desc: "Optional script file to load at plugin startup, after Touch Portal has connected. This gets loaded into the Shared Engine instance. " +
-                "Absolute path or relative to Script File Base Directory.",
             type: "text",
             default: "",
-            readOnly: false
+            readOnly: false,
+            tooltip: {
+                body: "Optional script file to load at plugin startup, after Touch Portal has connected. This gets loaded into the Shared Engine instance.\n" +
+                    "Relative paths are resolved using the Script Files Base Directory setting, above.",
+            },
         },
         {
             name: "Settings Version",
-            desc: "Read-only property to track the last installed plugin version.",
             type: "text",
             default: "",
-            readOnly: true
+            readOnly: true,
+            tooltip: {
+                body: "Read-only property to track the last installed plugin version."
+            },
         }
     ],
     categories: [
         {
             id: PLUGIN_ID + ".cat.actions",
             name: SHORT_NAME,
-            imagepath: '%TP_PLUGIN_FOLDER%' + SYSTEM_NAME + '/icon.png',
+            imagepath: ICON_PATH,
             states: [],
             actions: [],
             connectors: [],
@@ -113,58 +127,8 @@ const entry_base =
         {
             id: PLUGIN_ID + ".cat.plugin",
             name: "Plugin",
-            imagepath: '%TP_PLUGIN_FOLDER%' + SYSTEM_NAME + '/icon.png',
-            states: [
-                {
-                    id: PLUGIN_ID + ".state.createdStatesList",
-                    type: "text",
-                    desc : SHORT_NAME + ": List of created script instances",
-                    default : ""
-                },
-                {
-                    id: PLUGIN_ID + ".state.lastError",
-                    type: "text",
-                    desc : SHORT_NAME + ": Last script instance error",
-                    default : ""
-                },
-                {
-                    id: PLUGIN_ID + ".state.errorCount",
-                    type: "text",
-                    desc : SHORT_NAME + ": Cumulative script error count",
-                    default : ""
-                },
-                {
-                    id: PLUGIN_ID + ".state.actRepeatDelay",
-                    type: "text",
-                    desc : SHORT_NAME + ": Default held action Repeat Delay (ms)",
-                    default : ""
-                },
-                {
-                    id: PLUGIN_ID + ".state.actRepeatRate",
-                    type: "text",
-                    desc : SHORT_NAME + ": Default held action Repeat Rate (ms)",
-                    default : ""
-                },
-                {
-                    id: PLUGIN_ID + ".state.tpDataPath",
-                    type: "text",
-                    desc : SHORT_NAME + ": Touch Portal data folder (current user)",
-                    default : ""
-                },
-                {
-                    id: PLUGIN_ID + ".state.currentPage",
-                    type: "text",
-                    desc : SHORT_NAME + ": Name of Page currently active on TP device",
-                    default : ""
-                },
-                {
-                    id: PLUGIN_ID + ".state.pluginState",
-                    type: "choice",
-                    desc : SHORT_NAME + ": Plugin running state",
-                    default : "Unknown",
-                    valueChoices: ["Stopped", "Starting", "Started"]
-                },
-            ],
+            imagepath: ICON_PATH,
+            states: [],
             actions: [],
             connectors: [],
             events: []
@@ -172,7 +136,7 @@ const entry_base =
         {
             id: PLUGIN_ID + ".cat.values",
             name: "Dynamic Values",
-            imagepath: '%TP_PLUGIN_FOLDER%' + SYSTEM_NAME + '/icon.png',
+            imagepath: ICON_PATH,
             states: [],
             actions: [],
             connectors: [],
@@ -205,16 +169,35 @@ String.prototype.format = function (args) {
 
 // Functions for adding actions/connectors.
 
+function addState(id, desc, def = "", choices = null, cat = 1)
+{
+  const state = {
+    id: PLUGIN_ID + ".state." + id,
+    type: "text",
+    desc : SHORT_NAME + ": " + desc,
+    default: def,
+  };
+
+  if (choices) {
+    state.valueChoices = choices;
+    state.type = "choice";
+  }
+  // push to category
+  entry_base.categories[cat].states.push(state);
+}
+
 function addAction(id, name, descript, format, data, hold = false) {
+    const dataMapArry = data?.map(d => `{$${d.id}$}`) ?? [];
     const action = {
         id: PLUGIN_ID + '.act.' + id,
         prefix: SHORT_NAME,
         name: name,
         type: "communicate",
         tryInline: true,
+        hasHoldFunctionality: !!hold,
         description: descript,
-        format: String(format).format(data?.map(d => `{$${d.id}$}`)),
-        hasHoldFunctionality: hold,
+        format: String(format).format(dataMapArry),
+        formatOnHold: typeof hold == 'string' ? hold.format(dataMapArry) : undefined,
         data: data ? data.map(a => ({...a})) : []
     }
     addVersionData(id, action.data);
@@ -235,7 +218,7 @@ function addConnector(id, name, descript, format, data) {
 }
 
 function addVersionData(id, data) {
-    data.push(makeActionData(id + ".version", "number", "v", iVersion));
+    data.push(makeTextData(id + ".version", "v", iVersion.toString(16)));
 }
 
 // Functions which create action/connector data members.
@@ -249,18 +232,22 @@ function makeActionData(id, type, label = "", deflt = "") {
     };
 }
 
-function makeTextData(id, label, dflt = "") {
+function makeTextData(id, label = "", dflt = "") {
     return makeActionData(id, "text", label, dflt + '');
 }
 
-function makeFileData(id, label, dflt = "") {
+function makeFileData(id, label = "", dflt = "") {
     return makeActionData(id, "file", label, dflt + '');
 }
 
-function makeChoiceData(id, label, choices, dflt) {
-    const d = makeActionData(id, "choice", label, typeof dflt === "undefined" ? choices[0] : dflt);
+function makeChoiceData(id, label, choices, dflt = 0) {
+    const d = makeActionData(id, "choice", label, typeof dflt === "number" ? choices[dflt] : dflt);
     d.valueChoices = choices;
     return d;
+}
+
+function makeOnOffSwitchData(id, dflt = true) {
+    return makeChoiceData(id, "", ["On", "Off"], dflt ? 0 : 1);
 }
 
 function makeNumericData(id, label, dflt, min, max, allowDec = true) {
@@ -485,6 +472,15 @@ function addSystemActions()
 
 // ------------------------
 // Build the full entry.tp object for JSON dump
+
+addState("createdStatesList", "List of created script instances");
+addState("lastError",         "Last script instance error");
+addState("errorCount",        "Cumulative script error count");
+addState("actRepeatDelay",    "Default held action Repeat Delay (ms)");
+addState("actRepeatRate",     "Default held action Repeat Rate (ms)");
+addState("tpDataPath",        "Touch Portal data folder (current user)");
+addState("currentPage",       "Name of Page currently active on TP device");
+addState("pluginState",       "Plugin running state",  "Unknown", ["Stopped", "Starting", "Started"]);
 
 addEvalAction("Evaluate Expression");
 addScriptAction("Load Script from File");

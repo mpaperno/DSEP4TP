@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
 set (VERSION_STR 1.2.0.1)
-set (VERSION_NUM 1020001)
 set (VERSION_SFX -beta1)
 set (PROJECT_FULL_NAME  "Dynamic Script Engine Plugin for Touch Portal")
 set (PROJECT_SHORT_NAME "Dynamic Script Engine")
@@ -12,16 +11,21 @@ set (TP_PLUGIN_ID   "us.paperno.max.tpp.dse")
 project(
   DSEP4TP
   VERSION ${VERSION_STR}
-  DESCRIPTION ${PROJECT_FULL_NAME}
+  HOMEPAGE_URL "https://dse.tpp.max.paperno.us"
+  DESCRIPTION "${PROJECT_SHORT_NAME} - A complete JavaScript scripting environment for Touch Portal."
   LANGUAGES CXX
 )
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
+math(EXPR VERSION_NUM
+  "((${PROJECT_VERSION_MAJOR} & 0xFF) << 24) | ((${PROJECT_VERSION_MINOR} & 0xFF) << 16) | ((${PROJECT_VERSION_PATCH} & 0xFF) << 8) | (${PROJECT_VERSION_TWEAK} & 0xFF)"
+  OUTPUT_FORMAT HEXADECIMAL
+)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 cmake_path(SET SRCPATH "${PROJECT_SOURCE_DIR}")
 cmake_path(SET DOXPATH "${CMAKE_SOURCE_DIR}/../doc/doxygen")
