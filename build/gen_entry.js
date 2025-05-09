@@ -321,15 +321,18 @@ function appendSaveOptionData(id, data) {
 }
 
 function appendHoldOptionData(id, data) {
-    let format = `| On\n| Hold{${data.length}}`;
+    let i = data.length;
+    const format = `| Activate\n| ${EM}Upon {${i++}} Repeat {${i++}} Rep.\nRate {${i++}} Rep.\nDelay {${i++}} rate/delay is in ms.\n empty to use defaults`;
     data.push(
         makeChoiceData(id + ".activation", "Oh Hold Behavior", [
-            "On Press",
-            "On Press &\nRelease",
-            "On Press\nthen Repeat",
-            "Repeat\nafter Delay",
-            "On Release",
+            "Press",
+            "Release",
+            "Press & Release",
+            "Repeat Only",
         ]),
+        makeOnOffSwitchData(id + ".repeat"),
+        makeTextData(id + ".rate"),
+        makeTextData(id + ".delay"),
     );
     return format;
 }
@@ -353,8 +356,8 @@ function addEvalAction(name)
     const cdata = data.map(a => ({...a}));
     addConnector(id, name, descript, format + appendPersistOnlyOptionData(id, cdata), cdata);
     format += appendPersistOptionData(id, data);
-    format += appendHoldOptionData(id, data);
-    addAction(id, name, descript, format, data, true);
+    const onHold = format + appendHoldOptionData(id, data);
+    addAction(id, name, descript, format, data, onHold);
 }
 
 function addScriptAction(name)
@@ -372,8 +375,8 @@ function addScriptAction(name)
     format += appendScopeData(id, data);
     format += appendStateOptionData(id, data);
     format += appendPersistOptionData(id, data);
-    format += appendHoldOptionData(id, data);
-    addAction(id, name, descript, format, data, true);
+    const onHold = format + appendHoldOptionData(id, data);
+    addAction(id, name, descript, format, data, onHold);
     // No connector for script types, too much I/O
 }
 
@@ -395,8 +398,8 @@ function addModuleAction(name)
     const cdata = data.map(a => ({...a}));
     addConnector(id, name, descript, format + appendPersistOnlyOptionData(id, cdata), cdata);
     format += appendPersistOptionData(id, data);
-    format += appendHoldOptionData(id, data);
-    addAction(id, name, descript, format, data, true);
+    const onHold = format + appendHoldOptionData(id, data);
+    addAction(id, name, descript, format, data, onHold);
 }
 
 function addUpdateAction(name)
@@ -410,8 +413,8 @@ function addUpdateAction(name)
         makeTextData(id + ".expr", "Expression"),
     ];
     addConnector(id, name, descript, format, data);
-    format += appendHoldOptionData(id, data);
-    addAction(id, name, descript, format, data, true);
+    const onHold = format + appendHoldOptionData(id, data);
+    addAction(id, name, descript, format, data, onHold);
 }
 
 // System utility action

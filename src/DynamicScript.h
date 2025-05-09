@@ -189,16 +189,16 @@ class DynamicScript : public QObject
 		Q_PROPERTY(int repeatRate READ repeatRate WRITE setRepeatRate NOTIFY repeatRateChanged)
 		//! The default action repeat delay for this particular instance, in milliseconds. If `-1` (default) then the global default rate is used.  \sa activeRepeatDelay, DSE.defaultActionRepeatDelay, repeatDelayChanged()
 		Q_PROPERTY(int repeatDelay READ repeatDelay WRITE setRepeatDelay NOTIFY repeatDelayChanged)
-		//! The action repeat rate for the _currently repeating_ script action, in milliseconds. Changes to this value are only relevant while an action is actively repeating (\ref isRepeating == `true`).
+		//! Temporary repeat rate for the _next time_ script action gets repeated, in milliseconds. Automatically resets to -1 once script finishes repeating.
 		//!  If `-1` (default) then \ref repeatRate or the global default rate is used.  \sa activeRepeatRateChanged()
 		Q_PROPERTY(int activeRepeatRate READ activeRepeatRate WRITE setActiveRepeatRate NOTIFY activeRepeatRateChanged)
-		//! The action repeat delay time for the _currently repeating_ script action, in milliseconds. Changes to this value are only relevant while an action is actively repeating (\ref isRepeating == `true`).
+		//! Temporary repeat delay time for the _next time_ script action gets repeated, in milliseconds. Automatically resets to -1 once script finishes repeating.
 		//!  If `-1` (default) then \ref repeatDelay or the global default delay is used.  \sa activeRepeatDelayChanged()
 		Q_PROPERTY(int activeRepeatDelay READ activeRepeatDelay WRITE setActiveRepeatDelay NOTIFY activeRepeatDelayChanged)
-		//! The currently effective action repeat rate which is either the global default rate, or this instance's \ref repeatRate if set, or \ref activeRepeatRate if it was set and \ref isRepeating is `true`.
+		//! The currently effective action repeat rate which is either the global default rate, or this instance's \ref repeatRate if set, or \ref activeRepeatRate if it was set.
 		//! \n This property is read-only.
 		Q_PROPERTY(int effectiveRepeatRate READ effectiveRepeatRate CONSTANT)
-		//! The currently effective action repeat delay which is either the global default delay, or this instance's \ref repeatDelay if set, or  \ref activeRepeatDelay if it was set and \ref isRepeating is `true`.
+		//! The currently effective action repeat delay which is either the global default delay, or this instance's \ref repeatDelay if set, or  \ref activeRepeatDelay if it was set.
 		//! \n This property is read-only.
 		Q_PROPERTY(int effectiveRepeatDelay READ effectiveRepeatDelay CONSTANT)
 		//! Get or set the maximum number of times this action will repeat when held. A value of `-1` (default) means to repeat an unlimited number of times. Setting the value to `0` effectively disables repeating.
@@ -209,7 +209,7 @@ class DynamicScript : public QObject
 		Q_PROPERTY(int repeatCount READ repeatCount NOTIFY repeatCountChanged)
 		//! `true` if this script evaluation is currently repeating, `false` otherwise.
 		//! The value changes to `true` every time the repetition is about to start, but before the initial \ref effectiveRepeatDelay time has passed.
-		//! For example it is possible to cancel a repitition before it even starts by setting \ref isPressed to `false` whenever whenever this property changes. \sa repeatingStateChanged()
+		//! For example it is possible to cancel a repetition before it even starts by setting \ref isPressed to `false` whenever whenever this property changes. \sa repeatingStateChanged()
 		//! \n This property is read-only.
 		Q_PROPERTY(bool isRepeating READ isRepeating NOTIFY repeatingStateChanged)
 		//! This property value is `true` if a button using an Action which invokes this script is currently being held down, `false` otherwise.
@@ -237,6 +237,8 @@ class DynamicScript : public QObject
 		};
 		//Q_ENUM(State)
 		Q_DECLARE_FLAGS(States, State)
+
+		const static constexpr int MIN_RPT_INTVL = 50;  // minimum repeat rate/delay interval in ms
 
 		States m_state = State::UninitializedState;
 		DseNS::ScriptInputType m_inputType = DseNS::ScriptInputType::UnknownInputType;
@@ -329,8 +331,8 @@ class DynamicScript : public QObject
 
 		int repeatRate() const { return m_repeatRate; }
 		void setRepeatRate(int ms) {
-			if (ms < 50)
-				ms = 50;
+			if (ms > 0 && ms < MIN_RPT_INTVL)
+				ms = MIN_RPT_INTVL;
 			if (m_repeatRate != ms) {
 				m_repeatRate = ms;
 				Q_EMIT repeatRateChanged(ms);
@@ -339,8 +341,8 @@ class DynamicScript : public QObject
 
 		int repeatDelay() const { return m_repeatDelay; }
 		void setRepeatDelay(int ms) {
-			if (ms < 50)
-				ms = 50;
+			if (ms > 0 && ms < MIN_RPT_INTVL)
+				ms = MIN_RPT_INTVL;
 			if (m_repeatDelay != ms){
 				m_repeatDelay = ms;
 				Q_EMIT repeatDelayChanged(ms);
@@ -350,9 +352,9 @@ class DynamicScript : public QObject
 		int activeRepeatRate() const { return m_activeRepeatRate; }
 		void setActiveRepeatRate(int ms)
 		{
-			if (ms < 50)
-				ms = 50;
-			if (isPressed() && m_state.testFlag(State::EvaluatingNowState) && m_activeRepeatRate != ms) {
+			if (ms > 0 && ms < MIN_RPT_INTVL)
+				ms = MIN_RPT_INTVL;
+			if (m_activeRepeatRate != ms) {
 				m_activeRepeatRate = ms;
 				Q_EMIT activeRepeatRateChanged(ms);
 			}
@@ -360,9 +362,9 @@ class DynamicScript : public QObject
 		int activeRepeatDelay() const { return m_activeRepeatDelay; }
 		void setActiveRepeatDelay(int ms)
 		{
-			if (ms < 50)
-				ms = 50;
-			if (isPressed() && m_state.testFlag(State::EvaluatingNowState) && m_activeRepeatDelay != ms) {
+			if (ms > 0 && ms < MIN_RPT_INTVL)
+				ms = MIN_RPT_INTVL;
+			if (m_activeRepeatDelay != ms) {
 				m_activeRepeatDelay = ms;
 				Q_EMIT activeRepeatDelayChanged(ms);
 			}
@@ -501,15 +503,20 @@ class DynamicScript : public QObject
 			if (m_state.testFlags(State::RepeatingState) == repeating)
 				return;
 			m_state.setFlag(State::RepeatingState, repeating);
-			if (repeating) {
-				m_activeRepeatRate = -1;
-				m_repeatCount = 0;
-				Q_EMIT repeatCountChanged(0);
-			}
-			else {
+			if (!repeating) {
+				setRepeatCount(0);
+				setActiveRepeatRate(-1);
+				setActiveRepeatDelay(-1);
 				m_state.setFlag(State::HoldReleasedState, true);
 			}
 			Q_EMIT repeatingStateChanged(repeating);
+		}
+
+		inline void setRepeatCount(int n) {
+			if (m_repeatCount != n) {
+				m_repeatCount = n;
+				Q_EMIT repeatCountChanged(n);
+			}
 		}
 
 		void setPressed(bool isPressed);

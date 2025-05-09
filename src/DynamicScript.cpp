@@ -345,7 +345,7 @@ void DynamicScript::setupRepeatTimer(bool create)
 
 	disconnect(m_repeatTim, &QTimer::timeout, this, &DynamicScript::repeatEvaluate);
 	if (m_repeatTim->thread() != QThread::currentThread()) {
-		Utils::runOnThreadSync(m_repeatTim->thread(), [=]() {
+		Utils::runOnThreadSync(m_repeatTim->thread(), [this]() {
 			m_repeatTim->stop();
 			m_repeatTim->deleteLater();
 			m_repeatTim = nullptr;
@@ -360,13 +360,11 @@ void DynamicScript::setupRepeatTimer(bool create)
 
 void DynamicScript::repeatEvaluate()
 {
-	m_activeRepeatRate = -1;
 	if (isRepeating()) {
 		//qCDebug(lcPlugin) << "Repeating" << name << m_repeatCount << m_maxRepeatCount;
 		if (m_maxRepeatCount < 0 || m_repeatCount < m_maxRepeatCount) {
-			++m_repeatCount;
+			setRepeatCount(m_repeatCount + 1);
 			evaluate();
-			Q_EMIT repeatCountChanged(m_repeatCount);
 			return;
 		}
 		setRepeating(false);
@@ -378,7 +376,7 @@ bool DynamicScript::scheduleRepeatIfNeeded()
 {
 	if (m_activation.testFlags(ActivationBehavior::RepeatOnHold) && (m_maxRepeatCount < 0 || m_repeatCount < m_maxRepeatCount)) {
 		const int delay = m_repeatCount > 0 ? effectiveRepeatRate() : effectiveRepeatDelay();
-		if (delay >= 50) {
+		if (delay >= MIN_RPT_INTVL) {
 			setupRepeatTimer();
 			m_repeatTim->start(delay);
 			setRepeating(true);
@@ -427,6 +425,7 @@ void DynamicScript::evaluate()
 
 		default:
 			m_mutex.unlock();
+			m_state.setFlag(State::EvaluatingNowState, false);
 			return;
 	}
 	m_state.setFlag(State::EvaluatingNowState, false);

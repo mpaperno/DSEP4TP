@@ -130,6 +130,33 @@ static DseNS::ActivationBehaviors stringToActivationType(QStringView str)
 	return ActivationBehavior::OnPress | ActivationBehavior::OnRelease;
 }
 
+static DseNS::ActivationBehaviors actionDataToActivationType(QStringView activation, QStringView repeat)
+{
+	//	"Press"
+	//  "Release"
+	//  "Press & Release"
+	//  "Repeat Only"
+	ActivationBehaviors b = ActivationBehavior::NoActivation;
+	if (repeat == QStringLiteral("On"))
+		b |= ActivationBehavior::RepeatOnHold;
+	if (activation.isEmpty())
+		return b;
+	if (activation.size() < 8)
+		b |= (activation[0] == 'P' ? ActivationBehavior::OnPress : ActivationBehavior::OnRelease);
+	else if (activation[0] == 'P')
+		b |= ActivationBehavior::OnPress | ActivationBehavior::OnRelease;
+	return b;
+}
+
+static int stringToInt(QStringView str, int defaultValue = 0)
+{
+	if (str.isEmpty())
+		return defaultValue;
+	bool ok;
+	const int ret = str.toInt(&ok);
+	return ok ? ret : defaultValue;
+}
+
 
 // -----------------------------------
 // Plugin
@@ -240,7 +267,7 @@ void Plugin::quit()
 		disconnect(client, nullptr, this, nullptr);
 		disconnect(this, nullptr, client, nullptr);
 		if (client->thread() != qApp->thread())
-			Utils::runOnThreadSync(client->thread(), [=]() { client->moveToThread(qApp->thread()); });
+			Utils::runOnThreadSync(client->thread(), [this]() { client->moveToThread(qApp->thread()); });
 		if (client->isConnected()) {
 			client->stateUpdate(m_stateIds[SID_PluginState], tokenToName(AT_Stopped));
 			client->stateUpdate(m_stateIds[SID_CreatedInstanceList], QByteArray());
@@ -885,12 +912,29 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 		return;
 	}
 
-	// When used in "On-Press" the action is actually fired by TP on button release.
-	if (type == TPClientQt::MessageType::action)
+	if (type == TPClientQt::MessageType::action) {
+		// When used in "On-Press" the action is actually fired by TP on button release.
 		ds->setActivation(ActivationBehavior::OnRelease);
-	// If action is used in On-Hold then it may have separate on-press/hold/release behaviors.
-	else
-		ds->setActivation(stringToActivationType(dataMap.value("activation")));
+	}
+	else {  // down action
+		// If action is used in On-Hold then it may have separate on-press/hold/release behaviors.
+		if (dataMap.contains("repeat")) {
+			// New on-hold type fields for v1.2.1/TP v4
+			ds->setActivation(actionDataToActivationType(dataMap.value("activation"), dataMap.value("repeat")));
+			if (ds->activation().testFlag(ActivationBehavior::RepeatOnHold)) {
+				int rep = stringToInt(dataMap.value("rate"), -1);
+				if (rep > 0)
+					ds->setActiveRepeatRate(rep);
+				rep = stringToInt(dataMap.value("delay"), -1);
+				if (rep > 0)
+					ds->setActiveRepeatDelay(rep);
+			}
+		}
+		else {
+			// Legacy single on-hold type option for older versions
+			ds->setActivation(stringToActivationType(dataMap.value("activation")));
+		}
+	}
 
 	if (act != AID_Update) {
 		ScriptEngine *se;
