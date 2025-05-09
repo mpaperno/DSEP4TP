@@ -204,11 +204,19 @@ public:
     QList<NodeImpl *> attributes;
 };
 
-class DocumentImpl : public QQmlRefCount, public NodeImpl
+
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 7, 0))
+using QMLRefCountedType = QQmlRefCounted<DocumentImpl>;
+#else
+using QMLRefCountedType = QQmlRefCount;
+#endif
+
+class DocumentImpl : public QMLRefCountedType, public NodeImpl
 {
+  using Base1 = QMLRefCountedType;
 public:
     DocumentImpl() : root(nullptr) { type = Document; }
-    virtual ~DocumentImpl() {
+    ~DocumentImpl() override {
         delete root;
     }
 
@@ -218,8 +226,8 @@ public:
 
     NodeImpl *root;
 
-    void addref() { QQmlRefCount::addref(); }
-    void release() { QQmlRefCount::release(); }
+    void addref() { Base1::addref(); }
+    void release() { Base1::release(); }
 };
 
 namespace Heap {
@@ -2198,7 +2206,14 @@ DEFINE_OBJECT_VTABLE(QQmlXMLHttpRequestWrapper);
 
 void Heap::QQmlXMLHttpRequestCtor::init(ExecutionEngine *engine)
 {
-    Heap::FunctionObject::init(engine->rootContext(), QStringLiteral("XMLHttpRequest"));
+    Heap::FunctionObject::init(
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 8, 0))
+      engine,
+#else
+      engine->rootContext(),
+#endif
+      QStringLiteral("XMLHttpRequest")
+    );
     Scope scope(engine);
     Scoped<QV4::QQmlXMLHttpRequestCtor> ctor(scope, this);
 

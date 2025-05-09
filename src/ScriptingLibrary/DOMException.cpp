@@ -20,7 +20,6 @@ to any 3rd-party components used within.
 
 #include "DOMException.h"
 #include "private/qv4managed_p.h"
-#include "private/qv4mmdefs_p.h"
 #include <QtCore/qglobal.h>
 #include <private/qqmlglobal_p.h>
 #include <qqmlengine.h>
@@ -68,7 +67,7 @@ struct DOMExceptionCtor : public FunctionObject
 
 			Scope scope(f->engine());
 			Value msgVal = argc ? argv[0] : Value::undefinedValue();
-			Value nameVal = argc > 1 && !argv[1].isEmpty() ? argv[1] : scope.engine->newString(QStringLiteral("DOMException"))->asReturnedValue();
+			Value nameVal = argc > 1 && !argv[1].isEmpty() ? argv[1] : Value::fromReturnedValue(scope.engine->newString(QStringLiteral("DOMException"))->asReturnedValue());
 			Value code = argc > 2 && argv[2].isNumber() ? argv[2] : Value::fromInt32(0);
 			ScopedObject ex(scope, scope.engine->newErrorObject(msgVal));
 			ex->put(ScopedString(scope, scope.engine->newIdentifier(QStringLiteral("name"))), ScopedString(scope, nameVal.stringValue()));
@@ -115,7 +114,14 @@ struct DOMExceptionCtor : public FunctionObject
 
 void Heap::DOMExceptionCtor::init(QV4::ExecutionEngine *engine, const QString &/*message*/)
 {
-	Heap::FunctionObject::init(engine->rootContext(), QStringLiteral("DOMException"));
+	Heap::FunctionObject::init(
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 8, 0))
+    engine,
+#else
+    engine->rootContext(),
+#endif
+    QStringLiteral("DOMException")
+  );
 	Scope scope(engine);
   Scoped<QV4::DOMExceptionCtor> ctor(scope, this);
 

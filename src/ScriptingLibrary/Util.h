@@ -362,7 +362,7 @@ class Util : public QObject
 			QString ret;
 			QTextStream strm(&ret, QIODevice::WriteOnly);
 			v = v.mid(v.length() - maxLines + 1);
-			for (const auto &sv : qAsConst(v))
+			for (const auto &sv : std::as_const(v))
 				strm << sv.toString() << separator;
 			return ret + std::move(line);
 		}
@@ -384,7 +384,7 @@ class Util : public QObject
 			QString ret;
 			QTextStream strm(&ret, QIODevice::WriteOnly);
 			v = v.mid(fromLine, maxLines);
-			for (const auto &sv : qAsConst(v))
+			for (const auto &sv : std::as_const(v))
 				strm << sv.toString() << separator;
 			return ret;
 		}

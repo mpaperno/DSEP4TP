@@ -23,7 +23,7 @@ to any 3rd-party components used within.
 #include <QLoggingCategory>
 #include <QSettings>
 #include <csignal>
-#include <cstdlib>
+// #include <cstdlib>
 #include <iostream>
 
 #include "common.h"
@@ -206,7 +206,10 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	QString logFilterRules = "qt.qml.compiler.warning = false\n";
+	QString logFilterRules =
+		"qt.qml.compiler.warning = false\n"
+		"qt.qml.usedbeforedeclared.warning = false\n"
+	;
 
 	quint8 effectiveLevel = fileLevel > -1 ? std::min(stdoutLevel, fileLevel) : stdoutLevel;
 	const quint8 catLevel = std::max(Logger::levelForCategory(lcPlugin()), Logger::levelForCategory(lcTPC()));
