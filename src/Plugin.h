@@ -47,7 +47,7 @@ class Plugin : public QObject
 		void tpConnect();
 		void tpDisconnect();
 		void tpStateUpdate(const QByteArray &, const QByteArray &) const;
-		void tpStateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &) const;
+		void tpStateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &, bool force = false) const;
 		void tpStateRemove(const QByteArray &) const;
 		void tpChoiceUpdate(const QByteArray &, const QByteArrayList &) const;
 		void tpChoiceUpdateStrList(const QByteArray &, const QStringList &) const;

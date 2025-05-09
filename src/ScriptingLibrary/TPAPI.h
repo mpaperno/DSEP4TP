@@ -140,7 +140,7 @@ class TPAPI : public QObject
 
 	Q_SIGNALS:
 		// Invokable by scripts
-		void stateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &);
+		void stateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &, bool force = false);
 		void stateRemove(const QByteArray &);
 		void choiceUpdate(const QByteArray &, const QStringList &);
 		void choiceUpdateInstance(const QByteArray &, const QByteArray &, const QStringList &);

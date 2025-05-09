@@ -527,7 +527,7 @@ class DynamicScript : public QObject
 
 	private:
 		Q_SIGNAL void dataReady(const QByteArray &stateName, const QByteArray &result);
-		Q_SIGNAL void stateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &) const;
+		Q_SIGNAL void stateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &, bool force = false) const;
 		Q_SIGNAL void stateRemove(const QByteArray &) const;
 		Q_SIGNAL void scriptError(const JSError &e);
 		Q_SIGNAL void finished();

@@ -201,7 +201,7 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, const QByteArray &pluginI
 	connect(this, &Plugin::tpConnect, client, qOverload<>(&TPClientQt::connect), Qt::QueuedConnection);
 	//connect(this, &Plugin::tpDisconnect, client, &TPClientQt::disconnect, Qt::DirectConnection);
 	connect(this, &Plugin::tpStateUpdate, client, qOverload<const QByteArray &, const QByteArray &>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
-	connect(this, &Plugin::tpStateCreate, client, qOverload<const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &>(&TPClientQt::createState), Qt::QueuedConnection);
+	connect(this, &Plugin::tpStateCreate, client, qOverload<const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &, bool>(&TPClientQt::createState), Qt::QueuedConnection);
 	connect(this, &Plugin::tpStateRemove, client, qOverload<const QByteArray &>(&TPClientQt::removeState), Qt::QueuedConnection);
 	connect(this, &Plugin::tpChoiceUpdate, client, qOverload<const QByteArray &, const QByteArrayList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpChoiceUpdateInstance, client, qOverload<const QByteArray &, const QByteArray &, const QByteArrayList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
@@ -457,7 +457,7 @@ DynamicScript *Plugin::getOrCreateInstance(const QByteArray &name, bool forUpdat
 			loadScriptSettings(ds);
 		connect(ds, &DynamicScript::scriptError, this, &Plugin::onScriptError, Qt::QueuedConnection);
 		connect(ds, &DynamicScript::dataReady, client, qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
-		connect(ds, &DynamicScript::stateCreate, client, qOverload<const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &>(&TPClientQt::createState), Qt::QueuedConnection);
+		connect(ds, &DynamicScript::stateCreate, client, qOverload<const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &, bool>(&TPClientQt::createState), Qt::QueuedConnection);
 		connect(ds, &DynamicScript::stateRemove, client, qOverload<const QByteArray &>(&TPClientQt::removeState), Qt::QueuedConnection);
 		sendInstanceLists();
 	}
