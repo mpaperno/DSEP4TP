@@ -45,9 +45,7 @@ to any 3rd-party components used within.
 	#endif
 #endif
 
-#ifndef TP_CLIENT_ENABLE_SEND_QUEUE
-	#define TP_CLIENT_ENABLE_SEND_QUEUE 0
-#endif
+#define qsvPrintable(SV)  (SV).toUtf8().constData()
 
 Q_DECLARE_LOGGING_CATEGORY(lcTPC);
 
@@ -94,7 +92,7 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		enum class MessageType : short {
 			Unknown,                       //!< An unknown event, perhaps from a newer version of TP which isn't supported yet.
 			info,                          //!< The initial connection event, sent after pairing with TP.
-			settings,                      //!< Emitted for 'info' and 'settings' message type; value/settings array is flattened to QJsonObject of {'setting name': 'value', ...} pairs.
+			settings,                      //!< Emitted for both 'info' and 'settings' message type; value/settings array is flattened to `QJsonObject` of `{"setting name": "value", ...}` pairs.
 			action,                        //!< An action click/touch event.
 			down,                          //!< Action button press event.
 			up,                            //!< Action button release event.
@@ -125,6 +123,11 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 			QString id;      //!< ID of the action data member.
 			QString value;   //!< Current value of the data member.
 		};
+
+		//! Type alias for passing a JSON object-like structure via `std::vector<std::pair<const char *, const char*>>`.
+		typedef std::vector<std::pair<const char*, const char *>> JsonObjectChars;
+		//! Type alias for passing a JSON object-like structure via `std::vector<std::pair<std::string, std::string>>`.
+		typedef std::vector<std::pair<std::string, std::string>> JsonObjectStdStr;
 
 		//! The constructor creates the instance but does not attempt any connections.
 		//! The `pluginId` will be used in the initial pairing message sent to Touch Portal, and must match ID in the plugin's entry.tp config file.
@@ -169,11 +172,6 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		//! The default value is 10000 (10s). Call this method with no argument to reset the timeout value to default.  \sa connectionTimeout()
 		void setConnectionTimeout(int timeoutMs = 10000);
 
-#if TP_CLIENT_ENABLE_SEND_QUEUE
-		Q_INVOKABLE void setSendQueueEnabled(bool enable = true);
-		bool sendQueueEnabled() const;
-#endif
-
 		//! \}
 
 	Q_SIGNALS:
@@ -202,18 +200,27 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 
 		//! Send a state update with given `id` and `value` strings.
 		inline void stateUpdate(const char *id, const char *value) const;
+
 		//! Create a new dynamic state with given `id`, `parentGroup`, `description` and default value strings. Passing `nullptr` to `defaultValue` is same as using an empty string.
-		inline void createState(const char *id, const char *parentGroup, const char *desc, const char *defaultValue) const;
+		inline void createState(const char *id, const char *parentGroup, const char *desc, const char *defaultValue, bool force = false) const;
 		//! Create a new dynamic state with given `id`, `parentGroup`, `description` and default value strings.
-		inline void createState(const std::string &id, const std::string &parentGroup, const std::string &desc, const std::string &defaultValue = "") const { createState(id.c_str(), parentGroup.c_str(), desc.c_str(), defaultValue.c_str()); }
+		inline void createState(const std::string &id, const std::string &parentGroup, const std::string &desc, const std::string &defaultValue = "", bool force = false) const { createState(id.c_str(), parentGroup.c_str(), desc.c_str(), defaultValue.c_str(), force); }
 		//! Create a new dynamic state with given `id`, `description` and default value strings. Passing `nullptr` to `defaultValue` is same as using an empty string.
-		inline void createState(const char *id, const char *desc, const char *defaultValue) const { createState(id, nullptr, desc, defaultValue); }
+		inline void createState(const char *id, const char *desc, const char *defaultValue, bool force = false) const { createState(id, nullptr, desc, defaultValue, force); }
 		//! Create a new dynamic state with given `id`, `description` and default value strings.
-		inline void createState(const std::string &id, const std::string &desc, const std::string &defaultValue = "") const { createState(id.c_str(), nullptr, desc.c_str(), defaultValue.c_str()); }
+		inline void createState(const std::string &id, const std::string &desc, const std::string &defaultValue = "", bool force = false) const { createState(id.c_str(), nullptr, desc.c_str(), defaultValue.c_str(), force); }
+
 		//! Delete (remove) a dynamic state with given `id` string.
 		inline void removeState(const char *id) const;
 		//! Delete (remove) a dynamic state with given `id` string.
 		inline void removeState(const std::string &id) const { removeState(id.c_str()); }
+
+		//! Update a list of state choices for a state with given `id` using a `QJsonArray` of strings. `QJsonArray` is most efficient as it requires no further conversion before sending. \since v1.1
+		inline void stateListUpdate(const char *id, const QJsonArray &values) const;
+		//! Update a list of state choices for a state with given `id` using a vector of const char strings. \since v1.1
+		inline void stateListUpdate(const char *id, const QVector<const char *> &values) const { stateListUpdate(id, stringContainerToJsonArray(values)); }
+		//! Update a list of state choices for a state with given `id` using a list of QStrings. \since v1.1
+		inline void stateListUpdate(const char *id, const QStringList &values) const { stateListUpdate(id, QJsonArray::fromStringList(values)); }
 
 		//! Update a list of action data choices for action data with given `id` using a `QJsonArray` of strings. `QJsonArray` is most efficient as it requires no further conversion before sending.
 		inline void choiceUpdate(const char *id, const QJsonArray &values) const;
@@ -262,9 +269,23 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		//! Send a notification message to TP. See TP SDK documentation for details on each field. The options are passed as an array of id/title pairs which are converted to appropriate JSON objects, eg: `{'id': pair.first, 'title': pair.second}`.
 		inline void showNotification(const char *notificationId, const char *title, const char *msg, const QVector<QPair<const char*, const char *>> &options) const;
 		//! Send a notification message to TP. See TP SDK documentation for details on each field. The options are passed as an array of id/title pairs which are converted to appropriate JSON objects, eg: `{'id': pair.first, 'title': pair.second}`.
-		inline void showNotification(const char *notificationId, const char *title, const char *msg, const std::vector<std::pair<const char*, const char *>> &options) const;
+		inline void showNotification(const char *notificationId, const char *title, const char *msg, const JsonObjectChars &options) const;
 		//! Send a notification message to TP. See TP SDK documentation for details on each field. The options are passed as an array of id/title pairs which are converted to appropriate JSON objects, eg: `{'id': pair.first, 'title': pair.second}`.
-		inline void showNotification(const std::string &notificationId, const std::string &title, const std::string &msg, const std::vector<std::pair<std::string, std::string>> &options) const;
+		inline void showNotification(const std::string &notificationId, const std::string &title, const std::string &msg, const JsonObjectStdStr &options = JsonObjectStdStr()) const;
+
+
+		//! Trigger a plugin's TP event with given `id` with optional `states` object. The `states` array should contain
+		//! key/value pairs corresponding to how the event is defined in the plugins entry.tp. For example a `QJsonArray<QJsonObject>({ {"localState1", "value 1"}, {"localState2", "value 2"} })`.
+		inline void triggerEvent(const char *eventId, const QJsonObject &states = QJsonObject()) const;
+		//! Trigger a plugin's TP event with given `id` and `states`. The `states` variant list should be some kind of array containing
+		//! key/value pairs corresponding to how the event is defined in the plugins entry.tp. For example a `QVariantList<QVariantMap>({ {"localState1", "value 1"}, {"localState2", "value 2"} })`.
+		inline void triggerEvent(const char *eventId, const QVariantMap &states) const { triggerEvent(eventId,  QJsonObject::fromVariantMap(states)); }
+		//! Trigger a plugin's TP event with given `id` and `states`. The `states` array should contain
+		//! key/value pairs corresponding to how the event is defined in the plugins entry.tp. For example a `std::vector<std::pair<const char*, const char *>>({ {"localState1", "value 1"}, {"localState2", "value 2"} })`.
+		inline void triggerEvent(const char *eventId, const JsonObjectChars &states) const { triggerEvent(eventId, arrayOfObjectsToJsonOject(states)); }
+		//! Trigger a plugin's TP event with given `id` with optional `states` object. The `states` array should contain
+		//! key/value pairs corresponding to how the event is defined in the plugins entry.tp. For example a `std::vector<std::pair<std::string, std::string>>({ {"localState1", "value 1"}, {"localState2", "value 2"} })`.
+		inline void triggerEvent(const std::string &eventId, const JsonObjectStdStr &states = JsonObjectStdStr()) const { triggerEvent(eventId.c_str(), arrayOfObjectsToJsonOject(states)); }
 
 		//! \}
 
@@ -272,11 +293,14 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		//! \{
 
 		//! Low-level API: Serializes a JSON object to UTF8 bytes. `object` should contain one TP message. This can be then be sent to TP via `write()` method.
-		QByteArray encode(const QJsonObject &object) const { return QJsonDocument(object).toJson(QJsonDocument::Compact); }
+		QByteArray encode(const QJsonObject &object) const {
+			// const QByteArray ba = QJsonDocument(object).toJson(QJsonDocument::Compact);
+			// qCDebug(lcTPC).noquote() << ba;
+			return QJsonDocument(object).toJson(QJsonDocument::Compact);
+		}
 		//! \}
 
 	public Q_SLOTS:
-#define qsvPrintable(SV)  (SV).toUtf8().constData()
 
 		//! \name  Connection handlers
 		//! \{
@@ -321,20 +345,33 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		inline void stateUpdate(const QByteArray &id, const QByteArray &value) const { stateUpdate(id.constData(), value.constData()); }
 		//! Send a state update with given `id` and `value` strings.
 		inline void stateUpdate(QStringView id, QStringView value) const { stateUpdate(qsvPrintable(id), qsvPrintable(value)); }
+		//! Send a state update with given `id` and `value` strings.
+		inline void stateUpdate(const QByteArray &id, QStringView value) const { stateUpdate(id, value.toUtf8()); }
 
 		//! Create a new dynamic state with given `id`, `parentGroup`, `description` and `defaultValue` strings
 		inline void createState(const QByteArray &id, const QByteArray &parentGroup, const QByteArray &desc, const QByteArray &defaultValue) const { createState(id.constData(), parentGroup.constData(), desc.constData(), defaultValue.constData()); }
+		inline void createState(const QByteArray &id, const QByteArray &parentGroup, const QByteArray &desc, const QByteArray &defaultValue, bool force) const { createState(id.constData(), parentGroup.constData(), desc.constData(), defaultValue.constData(), force); }
 		//! Create a new dynamic state with given `id`, `parentGroup`, `description` and `defaultValue` strings
 		inline void createState(QStringView id, QStringView parentGroup, QStringView desc, QStringView defaultValue) const { createState(qsvPrintable(id), qsvPrintable(parentGroup), qsvPrintable(desc), qsvPrintable(defaultValue)); }
+		inline void createState(QStringView id, QStringView parentGroup, QStringView desc, QStringView defaultValue, bool force) const { createState(qsvPrintable(id), qsvPrintable(parentGroup), qsvPrintable(desc), qsvPrintable(defaultValue), force); }
 		//! Create a new dynamic state with given `id`, `description` and `defaultValue` strings.
 		inline void createState(const QByteArray &id, const QByteArray &desc, const QByteArray &defaultValue) const { createState(id.constData(), nullptr, desc.constData(), defaultValue.constData()); }
+		inline void createState(const QByteArray &id, const QByteArray &desc, const QByteArray &defaultValue, bool force) const { createState(id.constData(), nullptr, desc.constData(), defaultValue.constData(), force); }
 		//! Create a new dynamic state with given `id`, `description` and `defaultValue` strings.
 		inline void createState(QStringView id, QStringView desc, QStringView defaultValue) const { createState(qsvPrintable(id), nullptr, qsvPrintable(desc), qsvPrintable(defaultValue)); }
+		inline void createState(QStringView id, QStringView desc, QStringView defaultValue, bool force) const { createState(qsvPrintable(id), nullptr, qsvPrintable(desc), qsvPrintable(defaultValue), force); }
 
 		//! Delete (remove) a dynamic state with given `id` string.
 		inline void removeState(const QByteArray &id) const { removeState(id.constData()); }
 		//! Delete (remove) a dynamic state with given `id` string.
 		inline void removeState(QStringView id) const { removeState(qsvPrintable(id)); }
+
+		//! Update a list of state choices for a state with given `id` using a `QJsonArray` of strings. `QJsonArray` is most efficient as it requires no further conversion before sending. \since v1.1
+		inline void stateListUpdate(const QByteArray &id, const QJsonArray &values) const { stateListUpdate(id.constData(), values); }
+		//! Update a list of state choices for a state with given `id` using a vector of `QByteArray` types. \since v1.1
+		inline void stateListUpdate(const QByteArray &id, const QByteArrayList &values) const { stateListUpdate(id.constData(), stringContainerToJsonArray(values)); }
+		//! Update a list of state choices for a state with given `id` using a list of `QString`s. \since v1.1
+		inline void stateListUpdate(const QByteArray &id, const QStringList &values) const { stateListUpdate(id.constData(), QJsonArray::fromStringList(values)); }
 
 		//! Update a list of action data choices for action data with given `id` using a `QJsonArray` of strings. `QJsonArray` is most efficient as it requires no further conversion before sending.
 		inline void choiceUpdate(const QByteArray &id, const QJsonArray &values) const { choiceUpdate(id.constData(), values); }
@@ -344,7 +381,7 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		inline void choiceUpdate(const QByteArray &id, const QStringList &values) const { choiceUpdate(id.constData(), QJsonArray::fromStringList(values)); }
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0)) || defined(DOXYGEN)
 		//! Update a list of action data choices for action data with given `id` using a `QByteArray` list.
-		//! \note This method only exists on Qt < v6. With v6+ `QByteArrayList` is the same as `QVector<QByteArray>`.
+		//! \note This method only exists on Qt < v6. With v6+ `QByteArrayList` is the same as `QList<QByteArray>`.
 		inline void choiceUpdate(const QByteArray &id, const QByteArrayList &values) const { choiceUpdate(id.constData(), stringContainerToJsonArray(values)); }
 #endif
 		//! Update a list of action data choices for action data with given `id` using a vector of `QJsonArray` of strings. `QJsonArray` is most efficient as it requires no further conversion before sending.
@@ -414,6 +451,19 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 		inline void showNotification(const QByteArray &notificationId, const QByteArray &title, const QByteArray &msg, const QVector<QPair<QLatin1String, QStringView>> &options) const;
 		//! Send a notification message to TP. See TP SDK documentation for details on each field. The options are passed as an array of id/title pairs which are converted to appropriate JSON objects, eg: `{'id': pair.first, 'title': pair.second}`.
 		inline void showNotification(QStringView notificationId, QStringView title, QStringView msg, const QVector<QPair<QStringView, QStringView> > &options) const;
+
+		//! Trigger a plugin's TP event with given `id` with optional `states` object. The `states` array should contain
+		//! key/value pairs corresponding to how the event is defined in the plugins entry.tp. For example a `QJsonArray<QJsonObject>({ {"localState1", "value 1"}, {"localState2", "value 2"} })`.
+		inline void triggerEvent(const QByteArray &eventId, const QJsonObject &states = QJsonObject()) const { triggerEvent(eventId.constData(), states); }
+		//! Trigger a plugin's TP event with given `id` and `states`. The `states` variant list should be some kind of array containing
+		//! key/value pairs corresponding to how the event is defined in the plugins entry.tp. For example a `QVariantList<QVariantMap>({ {"localState1", "value 1"}, {"localState2", "value 2"} })`.
+		inline void triggerEvent(const QByteArray &eventId, const QVariantMap &states) const { triggerEvent(eventId.constData(), QJsonObject::fromVariantMap(states)); }
+		//! Trigger a plugin's TP event with given `id` with optional `states` object. The `states` array should contain
+		//! key/value pairs corresponding to how the event is defined in the plugins entry.tp. For example a `QVector<QPair<QLatin1String, QStringView>>({ {"localState1", "value 1"}, {"localState2", "value 2"} })`.
+		inline void triggerEvent(const QByteArray &eventId, const QVector<QPair<QLatin1String, QStringView>> &states) const { triggerEvent(eventId.constData(), arrayOfObjectsToJsonOject(states)); }
+		//! Trigger a plugin's TP event with given `id` with optional `states` object. The `states` array should contain
+		//! key/value pairs corresponding to how the event is defined in the plugins entry.tp. For example a `QVector<QPair<QStringView, QStringView>>({ {"localState1", "value 1"}, {"localState2", "value 2"} })`.
+		inline void triggerEvent(QStringView eventId, const QVector<QPair<QStringView, QStringView>> &states) const { triggerEvent(eventId.toUtf8(), arrayOfObjectsToJsonOject(states)); }
 
 		//! \}
 
@@ -501,6 +551,38 @@ class TPCLIENT_LIB_EXPORT TPClientQt : public QObject
 			}
 			return ret;
 		}
+
+		template <typename Vect,
+		          typename Pair = typename Vect::value_type,
+		          typename Key = std::remove_const_t<typename Pair::first_type>,
+		          typename Val = std::remove_const_t<typename Pair::second_type> >
+		QJsonObject arrayOfObjectsToJsonOject(const Vect &list) const
+		{
+			QJsonObject ret;
+			for (typename Vect::const_iterator it = list.cbegin(); it != list.cend(); ++it) {
+				const Key &key = static_cast<Key>(it->first);
+				const Val &val = static_cast<Val>(it->second);
+				QJsonValue jval;
+				if constexpr (std::is_same_v<Val, QStringView>)
+					jval = val.toString();
+				else if constexpr (std::is_same_v<Val, QByteArray>)
+					jval = QString(val);
+				else if constexpr (std::is_same_v<Val, std::string>)
+					jval = val.c_str();
+				else if constexpr (std::is_same_v<Val, std::wstring>)
+					jval = QString::fromStdWString(val);
+				else
+					jval = val;
+
+				if constexpr (std::is_same_v<Key, QStringView>)
+					ret.insert(key.toString(), jval);
+				else if constexpr (std::is_same_v<Key, std::string>)
+					ret.insert(QString::fromStdString(key), jval);
+				else
+					ret.insert(QString(key), jval);
+			}
+			return ret;
+		}
 };
 
 inline
@@ -523,14 +605,15 @@ void TPClientQt::stateUpdate(const char *id, const char *value) const
 }
 
 inline
-void TPClientQt::createState(const char *id, const char *parentGroup, const char *desc, const char *defaultValue) const
+void TPClientQt::createState(const char *id, const char *parentGroup, const char *desc, const char *defaultValue, bool force) const
 {
 	send({
 		{"type", "createState"},
 		{"id", id},
 		{"desc", desc ? desc : ""},
 		{"defaultValue", defaultValue ? defaultValue : ""},
-		{"parentGroup", parentGroup ? parentGroup : ""}
+		{"parentGroup", parentGroup ? parentGroup : ""},
+		{"forceUpdate", force}
 	});
 }
 
@@ -548,6 +631,16 @@ void TPClientQt::choiceUpdate(const char *id, const QJsonArray &values) const
 {
 	send({
 		{"type", "choiceUpdate"},
+		{"id", id},
+		{"value", values}
+	});
+}
+
+inline
+void TPClientQt::stateListUpdate(const char *id, const QJsonArray &values) const
+{
+	send({
+		{"type", "stateListUpdate"},
 		{"id", id},
 		{"value", values}
 	});
@@ -640,12 +733,12 @@ void TPClientQt::showNotification(const char *notificationId, const char *title,
 }
 
 inline
-void TPClientQt::showNotification(const char *notificationId, const char *title, const char *msg, const std::vector<std::pair<const char *, const char *> > &options) const
+void TPClientQt::showNotification(const char *notificationId, const char *title, const char *msg, const JsonObjectChars &options) const
 {
 	showNotification(notificationId, title, msg, arrayOfObjectsToJsonArray(options));
 }
 
-inline void TPClientQt::showNotification(const std::string &notificationId, const std::string &title, const std::string &msg, const std::vector<std::pair<std::string, std::string> > &options) const
+inline void TPClientQt::showNotification(const std::string &notificationId, const std::string &title, const std::string &msg, const JsonObjectStdStr &options) const
 {
 	showNotification(notificationId.c_str(), title.c_str(), msg.c_str(), arrayOfObjectsToJsonArray(options));
 }
@@ -660,6 +753,17 @@ inline
 void TPClientQt::showNotification(QStringView notificationId, QStringView title, QStringView msg, const QVector<QPair<QStringView, QStringView> > &options) const
 {
 	showNotification(notificationId.toUtf8(), title.toUtf8(), msg.toUtf8(), arrayOfObjectsToJsonArray(options));
+}
+
+
+inline
+void TPClientQt::triggerEvent(const char *eventId, const QJsonObject &states) const
+{
+	send({
+		{"type", "triggerEvent"},
+		{"eventId", eventId},
+		{"states", states}
+	});
 }
 
 

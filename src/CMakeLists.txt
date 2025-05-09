@@ -73,8 +73,6 @@ target_sources(${PROJECT_NAME} PRIVATE
   JSError.h
   Logger.h
   Logger.cpp
-  TPClientQt.h
-  TPClientQt.cpp
   RunGuard.h
   utils.h
 
@@ -144,6 +142,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${Qt${QT_VERSION_MAJOR}Qml_PRIVATE_INCLUDE_DIRS})
+
+## TPClientQt
+add_subdirectory("${SRCPATH}/TPClientQt" EXCLUDE_FROM_ALL)
+target_link_libraries(${PROJECT_NAME} PRIVATE TPClientQt)
 
 ##  Install
 
