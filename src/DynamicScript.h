@@ -539,12 +539,14 @@ class DynamicScript : public QObject
 		bool setFile(const QString &file);
 		bool scheduleRepeatIfNeeded();
 
-		inline void createTpState(const QByteArray &val = QByteArray())
+		inline void createTpState(const QByteArray &val = QByteArray(), bool withDelay = true)
 		{
 			if (!m_state.testFlags(TpStateCreatedFlag)) {
 				m_state.setFlag(TpStateCreatedFlag, true);
 				Q_EMIT stateCreate(tpStateId, stateCategory(), stateName(), val, !val.isEmpty());
 				qCDebug(lcPlugin) << "Created instance State" << tpStateId << "in" << stateCategory();
+				if (withDelay)
+					QThread::msleep(2);
 			}
 		}
 
