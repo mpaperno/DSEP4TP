@@ -83,6 +83,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   ScriptingLibrary/AbortController.h
   ScriptingLibrary/Clipboard.h
   ScriptingLibrary/File.h
+  ScriptingLibrary/FileInfo.h
   ScriptingLibrary/FS.h
   ScriptingLibrary/Dir.h
   ScriptingLibrary/Process.h

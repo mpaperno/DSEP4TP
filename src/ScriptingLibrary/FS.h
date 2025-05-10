@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QDir>
 #include <QFile>
 
 //! \file
@@ -97,6 +98,54 @@ Q_NAMESPACE
 	};
 	Q_ENUM_NS(FileError)
 
+	//! This enum describes the filtering options available for `Dir.list()` `Dir.infoList()`. The sort value is specified by OR-ing together values from the following list.
+	enum DirFilter {
+		NoFilter       = QDir::NoFilter      ,  //!< Do not apply any filtering to the list results.
+		Dirs           = QDir::Dirs          ,  //!< List directories that match the filters.
+		Files          = QDir::Files         ,  //!< List files.
+		Drives         = QDir::Drives        ,  //!< List disk drives (ignored under Unix).
+		NoSymLinks     = QDir::NoSymLinks    ,  //!< Do not list symbolic links (ignored by operating systems that don't support symbolic links).
+		AllEntries     = QDir::AllEntries    ,  //!< List directories, files, drives and symlinks (this does not list broken symlinks unless you specify System).
+		// TypeMask       = QDir::TypeMask      ,  //!<
+		Readable       = QDir::Readable      ,  //!< List files for which the application has read access. The Readable value needs to be combined with Dirs or Files.
+		Writable       = QDir::Writable      ,  //!< List files for which the application has write access. The Writable value needs to be combined with Dirs or Files.
+		Executable     = QDir::Executable    ,  //!< List files for which the application has execute access. The Executable value needs to be combined with Dirs or Files.
+		// PermissionMask = QDir::PermissionMask,  //!<
+		Modified       = QDir::Modified      ,  //!< Only list files that have been modified (ignored on Unix).
+		Hidden         = QDir::Hidden        ,  //!< List hidden files (on Unix, files starting with a ".").
+		System         = QDir::System        ,  //!< List system files (on Unix, FIFOs, sockets and device files are included; on Windows, .lnk files are included)
+		// AccessMask     = QDir::AccessMask    ,  //!<
+		AllDirs        = QDir::AllDirs       ,  //!< List all directories; i.e. don't apply the filters to directory names.
+		CaseSensitive  = QDir::CaseSensitive ,  //!< The filter should be case sensitive.
+		NoDot          = QDir::NoDot         ,  //!< Do not list the special entry ".".
+		NoDotDot       = QDir::NoDotDot      ,  //!< Do not list the special entry "..".
+		NoDotAndDotDot = QDir::NoDotAndDotDot,  //!< Do not list the special entries "." and "..".
+	};
+	Q_FLAG_NS(DirFilter)
+	//! The `DirFilters` type stores an OR combination of `DirFilter` values.
+	Q_DECLARE_FLAGS(DirFilters, DirFilter)
+
+	//! This enum describes the sort options available for `Dir.list()` `Dir.infoList()`. The sort value is specified by OR-ing together values from the following list.
+	//! But only one of `SortName`, `SortTime`, `SortSize` or `SortType` can be specified at a time. \n
+	//! If you specify both `SortDirsFirst` and `SortReversed`, directories are still put first, but in reverse order; the files will be listed after the directories, again in reverse order.
+	enum DirSort {
+		SortDefault     = QDir::NoSort     ,  //!< Not sorted by default.
+		SortName        = QDir::Name       ,  //!< Sort by name.
+		SortTime        = QDir::Time       ,  //!< Sort by modification time.
+		SortSize        = QDir::Size       ,  //!< Sort by file size.
+		SortType        = QDir::Type       ,  //!< Sort by file type (extension).
+		SortUnsorted    = QDir::Unsorted   ,  //!< Do not sort.
+		// SortByMask  = QDir::SortByMask ,  //!<
+		SortDirsFirst   = QDir::DirsFirst  ,  //!< Put the directories first, then the files.
+		SortDirsLast    = QDir::DirsLast   ,  //!< Put the files first, then the directories.
+		SortReversed    = QDir::Reversed   ,  //!< Reverse the sort order.
+		SortIgnoreCase  = QDir::IgnoreCase ,  //!< Sort case-insensitively.
+		SortLocaleAware = QDir::LocaleAware,  //!< Sort items appropriately using the current locale settings.
+	};
+	Q_FLAG_NS(DirSort)
+	//! The `DirSortFlags` type stores an OR combination of `DirSort` values.
+	Q_DECLARE_FLAGS(DirSortFlags, DirSort)
+
 };  // namespace FS
 
 #ifndef DOXYGEN
@@ -110,3 +159,7 @@ Q_DECLARE_METATYPE(ScriptLib::FS::OpenMode)
 Q_DECLARE_OPERATORS_FOR_FLAGS(ScriptLib::FS::OpenMode)
 Q_DECLARE_METATYPE(ScriptLib::FS::Permissions)
 Q_DECLARE_OPERATORS_FOR_FLAGS(ScriptLib::FS::Permissions)
+Q_DECLARE_METATYPE(ScriptLib::FS::DirFilters)
+Q_DECLARE_OPERATORS_FOR_FLAGS(ScriptLib::FS::DirFilters)
+Q_DECLARE_METATYPE(ScriptLib::FS::DirSortFlags)
+Q_DECLARE_OPERATORS_FOR_FLAGS(ScriptLib::FS::DirSortFlags)

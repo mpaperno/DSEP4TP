@@ -29,11 +29,12 @@ to any 3rd-party components used within.
 
 #include "common.h"
 #include "FS.h"
+#include "FileInfo.h"
 //#include "ScriptEngine.h"
 
 //! \file
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) && (QT_VERSION < QT_VERSION_CHECK(6, 6, 0))
 extern Q_CORE_EXPORT int qt_ntfs_permission_lookup;  // for NTFS permission checking, see QFile docs.
 #endif
 
@@ -44,8 +45,6 @@ namespace ScriptLib {
 #else
 #define QByteArray ArrayBuffer
 #endif
-
-using namespace FS;
 
 //! \ingroup FileSystem
 //! The File class provides access to... files.  Shocking.
@@ -103,7 +102,7 @@ class File : public QObject
 		//! Reads a file and returns the contents as a byte array.
 		//! Set `mode` to `FS.O_BIN` to read in binary mode. Default is to read as text.
 		//! \throws ReferenceError is thrown if file loading fails (file not found/etc) and returns and empty string.
-		Q_INVOKABLE QByteArray read(const QString &file, ScriptLib::FS::OpenMode mode = O_TEXT) const { return read_impl(qjsEngine(this), file, mode); }
+		Q_INVOKABLE QByteArray read(const QString &file, FS::OpenMode mode = FS::O_TEXT) const { return read_impl(qjsEngine(this), file, mode); }
 		//! Reads a file and returns the contents as a byte array.
 		//! Set `mode` to 'b' to read in binary mode. Default is to read as text.
 		//! \throws ReferenceError is thrown if file loading fails (file not found/etc) and returns and empty string.
@@ -157,7 +156,7 @@ class File : public QObject
 		//!   * `FS.O_EXCL` to fail if the file exists, or `FS.O_NOCREAT` to to fail if the file _doesn't_ already exist (both will return an error if the condition isn't met).
 		//!
 		//! \throws Error is thrown if the file writing fails for any reason.
-		Q_INVOKABLE qint64 write(const QString &file, const QByteArray &data, ScriptLib::FS::OpenMode mode = O_TEXT) const
+		Q_INVOKABLE qint64 write(const QString &file, const QByteArray &data, FS::OpenMode mode = FS::O_TEXT) const
 		{
 			qint64 ret;
 			QFile fh(file);
@@ -198,15 +197,18 @@ class File : public QObject
 		//! \{
 
 		// File info
-		//! Returns `tru`e if the file exists; otherwise returns `false`.
+		//! Returns a `FileInfo` object describing the file at the given `path`. Relative paths are resolved against the current working directory (`Dir.cwd()`).
+		Q_INVOKABLE static FileInfo info(const QString &path) { return FileInfo(path); }
+
+		//! Returns `true` if `file` exists; otherwise returns `false`.
 		Q_INVOKABLE static bool exists(const QString &file)      { return QFileInfo::exists(file); }
-		//! Returns `true` if this object points to a file or to a symbolic link to a file. Returns `false` if the object points to something which isn't a file, such as a directory.
+		//! Returns `true` if `path` points to a file or to a symbolic link to a file. Returns `false` if the object points to something which isn't a file, such as a directory.
 		Q_INVOKABLE static bool isFile(const QString &path)      { return QFileInfo(path).isFile(); }
-		//! Returns `true` if this object points to a directory or to a symbolic link to a directory; otherwise returns `false`.
+		//! Returns `true` if `path` points to a directory or to a symbolic link to a directory; otherwise returns `false`.
 		Q_INVOKABLE static bool isDir(const QString &path)       { return QFileInfo(path).isDir(); }
-		//! Returns `true` if the user can read the file; otherwise returns `false`.
+		//! Returns `true` if the user can read the file `file`; otherwise returns `false`.
 		Q_INVOKABLE static bool isReadable(const QString &file)  { return QFileInfo(file).isReadable(); }
-		//! Returns `true` if the user can write to the file; otherwise returns `false`.
+		//! Returns `true` if the user can write to the file `file`; otherwise returns `false`.
 		Q_INVOKABLE static bool isWritable(const QString &file)  { return QFileInfo(file).isWritable(); }
 		//! Returns `true` if the file path name is absolute, otherwise returns `false` if the path is relative
 		Q_INVOKABLE static bool isAbs(const QString &file)       { return QFileInfo(file).isAbsolute(); }
@@ -255,9 +257,9 @@ class File : public QObject
 		//! Returns the date and time when the file metadata (status, eg. permissions) was changed. If the file is not available, this function returns an invalid Date object.
 		Q_INVOKABLE static QDateTime ctime(const QString &file)  { return QFileInfo(file).metadataChangeTime(); }
 		//! Returns the complete OR-ed together combination of `FS.Permissions` for the file.
-		Q_INVOKABLE static ScriptLib::FS::Permissions permissions(const QString &file)  { return (Permissions)(quint16)QFileInfo(file).permissions(); }
+		Q_INVOKABLE static FS::Permissions permissions(const QString &file)  { return (Permissions)(quint16)QFileInfo(file).permissions(); }
 		//! Sets the permissions for `file` to the `FS.Permissions` flags specified in `p`. Returns `true` if successful, or `false` if the permissions cannot be modified.
-		Q_INVOKABLE bool setPermissions(const QString &file, ScriptLib::FS::Permissions p) { return QFile(file).setPermissions((QFileDevice::Permissions)(int)p); }
+		Q_INVOKABLE bool setPermissions(const QString &file, FS::Permissions p) { return QFile(file).setPermissions((QFileDevice::Permissions)(int)p); }
 
 		//! \}
 
@@ -269,7 +271,7 @@ class File : public QObject
 			return str;
 		}
 
-		static bool open_impl(QFile &fh, QJSEngine *jse, ScriptLib::FS::OpenMode mode)
+		static bool open_impl(QFile &fh, QJSEngine *jse, FS::OpenMode mode)
 		{
 			if (fh.open(toQfileFlags(mode)))
 				return true;
@@ -280,7 +282,7 @@ class File : public QObject
 			return false;
 		}
 
-		static QByteArray read_impl(QJSEngine *jse, const QString &file, ScriptLib::FS::OpenMode mode = O_TEXT)
+		static QByteArray read_impl(QJSEngine *jse, const QString &file, FS::OpenMode mode = FS::O_TEXT)
 		{
 			QFile fh(file);
 			if (!open_impl(fh, jse, mode.setFlag(O_WRONLY, false).setFlag(O_RDONLY)))
@@ -460,7 +462,7 @@ class FileHandle : private File
 		Q_PROPERTY(QString fileName READ fileName WRITE setFileName)
 		//! Returns the file error status code. For example, if `open()` returns `false`, or a read/write operation returns `-1`,
 		//! this function can be called to find out the reason why the operation failed. \sa errorString, unsetError()
-		Q_PROPERTY(ScriptLib::FS::FileError error READ error)
+		Q_PROPERTY(FS::FileError error READ error)
 		//! Returns a human-readable description of the last device error that occurred.
 		Q_PROPERTY(QString errorString READ errorString)
 		//! \}
@@ -474,13 +476,13 @@ class FileHandle : private File
 		//! Returns `true` if the file has been successfully opened, `false` otherwise.
 		Q_PROPERTY(bool isOpen READ isOpen)
 		//! Returns the current `FS.OpenMode` of the file handle, or `FS.O_NOTOPEN` if the file hasn't been opened.
-		Q_PROPERTY(ScriptLib::FS::OpenMode openMode READ openMode)
+		Q_PROPERTY(FS::OpenMode openMode READ openMode)
 		//! Size of the current file, in bytes. Same as `length`.
 		Q_PROPERTY(qint64 size READ size)
 		//! Size of the current file, in bytes. Same as `size`.
 		Q_PROPERTY(qint64 length READ length)
 		//! Returns the complete OR-ed together combination of `FS.Permissions` for the file. \sa setPermissions()
-		Q_PROPERTY(ScriptLib::FS::Permissions permissions READ permissions)
+		Q_PROPERTY(FS::Permissions permissions READ permissions)
 		//! Returns the date and local time when the current file was last accessed. If the file is not available, this function returns an invalid Date object. Same as `fileTime(S_ATIME)`.
 		Q_PROPERTY(QDateTime atime READ atime)
 		//! Returns the date and time when the current file was created / born.	If the file birth time is not available, this function returns an invalid Date object. Same as `fileTime(S_BTIME)`.
@@ -525,12 +527,14 @@ class FileHandle : private File
 		Q_PROPERTY(QString normPath READ normPath)
 		//! Returns the canonical path including the current file name, i.e. an absolute path without symbolic links or redundant "." or ".." elements.
 		Q_PROPERTY(QString normFilePath READ normFilePath)
+		//! Returns a `FileInfo` object with details about this file.
+		Q_PROPERTY(FileInfo info READ info)
 		//! \}
 
 		QString fileName() const { return m_file.fileName(); }
-		void setFileName(const QString &name) { m_file.setFileName(name); m_fi = QFileInfo(name);}
+		void setFileName(const QString &name) { m_file.setFileName(name); m_fi = QFileInfo(name); }
 		QString errorString() const { return m_file.errorString(); }
-		ScriptLib::FS::FileError error() const { return (FileError)m_file.error(); }
+		FS::FileError error() const { return (FileError)m_file.error(); }
 
 		bool exists()      const { return m_file.exists(); }
 		bool isReadable()  const { return m_file.isReadable(); }
@@ -547,20 +551,20 @@ class FileHandle : private File
 		QDateTime mtime() const { return fileTime(S_MTIME); }
 		QDateTime atime() const { return fileTime(S_ATIME); }
 
-		ScriptLib::FS::OpenMode openMode() const { return OpenMode((quint8)m_file.openMode()); }
-		ScriptLib::FS::Permissions permissions()  const { return (Permissions)(quint16)m_file.permissions(); }
+		FS::OpenMode openMode() const { return OpenMode((quint8)m_file.openMode()); }
+		FS::Permissions permissions()  const { return (Permissions)(quint16)m_file.permissions(); }
 
 		//! \{
 
 		//! Sets the permissions for the file to the `FS.Permissions` flags specified in `p`. Returns `true` if successful, or `false` if the permissions cannot be modified.
-		Q_INVOKABLE bool setPermissions(ScriptLib::FS::Permissions p) { return m_file.setPermissions((QFileDevice::Permissions)(int)p); }
+		Q_INVOKABLE bool setPermissions(FS::Permissions p) { return m_file.setPermissions((QFileDevice::Permissions)(int)p); }
 		//! Sets the file's error to `FS.NoError`. \sa error, errorString
 		Q_INVOKABLE void unsetError() { m_file.unsetError(); }
 
 		//! Returns the file time specified by `time`. If the time cannot be determined this function returns an invalid `Date` object. \sa btime, mtime, atime, FS.FileTime
-		Q_INVOKABLE QDateTime fileTime(ScriptLib::FS::FileTime time) const { return m_file.fileTime((QFileDevice::FileTime)time); }
+		Q_INVOKABLE QDateTime fileTime(FS::FileTime time) const { return m_file.fileTime((QFileDevice::FileTime)time); }
 		//! Sets the file time specified by `fileTime` to `newDate` on the current file, returning `true` if successful; otherwise returns `false`. \n **Note:** The file must be open to use this function.
-		Q_INVOKABLE bool setFileTime(const QDateTime &newDate, ScriptLib::FS::FileTime fileTime) { return m_file.setFileTime(newDate, (QFileDevice::FileTime)fileTime); }
+		Q_INVOKABLE bool setFileTime(const QDateTime &newDate, FS::FileTime fileTime) { return m_file.setFileTime(newDate, (QFileDevice::FileTime)fileTime); }
 
 		//! \}
 		//! \{
@@ -584,7 +588,7 @@ class FileHandle : private File
 		//! \{
 
 		//! Opens the current file using `FS.OpenMode` `mode` flags, returning `true` if successful; otherwise `false`.
-		Q_INVOKABLE bool open(ScriptLib::FS::OpenMode mode)  { return m_file.open(toQfileFlags(mode)); }
+		Q_INVOKABLE bool open(FS::OpenMode mode)  { return m_file.open(toQfileFlags(mode)); }
 		//! Opens the current file using `mode` text flag(s), returning `true` if successful; otherwise `false`. See `FS.OpenMode` documentation for text equivalents.
 		Q_INVOKABLE bool open(const QString &mode)           { return open(modeToFlags(mode)); }
 		//! Flushes and closes the current file if it is open and resets `error()` status. Does nothing if the file is not open. Errors from flush are ignored.
@@ -660,6 +664,7 @@ class FileHandle : private File
 		QString absFilePath()  const { return m_fi.absoluteFilePath(); }
 		QString normPath()     const { return m_fi.canonicalPath(); }
 		QString normFilePath() const { return m_fi.canonicalFilePath(); }
+		FileInfo info()        const { return FileInfo(m_fi); }
 };
 
 #ifndef DOXYGEN

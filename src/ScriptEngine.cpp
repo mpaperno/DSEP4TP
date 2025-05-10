@@ -24,6 +24,7 @@ to any 3rd-party components used within.
 #include "ScriptingLibrary/Clipboard.h"
 #include "ScriptingLibrary/Dir.h"
 #include "ScriptingLibrary/File.h"
+#include "ScriptingLibrary/FileInfo.h"
 #include "ScriptingLibrary/Process.h"
 #include "ScriptingLibrary/TPAPI.h"
 #include "ScriptingLibrary/Util.h"
@@ -57,6 +58,8 @@ ScriptEngine::ScriptEngine(const QByteArray &instanceName, QObject *p) :
 		qRegisterMetaType<ScriptLib::AbortSignal>("AbortSignal");
 		qRegisterMetaType<ConnectorRecord>("ConnectorRecord");
 		qRegisterMetaType<QVector<ConnectorRecord> >();
+		qRegisterMetaType<FileInfo>("FileInfo");
+		qRegisterMetaType<QVector<FileInfo> >();
 #if !SCRIPT_ENGINE_USE_QML
 		qRegisterMetaType<QVariant>();
 		qRegisterMetaType<QJSValue>();

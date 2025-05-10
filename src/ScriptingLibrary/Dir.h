@@ -27,6 +27,8 @@ to any 3rd-party components used within.
 #include <QObject>
 
 //#include "common.h"
+#include "FS.h"
+#include "FileInfo.h"
 
 //! \file
 
@@ -115,6 +117,73 @@ class Dir : public QObject
 		Q_INVOKABLE static QString abs(const QString &path)    { return QDir(path).absolutePath(); }
 		//! Returns the canonical path, i.e. a path without symbolic links or redundant "." or ".." elements.
 		Q_INVOKABLE static QString normalize(const QString &path)  { return QDir(path).canonicalPath(); }
+
+		//! \}
+		// Listings
+		//! \{
+
+		//! Returns a `FileInfo` object describing the given `path`.  `path` can be a directory or file name. Relative paths are resolved against the current working directory (`Dir.cwd()`).
+		Q_INVOKABLE static FileInfo info(const QString &path) { return FileInfo(path); }
+
+		//! Returns an array of directory entry names in the given `path`.
+		//! \param path The directory to list. Relative paths are resolved against the current working directory (`Dir.cwd()`).
+		//! \param nameFilters A list of file glob patterns to include, or an empty list for no filter. For example `["*.png,", "*.jpg", "*.gif"]`
+		//! \param filters A combination of `FS::DirFilters` filter flags to apply to the results.
+		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
+		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
+		//! \sa Dir.infoList()
+		Q_INVOKABLE static QStringList list(const QString &path, const QStringList &nameFilters = QStringList(), FS::DirFilters filters = FS::NoFilter, FS::DirSortFlags sort = FS::SortDefault, int maxResults = 0) {
+			const auto list = QDir(path).entryList(nameFilters, (QDir::Filters)(int)filters, (QDir::SortFlags)(int)sort);
+			if (maxResults > 0)
+				return list.first(std::min(list.size(), (qsizetype)maxResults));
+			return list;
+		}
+		//! Returns an array of directory entry names in the given `path`. This is an overloaded function.
+		//! \param path The directory to list. Relative paths are resolved against the current working directory (`Dir.cwd()`).
+		//! \param filters A combination of `FS::DirFilters` filter flags to apply to the results.
+		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
+		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
+		//! \sa Dir.infoList()
+		Q_INVOKABLE static QStringList list(const QString &path, FS::DirFilters filters, FS::DirSortFlags sort = FS::SortDefault, int maxResults = 0) { return list(path, QStringList(), filters, sort, maxResults); }
+		//! Returns an array of directory entry names in the given `path`. This is an overloaded function.
+		//! \param path The directory to list. Relative paths are resolved against the current working directory (`Dir.cwd()`).
+		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
+		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
+		//! \sa Dir.infoList()
+		Q_INVOKABLE static QStringList list(const QString &path, FS::DirSortFlags sort, int maxResults = 0) { return list(path, QStringList(), FS::NoFilter, sort, maxResults); }
+
+		//! Returns an array of directory entries in the given `path` as `FileInfo` objects.
+		//! \param path The directory to list. Relative paths are resolved against the current working directory (`Dir.cwd()`).
+		//! \param nameFilters A list of file glob patterns to include, or an empty list for no filter. For example `["*.png,", "*.jpg", "*.gif"]`
+		//! \param filters A combination of `FS::DirFilters` filter flags to apply to the results.
+		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
+		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
+		//! \sa Dir.list()
+		Q_INVOKABLE static QVector<FileInfo> infoList(const QString &path, const QStringList &nameFilters = QStringList(), FS::DirFilters filters = FS::NoFilter, FS::DirSortFlags sort = FS::SortDefault, int maxResults = 0) {
+			const auto list = Dir::list(path, nameFilters, filters, sort, maxResults);
+			// const auto list = QDir(path).entryInfoList(nameFilters, (QDir::Filters)filters, (QDir::SortFlags)sort);
+			QVector<FileInfo> ret;
+			for (const auto &fi : list) {
+				ret << FileInfo(path + '/' + fi);
+				// ret << FileInfo(fi);
+				// if (maxResults > 0 && ret.size() >= maxResults)
+				// 	break;
+			}
+			return ret;
+		}
+		//! Returns an array of directory entries in the given `path` as `FileInfo` objects. This is an overloaded function.
+		//! \param path The directory to list. Relative paths are resolved against the current working directory (`Dir.cwd()`).
+		//! \param filters A combination of `FS::DirFilters` filter flags to apply to the results.
+		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
+		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
+		//! \sa Dir.list()
+		Q_INVOKABLE static QVector<FileInfo> infoList(const QString &path, FS::DirFilters filters, FS::DirSortFlags sort = FS::SortDefault, int maxResults = 0) { return infoList(path, QStringList(), filters, sort, maxResults); }
+		//! Returns an array of directory entries in the given `path` as `FileInfo` objects. This is an overloaded function.
+		//! \param path The directory to list. Relative paths are resolved against the current working directory (`Dir.cwd()`).
+		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
+		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
+		//! \sa Dir.list()
+		Q_INVOKABLE static QVector<FileInfo> infoList(const QString &path, FS::DirSortFlags sort, int maxResults = 0) { return infoList(path, QStringList(), FS::DirFilter::NoFilter, sort, maxResults); }
 
 		//! \}
 };
