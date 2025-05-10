@@ -65,7 +65,7 @@ class TPAPI : public QObject
 			// Direct(ish) connection to socket where state ID is already fully qualified;
 			connect(this, &TPAPI::stateValueUpdateById, plugin, &Plugin::tpStateUpdate, ctype);
 			// Other direct connections from eponymous script functions.
-			connect(this, &TPAPI::stateCreate, plugin, &Plugin::tpStateCreate, ctype);
+			connect(this, &TPAPI::tpStateCreate, plugin, &Plugin::tpStateCreate, ctype);
 			connect(this, &TPAPI::stateRemove, plugin, &Plugin::tpStateRemove, ctype);
 			connect(this, &TPAPI::choiceUpdate, plugin, &Plugin::tpChoiceUpdateStrList, ctype);
 			connect(this, &TPAPI::choiceUpdateInstance, plugin, &Plugin::tpChoiceUpdateInstanceStrList, ctype);
@@ -138,9 +138,15 @@ class TPAPI : public QObject
 
 		Q_INVOKABLE static QString currentPageName() { return DSE::tpCurrentPage; }
 
+		Q_INVOKABLE void stateCreate(const QByteArray &id, const QByteArray &p, const QByteArray &n, const QByteArray &d, bool force = false, int delayMs = 0)
+		{
+			Q_EMIT tpStateCreate(id, p, n, d, force);
+			if (delayMs > 0)
+				QThread::msleep(delayMs);
+		}
+
 	Q_SIGNALS:
 		// Invokable by scripts
-		void stateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &, bool force = false);
 		void stateRemove(const QByteArray &);
 		void choiceUpdate(const QByteArray &, const QStringList &);
 		void choiceUpdateInstance(const QByteArray &, const QByteArray &, const QStringList &);
@@ -212,6 +218,7 @@ class TPAPI : public QObject
 		Q_SIGNAL void stateValueUpdateByName(const QByteArray &, const QByteArray &);
 		Q_SIGNAL void stateValueUpdateById(const QByteArray &, const QByteArray &);
 		Q_SIGNAL void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList & = QVariantList());
+		Q_SIGNAL void tpStateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &, bool force = false);
 
 		ConnectorData *connectorData()
 		{

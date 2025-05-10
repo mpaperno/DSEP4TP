@@ -42,7 +42,7 @@ public:
 */
 
 /*!
-  \fn void stateCreate(String id, String parentGroup, String description = "", String defaultValue = "", bool forceEvaluation = false)
+  \fn void stateCreate(String id, String parentGroup, String description = "", String defaultValue = "", bool forceEvaluation = false, int delayMs = 0)
   \memberof TP
   \ingroup TPAPI
   \static
@@ -53,6 +53,9 @@ public:
   \param defaultValue An optional default value for the state, meaning it's initial value.
   \param forceEvaluation If set to `true` will force TP to evaluate state change events based on the given default value, as if this was a `stateUpdate` message.
     When `false` (default), state change events based on default value may be skipped.
+  \param delayMs If set to greater then zero this will introduce a delay of the specified number of milliseconds after creating the state. This can be useful to work around
+    a TP issue where it may not register the new state before it processes a `stateUpdate()` message which immediately follows (this can result in TP log messages about the
+    state being updated not belonging to this plugin). A short delay of 2ms or so can resolve this issue and avoid other workarounds (such as delaying the `stateUpdate()` with a timer).
 
   Note that if you do not want/need a state to be available in the UI, then any `stateUpdateById()` call will also work (the state will be created if needed but not accessible via the UI).
 */
