@@ -52,10 +52,12 @@ enum PersistenceType : quint8 {
 };
 Q_ENUM_NS(PersistenceType)
 
-//! Script instance saved default value type. These values determine what happens when a script instance is restored from persistent storage.
-//! \sa DynamicScript.defaultType
+//! Script instance default value type. These values determine what happens when a script instance state is created, before any other evaluation is performed.
+//! \note In versions prior to 1.2.1, the default only applied to saved instances and used when they got restored from saved settings. Since v1.2.1, a default
+//! type and value can be applied to any instance. The `LastExprDefault` type is still only relevant to saved instances, since a brand new instance wouldn't have a "last expression."
+//! \sa DynamicScript.defaultType, DynamicScript.defaultValue
 enum SavedDefaultType : quint8 {
-	NoSavedDefault,      //!< The instance is not saved in persistent settings, default value type is not applicatble.
+	NoDefaultValue,      //!< No specific default type is set. Default state value will be an empty string. \note This enum was renamed from `NoSavedDefault` in v1.2.1, the old version is now deprecated.
 	FixedValueDefault,   //!< Instance is created with a fixed default or empty value (specified in `DynamicScript.defaultValue`)
 	CustomExprDefault,   //!< Instance is created with default value coming from evaluating a custom expression (specified in `DynamicScript.defaultValue`)
 	LastExprDefault,     //!< Instance is created with default value coming from evaluating the last saved primary expression

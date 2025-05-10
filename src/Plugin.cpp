@@ -76,23 +76,40 @@ static DseNS::EngineInstanceType stringToScope(const QByteArray &str, bool unkno
 	                                                                                             EngineInstanceType::UnknownInstanceType);
 }
 
-// legacy for v < 1.2
 static DseNS::SavedDefaultType stringToDefaultType(QStringView str)
 {
-	return str.isEmpty() || str[0] == 'N' ? SavedDefaultType::NoSavedDefault :
-	                                        str[0] == 'F' ? SavedDefaultType::FixedValueDefault :
-	                                                        str[0] == 'C' ? SavedDefaultType::CustomExprDefault :
-	                                                                        SavedDefaultType::LastExprDefault;
+	// "Fixed Value",
+	// "Custom Expression",
+	// "Last Expression"
+	// "None"  (in v < 1.2)
+	if (str.empty())
+		return SavedDefaultType::NoDefaultValue;
+	switch(str[0].toLatin1()) {
+		case 'F':
+			return SavedDefaultType::NoDefaultValue;
+		case 'C':
+			return SavedDefaultType::CustomExprDefault;
+		case 'L':
+			return SavedDefaultType::LastExprDefault;
+		default:
+			return SavedDefaultType::NoDefaultValue;
+	}
 }
 
 static DseNS::PersistenceType stringToPersistenceType(QStringView str)
 {
-	// "Session",
-	// "Temporary",
-	// "Saved, load with:\n ....", ...
-	if (str.size() > 18)
+	// "Session"
+	// "Temporary"
+	// "Saved"
+	// "Saved, load with:\n ...."   (in v < 1.2.1)
+	if (str.empty())
+		return PersistenceType::PersistSession;
+	if (str[0] == 'T')
+		return PersistenceType::PersistTemporary;
+	const auto sz = str.size();
+	if (sz == 5 || sz > 18)
 		return PersistenceType::PersistSave;
-	return str.empty() || str[0] == 'S' ? PersistenceType::PersistSession : PersistenceType::PersistTemporary;
+	return PersistenceType::PersistSession;
 }
 
 static DseNS::SavedDefaultType stringToSavedDefaultType(QStringView str)
@@ -101,7 +118,7 @@ static DseNS::SavedDefaultType stringToSavedDefaultType(QStringView str)
 	//"Saved, load with:\n Custom Expression",
 	//"Saved, load with:\n Last Expression"
 	if (str.size() < 20)
-		return SavedDefaultType::NoSavedDefault;
+		return SavedDefaultType::NoDefaultValue;
 	switch (str[19].toLatin1()) {
 		case 'C':
 			return SavedDefaultType::CustomExprDefault;
@@ -970,14 +987,17 @@ void Plugin::scriptAction(TPClientQt::MessageType type, int act, const QMap<QStr
 			const QString &saveParam = dataMap.value("save");
 			ds->setPersistence(stringToPersistenceType(saveParam));
 			// for actions, not connectors, the "save" property can also set the default saved value type
-			if (type != TPClientQt::MessageType::connectorChange && ds->persistence() == PersistenceType::PersistSave)
-				ds->setDefaultTypeValue(stringToSavedDefaultType(saveParam), dataMap.value("default").toUtf8());
+			if (type != TPClientQt::MessageType::connectorChange /*&& ds->persistence() == PersistenceType::PersistSave*/) {
+				// v1.2.1 separated the default type and persistence type options
+				const SavedDefaultType defType = dataMap.contains("defaultType") ? stringToDefaultType(dataMap.value("defaultType")) : stringToSavedDefaultType(saveParam);
+				ds->setDefaultTypeValue(defType, dataMap.value("default").toUtf8());
+			}
 		}
 		// Handle < v1.2 actions; Deprecated
 		else if (type != TPClientQt::MessageType::connectorChange) {
 			// The "save" option only dictated if the instance was saved to settings; Interpret that into persistence and saved default properties.
 			SavedDefaultType defType = stringToDefaultType(dataMap.value("save"));
-			if (defType == SavedDefaultType::NoSavedDefault) {
+			if (defType == SavedDefaultType::NoDefaultValue) {
 				ds->setPersistence(PersistenceType::PersistSession);
 			}
 			else {

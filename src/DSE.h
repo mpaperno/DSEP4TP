@@ -189,11 +189,13 @@ namespace DSE
 		Q_PROPERTY(DseNS::PersistenceType PersistTemporary READ PersistenceType_PersistTemporary CONSTANT)
 		Q_PROPERTY(DseNS::PersistenceType PersistSave      READ PersistenceType_PersistSave      CONSTANT)
 
-		static DseNS::SavedDefaultType SavedDefaultType_NoSavedDefault()    { return DseNS::NoSavedDefault; }
+		static DseNS::SavedDefaultType SavedDefaultType_NoDefaultValue()    { return DseNS::NoDefaultValue; }
+		static DseNS::SavedDefaultType SavedDefaultType_NoSavedDefault()    { return DseNS::NoDefaultValue; }  // legacy alias
 		static DseNS::SavedDefaultType SavedDefaultType_FixedValueDefault() { return DseNS::FixedValueDefault; }
 		static DseNS::SavedDefaultType SavedDefaultType_CustomExprDefault() { return DseNS::CustomExprDefault; }
 		static DseNS::SavedDefaultType SavedDefaultType_LastExprDefault()   { return DseNS::LastExprDefault; }
-		Q_PROPERTY(DseNS::SavedDefaultType NoSavedDefault     READ SavedDefaultType_NoSavedDefault    CONSTANT)
+		Q_PROPERTY(DseNS::SavedDefaultType NoDefaultValue     READ SavedDefaultType_NoDefaultValue    CONSTANT)
+		Q_PROPERTY(DseNS::SavedDefaultType NoSavedDefault     READ SavedDefaultType_NoSavedDefault    CONSTANT)  // legacy alias
 		Q_PROPERTY(DseNS::SavedDefaultType FixedValueDefault  READ SavedDefaultType_FixedValueDefault CONSTANT)
 		Q_PROPERTY(DseNS::SavedDefaultType CustomExprDefault  READ SavedDefaultType_CustomExprDefault CONSTANT)
 		Q_PROPERTY(DseNS::SavedDefaultType LastExprDefault    READ SavedDefaultType_LastExprDefault   CONSTANT)

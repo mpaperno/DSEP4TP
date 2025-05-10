@@ -99,11 +99,13 @@ class DynamicScript : public QObject
 		//! Persistence essentially determines the lifespan of this script instance. "Session" persistence means it will exist until DSE exits. "Saved" means the instance data will be saved
 		//! to a settings file when DSE exits, and restored from settings the next time DSE starts. "Temporary" instances will be automatically deleted after a time span specified in \ref autoDeleteDelay.
 		Q_PROPERTY(DseNS::PersistenceType persistence READ persistence WRITE setPersistence)
-		//! When \ref persistence is of `DSE.PersistSave` type, this property value determines what happens when this instance is initially loaded from storage.
+		//! This property determines how to treat the \ref defaultValue property value. See enumeration documentation links for details on each type. \n
 		//! `DSE.SavedDefaultType` enumeration value, one of: `DSE.FixedValueDefault`, `DSE.CustomExprDefault`, `DSE.LastExprDefault`
+		//! \note In versions prior to 1.2.1, the default only applied to saved instances and used when they got restored from saved settings. Since v1.2.1, a default
+		//! type and value can be applied to any instance. The `DSE.LastExprDefault` type is still only relevant to saved instances, since a brand new instance wouldn't have a "last expression."
 		//! \sa defaultValue, persistence
 		Q_PROPERTY(DseNS::SavedDefaultType defaultType READ defaultType WRITE setDefaultType)
-		//! The default value specified for saved instance, if any. Depending on the value of \ref defaultType, this could be an empty string, a fixed default string value, or an expression to be evaluated.
+		//! A default value to use when creating a Touch Portal state (when \ref createState is `true`). Depending on the value of \ref defaultType, this could be an empty string, a fixed default string value, or an expression to be evaluated.
 		//! \sa defaultType, persistence
 		Q_PROPERTY(QByteArray defaultValue READ defaultValue WRITE setDefaultValue)
 		//! For temporary instances, where \ref persistence property is `DSE.PersistTemporary`, this property determines the delay time before the instance is automatically deleted. The value is in milliseconds.
@@ -401,8 +403,8 @@ class DynamicScript : public QObject
 		//! This method will create the Touch Portal State if it has not already been created.
 		inline void stateUpdate(const QByteArray &value) {
 			if (createState()) {
-				// FIXME: TP v3.1 doesn't fire state change events based on the default value; v3.2 might.
-				createTpState(/*m_defaultType != DseNS::SavedDefaultType::LastExprDefault*/);
+				if (!m_state.testFlags(TpStateCreatedFlag))
+					createTpState(getDefaultValue());
 				Q_EMIT dataReady(tpStateId, value);
 				//qCDebug(lcPlugin) << "DynamicScript instance" << name << "sending result:" << value;
 			}
@@ -494,7 +496,7 @@ class DynamicScript : public QObject
 
 	private Q_SLOTS:
 		// This is private to keep it hidden from scripting environment (for now?). `Plugin` is marked as friend to use these methods.
-		void evaluateDefault();
+		QByteArray evaluateDefault();
 
 		// these really _are_ private
 
@@ -537,13 +539,11 @@ class DynamicScript : public QObject
 		bool setFile(const QString &file);
 		bool scheduleRepeatIfNeeded();
 
-		inline void createTpState(bool useActualDefault = false)
+		inline void createTpState(const QByteArray &val = QByteArray())
 		{
-			// FIXME: TP v3.1 doesn't fire state change events based on the default value; v3.2 might.
 			if (!m_state.testFlags(TpStateCreatedFlag)) {
 				m_state.setFlag(TpStateCreatedFlag, true);
-				const QByteArray val = useActualDefault ? getDefaultValue() : QByteArray();
-				Q_EMIT stateCreate(tpStateId, stateCategory(), stateName(), val);
+				Q_EMIT stateCreate(tpStateId, stateCategory(), stateName(), val, !val.isEmpty());
 				qCDebug(lcPlugin) << "Created instance State" << tpStateId << "in" << stateCategory();
 			}
 		}

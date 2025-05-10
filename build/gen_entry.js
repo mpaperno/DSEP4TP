@@ -283,24 +283,12 @@ function appendStateOptionData(id, data) {
 }
 
 function appendPersistOptionData(id, data) {
-    let format = `| Instance\n| Persistence{${data.length}}`;
-    data.push(
-        makeChoiceData(id + ".save", "Persistence", [
-            "Session",
-            "Temporary",
-            "Saved, load with:\n"+
-            " Fixed Value",
-            "Saved, load with:\n"+
-            " Custom Expression",
-            "Saved, load with:\n"+
-            " Last Expression"
-        ]),
-    );
-    return format + appendSaveOptionData(id, data);
+    let format = appendDefaultOptionData(id, data);
+    return format + appendPersistOnlyOptionData(id, data);
 }
 
 function appendPersistOnlyOptionData(id, data) {
-    let format = `Instance\nPersistence{${data.length}}`;
+    let format = ` Instance\nPersistence {${data.length}}`;
     data.push(
         makeChoiceData(id + ".save", "Persistence", [
             "Session",
@@ -311,10 +299,15 @@ function appendPersistOnlyOptionData(id, data) {
     return format;
 }
 
-function appendSaveOptionData(id, data) {
-    // let format = appendPersistOptionData(id, data, true);
-    let format = `Load w/\nVal/Expr{${data.length}}`;
+function appendDefaultOptionData(id, data) {
+    let i = data.length;
+    let format = ` Default\n${EM}Type {${i++}} Default\nVal/Expr {${i++}}`;
     data.push(
+        makeChoiceData(id + ".defaultType", "Default Value Type", [
+            "Fixed Value",
+            "Custom Expression",
+            "Last Expression"
+        ]),
         makeTextData(id + ".default", "Default Value/Expression"),
     );
     return format;

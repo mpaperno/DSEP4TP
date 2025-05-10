@@ -25,9 +25,31 @@ to any 3rd-party components used within.
 
 #include "version.h"
 
-#ifdef QT_DEBUG
-static Q_LOGGING_CATEGORY(lcPlugin, PLUGIN_SYSTEM_NAME, QtDebugMsg)
+#define PRAGMA_STR(x) _Pragma(#x)
+#define GCC_DIAGNOSTIC_IGNORE(warnoption, ...)      \
+  PRAGMA_STR(GCC diagnostic push)                 \
+  PRAGMA_STR(GCC diagnostic ignored #warnoption)  \
+  __VA_ARGS__                                     \
+  PRAGMA_STR(GCC diagnostic pop)
+
+#ifdef _MSC_VER
+#define DISABLE_GCC_WARNING(warnoption, ...)      \
+  PRAGMA_STR(warning (push))                      \
+  PRAGMA_STR(warning (disable: 4068))             \
+  GCC_DIAGNOSTIC_IGNORE(warnoption, __VA_ARGS__)  \
+  PRAGMA_STR(warning (pop))
 #else
-static Q_LOGGING_CATEGORY(lcPlugin, PLUGIN_SYSTEM_NAME, QtInfoMsg)
+#define DISABLE_GCC_WARNING(warnoption, ...)  GCC_DIAGNOSTIC_IGNORE(warnoption, __VA_ARGS__)
 #endif
-static Q_LOGGING_CATEGORY(lcDse, "DSE", QtDebugMsg)
+
+
+#ifdef QT_DEBUG
+  #define LOGMINLEVEL  QtDebugMsg
+#else
+  #define LOGMINLEVEL  QtInfoMsg
+#endif
+
+DISABLE_GCC_WARNING(-Wunused-function,
+static Q_LOGGING_CATEGORY(lcPlugin, PLUGIN_SYSTEM_NAME, LOGMINLEVEL)
+static Q_LOGGING_CATEGORY(lcDse,    "DSE", QtDebugMsg)
+)

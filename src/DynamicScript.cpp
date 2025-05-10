@@ -388,7 +388,9 @@ bool DynamicScript::scheduleRepeatIfNeeded()
 
 void DynamicScript::evaluate()
 {
-	if (m_state.testAnyFlags(State::CriticalErrorState) || m_activation == ActivationBehavior::NoActivation)
+	if (m_state.testAnyFlags(State::CriticalErrorState) ||
+	    m_activation == ActivationBehavior::NoActivation ||
+	    m_inputType == ScriptInputType::UnknownInputType)
 		return;
 
 	if (m_state.testFlags(State::HoldReleasedState)) {
@@ -410,6 +412,7 @@ void DynamicScript::evaluate()
 
 	m_state.setFlag(State::EvaluatingNowState, true);
 	QJSValue res;
+DISABLE_GCC_WARNING(-Wswitch,
 	switch (m_inputType) {
 		case ScriptInputType::ExpressionInput:
 			res = m_engine->expressionValue(m_expr, name);
@@ -422,24 +425,23 @@ void DynamicScript::evaluate()
 		case ScriptInputType::ModuleInput:
 			res = m_engine->moduleValue(m_file, m_moduleAlias, m_expr, name);
 			break;
-
-		default:
-			m_mutex.unlock();
-			m_state.setFlag(State::EvaluatingNowState, false);
-			return;
 	}
+)
 	m_state.setFlag(State::EvaluatingNowState, false);
-
 	m_state.setFlag(State::ScriptErrorState, res.isError());
+	m_mutex.unlock();
+
 	if (m_state.testFlag(State::ScriptErrorState)) {
+		setPressedState(false);
 		Q_EMIT scriptError(JSError(res));
-		setPressed(false);
-	}
-	else if (!res.isUndefined() && !res.isNull()) {
-		stateUpdate(res.toString().toUtf8());
+		Q_EMIT finished();
+		return;
 	}
 
-	m_mutex.unlock();
+	if (!res.isUndefined() && !res.isNull())
+		stateUpdate(res.toString().toUtf8());
+	else if (!m_state.testFlags(TpStateCreatedFlag) && createState())
+		createTpState(getDefaultValue());
 
 	if (isPressed() && scheduleRepeatIfNeeded())
 		return;
@@ -447,18 +449,22 @@ void DynamicScript::evaluate()
 	Q_EMIT finished();
 }
 
-void DynamicScript::evaluateDefault()
-{
-	// FIXME: TP v3.1 doesn't fire state change events based on the default value; v3.2 might.
-	// As a workaround for now, the states are created with a blank default value and then the _actual_ default is sent
-	// as a state update.
-	stateUpdate(getDefaultValue());
-}
-
 QByteArray DynamicScript::getDefaultValue()
 {
-	if (m_state.testFlags(State::UninitializedState))
+	if (m_defaultType == SavedDefaultType::FixedValueDefault)
+		return m_defaultValue;
+	if (m_defaultType == SavedDefaultType::LastExprDefault && m_persist != PersistenceType::PersistSave)
 		return QByteArray();
+	if (m_defaultType == SavedDefaultType::NoDefaultValue)
+		return QByteArray();
+	return evaluateDefault();
+}
+
+QByteArray DynamicScript::evaluateDefault()
+{
+	QByteArray val;
+	if (m_state.testFlags(State::UninitializedState))
+		return val;
 
 	QReadLocker lock(&m_mutex);
 	const QString expr = m_defaultType == SavedDefaultType::CustomExprDefault ? m_defaultValue : m_defaultType == SavedDefaultType::LastExprDefault ? m_expr : QByteArray();
@@ -490,12 +496,13 @@ QByteArray DynamicScript::getDefaultValue()
 	}
 
 	if (m_defaultType == SavedDefaultType::FixedValueDefault)
-		return m_defaultValue;
+		val = m_defaultValue;
+	else if (!res.isUndefined() && !res.isNull() && !res.isError())
+		val = res.toString().toUtf8();
 
-	if (!res.isUndefined() && !res.isNull() && !res.isError())
-		return res.toString().toUtf8();
-
-	return QByteArray();
+	if (createState())
+		createTpState(val);
+	return val;
 }
 
 #include "moc_DynamicScript.cpp"
