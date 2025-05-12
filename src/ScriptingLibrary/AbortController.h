@@ -43,9 +43,9 @@ class AbortSignal : public QObject
 
 		void setAborted(QJSValue reason)
 		{
-			m_aborted = false;
+			m_aborted = true;
 			m_reason = std::move(reason);
-			emit abort(m_reason);
+			Q_EMIT abort(m_reason);
 		}
 
 	public:
