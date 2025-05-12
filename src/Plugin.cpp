@@ -784,6 +784,10 @@ void Plugin::onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &se
 	m_loadSettingsTmr.start();
 }
 
+static QByteArray cleanTpPageName(const QJsonValue &val) {
+	return val.toString().toUtf8().sliced(1).replace(".tml", QByteArray()).replace('\\', '/');
+}
+
 void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 {
 	//qCDebug(lcPlugin) << msg;
@@ -808,15 +812,20 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 		}
 
 		case TPClientQt::MessageType::broadcast: {
-			QVariantMap data;
+			QVariantMap data = msg.toVariantMap();
+			data.remove(QLatin1String("type"));
+			data.remove(QLatin1String("event"));
 			const QString event = msg.value(QLatin1String("event")).toString();
 			if (!event.compare(QLatin1String("pageChange"))) {
-				const QByteArray pgName = msg.value(QLatin1String("pageName")).toString().toUtf8().sliced(1).replace(".tml", QByteArray()).replace('\\', '/');
+				const QByteArray pgName = cleanTpPageName(msg.value(QLatin1String("pageName")));
 				if (pgName.isEmpty())
 					return;
 				DSE::tpCurrentPage = pgName;
-				data.insert(QLatin1String("pageName"), pgName);
 				Q_EMIT tpStateUpdate(m_stateIds[SID_TpCurrentPage], pgName);
+
+				data.insert(QLatin1String("pageName"), pgName);
+				if (msg.contains(QLatin1String("previousPageName")))
+					data.insert(QLatin1String("previousPageName"), cleanTpPageName(msg.value(QLatin1String("previousPageName"))));
 			}
 			Q_EMIT tpBroadcast(event, data);
 			break;
@@ -1068,10 +1077,11 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 	quint8 type = 0;  // named instance
 	QByteArray dvName = dataMap.value("name").toUtf8();
 	if (dvName.size() > 4 && dvName.startsWith(tokenToName(AT_All))) {
-		type = (dvName.at(4) == 'I' ? 255 :
-		                              dvName.at(4) == 'S' ? (quint8)EngineInstanceType::SharedInstance :
-		                                                    dvName.at(4) == 'P' ? (quint8)EngineInstanceType::PrivateInstance :
-		                                                                          0);
+		switch (dvName.at(4)) {
+			case 'I': type = 255; break;
+			case 'S': type = (quint8)EngineInstanceType::SharedInstance; break;
+			case 'P': type = (quint8)EngineInstanceType::PrivateInstance; break;
+		}
 	}
 
 	switch (act)
