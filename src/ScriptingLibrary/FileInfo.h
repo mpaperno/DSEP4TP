@@ -43,6 +43,7 @@ using namespace FS;
 //! \ingroup FileSystem
 //! `FileInfo` provides read-only information about a file system object (file or directory).
 //! This type cannot be created on its own. You can get an instance via `Dir.info()`, `File.info()`, `FileHandle.info()`, or a directory listing with `Dir.infoList()` functions.
+//! \since 1.2.1
 class FileInfo : public QFileInfo
 {
 	private:

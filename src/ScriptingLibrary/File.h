@@ -197,7 +197,12 @@ class File : public QObject
 		//! \{
 
 		// File info
-		//! Returns a `FileInfo` object describing the file at the given `path`. Relative paths are resolved against the current working directory (`Dir.cwd()`).
+		//! Returns a `FileInfo` object describing the file or directory at the given `path`. This function is equivalent to `Dir.info()`.
+		//! If you wish to access multiple attributes about the same file,
+		//! this is more efficient than separately calling individual `File` status functions on the same file (like `File.size(file)` then `File.isReadable(file)`
+		//! followed by `File.isWritable(file)`, for example).
+		//! Relative paths are resolved against the current working directory (`Dir.cwd()`).
+		//! \since 1.2.1
 		Q_INVOKABLE static FileInfo info(const QString &path) { return FileInfo(path); }
 
 		//! Returns `true` if `file` exists; otherwise returns `false`.

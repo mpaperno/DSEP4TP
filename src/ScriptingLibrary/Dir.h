@@ -122,7 +122,9 @@ class Dir : public QObject
 		// Listings
 		//! \{
 
-		//! Returns a `FileInfo` object describing the given `path`.  `path` can be a directory or file name. Relative paths are resolved against the current working directory (`Dir.cwd()`).
+		//! Returns a `FileInfo` object describing the file or directory at the given `path`.
+		//! Relative paths are resolved against the current working directory (`Dir.cwd()`). This function is equivalent to `File.info()`.
+		//! \since 1.2.1
 		Q_INVOKABLE static FileInfo info(const QString &path) { return FileInfo(path); }
 
 		//! Returns an array of directory entry names in the given `path`.
@@ -132,6 +134,7 @@ class Dir : public QObject
 		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
 		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
 		//! \sa Dir.infoList()
+		//! \since 1.2.1
 		Q_INVOKABLE static QStringList list(const QString &path, const QStringList &nameFilters = QStringList(), FS::DirFilters filters = FS::NoFilter, FS::DirSortFlags sort = FS::SortDefault, int maxResults = 0) {
 			const auto list = QDir(path).entryList(nameFilters, (QDir::Filters)(int)filters, (QDir::SortFlags)(int)sort);
 			if (maxResults > 0)
@@ -144,12 +147,14 @@ class Dir : public QObject
 		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
 		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
 		//! \sa Dir.infoList()
+		//! \since 1.2.1
 		Q_INVOKABLE static QStringList list(const QString &path, FS::DirFilters filters, FS::DirSortFlags sort = FS::SortDefault, int maxResults = 0) { return list(path, QStringList(), filters, sort, maxResults); }
 		//! Returns an array of directory entry names in the given `path`. This is an overloaded function.
 		//! \param path The directory to list. Relative paths are resolved against the current working directory (`Dir.cwd()`).
 		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
 		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
 		//! \sa Dir.infoList()
+		//! \since 1.2.1
 		Q_INVOKABLE static QStringList list(const QString &path, FS::DirSortFlags sort, int maxResults = 0) { return list(path, QStringList(), FS::NoFilter, sort, maxResults); }
 
 		//! Returns an array of directory entries in the given `path` as `FileInfo` objects.
@@ -159,6 +164,7 @@ class Dir : public QObject
 		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
 		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
 		//! \sa Dir.list()
+		//! \since 1.2.1
 		Q_INVOKABLE static QVector<FileInfo> infoList(const QString &path, const QStringList &nameFilters = QStringList(), FS::DirFilters filters = FS::NoFilter, FS::DirSortFlags sort = FS::SortDefault, int maxResults = 0) {
 			const auto list = Dir::list(path, nameFilters, filters, sort, maxResults);
 			// const auto list = QDir(path).entryInfoList(nameFilters, (QDir::Filters)filters, (QDir::SortFlags)sort);
@@ -177,12 +183,14 @@ class Dir : public QObject
 		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
 		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
 		//! \sa Dir.list()
+		//! \since 1.2.1
 		Q_INVOKABLE static QVector<FileInfo> infoList(const QString &path, FS::DirFilters filters, FS::DirSortFlags sort = FS::SortDefault, int maxResults = 0) { return infoList(path, QStringList(), filters, sort, maxResults); }
 		//! Returns an array of directory entries in the given `path` as `FileInfo` objects. This is an overloaded function.
 		//! \param path The directory to list. Relative paths are resolved against the current working directory (`Dir.cwd()`).
 		//! \param sort A combination of `FS::DirSortFlags` flags to use for sorting the results.
 		//! \param maxResults Maximum number of results to return; Set to `0` (default) to return all results.
 		//! \sa Dir.list()
+		//! \since 1.2.1
 		Q_INVOKABLE static QVector<FileInfo> infoList(const QString &path, FS::DirSortFlags sort, int maxResults = 0) { return infoList(path, QStringList(), FS::DirFilter::NoFilter, sort, maxResults); }
 
 		//! \}
