@@ -33,7 +33,7 @@ to any 3rd-party components used within.
 namespace Utils {
 
 template <typename Func>
-static inline void runOnThread(QThread *qThread, Func &&func)
+inline void runOnThread(QThread *qThread, Func &&func)
 {
 	QTimer *t = new QTimer();
 	t->moveToThread(qThread);
@@ -48,7 +48,7 @@ static inline void runOnThread(QThread *qThread, Func &&func)
 }
 
 template <typename Func>
-static inline void runOnThreadSync(QThread *qThread, Func &&func)
+inline void runOnThreadSync(QThread *qThread, Func &&func)
 {
 	QMutex m;
 	QWaitCondition wc;
@@ -62,7 +62,7 @@ static inline void runOnThreadSync(QThread *qThread, Func &&func)
 }
 
 // unpacks an value which is a JS array into a list of individual JS values
-static QJSValueList jsArrayToValueList(const QJSValue &array)
+inline QJSValueList jsArrayToValueList(const QJSValue &array)
 {
 	QJSValueList list;
 	int e = 0;
@@ -74,19 +74,19 @@ static QJSValueList jsArrayToValueList(const QJSValue &array)
 	return list;
 }
 
-static float percentOfRange(float value, float rangeMin, float rangeMax)
+inline float percentOfRange(float value, float rangeMin, float rangeMax)
 {
   return ((rangeMax - rangeMin) * 0.01f * qAbs(value)) + rangeMin;
 }
 
-static float rangeValueToPercent(float value, float rangeMin, float rangeMax)
+inline float rangeValueToPercent(float value, float rangeMin, float rangeMax)
 {
   const float dlta = rangeMax - rangeMin;
   const float scale = dlta == 0.0f ? 100.0f : 100.0f / dlta;
   return qBound(0.0f, (value - rangeMin) * scale, 100.0f);
 }
 
-static float connectorValueToRange(int value, float minRangeValue, float maxRangeValue,
+inline float connectorValueToRange(int value, float minRangeValue, float maxRangeValue,
                                    const QMap<QString, QString> &dataMap, bool *ok = nullptr
                                    /*, float *rMin = nullptr, float *rMax = nullptr*/ )
 {
@@ -112,7 +112,7 @@ static float connectorValueToRange(int value, float minRangeValue, float maxRang
 }
 
 // `o` is the object to iterate over
-static void dumpJsvRecursive(const QJSValue &o, int level = 0)
+inline void dumpJsvRecursive(const QJSValue &o, int level = 0)
 {
 	QJSValue obj = o;
 	while (obj.isObject()) {
@@ -130,7 +130,7 @@ static void dumpJsvRecursive(const QJSValue &o, int level = 0)
 	}
 }
 
-static QByteArray tpDataPath()
+inline QByteArray tpDataPath()
 {
 #ifdef Q_OS_WIN
 	const QString ret = QDir::fromNativeSeparators(qgetenv("APPDATA"));
@@ -157,21 +157,6 @@ struct AutoResetString
 	~AutoResetString() { original = std::move(temp); }
 
 	Q_DISABLE_COPY(AutoResetString)
-};
-
-template<typename S>
-struct AutoClearString
-{
-	S &original;
-	bool doReset;
-	AutoClearString(S &orig, const S &temp, bool doReset = true) :
-	  original(orig), doReset(doReset)
-	{
-		if (doReset) {
-			original = temp;
-		}
-	}
-	~AutoClearString() { if (doReset) original.clear(); }
 };
 
 }
