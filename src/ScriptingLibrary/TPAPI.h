@@ -138,12 +138,6 @@ class TPAPI : public QObject
 
 		Q_INVOKABLE static QString currentPageName() { return DSE::tpCurrentPage; }
 
-		Q_INVOKABLE void stateCreate(const QByteArray &id, const QByteArray &p, const QByteArray &n, const QByteArray &d, bool force = false, int delayMs = 0)
-		{
-			Q_EMIT tpStateCreate(id, p, n, d, force);
-			if (delayMs > 0)
-				QThread::msleep(delayMs);
-		}
 
 	Q_SIGNALS:
 		// Invokable by scripts
@@ -160,6 +154,45 @@ class TPAPI : public QObject
 		void connectorIdsChanged(const QByteArray &instanceName, const QByteArray &shortId);
 
 	public Q_SLOTS:
+		void stateCreate(const QByteArray &id, const QString &n, const QVariantMap &opts)
+		{
+			if (opts.isEmpty()) {
+				stateCreate(id, n);
+				return;
+			}
+
+			QString pg = opts.value("parentGroup", QString()).toString();
+			if (pg.isEmpty()) {
+				if (DynamicScript *ds = se->dseObject()->currentInstance())
+					pg = QString::fromUtf8(ds->stateCategory());
+			}
+
+			stateCreate(id, pg, n,
+				opts.value("defaultValue", QString()).toString(),
+				opts.value("forceUpdate", false).toBool(),
+				opts.value("delayMs", 0).toInt()
+			);
+		}
+
+		void stateCreate(const QByteArray &id, const QString &n, const QString &d = QString(), int delayMs = 0)
+		{
+			QString pg;
+			if (DynamicScript *ds = se->dseObject()->currentInstance())
+				pg = QString::fromUtf8(ds->stateCategory());
+			stateCreate(id, pg, n, d, false, delayMs);
+		}
+
+		void stateCreate(const QByteArray &id, const QString &p, const QString &n, const QString &d, int delayMs = 0) {
+			stateCreate(id, p, n, d, false, delayMs);
+		}
+
+		void stateCreate(const QByteArray &id, const QString &p, const QString &n, const QString &d, bool force, int delayMs = 0)
+		{
+			Q_EMIT tpStateCreate(id, p.toUtf8(), n.toUtf8(), d.toUtf8(), force);
+			if (delayMs > 0)
+				QThread::msleep(delayMs);
+		}
+
 		inline void stateUpdate(const QByteArray &value) {
 			if (DynamicScript *ds = se->dseObject()->currentInstance())
 				ds->stateUpdate(value);
