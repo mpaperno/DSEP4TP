@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 
-set (VERSION_STR 1.2.0.1)
-set (VERSION_SFX -beta1)
+set (VERSION_STR 1.2.1.0)
+set (VERSION_SFX "")
 set (PROJECT_FULL_NAME  "Dynamic Script Engine Plugin for Touch Portal")
 set (PROJECT_SHORT_NAME "Dynamic Script Engine")
 set (PROJECT_ORG_NAME   "DynamicScriptEngine")
@@ -59,26 +59,27 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 target_sources(${PROJECT_NAME} PRIVATE
-  version.h
-  version.h.in
-  main.cpp
   common.h
   dse_strings.h
+  main.cpp
+  utils.h
+  version.h
+  version.h.in
+
+  ConnectorData.h
   DSE_NS.h
   DSE.h
   DSE.cpp
-  Plugin.h
-  Plugin.cpp
-  ConnectorData.h
   DynamicScript.h
   DynamicScript.cpp
-  ScriptEngine.h
-  ScriptEngine.cpp
   JSError.h
   Logger.h
   Logger.cpp
+  Plugin.h
+  Plugin.cpp
   RunGuard.h
-  utils.h
+  ScriptEngine.h
+  ScriptEngine.cpp
 
   ScriptingLibrary/AbortController.h
   ScriptingLibrary/Clipboard.h
@@ -122,9 +123,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 if (MSVC)
   target_compile_definitions(${PROJECT_NAME} PRIVATE _CRT_SECURE_NO_WARNINGS )
-endif()
-
-if (UNIX OR MINGW AND NOT APPLE)
+elseif (UNIX OR MINGW AND NOT APPLE)
   target_link_libraries(${PROJECT_NAME} PRIVATE stdc++fs )
 endif()
 
@@ -177,8 +176,12 @@ if (isWin)
   set(deploy_command "${WINDEPLOYQT_EXECUTABLE}" --no-compiler-runtime --no-translations "${executable_path}")
   install(CODE "execute_process(COMMAND ${deploy_command})" COMPONENT Runtime)
   cmake_path(SET ssl_path "$ENV{QTHOME}/Tools/OpenSSL/Win_x64/bin")
+  cmake_path(SET rt_path "c:/Windows/system32")
   install(
-    FILES "${ssl_path}/libcrypto-1_1-x64.dll" "${ssl_path}/libssl-1_1-x64.dll"
+    FILES
+      "${ssl_path}/libcrypto-1_1-x64.dll" "${ssl_path}/libssl-1_1-x64.dll"
+      "${rt_path}/msvcp140.dll" "${rt_path}/msvcp140_1.dll"
+      "${rt_path}/vcruntime140.dll" "${rt_path}/vcruntime140_1.dll"
     TYPE BIN
   )
 
