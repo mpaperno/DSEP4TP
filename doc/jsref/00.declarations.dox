@@ -16,12 +16,13 @@ Objects for interacting with the Dynamic Script Engine plugin environment and sc
 - `DSE` - The DSE object contains constants and functions related to the plugin environment. It can also be used to query `DynamicScript` instances.
 - `DynamicScript` - DynamicScript represents an instance of an expression, file, or module being evaluated using a scripting engine.
 
-\defgroup FetchAPI Fetch Network API
-\brief The Fetch API provides an interface for fetching network or local resources.
-This is an implementation of the common Web API as described, for example, [on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), with a few differences and
+\defgroup NetAPI Network APIs
+\brief The Network API (`Net`) provides an interface for requesting and sending network or local resources.
+
+This contains an implementation of the common Web Fetch API as described, for example, [on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), with a few differences and
 an expanded feature set.
 
-The two main interfaces for the API are the `Net.fetch()` and `Net.request()` functions, which are both essentially wrappers around an [XMLHttpRequest](@ref stdlib-xmlhttpreq) object.
+The two main interfaces for the Fetch API are the `Net.fetch()` and `Net.request()` functions, which are both essentially wrappers around an [XMLHttpRequest](@ref stdlib-xmlhttpreq) object.
 `fetch()` provides an asynchronous Promise-based interface, while `request()` returns results directly (synchronously).
 
 The Fetch API further extends `XMLHttpRequest` with formalized classes/objects for
@@ -34,12 +35,14 @@ Contains static types and object classes for working with files and directories.
 - `Dir` - Static directory utilities. List, create, check directories and work with paths.
 - `File` - Static file handling, eg. read a whole file at once or check if a file name exists, etc.
 - `FileHandle` - provides an object instance for working with a file in multiple steps (stat, open, read/write bytes, etc).
+- `FileInfo` - provides read-only information about a file system object (file or directory).
 - `FS` - The `FS` namespace holds constants related to file system tasks, such as flags for file open and permissions operations, error types, etc.
 
 
 \defgroup TPAPI Touch Portal API (TP)
 Functions, data, and events for interacting with Touch Portal directly, such as updating state values or sending notifications.
-These functions are part of the global `TP` namespace, used with `TP.` qualifier, eg. `TP.stateUpdate("Hello!");`.
+
+All functionality is provided by static members of the global `TP` namespace object, used with `TP.` qualifier, eg. `TP.stateUpdate("Hello!");`.
 
 Note that the "Touch Portal API" documented here, while closely related to Touch Portal's Plugin API, is not always an exact match, nor can always provide all the features
 a full plugin could have (such as custom Actions). Nevertheless it can be helpful to understand how Touch Portal interacts with data sent from plugins in the first place,

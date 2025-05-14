@@ -1,7 +1,6 @@
 //! \file
-//! \addtogroup TPAPI
-//! \{
 
+//! \class TP
 //! \ingroup TPAPI
 //! The global `TP` namespace is used as a container for all Touch Portal API methods, which are invoked with `TP.` qualifier, eg. `TP.stateUpdate("Hello!");`.
 class TP {
@@ -9,7 +8,6 @@ public:
 
 /*!
   \name Sending Data
-  \ingroup TPAPI
   These functions all send information or commands _to_ Touch Portal.
 */
 //! \{
@@ -17,7 +15,6 @@ public:
 /*!
   \fn void stateUpdate(String value)
   \memberof TP
-  \ingroup TPAPI
   \static
   Send a State update to Touch Portal with given `value` for the current script instance. This only works with instances in a `Private` script engine.
   \sa stateUpdate(String, String)
@@ -26,7 +23,6 @@ public:
 /*!
   \fn void stateUpdate(String name, String value)
   \memberof TP
-  \ingroup TPAPI
   \static
   Send a State update to Touch Portal for a DSE instance named `name` with given `value`. This works with any type of engine instance, `Shared` or `Private`.
   The `name` will be turned into a fully qualified state ID as necessary (adding the required prefix to match default DSE state IDs). \sa stateUpdate(String)
@@ -35,7 +31,6 @@ public:
 /*!
   \fn void stateUpdateById(String id, String value)
   \memberof TP
-  \ingroup TPAPI
   \static
   Send a State update to Touch Portal for any arbitrary state/value matching the `id`, with given `value`.
   \note This can be used to update other plugins' states and even TP global Values (at least as of TP 3.1.x). \sa stateUpdate()
@@ -44,7 +39,6 @@ public:
 /*!
   \fn void stateCreate(String id, String parentGroup, String description, String defaultValue = "", boolean forceUpdate = false, int delayMs = 0)
   \memberof TP
-  \ingroup TPAPI
   \static
   Create a new Touch Portal dynamic State (if it doesn't already exist).
   \param id Must be a fully qualified state ID (meaning it is not changed in any way and must be unique in TP).
@@ -98,7 +92,6 @@ public:
 /*!
   \fn void stateRemove(String id)
   \memberof TP
-  \ingroup TPAPI
   \static
   Remove a Touch Portal dynamic State (if it exists).  The `id` must be fully qualified to match the ID of the existing state.
 */
@@ -106,7 +99,6 @@ public:
 /*!
   \fn void choiceUpdate(String id, Array<String> values)
   \memberof TP
-  \ingroup TPAPI
   \static
   Update a list of choices for a selector with given `id`, which must be a fully qualified ID of some existing action data member (from some plugin).
   `values` should be an array of strings.
@@ -115,7 +107,6 @@ public:
 /*!
   \fn void choiceUpdateInstance(String id, String instanceId, Array<String> values)
   \memberof TP
-  \ingroup TPAPI
   \static
   Update a list of choices for a selector with given `id` and specific `instanceId`.
   `id` must be a fully qualified ID of some existing action data member. \n
@@ -128,7 +119,6 @@ public:
 /*!
   \fn void connectorUpdate(String shortId, int value)
   \memberof TP
-  \ingroup TPAPI
   \static
   Sends a connector (slider) update with given `value` which should be an integer in the range of 0 - 100.
   The `shortId` should be a Touch Portal "short connector ID" as reported by Touch Portal in `shortConnectorIdNotification` messages.
@@ -145,7 +135,6 @@ public:
 /*!
   \fn void connectorUpdateByLongId(String connectorId, int value)
   \memberof TP
-  \ingroup TPAPI
   \static
   Sends a connector (slider) update with given `value` which should be an integer in the range of 0 - 100.
   The `connectorId` must be fully qualified "long ID" as described in Touch Portal [API docs](https://www.touch-portal.com/api/index.php?section=connectors).
@@ -158,7 +147,6 @@ public:
 
 /*!
   \fn void showNotification(String notificationId, String title, String message, Array<Object> options = [], <Function|String|Array> callback = null)
-  \ingroup TPAPI
   \memberof TP
   \static
   Creates or raises a user notification in the Touch Portal window. See TP API docs for details on notifications.
@@ -190,7 +178,6 @@ public:
 /*!
   \fn void settingUpdate(String name, String value)
   \memberof TP
-  \ingroup TPAPI
   \static
   Update a plugin Setting in Touch Portal named `name` to `value`.  This only works for settings of the current plugin (defined in corresponding entry.tp).
   \since v1.2
@@ -200,7 +187,6 @@ public:
 
 /*!
   \name Events
-  \ingroup TPAPI
   These are events which are raised whenever some kind of data update is received from Touch Portal.
   Events may pass one or more parameters to callback handlers (check documentation for specific events).
   There are two syntactical ways to connect a callback function to an event.
@@ -229,7 +215,6 @@ public:
 /*!
   \fn void messageEvent(Object message)
   \memberof TP
-  \ingroup TPAPI
   \static
   This event is emitted upon every Touch Portal message received by this plugin.
   The `message` parameter is an object representing the "raw" message data received from Touch Portal (originally as a JSON object).
@@ -242,7 +227,6 @@ public:
 /*!
   \fn void broadcastEvent(String event, Object data)
   \memberof TP
-  \ingroup TPAPI
   \static
   This event is emitted when Touch Portal sends a `broadcast` message to all plugins.
   The `event` parameter is the name of the event type.
@@ -263,7 +247,6 @@ public:
 /*!
   \fn void connectorIdsChanged(String instanceName, String shortId)
   \memberof TP
-  \ingroup TPAPI
   \static
   This event is emitted whenever a `shortConnectorIdNotification` message from Touch Portal has been received, parsed, and added to the tracking database.
 
@@ -283,7 +266,6 @@ public:
 
 /*!
   \name Connector Data
-  \ingroup TPAPI
   Touch Portal reports connector instances to the plugin via `shortConnectorIdNotification` messages. These messages are parsed and logged
   into a database. The functions in this group can be used to query the data based on various criteria about logged connectors.
   The connector short IDs can then be used to send updates back to Touch Portal, which will move the corresponding slider(s) into a particular position.
@@ -293,7 +275,6 @@ public:
 
 /*!
   \fn Array<String> getConnectorShortIds(Object criteria = {})
-  \ingroup TPAPI
   \memberof TP
   \static
   Returns zero or more connector "short IDs" based on the given `criteria` from the currently logged connector notification data.
@@ -330,7 +311,6 @@ public:
 /*!
   \fn Array<ConnectorRecord> getConnectorRecords(Object criteria = {})
   \memberof TP
-  \ingroup TPAPI
   \static
   Returns zero or more `ConnectorRecord` objects based on the given `criteria` from the currently logged connector notification data.
 
@@ -344,7 +324,6 @@ public:
 /*!
   \fn ConnectorRecord getConnectorByShortId(String shortId)
   \memberof TP
-  \ingroup TPAPI
   \static
   Returns a `ConnectorRecord` based on the given `shortId` from the currently logged connector notification data, if any.
   If no matching record is found, the returned `ConnectorRecord` will be empty/null, which can be checked with `ConnectorRecord.isNull` property.
@@ -363,7 +342,6 @@ public:
 
 /*!
   \name Other Data
-  \ingroup TPAPI
   Miscellaneous other data/information access functions.
 */
 //! \{
@@ -371,7 +349,6 @@ public:
 /*!
   \fn String currentPageName()
   \memberof TP
-  \ingroup TPAPI
   \static
   Returns the name of the page the user last opened on their Touch Portal device (_not_ in the desktop page editor).
   This is always the result of the last `broadcastEvent()`'s `pageName` property. See `broadcastEvent()` documentation for details.
@@ -384,6 +361,5 @@ public:
 
 //! \}
 
-}   // TP
 
-//! \}
+};   // TP

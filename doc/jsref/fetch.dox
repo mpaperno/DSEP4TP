@@ -1,5 +1,5 @@
 
-//! \ingroup FetchAPI
+//! \ingroup NetAPI
 //! The Net namespace contains static functions for working with network requests.
 namespace Net {
 
@@ -85,7 +85,7 @@ static Promise request(String url, object options = {});
 
 /*!
 \class Request
-\ingroup FetchAPI
+\ingroup NetAPI
 The Request interface of the Fetch API represents a resource request.
 Request objects can be created directly, or implicitly by passing an initializer object to `Net.fetch()` or `Net.request()` as the `options` argument.
 
@@ -98,7 +98,7 @@ would like to always be set (or set them individually with `Request.GlobalDefaul
 
 
 \class Response
-\ingroup FetchAPI
+\ingroup NetAPI
 The Response interface of the Fetch API represents the response to a request.
 A Response type is returned when a `Net.fetch()` method promise is fulfilled, either directly in case of a successful result (passed to `then()` handler), or as a member of any `DOMException`
 thrown as a result of request errors (passed to `catch()` handler).  See the local `Net.fetch()` documentation for details.

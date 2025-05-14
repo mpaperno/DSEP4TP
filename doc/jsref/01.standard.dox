@@ -104,7 +104,7 @@ Portions of this text are originally from the Qt library's QJSEngine/QQmlEngine 
 - [console](https://developer.mozilla.org/en-US/docs/Web/API/console) ([implementation details](#stdlib-console))
 - [AbortController, AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)  ([implementation details](#stdlib-abort))
 - [DOMException](https://developer.mozilla.org/en-US/docs/Web/API/DOMException)
-- [fetch, Headers, Request, Response](https://developer.mozilla.org/en-US/docs/Web/API/fetch) ([implementation details](@ref FetchAPI))
+- [fetch, Headers, Request, Response](https://developer.mozilla.org/en-US/docs/Web/API/fetch) ([implementation details](@ref NetAPI))
 - [URL & URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL)
 - [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)  ([implementation details](#stdlib-xmlhttpreq)))
 

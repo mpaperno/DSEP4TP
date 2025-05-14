@@ -23,7 +23,8 @@ GROUP_NESTED_COMPOUNDS = YES
 INLINE_GROUPED_CLASSES = NO
 INLINE_SIMPLE_STRUCTS  = YES
 TYPEDEF_HIDES_STRUCT   = NO
-EXTENSION_MAPPING      = js=JavaScript mjs=JavaScript
+EXTENSION_MAPPING      = js=JavaScript \
+                         mjs=JavaScript
 ALIASES                = \
                          "default{1}=\n<b>Default</b> value is \c \1.\n" \
                          "reimp{1}=Reimplemented from \c \1." \
@@ -193,7 +194,6 @@ HTML_EXTRA_FILES       = doxyawesome/doxygen-awesome-darkmode-toggle.js \
 HTML_COLORSTYLE_HUE    = 209
 HTML_COLORSTYLE_SAT    = 255
 HTML_COLORSTYLE_GAMMA  = 113
-HTML_TIMESTAMP         = YES
 HTML_DYNAMIC_MENUS     = YES
 HTML_DYNAMIC_SECTIONS  = NO
 
