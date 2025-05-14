@@ -1,6 +1,37 @@
 # Change Log
 **Dynamic Script Engine Plugin for Touch Portal**: changes by version number and release date.
 
+## 1.2.1.0 (14-May-2025)
+
+- Changes for "On Hold" action options:
+  - Activation/repeat options are now only shown in "On Hold" button setup flow.
+  - Split activation type (On Press, On Release, etc) and repeat (yes/no) options into two separate choices.
+  - Added Repeat Delay and Repeat Rate options which only affect the current button (not the global or instance-specific rate/delay settings).
+- Changes for state default value handling:
+  - Default type & value can be used on instances with any kind of persistence (saved or not).
+  - Default type (Fixed Value, Custom Expression, Last Expression) and persistence (Session, Temporary, Saved) settings are now separate action data fields.
+  - Changed to use actual default values when creating states and force TP evaluation (for non-empty values), removing workaround for TP v3 which created the state with an empty default value first and then sent the actual default value (if it wasn't empty).
+  - Always create a TP state (with default value, unless disabled) even if evaluation results in undefined/null result.
+  - Renamed `SavedDefaultType.NoSavedDefault` enum to `NoDefaultValue` (old version deprecated but still available in scripts).
+- Added methods for getting file system directory listings and details about individual files/folders:
+  - New `Dir.list()` and `Dir.infoList()` methods to list directory contents, with filtering and sorting options.
+  - New `Dir.info()` and `File.info()` methods to get details about individual file system entries (the methods are equivalent and return information about either files or folders).
+  - New `FileInfo` object type containing details about a file system object (name, type, size, timestamps, etc). Returned by `Dir.info()`/`File.info()` or as a list of entries from `Dir.infoList()`.
+- Added a short delay after creating new states for script instances and before the plugin tries to update that new state with a value.
+  This is a workaround for the TP issue where it may not register the new state before handling the state update message, which can result in TP log warnings about the state being updated "not belonging to this plugin".
+- Added new arguments & overloads for `DSE.stateCreate()` method:
+  - `delayMs` (integer) argument to delay further execution after creating a state to allow TP to process the state creation message before sending a `stateUpdate()` for the new state. (See previous item about using this as workaround for TP issue.)
+  - `force` (boolean) argument to force TP to evaluate the default value in action flows as if it was a state update (otherwise it ignores the default in "plug-in state changed" events).
+  - `stateCreate(id, description, defaultValue = "", delayMs = 0)` overload that automatically populates the parent category field.
+  - `stateCreate(id, description, options)` overload taking an object of all optional arguments (see docs for details).
+- Added new TP v4 properties to the `TP.broadcastEvent` event data for `pageChange` event (`previousPageName`, `deviceName`, `deviceId`, `deviceIp`).
+- Fixed that `AbortSignal`'s `aborted` property was never set to `true` after the parent `AbortController`'s `abort()` method was called (the `abort` event was still emitted, but the property value didn't change).
+- Fixed a possible (but apparently very rare) issue with none of the plugin's actions working on some particular setups due to "silent" Touch Portal error which resulted in the action never being sent to the plugin at all (thanks to `@Raeas` on TP's Discord for reporting and troubleshooting with us).
+- The plugin's actions/connectors are now sorted into the Touch Portal "Tools" category instead of "Misc."
+- Added current plugin version (in "dotted" format) and option descriptions to the plugin's Settings page.
+
+**Full log:** [v1.2.0-beta1...v1.2.1](https://github.com/mpaperno/DSEP4TP/compare/1.2.0.1...1.2.1.0)
+
 ---
 ## 1.2.0.1-beta1 (20-Feb-2023)
 
