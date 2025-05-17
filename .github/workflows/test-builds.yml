@@ -1,0 +1,57 @@
+name: Test Builds
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [
+          windows-latest,
+          macos-latest,
+          # macos-13,
+          ubuntu-latest
+        ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: 6.5.*
+          tools: ${{ startsWith(matrix.os, 'windows') && 'tools_ninja tools_opensslv3_x64' || 'tools_ninja' }}
+          # modules: 'qtwebsockets'
+
+      - name: Configure MSVC
+        if: ${{ startsWith(matrix.os, 'windows') }}
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+          toolset: 14.29
+
+      - name: Configure CMake
+        env:
+          QTHOME: '${{ env.IQTA_TOOLS }}/..'
+        run: |
+          cmake -G "Ninja" -B ./build-Release -S ./src -DCMAKE_PREFIX_PATH:PATH=${QT_ROOT_DIR} -DCMAKE_BUILD_TYPE=Release -DTPClient_BUILD_SHARED_LIBS:BOOL=OFF
+
+      - name: Build
+        run: cmake --build ./build-Release --target DSEP4TP install
+
+      - name: Mac extra deploy step
+        if: ${{ startsWith(matrix.os, 'macos') }}
+        run: cmake --build ./build-Release --target deployqt
+
+      - name: Install zip
+        if: ${{ startsWith(matrix.os, 'windows') }}
+        run: |
+          choco install zip
+
+      - name: Make distro
+        run: |
+          cd build
+          node ./distro.mjs
