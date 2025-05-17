@@ -17,18 +17,21 @@ export default function makeDistro(platform = null, dirs = {}, buildInfo = null)
 	const root = dirs.root || path.resolve(script_dir, "../");
 	const dist = dirs.dist || path.join(root, "dist");
 	//const bins = dirs.bins || path.join(build, "bin");
-	platform = platform || buildInfo.PLATFORM_OS || (process.platform === "win32" ? "Windows" : process.platform === "darwin" ? "MacOS" : "Linux");
+	platform = platform || buildInfo.PLATFORM_OS || (process.platform === "win32" ? "Windows" : process.platform === "darwin" ? "macOS" : "Linux");
 	const build = dirs.build || path.join(dist, platform, buildInfo.SYSTEM_NAME);
 
-	const packageName = path.join(dist, `${buildInfo.SYSTEM_NAME}-${platform}-${buildInfo.VERSION_STR}.tpp`);
+	const packageName = path.join(dist, `${buildInfo.SYSTEM_NAME}-${platform}-${process.arch}-${buildInfo.VERSION_STR}.tpp`);
 	var result;
 
 	console.info("Generating entry.tp");
-	result = execSync(`node ${path.resolve(script_dir, "./gen_entry.js")} -v ${buildInfo.VERSION_STR} -o ${build}`);
+	result = execSync(`node ${path.resolve(script_dir, "./gen_entry.js")} -o ${build}`);
 	console.info(String(result));
 
 	console.info("Copying files to", build);
-	copyFiles(root, build, [ 'README.md', 'CHANGELOG.md', 'LICENSE.txt' ])
+	copyFiles(root, build, [ 'README.md', 'CHANGELOG.md', 'LICENSE.txt' ]);
+	copyFiles(script_dir, build, [ 'icon.png' ]);
+	if (process.platform != 'win32')
+		fs.copyFileSync(path.resolve(script_dir, process.platform + '-start.sh'), path.join(build, 'start.sh'));
 
 	console.info("Creating archive", packageName);
 	result =  execSync(`${zip} -FS -r ${packageName} . -x *.log`, { cwd: path.join(build, "..") });

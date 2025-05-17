@@ -153,6 +153,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE TPClientQt)
 
 ##  Install
 
+cmake_policy(SET CMP0177 NEW)  ## v3.31 - install() DESTINATION paths are normalized.
+
 cmake_path(SET INSTALL_DEST_REL "${CMAKE_SOURCE_DIR}/../dist/${PLATFORM_OS}/${PROJECT_NAME}")
 cmake_path(SET INSTALL_DEST_DBG "${CMAKE_SOURCE_DIR}/../dist/${CMAKE_BUILD_TYPE}")
 
@@ -173,13 +175,13 @@ install(TARGETS ${PROJECT_NAME}
 
 if (isWin)
   set(executable_path "${CMAKE_INSTALL_PREFIX}/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>")
-  set(deploy_command "${WINDEPLOYQT_EXECUTABLE}" --no-compiler-runtime --no-translations "${executable_path}")
+  set(deploy_command "${WINDEPLOYQT_EXECUTABLE}" --no-compiler-runtime --no-translations --no-qmltooling "${executable_path}")
   install(CODE "execute_process(COMMAND ${deploy_command})" COMPONENT Runtime)
-  cmake_path(SET ssl_path "$ENV{QTHOME}/Tools/OpenSSL/Win_x64/bin")
+  cmake_path(SET ssl_path "$ENV{QTHOME}/Tools/OpenSSLv3/Win_x64/bin")
   cmake_path(SET rt_path "c:/Windows/system32")
   install(
     FILES
-      "${ssl_path}/libcrypto-1_1-x64.dll" "${ssl_path}/libssl-1_1-x64.dll"
+      "${ssl_path}/libcrypto-3-x64.dll" "${ssl_path}/libssl-3-x64.dll"
       "${rt_path}/msvcp140.dll" "${rt_path}/msvcp140_1.dll"
       "${rt_path}/vcruntime140.dll" "${rt_path}/vcruntime140_1.dll"
     TYPE BIN
