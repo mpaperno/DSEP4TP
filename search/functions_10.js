@@ -1,7 +1,7 @@
 var searchData=
 [
   ['rangevaluetopercent_0',['rangeValueToPercent',['../class_math.html#a8b78a995ae584997966b29aea5579042',1,'Math']]],
-  ['read_1',['read',['../class_file.html#adeac7b35b88465029c6be619ae67fbaf',1,'File::read(String &amp;file, ::FS::OpenMode mode=O_TEXT)'],['../class_file.html#a1531ed22351f15393f888fb99647433d',1,'File::read(String &amp;file, String &amp;mode)'],['../class_file_handle.html#aa1dab4dafe9143734fc4556c1ff2959f',1,'FileHandle::read(int maxSize)']]],
+  ['read_1',['read',['../class_file.html#a4d140ee4fb966bacd2f38c955072a4c6',1,'File::read(String &amp;file, FS::OpenMode mode=FS::O_TEXT)'],['../class_file.html#a1531ed22351f15393f888fb99647433d',1,'File::read(String &amp;file, String &amp;mode)'],['../class_file_handle.html#aa1dab4dafe9143734fc4556c1ff2959f',1,'FileHandle::read(int maxSize)']]],
   ['readall_2',['readAll',['../class_file_handle.html#a36895e006d6b0a0a3e93bba168c62dcf',1,'FileHandle::readAll()'],['../class_process.html#a36895e006d6b0a0a3e93bba168c62dcf',1,'Process::readAll()']]],
   ['readallstandarderror_3',['readAllStandardError',['../class_process.html#ab908fca5774c3999989c44dadaaf42e3',1,'Process']]],
   ['readallstandardoutput_4',['readAllStandardOutput',['../class_process.html#a8540a71504c5487908645f8ae35929ea',1,'Process']]],

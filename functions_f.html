@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
    </div>
   </td>
  </tr>
@@ -130,9 +130,10 @@ $(document).ready(function(){initNavTree('functions_f.html',''); initResizable()
 <li>file&#160;:&#160;<a class="el" href="class_connector_record.html#a238624645ad28e87a30b21a05331875c">ConnectorRecord</a></li>
 <li>FileError&#160;:&#160;<a class="el" href="class_f_s.html#aa3ec0b4d641bd69b9e91852d9974bfde">FS</a></li>
 <li>FileHandle()&#160;:&#160;<a class="el" href="class_file_handle.html#a928b19af1fa530ea34f30cbd01778829">FileHandle</a></li>
-<li>fileName&#160;:&#160;<a class="el" href="class_file_handle.html#a3a5f56162810aa1e371620c4c18cc82a">FileHandle</a></li>
-<li>filePath()&#160;:&#160;<a class="el" href="class_file.html#a83d2d7818d8c7d6d8a1f4ddb76a30438">File</a>, <a class="el" href="class_file_handle.html#a82d7e1a4f0be39757243b7eb17b12e4c">FileHandle</a></li>
-<li>fileTime()&#160;:&#160;<a class="el" href="class_file_handle.html#a372534c7c2100b150191297b8d0c3c03">FileHandle</a></li>
+<li>fileName&#160;:&#160;<a class="el" href="class_file_handle.html#a3a5f56162810aa1e371620c4c18cc82a">FileHandle</a>, <a class="el" href="class_file_info.html#a3a5f56162810aa1e371620c4c18cc82a">FileInfo</a></li>
+<li>filePath()&#160;:&#160;<a class="el" href="class_file.html#a83d2d7818d8c7d6d8a1f4ddb76a30438">File</a>, <a class="el" href="class_file_handle.html#a82d7e1a4f0be39757243b7eb17b12e4c">FileHandle</a>, <a class="el" href="class_file_info.html#a82d7e1a4f0be39757243b7eb17b12e4c">FileInfo</a></li>
+<li>Files&#160;:&#160;<a class="el" href="class_f_s.html#a66a0fd6c3da94bb7d266a2e85eec2752a49ce9e101fea37ab1954e5b3b9975c09">FS</a></li>
+<li>fileTime()&#160;:&#160;<a class="el" href="class_file_handle.html#a743463af34753671c556021f7de8dfff">FileHandle</a>, <a class="el" href="class_file_info.html#a743463af34753671c556021f7de8dfff">FileInfo</a></li>
 <li>FileTime&#160;:&#160;<a class="el" href="class_f_s.html#a55d4b2656702692f47a3a4c5d7e09f74">FS</a></li>
 <li>findBufferChanged()&#160;:&#160;<a class="el" href="class_clipboard.html#a8ce6bd27f981bdfd40172d41c3f0403a">Clipboard</a></li>
 <li>finished()&#160;:&#160;<a class="el" href="class_process.html#ae2ca5dcae36dc5a3b9d5007a61991abc">Process</a></li>
@@ -147,8 +148,8 @@ $(document).ready(function(){initNavTree('functions_f.html',''); initResizable()
 <li>fromLocaleString()&#160;:&#160;<a class="el" href="class_date.html#aa4404710151b2c75190b098631355cee">Date</a>, <a class="el" href="class_number.html#ac22bc789235df11af1a4a20df26a23eb">Number</a></li>
 <li>fromLocaleTimeString()&#160;:&#160;<a class="el" href="class_date.html#a7b8eef363bc78b964aeeb10559b0c6f5">Date</a></li>
 <li>fromNative()&#160;:&#160;<a class="el" href="class_dir.html#a52c7294254d02b2b485f09405a96b4dd">Dir</a></li>
-<li>fullBaseName()&#160;:&#160;<a class="el" href="class_file.html#a183a41449c9daa7389f1c4856f358599">File</a>, <a class="el" href="class_file_handle.html#a9cee5b0ae19e2d48db4adb0800f2183a">FileHandle</a></li>
-<li>fullSuffix()&#160;:&#160;<a class="el" href="class_file.html#a1ea33e588f05d49ef359cdcefb333216">File</a>, <a class="el" href="class_file_handle.html#a8c6d8768b4a2cee71aa90ed340059810">FileHandle</a></li>
+<li>fullBaseName()&#160;:&#160;<a class="el" href="class_file.html#a183a41449c9daa7389f1c4856f358599">File</a>, <a class="el" href="class_file_handle.html#a9cee5b0ae19e2d48db4adb0800f2183a">FileHandle</a>, <a class="el" href="class_file_info.html#a9cee5b0ae19e2d48db4adb0800f2183a">FileInfo</a></li>
+<li>fullSuffix()&#160;:&#160;<a class="el" href="class_file.html#a1ea33e588f05d49ef359cdcefb333216">File</a>, <a class="el" href="class_file_handle.html#a8c6d8768b4a2cee71aa90ed340059810">FileHandle</a>, <a class="el" href="class_file_info.html#a8c6d8768b4a2cee71aa90ed340059810">FileInfo</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -156,7 +157,7 @@ $(document).ready(function(){initNavTree('functions_f.html',''); initResizable()
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

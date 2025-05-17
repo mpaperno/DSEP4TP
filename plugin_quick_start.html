@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
    </div>
   </td>
  </tr>
@@ -127,19 +127,19 @@ $(document).ready(function(){initNavTree('plugin_quick_start.html',''); initResi
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md54">Basic Action Usage</a><ul><li class="level2"><a href="#autotoc_md55">Note: The action creates the State!</a></li>
+<ul><li class="level1"><a href="#autotoc_md55">Basic Action Usage</a><ul><li class="level2"><a href="#autotoc_md56">Note: The action creates the State!</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#autotoc_md57">Getting Dynamic</a><ul><li class="level2"><a href="#autotoc_md59">Using Values and States in Expressions</a></li>
+<li class="level1"><a href="#autotoc_md58">Getting Dynamic</a><ul><li class="level2"><a href="#autotoc_md60">Using Values and States in Expressions</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#autotoc_md61">Sliding Around</a></li>
+<li class="level1"><a href="#autotoc_md62">Sliding Around</a></li>
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_pages_QuickStart"></a></p>
 <p >Relatively quick, anyway. Let's skip the theory and get down to it. If you're already familiar with how Touch Portal works then you'll be able to grok most of this quickly and skip through basics. If you're a relative beginner, hopefully I've included enough details to get going.</p>
 <p >On that note, make sure the plugin is actually installed first. The instructions for download and install are on the front page in the <a href="index.html#autotoc_md7" target="_blank">Download and Install</a> section. Check.</p>
-<h1><a class="anchor" id="autotoc_md54"></a>
+<h1><a class="anchor" id="autotoc_md55"></a>
 Basic Action Usage</h1>
 <ol>
 <li>
@@ -177,11 +177,11 @@ Add a <em>Logic -&gt; Dynamic Text Updater</em> Event from the left menu. (<em>V
 </ol>
 <p ><br  clear="all" />
 </p>
-<h2><a class="anchor" id="autotoc_md55"></a>
+<h2><a class="anchor" id="autotoc_md56"></a>
 Note: The action creates the State!</h2>
 <p >One important takeaway here is that <b>the State we created will not exist until that button gets pushed once</b> (or rather until the action which creates the State gets activated, somehow). This is why we need the 2-step process to set up the button &ndash; one to create the action so we can trigger it, and the second step to actually use the new State for something.</p>
 <hr  />
- <h1><a class="anchor" id="autotoc_md57"></a>
+ <h1><a class="anchor" id="autotoc_md58"></a>
 Getting Dynamic</h1>
 <p >To make things slightly more interesting let's create a Touch Portal "Global Value" we can use to test with, and a way to change it.<br  />
  (If you already have some global Value to use for testing, you can just use that and skip the first 2 steps.)</p>
@@ -238,11 +238,11 @@ Right-click on the bottom part of that Event and select "Paste all copied action
 <p >To fix this, replace the "Dynamic Text Updater" Event with a "When Plug-in State Changes" Event, and add a "Change button visuals" action inside there which changes the button's text.</p>
 <p ><a href="images/quickstart/dynamic_button_events_2.png" target="fullSizeImg"><img src="images/quickstart/dynamic_button_events_2.png" alt="" style="max-width: 640px" class="inline"/></a></p>
 <p >The updates will now be almost instant as you move the slider.</p>
-<h2><a class="anchor" id="autotoc_md59"></a>
+<h2><a class="anchor" id="autotoc_md60"></a>
 Using Values and States in Expressions</h2>
 <p >While this was not an especially practical example, the key point here is that you can use <em>any</em> existing Value or State as part of an expression. They don't have to be numeric, and the produced result can also be in any format you need. The values/states can be passed to many of the plugin's built-in functions (lots of math and formatting options, for example) to get desired results back. And with the more "advanced" actions available in this plugin (which can use custom script files), the values/states can be sent to more sophisticated functions as well.</p>
 <hr  />
- <h1><a class="anchor" id="autotoc_md61"></a>
+ <h1><a class="anchor" id="autotoc_md62"></a>
 Sliding Around</h1>
 <p >As a last "quick start" example I'll show how to use a Slider with one of the plugin's Connectors.</p>
 <p >It will do the same thing as the example above, but without a Touch Portal Value. Which is redundant since a Slider already produces a value of 0-100 that we can use directly.</p>
@@ -276,7 +276,7 @@ Use the same "Instance Name" as before &ndash; <code>DSE_Example</code> (or what
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

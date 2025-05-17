@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
    </div>
   </td>
  </tr>
@@ -132,7 +132,7 @@ $(document).ready(function(){initNavTree('class_connector_record.html',''); init
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p >The <a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a> object holds information about a Touch Portal Connector (Slider) instance. </p>
 <p >These instances are reported by Touch Portal in the plugin API <code>shortConnectorIdNotification</code> message. These messages are parsed by the plugin and stored for future reference as objects in a database. The <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> represents such a stored object.</p>
-<p >Instances of <code>ConnectorRecrord</code> are obtained by calls to <code><a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a></code> class functions like <code><a class="el" href="group___t_p_a_p_i.html#gaddb55ad8f327b7021bcf6e1b80834a49" title="Returns zero or more ConnectorRecord objects based on the given criteria from the currently logged co...">TP.getConnectorRecords()</a></code>. Objects of this type cannot be created directly.</p>
+<p >Instances of <code>ConnectorRecrord</code> are obtained by calls to <code><a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a></code> class functions like <code><a class="el" href="class_t_p.html#addb55ad8f327b7021bcf6e1b80834a49" title="Returns zero or more ConnectorRecord objects based on the given criteria from the currently logged co...">TP.getConnectorRecords()</a></code>. Objects of this type cannot be created directly.</p>
 <p >All properties are read-only.</p>
 <dl class="section see"><dt>See also</dt><dd>ConnectorData, <a href="https://www.touch-portal.com/api/index.php?section=connectors" target="_blank">Touch Portal Connectors API</a> for reference </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v1.1.0. </dd></dl>
@@ -185,7 +185,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The "short connector ID" assigned by Touch Portal to this partulcar instance of a slider. This is the ID to be used for sending <a class="el" href="group___t_p_a_p_i.html#gae18d5fec12d5b68429d55edd2362f65f" title="Sends a connector (slider) update with given value which should be an integer in the range of 0 - 100...">connectorUpdate()</a> messages back to Touch Portal. </p>
+<p>The "short connector ID" assigned by Touch Portal to this partulcar instance of a slider. This is the ID to be used for sending <a class="el" href="class_t_p.html#ae18d5fec12d5b68429d55edd2362f65f" title="Sends a connector (slider) update with given value which should be an integer in the range of 0 - 100...">connectorUpdate()</a> messages back to Touch Portal. </p>
 
 </div>
 </div>
@@ -415,10 +415,10 @@ The property is <b>returned</b> as an <code>Object</code> type, possibly empty, 
 The property is <b>searched</b> (and stored) as compact serialized JSON text with both keys and values quoted. Eg. <code>{"rangeMin":"100","rangeMax":"1000"}</code> <br  />
 The quotes and colons can be effectively used in search terms to limit the scope of the search. For example <code>{ otherData: '*"range*":"100?"*' }</code> <br  />
 Note the wildcards outside of the quoted object property and value &ndash; this is to ensure other properties properties in the JSON string are ignored. <br  />
-This property can be specified multiple times in a search pattern when used with search array notation. For example </p><div class="fragment"><div class="line"><a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="group___t_p_a_p_i.html#gaddb55ad8f327b7021bcf6e1b80834a49">getConnectorRecords</a>([ { <a class="code hl_property" href="class_connector_record.html#a0ad8c9125161601d20d89f6b3641cd4e">otherData</a>: <span class="stringliteral">&#39;*&quot;rangeMin&quot;:&quot;1000&quot;*&#39;</span> }, { <a class="code hl_property" href="class_connector_record.html#a0ad8c9125161601d20d89f6b3641cd4e">otherData</a>: <span class="stringliteral">&#39;*&quot;rangeMax&quot;:&quot;100&quot;*&#39;</span> } ]);</div>
+This property can be specified multiple times in a search pattern when used with search array notation. For example </p><div class="fragment"><div class="line"><a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="class_t_p.html#addb55ad8f327b7021bcf6e1b80834a49">getConnectorRecords</a>([ { <a class="code hl_property" href="class_connector_record.html#a0ad8c9125161601d20d89f6b3641cd4e">otherData</a>: <span class="stringliteral">&#39;*&quot;rangeMin&quot;:&quot;1000&quot;*&#39;</span> }, { <a class="code hl_property" href="class_connector_record.html#a0ad8c9125161601d20d89f6b3641cd4e">otherData</a>: <span class="stringliteral">&#39;*&quot;rangeMax&quot;:&quot;100&quot;*&#39;</span> } ]);</div>
 <div class="ttc" id="aclass_connector_record_html_a0ad8c9125161601d20d89f6b3641cd4e"><div class="ttname"><a href="class_connector_record.html#a0ad8c9125161601d20d89f6b3641cd4e">ConnectorRecord::otherData</a></div><div class="ttdeci">Object otherData</div><div class="ttdoc">This property holds an object with any other Connector data members which were found but do not fit i...</div><div class="ttdef"><b>Definition:</b> ConnectorData.h:98</div></div>
-<div class="ttc" id="aclass_t_p_html"><div class="ttname"><a href="class_t_p.html">TP</a></div><div class="ttdoc">The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...</div><div class="ttdef"><b>Definition:</b> touchportal.dox:7</div></div>
-<div class="ttc" id="agroup___t_p_a_p_i_html_gaddb55ad8f327b7021bcf6e1b80834a49"><div class="ttname"><a href="group___t_p_a_p_i.html#gaddb55ad8f327b7021bcf6e1b80834a49">TP::getConnectorRecords</a></div><div class="ttdeci">Array&lt; ConnectorRecord &gt; getConnectorRecords(Object criteria={})</div><div class="ttdoc">Returns zero or more ConnectorRecord objects based on the given criteria from the currently logged co...</div></div>
+<div class="ttc" id="aclass_t_p_html"><div class="ttname"><a href="class_t_p.html">TP</a></div><div class="ttdoc">The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...</div><div class="ttdef"><b>Definition:</b> touchportal.dox:6</div></div>
+<div class="ttc" id="aclass_t_p_html_addb55ad8f327b7021bcf6e1b80834a49"><div class="ttname"><a href="class_t_p.html#addb55ad8f327b7021bcf6e1b80834a49">TP::getConnectorRecords</a></div><div class="ttdeci">Array&lt; ConnectorRecord &gt; getConnectorRecords(Object criteria={})</div><div class="ttdoc">Returns zero or more ConnectorRecord objects based on the given criteria from the currently logged co...</div></div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -477,7 +477,7 @@ This property can be specified multiple times in a search pattern when used with
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_connector_record.html">ConnectorRecord</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

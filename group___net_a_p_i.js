@@ -1,4 +1,4 @@
-var group___fetch_a_p_i =
+var group___net_a_p_i =
 [
     [ "Net", "namespace_net.html", null ],
     [ "Request", "class_request.html", [

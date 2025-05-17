@@ -8,7 +8,7 @@ var searchData=
   ['enginetype_5',['engineType',['../class_dynamic_script.html#a204c28502265567652e5b10142df018e',1,'DynamicScript']]],
   ['error_6',['error',['../class_file_handle.html#a6c7d5e009866ed221f3cf3018c9303a4',1,'FileHandle']]],
   ['errorstring_7',['errorString',['../class_file_handle.html#ac24e859198fadbde73d046ff58161510',1,'FileHandle']]],
-  ['exists_8',['exists',['../class_file_handle.html#a6e480061dc5ecc1f85a71989a6352dfc',1,'FileHandle']]],
+  ['exists_8',['exists',['../class_file_handle.html#a6e480061dc5ecc1f85a71989a6352dfc',1,'FileHandle::exists()'],['../class_file_info.html#a6e480061dc5ecc1f85a71989a6352dfc',1,'FileInfo::exists()']]],
   ['exponential_9',['exponential',['../class_locale.html#a3725f7892475ec85556ce6b8cf9e43da',1,'Locale']]],
   ['expression_10',['expression',['../class_dynamic_script.html#a7db9a71a3954fa572de18e1e4e3e9838',1,'DynamicScript::expression()'],['../class_connector_record.html#a7db9a71a3954fa572de18e1e4e3e9838',1,'ConnectorRecord::expression()']]]
 ];

@@ -12,12 +12,14 @@ var searchData=
   ['erroroccurred_9',['errorOccurred',['../class_process.html#a792262951fb2b62ee9cd824cdbe87ac6',1,'Process']]],
   ['errorstring_10',['errorString',['../class_file_handle.html#ac24e859198fadbde73d046ff58161510',1,'FileHandle']]],
   ['evaluate_11',['evaluate',['../class_dynamic_script.html#a640eb3c435abcfe65e13558fc738b915',1,'DynamicScript']]],
-  ['examples_12',['Examples',['../plugin_examples.html',1,'']]],
-  ['execute_13',['execute',['../class_process.html#a8db047d3a76a4252a438627335ad1a41',1,'Process']]],
-  ['exists_14',['exists',['../class_file_handle.html#a6e480061dc5ecc1f85a71989a6352dfc',1,'FileHandle::exists()'],['../class_dir.html#a99de16a696a6c85df9d11276ba9e3acd',1,'Dir::exists()'],['../class_file.html#a5f3550bae0d274d91d8cba4fa784feae',1,'File::exists()']]],
-  ['exitcode_15',['exitCode',['../class_process.html#a1a3216fca979e4a07e32c46b06a9bf8c',1,'Process']]],
-  ['exitstatus_16',['exitStatus',['../class_process.html#a28098115d4f626eb43a368a4576fcde9',1,'Process']]],
-  ['exponential_17',['exponential',['../class_locale.html#a3725f7892475ec85556ce6b8cf9e43da',1,'Locale']]],
-  ['expression_18',['expression',['../class_dynamic_script.html#a7db9a71a3954fa572de18e1e4e3e9838',1,'DynamicScript::expression()'],['../class_connector_record.html#a7db9a71a3954fa572de18e1e4e3e9838',1,'ConnectorRecord::expression()']]],
-  ['expressioninput_19',['ExpressionInput',['../class_d_s_e.html#ac501f3d14f752ce1c92cc40c18180f28a2a555094f9de0fd0477fbf72ac7bd493',1,'DSE']]]
+  ['event_20handling_12',['Event Handling',['../group___event_handlers.html',1,'']]],
+  ['examples_13',['Examples',['../plugin_examples.html',1,'']]],
+  ['executable_14',['Executable',['../class_f_s.html#a66a0fd6c3da94bb7d266a2e85eec2752a849ca8bcf15aefe7b00d4cb25a0074e1',1,'FS']]],
+  ['execute_15',['execute',['../class_process.html#a8db047d3a76a4252a438627335ad1a41',1,'Process']]],
+  ['exists_16',['exists',['../class_file_handle.html#a6e480061dc5ecc1f85a71989a6352dfc',1,'FileHandle::exists()'],['../class_file_info.html#a6e480061dc5ecc1f85a71989a6352dfc',1,'FileInfo::exists()'],['../class_dir.html#a99de16a696a6c85df9d11276ba9e3acd',1,'Dir::exists()'],['../class_file.html#a5f3550bae0d274d91d8cba4fa784feae',1,'File::exists()']]],
+  ['exitcode_17',['exitCode',['../class_process.html#a1a3216fca979e4a07e32c46b06a9bf8c',1,'Process']]],
+  ['exitstatus_18',['exitStatus',['../class_process.html#a28098115d4f626eb43a368a4576fcde9',1,'Process']]],
+  ['exponential_19',['exponential',['../class_locale.html#a3725f7892475ec85556ce6b8cf9e43da',1,'Locale']]],
+  ['expression_20',['expression',['../class_dynamic_script.html#a7db9a71a3954fa572de18e1e4e3e9838',1,'DynamicScript::expression()'],['../class_connector_record.html#a7db9a71a3954fa572de18e1e4e3e9838',1,'ConnectorRecord::expression()']]],
+  ['expressioninput_21',['ExpressionInput',['../class_d_s_e.html#ac501f3d14f752ce1c92cc40c18180f28a2a555094f9de0fd0477fbf72ac7bd493',1,'DSE']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['xhr_0',['xhr',['../class_request.html#ac3fe8d04e595f00a7b0710564b333829',1,'Request::xhr()'],['../class_response.html#ac3fe8d04e595f00a7b0710564b333829',1,'Response::xhr()']]]
+  ['weekdays_0',['weekDays',['../class_locale.html#a1d0ea019f10befb450559874dcc19ed1',1,'Locale']]]
 ];

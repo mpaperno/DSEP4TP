@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['standard_20js_20objects_20and_20functions_0',['Standard JS Objects and Functions',['../group___e_c_m_a_std.html',1,'']]]
+  ['network_20apis_0',['Network APIs',['../group___net_a_p_i.html',1,'']]]
 ];

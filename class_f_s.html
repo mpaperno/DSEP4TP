@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
    </div>
   </td>
  </tr>
@@ -146,6 +146,14 @@ Public Types</h2></td></tr>
 <tr class="separator:a4a0bad9b304b3c72ca7957c0c2852e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3ec0b4d641bd69b9e91852d9974bfde"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s.html#aa3ec0b4d641bd69b9e91852d9974bfde">FileError</a> : int </td></tr>
 <tr class="separator:aa3ec0b4d641bd69b9e91852d9974bfde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66a0fd6c3da94bb7d266a2e85eec2752"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s.html#a66a0fd6c3da94bb7d266a2e85eec2752">DirFilter</a> </td></tr>
+<tr class="separator:a66a0fd6c3da94bb7d266a2e85eec2752"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4006ee6c5b509f2318c435705107aa1d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s.html#a4006ee6c5b509f2318c435705107aa1d">DirFilters</a> : DirFilter </td></tr>
+<tr class="separator:a4006ee6c5b509f2318c435705107aa1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a611722b788dee0ac8b2d3ec2eafeefc6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s.html#a611722b788dee0ac8b2d3ec2eafeefc6">DirSort</a> </td></tr>
+<tr class="separator:a611722b788dee0ac8b2d3ec2eafeefc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d7baeaa99b2f03b519bc7b8427f6f2c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s.html#a6d7baeaa99b2f03b519bc7b8427f6f2c">DirSortFlags</a> : DirSort </td></tr>
+<tr class="separator:a6d7baeaa99b2f03b519bc7b8427f6f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="aac80d97c6b72c72f21cd2ebcef18f2bd" name="aac80d97c6b72c72f21cd2ebcef18f2bd"></a>
@@ -229,7 +237,7 @@ Public Types</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="class_file.html" title="The File class provides access to... files. Shocking.">File</a> date/time enumerations for <code><a class="el" href="class_file_handle.html#a372534c7c2100b150191297b8d0c3c03" title="Returns the file time specified by time. If the time cannot be determined this function returns an in...">FileHandle.fileTime()</a></code> and <code><a class="el" href="class_file_handle.html#aae8b78514f9b7a1d31d1ac284b23ef49" title="Sets the file time specified by fileTime to newDate on the current file, returning true if successful...">FileHandle.setFileTime()</a></code>. The names are meant to follow GNU/POSIX file info <code>stat</code> structure names. </p>
+<p><a class="el" href="class_file.html" title="The File class provides access to... files. Shocking.">File</a> date/time enumerations for <code><a class="el" href="class_file_handle.html#a743463af34753671c556021f7de8dfff" title="Returns the file time specified by time. If the time cannot be determined this function returns an in...">FileHandle.fileTime()</a></code> and <code><a class="el" href="class_file_handle.html#a6b31a0a7b9d68071b47552e6083e819e" title="Sets the file time specified by fileTime to newDate on the current file, returning true if successful...">FileHandle.setFileTime()</a></code>. The names are meant to follow GNU/POSIX file info <code>stat</code> structure names. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a55d4b2656702692f47a3a4c5d7e09f74a0a0d4a0a7d65f068341624042c519c5b" name="a55d4b2656702692f47a3a4c5d7e09f74a0a0d4a0a7d65f068341624042c519c5b"></a>S_ATIME&#160;</td><td class="fielddoc"><p >Access time. </p>
 </td></tr>
@@ -358,6 +366,135 @@ Public Types</h2></td></tr>
 
 </div>
 </div>
+<a id="a66a0fd6c3da94bb7d266a2e85eec2752" name="a66a0fd6c3da94bb7d266a2e85eec2752"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66a0fd6c3da94bb7d266a2e85eec2752">&#9670;&nbsp;</a></span>DirFilter</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_f_s.html#a66a0fd6c3da94bb7d266a2e85eec2752">DirFilter</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This enum describes the filtering options available for <code><a class="el" href="class_dir.html#a169d7889066ffe7d024cf562233f3879" title="Returns an array of directory entry names in the given path.">Dir.list()</a></code> <code><a class="el" href="class_dir.html#a530b11e24c2173c68d13191516cdb7d6" title="Returns an array of directory entries in the given path as FileInfo objects.">Dir.infoList()</a></code>. The sort value is specified by OR-ing together values from the following list. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752a58725710c5faf709d88ea461b95b8a2a" name="a66a0fd6c3da94bb7d266a2e85eec2752a58725710c5faf709d88ea461b95b8a2a"></a>NoFilter&#160;</td><td class="fielddoc"><p >Do not apply any filtering to the list results. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752a1e98f78430ef81e14754404c454db153" name="a66a0fd6c3da94bb7d266a2e85eec2752a1e98f78430ef81e14754404c454db153"></a>Dirs&#160;</td><td class="fielddoc"><p >List directories that match the filters. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752a49ce9e101fea37ab1954e5b3b9975c09" name="a66a0fd6c3da94bb7d266a2e85eec2752a49ce9e101fea37ab1954e5b3b9975c09"></a>Files&#160;</td><td class="fielddoc"><p >List files. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752aa3cd573dae26e6818f6f30557233478e" name="a66a0fd6c3da94bb7d266a2e85eec2752aa3cd573dae26e6818f6f30557233478e"></a>Drives&#160;</td><td class="fielddoc"><p >List disk drives (ignored under Unix). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752a40ac4cc3ed60a78fa2ea3b2038e8d63b" name="a66a0fd6c3da94bb7d266a2e85eec2752a40ac4cc3ed60a78fa2ea3b2038e8d63b"></a>NoSymLinks&#160;</td><td class="fielddoc"><p >Do not list symbolic links (ignored by operating systems that don't support symbolic links). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752a160bfe5e14a450d26ddb1f97607409a6" name="a66a0fd6c3da94bb7d266a2e85eec2752a160bfe5e14a450d26ddb1f97607409a6"></a>AllEntries&#160;</td><td class="fielddoc"><p >List directories, files, drives and symlinks (this does not list broken symlinks unless you specify System). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752a1974e874b1395cf8819393d1efb52dfa" name="a66a0fd6c3da94bb7d266a2e85eec2752a1974e874b1395cf8819393d1efb52dfa"></a>Readable&#160;</td><td class="fielddoc"><p >List files for which the application has read access. </p>
+<p >The Readable value needs to be combined with Dirs or Files. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752ac7ade7f6f8d649d9b915f1256a57ede6" name="a66a0fd6c3da94bb7d266a2e85eec2752ac7ade7f6f8d649d9b915f1256a57ede6"></a>Writable&#160;</td><td class="fielddoc"><p >List files for which the application has write access. </p>
+<p >The Writable value needs to be combined with Dirs or Files. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752a849ca8bcf15aefe7b00d4cb25a0074e1" name="a66a0fd6c3da94bb7d266a2e85eec2752a849ca8bcf15aefe7b00d4cb25a0074e1"></a>Executable&#160;</td><td class="fielddoc"><p >List files for which the application has execute access. </p>
+<p >The Executable value needs to be combined with Dirs or Files. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752a68c800404093521f6e4df855dd531971" name="a66a0fd6c3da94bb7d266a2e85eec2752a68c800404093521f6e4df855dd531971"></a>Modified&#160;</td><td class="fielddoc"><p >Only list files that have been modified (ignored on Unix). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752acf46e529658ebc6532c204f3246929f4" name="a66a0fd6c3da94bb7d266a2e85eec2752acf46e529658ebc6532c204f3246929f4"></a>Hidden&#160;</td><td class="fielddoc"><p >List hidden files (on Unix, files starting with a "."). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752aacd40056f9fbe11dadadeba269eb2034" name="a66a0fd6c3da94bb7d266a2e85eec2752aacd40056f9fbe11dadadeba269eb2034"></a>System&#160;</td><td class="fielddoc"><p >List system files (on Unix, FIFOs, sockets and device files are included; on Windows, .lnk files are included) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752ad5320cb7c245ecf758429997fdebe053" name="a66a0fd6c3da94bb7d266a2e85eec2752ad5320cb7c245ecf758429997fdebe053"></a>AllDirs&#160;</td><td class="fielddoc"><p >List all directories; i.e. </p>
+<p >don't apply the filters to directory names. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752a69a0083547e2ee614b9ab57d7e0471a9" name="a66a0fd6c3da94bb7d266a2e85eec2752a69a0083547e2ee614b9ab57d7e0471a9"></a>CaseSensitive&#160;</td><td class="fielddoc"><p >The filter should be case sensitive. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752afdc53e76f0f61d3a1f33ad24d011fe06" name="a66a0fd6c3da94bb7d266a2e85eec2752afdc53e76f0f61d3a1f33ad24d011fe06"></a>NoDot&#160;</td><td class="fielddoc"><p >Do not list the special entry ".". </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752a4cc059f42c4f49e00870d6140794ddcb" name="a66a0fd6c3da94bb7d266a2e85eec2752a4cc059f42c4f49e00870d6140794ddcb"></a>NoDotDot&#160;</td><td class="fielddoc"><p >Do not list the special entry "..". </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a66a0fd6c3da94bb7d266a2e85eec2752a5a3012463513394f51fc3531e92da89a" name="a66a0fd6c3da94bb7d266a2e85eec2752a5a3012463513394f51fc3531e92da89a"></a>NoDotAndDotDot&#160;</td><td class="fielddoc"><p >Do not list the special entries "." and "..". </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a4006ee6c5b509f2318c435705107aa1d" name="a4006ee6c5b509f2318c435705107aa1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4006ee6c5b509f2318c435705107aa1d">&#9670;&nbsp;</a></span>DirFilters</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_f_s.html#a4006ee6c5b509f2318c435705107aa1d">DirFilters</a> : <a class="el" href="class_f_s.html#a66a0fd6c3da94bb7d266a2e85eec2752">DirFilter</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The <code>DirFilters</code> type stores an OR combination of <code>DirFilter</code> values. </p>
+
+</div>
+</div>
+<a id="a611722b788dee0ac8b2d3ec2eafeefc6" name="a611722b788dee0ac8b2d3ec2eafeefc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a611722b788dee0ac8b2d3ec2eafeefc6">&#9670;&nbsp;</a></span>DirSort</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_f_s.html#a611722b788dee0ac8b2d3ec2eafeefc6">DirSort</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This enum describes the sort options available for <code><a class="el" href="class_dir.html#a169d7889066ffe7d024cf562233f3879" title="Returns an array of directory entry names in the given path.">Dir.list()</a></code> <code><a class="el" href="class_dir.html#a530b11e24c2173c68d13191516cdb7d6" title="Returns an array of directory entries in the given path as FileInfo objects.">Dir.infoList()</a></code>. The sort value is specified by OR-ing together values from the following list. But only one of <code>SortName</code>, <code>SortTime</code>, <code>SortSize</code> or <code>SortType</code> can be specified at a time. <br  />
+If you specify both <code>SortDirsFirst</code> and <code>SortReversed</code>, directories are still put first, but in reverse order; the files will be listed after the directories, again in reverse order. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a611722b788dee0ac8b2d3ec2eafeefc6ad6d55dff1f3db1adaace61c9aeb81562" name="a611722b788dee0ac8b2d3ec2eafeefc6ad6d55dff1f3db1adaace61c9aeb81562"></a>SortDefault&#160;</td><td class="fielddoc"><p >Not sorted by default. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a611722b788dee0ac8b2d3ec2eafeefc6a2673a39f2f6509931e82412c155e6bfa" name="a611722b788dee0ac8b2d3ec2eafeefc6a2673a39f2f6509931e82412c155e6bfa"></a>SortName&#160;</td><td class="fielddoc"><p >Sort by name. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a611722b788dee0ac8b2d3ec2eafeefc6a0f1d087f1a8a607b94609bb4def7107c" name="a611722b788dee0ac8b2d3ec2eafeefc6a0f1d087f1a8a607b94609bb4def7107c"></a>SortTime&#160;</td><td class="fielddoc"><p >Sort by modification time. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a611722b788dee0ac8b2d3ec2eafeefc6ac042370caaca9e30d60fc3b98c585d06" name="a611722b788dee0ac8b2d3ec2eafeefc6ac042370caaca9e30d60fc3b98c585d06"></a>SortSize&#160;</td><td class="fielddoc"><p >Sort by file size. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a611722b788dee0ac8b2d3ec2eafeefc6a7e25b3481783b44725c48cb7b7503dcd" name="a611722b788dee0ac8b2d3ec2eafeefc6a7e25b3481783b44725c48cb7b7503dcd"></a>SortType&#160;</td><td class="fielddoc"><p >Sort by file type (extension). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a611722b788dee0ac8b2d3ec2eafeefc6a90a73075b3b2466f8df949987769093d" name="a611722b788dee0ac8b2d3ec2eafeefc6a90a73075b3b2466f8df949987769093d"></a>SortUnsorted&#160;</td><td class="fielddoc"><p >Do not sort. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a611722b788dee0ac8b2d3ec2eafeefc6ac5dfd661d3ec7a69c69abfa4b879be6a" name="a611722b788dee0ac8b2d3ec2eafeefc6ac5dfd661d3ec7a69c69abfa4b879be6a"></a>SortDirsFirst&#160;</td><td class="fielddoc"><p >Put the directories first, then the files. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a611722b788dee0ac8b2d3ec2eafeefc6a0c7e1532e6fbebec9694f9f4bba7d859" name="a611722b788dee0ac8b2d3ec2eafeefc6a0c7e1532e6fbebec9694f9f4bba7d859"></a>SortDirsLast&#160;</td><td class="fielddoc"><p >Put the files first, then the directories. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a611722b788dee0ac8b2d3ec2eafeefc6af23d87db60eb06eae1c0d3abff0560bc" name="a611722b788dee0ac8b2d3ec2eafeefc6af23d87db60eb06eae1c0d3abff0560bc"></a>SortReversed&#160;</td><td class="fielddoc"><p >Reverse the sort order. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a611722b788dee0ac8b2d3ec2eafeefc6a786632050702efa44dce0910f9f0b573" name="a611722b788dee0ac8b2d3ec2eafeefc6a786632050702efa44dce0910f9f0b573"></a>SortIgnoreCase&#160;</td><td class="fielddoc"><p >Sort case-insensitively. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a611722b788dee0ac8b2d3ec2eafeefc6a1bd051319d99e67a47406dcbff49a6b0" name="a611722b788dee0ac8b2d3ec2eafeefc6a1bd051319d99e67a47406dcbff49a6b0"></a>SortLocaleAware&#160;</td><td class="fielddoc"><p >Sort items appropriately using the current locale settings. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a6d7baeaa99b2f03b519bc7b8427f6f2c" name="a6d7baeaa99b2f03b519bc7b8427f6f2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d7baeaa99b2f03b519bc7b8427f6f2c">&#9670;&nbsp;</a></span>DirSortFlags</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_f_s.html#a6d7baeaa99b2f03b519bc7b8427f6f2c">DirSortFlags</a> : <a class="el" href="class_f_s.html#a611722b788dee0ac8b2d3ec2eafeefc6">DirSort</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The <code>DirSortFlags</code> type stores an OR combination of <code>DirSort</code> values. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.4-->
@@ -365,7 +502,7 @@ Public Types</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_f_s.html">FS</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

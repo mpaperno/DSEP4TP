@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
    </div>
   </td>
  </tr>
@@ -134,7 +134,7 @@ $(document).ready(function(){initNavTree('class_dynamic_script.html',''); initRe
 <div class="textblock"><p ><a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a> represents an instance of an expression, script file, or module being evaluated using a scripting engine. </p>
 <p >In other words, this is the type of object created by the plugin when a user invokes one of the scripting type actions this plugin provides.</p>
 <p >It has properties representing some of the action parameters which can be set in an action/connector, such as the State/instance Name, expression, file, and so on. Most properties are read-only, but a few can be set at runtime such as the default type/value and held action repeating delay/rate.</p>
-<p >A <a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a> object instance can be retrieved with the <code><a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a></code> object functions such as <code><a class="el" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01" title="Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....">DSE.currentInstance()</a></code>, <code><a class="el" href="class_d_s_e.html#a75772c2c90dcccaa883c44867c7da11a" title="Returns the script instance with given name, if any, otherwise returns null.">DSE.instance()</a></code>, or <code><a class="el" href="class_d_s_e.html#a35ec6ea52566b77ef242da739741a5e9" title="Returns all currently existing script instances as an iteratable array-like object (iterate with of e...">DSE.instanceList()</a></code>. They cannot be created directly (eg. <code>new <a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript()</a></code> will not work).</p>
+<p >A <a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a> object instance can be retrieved with the <code><a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a></code> object functions such as <code><a class="el" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01" title="Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....">DSE.currentInstance()</a></code>, <code>DSE.instance()</code>, or <code><a class="el" href="class_d_s_e.html#a35ec6ea52566b77ef242da739741a5e9" title="Returns all currently existing script instances as an iteratable array-like object (iterate with of e...">DSE.instanceList()</a></code>. They cannot be created directly (eg. <code>new <a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript()</a></code> will not work).</p>
 <dl class="section since"><dt>Since</dt><dd>v1.2 </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
@@ -214,16 +214,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a99770fb3fbb3d852b744110552b4403f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Events</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p >All these events correspond to changes in property values, provided as a way for a script to take some immediate action based on a new value for that property, vs, say, having to check the values periodically with a timer.</p>
-<p >Callbacks can be attached to, or detached from, events by using the <code>connect()</code> and <code>disconnect()</code> syntax. For example: </p><div class="fragment"><div class="line"><span class="keyword">function</span> onPressStateChange(<a class="code hl_property" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">isPressed</a>) {</div>
-<div class="line">  console.log(<span class="stringliteral">&quot;The button has been &quot;</span> + (<a class="code hl_property" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">isPressed</a> ? <span class="stringliteral">&quot;pressed&quot;</span> : <span class="stringliteral">&quot;released&quot;</span>));</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><a class="code hl_class" href="class_d_s_e.html">DSE</a>.pressedStateChanged.connect(onPressStateChange);</div>
-<div class="line"><span class="comment">// ... later, to disconnect:</span></div>
-<div class="line"><a class="code hl_class" href="class_d_s_e.html">DSE</a>.pressedStateChanged.disconnect(onPressStateChange);</div>
-<div class="ttc" id="aclass_d_s_e_html"><div class="ttname"><a href="class_d_s_e.html">DSE</a></div><div class="ttdoc">The DSE object contains constants and functions related to the plugin environment....</div></div>
-<div class="ttc" id="aclass_dynamic_script_html_ab1351de5234bac2d378240bdfac6e90c"><div class="ttname"><a href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">DynamicScript::isPressed</a></div><div class="ttdeci">bool isPressed</div><div class="ttdoc">This property value is true if a button using an Action which invokes this script is currently being ...</div><div class="ttdef"><b>Definition:</b> DynamicScript.h:218</div></div>
-</div><!-- fragment --> </div></td></tr>
+<p >See <a class="el" href="group___event_handlers.html">Event Handling</a> for details about connecting handlers to events. </p>
+</div></td></tr>
 <tr class="memitem:a7103fdb182a9bbdd58fe216fec573450"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a7103fdb182a9bbdd58fe216fec573450">pressedStateChanged</a> (bool <a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">isPressed</a>)</td></tr>
 <tr class="separator:a7103fdb182a9bbdd58fe216fec573450"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cec208838d7a8d283ee16ed0bb9ea3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_dynamic_script.html#a8cec208838d7a8d283ee16ed0bb9ea3b">repeatingStateChanged</a> (bool <a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a>)</td></tr>
@@ -484,8 +476,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>When <a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5">persistence</a> is of <code><a class="el" href="class_d_s_e.html#a334a469c78be0cde1c0e0f3271b138aba6caf6e9315f0511de944df128d79c07b" title="Instance is saved to persistent settings at exit and restored at startup.">DSE.PersistSave</a></code> type, this property value determines what happens when this instance is initially loaded from storage. <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8e" title="Script instance saved default value type. These values determine what happens when a script instance ...">DSE.SavedDefaultType</a></code> enumeration value, one of: <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8ea9cebf95f9a1b57a133551767a8eaaf4d" title="Instance is created with a fixed default or empty value (specified in DynamicScript....">DSE.FixedValueDefault</a></code>, <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8eab6c58ea0d72c40bbd8ce930c866a020b" title="Instance is created with default value coming from evaluating a custom expression (specified in Dynam...">DSE.CustomExprDefault</a></code>, <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8ea79f133a532e8cf488d53527321681a4a" title="Instance is created with default value coming from evaluating the last saved primary expression (exac...">DSE.LastExprDefault</a></code> </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a8a7009d98eadb866597cb3f57254b8a3" title="The default value specified for saved instance, if any. Depending on the value of defaultType,...">defaultValue</a>, <a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5" title="Persistence essentially determines the lifespan of this script instance. &quot;Session&quot; persistence means ...">persistence</a> </dd></dl>
+<p>This property determines how to treat the <a class="el" href="class_dynamic_script.html#a8a7009d98eadb866597cb3f57254b8a3">defaultValue</a> property value. See enumeration documentation links for details on each type. <br  />
+<code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8e" title="Script instance default value type. These values determine what happens when a script instance state ...">DSE.SavedDefaultType</a></code> enumeration value, one of: <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8ea9cebf95f9a1b57a133551767a8eaaf4d" title="Instance is created with a fixed default or empty value (specified in DynamicScript....">DSE.FixedValueDefault</a></code>, <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8eab6c58ea0d72c40bbd8ce930c866a020b" title="Instance is created with default value coming from evaluating a custom expression (specified in Dynam...">DSE.CustomExprDefault</a></code>, <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8ea79f133a532e8cf488d53527321681a4a" title="Instance is created with default value coming from evaluating the last saved primary expression (exac...">DSE.LastExprDefault</a></code> </p>
+<dl class="section note"><dt>Note</dt><dd>In versions prior to 1.2.1, the default only applied to saved instances and used when they got restored from saved settings. Since v1.2.1, a default type and value can be applied to any instance. The <code><a class="el" href="class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8ea79f133a532e8cf488d53527321681a4a" title="Instance is created with default value coming from evaluating the last saved primary expression (exac...">DSE.LastExprDefault</a></code> type is still only relevant to saved instances, since a brand new instance wouldn't have a "last expression." </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a8a7009d98eadb866597cb3f57254b8a3" title="A default value to use when creating a Touch Portal state (when createState is true)....">defaultValue</a>, <a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5" title="Persistence essentially determines the lifespan of this script instance. &quot;Session&quot; persistence means ...">persistence</a> </dd></dl>
 
 </div>
 </div>
@@ -509,8 +503,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The default value specified for saved instance, if any. Depending on the value of <a class="el" href="class_dynamic_script.html#a6a831748d097962f93bfcbd8a9fb196e">defaultType</a>, this could be an empty string, a fixed default string value, or an expression to be evaluated. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a6a831748d097962f93bfcbd8a9fb196e" title="When persistence is of DSE.PersistSave type, this property value determines what happens when this in...">defaultType</a>, <a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5" title="Persistence essentially determines the lifespan of this script instance. &quot;Session&quot; persistence means ...">persistence</a> </dd></dl>
+<p>A default value to use when creating a Touch Portal state (when <a class="el" href="class_dynamic_script.html#aea2a09278e8f17ea66e2b7056f9d3b83">createState</a> is <code>true</code>). Depending on the value of <a class="el" href="class_dynamic_script.html#a6a831748d097962f93bfcbd8a9fb196e">defaultType</a>, this could be an empty string, a fixed default string value, or an expression to be evaluated. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a6a831748d097962f93bfcbd8a9fb196e" title="This property determines how to treat the defaultValue property value. See enumeration documentation ...">defaultType</a>, <a class="el" href="class_dynamic_script.html#a0e153e90afa5b4a75f8edd789db9e7d5" title="Persistence essentially determines the lifespan of this script instance. &quot;Session&quot; persistence means ...">persistence</a> </dd></dl>
 
 </div>
 </div>
@@ -569,8 +563,9 @@ For example, this will not work properly: <div class="fragment"><div class="line
 <div class="line">color = <a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_function" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">currentInstance</a>().<a class="code hl_property" href="class_dynamic_script.html#a1491c2faf59c2e7f407f2e828e8ce281">dataStore</a>.color;</div>
 <div class="line"><span class="comment">// typeof color == Object;  color == { _a: 1, _b: 0, _format: &#39;name&#39;, _g: 128, .... }</span></div>
 <div class="ttc" id="aclass_color_html"><div class="ttname"><a href="class_color.html">Color</a></div><div class="ttdoc">Provides functions for working with color.</div></div>
-<div class="ttc" id="aclass_d_s_e_html_a4dc79d45688d568fdb138dac9b0c6c01"><div class="ttname"><a href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">DSE::currentInstance</a></div><div class="ttdeci">DynamicScript currentInstance()</div><div class="ttdoc">Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....</div><div class="ttdef"><b>Definition:</b> DSE.h:292</div></div>
-<div class="ttc" id="aclass_dynamic_script_html_a1491c2faf59c2e7f407f2e828e8ce281"><div class="ttname"><a href="class_dynamic_script.html#a1491c2faf59c2e7f407f2e828e8ce281">DynamicScript::dataStore</a></div><div class="ttdeci">Object dataStore</div><div class="ttdoc">Persistent arbitrary data storage object which is attached to this script instance.</div><div class="ttdef"><b>Definition:</b> DynamicScript.h:142</div></div>
+<div class="ttc" id="aclass_d_s_e_html"><div class="ttname"><a href="class_d_s_e.html">DSE</a></div><div class="ttdoc">The DSE object contains constants and functions related to the plugin environment....</div><div class="ttdef"><b>Definition:</b> DSE.h:50</div></div>
+<div class="ttc" id="aclass_d_s_e_html_a4dc79d45688d568fdb138dac9b0c6c01"><div class="ttname"><a href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">DSE::currentInstance</a></div><div class="ttdeci">DynamicScript * currentInstance()</div><div class="ttdoc">Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....</div><div class="ttdef"><b>Definition:</b> DSE.h:277</div></div>
+<div class="ttc" id="aclass_dynamic_script_html_a1491c2faf59c2e7f407f2e828e8ce281"><div class="ttname"><a href="class_dynamic_script.html#a1491c2faf59c2e7f407f2e828e8ce281">DynamicScript::dataStore</a></div><div class="ttdeci">Object dataStore</div><div class="ttdoc">Persistent arbitrary data storage object which is attached to this script instance.</div><div class="ttdef"><b>Definition:</b> DynamicScript.h:145</div></div>
 </div><!-- fragment --> Instead, save some way to restore a new instance of the object type to the same state as the saved one: <div class="fragment"><div class="line"><a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_function" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">currentInstance</a>().<a class="code hl_property" href="class_dynamic_script.html#a1491c2faf59c2e7f407f2e828e8ce281">dataStore</a>.color = color.rgba()</div>
 <div class="line"><span class="comment">// dataStore.color == { r: 0, g: 128, b: 0, a: 1 }</span></div>
 <div class="line"><span class="comment">// ... after JSON round-trip, the Color type can accept the serialized &#39;rgba&#39; object as input.</span></div>
@@ -766,7 +761,7 @@ For example: </p>
 </div><div class="memdoc">
 
 <p>The default action repeat rate for this particular instance, in milliseconds. If <code>-1</code> (default) then the global default rate is used. </p>
-<dl class="section see"><dt>See also</dt><dd>, <a class="el" href="class_dynamic_script.html#ab17f8cd54ce24d13b26bb6567ed863bf" title="The action repeat rate for the currently repeating script action, in milliseconds....">activeRepeatRate</a>, <a class="el" href="class_d_s_e.html#a508c23fed1db2def9dcc5909e6058537" title="The global default action repeat rate (interval), in milliseconds. The rate is the amount of time to ...">DSE.defaultActionRepeatRate</a>, <a class="el" href="class_dynamic_script.html#a46d6d720878aa3753135bd0724c822e8" title="This event is emitted when the value of the repeatRate property changes. The ms parameter value refle...">repeatRateChanged()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>, <a class="el" href="class_dynamic_script.html#ab17f8cd54ce24d13b26bb6567ed863bf" title="Temporary repeat rate for the next time script action gets repeated, in milliseconds....">activeRepeatRate</a>, <a class="el" href="class_d_s_e.html#a508c23fed1db2def9dcc5909e6058537" title="The global default action repeat rate (interval), in milliseconds. The rate is the amount of time to ...">DSE.defaultActionRepeatRate</a>, <a class="el" href="class_dynamic_script.html#a46d6d720878aa3753135bd0724c822e8" title="This event is emitted when the value of the repeatRate property changes. The ms parameter value refle...">repeatRateChanged()</a> </dd></dl>
 
 </div>
 </div>
@@ -791,7 +786,7 @@ For example: </p>
 </div><div class="memdoc">
 
 <p>The default action repeat delay for this particular instance, in milliseconds. If <code>-1</code> (default) then the global default rate is used. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#ae3e102b02d542d92437bd8a91a387aa8" title="The action repeat delay time for the currently repeating script action, in milliseconds....">activeRepeatDelay</a>, <a class="el" href="class_d_s_e.html#a160ac07aa28b67916ac5de14ddf7967e" title="The global default action repeat delay, in milliseconds. The delay is the amount of time before a hel...">DSE.defaultActionRepeatDelay</a>, <a class="el" href="class_dynamic_script.html#a2c7362d3b25c82dde107417d8e1c975e" title="This event is emitted when the value of the repeatDelay property changes. The ms parameter value refl...">repeatDelayChanged()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#ae3e102b02d542d92437bd8a91a387aa8" title="Temporary repeat delay time for the next time script action gets repeated, in milliseconds....">activeRepeatDelay</a>, <a class="el" href="class_d_s_e.html#a160ac07aa28b67916ac5de14ddf7967e" title="The global default action repeat delay, in milliseconds. The delay is the amount of time before a hel...">DSE.defaultActionRepeatDelay</a>, <a class="el" href="class_dynamic_script.html#a2c7362d3b25c82dde107417d8e1c975e" title="This event is emitted when the value of the repeatDelay property changes. The ms parameter value refl...">repeatDelayChanged()</a> </dd></dl>
 
 </div>
 </div>
@@ -815,7 +810,7 @@ For example: </p>
 </table>
 </div><div class="memdoc">
 
-<p>The action repeat rate for the <em>currently repeating</em> script action, in milliseconds. Changes to this value are only relevant while an action is actively repeating (<a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a> == <code>true</code>). If <code>-1</code> (default) then <a class="el" href="class_dynamic_script.html#a4689fa97164715dff945af6b036b6b99">repeatRate</a> or the global default rate is used. </p>
+<p>Temporary repeat rate for the <em>next time</em> script action gets repeated, in milliseconds. Automatically resets to -1 once script finishes repeating. If <code>-1</code> (default) then <a class="el" href="class_dynamic_script.html#a4689fa97164715dff945af6b036b6b99">repeatRate</a> or the global default rate is used. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a9ae32d8b2148d59d1d7b1bc30ea770f4" title="This event is emitted when the value of the activeRepeatRate property changes. The ms parameter value...">activeRepeatRateChanged()</a> </dd></dl>
 
 </div>
@@ -840,7 +835,7 @@ For example: </p>
 </table>
 </div><div class="memdoc">
 
-<p>The action repeat delay time for the <em>currently repeating</em> script action, in milliseconds. Changes to this value are only relevant while an action is actively repeating (<a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a> == <code>true</code>). If <code>-1</code> (default) then <a class="el" href="class_dynamic_script.html#a1fdeb08c2e445baa7edb72397bf56f5b">repeatDelay</a> or the global default delay is used. </p>
+<p>Temporary repeat delay time for the <em>next time</em> script action gets repeated, in milliseconds. Automatically resets to -1 once script finishes repeating. If <code>-1</code> (default) then <a class="el" href="class_dynamic_script.html#a1fdeb08c2e445baa7edb72397bf56f5b">repeatDelay</a> or the global default delay is used. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a185f19bb3dc548cf633ac41c14903d56" title="This event is emitted when the value of the activeRepeatDelay property changes. The ms parameter valu...">activeRepeatDelayChanged()</a> </dd></dl>
 
 </div>
@@ -865,7 +860,7 @@ For example: </p>
 </table>
 </div><div class="memdoc">
 
-<p>The currently effective action repeat rate which is either the global default rate, or this instance's <a class="el" href="class_dynamic_script.html#a4689fa97164715dff945af6b036b6b99">repeatRate</a> if set, or <a class="el" href="class_dynamic_script.html#ab17f8cd54ce24d13b26bb6567ed863bf">activeRepeatRate</a> if it was set and <a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a> is <code>true</code>. <br  />
+<p>The currently effective action repeat rate which is either the global default rate, or this instance's <a class="el" href="class_dynamic_script.html#a4689fa97164715dff945af6b036b6b99">repeatRate</a> if set, or <a class="el" href="class_dynamic_script.html#ab17f8cd54ce24d13b26bb6567ed863bf">activeRepeatRate</a> if it was set. <br  />
  This property is read-only. </p>
 
 </div>
@@ -890,7 +885,7 @@ For example: </p>
 </table>
 </div><div class="memdoc">
 
-<p>The currently effective action repeat delay which is either the global default delay, or this instance's <a class="el" href="class_dynamic_script.html#a1fdeb08c2e445baa7edb72397bf56f5b">repeatDelay</a> if set, or <a class="el" href="class_dynamic_script.html#ae3e102b02d542d92437bd8a91a387aa8">activeRepeatDelay</a> if it was set and <a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a> is <code>true</code>. <br  />
+<p>The currently effective action repeat delay which is either the global default delay, or this instance's <a class="el" href="class_dynamic_script.html#a1fdeb08c2e445baa7edb72397bf56f5b">repeatDelay</a> if set, or <a class="el" href="class_dynamic_script.html#ae3e102b02d542d92437bd8a91a387aa8">activeRepeatDelay</a> if it was set. <br  />
  This property is read-only. </p>
 
 </div>
@@ -965,7 +960,7 @@ For example: </p>
 </table>
 </div><div class="memdoc">
 
-<p><code>true</code> if this script evaluation is currently repeating, <code>false</code> otherwise. The value changes to <code>true</code> every time the repetition is about to start, but before the initial <a class="el" href="class_dynamic_script.html#aeb032c293343caa56a8d98d2e9c2efcd">effectiveRepeatDelay</a> time has passed. For example it is possible to cancel a repitition before it even starts by setting <a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">isPressed</a> to <code>false</code> whenever whenever this property changes. </p>
+<p><code>true</code> if this script evaluation is currently repeating, <code>false</code> otherwise. The value changes to <code>true</code> every time the repetition is about to start, but before the initial <a class="el" href="class_dynamic_script.html#aeb032c293343caa56a8d98d2e9c2efcd">effectiveRepeatDelay</a> time has passed. For example it is possible to cancel a repetition before it even starts by setting <a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c">isPressed</a> to <code>false</code> whenever whenever this property changes. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#a8cec208838d7a8d283ee16ed0bb9ea3b" title="This event is emitted when an evaluation starts or stops repeating (as per the activation property)....">repeatingStateChanged()</a> <br  />
  This property is read-only. </dd></dl>
 
@@ -1080,7 +1075,8 @@ This method will create the Touch Portal State if it has not already been create
 <p>This event is only emitted when an action is used in an "On Hold" button setup. </p>
 <p >When the button using this action is first pressed down, this event is emitted with the <code>isPressed</code> parameter set to <code>true</code>. When the button is later released, the event is emitted again with the parameter set to <code>false</code>.</p>
 <p >The event is emitted regardless of the <a class="el" href="class_dynamic_script.html#ae96f1bba519224118b4a2c7c3bd34e05">activation</a> property value, as long as the button is being used in the "On Hold" tab (when an action is used in the "On Pressed" tab setup, it is actually only activated when the button is <em>released</em>, so this event would have no relevance). <br  />
-This allows custom behavior for a button from within a script handler &ndash; for example different actions could be performed on button press vs. release. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c" title="This property value is true if a button using an Action which invokes this script is currently being ...">isPressed</a>, <a class="el" href="class_dynamic_script.html#a99770fb3fbb3d852b744110552b4403f" title="This method provides direct control over the current &quot;pressed state&quot; of this script instance,...">setPressedState()</a> </dd></dl>
+This allows custom behavior for a button from within a script handler &ndash; for example different actions could be performed on button press vs. release.</p>
+<p >This event has a corresponding <code>opressedStateChanged</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_dynamic_script.html#ab1351de5234bac2d378240bdfac6e90c" title="This property value is true if a button using an Action which invokes this script is currently being ...">isPressed</a>, <a class="el" href="class_dynamic_script.html#a99770fb3fbb3d852b744110552b4403f" title="This method provides direct control over the current &quot;pressed state&quot; of this script instance,...">setPressedState()</a> </dd></dl>
 
 </div>
 </div>
@@ -1101,6 +1097,7 @@ This allows custom behavior for a button from within a script handler &ndash; fo
 </div><div class="memdoc">
 
 <p>This event is emitted when an evaluation starts or stops repeating (as per the <a class="el" href="class_dynamic_script.html#ae96f1bba519224118b4a2c7c3bd34e05">activation</a> property). The <code>isRepeating</code> parameter reflects the current (new) value of the <a class="el" href="class_dynamic_script.html#af948da45b36ff3106569689878b07f76">isRepeating</a> property. </p>
+<p >This event has a corresponding <code>onrepeatingStateChanged</code> property to which a single event handler may be assigned. </p>
 
 </div>
 </div>
@@ -1121,6 +1118,7 @@ This allows custom behavior for a button from within a script handler &ndash; fo
 </div><div class="memdoc">
 
 <p>This event is emitted when the value of the <a class="el" href="class_dynamic_script.html#abd385bb0169297e60c07587a3df79ae2">repeatCount</a> property changes, meaning whenever the evaluation is repeated, or when a new "repetition" starts. See <a class="el" href="class_dynamic_script.html#abd385bb0169297e60c07587a3df79ae2">repeatCount</a> for more details. The <code>repeatCount</code> parameter value reflects the current (new) <a class="el" href="class_dynamic_script.html#abd385bb0169297e60c07587a3df79ae2">repeatCount</a> property value. </p>
+<p >This event has a corresponding <code>onrepeatCountChanged</code> property to which a single event handler may be assigned. </p>
 
 </div>
 </div>
@@ -1141,6 +1139,7 @@ This allows custom behavior for a button from within a script handler &ndash; fo
 </div><div class="memdoc">
 
 <p>This event is emitted when the value of the <a class="el" href="class_dynamic_script.html#a4689fa97164715dff945af6b036b6b99">repeatRate</a> property changes. The <code>ms</code> parameter value reflects the current (new) <a class="el" href="class_dynamic_script.html#a4689fa97164715dff945af6b036b6b99">repeatRate</a> property value. </p>
+<p >This event has a corresponding <code>onrepeatRateChanged</code> property to which a single event handler may be assigned. </p>
 
 </div>
 </div>
@@ -1161,6 +1160,7 @@ This allows custom behavior for a button from within a script handler &ndash; fo
 </div><div class="memdoc">
 
 <p>This event is emitted when the value of the <a class="el" href="class_dynamic_script.html#a1fdeb08c2e445baa7edb72397bf56f5b">repeatDelay</a> property changes. The <code>ms</code> parameter value reflects the current (new) <a class="el" href="class_dynamic_script.html#a1fdeb08c2e445baa7edb72397bf56f5b">repeatDelay</a> property value. </p>
+<p >This event has a corresponding <code>onrepeatDelayChanged</code> property to which a single event handler may be assigned. </p>
 
 </div>
 </div>
@@ -1181,6 +1181,7 @@ This allows custom behavior for a button from within a script handler &ndash; fo
 </div><div class="memdoc">
 
 <p>This event is emitted when the value of the <a class="el" href="class_dynamic_script.html#ab17f8cd54ce24d13b26bb6567ed863bf">activeRepeatRate</a> property changes. The <code>ms</code> parameter value reflects the current (new) <a class="el" href="class_dynamic_script.html#ab17f8cd54ce24d13b26bb6567ed863bf">activeRepeatRate</a> property value. </p>
+<p >This event has a corresponding <code>onactiveRepeatRateChanged</code> property to which a single event handler may be assigned. </p>
 
 </div>
 </div>
@@ -1201,6 +1202,7 @@ This allows custom behavior for a button from within a script handler &ndash; fo
 </div><div class="memdoc">
 
 <p>This event is emitted when the value of the <a class="el" href="class_dynamic_script.html#ae3e102b02d542d92437bd8a91a387aa8">activeRepeatDelay</a> property changes. The <code>ms</code> parameter value reflects the current (new) <a class="el" href="class_dynamic_script.html#ae3e102b02d542d92437bd8a91a387aa8">activeRepeatDelay</a> property value. </p>
+<p >This event has a corresponding <code>onactiveRepeatDelayChanged</code> property to which a single event handler may be assigned. </p>
 
 </div>
 </div>
@@ -1211,7 +1213,7 @@ This allows custom behavior for a button from within a script handler &ndash; fo
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_dynamic_script.html">DynamicScript</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

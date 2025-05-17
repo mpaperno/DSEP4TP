@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
    </div>
   </td>
  </tr>
@@ -127,11 +127,49 @@ $(document).ready(function(){initNavTree('md__d___devel__touch_portal__dynamic_s
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p ><b>Dynamic Script Engine Plugin for Touch Portal</b>: changes by version number and release date.</p>
+<h1><a class="anchor" id="autotoc_md21"></a>
+1.2.1.0 (14-May-2025)</h1>
+<ul>
+<li>Changes for "On Hold" action options:<ul>
+<li>Activation/repeat options are now only shown in "On Hold" button setup flow.</li>
+<li>Split activation type (On Press, On Release, etc) and repeat (yes/no) options into two separate choices.</li>
+<li>Added Repeat Delay and Repeat Rate options which only affect the current button (not the global or instance-specific rate/delay settings).</li>
+</ul>
+</li>
+<li>Changes for state default value handling:<ul>
+<li>Default type &amp; value can be used on instances with any kind of persistence (saved or not).</li>
+<li>Default type (Fixed Value, Custom Expression, Last Expression) and persistence (Session, Temporary, Saved) settings are now separate action data fields.</li>
+<li>Changed to use actual default values when creating states and force <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> evaluation (for non-empty values), removing workaround for <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> v3 which created the state with an empty default value first and then sent the actual default value (if it wasn't empty).</li>
+<li>Always create a <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> state (with default value, unless disabled) even if evaluation results in undefined/null result.</li>
+<li>Renamed <code>SavedDefaultType.NoSavedDefault</code> enum to <code>NoDefaultValue</code> (old version deprecated but still available in scripts).</li>
+</ul>
+</li>
+<li>Added methods for getting file system directory listings and details about individual files/folders:<ul>
+<li>New <code><a class="el" href="class_dir.html#a169d7889066ffe7d024cf562233f3879" title="Returns an array of directory entry names in the given path.">Dir.list()</a></code> and <code><a class="el" href="class_dir.html#a530b11e24c2173c68d13191516cdb7d6" title="Returns an array of directory entries in the given path as FileInfo objects.">Dir.infoList()</a></code> methods to list directory contents, with filtering and sorting options.</li>
+<li>New <code><a class="el" href="class_dir.html#a922e01e478d30dcdb75603e1e7fa621c" title="Returns a FileInfo object describing the file or directory at the given path. Relative paths are reso...">Dir.info()</a></code> and <code><a class="el" href="class_file.html#a922e01e478d30dcdb75603e1e7fa621c" title="Returns a FileInfo object describing the file or directory at the given path. This function is equiva...">File.info()</a></code> methods to get details about individual file system entries (the methods are equivalent and return information about either files or folders).</li>
+<li>New <code><a class="el" href="class_file_info.html" title="FileInfo provides read-only information about a file system object (file or directory)....">FileInfo</a></code> object type containing details about a file system object (name, type, size, timestamps, etc). Returned by <code><a class="el" href="class_dir.html#a922e01e478d30dcdb75603e1e7fa621c" title="Returns a FileInfo object describing the file or directory at the given path. Relative paths are reso...">Dir.info()</a></code>/<code><a class="el" href="class_file.html#a922e01e478d30dcdb75603e1e7fa621c" title="Returns a FileInfo object describing the file or directory at the given path. This function is equiva...">File.info()</a></code> or as a list of entries from <code><a class="el" href="class_dir.html#a530b11e24c2173c68d13191516cdb7d6" title="Returns an array of directory entries in the given path as FileInfo objects.">Dir.infoList()</a></code>.</li>
+</ul>
+</li>
+<li>Added a short delay after creating new states for script instances and before the plugin tries to update that new state with a value. This is a workaround for the <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> issue where it may not register the new state before handling the state update message, which can result in <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> log warnings about the state being updated "not belonging to this plugin".</li>
+<li>Added new arguments &amp; overloads for <code>DSE.stateCreate()</code> method:<ul>
+<li><code>delayMs</code> (integer) argument to delay further execution after creating a state to allow <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> to process the state creation message before sending a <code><a class="el" href="class_t_p.html#a9a7f39df44a32f7073aee63a76d68935" title="Send a State update to Touch Portal with given value for the current script instance.">stateUpdate()</a></code> for the new state. (See previous item about using this as workaround for <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> issue.)</li>
+<li><code>force</code> (boolean) argument to force <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> to evaluate the default value in action flows as if it was a state update (otherwise it ignores the default in "plug-in state changed" events).</li>
+<li><code>stateCreate(id, description, defaultValue = "", delayMs = 0)</code> overload that automatically populates the parent category field.</li>
+<li><code>stateCreate(id, description, options)</code> overload taking an object of all optional arguments (see docs for details).</li>
+</ul>
+</li>
+<li>Added new <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> v4 properties to the <code><a class="el" href="class_t_p.html#a3a83390c18003bfe554072ad76484d72" title="This event is emitted when Touch Portal sends a broadcast message to all plugins.">TP.broadcastEvent</a></code> event data for <code>pageChange</code> event (<code>previousPageName</code>, <code>deviceName</code>, <code>deviceId</code>, <code>deviceIp</code>).</li>
+<li>Fixed that <code>AbortSignal</code>'s <code>aborted</code> property was never set to <code>true</code> after the parent <code>AbortController</code>'s <code>abort()</code> method was called (the <code>abort</code> event was still emitted, but the property value didn't change).</li>
+<li>Fixed a possible (but apparently very rare) issue with none of the plugin's actions working on some particular setups due to "silent" Touch Portal error which resulted in the action never being sent to the plugin at all (thanks to <code>@Raeas</code> on <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a>'s Discord for reporting and troubleshooting with us).</li>
+<li>The plugin's actions/connectors are now sorted into the Touch Portal "Tools" category instead of "Misc."</li>
+<li>Added current plugin version (in "dotted" format) and option descriptions to the plugin's Settings page.</li>
+</ul>
+<p ><b>Full log:</b> <a href="https://github.com/mpaperno/DSEP4TP/compare/1.2.0.1...1.2.1.0" target="_blank">v1.2.0-beta1...v1.2.1</a></p>
 <hr  />
- <h1><a class="anchor" id="autotoc_md22"></a>
+ <h1><a class="anchor" id="autotoc_md23"></a>
 1.2.0.1-beta1 (20-Feb-2023)</h1>
 <p >This version bring a number of fundamental changes, all of which hopefully make the system more flexible overall. I've preserved backwards compatibility with actions/connectors from the previous versions, except in the case of the "One-Time" action (details below). I encourage everyone to update to the new versions of the actions/connectors, but please do let me know if you find "regression" issues which break existing actions/connectors. An update to the new version is meant to be as seamless as possible.</p>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Plugin Core</h2>
 <ul>
 <li>New paradigm decouples "Script" (Expression/File/Module) instances from Engine instances and from Touch Portal States:<ul>
@@ -159,7 +197,7 @@ Plugin Core</h2>
 <li>The Touch Portal network client (responsible for core communications) has also been moved to its own thread.</li>
 <li>Miscellaneous optimizations, cleanups, and stability improvements.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 Changes to Actions/Connectors</h2>
 <ul>
 <li>Added "Create State" option to each of the primary Script actions (Expression/File/Module). This is now also where the State's default value type is set.</li>
@@ -188,13 +226,13 @@ Changes to Actions/Connectors</h2>
 </li>
 <li>Added "Set Held Action Repeat Rate/Delay" action &amp; connector to set/adjust repeat rate/delay at both global default and instance-specific levels.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 New States/Event</h2>
 <ul>
 <li>Added "Plugin running state" (stopped/starting/started) Touch Portal State and Event;</li>
 <li>Added "Default held action Repeat Delay" and "Default held action Repeat Rate" States;</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md27"></a>
 JavaScript Library</h2>
 <ul>
 <li>Added global <code><a class="el" href="class_global.html#a8d2c911c2adcaa8d385d699deb7b8b5b" title="Used to import all or part of JavaScript modules or JSON objects.">require()</a></code> function to import JS modules or JSON objects (whole or individual components) into any script, as an alternative to the <code>import ... from ...</code> syntax (which only works from other modules). This mimics the Node.js/CommonJS function(ality) of the same name.</li>
@@ -212,8 +250,8 @@ JavaScript Library</h2>
 </ul>
 </li>
 <li>Added methods:<ul>
-<li><code><a class="el" href="class_d_s_e.html#a75772c2c90dcccaa883c44867c7da11a" title="Returns the script instance with given name, if any, otherwise returns null.">DSE.instance()</a></code>, <code><a class="el" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01" title="Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....">DSE.currentInstance()</a></code>, <code>DSE.instanceNames()</code>;</li>
-<li><code><a class="el" href="class_d_s_e.html#a8f0f47c9fbd3c17983601884938c4c64" title="Convenience method to set the action repeat rate and/or delay prooperties on either the global defaul...">DSE.setActionRepeat()</a></code>, <code><a class="el" href="class_d_s_e.html#ade0fa026012b57c6b704f6bd84d9c93d" title="Convenience method to adjust the action repeat rate and/or delay prooperties on either the global def...">DSE.adjustActionRepeat()</a></code></li>
+<li><code>DSE.instance()</code>, <code><a class="el" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01" title="Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....">DSE.currentInstance()</a></code>, <code><a class="el" href="class_d_s_e.html#aa836a6906d0406d852d8a4231d4800e5" title="Returns all currently existing script instance names as an array of strings.">DSE.instanceNames()</a></code>;</li>
+<li><code>DSE.setActionRepeat()</code>, <code>DSE.adjustActionRepeat()</code></li>
 </ul>
 </li>
 <li>Added enumeration constants for various <code><a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a></code> property values.</li>
@@ -225,8 +263,8 @@ JavaScript Library</h2>
 </ul>
 </li>
 <li>Touch Portal API:<ul>
-<li>Added <code><a class="el" href="group___t_p_a_p_i.html#ga8bfa677ae39341fe9fc6afa0499a7ae1" title="This event is emitted upon every Touch Portal message received by this plugin.">TP.messageEvent()</a></code> which passes through every command/data message received from Touch Portal by the plugin.</li>
-<li>Added <code><a class="el" href="group___t_p_a_p_i.html#gacae20c335934ed5d1c2177a533c352a6" title="Update a list of choices for a selector with given id and specific instanceId.">TP.choiceUpdateInstance()</a></code> and <code><a class="el" href="group___t_p_a_p_i.html#ga88679c0a062fe4043425cf7a3dd9286e" title="Update a plugin Setting in Touch Portal named name to value.">TP.settingUpdate()</a></code> methods.</li>
+<li>Added <code><a class="el" href="class_t_p.html#a8bfa677ae39341fe9fc6afa0499a7ae1" title="This event is emitted upon every Touch Portal message received by this plugin.">TP.messageEvent()</a></code> which passes through every command/data message received from Touch Portal by the plugin.</li>
+<li>Added <code><a class="el" href="class_t_p.html#acae20c335934ed5d1c2177a533c352a6" title="Update a list of choices for a selector with given id and specific instanceId.">TP.choiceUpdateInstance()</a></code> and <code><a class="el" href="class_t_p.html#a88679c0a062fe4043425cf7a3dd9286e" title="Update a plugin Setting in Touch Portal named name to value.">TP.settingUpdate()</a></code> methods.</li>
 </ul>
 </li>
 <li>Fixed that <code><a class="el" href="namespace_net.html" title="The Net namespace contains static functions for working with network requests.">Net</a></code> API functions (internal and public) were mistakenly available in global scope.</li>
@@ -235,7 +273,7 @@ JavaScript Library</h2>
 <li>Fixed <code><a class="el" href="class_color.html#adfb086b470804a4f7dc911d2dd148cab" title="Returns an array of up to n colors harmonious with this color.">Color.polyad()</a></code>, <code>Color.splitcomplement()</code> and <code>Color.analogous()</code> to preserve original alpha channel value.</li>
 <li><b>CHANGED:</b> The global <code><a class="el" href="class_global.html#a9a2f63936ebd900b99db0f306f6bd491" title="Read and evaluate scriptFile as JavaScript in the current scripting engine context (global object) at...">include()</a></code> function when used with relative paths will now first try to resolve the specified file relative to the <em>current script/module file's location</em>. If that fails, it falls back to the previous behavior using the plugin's <em>Script Files Base Directory</em> setting.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 Documentation</h2>
 <ul>
 <li>Updated main <em>Plugin Documentation</em> pages to reflect changes in actions/connectors and features (including the new overall relationship between Script instances, Engine instances, and Touch Portal States).</li>
@@ -245,14 +283,14 @@ Documentation</h2>
 <li>Added and updated references for all new or changed API.</li>
 </ul>
 <hr  />
- <h1><a class="anchor" id="autotoc_md29"></a>
+ <h1><a class="anchor" id="autotoc_md30"></a>
 1.1.0.2 (20-Feb-2023)</h1>
 <ul>
 <li>No changes since 1.1.0.1-beta1.</li>
 <li>Final version in the v1.1.x series.</li>
 </ul>
 <hr  />
- <h1><a class="anchor" id="autotoc_md31"></a>
+ <h1><a class="anchor" id="autotoc_md32"></a>
 1.1.0.1-beta1 (05-Jan-2023)</h1>
 <ul>
 <li>Added Connector (Slider) counterparts for most of the plugin's existing Actions (except "Load Script").</li>
@@ -262,7 +300,7 @@ Documentation</h2>
 <li>Touch Portal API:<ul>
 <li>Added methods and an event for Connector ID lookup/search/tracking, eg. for sending Slider position updates to Touch Portal.</li>
 <li>Added Touch Portal "broadcast" message event passthrough (eg. to notify scripts when user navigates to a new page).</li>
-<li>Added <code><a class="el" href="group___t_p_a_p_i.html#ga417e3c190b82210f1884750cd1722dad" title="Returns the name of the page the user last opened on their Touch Portal device (not in the desktop pa...">TP.currentPageName()</a></code> lookup function.</li>
+<li>Added <code><a class="el" href="class_t_p.html#a417e3c190b82210f1884750cd1722dad" title="Returns the name of the page the user last opened on their Touch Portal device (not in the desktop pa...">TP.currentPageName()</a></code> lookup function.</li>
 </ul>
 </li>
 <li>JavaScript Library:<ul>
@@ -280,18 +318,18 @@ Documentation</h2>
 </ul>
 <p >Thanks for everyone's input so far!</p>
 <hr  />
- <h1><a class="anchor" id="autotoc_md33"></a>
+ <h1><a class="anchor" id="autotoc_md34"></a>
 1.0.0.3 (05-Jan-2023)</h1>
 <ul>
 <li>Fix evaluation at startup of default value expressions for saved states when the default type was set to "use action's expression" and the default value field was left blank.</li>
 <li>Fix "Anonymous (One-Shot)" type script instances not being properly deleted after finishing.</li>
 <li>Touch Portal API:<ul>
-<li>Set default <a class="el" href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">showNotification()</a> option name to a minimal required empty space character instead of "Dismiss" prompt which doesn't actually do anything anyway.</li>
+<li>Set default <a class="el" href="class_t_p.html#a4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">showNotification()</a> option name to a minimal required empty space character instead of "Dismiss" prompt which doesn't actually do anything anyway.</li>
 </ul>
 </li>
 </ul>
 <hr  />
- <h1><a class="anchor" id="autotoc_md35"></a>
+ <h1><a class="anchor" id="autotoc_md36"></a>
 1.0.0.2-beta2 (28-Dec-2022)</h1>
 <ul>
 <li>Fix crash on engine environment reset action.</li>
@@ -300,7 +338,7 @@ Documentation</h2>
 <li>Add <a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a> and <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> Picker examples.</li>
 </ul>
 <hr  />
- <h1><a class="anchor" id="autotoc_md37"></a>
+ <h1><a class="anchor" id="autotoc_md38"></a>
 1.0.0.1-beta1 (26-Dec-2022)</h1>
 <ul>
 <li>Initial release! </li>
@@ -312,7 +350,7 @@ Documentation</h2>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

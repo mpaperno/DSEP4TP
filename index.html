@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
    </div>
   </td>
  </tr>
@@ -179,7 +179,7 @@ One-liner Expressions</h2>
 </ul>
 </li>
 <li>Send an image to use as a Touch Portal button icon. E.g. with dynamic image name:<ul>
-<li>&lsquo;<a class="el" href="class_file.html#adeac7b35b88465029c6be619ae67fbaf" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("images/status_icon_${value:MyVariable}.png", 'b&rsquo;).<a class="el" href="class_array_buffer.html#a1db415f2f252811818848b7c55570ba6" title="Returns the contents of this buffer as a Base64-encoded string.">toBase64()</a>`</li>
+<li>&lsquo;<a class="el" href="class_file.html#a4d140ee4fb966bacd2f38c955072a4c6" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("images/status_icon_${value:MyVariable}.png", 'b&rsquo;).<a class="el" href="class_array_buffer.html#a1db415f2f252811818848b7c55570ba6" title="Returns the contents of this buffer as a Base64-encoded string.">toBase64()</a>`</li>
 </ul>
 </li>
 <li>Get an image from the Internet for a button icon:<ul>
@@ -191,7 +191,7 @@ One-liner Expressions</h2>
 </ul>
 </li>
 <li>Extract a value from a JSON object in a file:<ul>
-<li><code>JSON.parse(<a class="el" href="class_file.html#adeac7b35b88465029c6be619ae67fbaf" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("data.json")).myProperty</code></li>
+<li><code>JSON.parse(<a class="el" href="class_file.html#a4d140ee4fb966bacd2f38c955072a4c6" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("data.json")).myProperty</code></li>
 </ul>
 </li>
 <li>Or get JSON from a Web site and display a named value from the data:<ul>
@@ -199,11 +199,11 @@ One-liner Expressions</h2>
 </ul>
 </li>
 <li>Update any State or Value in Touch Portal:<ul>
-<li><code><a class="el" href="group___t_p_a_p_i.html#gabc30c9dbb5074f0b2e36307a25f16ef3" title="Send a State update to Touch Portal for any arbitrary state/value matching the id,...">TP.stateUpdateById</a>("MyVariable", ${value:MyVariable} * 25)</code></li>
+<li><code><a class="el" href="class_t_p.html#abc30c9dbb5074f0b2e36307a25f16ef3" title="Send a State update to Touch Portal for any arbitrary state/value matching the id,...">TP.stateUpdateById</a>("MyVariable", ${value:MyVariable} * 25)</code></li>
 </ul>
 </li>
 <li>Send yourself a notification via Touch Portal:<ul>
-<li><code><a class="el" href="group___t_p_a_p_i.html#ga4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification</a>("myNotififyId", "Something Happened", "Hey, something happened, check it out!")</code></li>
+<li><code><a class="el" href="class_t_p.html#a4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification</a>("myNotififyId", "Something Happened", "Hey, something happened, check it out!")</code></li>
 </ul>
 </li>
 </ul>
@@ -224,7 +224,7 @@ Overall</h2>
 <li><b><a class="el" href="group___file_system.html">File system</a></b> interaction, from one-line read/write utilities to full byte-by-byte access.</li>
 <li>Flexible <b>string, date, and number formatting</b> with .NET <a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String.Format style</a> or <a class="el" href="class_global.html#aa4c3e7234b2093ab35795ec8e12751fd">&quot;printf&quot;</a> style functions.</li>
 <li>Support for <b>timed/recurring operations</b> with <code>setTimeout()</code>/<code>setInterval()</code>.</li>
-<li><b>Network requests</b> supported via familiar <a class="el" href="group___fetch_a_p_i.html">Fetch API</a> and <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a>.</li>
+<li><b>Network requests</b> supported via familiar Fetch API and <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a>.</li>
 <li><b>Touch Portal <a class="el" href="class_t_p.html">interaction</a></b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and much more (in fact full interaction with Touch Portal, as a plugin, is available to the script environment).</li>
 <li><b><a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> manipulation</b>/utility library.</li>
 <li><b>External command and application launching</b> with optional inter-process data exchange using <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> class.</li>
@@ -315,7 +315,7 @@ Copyright, License, and Disclaimer</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

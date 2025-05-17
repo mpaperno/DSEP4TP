@@ -18,7 +18,7 @@ var group___plugin_a_p_i =
         [ "PersistSave", "class_d_s_e.html#a334a469c78be0cde1c0e0f3271b138aba6caf6e9315f0511de944df128d79c07b", null ]
       ] ],
       [ "SavedDefaultType", "class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8e", [
-        [ "NoSavedDefault", "class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8eaa42dd5b93112019fca143f924cbe1b83", null ],
+        [ "NoDefaultValue", "class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8ea701280138dac72d3b08156cd0a3f0a80", null ],
         [ "FixedValueDefault", "class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8ea9cebf95f9a1b57a133551767a8eaaf4d", null ],
         [ "CustomExprDefault", "class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8eab6c58ea0d72c40bbd8ce930c866a020b", null ],
         [ "LastExprDefault", "class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8ea79f133a532e8cf488d53527321681a4a", null ]
@@ -53,10 +53,13 @@ var group___plugin_a_p_i =
       [ "INSTANCE_TYPE", "class_d_s_e.html#a11574da2b0d598cf85e836ca8f931e59", null ],
       [ "INSTANCE_NAME", "class_d_s_e.html#a0c06106c7b24661aa69a420c329b7231", null ],
       [ "INSTANCE_DEFAULT_VALUE", "class_d_s_e.html#a266a028521364de9b0fba0a4e11be447", null ],
+      [ "instanceNames", "class_d_s_e.html#aa836a6906d0406d852d8a4231d4800e5", null ],
       [ "instanceList", "class_d_s_e.html#a35ec6ea52566b77ef242da739741a5e9", null ],
-      [ "instance", "class_d_s_e.html#a75772c2c90dcccaa883c44867c7da11a", null ],
       [ "currentInstance", "class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01", null ],
       [ "instanceStateId", "class_d_s_e.html#a4481c249770248e82fdfde844b20eda7", null ],
+      [ "defaultActionRepeatRateChanged", "class_d_s_e.html#ad48516de77e97aad6f5f5b32509087d5", null ],
+      [ "defaultActionRepeatDelayChanged", "class_d_s_e.html#a94540af4b7f035d5f342553e3cc6a18c", null ],
+      [ "instance", "class_d_s_e.html#a75772c2c90dcccaa883c44867c7da11a", null ],
       [ "setActionRepeat", "class_d_s_e.html#a8f0f47c9fbd3c17983601884938c4c64", null ],
       [ "adjustActionRepeat", "class_d_s_e.html#ade0fa026012b57c6b704f6bd84d9c93d", null ]
     ] ],

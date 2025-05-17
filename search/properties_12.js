@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['value_5fstate_5fparent_5fcateogry_0',['VALUE_STATE_PARENT_CATEOGRY',['../class_d_s_e.html#a9fcb9184f94fe30ca21b38a79a50b8fc',1,'DSE']]],
-  ['value_5fstate_5fprefix_1',['VALUE_STATE_PREFIX',['../class_d_s_e.html#a9ea97d47f3eceb37022e7c94f58bb3d4',1,'DSE']]]
+  ['uilanguages_0',['uiLanguages',['../class_locale.html#a8f5c05121eeb002b11f2560cc280de8c',1,'Locale']]],
+  ['url_1',['url',['../class_request.html#aa03c1ef4c41f36b048cf58d5aade7653',1,'Request::url()'],['../class_response.html#a214abaa289e8b067d83a46844b1a9097',1,'Response::url()']]]
 ];

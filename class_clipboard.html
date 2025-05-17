@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
    </div>
   </td>
  </tr>
@@ -147,18 +147,18 @@ On X11 this can work with whatever text is currently selected in a focused appli
 On MacOS there is a special "search buffer" which can be shared between applications (<code>Clipboard.SearchBuffer</code> mode). <br  />
 Most of the functions in this class accept an optional <code>mode</code> parameter which sets which clipboard to use. By default the main clipboard is used, and on Windows this is the only clipboard mode available. <br  />
 See <a class="el" href="class_clipboard.html#ab83f6dc74fb6722c27270d2e2e8bdd07">supportsSelection</a>, <a class="el" href="class_clipboard.html#ac75fb733e107b31a0d40702e21db31e8">supportsFindBuffer</a>, and <a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911">Mode</a> enumeration docs for more details.</p>
-<h3><a class="anchor" id="autotoc_md92"></a>
+<h3><a class="anchor" id="autotoc_md100"></a>
 Usage examples</h3>
-<h4><a class="anchor" id="autotoc_md93"></a>
+<h4><a class="anchor" id="autotoc_md101"></a>
 Copy text to clipboard</h4>
 <div class="fragment"><div class="line"><span class="keyword">const</span> { setText } = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
 <div class="line">setText(<span class="stringliteral">&quot;This text will be copied to the clipboard&quot;</span>);</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md94"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md102"></a>
 Get text from clipboard</h4>
 <div class="fragment"><div class="line"><span class="keyword">const</span> { text: clipboardText } = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
 <div class="line">let text = clipboardText();</div>
 <div class="line"><span class="comment">// text == &quot;This text will be copied to the clipboard&quot;</span></div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md95"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md103"></a>
 Copy the contents of a text file to the clipboard</h4>
 <div class="fragment"><div class="line"><span class="keyword">const</span> { setText: copy } = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
 <div class="line"><span class="keywordflow">try</span> {</div>
@@ -167,23 +167,23 @@ Copy the contents of a text file to the clipboard</h4>
 <div class="line"><span class="keywordflow">catch</span> (e) {</div>
 <div class="line">  console.error(<span class="stringliteral">&quot;Error reading file: &quot;</span>, e);</div>
 <div class="line">}</div>
-<div class="ttc" id="aclass_file_html"><div class="ttname"><a href="class_file.html">File</a></div><div class="ttdoc">The File class provides access to... files. Shocking.</div><div class="ttdef"><b>Definition:</b> File.h:58</div></div>
-<div class="ttc" id="aclass_file_html_a22b1c4d4cc1ae85a1d288ec0b2bb8845"><div class="ttname"><a href="class_file.html#a22b1c4d4cc1ae85a1d288ec0b2bb8845">File::readText</a></div><div class="ttdeci">String readText(String &amp;file)</div><div class="ttdoc">Reads a file in text mode and returns the contents as a string. This is a convenience method which is...</div><div class="ttdef"><b>Definition:</b> File.h:105</div></div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md96"></a>
+<div class="ttc" id="aclass_file_html"><div class="ttname"><a href="class_file.html">File</a></div><div class="ttdoc">The File class provides access to... files. Shocking.</div><div class="ttdef"><b>Definition:</b> File.h:57</div></div>
+<div class="ttc" id="aclass_file_html_a22b1c4d4cc1ae85a1d288ec0b2bb8845"><div class="ttname"><a href="class_file.html#a22b1c4d4cc1ae85a1d288ec0b2bb8845">File::readText</a></div><div class="ttdeci">String readText(String &amp;file)</div><div class="ttdoc">Reads a file in text mode and returns the contents as a string. This is a convenience method which is...</div><div class="ttdef"><b>Definition:</b> File.h:114</div></div>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md104"></a>
 Copy an image from a file to the clipboard</h4>
 <div class="fragment"><div class="line"><span class="keyword">const</span> { setData: copy } = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
 <div class="line"><span class="keywordflow">try</span> {</div>
-<div class="line">  copy(<span class="stringliteral">&quot;image/png&quot;</span>, <a class="code hl_class" href="class_file.html">File</a>.<a class="code hl_function" href="class_file.html#adeac7b35b88465029c6be619ae67fbaf">read</a>(<span class="stringliteral">&quot;path/to/myImage.png&quot;</span>, <span class="charliteral">&#39;b&#39;</span>));</div>
+<div class="line">  copy(<span class="stringliteral">&quot;image/png&quot;</span>, <a class="code hl_class" href="class_file.html">File</a>.<a class="code hl_function" href="class_file.html#a4d140ee4fb966bacd2f38c955072a4c6">read</a>(<span class="stringliteral">&quot;path/to/myImage.png&quot;</span>, <span class="charliteral">&#39;b&#39;</span>));</div>
 <div class="line">}</div>
 <div class="line"><span class="keywordflow">catch</span> (e) {</div>
 <div class="line">  console.error(<span class="stringliteral">&quot;Error reading file: &quot;</span>, e);</div>
 <div class="line">}</div>
-<div class="ttc" id="aclass_file_html_adeac7b35b88465029c6be619ae67fbaf"><div class="ttname"><a href="class_file.html#adeac7b35b88465029c6be619ae67fbaf">File::read</a></div><div class="ttdeci">ArrayBuffer read(String &amp;file, ::FS::OpenMode mode=O_TEXT)</div><div class="ttdoc">Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....</div><div class="ttdef"><b>Definition:</b> File.h:96</div></div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md97"></a>
+<div class="ttc" id="aclass_file_html_a4d140ee4fb966bacd2f38c955072a4c6"><div class="ttname"><a href="class_file.html#a4d140ee4fb966bacd2f38c955072a4c6">File::read</a></div><div class="ttdeci">ArrayBuffer read(String &amp;file, FS::OpenMode mode=FS::O_TEXT)</div><div class="ttdoc">Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....</div><div class="ttdef"><b>Definition:</b> File.h:105</div></div>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md105"></a>
 Get text from the clipboard, preferring HTML format if it is available.</h4>
 <div class="fragment"><div class="line"><span class="keyword">const</span> clipboard = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
 <div class="line">let text = clipboard.hasMimeType(<span class="stringliteral">&quot;text/html&quot;</span>) ? clipboard.text(<span class="stringliteral">&quot;html&quot;</span>) : clipboard.text();</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md98"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md106"></a>
 Loop over all available formats on the clipboard and log the contents of each one as a string.</h4>
 <div class="fragment"><div class="line"><span class="keyword">const</span> { mimeTypes, data: clipboardData } = require(<span class="stringliteral">&quot;clipboard&quot;</span>);</div>
 <div class="line"><span class="keyword">const</span> availableTypes = mimeTypes();</div>
@@ -233,6 +233,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a88ded2b8de05c5feed2168589eb21514"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="class_string.html">String</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a88ded2b8de05c5feed2168589eb21514">mimeTypes</a> (<a class="el" href="class_string.html">String</a> mimeType, int mode=<a class="el" href="class_clipboard.html#a46c8a310cf4c094f8c80e1cb8dc1f911a23e5a7b7976e412ece233ceaf8257bc2">Mode.Clipboard</a>)</td></tr>
 <tr class="separator:a88ded2b8de05c5feed2168589eb21514"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Events</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p >See <a class="el" href="group___event_handlers.html">Event Handling</a> for details about connecting handlers to events.</p>
+<p >Note** that since <code><a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a></code> is a global static object, assigning a handler to any of the event properties (like <code>onclipboardChanged</code>) in one script will replace any handler assigned in another script. </p>
+</div></td></tr>
 <tr class="memitem:a5220255ba5ca03f2fdcf72046aa3bfdd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a5220255ba5ca03f2fdcf72046aa3bfdd">clipboardChanged</a> ()</td></tr>
 <tr class="separator:a5220255ba5ca03f2fdcf72046aa3bfdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ce6bd27f981bdfd40172d41c3f0403a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_clipboard.html#a8ce6bd27f981bdfd40172d41c3f0403a">findBufferChanged</a> ()</td></tr>
@@ -345,6 +348,7 @@ If mode is <code>FindBuffer</code>, the data is stored/retrieved with the search
 </div><div class="memdoc">
 
 <p>This event is raised whenever the contents of the system clipboard change. Use <code><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a></code>, <code><a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a></code>, or the other methods to get the current value after receiving this event. </p>
+<p >This event has a corresponding <code>onclipboardChanged</code> property to which a single event handler may be assigned. </p>
 
 </div>
 </div>
@@ -364,7 +368,7 @@ If mode is <code>FindBuffer</code>, the data is stored/retrieved with the search
 </div><div class="memdoc">
 
 <p>This event is raised whenever the contents of the Find text change on MacOS. Use <code><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a></code>, <code><a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a></code>, etc methods with <code>mode</code> argument set to <code>Clipboard.FindBuffer</code> to get the current value after receiving this event. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#ac75fb733e107b31a0d40702e21db31e8" title="This property value is true if the system clipboard supports a separate search buffer,...">supportsFindBuffer</a> </dd></dl>
+<p >This event has a corresponding <code>onfindBufferChanged</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#ac75fb733e107b31a0d40702e21db31e8" title="This property value is true if the system clipboard supports a separate search buffer,...">supportsFindBuffer</a> </dd></dl>
 
 </div>
 </div>
@@ -384,7 +388,7 @@ If mode is <code>FindBuffer</code>, the data is stored/retrieved with the search
 </div><div class="memdoc">
 
 <p>This event is raised whenever the contents of the system selection change. Use <code><a class="el" href="class_response.html#a3975dc4487d32183367654497f5a6ebd">text()</a></code>, <code><a class="el" href="class_clipboard.html#afffd9c3ca8a6da960370721799106f59" title="Returns the current system clipboard value as raw bytes.  When reading the value:">data()</a></code>, etc, methods with <code>mode</code> argument set to <code>Clipboard.Selection</code> to get the current value after receiving this event. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#ab83f6dc74fb6722c27270d2e2e8bdd07" title="This property value is true if the system clipboard supports mouse selection, or false otherwise....">supportsSelection</a> </dd></dl>
+<p >This event has a corresponding <code>onselectionChanged</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_clipboard.html#ab83f6dc74fb6722c27270d2e2e8bdd07" title="This property value is true if the system clipboard supports mouse selection, or false otherwise....">supportsSelection</a> </dd></dl>
 
 </div>
 </div>
@@ -820,7 +824,7 @@ When reading the value: </p>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_clipboard.html">Clipboard</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

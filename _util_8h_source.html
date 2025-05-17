@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.0.1-beta1</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
    </div>
   </td>
  </tr>
@@ -490,7 +490,7 @@ $(document).ready(function(){initNavTree('_util_8h_source.html',''); initResizab
 <div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>      QString ret;</div>
 <div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>      QTextStream strm(&amp;ret, QIODevice::WriteOnly);</div>
 <div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>      v = v.mid(v.length() - maxLines + 1);</div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;sv : qAsConst(v))</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;sv : std::as_const(v))</div>
 <div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>        strm &lt;&lt; sv.toString() &lt;&lt; separator;</div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>      <span class="keywordflow">return</span> ret + std::move(line);</div>
 <div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>    }</div>
@@ -512,7 +512,7 @@ $(document).ready(function(){initNavTree('_util_8h_source.html',''); initResizab
 <div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>      QString ret;</div>
 <div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>      QTextStream strm(&amp;ret, QIODevice::WriteOnly);</div>
 <div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>      v = v.mid(fromLine, maxLines);</div>
-<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;sv : qAsConst(v))</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;sv : std::as_const(v))</div>
 <div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>        strm &lt;&lt; sv.toString() &lt;&lt; separator;</div>
 <div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>      <span class="keywordflow">return</span> ret;</div>
 <div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>    }<span class="comment"></span></div>
@@ -544,13 +544,15 @@ $(document).ready(function(){initNavTree('_util_8h_source.html',''); initResizab
 <div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>    Q_INVOKABLE <span class="keyword">static</span> QString urlToLocalPath(<span class="keyword">const</span> QString &amp;url)    { <span class="keywordflow">return</span> QDir::toNativeSeparators(QUrl(url).toString(QUrl::PreferLocalFile)); }<span class="comment"></span></div>
 <div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span><span class="comment">    //! \}</span></div>
 <div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span><span class="comment"></span> </div>
-<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>};</div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>    Q_INVOKABLE <span class="keyword">static</span> <span class="keywordtype">void</span> dir(<span class="keyword">const</span> QJSValue &amp;val) { Utils::dumpJsvRecursive(val); }</div>
 <div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span> </div>
-<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span><span class="preprocessor">#ifndef DOXYGEN</span></div>
-<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>}  <span class="comment">// ScriptLib</span></div>
-<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span> </div>
-<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>Q_DECLARE_METATYPE(ScriptLib::Util *)</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>};</div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span> </div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span><span class="preprocessor">#ifndef DOXYGEN</span></div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>}  <span class="comment">// ScriptLib</span></div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span> </div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>Q_DECLARE_METATYPE(ScriptLib::Util *)</div>
 <div class="ttc" id="aclass_array_buffer_html_a1db415f2f252811818848b7c55570ba6"><div class="ttname"><a href="class_array_buffer.html#a1db415f2f252811818848b7c55570ba6">ArrayBuffer::toBase64</a></div><div class="ttdeci">String toBase64()</div><div class="ttdoc">Returns the contents of this buffer as a Base64-encoded string.</div><div class="ttdef"><b>Definition:</b> collections.js:38</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -559,7 +561,7 @@ $(document).ready(function(){initNavTree('_util_8h_source.html',''); initResizab
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_63fff2316be25e2c0e390b6865562344.html">ScriptingLibrary</a></li><li class="navelem"><b>Util.h</b></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.0.1-beta1 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>
