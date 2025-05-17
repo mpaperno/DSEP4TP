@@ -785,7 +785,10 @@ void Plugin::onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &se
 }
 
 static QByteArray cleanTpPageName(const QJsonValue &val) {
-	return val.toString().toUtf8().sliced(1).replace(".tml", QByteArray()).replace('\\', '/');
+	const auto strVal = val.toString().toUtf8();
+	if (strVal.isEmpty())
+		return strVal;
+	return strVal.sliced(1).replace(".tml", QByteArray()).replace('\\', '/');
 }
 
 void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
