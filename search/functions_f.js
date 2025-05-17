@@ -7,6 +7,6 @@ var searchData=
   ['polyad_4',['polyad',['../class_color.html#adfb086b470804a4f7dc911d2dd148cab',1,'Color::polyad(number n)'],['../class_color.html#a2e9d163ce84bb533543f7f8c96a88123',1,'Color::polyad(Color color, number n)']]],
   ['post_5',['post',['../class_request.html#ada2849f5eb9fd4375cd60ce0e5519427',1,'Request']]],
   ['pressedstatechanged_6',['pressedStateChanged',['../class_dynamic_script.html#a7103fdb182a9bbdd58fe216fec573450',1,'DynamicScript']]],
-  ['program_7',['program',['../class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554',1,'Process']]],
+  ['program_7',['program',['../class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554',1,'Process::program()'],['../class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554',1,'Process::program()']]],
   ['put_8',['put',['../class_request.html#acb0f45f7a2f073eeb1ae86f4dbaee869',1,'Request']]]
 ];

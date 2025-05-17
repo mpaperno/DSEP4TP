@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['javascript_20object_20extensions_0',['JavaScript Object Extensions',['../group___j_s_ext.html',1,'']]]
+  ['network_20apis_0',['Network APIs',['../group___net_a_p_i.html',1,'']]]
 ];

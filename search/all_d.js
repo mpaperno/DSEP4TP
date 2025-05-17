@@ -1,7 +1,7 @@
 var searchData=
 [
   ['name_0',['name',['../class_locale.html#a8ccf841cb59e451791bcb2e1ac4f1edc',1,'Locale::name()'],['../class_file_handle.html#a9a2326f35466e54c36c070829245c557',1,'FileHandle::name()'],['../class_file_info.html#a9a2326f35466e54c36c070829245c557',1,'FileInfo::name()'],['../class_dynamic_script.html#a9a2326f35466e54c36c070829245c557',1,'DynamicScript::name()'],['../class_file.html#a1e679ab466d407a9b3957629c871c843',1,'File::name()']]],
-  ['nativearguments_1',['nativeArguments',['../class_process.html#a38cde7760a1e556e67658aba0c50cc31',1,'Process']]],
+  ['nativearguments_1',['nativeArguments',['../class_process.html#a38cde7760a1e556e67658aba0c50cc31',1,'Process::nativeArguments()'],['../class_process.html#a38cde7760a1e556e67658aba0c50cc31',1,'Process::nativeArguments()']]],
   ['nativecountryname_2',['nativeCountryName',['../class_locale.html#a6c762b87caf0646f1895028dc1d72dce',1,'Locale']]],
   ['nativelanguagename_3',['nativeLanguageName',['../class_locale.html#a2f97af314e4d824ae0f5b9d6c4a76da3',1,'Locale']]],
   ['negativesign_4',['negativeSign',['../class_locale.html#aa6a546236845310b9c6efa27a16fd3bb',1,'Locale']]],

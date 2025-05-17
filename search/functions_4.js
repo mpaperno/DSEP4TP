@@ -5,6 +5,6 @@ var searchData=
   ['evaluate_2',['evaluate',['../class_dynamic_script.html#a640eb3c435abcfe65e13558fc738b915',1,'DynamicScript']]],
   ['execute_3',['execute',['../class_process.html#a8db047d3a76a4252a438627335ad1a41',1,'Process']]],
   ['exists_4',['exists',['../class_dir.html#a99de16a696a6c85df9d11276ba9e3acd',1,'Dir::exists()'],['../class_file.html#a5f3550bae0d274d91d8cba4fa784feae',1,'File::exists()']]],
-  ['exitcode_5',['exitCode',['../class_process.html#a1a3216fca979e4a07e32c46b06a9bf8c',1,'Process']]],
-  ['exitstatus_6',['exitStatus',['../class_process.html#a28098115d4f626eb43a368a4576fcde9',1,'Process']]]
+  ['exitcode_5',['exitCode',['../class_process.html#a1a3216fca979e4a07e32c46b06a9bf8c',1,'Process::exitCode()'],['../class_process.html#a1a3216fca979e4a07e32c46b06a9bf8c',1,'Process::exitCode()']]],
+  ['exitstatus_6',['exitStatus',['../class_process.html#a28098115d4f626eb43a368a4576fcde9',1,'Process::exitStatus()'],['../class_process.html#a28098115d4f626eb43a368a4576fcde9',1,'Process::exitStatus()']]]
 ];

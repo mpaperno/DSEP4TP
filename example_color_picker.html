@@ -128,7 +128,7 @@ $(document).ready(function(){initNavTree('example_color_picker.html',''); initRe
 <div class="contents">
 <div class="textblock"><p ><a class="anchor" id="md_D__Devel_TouchPortal_DynamicScriptEngine_DSEP4TP_resources_examples_ColorMixer_README"></a>A script and page example of an interface for choosing a color.</p>
 <div class="hide-on-site"></div><div class="hide-on-site"><b>See the <a href="https://dse.tpp.max.paperno.us/example_color_picker.html" target="_blank">published documentation</a> for a properly formatted version of this README.</b> </div><p >Besides being an actual useful tool, this example demonstrates how to use several available classes and Touch Portal integration features. To create similar functionality would typically require a dedicated plugin in itself. But with <em><a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a></em> it can be created with some relatively simple scripting, and customized "on the fly" without editing configuration files or restarting Touch Portal for each change (also not needing yet another network client and process running in the background).</p>
-<h2><a class="anchor" id="autotoc_md113"></a>
+<h2><a class="anchor" id="autotoc_md106"></a>
 Plugin components and features used:</h2>
 <ul>
 <li><a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> library for the primary functionality (choosing and previewing colors).</li>
@@ -147,10 +147,10 @@ Plugin components and features used:</h2>
 <p ><em>All</em> of the States necessary for all this functionality, are created dynamically in the script as needed. For example the color series States are only created if that feature of the page is used. Each individual color channel value (R/G/B/A/H/S/V) are sent as individual States, which in this page are displayed under the corresponding sliders.</p>
 <dl class="section note"><dt>Note</dt><dd>Assets for this example, including the code and page shown below, can be found in the project's repository at<br  />
  <a href="https://github.com/mpaperno/DSEP4TP/tree/next/resources/examples/ColorMixer/">https://github.com/mpaperno/DSEP4TP/tree/next/resources/examples/ColorMixer/</a></dd></dl>
-<h2><a class="anchor" id="autotoc_md114"></a>
+<h2><a class="anchor" id="autotoc_md107"></a>
 Example page using this script</h2>
 <p ><a href="example_color_mixer_screenshot.jpg" target="image" title="Click for full version in new window."><img src="example_color_mixer_screenshot.jpg" alt="" class="inline"/> </a></p>
-<h2><a class="anchor" id="autotoc_md115"></a>
+<h2><a class="anchor" id="autotoc_md108"></a>
 Initial page setup</h2>
 <ol type="1">
 <li>Download the <a href="https://github.com/mpaperno/DSEP4TP/raw/next/resources/examples/ColorMixer/DSE_Color_Mixer_v1.tpz" target="_blank">DSE_Color_Mixer_v1 page</a>.</li>
@@ -166,18 +166,18 @@ Initial page setup</h2>
 <li>The "INITIAL SETUP" button should turn into a white color swatch and the page is ready for use.</li>
 <li>If you make any changes to the included script file, you need to use the "Reset Module" button to clear out the old script version before your changes will be detected.</li>
 </ol>
-<h3><a class="anchor" id="autotoc_md116"></a>
+<h3><a class="anchor" id="autotoc_md109"></a>
 Background Image</h3>
 <p >The background image is in a 16:9 aspect ratio. This should generally work for any screen resolution or aspect. The exception may be the horizontal marks next to the sliders, which may not properly reflect the actual slider extents on screens with different aspect ratios, or if the Touch Portal title/tool bar is displayed (eg. on iOS or Android with "full screen" feature disabled).</p>
 <p >An alternate background image, without the slider position markings, is available here: <a href="https://github.com/mpaperno/DSEP4TP/raw/next/resources/examples/ColorMixer/background_nomarks.jpg" target="_blank">background_nomarks.jpg</a> <br  />
  The default background image, <em>with</em> the slider position markings, is available here: <a href="https://github.com/mpaperno/DSEP4TP/raw/next/resources/examples/ColorMixer/background.jpg" target="_blank">background.jpg</a> <br  />
  The background image source design in Illustrator format is available here: <a href="https://github.com/mpaperno/DSEP4TP/raw/next/resources/examples/ColorMixer/background.ai" target="_blank">background.ai</a></p>
-<h3><a class="anchor" id="autotoc_md117"></a>
+<h3><a class="anchor" id="autotoc_md110"></a>
 The "color picker" button</h3>
 <p >You may notice that button on the bottom row with the technicolor dropper icon. This is meant to launch a "color picker" utility on your computer, which would then copy the color from any part of the screen you click on to the clipboard. This utility is going to be operating system-specific, and you may prefer one over another.</p>
 <p >The current button on the page is set up to launch the Windows 10/11 "Power Toys" <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> Picker utility by pressing its default shortcut key combination of <code>WIN+SHIFT+C</code>. (<em>Power Toys</em> is a collection of utilities from a Microsoft-supported but independent open-source project.) You may of course prefer some other utility, and if you're on MacOS or Linux then clearly you'll need some other option.</p>
 <p >After the button is pressed, the script will wait up to 30 seconds for the clipboard contents to change. If the clipboard is updated, the new clipboard value is checked to see if it contains a valid color. And if it does, then the main selected color is changed to that value.</p>
-<h2><a class="anchor" id="autotoc_md118"></a>
+<h2><a class="anchor" id="autotoc_md111"></a>
 Color Mixer script</h2>
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* Dynamic Script Engine - Color Mixer Script</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"></span> </div>
@@ -1053,8 +1053,8 @@ Color Mixer script</h2>
 <div class="ttc" id="aclass_color_html_a87d6ad92217614866d946757fba2d8f3"><div class="ttname"><a href="class_color.html#a87d6ad92217614866d946757fba2d8f3">Color::complement</a></div><div class="ttdeci">Color complement(Color color)</div><div class="ttdoc">Returns a new Color which is complimentary to color.</div></div>
 <div class="ttc" id="aclass_color_html_adfb086b470804a4f7dc911d2dd148cab"><div class="ttname"><a href="class_color.html#adfb086b470804a4f7dc911d2dd148cab">Color::polyad</a></div><div class="ttdeci">Color polyad(number n)</div><div class="ttdoc">Returns an array of up to n colors harmonious with this color.</div></div>
 <div class="ttc" id="aclass_color_html_af7a57ec62f370d92e749c92e43e62f68"><div class="ttname"><a href="class_color.html#af7a57ec62f370d92e749c92e43e62f68">Color::tpcolor</a></div><div class="ttdeci">string tpcolor()</div><div class="ttdoc">Returns color formatted in #AARRGGBB format (this is suitable for use with Touch Portal's &quot;Set Text/B...</div><div class="ttdef"><b>Definition:</b> color.js:474</div></div>
-<div class="ttc" id="aclass_d_s_e_html"><div class="ttname"><a href="class_d_s_e.html">DSE</a></div><div class="ttdoc">The DSE object contains constants and functions related to the plugin environment....</div><div class="ttdef"><b>Definition:</b> DSE.h:50</div></div>
-<div class="ttc" id="aclass_d_s_e_html_a4dc79d45688d568fdb138dac9b0c6c01"><div class="ttname"><a href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">DSE::currentInstance</a></div><div class="ttdeci">DynamicScript * currentInstance()</div><div class="ttdoc">Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....</div><div class="ttdef"><b>Definition:</b> DSE.h:277</div></div>
+<div class="ttc" id="aclass_d_s_e_html"><div class="ttname"><a href="class_d_s_e.html">DSE</a></div><div class="ttdoc">The DSE object contains constants and functions related to the plugin environment....</div></div>
+<div class="ttc" id="aclass_d_s_e_html_a4dc79d45688d568fdb138dac9b0c6c01"><div class="ttname"><a href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">DSE::currentInstance</a></div><div class="ttdeci">DynamicScript currentInstance()</div><div class="ttdoc">Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....</div><div class="ttdef"><b>Definition:</b> DSE.h:294</div></div>
 <div class="ttc" id="aclass_d_s_e_html_a75772c2c90dcccaa883c44867c7da11a"><div class="ttname"><a href="class_d_s_e.html#a75772c2c90dcccaa883c44867c7da11a">DSE::instance</a></div><div class="ttdeci">DynamicScript instance(String name)</div><div class="ttdoc">Returns the script instance with given name, if any, otherwise returns null.</div></div>
 <div class="ttc" id="aclass_global_html_a27f7e21ddf66fa9aaaf37ec4734f504c"><div class="ttname"><a href="class_global.html#a27f7e21ddf66fa9aaaf37ec4734f504c">Global::Format</a></div><div class="ttdeci">String Format(String format)</div><div class="ttdoc">Equivalent to the String.format() extension method.</div></div>
 <div class="ttc" id="aclass_math_html_a53efc2dcfced77d30083e84a38572130"><div class="ttname"><a href="class_math.html#a53efc2dcfced77d30083e84a38572130">Math::clamp</a></div><div class="ttdeci">number clamp(number value, number min, number max)</div><div class="ttdoc">Constrain value between min and max values.</div></div>

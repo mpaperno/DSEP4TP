@@ -136,12 +136,50 @@ $(document).ready(function(){initNavTree('class_process.html',''); initResizable
 <p >In JavaScript signals can be connected-to in the form of <code>signal.connect(myFunction)</code> where <code>signal</code> is the signal/event function name and <code>myFunction</code> is any valid JS function signature like in a callback. Again, like with any 'onevent()' handler from a typical JavaScript object. <br  />
  For example, to handle the <code><a class="el" href="class_process.html#a792262951fb2b62ee9cd824cdbe87ac6" title="This signal is emitted when an error occurs with the process.">errorOccurred()</a></code> signal/event: </p><div class="fragment"><div class="line"><span class="keyword">const</span> process = <span class="keyword">new</span> <a class="code hl_class" href="class_process.html">Process</a>();</div>
 <div class="line">process.errorOccurred.connect((error) =&gt; { console.error(<span class="stringliteral">&quot;Process exited with code:&quot;</span>, error); });</div>
-<div class="ttc" id="aclass_process_html"><div class="ttname"><a href="class_process.html">Process</a></div><div class="ttdoc">The Process class allows interaction with external processes, such as launching a system command or r...</div><div class="ttdef"><b>Definition:</b> RunProcess.h:63</div></div>
+<div class="ttc" id="aclass_process_html"><div class="ttname"><a href="class_process.html">Process</a></div><div class="ttdoc">The Process class allows interaction with external processes, such as launching a system command or r...</div><div class="ttdef"><b>Definition:</b> Process.h:62</div></div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The <a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a> class is a proxy for <a href="https://doc.qt.io/qt-6/qprocess.html" target="_blank">QProcess</a>, part of the underlying Qt C++ library. Most of the documentation text below is originally from the QProcess documetation (used under the GNU Free Documentation License version 1.3).</dd></dl>
 <p>See the <a href="https://doc.qt.io/qt-6/qprocess.html" target="_blank">QProcess documentation</a> for more details about how <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> works in general. Some of the enumeration values are documented there (links are provided below in "see also" as needed). </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a8e2e2342f43be2b3b0fc7c587e03e554"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554">program</a> ()</td></tr>
+<tr class="separator:a8e2e2342f43be2b3b0fc7c587e03e554"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaee8446f9a75de259ef640dbd0c1590c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#aaee8446f9a75de259ef640dbd0c1590c">setProgram</a> (<a class="el" href="class_string.html">String</a> &amp;<a class="el" href="class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554">program</a>)</td></tr>
+<tr class="separator:aaee8446f9a75de259ef640dbd0c1590c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa513cfd299232ed46029aae06d4e8bc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#aaa513cfd299232ed46029aae06d4e8bc">workingDirectory</a> ()</td></tr>
+<tr class="separator:aaa513cfd299232ed46029aae06d4e8bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95adb01400e527499676397acf47afe7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a95adb01400e527499676397acf47afe7">setWorkingDirectory</a> (<a class="el" href="class_string.html">String</a> &amp;dir)</td></tr>
+<tr class="separator:a95adb01400e527499676397acf47afe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38cde7760a1e556e67658aba0c50cc31"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a38cde7760a1e556e67658aba0c50cc31">nativeArguments</a> ()</td></tr>
+<tr class="separator:a38cde7760a1e556e67658aba0c50cc31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae69f6345509005732e690c81ef5bdb44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#ae69f6345509005732e690c81ef5bdb44">setNativeArguments</a> (<a class="el" href="class_string.html">String</a> &amp;arguments)</td></tr>
+<tr class="separator:ae69f6345509005732e690c81ef5bdb44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98fb45c18bc5cd116fc21a39f36e211e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a98fb45c18bc5cd116fc21a39f36e211e">setStandardInputFile</a> (<a class="el" href="class_string.html">String</a> &amp;fileName)</td></tr>
+<tr class="separator:a98fb45c18bc5cd116fc21a39f36e211e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a195ae6182597912bccfdb95c03bc6852"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a195ae6182597912bccfdb95c03bc6852">setStandardOutputFile</a> (<a class="el" href="class_string.html">String</a> &amp;fileName, <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS::OpenMode</a> mode=<a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda62d2c5d0a909350af1b4f4fd95297555">FS::O_TRUNC</a>)</td></tr>
+<tr class="separator:a195ae6182597912bccfdb95c03bc6852"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9023a389539e701d118e4779a91c1b7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a9023a389539e701d118e4779a91c1b7d">setStandardErrorFile</a> (<a class="el" href="class_string.html">String</a> &amp;fileName, <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS::OpenMode</a> mode=<a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda62d2c5d0a909350af1b4f4fd95297555">FS::O_TRUNC</a>)</td></tr>
+<tr class="separator:a9023a389539e701d118e4779a91c1b7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60de64d75454385b23995437f1d72669"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a60de64d75454385b23995437f1d72669">start</a> ()</td></tr>
+<tr class="separator:a60de64d75454385b23995437f1d72669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a840bd4b3b617f5fe8381a4ce0c014574"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a840bd4b3b617f5fe8381a4ce0c014574">startDetached</a> ()</td></tr>
+<tr class="separator:a840bd4b3b617f5fe8381a4ce0c014574"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7008bca493d69ea65f12e0940f3a6886"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a7008bca493d69ea65f12e0940f3a6886">close</a> () override</td></tr>
+<tr class="separator:a7008bca493d69ea65f12e0940f3a6886"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f6999589c6412136296319895d26e24"><td class="memItemLeft" align="right" valign="top">QProcess::ProcessState&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a5f6999589c6412136296319895d26e24">state</a> ()</td></tr>
+<tr class="separator:a5f6999589c6412136296319895d26e24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a3216fca979e4a07e32c46b06a9bf8c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a1a3216fca979e4a07e32c46b06a9bf8c">exitCode</a> ()</td></tr>
+<tr class="separator:a1a3216fca979e4a07e32c46b06a9bf8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28098115d4f626eb43a368a4576fcde9"><td class="memItemLeft" align="right" valign="top">QProcess::ExitStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a28098115d4f626eb43a368a4576fcde9">exitStatus</a> ()</td></tr>
+<tr class="separator:a28098115d4f626eb43a368a4576fcde9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4ba7461b1f4ab54c88500562a51edfa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#ae4ba7461b1f4ab54c88500562a51edfa">waitForStarted</a> (int msecs=30000)</td></tr>
+<tr class="separator:ae4ba7461b1f4ab54c88500562a51edfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac969ca64372326503fe5e7cfda39e50f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#ac969ca64372326503fe5e7cfda39e50f">waitForReadyRead</a> (int msecs=30000) override</td></tr>
+<tr class="separator:ac969ca64372326503fe5e7cfda39e50f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b8939abd1cd245d43925286885968fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a8b8939abd1cd245d43925286885968fd">waitForBytesWritten</a> (int msecs=30000) override</td></tr>
+<tr class="separator:a8b8939abd1cd245d43925286885968fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcd70eb289ce82878ce917f85fe7522b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#abcd70eb289ce82878ce917f85fe7522b">waitForFinished</a> (int msecs=30000)</td></tr>
+<tr class="separator:abcd70eb289ce82878ce917f85fe7522b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e2e2342f43be2b3b0fc7c587e03e554"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554">program</a> ()</td></tr>
 <tr class="separator:a8e2e2342f43be2b3b0fc7c587e03e554"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaee8446f9a75de259ef640dbd0c1590c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#aaee8446f9a75de259ef640dbd0c1590c">setProgram</a> (<a class="el" href="class_string.html">String</a> &amp;<a class="el" href="class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554">program</a>)</td></tr>
@@ -154,7 +192,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a95adb01400e527499676397acf47afe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38cde7760a1e556e67658aba0c50cc31"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a38cde7760a1e556e67658aba0c50cc31">nativeArguments</a> ()</td></tr>
 <tr class="separator:a38cde7760a1e556e67658aba0c50cc31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae69f6345509005732e690c81ef5bdb44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#ae69f6345509005732e690c81ef5bdb44">setNativeArguments</a> (<a class="el" href="class_string.html">String</a> &amp;<a class="el" href="class_process.html#ae24e81ff23bdb6bb8fc330f59ff6e5ed">arguments</a>)</td></tr>
+<tr class="memitem:ae69f6345509005732e690c81ef5bdb44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#ae69f6345509005732e690c81ef5bdb44">setNativeArguments</a> (<a class="el" href="class_string.html">String</a> &amp;arguments)</td></tr>
 <tr class="separator:ae69f6345509005732e690c81ef5bdb44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98fb45c18bc5cd116fc21a39f36e211e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a98fb45c18bc5cd116fc21a39f36e211e">setStandardInputFile</a> (<a class="el" href="class_string.html">String</a> &amp;fileName)</td></tr>
 <tr class="separator:a98fb45c18bc5cd116fc21a39f36e211e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -188,13 +226,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a8b8939abd1cd245d43925286885968fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcd70eb289ce82878ce917f85fe7522b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#abcd70eb289ce82878ce917f85fe7522b">waitForFinished</a> (int msecs=30000)</td></tr>
 <tr class="separator:abcd70eb289ce82878ce917f85fe7522b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8db047d3a76a4252a438627335ad1a41"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a8db047d3a76a4252a438627335ad1a41">execute</a> (<a class="el" href="class_string.html">String</a> <a class="el" href="class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554">program</a>, Array&lt; <a class="el" href="class_string.html">String</a> &gt; <a class="el" href="class_process.html#ae24e81ff23bdb6bb8fc330f59ff6e5ed">arguments</a>=[])</td></tr>
+<tr class="memitem:a8db047d3a76a4252a438627335ad1a41"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a8db047d3a76a4252a438627335ad1a41">execute</a> (<a class="el" href="class_string.html">String</a> <a class="el" href="class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554">program</a>, Array&lt; <a class="el" href="class_string.html">String</a> &gt; arguments=[])</td></tr>
 <tr class="separator:a8db047d3a76a4252a438627335ad1a41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d2eb2efe93bec133ac9bfdf20c857be"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a4d2eb2efe93bec133ac9bfdf20c857be">startDetached</a> (<a class="el" href="class_string.html">String</a> <a class="el" href="class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554">program</a>, Array&lt; <a class="el" href="class_string.html">String</a> &gt; <a class="el" href="class_process.html#ae24e81ff23bdb6bb8fc330f59ff6e5ed">arguments</a>=[], <a class="el" href="class_string.html">String</a> <a class="el" href="class_process.html#aaa513cfd299232ed46029aae06d4e8bc">workingDirectory</a>=&quot;&quot;)</td></tr>
+<tr class="memitem:a4d2eb2efe93bec133ac9bfdf20c857be"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a4d2eb2efe93bec133ac9bfdf20c857be">startDetached</a> (<a class="el" href="class_string.html">String</a> <a class="el" href="class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554">program</a>, Array&lt; <a class="el" href="class_string.html">String</a> &gt; arguments=[], <a class="el" href="class_string.html">String</a> <a class="el" href="class_process.html#aaa513cfd299232ed46029aae06d4e8bc">workingDirectory</a>=&quot;&quot;)</td></tr>
 <tr class="separator:a4d2eb2efe93bec133ac9bfdf20c857be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e2ab9ac2ae620b564d3eb38837ef048"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a3e2ab9ac2ae620b564d3eb38837ef048">setArguments</a> (Array&lt; <a class="el" href="class_string.html">String</a> &gt; <a class="el" href="class_process.html#ae24e81ff23bdb6bb8fc330f59ff6e5ed">arguments</a>)</td></tr>
+<tr class="memitem:a3e2ab9ac2ae620b564d3eb38837ef048"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a3e2ab9ac2ae620b564d3eb38837ef048">setArguments</a> (Array&lt; <a class="el" href="class_string.html">String</a> &gt; arguments)</td></tr>
 <tr class="separator:a3e2ab9ac2ae620b564d3eb38837ef048"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84a87590a7d34c37586405d9b0e00fd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a84a87590a7d34c37586405d9b0e00fd1">start</a> (<a class="el" href="class_string.html">String</a> <a class="el" href="class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554">program</a>, Array&lt; <a class="el" href="class_string.html">String</a> &gt; <a class="el" href="class_process.html#ae24e81ff23bdb6bb8fc330f59ff6e5ed">arguments</a>=[])</td></tr>
+<tr class="memitem:a84a87590a7d34c37586405d9b0e00fd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a84a87590a7d34c37586405d9b0e00fd1">start</a> (<a class="el" href="class_string.html">String</a> <a class="el" href="class_process.html#a8e2e2342f43be2b3b0fc7c587e03e554">program</a>, Array&lt; <a class="el" href="class_string.html">String</a> &gt; arguments=[])</td></tr>
 <tr class="separator:a84a87590a7d34c37586405d9b0e00fd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2fe2822072403af69ee86f0396344c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#aa2fe2822072403af69ee86f0396344c5">startCommand</a> (<a class="el" href="class_string.html">String</a> command)</td></tr>
 <tr class="separator:aa2fe2822072403af69ee86f0396344c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,8 +240,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aae9d52caad9fb2892deeb25596cfd2ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74a45d2648335936561898c390281a6a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a74a45d2648335936561898c390281a6a">terminate</a> ()</td></tr>
 <tr class="separator:a74a45d2648335936561898c390281a6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
+Signals</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Events</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p >See <a class="el" href="group___event_handlers.html">Event Handling</a> for details about connecting handlers to events. </p>
+<tr><td colspan="2"><div class="groupText"><p >See EventHandlers for details about connecting handlers to events. </p>
 </div></td></tr>
 <tr class="memitem:a792262951fb2b62ee9cd824cdbe87ac6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_process.html#a792262951fb2b62ee9cd824cdbe87ac6">errorOccurred</a> (ProcessError error)</td></tr>
 <tr class="separator:a792262951fb2b62ee9cd824cdbe87ac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -220,7 +261,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a8e2e2342f43be2b3b0fc7c587e03e554" name="a8e2e2342f43be2b3b0fc7c587e03e554"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e2e2342f43be2b3b0fc7c587e03e554">&#9670;&nbsp;</a></span>program()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e2e2342f43be2b3b0fc7c587e03e554">&#9670;&nbsp;</a></span>program() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,7 +280,442 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="aaee8446f9a75de259ef640dbd0c1590c" name="aaee8446f9a75de259ef640dbd0c1590c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaee8446f9a75de259ef640dbd0c1590c">&#9670;&nbsp;</a></span>setProgram()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaee8446f9a75de259ef640dbd0c1590c">&#9670;&nbsp;</a></span>setProgram() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setProgram </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>program</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the program to use when starting the process. This function must be called before <code><a class="el" href="class_process.html#a60de64d75454385b23995437f1d72669" title="Starts the program set by setProgram() with arguments set by setArguments()/setNativeArguments().">start()</a></code>. </p>
+
+</div>
+</div>
+<a id="aaa513cfd299232ed46029aae06d4e8bc" name="aaa513cfd299232ed46029aae06d4e8bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa513cfd299232ed46029aae06d4e8bc">&#9670;&nbsp;</a></span>workingDirectory() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> workingDirectory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> has been assigned a working directory, this function returns the working directory that the <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> will enter before the program has started. Otherwise, (i.e., no directory has been assigned,) an empty string is returned, and <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> will use the application's current working directory instead. </p>
+
+</div>
+</div>
+<a id="a95adb01400e527499676397acf47afe7" name="a95adb01400e527499676397acf47afe7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95adb01400e527499676397acf47afe7">&#9670;&nbsp;</a></span>setWorkingDirectory() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setWorkingDirectory </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>dir</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the working directory to <code>dir</code>. <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> will start the process in this directory. The default behavior is to start the process in the working directory of the calling process. </p>
+
+</div>
+</div>
+<a id="a38cde7760a1e556e67658aba0c50cc31" name="a38cde7760a1e556e67658aba0c50cc31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38cde7760a1e556e67658aba0c50cc31">&#9670;&nbsp;</a></span>nativeArguments() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> nativeArguments </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the additional native command line arguments for the program. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_process.html#ae69f6345509005732e690c81ef5bdb44" title="Sets additional native command line arguments for the program.">setNativeArguments()</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is only available on the Windows platform. </dd></dl>
+
+</div>
+</div>
+<a id="ae69f6345509005732e690c81ef5bdb44" name="ae69f6345509005732e690c81ef5bdb44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae69f6345509005732e690c81ef5bdb44">&#9670;&nbsp;</a></span>setNativeArguments() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setNativeArguments </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>arguments</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets additional native command line arguments for the program. </p>
+<p >On Windows where the system API for passing command line arguments to a subprocess natively uses a single string, one can conceive command lines which cannot be passed via <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code>'s portable list-based API.<br  />
+ In such cases this function must be used to set a string which is appended to the string composed from the usual argument list, with a delimiting space. </p><dl class="section note"><dt>Note</dt><dd>This function is only available on the Windows platform. </dd></dl>
+
+</div>
+</div>
+<a id="a98fb45c18bc5cd116fc21a39f36e211e" name="a98fb45c18bc5cd116fc21a39f36e211e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98fb45c18bc5cd116fc21a39f36e211e">&#9670;&nbsp;</a></span>setStandardInputFile() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setStandardInputFile </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>fileName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Redirects the process' standard input to the file indicated by <code>fileName</code>. </p>
+<p >When an input redirection is in place, the <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> object will be in read-only mode (calling <code>write()</code> will result in error).</p>
+<p >To make the process read EOF right away, pass <code>nullDevice()</code> here. This is cleaner than using <code>closeWriteChannel()</code> before writing any data, because it can be set up prior to starting the process.</p>
+<p >If the file <code>fileName</code> does not exist at the moment <code><a class="el" href="class_process.html#a60de64d75454385b23995437f1d72669" title="Starts the program set by setProgram() with arguments set by setArguments()/setNativeArguments().">start()</a></code> is called or is not readable, starting the process will fail. Calling <code><a class="el" href="class_process.html#a98fb45c18bc5cd116fc21a39f36e211e" title="Redirects the process&#39; standard input to the file indicated by fileName.">setStandardInputFile()</a></code> after the process has started has no effect. </p>
+
+</div>
+</div>
+<a id="a195ae6182597912bccfdb95c03bc6852" name="a195ae6182597912bccfdb95c03bc6852"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a195ae6182597912bccfdb95c03bc6852">&#9670;&nbsp;</a></span>setStandardOutputFile() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setStandardOutputFile </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>fileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS::OpenMode</a>&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda62d2c5d0a909350af1b4f4fd95297555">FS::O_TRUNC</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Redirects the process' standard output to the file <code>fileName</code>. </p>
+<p >When the redirection is in place, the standard output read channel is closed: reading from it using <code>read()</code> will always fail, as will <code>readAllStandardOutput()</code>.</p>
+<p >To discard all standard output from the process, pass <code>nullDevice()</code> here. This is more efficient than simply never reading the standard output, as no <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> buffers are filled.</p>
+<p >If the file <code>fileName</code> doesn't exist at the moment <code><a class="el" href="class_process.html#a60de64d75454385b23995437f1d72669" title="Starts the program set by setProgram() with arguments set by setArguments()/setNativeArguments().">start()</a></code> is called, it will be created. If it cannot be created, the starting will fail.</p>
+<p >If the file exists and mode is <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda62d2c5d0a909350af1b4f4fd95297555" title="Truncate file (implies O_WRONLY).">FS.O_TRUNC</a></code>, the file will be truncated. Otherwise (if mode is <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdad69fd252a0668f86f5d95be1e1066bc5" title="Append to file (implies O_WRONLY).">FS.O_APPEND</a></code>), the file will be appended to.</p>
+<p >Calling <code><a class="el" href="class_process.html#a195ae6182597912bccfdb95c03bc6852" title="Redirects the process&#39; standard output to the file fileName.">setStandardOutputFile()</a></code> after the process has started has no effect. </p>
+
+</div>
+</div>
+<a id="a9023a389539e701d118e4779a91c1b7d" name="a9023a389539e701d118e4779a91c1b7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9023a389539e701d118e4779a91c1b7d">&#9670;&nbsp;</a></span>setStandardErrorFile() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setStandardErrorFile </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>fileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS::OpenMode</a>&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda62d2c5d0a909350af1b4f4fd95297555">FS::O_TRUNC</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Redirects the process' standard error to the file <code>fileName</code>. </p>
+<p >When the redirection is in place, the standard error read channel is closed: reading from it using <code>read()</code> will always fail, as will <code>readAllStandardError()</code>.</p>
+<p >To discard all standard error from the process, pass <code>nullDevice()</code> here. This is more efficient than simply never reading the standard error, as no <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> buffers are filled.</p>
+<p >If the file <code>fileName</code> doesn't exist at the moment <code><a class="el" href="class_process.html#a60de64d75454385b23995437f1d72669" title="Starts the program set by setProgram() with arguments set by setArguments()/setNativeArguments().">start()</a></code> is called, it will be created. If it cannot be created, the starting will fail.</p>
+<p >If the file exists and mode is <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda62d2c5d0a909350af1b4f4fd95297555" title="Truncate file (implies O_WRONLY).">FS.O_TRUNC</a></code>, the file will be truncated. Otherwise (if mode is <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdad69fd252a0668f86f5d95be1e1066bc5" title="Append to file (implies O_WRONLY).">FS.O_APPEND</a></code>), the file will be appended to.</p>
+<p >Calling <code><a class="el" href="class_process.html#a9023a389539e701d118e4779a91c1b7d" title="Redirects the process&#39; standard error to the file fileName.">setStandardErrorFile()</a></code> after the process has started has no effect. </p>
+
+</div>
+</div>
+<a id="a60de64d75454385b23995437f1d72669" name="a60de64d75454385b23995437f1d72669"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60de64d75454385b23995437f1d72669">&#9670;&nbsp;</a></span>start() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts the program set by <code><a class="el" href="class_process.html#aaee8446f9a75de259ef640dbd0c1590c" title="Set the program to use when starting the process. This function must be called before start().">setProgram()</a></code> with arguments set by <code><a class="el" href="class_process.html#a3e2ab9ac2ae620b564d3eb38837ef048" title="Set the arguments to pass to the called program when starting the process. This function must be call...">setArguments()</a></code>/<code><a class="el" href="class_process.html#ae69f6345509005732e690c81ef5bdb44" title="Sets additional native command line arguments for the program.">setNativeArguments()</a></code>. </p>
+
+</div>
+</div>
+<a id="a840bd4b3b617f5fe8381a4ce0c014574" name="a840bd4b3b617f5fe8381a4ce0c014574"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a840bd4b3b617f5fe8381a4ce0c014574">&#9670;&nbsp;</a></span>startDetached() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint startDetached </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts the program set by <code><a class="el" href="class_process.html#aaee8446f9a75de259ef640dbd0c1590c" title="Set the program to use when starting the process. This function must be called before start().">setProgram()</a></code> with arguments set by <code><a class="el" href="class_process.html#a3e2ab9ac2ae620b564d3eb38837ef048" title="Set the arguments to pass to the called program when starting the process. This function must be call...">setArguments()</a></code> in a new process, and detaches from it. </p>
+<p >Returns the new process ID (pid) on success; otherwise returns zero. If the calling process exits, the detached process will continue to run unaffected. </p>
+
+</div>
+</div>
+<a id="a7008bca493d69ea65f12e0940f3a6886" name="a7008bca493d69ea65f12e0940f3a6886"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7008bca493d69ea65f12e0940f3a6886">&#9670;&nbsp;</a></span>close() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Closes all communication with the process and kills it. After calling this function, <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> will no longer emit <code>readyRead()</code>, and data can no longer be read or written. </p>
+
+</div>
+</div>
+<a id="a5f6999589c6412136296319895d26e24" name="a5f6999589c6412136296319895d26e24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f6999589c6412136296319895d26e24">&#9670;&nbsp;</a></span>state() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QProcess::ProcessState state </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the current state of the process. </p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://doc.qt.io/qt-6/qprocess.html#ProcessState-enum">https://doc.qt.io/qt-6/qprocess.html#ProcessState-enum</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1a3216fca979e4a07e32c46b06a9bf8c" name="a1a3216fca979e4a07e32c46b06a9bf8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a3216fca979e4a07e32c46b06a9bf8c">&#9670;&nbsp;</a></span>exitCode() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int exitCode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the exit code of the last process that finished. </p>
+
+</div>
+</div>
+<a id="a28098115d4f626eb43a368a4576fcde9" name="a28098115d4f626eb43a368a4576fcde9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28098115d4f626eb43a368a4576fcde9">&#9670;&nbsp;</a></span>exitStatus() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QProcess::ExitStatus exitStatus </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the exit status of the last process that finished. On Windows, if the process was terminated with TerminateProcess() from another application, this function will still return <code>NormalExit</code> unless the exit code is less than 0. </p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://doc.qt.io/qt-6/qprocess.html#ExitStatus-enum">https://doc.qt.io/qt-6/qprocess.html#ExitStatus-enum</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae4ba7461b1f4ab54c88500562a51edfa" name="ae4ba7461b1f4ab54c88500562a51edfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4ba7461b1f4ab54c88500562a51edfa">&#9670;&nbsp;</a></span>waitForStarted() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool waitForStarted </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>msecs</em> = <code>30000</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Blocks until the process has started and the <code><a class="el" href="class_process.html#ac59cb86fdb92bce8c145ff49df37c940" title="This signal is emitted by Process when the process has started, and state() returns Running.">started()</a></code> signal has been emitted, or until <code>msecs</code> milliseconds have passed. Returns <code>true</code> if the process was started successfully; otherwise returns <code>false</code> (if the operation timed out or if an error occurred). If msecs is -1, this function will not time out. </p>
+
+</div>
+</div>
+<a id="ac969ca64372326503fe5e7cfda39e50f" name="ac969ca64372326503fe5e7cfda39e50f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac969ca64372326503fe5e7cfda39e50f">&#9670;&nbsp;</a></span>waitForReadyRead() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool waitForReadyRead </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>msecs</em> = <code>30000</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Blocks until new data is available for reading and the <code>readyRead()</code> signal has been emitted, or until <code>msecs</code> milliseconds have passed. If <code>msecs</code> is -1, this function will not time out. Returns <code>true</code> if new data is available for reading; otherwise returns <code>false</code> (if the operation timed out or if an error occurred). </p>
+
+</div>
+</div>
+<a id="a8b8939abd1cd245d43925286885968fd" name="a8b8939abd1cd245d43925286885968fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b8939abd1cd245d43925286885968fd">&#9670;&nbsp;</a></span>waitForBytesWritten() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool waitForBytesWritten </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>msecs</em> = <code>30000</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function waits until a payload of buffered data has been written to the process and the <code>bytesWritten()</code> signal has been emitted, or until <code>msecs</code> milliseconds have passed. If <code>msecs</code> is -1, this function will not time out. Returns <code>true</code> if a payload of data was written to the device; otherwise returns <code>false</code> (i.e. if the operation timed out, or if an error occurred). </p>
+
+</div>
+</div>
+<a id="abcd70eb289ce82878ce917f85fe7522b" name="abcd70eb289ce82878ce917f85fe7522b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcd70eb289ce82878ce917f85fe7522b">&#9670;&nbsp;</a></span>waitForFinished() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool waitForFinished </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>msecs</em> = <code>30000</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Blocks until the process has finished and the <code><a class="el" href="class_process.html#ae2ca5dcae36dc5a3b9d5007a61991abc" title="This signal is emitted when the process finishes.">finished()</a></code> signal has been emitted, or until <code>msecs</code> milliseconds have passed. Returns <code>true</code> if the process was finished; otherwise returns <code>false</code> (if the operation timed out or if an error occurred, or if this <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> is already finished). If <code>msecs</code> is -1, this function will not time out. </p>
+
+</div>
+</div>
+<a id="a8e2e2342f43be2b3b0fc7c587e03e554" name="a8e2e2342f43be2b3b0fc7c587e03e554"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e2e2342f43be2b3b0fc7c587e03e554">&#9670;&nbsp;</a></span>program() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> program </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the program the process was last started with. </p>
+
+</div>
+</div>
+<a id="aaee8446f9a75de259ef640dbd0c1590c" name="aaee8446f9a75de259ef640dbd0c1590c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaee8446f9a75de259ef640dbd0c1590c">&#9670;&nbsp;</a></span>setProgram() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,7 +754,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="aaa513cfd299232ed46029aae06d4e8bc" name="aaa513cfd299232ed46029aae06d4e8bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa513cfd299232ed46029aae06d4e8bc">&#9670;&nbsp;</a></span>workingDirectory()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa513cfd299232ed46029aae06d4e8bc">&#9670;&nbsp;</a></span>workingDirectory() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -297,7 +773,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a95adb01400e527499676397acf47afe7" name="a95adb01400e527499676397acf47afe7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95adb01400e527499676397acf47afe7">&#9670;&nbsp;</a></span>setWorkingDirectory()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a95adb01400e527499676397acf47afe7">&#9670;&nbsp;</a></span>setWorkingDirectory() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -317,7 +793,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a38cde7760a1e556e67658aba0c50cc31" name="a38cde7760a1e556e67658aba0c50cc31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38cde7760a1e556e67658aba0c50cc31">&#9670;&nbsp;</a></span>nativeArguments()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a38cde7760a1e556e67658aba0c50cc31">&#9670;&nbsp;</a></span>nativeArguments() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -338,7 +814,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="ae69f6345509005732e690c81ef5bdb44" name="ae69f6345509005732e690c81ef5bdb44"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae69f6345509005732e690c81ef5bdb44">&#9670;&nbsp;</a></span>setNativeArguments()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae69f6345509005732e690c81ef5bdb44">&#9670;&nbsp;</a></span>setNativeArguments() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -360,7 +836,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a98fb45c18bc5cd116fc21a39f36e211e" name="a98fb45c18bc5cd116fc21a39f36e211e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98fb45c18bc5cd116fc21a39f36e211e">&#9670;&nbsp;</a></span>setStandardInputFile()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a98fb45c18bc5cd116fc21a39f36e211e">&#9670;&nbsp;</a></span>setStandardInputFile() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -383,7 +859,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a195ae6182597912bccfdb95c03bc6852" name="a195ae6182597912bccfdb95c03bc6852"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a195ae6182597912bccfdb95c03bc6852">&#9670;&nbsp;</a></span>setStandardOutputFile()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a195ae6182597912bccfdb95c03bc6852">&#9670;&nbsp;</a></span>setStandardOutputFile() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -409,7 +885,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Redirects the process' standard output to the file <code>fileName</code>. </p>
-<p >When the redirection is in place, the standard output read channel is closed: reading from it using <code>read()</code> will always fail, as will <code><a class="el" href="class_process.html#a8540a71504c5487908645f8ae35929ea" title="This function returns all data available from the standard output of the process as a ArrayBuffer.">readAllStandardOutput()</a></code>.</p>
+<p >When the redirection is in place, the standard output read channel is closed: reading from it using <code>read()</code> will always fail, as will <code>readAllStandardOutput()</code>.</p>
 <p >To discard all standard output from the process, pass <code>nullDevice()</code> here. This is more efficient than simply never reading the standard output, as no <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> buffers are filled.</p>
 <p >If the file <code>fileName</code> doesn't exist at the moment <code><a class="el" href="class_process.html#a60de64d75454385b23995437f1d72669" title="Starts the program set by setProgram() with arguments set by setArguments()/setNativeArguments().">start()</a></code> is called, it will be created. If it cannot be created, the starting will fail.</p>
 <p >If the file exists and mode is <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda62d2c5d0a909350af1b4f4fd95297555" title="Truncate file (implies O_WRONLY).">FS.O_TRUNC</a></code>, the file will be truncated. Otherwise (if mode is <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdad69fd252a0668f86f5d95be1e1066bc5" title="Append to file (implies O_WRONLY).">FS.O_APPEND</a></code>), the file will be appended to.</p>
@@ -418,7 +894,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a9023a389539e701d118e4779a91c1b7d" name="a9023a389539e701d118e4779a91c1b7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9023a389539e701d118e4779a91c1b7d">&#9670;&nbsp;</a></span>setStandardErrorFile()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9023a389539e701d118e4779a91c1b7d">&#9670;&nbsp;</a></span>setStandardErrorFile() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -444,7 +920,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Redirects the process' standard error to the file <code>fileName</code>. </p>
-<p >When the redirection is in place, the standard error read channel is closed: reading from it using <code>read()</code> will always fail, as will <code><a class="el" href="class_process.html#ab908fca5774c3999989c44dadaaf42e3" title="This function returns all data available from the standard error of the process as a ArrayBuffer.">readAllStandardError()</a></code>.</p>
+<p >When the redirection is in place, the standard error read channel is closed: reading from it using <code>read()</code> will always fail, as will <code>readAllStandardError()</code>.</p>
 <p >To discard all standard error from the process, pass <code>nullDevice()</code> here. This is more efficient than simply never reading the standard error, as no <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> buffers are filled.</p>
 <p >If the file <code>fileName</code> doesn't exist at the moment <code><a class="el" href="class_process.html#a60de64d75454385b23995437f1d72669" title="Starts the program set by setProgram() with arguments set by setArguments()/setNativeArguments().">start()</a></code> is called, it will be created. If it cannot be created, the starting will fail.</p>
 <p >If the file exists and mode is <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda62d2c5d0a909350af1b4f4fd95297555" title="Truncate file (implies O_WRONLY).">FS.O_TRUNC</a></code>, the file will be truncated. Otherwise (if mode is <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdad69fd252a0668f86f5d95be1e1066bc5" title="Append to file (implies O_WRONLY).">FS.O_APPEND</a></code>), the file will be appended to.</p>
@@ -453,7 +929,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a60de64d75454385b23995437f1d72669" name="a60de64d75454385b23995437f1d72669"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60de64d75454385b23995437f1d72669">&#9670;&nbsp;</a></span>start() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a60de64d75454385b23995437f1d72669">&#9670;&nbsp;</a></span>start() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -472,7 +948,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a840bd4b3b617f5fe8381a4ce0c014574" name="a840bd4b3b617f5fe8381a4ce0c014574"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a840bd4b3b617f5fe8381a4ce0c014574">&#9670;&nbsp;</a></span>startDetached() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a840bd4b3b617f5fe8381a4ce0c014574">&#9670;&nbsp;</a></span>startDetached() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -492,7 +968,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a7008bca493d69ea65f12e0940f3a6886" name="a7008bca493d69ea65f12e0940f3a6886"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7008bca493d69ea65f12e0940f3a6886">&#9670;&nbsp;</a></span>close()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7008bca493d69ea65f12e0940f3a6886">&#9670;&nbsp;</a></span>close() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -576,7 +1052,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a5f6999589c6412136296319895d26e24" name="a5f6999589c6412136296319895d26e24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f6999589c6412136296319895d26e24">&#9670;&nbsp;</a></span>state()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f6999589c6412136296319895d26e24">&#9670;&nbsp;</a></span>state() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -596,7 +1072,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a1a3216fca979e4a07e32c46b06a9bf8c" name="a1a3216fca979e4a07e32c46b06a9bf8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a3216fca979e4a07e32c46b06a9bf8c">&#9670;&nbsp;</a></span>exitCode()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a3216fca979e4a07e32c46b06a9bf8c">&#9670;&nbsp;</a></span>exitCode() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -615,7 +1091,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a28098115d4f626eb43a368a4576fcde9" name="a28098115d4f626eb43a368a4576fcde9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28098115d4f626eb43a368a4576fcde9">&#9670;&nbsp;</a></span>exitStatus()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a28098115d4f626eb43a368a4576fcde9">&#9670;&nbsp;</a></span>exitStatus() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -635,7 +1111,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="ae4ba7461b1f4ab54c88500562a51edfa" name="ae4ba7461b1f4ab54c88500562a51edfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4ba7461b1f4ab54c88500562a51edfa">&#9670;&nbsp;</a></span>waitForStarted()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4ba7461b1f4ab54c88500562a51edfa">&#9670;&nbsp;</a></span>waitForStarted() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -655,7 +1131,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="ac969ca64372326503fe5e7cfda39e50f" name="ac969ca64372326503fe5e7cfda39e50f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac969ca64372326503fe5e7cfda39e50f">&#9670;&nbsp;</a></span>waitForReadyRead()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac969ca64372326503fe5e7cfda39e50f">&#9670;&nbsp;</a></span>waitForReadyRead() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -683,7 +1159,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a8b8939abd1cd245d43925286885968fd" name="a8b8939abd1cd245d43925286885968fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b8939abd1cd245d43925286885968fd">&#9670;&nbsp;</a></span>waitForBytesWritten()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b8939abd1cd245d43925286885968fd">&#9670;&nbsp;</a></span>waitForBytesWritten() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -711,7 +1187,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="abcd70eb289ce82878ce917f85fe7522b" name="abcd70eb289ce82878ce917f85fe7522b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abcd70eb289ce82878ce917f85fe7522b">&#9670;&nbsp;</a></span>waitForFinished()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abcd70eb289ce82878ce917f85fe7522b">&#9670;&nbsp;</a></span>waitForFinished() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -764,7 +1240,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a4d2eb2efe93bec133ac9bfdf20c857be" name="a4d2eb2efe93bec133ac9bfdf20c857be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d2eb2efe93bec133ac9bfdf20c857be">&#9670;&nbsp;</a></span>startDetached() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d2eb2efe93bec133ac9bfdf20c857be">&#9670;&nbsp;</a></span>startDetached() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -822,7 +1298,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a84a87590a7d34c37586405d9b0e00fd1" name="a84a87590a7d34c37586405d9b0e00fd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84a87590a7d34c37586405d9b0e00fd1">&#9670;&nbsp;</a></span>start() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a84a87590a7d34c37586405d9b0e00fd1">&#9670;&nbsp;</a></span>start() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -918,10 +1394,13 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a792262951fb2b62ee9cd824cdbe87ac6" name="a792262951fb2b62ee9cd824cdbe87ac6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a792262951fb2b62ee9cd824cdbe87ac6">&#9670;&nbsp;</a></span>errorOccurred()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a792262951fb2b62ee9cd824cdbe87ac6">&#9670;&nbsp;</a></span>errorOccurred</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void errorOccurred </td>
@@ -931,19 +1410,28 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This signal is emitted when an error occurs with the process. </p>
-<p >The specified <code>error</code> describes the type of error that occurred.</p>
+<p >The specified <code>error</code> describes the type of error that occurred. </p><dl class="section see"><dt>See also</dt><dd><a href="https://doc.qt.io/qt-6/qprocess.html#ProcessError-enum">https://doc.qt.io/qt-6/qprocess.html#ProcessError-enum</a></dd></dl>
+<p>The specified <code>error</code> describes the type of error that occurred.</p>
 <p >This event has a corresponding <code>onerrorOccurred</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd><a href="https://doc.qt.io/qt-6/qprocess.html#ProcessError-enum">https://doc.qt.io/qt-6/qprocess.html#ProcessError-enum</a> </dd></dl>
 
 </div>
 </div>
 <a id="ae2ca5dcae36dc5a3b9d5007a61991abc" name="ae2ca5dcae36dc5a3b9d5007a61991abc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2ca5dcae36dc5a3b9d5007a61991abc">&#9670;&nbsp;</a></span>finished()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2ca5dcae36dc5a3b9d5007a61991abc">&#9670;&nbsp;</a></span>finished</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void finished </td>
@@ -963,19 +1451,28 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This signal is emitted when the process finishes. </p>
-<p >exitCode is the exit code of the process (only valid for normal exits), and exitStatus is the exit status. After the process has finished, the buffers in <a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a> are still intact. You can still read any data that the process may have written before it finished.</p>
+<p >exitCode is the exit code of the process (only valid for normal exits), and exitStatus is the exit status. After the process has finished, the buffers in <a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a> are still intact. You can still read any data that the process may have written before it finished. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_process.html#a28098115d4f626eb43a368a4576fcde9" title="Returns the exit status of the last process that finished. On Windows, if the process was terminated ...">exitStatus()</a>, <a href="https://doc.qt.io/qt-6/qprocess.html#ExitStatus-enum">https://doc.qt.io/qt-6/qprocess.html#ExitStatus-enum</a></dd></dl>
+<p>exitCode is the exit code of the process (only valid for normal exits), and exitStatus is the exit status. After the process has finished, the buffers in <a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a> are still intact. You can still read any data that the process may have written before it finished.</p>
 <p >This event has a corresponding <code>onfinished</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_process.html#a28098115d4f626eb43a368a4576fcde9" title="Returns the exit status of the last process that finished. On Windows, if the process was terminated ...">exitStatus()</a>, <a href="https://doc.qt.io/qt-6/qprocess.html#ExitStatus-enum">https://doc.qt.io/qt-6/qprocess.html#ExitStatus-enum</a> </dd></dl>
 
 </div>
 </div>
 <a id="aaf10e6692076c7c94922488f166f1cce" name="aaf10e6692076c7c94922488f166f1cce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf10e6692076c7c94922488f166f1cce">&#9670;&nbsp;</a></span>readyReadStandardError()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf10e6692076c7c94922488f166f1cce">&#9670;&nbsp;</a></span>readyReadStandardError</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void readyReadStandardError </td>
@@ -984,18 +1481,27 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This signal is emitted when the process has made new data available through its standard error channel (stderr). </p>
-<p >This event has a corresponding <code>onreadyReadStandardError</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_process.html#a8540a71504c5487908645f8ae35929ea" title="This function returns all data available from the standard output of the process as a ArrayBuffer.">readAllStandardOutput()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>readAllStandardOutput()</dd></dl>
+<p>This event has a corresponding <code>onreadyReadStandardError</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd>readAllStandardOutput() </dd></dl>
 
 </div>
 </div>
 <a id="affe4f8fe2703c6f71b908d5c233fcb5a" name="affe4f8fe2703c6f71b908d5c233fcb5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affe4f8fe2703c6f71b908d5c233fcb5a">&#9670;&nbsp;</a></span>readyReadStandardOutput()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#affe4f8fe2703c6f71b908d5c233fcb5a">&#9670;&nbsp;</a></span>readyReadStandardOutput</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void readyReadStandardOutput </td>
@@ -1004,18 +1510,27 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This signal is emitted when the process has made new data available through its standard output channel (stdout). </p>
-<p >This event has a corresponding <code>onreadyReadStandardOutput</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_process.html#a8540a71504c5487908645f8ae35929ea" title="This function returns all data available from the standard output of the process as a ArrayBuffer.">readAllStandardOutput()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>readAllStandardOutput()</dd></dl>
+<p>This event has a corresponding <code>onreadyReadStandardOutput</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd>readAllStandardOutput() </dd></dl>
 
 </div>
 </div>
 <a id="ac59cb86fdb92bce8c145ff49df37c940" name="ac59cb86fdb92bce8c145ff49df37c940"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac59cb86fdb92bce8c145ff49df37c940">&#9670;&nbsp;</a></span>started()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac59cb86fdb92bce8c145ff49df37c940">&#9670;&nbsp;</a></span>started</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void started </td>
@@ -1024,6 +1539,11 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This signal is emitted by <a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a> when the process has started, and <code><a class="el" href="class_process.html#a5f6999589c6412136296319895d26e24" title="Returns the current state of the process.">state()</a></code> returns <code>Running</code>. </p>
@@ -1032,10 +1552,13 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="ac55bf4f21b891d6bc5c8ceebe5fda300" name="ac55bf4f21b891d6bc5c8ceebe5fda300"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac55bf4f21b891d6bc5c8ceebe5fda300">&#9670;&nbsp;</a></span>stateChanged()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac55bf4f21b891d6bc5c8ceebe5fda300">&#9670;&nbsp;</a></span>stateChanged</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void stateChanged </td>
@@ -1045,10 +1568,16 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This signal is emitted whenever the state of <a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a> changes. </p>
-<p >The <code>newState</code> argument is the state <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> changed to.</p>
+<p >The <code>newState</code> argument is the state <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> changed to. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_process.html#a5f6999589c6412136296319895d26e24" title="Returns the current state of the process.">state()</a>, <a href="https://doc.qt.io/qt-6/qprocess.html#ProcessState-enum">https://doc.qt.io/qt-6/qprocess.html#ProcessState-enum</a></dd></dl>
+<p>The <code>newState</code> argument is the state <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> changed to.</p>
 <p >This event has a corresponding <code>onstateChanged</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_process.html#a5f6999589c6412136296319895d26e24" title="Returns the current state of the process.">state()</a>, <a href="https://doc.qt.io/qt-6/qprocess.html#ProcessState-enum">https://doc.qt.io/qt-6/qprocess.html#ProcessState-enum</a> </dd></dl>
 
 </div>

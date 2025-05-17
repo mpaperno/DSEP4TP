@@ -9,7 +9,7 @@ var searchData=
   ['clearinstancetimers_6',['clearInstanceTimers',['../class_global.html#a25ab0f723af351e520068ce7ae77468e',1,'Global']]],
   ['clipboardchanged_7',['clipboardChanged',['../class_clipboard.html#a5220255ba5ca03f2fdcf72046aa3bfdd',1,'Clipboard']]],
   ['clone_8',['clone',['../class_response.html#ad998e0b8866dcec70f307c90ce18b37f',1,'Response::clone()'],['../class_date.html#aeeb148b5688e69f7b6fd92fab0445957',1,'Date::clone()']]],
-  ['close_9',['close',['../class_file_handle.html#a5ae591df94fc66ccb85cbb6565368bca',1,'FileHandle::close()'],['../class_process.html#a7008bca493d69ea65f12e0940f3a6886',1,'Process::close()']]],
+  ['close_9',['close',['../class_file_handle.html#a5ae591df94fc66ccb85cbb6565368bca',1,'FileHandle::close()'],['../class_process.html#a7008bca493d69ea65f12e0940f3a6886',1,'Process::close() override'],['../class_process.html#a7008bca493d69ea65f12e0940f3a6886',1,'Process::close() override']]],
   ['comparetodate_10',['compareToDate',['../class_date.html#a91329a7b23fc3d0b8593d2b0c03c2d02',1,'Date']]],
   ['complement_11',['complement',['../class_color.html#a87d6ad92217614866d946757fba2d8f3',1,'Color']]],
   ['connectoridschanged_12',['connectorIdsChanged',['../class_t_p.html#aee52eadb7d6b546e43e1d312e685214a',1,'TP']]],

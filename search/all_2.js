@@ -13,7 +13,7 @@ var searchData=
   ['clipboard_20utility_20example_10',['Clipboard Utility Example',['../example_clipboard.html',1,'plugin_examples']]],
   ['clipboardchanged_11',['clipboardChanged',['../class_clipboard.html#a5220255ba5ca03f2fdcf72046aa3bfdd',1,'Clipboard']]],
   ['clone_12',['clone',['../class_response.html#ad998e0b8866dcec70f307c90ce18b37f',1,'Response::clone()'],['../class_date.html#aeeb148b5688e69f7b6fd92fab0445957',1,'Date::clone()']]],
-  ['close_13',['close',['../class_file_handle.html#a5ae591df94fc66ccb85cbb6565368bca',1,'FileHandle::close()'],['../class_process.html#a7008bca493d69ea65f12e0940f3a6886',1,'Process::close()']]],
+  ['close_13',['close',['../class_file_handle.html#a5ae591df94fc66ccb85cbb6565368bca',1,'FileHandle::close()'],['../class_process.html#a7008bca493d69ea65f12e0940f3a6886',1,'Process::close() override'],['../class_process.html#a7008bca493d69ea65f12e0940f3a6886',1,'Process::close() override']]],
   ['color_14',['Color',['../class_color.html',1,'']]],
   ['color_20mixer_20example_15',['Color Mixer Example',['../example_color_picker.html',1,'plugin_examples']]],
   ['comparetodate_16',['compareToDate',['../class_date.html#a91329a7b23fc3d0b8593d2b0c03c2d02',1,'Date']]],

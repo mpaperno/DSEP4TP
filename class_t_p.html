@@ -162,6 +162,24 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a4cb619ba8002feed0b4ac0de9a4beac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88679c0a062fe4043425cf7a3dd9286e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#a88679c0a062fe4043425cf7a3dd9286e">settingUpdate</a> (<a class="el" href="class_string.html">String</a> name, <a class="el" href="class_string.html">String</a> value)</td></tr>
 <tr class="separator:a88679c0a062fe4043425cf7a3dd9286e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Events</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p >These are events which are raised whenever some kind of data update is received from Touch Portal.</p>
+<p >Events may pass one or more parameters to callback handlers (check documentation for specific events). To connect a handler to an event, use the <code>connect()</code> event prototype method: </p><div class="fragment"><div class="line"><span class="keyword">function</span> handler(parameters) { .... }</div>
+<div class="line"><a class="code hl_class" href="class_t_p.html">TP</a>.eventName.connect(handler);</div>
+<div class="ttc" id="aclass_t_p_html"><div class="ttname"><a href="class_t_p.html">TP</a></div><div class="ttdoc">The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...</div><div class="ttdef"><b>Definition:</b> touchportal.dox:6</div></div>
+</div><!-- fragment --><p >There is also a 2-parameter version which allows a context object to be given, which then becomes the "this" object when the event handler callback is executed. </p><div class="fragment"><div class="line">MyObject.prototype.myHandler = <span class="keyword">function</span>(parameters) { ... }</div>
+<div class="line"><span class="keyword">const</span> myObject = <span class="keyword">new</span> MyObject();</div>
+<div class="line"><a class="code hl_class" href="class_t_p.html">TP</a>.eventName.connect(myObject, myObject.myHandler);</div>
+</div><!-- fragment --><p >To disconnect a handler, use the <code>disconnect()</code> method: </p><div class="fragment"><div class="line"><a class="code hl_class" href="class_t_p.html">TP</a>.eventName.disconnect(handler);</div>
+<div class="line"><span class="comment">// or</span></div>
+<div class="line"><a class="code hl_class" href="class_t_p.html">TP</a>.eventName.disconnect(myObject, myObject.myHandler);</div>
+</div><!-- fragment --> </div></td></tr>
+<tr class="memitem:a8bfa677ae39341fe9fc6afa0499a7ae1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#a8bfa677ae39341fe9fc6afa0499a7ae1">messageEvent</a> (Object message)</td></tr>
+<tr class="separator:a8bfa677ae39341fe9fc6afa0499a7ae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a83390c18003bfe554072ad76484d72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#a3a83390c18003bfe554072ad76484d72">broadcastEvent</a> (<a class="el" href="class_string.html">String</a> event, Object data)</td></tr>
+<tr class="separator:a3a83390c18003bfe554072ad76484d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee52eadb7d6b546e43e1d312e685214a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#aee52eadb7d6b546e43e1d312e685214a">connectorIdsChanged</a> (<a class="el" href="class_string.html">String</a> instanceName, <a class="el" href="class_string.html">String</a> shortId)</td></tr>
+<tr class="separator:aee52eadb7d6b546e43e1d312e685214a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Connector Data</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p >Touch Portal reports connector instances to the plugin via <code>shortConnectorIdNotification</code> messages.</p>
 <p >These messages are parsed and logged into a database. The functions in this group can be used to query the data based on various criteria about logged connectors. The connector short IDs can then be used to send updates back to Touch Portal, which will move the corresponding slider(s) into a particular position. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_t_p.html#aee52eadb7d6b546e43e1d312e685214a" title="This event is emitted whenever a shortConnectorIdNotification message from Touch Portal has been rece...">connectorIdsChanged()</a>, <a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a>, <a class="el" href="plugin_connectors.html#plugin_connectors_updating">Updating Sliders from Scripts</a>, <a class="el" href="example_color_picker.html">Color Mixer Example</a>, <a href="https://www.touch-portal.com/api/index.php?section=connectors" target="_blank">Touch Portal Connectors API</a> </dd></dl>
@@ -177,17 +195,6 @@ Static Public Member Functions</h2></td></tr>
 </div></td></tr>
 <tr class="memitem:a417e3c190b82210f1884750cd1722dad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#a417e3c190b82210f1884750cd1722dad">currentPageName</a> ()</td></tr>
 <tr class="separator:a417e3c190b82210f1884750cd1722dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">Events</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p >These are events which are raised whenever some kind of data update is received from Touch Portal.</p>
-<p >Events may pass one or more parameters to callback handlers (check documentation for specific events).</p>
-<p >See <a class="el" href="group___event_handlers.html">Event Handling</a> for details about connecting handlers to events. </p>
-</div></td></tr>
-<tr class="memitem:a8bfa677ae39341fe9fc6afa0499a7ae1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#a8bfa677ae39341fe9fc6afa0499a7ae1">messageEvent</a> (Object message)</td></tr>
-<tr class="separator:a8bfa677ae39341fe9fc6afa0499a7ae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a83390c18003bfe554072ad76484d72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#a3a83390c18003bfe554072ad76484d72">broadcastEvent</a> (<a class="el" href="class_string.html">String</a> event, Object data)</td></tr>
-<tr class="separator:a3a83390c18003bfe554072ad76484d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee52eadb7d6b546e43e1d312e685214a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html#aee52eadb7d6b546e43e1d312e685214a">connectorIdsChanged</a> (<a class="el" href="class_string.html">String</a> instanceName, <a class="el" href="class_string.html">String</a> shortId)</td></tr>
-<tr class="separator:aee52eadb7d6b546e43e1d312e685214a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a9a7f39df44a32f7073aee63a76d68935" name="a9a7f39df44a32f7073aee63a76d68935"></a>
@@ -420,9 +427,9 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Overload of <code><a class="el" href="class_t_p.html#a59729691abf8b0828425341907f0efaf" title="Create a new Touch Portal dynamic State (if it doesn&#39;t already exist).">stateCreate()</a></code> - Create a new Touch Portal dynamic State (if it doesn't already exist). </p>
 <p >This form omits the <code>parentGroup</code> argument of the first version. The parent group of the new state will be determined automatically. This is effectively equivalent to calling: </p><div class="fragment"><div class="line"><a class="code hl_function" href="class_t_p.html#a9a7f39df44a32f7073aee63a76d68935">stateUpdate</a>(<span class="keywordtype">id</span>, <a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_function" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">currentInstance</a>().<a class="code hl_property" href="class_dynamic_script.html#a08f1d3778231a67c6f67a416bc6bf572">stateParentCategory</a>, description, defaultValue, delayMs)</div>
-<div class="ttc" id="aclass_d_s_e_html"><div class="ttname"><a href="class_d_s_e.html">DSE</a></div><div class="ttdoc">The DSE object contains constants and functions related to the plugin environment....</div><div class="ttdef"><b>Definition:</b> DSE.h:50</div></div>
-<div class="ttc" id="aclass_d_s_e_html_a4dc79d45688d568fdb138dac9b0c6c01"><div class="ttname"><a href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">DSE::currentInstance</a></div><div class="ttdeci">DynamicScript * currentInstance()</div><div class="ttdoc">Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....</div><div class="ttdef"><b>Definition:</b> DSE.h:277</div></div>
-<div class="ttc" id="aclass_dynamic_script_html_a08f1d3778231a67c6f67a416bc6bf572"><div class="ttname"><a href="class_dynamic_script.html#a08f1d3778231a67c6f67a416bc6bf572">DynamicScript::stateParentCategory</a></div><div class="ttdeci">String stateParentCategory</div><div class="ttdoc">This property holds the name of the Touch Portal parent cateogry into which the created State (if any...</div><div class="ttdef"><b>Definition:</b> DynamicScript.h:169</div></div>
+<div class="ttc" id="aclass_d_s_e_html"><div class="ttname"><a href="class_d_s_e.html">DSE</a></div><div class="ttdoc">The DSE object contains constants and functions related to the plugin environment....</div></div>
+<div class="ttc" id="aclass_d_s_e_html_a4dc79d45688d568fdb138dac9b0c6c01"><div class="ttname"><a href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01">DSE::currentInstance</a></div><div class="ttdeci">DynamicScript currentInstance()</div><div class="ttdoc">Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....</div><div class="ttdef"><b>Definition:</b> DSE.h:294</div></div>
+<div class="ttc" id="aclass_dynamic_script_html_a08f1d3778231a67c6f67a416bc6bf572"><div class="ttname"><a href="class_dynamic_script.html#a08f1d3778231a67c6f67a416bc6bf572">DynamicScript::stateParentCategory</a></div><div class="ttdeci">String stateParentCategory</div><div class="ttdoc">This property holds the name of the Touch Portal parent cateogry into which the created State (if any...</div><div class="ttdef"><b>Definition:</b> DynamicScript.h:168</div></div>
 <div class="ttc" id="aclass_t_p_html_a9a7f39df44a32f7073aee63a76d68935"><div class="ttname"><a href="class_t_p.html#a9a7f39df44a32f7073aee63a76d68935">TP::stateUpdate</a></div><div class="ttdeci">void stateUpdate(String value)</div><div class="ttdoc">Send a State update to Touch Portal with given value for the current script instance.</div></div>
 </div><!-- fragment --> <dl class="section since"><dt>Since</dt><dd>v1.2.1 </dd></dl>
 
@@ -802,139 +809,6 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0a3a527fe1dfb180f5cc7636ada537b9" name="a0a3a527fe1dfb180f5cc7636ada537b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a3a527fe1dfb180f5cc7636ada537b9">&#9670;&nbsp;</a></span>getConnectorShortIds()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Array&lt; <a class="el" href="class_string.html">String</a> &gt; getConnectorShortIds </td>
-          <td>(</td>
-          <td class="paramtype">Object&#160;</td>
-          <td class="paramname"><em>criteria</em> = <code>{}</code></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns zero or more connector "short IDs" based on the given <code>criteria</code> from the currently logged connector notification data. </p>
-<p ><code>criteria</code> is an object that can contain any of the properties of <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> (unless explicitly documented otherwise). For most properties wildcard patterns can be used in the values (again, check <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> documentation for details on each property).</p>
-<p >For example, to find a Slider instance short ID for a connector with which loads a "example.mjs" module script and invokes a "run()" function with any parameters: </p><div class="fragment"><div class="line"><span class="keyword">const</span> shortIds = <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="class_t_p.html#a0a3a527fe1dfb180f5cc7636ada537b9">getConnectorShortIds</a>({ file: <span class="stringliteral">&quot;*example.mjs&quot;</span>, expression: <span class="stringliteral">&quot;run(*)&quot;</span> });</div>
-<div class="ttc" id="aclass_t_p_html"><div class="ttname"><a href="class_t_p.html">TP</a></div><div class="ttdoc">The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...</div><div class="ttdef"><b>Definition:</b> touchportal.dox:6</div></div>
-<div class="ttc" id="aclass_t_p_html_a0a3a527fe1dfb180f5cc7636ada537b9"><div class="ttname"><a href="class_t_p.html#a0a3a527fe1dfb180f5cc7636ada537b9">TP::getConnectorShortIds</a></div><div class="ttdeci">Array&lt; String &gt; getConnectorShortIds(Object criteria={})</div><div class="ttdoc">Returns zero or more connector &quot;short IDs&quot; based on the given criteria from the currently logged conn...</div></div>
-</div><!-- fragment --><p >Wildcards are typical "GLOB" style: <code>*</code> for "match anything", <code>?</code> for "any one character", or <code>[xyz]</code> to match any of a set of characters.</p>
-<p >As noted in the <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> documentation, some enumeration type properties can only be matched by their full value, like <code><a class="el" href="class_connector_record.html#a5b16c4a2613c4185fdfe3b1335aef4ef" title="The type of connector action. May be either of:">ConnectorRecord.actionType</a></code>.</p>
-<p >If <code>criteria</code> is empty/null/undefined, then <em>all</em> connector records currently in the database will be returned.</p>
-<p >By default the results are sorted by newest first, that is by the <code>timestamp</code> property in descending (largest first) order. To specify a custom sort order, add the special property <code>orderBy</code> to the search <code>criteria</code>. The value of <code>orderBy</code> can be the name of any of the <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> properties, optionally followed by <code>ASC</code> or <code>DESC</code> to specify the ordering for ascending (smaller first) or descending (largest first), respectively. Default is ascending order ("ASC"). Multiple properties can also be specified by separating them with a comma.</p>
-<p >For example to find a all sliders for the current engine instance by State Name, sorted by oldest first and then by expression value in reverse alphabetical order: </p><div class="fragment"><div class="line"><span class="keyword">const</span> shortIds = <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="class_t_p.html#a0a3a527fe1dfb180f5cc7636ada537b9">getConnectorShortIds</a>({ instanceName: <a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a0c06106c7b24661aa69a420c329b7231">INSTANCE_NAME</a>, orderBy: <span class="stringliteral">&quot;timestamp ASC, expression DESC&quot;</span> });</div>
-<div class="ttc" id="aclass_d_s_e_html_a0c06106c7b24661aa69a420c329b7231"><div class="ttname"><a href="class_d_s_e.html#a0c06106c7b24661aa69a420c329b7231">DSE::INSTANCE_NAME</a></div><div class="ttdeci">String INSTANCE_NAME</div><div class="ttdoc">The the current script's Instance Name, as specified in the corresponding Touch Portal action which i...</div><div class="ttdef"><b>Definition:</b> DSE.h:144</div></div>
-</div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_t_p.html#ae18d5fec12d5b68429d55edd2362f65f" title="Sends a connector (slider) update with given value which should be an integer in the range of 0 - 100...">connectorUpdate()</a>, <a class="el" href="plugin_connectors.html#plugin_connectors_updating">Updating Sliders from Scripts</a>, <a class="el" href="example_color_picker.html">Color Mixer Example</a> </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>v1.1.0 </dd></dl>
-
-</div>
-</div>
-<a id="addb55ad8f327b7021bcf6e1b80834a49" name="addb55ad8f327b7021bcf6e1b80834a49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addb55ad8f327b7021bcf6e1b80834a49">&#9670;&nbsp;</a></span>getConnectorRecords()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Array&lt; <a class="el" href="class_connector_record.html">ConnectorRecord</a> &gt; getConnectorRecords </td>
-          <td>(</td>
-          <td class="paramtype">Object&#160;</td>
-          <td class="paramname"><em>criteria</em> = <code>{}</code></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns zero or more <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> objects based on the given <code>criteria</code> from the currently logged connector notification data. </p>
-<p ><code>criteria</code> is exactly the same as described for <code><a class="el" href="class_t_p.html#a0a3a527fe1dfb180f5cc7636ada537b9" title="Returns zero or more connector &quot;short IDs&quot; based on the given criteria from the currently logged conn...">getConnectorShortIds()</a></code> function, above.</p>
-<p >The only difference here is that the results include the whole <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> object, instead of just the <code>shortId</code> property. The objects can then be further examined as needed. Keep in mind these are all read-only results. </p><dl class="section since"><dt>Since</dt><dd>v1.1.0 </dd></dl>
-
-</div>
-</div>
-<a id="a98ddf234e39f017fd28460de05fd51dd" name="a98ddf234e39f017fd28460de05fd51dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98ddf234e39f017fd28460de05fd51dd">&#9670;&nbsp;</a></span>getConnectorByShortId()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_connector_record.html">ConnectorRecord</a> getConnectorByShortId </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
-          <td class="paramname"><em>shortId</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns a <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> based on the given <code>shortId</code> from the currently logged connector notification data, if any. </p>
-<p >If no matching record is found, the returned <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> will be empty/null, which can be checked with <code><a class="el" href="class_connector_record.html#af2f61ee5e6b7b211ecfd6f7bf0c10f1b" title="true if this record holds no value (eg. the result of a failed database lookup); false if this record...">ConnectorRecord.isNull</a></code> property.</p>
-<p >Short IDs are unique, so each one identifies a unique slider instance. This function could be particularly useful with the <code><a class="el" href="class_t_p.html#aee52eadb7d6b546e43e1d312e685214a" title="This event is emitted whenever a shortConnectorIdNotification message from Touch Portal has been rece...">TP.connectorIdsChanged()</a></code> event to get more information about the new slider short ID which is passed by that event to handlers as the 2nd parameter.</p>
-<p >You <em>can</em> use a wildcard pattern in the <code>shortId</code> parameter, as described in previous documentation about search criteria. However this query will always return only one record. If the wildcard pattern matches multiple records, only the newest one (by <code>timestamp</code>) will be returned.</p>
-<dl class="section note"><dt>Note</dt><dd>There is currently no method in Touch Portal's API for determining that a slider/connector with a given short ID still actually exists on a user's page. </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>v1.1.0 </dd></dl>
-
-</div>
-</div>
-<a id="a417e3c190b82210f1884750cd1722dad" name="a417e3c190b82210f1884750cd1722dad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a417e3c190b82210f1884750cd1722dad">&#9670;&nbsp;</a></span>currentPageName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> currentPageName </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the name of the page the user last opened on their Touch Portal device (<em>not</em> in the desktop page editor). </p>
-<p >This is always the result of the last <code><a class="el" href="class_t_p.html#a3a83390c18003bfe554072ad76484d72" title="This event is emitted when Touch Portal sends a broadcast message to all plugins.">broadcastEvent()</a></code>'s <code>pageName</code> property. See <code><a class="el" href="class_t_p.html#a3a83390c18003bfe554072ad76484d72" title="This event is emitted when Touch Portal sends a broadcast message to all plugins.">broadcastEvent()</a></code> documentation for details.</p>
-<dl class="section note"><dt>Note</dt><dd>Touch Portal does <em>not</em> send this event to a plugin when it starts up, only once an actual page change happens the first time. As a result, the result of this function call may be empty until the user has switched pages on their device.</dd></dl>
-<dl class="section since"><dt>Since</dt><dd>v1.1.0 </dd></dl>
-
-</div>
-</div>
 <a id="a8bfa677ae39341fe9fc6afa0499a7ae1" name="a8bfa677ae39341fe9fc6afa0499a7ae1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8bfa677ae39341fe9fc6afa0499a7ae1">&#9670;&nbsp;</a></span>messageEvent()</h2>
 
@@ -1044,10 +918,142 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This event is emitted whenever a <code>shortConnectorIdNotification</code> message from Touch Portal has been received, parsed, and added to the tracking database. </p>
-<p >The first parameter passed to event handlers is the "Instance Name" value used in the connector which has been added/modified. This corresponds to the <code><a class="el" href="class_dynamic_script.html#a9a2326f35466e54c36c070829245c557" title="The Instance Name of this script instance as specified in the corresponding Action which created it....">DynamicScript.name</a></code> property of the instance being used as the connector's target.</p>
+<p >The first parameter passed to event handlers is the State Name used in the connector which has been added/modified. Note that for all "Anonymous (One-Time)" type connectors the <code>instanceName</code> will always be "ANONYMOUS".</p>
 <p >The second parameter is the <code>shortId</code> of this slider instance as created by Touch Portal. This short ID can be used later to send updates back to this slider.</p>
-<p >See the "Connector Data" section in the list of members at the top of this document for more details.</p>
+<p >You can connect to this event as described in the overall event documentation above, with either <code>onconnectorIdsChanged()</code> or <code>connectorIdsChanged.connect()</code> syntax.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="example_color_picker.html">Color Mixer Example</a> </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v1.1.0 </dd></dl>
+
+</div>
+</div>
+<a id="a0a3a527fe1dfb180f5cc7636ada537b9" name="a0a3a527fe1dfb180f5cc7636ada537b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a3a527fe1dfb180f5cc7636ada537b9">&#9670;&nbsp;</a></span>getConnectorShortIds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; <a class="el" href="class_string.html">String</a> &gt; getConnectorShortIds </td>
+          <td>(</td>
+          <td class="paramtype">Object&#160;</td>
+          <td class="paramname"><em>criteria</em> = <code>{}</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns zero or more connector "short IDs" based on the given <code>criteria</code> from the currently logged connector notification data. </p>
+<p ><code>criteria</code> is an object that can contain any of the properties of <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> (unless explicitly documented otherwise). For most properties wildcard patterns can be used in the values (again, check <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> documentation for details on each property).</p>
+<p >For example, to find a Slider instance short ID for a connector with which loads a "example.mjs" module script and invokes a "run()" function with any parameters: </p><div class="fragment"><div class="line"><span class="keyword">const</span> shortIds = <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="class_t_p.html#a0a3a527fe1dfb180f5cc7636ada537b9">getConnectorShortIds</a>({ file: <span class="stringliteral">&quot;*example.mjs&quot;</span>, expression: <span class="stringliteral">&quot;run(*)&quot;</span> });</div>
+<div class="ttc" id="aclass_t_p_html_a0a3a527fe1dfb180f5cc7636ada537b9"><div class="ttname"><a href="class_t_p.html#a0a3a527fe1dfb180f5cc7636ada537b9">TP::getConnectorShortIds</a></div><div class="ttdeci">Array&lt; String &gt; getConnectorShortIds(Object criteria={})</div><div class="ttdoc">Returns zero or more connector &quot;short IDs&quot; based on the given criteria from the currently logged conn...</div></div>
+</div><!-- fragment --><p >Wildcards are typical "GLOB" style: <code>*</code> for "match anything", <code>?</code> for "any one character", or <code>[xyz]</code> to match any of a set of characters.</p>
+<p >As noted in the <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> documentation, some enumeration type properties can only be matched by their full value, like <code><a class="el" href="class_connector_record.html#a5b16c4a2613c4185fdfe3b1335aef4ef" title="The type of connector action. May be either of:">ConnectorRecord.actionType</a></code>.</p>
+<p >If <code>criteria</code> is empty/null/undefined, then <em>all</em> connector records currently in the database will be returned.</p>
+<p >By default the results are sorted by newest first, that is by the <code>timestamp</code> property in descending (largest first) order. To specify a custom sort order, add the special property <code>orderBy</code> to the search <code>criteria</code>. The value of <code>orderBy</code> can be the name of any of the <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> properties, optionally followed by <code>ASC</code> or <code>DESC</code> to specify the ordering for ascending (smaller first) or descending (largest first), respectively. Default is ascending order ("ASC"). Multiple properties can also be specified by separating them with a comma.</p>
+<p >For example to find a all sliders for the current engine instance by State Name, sorted by oldest first and then by expression value in reverse alphabetical order: </p><div class="fragment"><div class="line"><span class="keyword">const</span> shortIds = <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="class_t_p.html#a0a3a527fe1dfb180f5cc7636ada537b9">getConnectorShortIds</a>({ instanceName: <a class="code hl_class" href="class_d_s_e.html">DSE</a>.<a class="code hl_property" href="class_d_s_e.html#a0c06106c7b24661aa69a420c329b7231">INSTANCE_NAME</a>, orderBy: <span class="stringliteral">&quot;timestamp ASC, expression DESC&quot;</span> });</div>
+<div class="ttc" id="aclass_d_s_e_html_a0c06106c7b24661aa69a420c329b7231"><div class="ttname"><a href="class_d_s_e.html#a0c06106c7b24661aa69a420c329b7231">DSE::INSTANCE_NAME</a></div><div class="ttdeci">String INSTANCE_NAME</div><div class="ttdoc">The the current script's Instance Name, as specified in the corresponding Touch Portal action which i...</div><div class="ttdef"><b>Definition:</b> DSE.h:161</div></div>
+</div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_t_p.html#ae18d5fec12d5b68429d55edd2362f65f" title="Sends a connector (slider) update with given value which should be an integer in the range of 0 - 100...">connectorUpdate()</a>, <a class="el" href="plugin_connectors.html#plugin_connectors_updating">Updating Sliders from Scripts</a>, <a class="el" href="example_color_picker.html">Color Mixer Example</a> </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v1.1.0 </dd></dl>
+
+</div>
+</div>
+<a id="addb55ad8f327b7021bcf6e1b80834a49" name="addb55ad8f327b7021bcf6e1b80834a49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addb55ad8f327b7021bcf6e1b80834a49">&#9670;&nbsp;</a></span>getConnectorRecords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; <a class="el" href="class_connector_record.html">ConnectorRecord</a> &gt; getConnectorRecords </td>
+          <td>(</td>
+          <td class="paramtype">Object&#160;</td>
+          <td class="paramname"><em>criteria</em> = <code>{}</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns zero or more <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> objects based on the given <code>criteria</code> from the currently logged connector notification data. </p>
+<p ><code>criteria</code> is exactly the same as described for <code><a class="el" href="class_t_p.html#a0a3a527fe1dfb180f5cc7636ada537b9" title="Returns zero or more connector &quot;short IDs&quot; based on the given criteria from the currently logged conn...">getConnectorShortIds()</a></code> function, above.</p>
+<p >The only difference here is that the results include the whole <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> object, instead of just the <code>shortId</code> property. The objects can then be further examined as needed. Keep in mind these are all read-only results. </p><dl class="section since"><dt>Since</dt><dd>v1.1.0 </dd></dl>
+
+</div>
+</div>
+<a id="a98ddf234e39f017fd28460de05fd51dd" name="a98ddf234e39f017fd28460de05fd51dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98ddf234e39f017fd28460de05fd51dd">&#9670;&nbsp;</a></span>getConnectorByShortId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_connector_record.html">ConnectorRecord</a> getConnectorByShortId </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramname"><em>shortId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> based on the given <code>shortId</code> from the currently logged connector notification data, if any. </p>
+<p >If no matching record is found, the returned <code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> will be empty/null, which can be checked with <code><a class="el" href="class_connector_record.html#af2f61ee5e6b7b211ecfd6f7bf0c10f1b" title="true if this record holds no value (eg. the result of a failed database lookup); false if this record...">ConnectorRecord.isNull</a></code> property.</p>
+<p >Short IDs are unique, so each one identifies a unique slider instance. This function could be particularly useful with the <code><a class="el" href="class_t_p.html#aee52eadb7d6b546e43e1d312e685214a" title="This event is emitted whenever a shortConnectorIdNotification message from Touch Portal has been rece...">TP.connectorIdsChanged()</a></code> event to get more information about the new slider short ID which is passed by that event to handlers as the 2nd parameter.</p>
+<p >You <em>can</em> use a wildcard pattern in the <code>shortId</code> parameter, as described in previous documentation about search criteria. However this query will always return only one record. If the wildcard pattern matches multiple records, only the newest one (by <code>timestamp</code>) will be returned.</p>
+<dl class="section note"><dt>Note</dt><dd>There is currently no method in Touch Portal's API for determining that a slider/connector with a given short ID still actually exists on a user's page. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v1.1.0 </dd></dl>
+
+</div>
+</div>
+<a id="a417e3c190b82210f1884750cd1722dad" name="a417e3c190b82210f1884750cd1722dad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a417e3c190b82210f1884750cd1722dad">&#9670;&nbsp;</a></span>currentPageName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_string.html">String</a> currentPageName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the name of the page the user last opened on their Touch Portal device (<em>not</em> in the desktop page editor). </p>
+<p >This is always the result of the last <code><a class="el" href="class_t_p.html#a3a83390c18003bfe554072ad76484d72" title="This event is emitted when Touch Portal sends a broadcast message to all plugins.">broadcastEvent()</a></code>'s <code>pageName</code> property. See <code><a class="el" href="class_t_p.html#a3a83390c18003bfe554072ad76484d72" title="This event is emitted when Touch Portal sends a broadcast message to all plugins.">broadcastEvent()</a></code> documentation for details.</p>
+<dl class="section note"><dt>Note</dt><dd>Touch Portal does <em>not</em> send this event to a plugin when it starts up, only once an actual page change happens the first time. As a result, the result of this function call may be empty until the user has switched pages on their device.</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v1.1.0 </dd></dl>
 
 </div>

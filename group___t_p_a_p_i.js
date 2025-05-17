@@ -14,13 +14,13 @@ var group___t_p_a_p_i =
       [ "connectorUpdateByLongId", "class_t_p.html#af86e2a30789e2d9ec7390b6da4c5105e", null ],
       [ "showNotification", "class_t_p.html#a4cb619ba8002feed0b4ac0de9a4beac4", null ],
       [ "settingUpdate", "class_t_p.html#a88679c0a062fe4043425cf7a3dd9286e", null ],
+      [ "messageEvent", "class_t_p.html#a8bfa677ae39341fe9fc6afa0499a7ae1", null ],
+      [ "broadcastEvent", "class_t_p.html#a3a83390c18003bfe554072ad76484d72", null ],
+      [ "connectorIdsChanged", "class_t_p.html#aee52eadb7d6b546e43e1d312e685214a", null ],
       [ "getConnectorShortIds", "class_t_p.html#a0a3a527fe1dfb180f5cc7636ada537b9", null ],
       [ "getConnectorRecords", "class_t_p.html#addb55ad8f327b7021bcf6e1b80834a49", null ],
       [ "getConnectorByShortId", "class_t_p.html#a98ddf234e39f017fd28460de05fd51dd", null ],
-      [ "currentPageName", "class_t_p.html#a417e3c190b82210f1884750cd1722dad", null ],
-      [ "messageEvent", "class_t_p.html#a8bfa677ae39341fe9fc6afa0499a7ae1", null ],
-      [ "broadcastEvent", "class_t_p.html#a3a83390c18003bfe554072ad76484d72", null ],
-      [ "connectorIdsChanged", "class_t_p.html#aee52eadb7d6b546e43e1d312e685214a", null ]
+      [ "currentPageName", "class_t_p.html#a417e3c190b82210f1884750cd1722dad", null ]
     ] ],
     [ "ConnectorRecord", "class_connector_record.html", [
       [ "shortId", "class_connector_record.html#abd775767e458ce3e3ab564e08216f074", null ],
