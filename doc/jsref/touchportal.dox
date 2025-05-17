@@ -189,26 +189,25 @@ public:
   \name Events
   These are events which are raised whenever some kind of data update is received from Touch Portal.
   Events may pass one or more parameters to callback handlers (check documentation for specific events).
-  There are two syntactical ways to connect a callback function to an event.
-
-  First is by using the usual 'on*' style syntax:
+  To connect a handler to an event, use the `connect()` event prototype method:
   ```js
-  TP.oneventName( (parameters) => { .... } );
-  ```
-  The other way is with the `connect()` event prototype method:
-  ```js
-  TP.eventName.connect( (parameters) => { .... } );
+  function handler(parameters) { .... }
+  TP.eventName.connect(handler);
   ```
 
-  Both forms have a 2-parameter version which allows a context object to be given, which then becomes the "this" object when the event handler callback is executed.
+  There is also a 2-parameter version which allows a context object to be given, which then becomes the "this" object when the event handler callback is executed.
   ```js
   MyObject.prototype.myHandler = function(parameters) { ... }
   const myObject = new MyObject();
-  TP.oneventName(myObject.myHandler, myObject);
-  // OR  (note the switched parameter order)
   TP.eventName.connect(myObject, myObject.myHandler);
   ```
 
+  To disconnect a handler, use the `disconnect()` method:
+  ```js
+  TP.eventName.disconnect(handler);
+  // or
+  TP.eventName.disconnect(myObject, myObject.myHandler);
+  ```
 */
 //! \{
 
@@ -230,16 +229,14 @@ public:
   \static
   This event is emitted when Touch Portal sends a `broadcast` message to all plugins.
   The `event` parameter is the name of the event type.
-  - As of TP v3.1 (API v6) this can only be "pageChange" to signify that a user has navigated to a new page on their Touch Portal device (_not_ in the desktop page editor).
+  - As of %TP v4.4 (API v10) this can only be "pageChange" to signify that a user has navigated to a new page on their Touch Portal device (_not_ in the desktop page editor).
 
   The `data` contains any further information about the event.
-  - For the `pageChange` event there is one member named `pageName` which holds the name of the newly selected page. The name may contain a "path"
-    if the page is in side a subfolder.  For example "(main)" or "games/MSFS".
+  For the `pageChange` event there is a member named `pageName` which holds the name of the newly selected page. The name may contain a "path"
+  if the page is inside a subfolder.  For example "(main)" or "games/MSFS".
 
-  You can connect to this event as described in the overall event documentation above, with either `onbroadcastEvent()` or `broadcastEvent.connect()` syntax.
-
-  \note Touch Portal v3.2 is going to have a multi-device upgrade available, so multiple devices could be connected to one
-  desktop application and have different pages open.  It's not clear yet how this will affect the "pageChange" broadcast event.
+  %TP v4 added `previousPageName`, `deviceIp`, `deviceName`, & `deviceId` properties.
+  See https://www.touch-portal.com/api/index.php?section=communication_listen_broadcast for details.
 
   \since v1.1.0
 */
