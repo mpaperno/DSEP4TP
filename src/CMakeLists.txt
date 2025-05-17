@@ -175,12 +175,13 @@ install(TARGETS ${PROJECT_NAME}
 
 if (isWin)
   set(executable_path "${CMAKE_INSTALL_PREFIX}/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>")
-  set(deploy_command "${WINDEPLOYQT_EXECUTABLE}" --no-compiler-runtime --no-translations --no-qmltooling "${executable_path}")
+  set(deploy_command "${WINDEPLOYQT_EXECUTABLE}" --no-compiler-runtime --no-translations --no-quick "${executable_path}")  # --no-qmltooling
   install(CODE "execute_process(COMMAND ${deploy_command})" COMPONENT Runtime)
   cmake_path(SET ssl_path "$ENV{QTHOME}/Tools/OpenSSLv3/Win_x64/bin")
   cmake_path(SET rt_path "c:/Windows/system32")
   install(
     FILES
+      # "${CMAKE_PREFIX_PATH}/bin/Qt${QT_VERSION_MAJOR}Qml.dll"
       "${ssl_path}/libcrypto-3-x64.dll" "${ssl_path}/libssl-3-x64.dll"
       "${rt_path}/msvcp140.dll" "${rt_path}/msvcp140_1.dll"
       "${rt_path}/vcruntime140.dll" "${rt_path}/vcruntime140_1.dll"

@@ -30,8 +30,10 @@ export default function makeDistro(platform = null, dirs = {}, buildInfo = null)
 	console.info("Copying files to", build);
 	copyFiles(root, build, [ 'README.md', 'CHANGELOG.md', 'LICENSE.txt' ]);
 	copyFiles(script_dir, build, [ 'icon.png' ]);
-	if (process.platform != 'win32')
+	if (process.platform != 'win32') {
 		fs.copyFileSync(path.resolve(script_dir, process.platform + '-start.sh'), path.join(build, 'start.sh'));
+		execSync(`chmod +x ${path.join(build, 'start.sh')}`);
+	}
 
 	console.info("Creating archive", packageName);
 	result =  execSync(`${zip} -FS -r ${packageName} . -x *.log`, { cwd: path.join(build, "..") });
