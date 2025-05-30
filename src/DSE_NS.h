@@ -98,9 +98,9 @@ enum AdjustmentType : quint8 {
 };
 Q_ENUM_NS(AdjustmentType)
 
-static inline const QMetaEnum inputTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DseNS::ScriptInputType>(); return m; }
-static inline const QMetaEnum instanceTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DseNS::EngineInstanceType>(); return m; }
-static inline const QMetaEnum defaultTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DseNS::SavedDefaultType>(); return m; }
+inline const QMetaEnum inputTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DseNS::ScriptInputType>(); return m; }
+inline const QMetaEnum instanceTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DseNS::EngineInstanceType>(); return m; }
+inline const QMetaEnum defaultTypeMeta() { static const QMetaEnum m = QMetaEnum::fromType<DseNS::SavedDefaultType>(); return m; }
 
 }  // namespace
 
