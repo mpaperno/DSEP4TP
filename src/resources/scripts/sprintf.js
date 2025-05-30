@@ -12,6 +12,7 @@ var sprintf = function() {
   //    input by: Paulo Freitas
   //    input by: Brett Zamir (https://brett-zamir.me)
   // improved by: Rafał Kukawski (https://kukawski.pl)
+  // improved by: Max Paperno (https://github.com/mpaperno)
   //   example 1: sprintf("%01.2f", 123.1)
   //   returns 1: '123.10'
   //   example 2: sprintf("[%10s]", 'monkey')
@@ -30,6 +31,12 @@ var sprintf = function() {
   //   returns 8: '3.140000'
   //   example 9: sprintf('%% %2$d', 1, 2)
   //   returns 9: '% 2'
+  //   example 10: sprintf('%O', { some: "object" })
+  //   returns 10: recursive dump of object properties, not including non-enumerable properties, up to 6 levels deep
+  //   example 11: sprintf('%2O', { some: "object" })
+  //   returns 11: recursive dump of object properties, not including non-enumerable properties, up to 2 levels deep
+  //   example 12: sprintf('%2o', { some: "object" })
+  //   returns 12: recursive dump of object properties, including non-enumerable properties, up to 2 levels deep
 
   const regex = /%%|%(?:(\d+)\$)?((?:[-+#0 ]|'[\s\S])*)(\d+)?(?:\.(\d*))?([\s\S])/g
   const args = arguments
@@ -149,6 +156,8 @@ var sprintf = function() {
       case 'b':
         return _formatBaseX(value, 2, leftJustify, minWidth, precision, padChar)
       case 'o':
+        if (typeof value == "object")
+          return globalThis.inspect(value, { depth: minWidth, showHidden: true });
         return _formatBaseX(value, 8, leftJustify, minWidth, precision, padChar)
       case 'x':
         return _formatBaseX(value, 16, leftJustify, minWidth, precision, padChar)
@@ -182,6 +191,8 @@ var sprintf = function() {
         textTransform = ['toString', 'toUpperCase']['eEfFgG'.indexOf(specifier) % 2]
         value = prefix + Math.abs(number)[method](precision)
         return justify(value, prefix, leftJustify, minWidth, padChar)[textTransform]()
+      case 'O':
+        return globalThis.inspect(value, { depth: minWidth, showHidden: false });
       default:
         // unknown specifier, consume that char and return empty
         return ''

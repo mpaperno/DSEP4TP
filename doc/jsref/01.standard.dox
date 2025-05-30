@@ -239,20 +239,22 @@ __except__:
 
 ### console (Logging) {#stdlib-console}
 #### Function Properties
-- console.log()  - same as console.debug()
-- console.debug()
-- console.info()
-- console.warn()
-- console.error()
-- console.assert()
-- console.time()
-- console.timeEnd()
-- console.trace()
-- console.count()
-- console.profile()
-- console.profileEnd()
-- console.exception() - like error() but prints stack trace.
-- print() - same as console.log()
+- `console.log()`  - same as console.debug()
+- `console.debug()`
+- `console.info()`
+- `console.warn()`
+- `console.error()`
+- `console.assert()`
+- `console.time()`
+- `console.timeEnd()`
+- `console.trace()`
+- `console.count()`
+- `console.profile()`
+- `console.profileEnd()`
+- `console.exception()` - like error() but prints stack trace.
+- `print()` - same as console.log()
+- `printf()` - writes formatted strings
+- `console.dir(obj [,options])` - logs an object's properties, with recursion. Uses `inspect()` to get the output to print. Equivalent to `console.debug(inspect(obj, options))`. See `inspect()` for `options` details.
 
 
 ### XMLHttpRequest  {#stdlib-xmlhttpreq}
@@ -285,10 +287,10 @@ The XMLHttpRequest API implements the same <a href="http://www.w3.org/TR/XMLHttp
     possibly including duplicates as per HTTP spec (they are not merged as they would be with `getAllResponseHeaders()`).<br />
     This will return an empty array if no headers have been received (yet, or in case of network error).
 
-\sa FetchAPI
+\sa NetAPI
 
-Additionally, the <code>responseXML</code> XML DOM tree currently supported by DSE is a reduced subset of the <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Level 3 Core</a> API supported in a web browser.
-The following objects and properties are supported by the DSE implementation:
+Additionally, the <code>responseXML</code> XML DOM tree currently supported by _DSEP4TP_ is a reduced subset of the <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Level 3 Core</a> API supported in a web browser.
+The following objects and properties are supported:
 
 <table>
 <tr><th><b>Node</b></th><th><b>Document</b></th><th><b>Element</b></th><th><b>Attr</b></th><th><b>CharacterData</b></th><th><b>Text</b></th></tr>

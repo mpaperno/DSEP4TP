@@ -67,11 +67,11 @@
   Throws a `TypeError` if `algorithm` isn't one of the types listed above.
 
 
-	\fn void include(String scriptFile)
-	\memberof Global
+  \fn void include(String scriptFile)
+  \memberof Global
   \static
-	Read and evaluate `scriptFile` as JavaScript in the current scripting engine context (global object) at the location of this function call.
-	Any errors produced by the script are raised and reported into the current context.
+  Read and evaluate `scriptFile` as JavaScript in the current scripting engine context (global object) at the location of this function call.
+  Any errors produced by the script are raised and reported into the current context.
 
   To get just the contents of a file, w/out evaluating it, use `File.read()`.
 
@@ -83,6 +83,20 @@
 
   \throws Error - file loading fails for any reason (file not found/etc).
   \sa require()
+
+
+  \fn String inspect(any obj, object options = {})
+  \memberof Global
+  \static
+  Returns a string representation of object `obj` that is intended for debugging.
+
+  \param obj The object to inspect.
+  \param options Settings object to alter the result:
+    - `depth` {number} Maximum recursion depth. __Default__: 6;
+    - `showHidden` {boolean} If `false` then only the object's enumerable properties will be shown. If `true` then non-enumerable and symbol properties will be shown also. __Default__: `true`.
+    - `showTypes` {boolean} If `true`, the value type of each property will be included in the output. __Default__: `false`.
+
+  \since v1.3
 
 
   \fn void require(String id)
@@ -165,14 +179,14 @@
 	Equivalent to the `String.format()` extension method. Provides .NET style string formatting.
 
 
-  \fn String sprintf(String format, ...args)
+  \fn String sprintf(String format, any ...args)
   \memberof Global
   \static
 
-  For formatting strings, works like the classic C `printf()` function.
-  Formats `format` string using the provided arguments in `args`, if any.
-  \param format The formatting string used to format the additional arguments.
+  For formatting strings, works like the classic C [printf()](https://en.cppreference.com/w/cpp/io/c/printf) function.
+  \param format The string template to use as input, which may contain format specifiers to be replaced by values of the following arguments.
   \param args Zero or more arguments for the format string.
+  \returns The `format` string with any format specifiers replaced using the provided arguments in `args`.
 
   Examples (from [cppreference.com](https://en.cppreference.com/w/cpp/io/c/fprintf)):
   ```js
@@ -182,7 +196,7 @@
   sprintf("[%*s]\n",       10, s);
   sprintf("[%-10.*s]\n",    4, s);
   sprintf("[%-*.*s]\n", 10, 4, s);
-  // output:
+  // returns:
   //  [     Hello]
   //  [Hello     ]
   //  [     Hello]
@@ -191,17 +205,35 @@
 
   sprintf("Decimals: %i %d %.6i %i %.0i %+i %i\n",
                       1, 2,   3, 0,   0,  4,-4);
-  // output:
+  // returns:
   //   Decimals: 1 2 000003 0  +4 -4
 
   sprintf("Rounding: %f %.0f %.32f\n", 1.5, 1.5, 1.3);
   sprintf("Padding: %05.2f %.2f %5.2f\n", 1.5, 1.5, 1.5);
   sprintf("Scientific: %E %e\n", 1.5, 1.5);
-  // output:
+  // returns:
   //   Rounding: 1.500000 2 1.30000000000000004440892098500626
   //   Padding: 01.50 1.50  1.50
   //   Scientific: 1.500000E+00 1.500000e+00
   ```
+
+  __Since v1.3:__
+
+  In addition to standard [printf()](https://en.cppreference.com/w/cpp/io/c/printf) formatting specifiers, `%%O` and `%%o` will output a string representation of an object's properties, similar to the NodeJS `util.format()`.
+  \li `%%o`: This will show the full object including non-enumerable properties and proxies.
+  \li `%%O`: This will show the full object's enumerable properties and proxies.
+  \li Adding a number before the specifier controls recursion depth. The default depth is zero (no recursion). For example:
+    ```js
+    const obj = { a: { b: { c: "3rd level" } } };
+    sprintf('%o', obj);   // returns: { a: [Object] }
+    sprintf('%1o', obj);  // returns: { a: { b: [Object] } }
+    sprintf('%2o', obj);  // returns: { a: { b: { c: "3rd level" } } }
+    ```
+
+  If a non-object value type is given as the argument for a `%%o` or `%%O` specifier, it will be output as it's string representation.
+  Actual String type values will be quoted. For numeric values, `%%o` falls back to the standard output in an octal (base 8) format (`%%O` has no special meaning).
+
+  ---
 
   There are many format references online. Here's one from
   [Alvin Alexander](https://alvinalexander.com/programming/printf-format-cheat-sheet/) (just ignore the references to Java and Perl).
@@ -212,6 +244,15 @@
   The original reference is available [on their site](https://locutus.io/php/strings/sprintf/).
 
   \sa `String.format()` for .NET style formatted strings.
+
+
+  \fn String printf(String format, any ...args)
+  \memberof Global
+  \static
+
+  `printf()` is simply a shortcut for `console.log(sprintf(format, ...args))`. It writes the formatted string to the console.log file.
+
+  \since v1.3
 
 */
 

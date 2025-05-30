@@ -2,6 +2,7 @@
     <qresource prefix="/scripts">
         <file alias="collections.js">scripts/collections.js</file>
         <file alias="color.js">scripts/color.js</file>
+        <file alias="console.js">scripts/console.js</file>
         <file alias="date.js">scripts/date.js</file>
         <file alias="env.js">scripts/env.js</file>
         <file alias="fetch.js">scripts/fetch.js</file>
