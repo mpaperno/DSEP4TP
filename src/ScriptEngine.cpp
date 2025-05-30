@@ -25,7 +25,7 @@ to any 3rd-party components used within.
 #include "ScriptingLibrary/Dir.h"
 #include "ScriptingLibrary/File.h"
 #include "ScriptingLibrary/FileInfo.h"
-#include "ScriptingLibrary/Process.h"
+#include "ScriptingLibrary/RunProcess.h"
 #include "ScriptingLibrary/TPAPI.h"
 #include "ScriptingLibrary/Util.h"
 
@@ -149,6 +149,7 @@ void ScriptEngine::initScriptEngine()
 	se->globalObject().setProperty("Process", se->newQMetaObject<ScriptLib::Process>());
 	se->globalObject().setProperty("AbortController", se->newQMetaObject<ScriptLib::AbortController>());
 	se->globalObject().setProperty("AbortSignal", se->newQMetaObject<ScriptLib::AbortSignal>());
+	se->globalObject().setProperty("DynamicScript", se->newQMetaObject<DynamicScript>());
 	se->globalObject().setProperty("globalThis", se->globalObject());
 #if !SCRIPT_ENGINE_USE_QML
 	se->globalObject().setProperty("Locale", se->newQMetaObject(&QQmlLocale::staticMetaObject));  // HACK - makes Locale namespace enums available
@@ -171,6 +172,10 @@ void ScriptEngine::initScriptEngine()
 	QJSValue modules = registeredModules();
 	modules.setProperty("clipboard", se->newQObject(ScriptLib::Clipboard::instance()));
 	se->registerModule("clipboard", modules.property("clipboard"));
+
+	const QJSValue res = se->evaluate("_global_init()");
+	if (res.isError())
+		qCCritical(lcPlugin) << "Global init error:" << JSError(res).toString();
 
 	Q_EMIT engineInitComplete();
 	qCDebug(lcPlugin) << "Engine init completed for" << m_name;

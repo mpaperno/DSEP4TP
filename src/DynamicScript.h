@@ -34,6 +34,7 @@ to any 3rd-party components used within.
 
 #include "DSE.h"
 #include "JSError.h"
+#include "event_utils.h"
 
 #ifdef DOXYGEN
 #define QByteArray String
@@ -220,6 +221,14 @@ class DynamicScript : public QObject
 		Q_PROPERTY(bool isPressed READ isPressed WRITE setPressedState NOTIFY pressedStateChanged)
 		//! \}
 
+		EVENT_PROPERTY(pressedStateChanged);
+		EVENT_PROPERTY(repeatingStateChanged);
+		EVENT_PROPERTY(repeatCountChanged);
+		EVENT_PROPERTY(repeatRateChanged);
+		EVENT_PROPERTY(repeatDelayChanged);
+		EVENT_PROPERTY(activeRepeatRateChanged);
+		EVENT_PROPERTY(activeRepeatDelayChanged);
+
 		enum State : quint16 {
 			NoErrorState       = 0,
 			UninitializedState = 0x0001,
@@ -397,6 +406,8 @@ class DynamicScript : public QObject
 		QByteArray serialize() const;
 		bool deserialize(const QByteArray &data);
 
+		NAMED_EVENT_HANDLER();
+
 	public Q_SLOTS:
 		//! Send a Touch Portal State value update using this instance's `stateId` as the State ID.
 		//! If \ref createState property is `false` then calling this method has no effect. \n
@@ -445,17 +456,7 @@ class DynamicScript : public QObject
 			All these events correspond to changes in property values, provided as a way for a script to take some
 			immediate action based on a new value for that property, vs, say, having to check the values periodically with a timer.
 
-			Callbacks can be attached to, or detached from, events by using the `connect()` and `disconnect()` syntax. For example:
-			```js
-			function onPressStateChange(isPressed) {
-				console.log("The button has been " + (isPressed ? "pressed" : "released"));
-			}
-
-			DSE.pressedStateChanged.connect(onPressStateChange);
-			// ... later, to disconnect:
-			DSE.pressedStateChanged.disconnect(onPressStateChange);
-			```
-
+			See \ref EventHandlers for details about connecting handlers to events.
 			\{
 		*/
 
@@ -469,27 +470,41 @@ class DynamicScript : public QObject
 			would have no relevance). \n
 			This allows custom behavior for a button from within a script handler -- for example different actions could be performed
 			on button press vs. release.
+
+			This event has a corresponding `opressedStateChanged` property to which a single event handler may be assigned.
 			\sa isPressed, setPressedState()
 		*/
 		void pressedStateChanged(bool isPressed);
 		//! This event is emitted when an evaluation starts or stops repeating (as per the \ref activation property).
 		//! The `isRepeating` parameter reflects the current (new) value of the \ref isRepeating property.
+		//!
+		//! This event has a corresponding `onrepeatingStateChanged` property to which a single event handler may be assigned.
 		void repeatingStateChanged(bool isRepeating);
 		//! This event is emitted when the value of the \ref repeatCount property changes, meaning whenever the evaluation is repeated,
 		//! or when a new "repetition" starts. See \ref repeatCount for more details.
 		//! The `repeatCount` parameter value reflects the current (new) \ref repeatCount property value.
+		//!
+		//! This event has a corresponding `onrepeatCountChanged` property to which a single event handler may be assigned.
 		void repeatCountChanged(int repeatCount);
 		//! This event is emitted when the value of the \ref repeatRate property changes.
 		//! The `ms` parameter value reflects the current (new) \ref repeatRate property value.
+		//!
+		//! This event has a corresponding `onrepeatRateChanged` property to which a single event handler may be assigned.
 		void repeatRateChanged(int ms);
 		//! This event is emitted when the value of the \ref repeatDelay property changes.
 		//! The `ms` parameter value reflects the current (new) \ref repeatDelay property value.
+		//!
+		//! This event has a corresponding `onrepeatDelayChanged` property to which a single event handler may be assigned.
 		void repeatDelayChanged(int ms);
 		//! This event is emitted when the value of the \ref activeRepeatRate property changes.
 		//! The `ms` parameter value reflects the current (new) \ref activeRepeatRate property value.
+		//!
+		//! This event has a corresponding `onactiveRepeatRateChanged` property to which a single event handler may be assigned.
 		void activeRepeatRateChanged(int ms);
 		//! This event is emitted when the value of the \ref activeRepeatDelay property changes.
 		//! The `ms` parameter value reflects the current (new) \ref activeRepeatDelay property value.
+		//!
+		//! This event has a corresponding `onactiveRepeatDelayChanged` property to which a single event handler may be assigned.
 		void activeRepeatDelayChanged(int ms);
 
 		//! \}

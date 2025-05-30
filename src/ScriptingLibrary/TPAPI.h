@@ -23,13 +23,12 @@ to any 3rd-party components used within.
 #include <QJSManagedValue>
 #include <QObject>
 
-//#include "common.h"
-//#include "utils.h"
-#include "Plugin.h"
-#include "ScriptEngine.h"
 #include "ConnectorData.h"
 #include "DSE.h"
 #include "DynamicScript.h"
+#include "Plugin.h"
+#include "ScriptEngine.h"
+#include "event_utils.h"
 
 #ifndef DOXYGEN
 namespace ScriptLib {
@@ -48,7 +47,7 @@ class TPAPI : public QObject
 		explicit TPAPI(ScriptEngine *se = nullptr, QObject *p = nullptr) :
 		  QObject(p), se(se)
 		{
-			setObjectName("DSE.TPAPI");
+			setObjectName(QStringLiteral("TPAPI"));
 			connect(ConnectorData::instance(), &ConnectorData::connectorsUpdated, this, &TPAPI::connectorIdsChanged);
 		}
 
@@ -138,6 +137,11 @@ class TPAPI : public QObject
 
 		Q_INVOKABLE static QString currentPageName() { return DSE::tpCurrentPage; }
 
+		NAMED_EVENT_HANDLER();
+		// legacy `on*()` event connection methods.
+		ON_NAMED_EVENT(messageEvent);
+		ON_NAMED_EVENT(broadcastEvent);
+		ON_NAMED_EVENT(connectorIdsChanged);
 
 	Q_SIGNALS:
 		// Invokable by scripts

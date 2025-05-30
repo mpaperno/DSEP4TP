@@ -186,82 +186,6 @@ public:
 //! \}
 
 /*!
-  \name Events
-  These are events which are raised whenever some kind of data update is received from Touch Portal.
-  Events may pass one or more parameters to callback handlers (check documentation for specific events).
-  To connect a handler to an event, use the `connect()` event prototype method:
-  ```js
-  function handler(parameters) { .... }
-  TP.eventName.connect(handler);
-  ```
-
-  There is also a 2-parameter version which allows a context object to be given, which then becomes the "this" object when the event handler callback is executed.
-  ```js
-  MyObject.prototype.myHandler = function(parameters) { ... }
-  const myObject = new MyObject();
-  TP.eventName.connect(myObject, myObject.myHandler);
-  ```
-
-  To disconnect a handler, use the `disconnect()` method:
-  ```js
-  TP.eventName.disconnect(handler);
-  // or
-  TP.eventName.disconnect(myObject, myObject.myHandler);
-  ```
-*/
-//! \{
-
-/*!
-  \fn void messageEvent(Object message)
-  \memberof TP
-  \static
-  This event is emitted upon every Touch Portal message received by this plugin.
-  The `message` parameter is an object representing the "raw" message data received from Touch Portal (originally as a JSON object).
-  Each message will have a `type` property indicating the message type. Refer to Touch Portal API for further details on each message type
-  and data it contains.
-
-  \since v1.2
-*/
-
-/*!
-  \fn void broadcastEvent(String event, Object data)
-  \memberof TP
-  \static
-  This event is emitted when Touch Portal sends a `broadcast` message to all plugins.
-  The `event` parameter is the name of the event type.
-  - As of %TP v4.4 (API v10) this can only be "pageChange" to signify that a user has navigated to a new page on their Touch Portal device (_not_ in the desktop page editor).
-
-  The `data` contains any further information about the event.
-  For the `pageChange` event there is a member named `pageName` which holds the name of the newly selected page. The name may contain a "path"
-  if the page is inside a subfolder.  For example "(main)" or "games/MSFS".
-
-  %TP v4 added `previousPageName`, `deviceIp`, `deviceName`, & `deviceId` properties.
-  See https://www.touch-portal.com/api/index.php?section=communication_listen_broadcast for details.
-
-  \since v1.1.0
-*/
-
-/*!
-  \fn void connectorIdsChanged(String instanceName, String shortId)
-  \memberof TP
-  \static
-  This event is emitted whenever a `shortConnectorIdNotification` message from Touch Portal has been received, parsed, and added to the tracking database.
-
-  The first parameter passed to event handlers is the State Name used in the connector which has been added/modified. Note that for all "Anonymous (One-Time)"
-  type connectors the `instanceName` will always be "ANONYMOUS".
-
-  The second parameter is the `shortId` of this slider instance as created by Touch Portal. This short ID can be used later to send updates back
-  to this slider.
-
-  You can connect to this event as described in the overall event documentation above, with either `onconnectorIdsChanged()` or `connectorIdsChanged.connect()` syntax.
-
-  \sa @ref example_color_picker
-  \since v1.1.0
-*/
-
-//! \}
-
-/*!
   \name Connector Data
   Touch Portal reports connector instances to the plugin via `shortConnectorIdNotification` messages. These messages are parsed and logged
   into a database. The functions in this group can be used to query the data based on various criteria about logged connectors.
@@ -358,5 +282,63 @@ public:
 
 //! \}
 
+/*!
+  \name Events
+  These are events which are raised whenever some kind of data update is received from Touch Portal.
+  Events may pass one or more parameters to callback handlers (check documentation for specific events).
+
+  See \ref EventHandlers for details about connecting handlers to events.
+*/
+//! \{
+
+/*!
+  \fn void messageEvent(Object message)
+  \memberof TP
+  \static
+  This event is emitted upon every Touch Portal message received by this plugin.
+  The `message` parameter is an object representing the "raw" message data received from Touch Portal (originally as a JSON object).
+  Each message will have a `type` property indicating the message type. Refer to Touch Portal API for further details on each message type
+  and data it contains.
+
+  \since v1.2
+*/
+
+/*!
+  \fn void broadcastEvent(String event, Object data)
+  \memberof TP
+  \static
+  This event is emitted when Touch Portal sends a `broadcast` message to all plugins.
+  The `event` parameter is the name of the event type.
+  - As of %TP v4.4 (API v10) this can only be "pageChange" to signify that a user has navigated to a new page on their Touch Portal device (_not_ in the desktop page editor).
+
+  The `data` contains any further information about the event.
+  For the `pageChange` event there is a member named `pageName` which holds the name of the newly selected page. The name may contain a "path"
+  if the page is inside a subfolder.  For example "(main)" or "games/MSFS".
+
+  %TP v4 added `previousPageName`, `deviceIp`, `deviceName`, & `deviceId` properties.
+  See https://www.touch-portal.com/api/index.php?section=communication_listen_broadcast for details.
+
+  \since v1.1.0
+*/
+
+/*!
+  \fn void connectorIdsChanged(String instanceName, String shortId)
+  \memberof TP
+  \static
+  This event is emitted whenever a `shortConnectorIdNotification` message from Touch Portal has been received, parsed, and added to the tracking database.
+
+  The first parameter passed to event handlers is the "Instance Name" value used in the connector which has been added/modified.
+  This corresponds to the `DynamicScript.name` property of the instance being used as the connector's target.
+
+  The second parameter is the `shortId` of this slider instance as created by Touch Portal. This short ID can be used later to send updates back
+  to this slider.
+
+  See the "Connector Data" section in the list of members at the top of this document for more details.
+
+  \sa @ref example_color_picker
+  \since v1.1.0
+*/
+
+//! \}
 
 };   // TP

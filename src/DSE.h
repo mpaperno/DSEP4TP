@@ -26,8 +26,9 @@ to any 3rd-party components used within.
 #include <QQmlEngine>
 #include <QReadWriteLock>
 
-#include "utils.h"
 #include "DSE_NS.h"
+#include "event_utils.h"
+#include "utils.h"
 
 #define PLUGIN_STATE_ID_PREFIX        "dsep."
 #define PLUGIN_DYNAMIC_STATES_PARENT  "Dynamic Values"
@@ -45,11 +46,7 @@ class ScriptEngine;
 //! \ingroup PluginAPI
 //! The DSE object contains constants and functions related to the plugin environment.
 //! It can be used to get or set properties of any existing script instance.
-#ifndef DOXYGEN
 class DSE : public QObject
-#else
-namespace DSE
-#endif
 {
 		Q_OBJECT
 		/*!
@@ -109,26 +106,12 @@ namespace DSE
 		//! The global default action repeat rate (interval), in milliseconds. The rate is the amount of time to wait between repeat activations a held action.
 		//! The repeat rate takes effect _after_ the initial repeat delay. Minimum interval is 50ms. \n
 		//! This property has a change notification event: `defaultActionRepeatRateChanged(int ms)`.
-		//! A callback can be attached to, or detached from, this method by using the `connect()` and `disconnect()` syntax, eg:
-		//! ```js
-		//! function onRateChanged(ms) { console.log("Repeat Rate changed to " + ms); }
-		//! DSE.defaultActionRepeatRateChanged.connect(onRateChanged);
-		//! // ... later, to disconnect:
-		//! DSE.defaultActionRepeatRateChanged.disconnect(onRateChanged);
-		//! ```
-		//!  \sa defaultActionRepeatDelay, DynamicScript.repeatRate
+		//! \sa defaultActionRepeatDelay, DynamicScript.repeatRate
 		//! \since v1.2
 		Q_PROPERTY(int defaultActionRepeatRate READ defaultActionRepeatRate WRITE setDefaultActionRepeatRate NOTIFY defaultActionRepeatRateChanged)
 		//! The global default action repeat delay, in milliseconds. The delay is the amount of time before a held action starts repeating, after the initial activation.
 		//! After this initial delay, the action will be repeated at the current repeat rate. Minimum delay is 50ms.
 		//! This property has a change notification event: `defaultActionRepeatDelayChanged(int ms)`.
-		//! A callback can be attached to, or detached from, this method by using the `connect()` and `disconnect()` syntax, eg:
-		//! ```js
-		//! function onDelayChanged(ms) { console.log("Repeat Delay changed to " + ms); }
-		//! DSE.defaultActionRepeatDelayChanged.connect(onDelayChanged);
-		//! // ... later, to disconnect:
-		//! DSE.defaultActionRepeatDelayChanged.disconnect(onDelayChanged);
-		//! ```
 		//! \sa defaultActionRepeatRate, DynamicScript.repeatDelay
 		//! \since v1.2
 		Q_PROPERTY(int defaultActionRepeatDelay READ defaultActionRepeatDelay WRITE setDefaultActionRepeatDelay NOTIFY defaultActionRepeatDelayChanged)
@@ -338,6 +321,8 @@ namespace DSE
 		//! This function is deprecated and may be removed in a future version; `DSE.currentInstace()?.stateId` instead, for example.
 		Q_INVOKABLE QString instanceStateId() { return QString(valueStatePrefix + instanceName); }
 
+		NAMED_EVENT_HANDLER();
+
 	public Q_SLOTS:
 		//! \fn void setActionRepeat(DSE.RepeatProperty property, int ms, String forInstance = "")
 		//! \memberof DSE
@@ -361,8 +346,22 @@ namespace DSE
 		}
 
 	Q_SIGNALS:
+		/*!
+			\name Events
+			See \ref EventHandlers for details about connecting handlers to events.
+			\{
+		*/
+
+		//! This event is emitted when the value of the \ref defaultActionRepeatRate property changes.
+		//! The `ms` parameter value reflects the current (new) \ref defaultActionRepeatRate property value.
+		//! \sa \ref EventHandlers
 		void defaultActionRepeatRateChanged(int ms);
+		//! This event is emitted when the value of the \ref defaultActionRepeatDelay property changes.
+		//! The `ms` parameter value reflects the current (new) \ref defaultActionRepeatDelay property value.
+		//! \sa \ref EventHandlers
 		void defaultActionRepeatDelayChanged(int ms);
+
+		//! \}
 
 	private Q_SLOTS:
 		// Internal implementation, also invoked by Plugin via signal.

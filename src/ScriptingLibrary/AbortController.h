@@ -25,6 +25,7 @@ to any 3rd-party components used within.
 #include <QJSEngine>
 
 #include "ScriptEngine.h"
+#include "event_utils.h"
 
 namespace ScriptLib {
 
@@ -36,6 +37,7 @@ class AbortSignal : public QObject
 		Q_OBJECT
 		Q_PROPERTY(bool aborted READ aborted NOTIFY abort)
 		Q_PROPERTY(QJSValue reason READ reason CONSTANT)
+		EVENT_PROPERTY(abort)
 		friend class AbortController;
 
 		bool m_aborted = false;
@@ -54,22 +56,9 @@ class AbortSignal : public QObject
 		bool aborted() const { return m_aborted; }
 		QJSValue reason() const { return m_reason; }
 
-	public Q_SLOTS:
-		void onabort(QJSValue callback, QJSValue thisObj = QJSValue())
-		{
-			connect(this, &AbortSignal::abort, this, [=](const QJSValue &reason)
-			{
-				QJSEngine *jse = qjsEngine(this);
-				if (!jse || !callback.isCallable())
-					return;
-				if (!thisObj.isUndefined() && !thisObj.isNull())
-					QJSManagedValue(callback, jse).callWithInstance(thisObj, QJSValueList() << reason);
-				else
-					QJSManagedValue(callback, jse).call(QJSValueList() << reason);
-				SCRIPT_ENGINE_CHECK_ERRORS(jse)
-			});
-		}
+		NAMED_EVENT_HANDLER();
 
+	public Q_SLOTS:
 		void throwIfAborted()
 		{
 			if (!m_aborted)
@@ -90,6 +79,7 @@ class AbortController : public QObject
 	private:
 		Q_OBJECT
 		Q_PROPERTY(ScriptLib::AbortSignal *signal READ signal CONSTANT)
+		EVENT_PROPERTY(aborted)
 		AbortSignal m_signal;
 
 	public:
@@ -101,6 +91,7 @@ class AbortController : public QObject
 		}
 
 		Q_INVOKABLE ScriptLib::AbortSignal *signal() { return &m_signal; }
+		NAMED_EVENT_HANDLER();
 
 	public Q_SLOTS:
 		void abort(QJSValue reason = QJSValue())

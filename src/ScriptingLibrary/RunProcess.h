@@ -23,6 +23,7 @@ to any 3rd-party components used within.
 #include <QProcess>
 
 #include "FS.h"
+#include "event_utils.h"
 
 #ifndef DOXYGEN
 namespace ScriptLib {
@@ -61,6 +62,12 @@ namespace ScriptLib {
 class Process : public QProcess
 {
 		Q_OBJECT
+		EVENT_PROPERTY(errorOccurred);
+		EVENT_PROPERTY(finished);
+		EVENT_PROPERTY(readyReadStandardError);
+		EVENT_PROPERTY(readyReadStandardOutput);
+		EVENT_PROPERTY(started);
+		EVENT_PROPERTY(stateChanged);
 
 	public:
 		Q_INVOKABLE explicit Process(QObject *parent = 0) : QProcess(parent)
@@ -283,12 +290,18 @@ class Process : public QProcess
 		// The null device of the operating system. Use this to discard output from the program if it not needed, as this improves disables all buffering done by `Process` on the output.
 		Q_INVOKABLE static QString nullDevice() { return QProcess::nullDevice(); }
 
-	signals:
+		NAMED_EVENT_HANDLER();
+
 		/*!
+			\name Events
+			See \ref EventHandlers for details about connecting handlers to events.
+			\{
 
 			\fn void errorOccurred(ProcessError error)
 			\memberof Process
 			This signal is emitted when an error occurs with the process. The specified `error` describes the type of error that occurred.
+
+			This event has a corresponding `onerrorOccurred` property to which a single event handler may be assigned.
 			\sa https://doc.qt.io/qt-6/qprocess.html#ProcessError-enum
 
 			\fn void finished(int exitCode, ExitStatus exitStatus)
@@ -296,18 +309,24 @@ class Process : public QProcess
 			This signal is emitted when the process finishes. exitCode is the exit code of the process (only valid for normal exits),
 			and exitStatus is the exit status. After the process has finished, the buffers in Process are still intact.
 			You can still read any data that the process may have written before it finished.
+
+			This event has a corresponding `onfinished` property to which a single event handler may be assigned.
 			\sa exitStatus(), https://doc.qt.io/qt-6/qprocess.html#ExitStatus-enum
 
 
 			\fn void readyReadStandardError()
 			\memberof Process
 			This signal is emitted when the process has made new data available through its standard error channel (stderr).
+
+			This event has a corresponding `onreadyReadStandardError` property to which a single event handler may be assigned.
 			\sa readAllStandardOutput()
 
 
 			\fn void readyReadStandardOutput()
 			\memberof Process
 			This signal is emitted when the process has made new data available through its standard output channel (stdout).
+
+			This event has a corresponding `onreadyReadStandardOutput` property to which a single event handler may be assigned.
 			\sa readAllStandardOutput()
 
 
@@ -315,12 +334,17 @@ class Process : public QProcess
 			\memberof Process
 			This signal is emitted by Process when the process has started, and `state()` returns `Running`.
 
+			This event has a corresponding `onstarted` property to which a single event handler may be assigned.
+
 
 			\fn void stateChanged(ProcessState newState)
 			\memberof Process
 			This signal is emitted whenever the state of Process changes. The `newState` argument is the state `Process` changed to.
+
+			This event has a corresponding `onstateChanged` property to which a single event handler may be assigned.
 			\sa state(), https://doc.qt.io/qt-6/qprocess.html#ProcessState-enum
 
+			\}
 		*/
 
 };

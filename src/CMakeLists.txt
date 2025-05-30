@@ -61,6 +61,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 target_sources(${PROJECT_NAME} PRIVATE
   common.h
   dse_strings.h
+  event_utils.h
   main.cpp
   utils.h
   version.h
@@ -87,7 +88,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   ScriptingLibrary/FileInfo.h
   ScriptingLibrary/FS.h
   ScriptingLibrary/Dir.h
-  ScriptingLibrary/Process.h
+  ScriptingLibrary/RunProcess.h
   ScriptingLibrary/TPAPI.h
   ScriptingLibrary/Util.h
 

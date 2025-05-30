@@ -358,7 +358,7 @@ Request._fetchSetupXhr = function(req)
 			if (typeof req.onprogress === 'function')
 				req.xhr.onprogress = req.onprogress;
 
-			if (req.signal && typeof req.signal.onabort === 'function')
+			if (req.signal && typeof req.signal.abort === 'function')
 				req.signal.abort.connect(req.xhr, req.xhr.abort);
 
 			req.xhr.send(req.body);
@@ -396,7 +396,7 @@ Request._fetchSetupXhr = function(req)
 		req.xhr.onabort   = () => { status = 3; };
 		if (typeof req.onprogress === 'function')
 			req.xhr.onprogress = req.onprogress;
-		if (req.signal && typeof req.signal.onabort === 'function')
+		if (req.signal && typeof req.signal.abort === 'function')
 			req.signal.abort.connect(req.xhr, req.xhr.abort);
 
 		req.xhr.send(req.body);

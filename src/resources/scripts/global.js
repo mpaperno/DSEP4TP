@@ -37,50 +37,106 @@ var
   }
 ;
 
-TPAPI.onconnectorIdsChanged = function(r, t=null) { onEventHandler(TPAPI.connectorIdsChanged, r, t); }
-TPAPI.onbroadcastEvent = function(r, t=null)  { onEventHandler(TPAPI.broadcastEvent, r, t); }
-TPAPI.onmessageEvent = function(r, t=null)  { onEventHandler(TPAPI.messageEvent, r, t); }
+function _getNamedEventSignal(obj, ev) {
+  const f = obj[ev];
+  if (typeof f != 'function')
+    throw new TypeError(`Unknown event name: '${ev}' for object ${obj.objectName}.`);
+  return f;
+}
 
-function onEventHandler(sender, receiver, thisObj)
+function _namedEventOnHandler(obj, ev, r, t) {
+  return _onEventHandler(_getNamedEventSignal(obj, ev), r, t);
+}
+
+function _namedEventOnceHandler(obj, ev, r, t) {
+  return _onceEventHandler(_getNamedEventSignal(obj, ev), r, t);
+}
+
+function _namedEventOffHandler(obj, ev, r, t) {
+  return _offEventHandler(_getNamedEventSignal(obj, ev), r, t);
+}
+
+function _onEventHandler(sender, receiver, thisObj)
 {
-  if (thisObj && typeof receiver === 'function')
+  if (!!thisObj && typeof receiver === 'function')
     sender.connect(thisObj, receiver);
   else
     sender.connect(receiver);
+
+  var ref = new WeakSet([sender, receiver]);
+  return function() {
+    if (ref.delete(sender) && ref.delete(receiver))
+      _offEventHandler(sender, receiver, thisObj);
+    ref = undefined;
+  };
 }
 
-Object.defineProperty(AbortController, Symbol.hasInstance, {
-  configurable: true,
-  value(instance) {
-    return instance.objectName === "AbortSignal";
-  },
-});
+function _onceEventHandler(sender, receiver, thisObj)
+{
+  var ref = new WeakSet([sender, receiver]);
+  return _onEventHandler(sender, function handler() {
+    if (ref.delete(sender) && ref.delete(receiver)) {
+      receiver.apply(thisObj, arguments);
+    }
+    _offEventHandler(sender, handler);
+    ref = undefined;
+  });
+}
 
-Object.defineProperty(AbortSignal, Symbol.hasInstance, {
-  configurable: true,
-  value(instance) {
-    return instance.objectName === "AbortSignal";
-  },
-});
+function _offEventHandler(sender, receiver, thisObj)
+{
+  if (!!thisObj && typeof receiver === 'function')
+    sender?.disconnect(thisObj, receiver);
+  else
+    sender?.disconnect(receiver);
+}
 
-Object.defineProperty(FileHandle, Symbol.hasInstance, {
-  configurable: true,
-  value(instance) {
-    return instance.objectName === "FileHandle";
-  },
-});
+function connectEvent(sender, receiver, thisObj = null)
+{
+  if (typeof sender != 'function' || !receiver)
+    throw new TypeError("sender and receiver must be valid function objects.");
+  return _onEventHandler(sender, receiver, thisObj);
+}
 
-Object.defineProperty(Process, Symbol.hasInstance, {
-  configurable: true,
-  value(instance) {
-    return instance.objectName === "Process";
-  },
-});
+function connectOnce(sender, receiver, thisObj = null)
+{
+  if (typeof sender != 'function' || !receiver)
+    throw new TypeError("sender and receiver must be valid function objects.");
+  return _onceEventHandler(sender, receiver, thisObj);
+}
 
+function disconnectEvent(sender, receiver, thisObj = null)
+{
+  if (typeof sender != 'function' || !receiver)
+    throw new TypeError("sender and receiver must be valid function objects.");
+  _offEventHandler(sender, receiver, thisObj)
+}
 
-Object.defineProperty(URL, Symbol.hasInstance, {
-  configurable: true,
-  value(instance) {
-    return Object.prototype.toString.call(instance).endsWith("URL]");
-  },
-});
+function _global_init()
+{
+  const addHasInstance = (obj, name) => {
+    Object.defineProperty(obj, Symbol.hasInstance, {
+      configurable: true,
+      value(instance) {
+        return instance.objectName?.startsWith(name);
+      },
+    });
+  };
+
+  [
+    [ AbortController, "AbortController" ],
+    [ AbortSignal,     "AbortSignal"     ],
+    [ DynamicScript,   "DynamicScript"   ],
+    [ FileHandle,      "FileHandle"      ],
+    [ Process,         "Process"         ],
+    [ WebSocket,       "WebSocket"       ],
+  ].forEach((o) => addHasInstance(o[0], o[1]))
+
+  Object.defineProperty(URL, Symbol.hasInstance, {
+    configurable: true,
+    value(instance) {
+      return Object.prototype.toString.call(instance)?.endsWith("URL]");
+    },
+  });
+
+}

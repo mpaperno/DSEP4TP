@@ -28,6 +28,7 @@ to any 3rd-party components used within.
 #include <QStringDecoder>
 #include <QSemaphore>
 
+#include "event_utils.h"
 #include "utils.h"
 
 #ifndef DOXYGEN
@@ -136,6 +137,10 @@ class Clipboard : public QObject
 		Q_PROPERTY(Clipboard::Mode Selection READ mode_Selection CONSTANT)
 		Q_PROPERTY(Clipboard::Mode FindBuffer READ mode_FindBuffer CONSTANT)
 
+		EVENT_PROPERTY(clipboardChanged);
+		EVENT_PROPERTY(findBufferChanged);
+		EVENT_PROPERTY(selectionChanged);
+
 #if 0
 		//! This property value is `true` if the current system clipboard contains any type of data at all (ie. is not empty), or `false` otherwise (if the clipboard is empty).
 		//! \sa textAvailable
@@ -194,7 +199,7 @@ class Clipboard : public QObject
 
 		/*Q_INVOKABLE*/ explicit Clipboard(QObject *parent = nullptr) : QObject(parent)
 		{
-			setObjectName("DSE.Clipboard");
+			setObjectName("Clipboard");
 			QClipboard *clip = QGuiApplication::clipboard();
 			connect(clip, &QClipboard::dataChanged, this, &Clipboard::clipboardChanged, Qt::QueuedConnection);
 			connect(clip, &QClipboard::selectionChanged, this, &Clipboard::selectionChanged, Qt::QueuedConnection);
@@ -409,19 +414,33 @@ class Clipboard : public QObject
 			return m ? m->formats() : QStringList();
 		}
 
+		NAMED_EVENT_HANDLER();
+
 	Q_SIGNALS:
-		//! \name Events
-		//! \{
+		/*!
+			\name Events
+			See \ref EventHandlers for details about connecting handlers to events.
+
+			**Note** that since `Clipboard` is a global static object, assigning a handler to any of the
+			event properties (like `onclipboardChanged`) in one script will replace any handler assigned in another script.
+			\{
+		*/
 
 		//! This event is raised whenever the contents of the system clipboard change.
 		//! Use `text()`, `data()`, or the other methods to get the current value after receiving this event.
+		//!
+		//! This event has a corresponding `onclipboardChanged` property to which a single event handler may be assigned.
 		void clipboardChanged();
 		//! This event is raised whenever the contents of the Find text change on MacOS.
 		//! Use `text()`, `data()`, etc methods with `mode` argument set to `Clipboard.FindBuffer` to get the current value after receiving this event.
+		//!
+		//! This event has a corresponding `onfindBufferChanged` property to which a single event handler may be assigned.
 		//! \sa supportsFindBuffer
 		void findBufferChanged();
 		//! This event is raised whenever the contents of the system selection change.
 		//! Use `text()`, `data()`, etc, methods with `mode` argument set to `Clipboard.Selection` to get the current value after receiving this event.
+		//!
+		//! This event has a corresponding `onselectionChanged` property to which a single event handler may be assigned.
 		//! \sa supportsSelection
 		void selectionChanged();
 

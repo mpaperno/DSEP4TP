@@ -11,6 +11,178 @@ This reference contains a list of standard ECMAScript objects, functions and pro
 \defgroup JSExt JavaScript Object Extensions
 Extensions to the global environment and standard JavaScript objects such as Date, Number, String, and others.
 
+\defgroup EventHandlers Event Handling
+A number of classes and object types described in this documentation may emit asynchronous event notifications which may be "subscribed" or "listened" to
+by attaching an event handler callback function. In general, events are a fairly standard JS feature/technique, and this scripting environment follows some
+familiar conventions as well as introducing some unique ones.  Event handlers are only useful in full scripts/modules, where the code will remain loaded
+and running in the background, as opposed to one-off evaluations.
+
+For an example we'll use the Touch Portal API's `TP.broadcastEvent` event, which get emitted whenever the current page on a %TP device changes.
+
+First we need some handler function to connect to the event. This could be declared inline when connecting to the event, or any identifier (name) pointing to a valid function.
+Both examples are shown here, but for the latter version let's use this one:
+```js
+/**
+	@param event Name of the event type (currently TP only sends 'pageChange' events).
+	@param data Contains any further information about the event.
+		For 'pageChange' events this contains `pageName`, `previousPageName`, `deviceIp`, `deviceName`, & `deviceId` properties.
+*/
+function onBroadcastEvent(event, data) {
+	console.log(`${event}: Navigated to new page ${data.pageName} from ${data.previousPageName} on device ${data.deviceName}`;
+}
+```
+
+With that out of the way, let's connect the handler to the event. There are several ways to do this. Which you use may vary depending on the application or your personal
+preference, but they'll all accomplish the same goal. There are also ways to disconnect an event handler when you no longer wish to receive notifications, of course.
+
+## Using connect() / disconnect()
+
+One way is with the `connect()`/`disconnect()` event prototype methods. This is known as a "subscriber" or "observer" event model and is actually the "native" way for the underlying JavaScript runtime
+engine used by this plugin. It is generally recommended over the other methods, though it may be somewhat unfamiliar.
+
+```js
+// Connect the handler
+TP.broadcastEvent.connect(myHandler);
+// ... later, to disconnect:
+TP.broadcastEvent.disconnect(myHandler);
+
+// Inline handlers can be used but there is no way to disconnect it later.
+TP.broadcastEvent.connect( (event, data) => { .... } );
+```
+
+## Using on() / off() / once()
+
+Another way is by using the "common" `on(eventName, callback)`/`off()`/`once()` function syntax. For example:
+```js
+TP.on("broadcastEvent", onBroadcastEvent);
+// ... later, to disconnect:
+TP.off("broadcastEvent", onBroadcastEvent);
+
+// A handler function can also be defined inline, as either an arrow or regular function.
+// `on()` returns a function which can be called later to disconnect the event handler.
+// This is the only way to disconnect an inline handler since it will always be unique.
+const disconnect_be = TP.on("broadcastEvent", (event, data) => { .... } );
+// ... later, to disconnect:
+disconnect_be();
+
+// Alternatively, only invoke the handler once and then automatically disconnect:
+TP.once("broadcastEvent", onBroadcastEvent);
+// Also works with inline handlers and also returns a disconnect function
+const disconnect_be = TP.once("broadcastEvent", (event, data) => { .... } );
+```
+
+## Specifying the "this" scope used in handler
+
+Both of the above forms have a version which allows a context object to be given, which then becomes the "this" object when the event handler callback is executed.
+
+```js
+class MyClass {
+	onBroadcastEvent() { console.log(this instanceof MyClass); /* should be `true` */ }
+}
+const myClass = new MyClass();
+
+// `on()` and `once()` accept it as the 3rd argument
+TP.on("broadcastEvent", myClass.onBroadcastEvent, myClass);
+// OR `connect()` accepts is as the first argument (note the switched parameter order)
+TP.broadcastEvent.connect(myClass, myClass.onBroadcastEvent);
+
+// To disconnect, the same signature must be used:
+TP.off("broadcastEvent", myClass.onBroadcastEvent, myClass);
+// OR
+TP.broadcastEvent.disconnect(myClass, myClass.onBroadcastEvent);
+```
+
+## Alternate addEventListener() / removeEventListener() methods
+
+The `addEventListener()`/`removeEventListener()` event prototype methods are alternatives for the `on()`/`off()` syntax that take an optional `options` object as the 3rd argument.
+They are included for users whore are more familiar with, or prefer, the WebAPI style events interface. Note that this is a very simplified version of the full standard Event API.
+
+The `options` object may specify 2 optional properties (any others are ignored):
+- `context` - An object instance to use as the `this` context when invoking handler (same as the optional 3rd argument to `on()` or 1st argument to `connect()`).
+- `once` - A boolean value. If `true` then the event handler will only be invoked once and then automatically disconnected. Same as using `once()` method.
+
+```js
+// Just like `on()` but 3rd argument may contain an 'options' object.
+TP.addEventListener("broadcastEvent", onBroadcastEvent);
+// ... or ....
+TP.addEventListener("broadcastEvent", onBroadcastEvent, { once: true });
+// ... or ....
+TP.addEventListener("broadcastEvent", myClass.onBroadcastEvent, { once: true, context: myClass });
+
+// To disconnect:
+TP.removeEventListener("broadcastEvent", onBroadcastEvent);
+// ... or ....
+TP.removeEventListener("broadcastEvent", myClass.onBroadcastEvent, { context myClass });
+```
+
+## Global connectEvent() / connectOnce() / disconnectEvent() functions
+
+Three functions are provided in the global scope to connect and disconnect handlers by object reference. These functions are similar
+to the `on()`/`once()`/`off()` methods, but instead of an event name as the first argument, the actual event instance is used.
+
+Essentially this invokes ths corresponding event's `connect()` prototype method for you, with the given handler (and optional `this` context object).
+`connectEvent()` and `connectOnce()` also return a function to use for disconnecting later (like `on()` and `once()` do).
+
+```js
+// `connectEvent(sender, handler [, thisObject ])`
+connectEvent(TP.broadcastEvent, onBroadcastEvent);
+// ... or
+connectEvent(TP.broadcastEvent, myClass.onBroadcastEvent, myClass);
+
+// Same as `on()`, `connectEvent()` returns a function that can be used to disconnect:
+const disconnect_be = connectEvent(TP.broadcastEvent, (event, data) => { .... } );
+// ... later, to disconnect:
+disconnect_be();
+
+// Same as `once()`, automatically disconnect after first time event is triggered:
+connectOnce(TP.broadcastEvent, onBroadcastEvent);
+
+// `disconnectEvent()` is similar:
+disconnectEvent(TP.broadcastEvent, onBroadcastEvent);
+// ... or
+disconnectEvent(TP.broadcastEvent, myClass.onBroadcastEvent, myClass);
+```
+
+## Other notes
+
+The `disconnect([thisObj,] callback)` event method, or `disconnectEvent()` global function, can be used regardless of the original connection method (`on()`, `once()` or `connect()`), as long as the handler wasn't an inline function.
+
+Any number of event listeners can be attached with all above methods. All will throw a `TypeError` if the event being requested doesn't exist.
+
+Unlike WebAPI Events, there is nothing preventing you from adding the same event handler to the same event multiple times, so you will likely want to avoid doing that yourself.
+
+Also note that there is no standard `Event` type like with WebAPI. Each event is delivered to the callback handler with a specific set of arguments, if any.
+
+## Event handler properties
+
+Some scripting object types will also have `on*` properties that correspond to each event they emit, to which a single event handler can be assigned.
+
+For example `Process` has a `Process.finished` event which can be monitored for when an externally launched program exits. There is also a corresponding `Process.onfinished` property.
+Assigning a function to this property will add it as an event handler. Assigning `undefined` or `null` to this property will remove any attached handler.
+
+```js
+const proc = new Process();
+proc.onfinished = myHandler;
+// Inline functions, arrow or regular, can also be used
+proc.onfinished = function(exitCode, exitStatus) { .... };
+
+// To remove any attached handler:
+proc.onfinished = null;
+```
+
+Unlike connecting with the other methods, only one handler can be assigned to a property of an object instance. This could be either convenient or a drawback, depending on application.
+For the global static objects, like `TP` or `DSE`, this means a script may replace a handler assigned in another script, for example.
+(For this reason, to avoid possible confusion, most of the global singleton types provided by %DSE do not have such properties.)
+
+These properties can also be read, meaning, for example, if you wanted to temporarily replace a handler and then put it back, you could:
+```js
+const oldHandler = proc.onfinished;
+proc.onfinished = myHandler;
+// ... later
+proc.onfinished = oldHandler;
+```
+
+
 \defgroup PluginAPI Plugin API
 Objects for interacting with the Dynamic Script Engine plugin environment and script instances.
 - `DSE` - The DSE object contains constants and functions related to the plugin environment. It can also be used to query `DynamicScript` instances.

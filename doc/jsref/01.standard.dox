@@ -183,25 +183,30 @@ __except__:
 ### AbortController {#stdlib-abort}
 - signal
 - abort()
+- aborted (event)
 
 ### AbortSignal
 - aborted
 - reason
 - throwIfAborted()
-- abort() / onabort()
-  - Note that `onabort()` takes an optional, and non-standard, 2nd argument after the callback. If an object is passed here
-    then the callback function will be invoked with that object as the `this` target. For example:
-    ```js
-    var xhr = XMLHttpRequest();
-    const ac = new AbortController();
-    ac.signal.onabort(xhr.abort, xhr);  // w/out the 2nd argument this will fail for async requests since the 'this' scope is lost.
-    ```
-  - Alternately, the `abort()` event can be safely `connect`ed directly to a method of any object. For example:
-    ```js
-    var xhr = XMLHttpRequest();
-    const ac = new AbortController();
-    ac.signal.abort.connect(xhr, xhr.abort);  // note the switched argument positions vs 'onabort()' signature.
-    ```
+- abort / onabort (event)
+
+Note that in addition to the `onabort` property, there are other methods for connecting to the signal's `abort` event.
+`signal.on("abort", callback)`, for example, which takes an optional, 3rd argument after the callback. If an object is passed here
+then the callback function will be invoked with that object as the `this` target. For example:
+```js
+const xhr = XMLHttpRequest();
+const ac = new AbortController();
+// w/out the 2nd argument this will fail for async requests since the 'this' scope is lost.
+ac.signal.on("abort", xhr.abort, xhr);
+```
+
+Alternately, the `abort` event can be safely `connect`ed directly to a method of any object. For example:
+```js
+// note the switched argument positions vs the 'on("abort", ...)' signature.
+ac.signal.abort.connect(xhr, xhr.abort);
+```
+See [Event Handling](@ref EventHandlers) for more details about connecting handlers to events.
 
 
 ### Timers {#stdlib-timers}
