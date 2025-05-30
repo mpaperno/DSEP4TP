@@ -784,11 +784,11 @@ void Plugin::onTpConnected(const TPClientQt::TPInfo &info, const QJsonObject &se
 	m_loadSettingsTmr.start();
 }
 
-static QByteArray cleanTpPageName(const QJsonValue &val) {
-	const auto strVal = val.toString().toUtf8();
+static QString cleanTpPageName(const QJsonValue &val) {
+	const auto strVal = val.toString();
 	if (strVal.isEmpty())
 		return strVal;
-	return strVal.sliced(1).replace(".tml", QByteArray()).replace('\\', '/');
+	return strVal.sliced(1).replace(".tml", QString()).replace('\\', '/');
 }
 
 void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
@@ -820,15 +820,15 @@ void Plugin::onTpMessage(TPClientQt::MessageType type, const QJsonObject &msg)
 			data.remove(QLatin1String("event"));
 			const QString event = msg.value(QLatin1String("event")).toString();
 			if (!event.compare(QLatin1String("pageChange"))) {
-				const QByteArray pgName = cleanTpPageName(msg.value(QLatin1String("pageName")));
+				const auto pgName = cleanTpPageName(msg.value(QLatin1String("pageName")));
 				if (pgName.isEmpty())
 					return;
-				DSE::tpCurrentPage = pgName;
-				Q_EMIT tpStateUpdate(m_stateIds[SID_TpCurrentPage], pgName);
+				DSE::tpCurrentPage = pgName.toUtf8();
+				Q_EMIT tpStateUpdate(m_stateIds[SID_TpCurrentPage], DSE::tpCurrentPage);
 
 				data.insert(QLatin1String("pageName"), pgName);
-				if (msg.contains(QLatin1String("previousPageName")))
-					data.insert(QLatin1String("previousPageName"), cleanTpPageName(msg.value(QLatin1String("previousPageName"))));
+				if (const auto prevPg = msg.value(QLatin1String("previousPageName")); prevPg.isString())
+					data.insert(QLatin1String("previousPageName"), cleanTpPageName(prevPg));
 			}
 			Q_EMIT tpBroadcast(event, data);
 			break;
