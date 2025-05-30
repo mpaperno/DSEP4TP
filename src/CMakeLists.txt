@@ -154,7 +154,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE TPClientQt)
 
 ##  Install
 
-cmake_policy(SET CMP0177 NEW)  ## v3.31 - install() DESTINATION paths are normalized.
+if (POLICY CMP0177)
+  ## v3.31 - install() DESTINATION paths are normalized.
+  cmake_policy(SET CMP0177 NEW)
+endif()
 
 cmake_path(SET INSTALL_DEST_REL "${CMAKE_SOURCE_DIR}/../dist/${PLATFORM_OS}/${PROJECT_NAME}")
 cmake_path(SET INSTALL_DEST_DBG "${CMAKE_SOURCE_DIR}/../dist/${CMAKE_BUILD_TYPE}")
