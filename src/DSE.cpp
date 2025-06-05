@@ -63,6 +63,9 @@ QByteArray DSE::tpCurrentPage;
 
 std::atomic_int DSE::defaultRepeatRate { -1 };
 std::atomic_int DSE::defaultRepeatDelay { -1 };
+
+bool DSE::usePrivateEngineThreads { false };
+
 DSE::ActionRecrod DSE::g_actionData[ACT_ENUM_LAST] { ActionRecrod() };
 std::atomic_uint DSE::g_nextRepeaterId {0};
 

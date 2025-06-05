@@ -83,10 +83,12 @@ ScriptEngine::ScriptEngine(const QByteArray &instanceName, QObject *p) :
 		dse->instanceName = m_name;
 	}
 
-	m_thread = new QThread();
-	m_thread->setObjectName(objectName());
-	moveToThread(m_thread);
-	m_thread->start();
+	if (!m_isShared && DSE::usePrivateEngineThreads) {
+		m_thread = new QThread();
+		m_thread->setObjectName(objectName());
+		moveToThread(m_thread);
+		m_thread->start();
+	}
 
 }
 

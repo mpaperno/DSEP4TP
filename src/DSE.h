@@ -228,6 +228,8 @@ class DSE : public QObject
 		static std::atomic_int defaultRepeatRate;
 		static std::atomic_int defaultRepeatDelay;
 
+		static bool usePrivateEngineThreads;
+
 		static DSE *sharedInstance;
 		static DynamicScript *defaultScriptInstance;
 
