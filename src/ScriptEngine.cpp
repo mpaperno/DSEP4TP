@@ -160,6 +160,7 @@ void ScriptEngine::initScriptEngine()
 	evalScript(QStringLiteral(":/scripts/jslib.min.js"));
 	//evalScript(QStringLiteral(":/scripts/collections.js"));
 	//evalScript(QStringLiteral(":/scripts/color.js"));
+	//evalScript(QStringLiteral(":/scripts/console.js"));
 	//evalScript(QStringLiteral(":/scripts/date.js"));
 	//evalScript(QStringLiteral(":/scripts/env.js"));
 	//evalScript(QStringLiteral(":/scripts/fetch.js"));
@@ -269,7 +270,6 @@ QJSValue ScriptEngine::expressionValue(const QString &fromValue, const QByteArra
 	QMutexLocker lock(&m_mutex);
 	dse->instanceName = instName;
 	const QJSValue res = se->evaluate(fromValue);
-	//se->collectGarbage();
 	if (!res.isError())
 		return res;
 	QJSValue ret = se->newErrorObject(res.errorType(),
@@ -284,21 +284,19 @@ QJSValue ScriptEngine::expressionValue(const QString &fromValue, const QByteArra
 QJSValue ScriptEngine::scriptValue(const QString &fileName, const QString &expr, const QByteArray &instName)
 {
 	bool ok;
-	QString script = QString::fromUtf8(readFile(fileName, &ok));
+	const QString script = QString::fromUtf8(readFile(fileName, &ok));
 	if (!ok)
 		return se->newErrorObject(QJSValue::URIError, tr("Could not read script file '%1': %2").arg(fileName, script));
-	if (script.trimmed().isEmpty())
+	if (script.isEmpty())
 		return se->newErrorObject(QJSValue::URIError, tr("Script file '%1' was empty.").arg(fileName));
-	if (!expr.isEmpty())
-		script += '\n' + expr;
 	//qCDebug(lcPlugin) << "File:" << fileName << "Contents:\n" << script;
 	QMutexLocker lock(&m_mutex);
 	dse->instanceName = instName;
 	QJSValue res = se->evaluate(script, fileName);
-	//se->collectGarbage();
-	if (!res.isError())
-		return res;
-	EE_RETURN_FILE_ERROR_OBJ(fileName, res, tr("while evaluating '%1'").arg(expr));
+	lock.unlock();
+	if (res.isError())
+		EE_RETURN_FILE_ERROR_OBJ(fileName, res, tr("while loading script file"));
+	return expr.isEmpty() ? res : expressionValue(expr, instName);
 }
 
 QJSValue ScriptEngine::moduleValue(const QString &fileName, const QString &alias, const QString &expr, const QByteArray &instName)
