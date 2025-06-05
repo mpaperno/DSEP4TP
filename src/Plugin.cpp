@@ -685,7 +685,7 @@ void Plugin::raiseScriptError(const QByteArray &dsName, const QString &msg, cons
 		qCWarning(lcDse).noquote().nospace() << type << " [" << count << "] for script instance '" << dsName << "': " << msg;
 	}
 	if (!stack.isEmpty())
-		qCInfo(lcDse).noquote().nospace() << "Stack trace [" << count << "]:\n" << stack.toUtf8();
+		qCWarning(lcDse).noquote().nospace() << "Stack trace [" << count << "]:\n" << stack.toUtf8();
 	Q_EMIT tpStateUpdate(m_stateIds[SID_LastError], v);
 }
 
