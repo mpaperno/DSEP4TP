@@ -70,7 +70,7 @@ bool DynamicScript::setScriptProperties(const QString &file, const QString &expr
 	m_inputType = ScriptInputType::ScriptInput;
 	bool ok = setFile(file);
 	if (ok)
-		setExpr(expr);  // expression is not required
+		m_expr = expr;  // expression is not required
 	return !(m_state.setFlag(State::PropertyErrorState, !ok) & State::CriticalErrorState);
 }
 
@@ -81,7 +81,7 @@ bool DynamicScript::setModuleProperties(const QString &file, const QString &alia
 	bool ok = setFile(file);
 	if (ok) {
 		m_moduleAlias = alias.isEmpty() ? QStringLiteral("M") : alias;
-		setExpr(expr);  // expression is not required
+		m_expr = expr;  // expression is not required
 	}
 	return !(m_state.setFlag(State::PropertyErrorState, !ok) & State::CriticalErrorState);
 }
