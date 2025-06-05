@@ -322,8 +322,8 @@ void Plugin::initEngine()
 
 	// Default "anonymous" shared worker instance.
 	DynamicScript *ds = DSE::defaultScriptInstance = new DynamicScript(QByteArrayLiteral("Default Shared"));
-	ds->setEngine(ScriptEngine::instance());
 	ds->setExpressionProperties(QString());
+	ds->setEngine(ScriptEngine::instance());
 	connect(ds, &DynamicScript::scriptError, this, &Plugin::onScriptError, Qt::QueuedConnection);
 	// currently doesn't create or update any State... reserved for future use?
 	//connect(ds, &DynamicScript::dataReady, client, qOverload<const QByteArray&, const QByteArray&>(&TPClientQt::stateUpdate), Qt::QueuedConnection);
@@ -1145,9 +1145,12 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 		}
 
 		case CA_ResetEngine: {
+			const auto resetEngine = [](ScriptEngine *se) {
+				QMetaObject::invokeMethod(se, "reset", Qt::QueuedConnection);
+			};
 			if (!type) {
 				if (ScriptEngine *se = DSE::engine(dvName))
-					se->reset();
+					resetEngine(se);
 				else
 					qCCritical(lcPlugin) << "Engine instance not found for name:" << dvName;
 				return;
@@ -1155,11 +1158,11 @@ void Plugin::instanceControlAction(quint8 act, const QMap<QString, QString> &dat
 			if (type == 255 || type == (quint8)EngineInstanceType::PrivateInstance) {
 				for (ScriptEngine * const se : DSE::engines_const()) {
 					if (!se->isSharedInstance())
-						se->reset();
+						resetEngine(se);
 				}
 			}
 			if (type == 255 || type == (quint8)EngineInstanceType::SharedInstance)
-				ScriptEngine::instance()->reset();
+				resetEngine(ScriptEngine::instance());
 			return;
 		}
 

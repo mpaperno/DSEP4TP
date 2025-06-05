@@ -124,7 +124,7 @@ class ScriptEngine : public QObject
 		// void resultReady(const QJSValue &val);
 
 	public Q_SLOTS:
-		inline void reset() {
+		void reset() {
 			Q_EMIT engineAboutToReset();
 			initScriptEngine();
 			qCInfo(lcPlugin) << (m_isShared ? "Shared" : "Private") << "Scripting Engine reset completed for" << name();
