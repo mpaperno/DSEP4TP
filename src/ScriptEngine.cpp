@@ -309,13 +309,18 @@ QJSValue ScriptEngine::moduleValue(const QString &fileName, const QString &alias
 	if (mod.isError()) {
 		EE_RETURN_FILE_ERROR_OBJ(fileName, mod, tr("while importing module"));
 	}
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
 	else if (se->hasError()) {
-		checkErrors();
-		return QJSValue();
+		mod = se->catchError();
+		EE_RETURN_FILE_ERROR_OBJ(fileName, mod, tr("while importing module"));
 	}
-	globalObject().setProperty(alias, mod);
+#endif
+	if (const QJSValue &modAlias = globalObject().property(alias); !modAlias.strictlyEquals(mod)) {
+		if (modAlias.isObject())
+			qCWarning(lcDse) << "Registering a new module from " << fileName << " with an existing alias of" << alias << "for Instance" << instName;
+		globalObject().setProperty(alias, mod);
+	}
 	lock.unlock();
-	//se->collectGarbage();
 	return expr.isEmpty() ? QJSValue(QJSValue::UndefinedValue) : expressionValue(expr, instName);
 }
 
