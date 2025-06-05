@@ -39,16 +39,15 @@ to any 3rd-party components used within.
 // Override message pattern by setting QT_MESSAGE_PATTERN env. var.
 
 #ifdef QT_DEBUG
-	#define MESSAGE_LOG_PATTERN  \
-		"[%{time process}] " \
-		"[%{if-debug}DBG%{endif}%{if-info}INF%{endif}%{if-warning}WRN%{endif}%{if-critical}ERR%{endif}%{if-fatal}CRT%{endif}] " \
-		"%{if-category}|%{category}| %{endif}%{function}() @%{line} - %{message}"
+	#define MESSAGE_LOG_TIME "%{time HH:mm:ss.zzz}"
 #else
-	#define MESSAGE_LOG_PATTERN  \
-		"[%{time MM-dd HH:mm:ss.zzz}] " \
-		"[%{if-debug}DBG%{endif}%{if-info}INF%{endif}%{if-warning}WRN%{endif}%{if-critical}ERR%{endif}%{if-fatal}CRT%{endif}] " \
-		"%{if-category}|%{category}| %{endif}- %{message}"
+	#define MESSAGE_LOG_TIME "%{time MM-dd HH:mm:ss.zzz}"
 #endif
+
+#define MESSAGE_LOG_PATTERN  \
+	"[\x1b[95m" MESSAGE_LOG_TIME "\x1b[39m] " \
+	"[\x1b[%{if-debug}94mDBG%{endif}%{if-info}92mINF%{endif}%{if-warning}93mWRN%{endif}%{if-critical}91mERR%{endif}%{if-fatal}95mCRT%{endif}\x1b[39m] " \
+	"%{if-category}|\x1b[96m%{category}\x1b[39m| %{endif}\x1b[37m%{function}() @%{line}\x1b[39m - %{message}"
 
 #define APP_DBG_HANDLER_NO_REPLACE_QML  1
 
