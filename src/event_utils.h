@@ -26,10 +26,12 @@ to any 3rd-party components used within.
 #include <QPair>
 
 #define NAMED_EVENT_HANDLER(...)                             \
+	protected:                                                 \
 	static QString evNameToSignal(const QString &ev) {         \
 		static QMap<QString, QString> map { __VA_ARGS__ };       \
 		return map.value(ev, ev);                                \
 	}                                                          \
+	public:                                                    \
 	Q_INVOKABLE QJSValue on(const QString &ev, QJSValue cb, QJSValue thisObj = QJSValue()) {                \
 		return EventUtils::callHandler(this, "_namedEventOnHandler", { evNameToSignal(ev), cb, thisObj });    \
 	}                                                                                                       \
@@ -41,7 +43,7 @@ to any 3rd-party components used within.
 	}                                                                                                       \
 	Q_INVOKABLE QJSValue addEventListener(const QString &ev, QJSValue cb, QJSValue o = QJSValue()) {   \
 		bool os;                                                                                         \
-		QJSValue ctx = EventUtils::resolveListenerOptions(o, &os);                                       \
+		const QJSValue ctx = EventUtils::resolveListenerOptions(o, &os);                                 \
 		return os ? once(ev, cb, ctx) : on(ev, cb, ctx);                                                 \
 	}                                                                                                  \
 	Q_INVOKABLE void removeEventListener(const QString &ev, QJSValue cb, QJSValue o = QJSValue()) {    \
@@ -53,17 +55,33 @@ to any 3rd-party components used within.
 		return on(#EV_NAME, cb, thisObj);                                               \
 	}
 
-#define EVENT_PROPERTY(NAME)                                          \
-	Q_PROPERTY(QJSValue on##NAME READ _on_##NAME WRITE _on_##NAME)      \
-	QPair<QJSValue, QJSValue> _ev_##NAME {};                            \
-	QJSValue _on_##NAME() const { return _ev_##NAME.first; }            \
-	void _on_##NAME(QJSValue cb) {                                      \
-		if (_ev_##NAME.second.isCallable())                               \
-			_ev_##NAME.second.call();                                       \
-		_ev_##NAME.first = cb;                                            \
-		_ev_##NAME.second = cb.isCallable() ? on(#NAME, cb) : QJSValue(); \
+#define EVENT_PROPERTY(NAME)                                      \
+	Q_PROPERTY(QJSValue on##NAME READ _on_##NAME WRITE _on_##NAME)  \
+	QPair<QJSValue, QJSValue> _ev_##NAME {};                        \
+	QJSValue _on_##NAME() const { return _ev_##NAME.first; }        \
+	void _on_##NAME(QJSValue cb) {                                  \
+		if (_ev_##NAME.second.isCallable())                           \
+			_ev_##NAME.second.call();                                   \
+		if (cb.isCallable()) {                                        \
+			if (QJSValue df = on(#NAME, cb); df.isCallable()) {         \
+				_ev_##NAME.first = cb;                                    \
+				_ev_##NAME.second = std::move(df);                        \
+				return;                                                   \
+			}                                                           \
+		}                                                             \
+		_ev_##NAME.first = _ev_##NAME.second = QJSValue();            \
 	}
 
+#define EVENT_PROPERTY_ALIAS(NAME, ALIAS)                         \
+	Q_PROPERTY(QJSValue on##ALIAS READ _on_##NAME WRITE _on_##NAME)
+
+#define INVOKE_EVENT_PROP(EVNAME, ...)  EventUtils::invokeHandlerProperty(this, "on" #EVNAME, __VA_ARGS__ )
+
+#define EMIT_EVENT2(SIG, EVNAME, ...)      \
+	Q_EMIT SIG(__VA_ARGS__);                 \
+	INVOKE_EVENT_PROP(EVNAME, __VA_ARGS__ )
+
+#define EMIT_EVENT(SIG, ...)  EMIT_EVENT2(SIG, SIG, __VA_ARGS__)
 
 namespace EventUtils {
 
@@ -71,18 +89,23 @@ inline QJSValue callHandler(QObject *o, const char *handler, QJSValueList vals)
 {
 
 	if (QJSEngine *jse = qjsEngine(o)) {
-		try {
-			const QJSValue hdlr = jse->globalObject().property(handler);
-			// auto objScriptVal = QJSManagedValue(jse->toScriptValue(o), jse);
-			if (hdlr.isCallable() /*&& objScriptVal.isQObject()*/) {
-				vals.prepend(jse->toScriptValue(o));
-				const QJSValue ret = hdlr.call(vals);
-				if (ret.isError())
-					jse->throwError(ret);
-				return ret;
-			}
+		const auto objScriptVal = jse->toScriptValue(o);
+		if (!objScriptVal.isQObject()) {
+			qCWarning(lcDse) << "callHandler(" << handler << "): Could not get this object as scriptValue() for" << o;
 		}
-		catch(std::exception ex) { qCritical(lcPlugin) << ex.what(); }
+		else if (const QJSValue hdlr = jse->globalObject().property(handler); hdlr.isCallable()) {
+			vals.prepend(objScriptVal);
+			const QJSValue ret = hdlr.call(vals);
+			if (ret.isError())
+				jse->throwError(ret);
+			else if (!ret.isCallable())
+				jse->throwError(jse->newErrorObject(QJSValue::TypeError, QStringLiteral("Event handler '%1' returned invalid value.").arg(handler)));
+			else
+				return ret;
+		}
+	}
+	else {
+		qCWarning(lcDse) << "callHandler(" << handler << "): Could not find QJSEngine for this object" << o;
 	}
 	return QJSValue();
 }
@@ -100,4 +123,25 @@ inline QJSValue resolveListenerOptions(const QJSValue o, bool *once = nullptr) {
 	return QJSValue();
 }
 
+template<class... Args>
+inline QJSValueList toJsValueList(QJSEngine *jse, Args &&... args)
+{
+	QJSValueList list;
+	list.reserve(sizeof...(args));
+	((list << jse->toScriptValue(args)), ...);
+	// ([&] { list << jse->toScriptValue(args); } (), ...);
+	return list;
 }
+
+template<class... Args>
+inline void invokeHandlerProperty(QObject *o, const char *propName, Args &&... args)
+{
+	if (QJSEngine *jse = qjsEngine(o)) {
+		if (const auto thisVal = jse->toScriptValue(o); thisVal.isQObject()) {
+			if (const QJSValue hdlr = thisVal.property(propName); hdlr.isCallable())
+				hdlr.call(EventUtils::toJsValueList(jse, args... ));
+		}
+	}
+}
+
+}  // namespace EventUtils

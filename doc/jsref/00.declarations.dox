@@ -11,13 +11,17 @@ This reference contains a list of standard ECMAScript objects, functions and pro
 \defgroup JSExt JavaScript Object Extensions
 Extensions to the global environment and standard JavaScript objects such as Date, Number, String, and others.
 
-\defgroup EventHandlers Event Handling
-A number of classes and object types described in this documentation may emit asynchronous event notifications which may be "subscribed" or "listened" to
-by attaching an event handler callback function. In general, events are a fairly standard JS feature/technique, and this scripting environment follows some
-familiar conventions as well as introducing some unique ones.  Event handlers are only useful in full scripts/modules, where the code will remain loaded
-and running in the background, as opposed to one-off evaluations.
 
-For an example we'll use the Touch Portal API's `TP.broadcastEvent` event, which get emitted whenever the current page on a %TP device changes.
+\defgroup EventHandlers Event Handling
+
+A number of classes and object types described in this documentation can emit asynchronous event notifications which may be "subscribed" or "listened" to
+by attaching an event handler callback function.
+
+In general, events are a fairly standard JS feature/technique, and this scripting environment follows some
+familiar conventions as well as introducing some unique ones. All events in %DSE are actually a type of Function object belonging to the class instance which emits the event.
+They can be referred-to either by name (eg. `emitter.on("eventName", ...)`) or with an actual instance reference (eg. `emitter.eventName.connect(...)`).
+
+For some of the examples here we'll use the Touch Portal API's `TP.broadcastEvent` event, which get emitted whenever the current page on a %TP device changes.
 
 First we need some handler function to connect to the event. This could be declared inline when connecting to the event, or any identifier (name) pointing to a valid function.
 Both examples are shown here, but for the latter version let's use this one:
@@ -32,13 +36,15 @@ function onBroadcastEvent(event, data) {
 }
 ```
 
-With that out of the way, let's connect the handler to the event. There are several ways to do this. Which you use may vary depending on the application or your personal
+Note that each type of event may have their own argument(s) they pass to event handlers (or no arguments). The one shown above is specific to the `TP.broadcastEvent` event.
+
+With that out of the way, let's connect the handler to the event. There are several ways to do this, and which one(s) you use may vary depending on the application or your personal
 preference, but they'll all accomplish the same goal. There are also ways to disconnect an event handler when you no longer wish to receive notifications, of course.
 
 ## Using connect() / disconnect()
 
 One way is with the `connect()`/`disconnect()` event prototype methods. This is known as a "subscriber" or "observer" event model and is actually the "native" way for the underlying JavaScript runtime
-engine used by this plugin. It is generally recommended over the other methods, though it may be somewhat unfamiliar.
+engine used by this plugin. It is generally recommended over the other methods since it is the most direct/efficient.
 
 ```js
 // Connect the handler
@@ -48,11 +54,12 @@ TP.broadcastEvent.disconnect(myHandler);
 
 // Inline handlers can be used but there is no way to disconnect it later.
 TP.broadcastEvent.connect( (event, data) => { .... } );
+TP.broadcastEvent.connect( function (event, data) { .... } );
 ```
 
 ## Using on() / off() / once()
 
-Another way is by using the "common" `on(eventName, callback)`/`off()`/`once()` function syntax. For example:
+Another way is by using the "common" `on()`/`once()`/`off()` function syntax. Each JS object type that emits events will have these methods available. For example:
 ```js
 TP.on("broadcastEvent", onBroadcastEvent);
 // ... later, to disconnect:
@@ -118,7 +125,7 @@ TP.removeEventListener("broadcastEvent", myClass.onBroadcastEvent, { context myC
 ## Global connectEvent() / connectOnce() / disconnectEvent() functions
 
 Three functions are provided in the global scope to connect and disconnect handlers by object reference. These functions are similar
-to the `on()`/`once()`/`off()` methods, but instead of an event name as the first argument, the actual event instance is used.
+to the `on()`/`once()`/`off()` methods, but instead of an event name as the first argument, the actual event method instance is specified.
 
 Essentially this invokes ths corresponding event's `connect()` prototype method for you, with the given handler (and optional `this` context object).
 `connectEvent()` and `connectOnce()` also return a function to use for disconnecting later (like `on()` and `once()` do).

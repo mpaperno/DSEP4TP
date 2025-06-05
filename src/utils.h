@@ -21,6 +21,7 @@ to any 3rd-party components used within.
 #pragma once
 
 #include <QDir>
+#include <QJSEngine>
 #include <QJSValue>
 #include <QJSValueIterator>
 #include <QMutex>
@@ -72,6 +73,23 @@ inline QJSValueList jsArrayToValueList(const QJSValue &array)
 			list << array.property(i);
 	}
 	return list;
+}
+
+// Sets a JS-side property on a QObject instance which has an associated QJSEngine context.
+inline void setScriptProperty(QObject *o, const char *prop, QJSValue val)
+{
+	if (QJSEngine *jse = qjsEngine(o)) {
+		auto objScriptVal = jse->toScriptValue(o);
+		if (objScriptVal.isQObject()) {
+			objScriptVal.setProperty(prop, val);
+		}
+		else {
+			qCWarning(lcDse) << "setScriptProperty(" << prop << "): Could not get this object as scriptValue() for" << o;
+		}
+	}
+	else {
+		qCWarning(lcDse) << "setScriptProperty(" << prop << "): Could not find QJSEngine for this object" << o;
+	}
 }
 
 inline float percentOfRange(float value, float rangeMin, float rangeMax)
