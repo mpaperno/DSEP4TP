@@ -211,7 +211,10 @@ void ScriptEngine::checkErrors() const
 	if (se->hasError()) {
 		QJSValue res = se->catchError();
 		if (!res.isUndefined() && !res.isNull()) {
-			Q_EMIT engineError(JSError(res));
+			JSError jse(res);
+			if (jse.stack.isEmpty())
+				jse.stack = stackTrace();
+			Q_EMIT engineError(jse);
 		}
 	}
 #endif
@@ -224,7 +227,10 @@ void ScriptEngine::throwError(const QJSValue &err) const
 		se->throwError(err);
 		checkErrors();
 #else
-		Q_EMIT engineError(JSError(err));
+		JSError jse(res);
+		if (jse.stack.isEmpty())
+			jse.stack = stack();
+		Q_EMIT engineError(jse);
 #endif
 	}
 }
@@ -254,6 +260,27 @@ void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg, cons
 void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg) const
 {
 	throwError(se->newErrorObject(type, msg), QByteArray());
+}
+
+// static
+QString ScriptEngine::stackTrace(QJSEngine *se)
+{
+	if (!se)
+		return QString();
+	QStringList ret;
+	const auto trace = se->handle()->stackTrace();
+	ret.reserve(trace.size());
+	for (const auto &frm : trace) {
+		if (frm.source.isEmpty())
+			continue;
+		QString line = frm.function + QLatin1Char('@') + frm.source;
+		if (frm.line > -1)
+			line += QLatin1Char(':') + QString::number(frm.line);
+		if (frm.column > -1)
+			line += QLatin1Char(':') + QString::number(frm.column);
+		ret << line;
+	}
+	return ret.join(QLatin1Char('\n'));
 }
 
 #define EE_RETURN_FILE_ERROR_OBJ(FN, RES, MSG) {                 \

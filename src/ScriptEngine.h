@@ -116,6 +116,9 @@ class ScriptEngine : public QObject
 			return m_nam;
 		}
 
+		static QString stackTrace(QJSEngine *se);
+		inline QString stackTrace() const { return stackTrace(engine()); }
+
 	Q_SIGNALS:
 		void raiseError(QJSValue err) const;
 		void engineError(const JSError &err) const;
@@ -151,11 +154,22 @@ class ScriptEngine : public QObject
 		static void checkErrors(QJSEngine *e) {
 			if (!e)
 				return;
-			if (ScriptEngine *se = e->property("ScriptEngine").value<ScriptEngine *>()) {
-				se->checkErrors(); }
+			if (ScriptEngine *se = e->property("ScriptEngine").value<ScriptEngine *>())
+				se->checkErrors();
 		}
 
 		static void checkErrors(ScriptEngine *se) { if (se) se->checkErrors(); }
+
+		static void throwError(QJSEngine *e, const QJSValue &err) {
+			if (!e)
+				return;
+			if (ScriptEngine *se = e->property("ScriptEngine").value<ScriptEngine *>())
+				se->throwError(err);
+		}
+
+		static void throwError(QObject *o, const QJSValue &err) {
+			ScriptEngine::throwError(qjsEngine(o), err);
+		}
 
 	private:
 		SCRIPT_ENGINE_BASE_TYPE *se = nullptr;
