@@ -196,17 +196,21 @@ Objects for interacting with the Dynamic Script Engine plugin environment and sc
 - `DynamicScript` - DynamicScript represents an instance of an expression, file, or module being evaluated using a scripting engine.
 
 \defgroup NetAPI Network APIs
-\brief The Network API (`Net`) provides an interface for requesting and sending network or local resources.
+\brief Network APIs provide interfaces for exchanging data with remote or local sources.
 
-This contains an implementation of the common Web Fetch API as described, for example, [on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), with a few differences and
-an expanded feature set.
+- The `Net` namespace contains:
+  -  An implementation of the common Web **Fetch API** as described, for example, [on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), with a few differences and
+		an expanded feature set.
 
-The two main interfaces for the Fetch API are the `Net.fetch()` and `Net.request()` functions, which are both essentially wrappers around an [XMLHttpRequest](@ref stdlib-xmlhttpreq) object.
-`fetch()` provides an asynchronous Promise-based interface, while `request()` returns results directly (synchronously).
+		The two main interfaces for the Fetch API are the `Net.fetch()` and `Net.request()` functions, which are both essentially wrappers around an [XMLHttpRequest](@ref stdlib-xmlhttpreq) object.
+		`fetch()` provides an asynchronous Promise-based interface, while `request()` returns results directly (synchronously).
+	- `Net.wsGet()` and `Net.wsSend()` static methods for receiving and sending single messages via `WebSocket` client requests.
 
-The Fetch API further extends `XMLHttpRequest` with formalized classes/objects for
-[Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers), Request, and Response types.<br/>
-(Note that the `Headers` type is not documented here locally since the implementation matches what is already documented at MDN.)
+- [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) - The `Headers` interface of the Fetch API allows you to perform various actions on HTTP request and response headers. (Implementation matches MDN documentation.)
+- `Request` - The Request interface of the Fetch API represents a resource request.
+- `Response` - The Response interface of the Fetch API represents the response to a request.
+- `Socket` - The Socket namespace contains constants relating to network socket operations, such as WebSockets.
+- `WebSocket` - Implementation of the [WebSocket Web API](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) client, with extensions similar to the NodeJS version.
 
 
 \defgroup FileSystem File System

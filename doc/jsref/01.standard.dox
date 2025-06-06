@@ -106,6 +106,7 @@ Portions of this text are originally from the Qt library's QJSEngine/QQmlEngine 
 - [DOMException](https://developer.mozilla.org/en-US/docs/Web/API/DOMException)
 - [fetch, Headers, Request, Response](https://developer.mozilla.org/en-US/docs/Web/API/fetch) ([implementation details](@ref NetAPI))
 - [URL & URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL)
+- [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/) ([implementation details](@ref WebSocket))
 - [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)  ([implementation details](#stdlib-xmlhttpreq)))
 
 ## Details by object type

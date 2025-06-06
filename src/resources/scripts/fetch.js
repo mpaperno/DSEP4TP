@@ -98,7 +98,7 @@ var Headers = class
 		this._xhrParsed = true;
 	}
 
-	forEach(callback, thisArg) {
+	forEach(callback, thisArg = undefined) {
 		for (const [k, v]  of this.entries())
 			callback.call(thisArg, k, v, this);
 	}
@@ -128,51 +128,51 @@ var Response = class
 		Object.defineProperty(this, '_bodyUsed', { value: false, writable: true } );
 
 		Object.defineProperty(this, 'async', {
-      enumerable: true,
-      get() { return this._xhr.async; }
-    });
+			enumerable: true,
+			get() { return this._xhr.async; }
+		});
 		Object.defineProperty(this, 'body', {
-      enumerable: true,
-      get() { return this.bodyAs(); }
-    });
+			enumerable: true,
+			get() { return this.bodyAs(); }
+		});
 		Object.defineProperty(this, 'bodyUsed', {
 			enumerable: true,
 			get() { return this._bodyUsed; }
 		});
 		Object.defineProperty(this, 'headers', {
-      enumerable: true,
-      get() { return this._headers; }
-    });
+			enumerable: true,
+			get() { return this._headers; }
+		});
 		Object.defineProperty(this, 'ok', {
-      enumerable: true,
-      get() { return ( this._xhr.status / 100 | 0) === 2; } // 200-299
-    });
+			enumerable: true,
+			get() { return (this._xhr.status / 100 | 0) === 2; } // 200-299
+		});
 		Object.defineProperty(this, 'redirected', {
-      enumerable: true,
-      get() { return this._xhr.responseURL != this._xhr.url; }
-    });
+			enumerable: true,
+			get() { return this._xhr.responseURL != this._xhr.url; }
+		});
 		Object.defineProperty(this, 'responseType', {
-      enumerable: true,
-      get() { return this._xhr.responseType; },
-      set(v) { this._xhr.responseType = v; }
-    });
+			enumerable: true,
+			get() { return this._xhr.responseType; },
+			set(v) { this._xhr.responseType = v; }
+		});
 		Object.defineProperty(this, 'status', {
-      enumerable: true,
-      get() { return this._xhr.status; }
-    });
+			enumerable: true,
+			get() { return this._xhr.status; }
+		});
 		Object.defineProperty(this, 'statusText', {
-      enumerable: true,
-      get() { return this._xhr.statusText; }
-    });
+			enumerable: true,
+			get() { return this._xhr.statusText; }
+		});
 		Object.defineProperty(this, 'url', {
-      enumerable: true,
-      get() { return this._xhr.responseURL; }
-    });
+			enumerable: true,
+			get() { return this._xhr.responseURL; }
+		});
 		// the underlying XMLHttpRequest object
 		Object.defineProperty(this, 'xhr', {
-      enumerable: true,
-      get() { return this._xhr; }
-    });
+			enumerable: true,
+			get() { return this._xhr; }
+		});
 	}
 
 	clone() { return new Response(this._xhr); }
@@ -312,27 +312,26 @@ Request._fetchSetupXhr = function(req)
 
 ////////////////////////////////////
 
-(function() {
-	"use strict";
+var Net = {
 
-	function fetch(url, options = {})
+	fetch: function(url, options = {})
 	{
 		options = Request._fetchSetupOptions(options, url);
 		options.async = true;
 		Request._fetchSetupXhr(options);
-		return fetchAsync(options);
-	}
+		return this.fetchAsync(options);
+	},
 
-	function request(url, options = {})
+	request: function(url, options = {})
 	{
 		options = Request._fetchSetupOptions(options, url);
 		options.async = false;
 		return options;
-	}
+	},
 
 	////////////////////////////////////
 
-	function fetchAsync(req)
+	fetchAsync: function(req)
 	{
 		return new Promise((resolve, reject) =>
 		{
@@ -372,9 +371,9 @@ Request._fetchSetupXhr = function(req)
 			}
 
 		});
-	}
+	},
 
-	function fetchSync(req)
+	fetchSync: function(req)
 	{
 		if (!(req instanceof Request)) {
 			if (req.noThrow)
@@ -415,21 +414,99 @@ Request._fetchSetupXhr = function(req)
 			err.response = response();
 			return err;
 		}
-	}
+	},
 
-	Net = {
-		fetch: fetch,
-		request: request,
-		fetchSync: fetchSync,
-		fetchAsync: fetchAsync,
-	};
+	wsGet: function(url, message = null, options = {})
+	{
+		return new Promise((resolve, reject) =>
+		{
+			if (!url) {
+				reject(new ReferenceError("A valid URL is required before any network operation."));
+				return;
+			}
 
-	// legacy, remove
-	GlobalRequestDefaults = Request.GlobalDefaults;
+			let timeoutTim;
+			const
+				raiseTimeout = () => {
+					timeoutTim = undefined;
+					ws?.close();
+					reject(new DOMException("Request timed out", "TimeoutError", DOMException.TIMEOUT_ERR));
+				},
+				cancelTimeout = () => {
+					if (timeoutTim) {
+						clearTimeout(timeoutTim);
+						timeoutTim = undefined;
+					}
+				}
+			;
 
-})();
+			let ws = new WebSocket(url, options);
+			ws.error.connect(reject);
+			ws.opened.connect(() => {
+				const to = options?.receiveTimeout ?? 30_000;
+				if (to > 0)
+					timeoutTim = setTimeout(raiseTimeout, to);
+				if (message != null)
+					ws.send(message, { binary: options?.binary });
+			});
+			ws.message.connect((msg) => {
+				cancelTimeout();
+				resolve(msg.data);
+				ws.close(WebSocket.NormalCloseCode, "Finished");
+			})
+			ws.closed.connect((ev) => {
+				if (/* ev.code != WebSocket.NormalCloseCode */ ev.wasClean !== true ) {
+					console.warn(`WebSocket indicated an error when closing. Code: ${ev.code}; reason: ${ev.reason}`)
+				}
+				ws = null;
+				cancelTimeout();
+				// setTimeout(gc, 1000);
+			});
+			if (options.signal && typeof options.signal.abort === 'function')
+				options.signal.abort.connect(ws, ws.abort);
+
+			ws.open();
+		});
+	},
+
+	wsSend: function(url, message = null, options = {})
+	{
+		return new Promise((resolve, reject) =>
+		{
+			if (!url) {
+				reject(new ReferenceError("A valid URL is required before any network operation."));
+				return;
+			}
+			let ws = new WebSocket(url, options);
+			ws.error.connect(reject);
+			ws.opened.connect(() => {
+				if (message != null) {
+					const sent = ws.send(message, { binary: options?.binary });
+					resolve(sent);
+				}
+				ws.close(WebSocket.NormalCloseCode, "Finished");
+			});
+			ws.closed.connect((ev) => {
+				if (/* ev.code != WebSocket.NormalCloseCode */ ev.wasClean !== true ) {
+					const ex = new Error(`WebSocket indicated an error when closing. Code: ${ev.code}; reason: ${ev.reason}`);
+					if (message == null)
+						reject(ex);
+					else
+						console.error(ex);
+				}
+				else if (message == null) {
+					resolve(0);
+				}
+				ws = null;
+				// setTimeout(gc, 1000);
+			});
+			if (options.signal && typeof options.signal.abort === 'function')
+				options.signal.abort.connect(ws, ws.abort);
+
+			ws.open();
+		});
+	},
+
+};  // Net
 
 ////////////////////////////////////
-
-var Net;
-var GlobalRequestDefaults;  // legacy, remove

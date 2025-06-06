@@ -18,6 +18,8 @@ of their respective licenses. The copyright notice above does not apply
 to any 3rd-party components used within.
 */
 
+#include <QAbstractSocket>
+
 #include "ScriptEngine.h"
 #include "Plugin.h"
 #include "ScriptingLibrary/AbortController.h"
@@ -28,6 +30,7 @@ to any 3rd-party components used within.
 #include "ScriptingLibrary/RunProcess.h"
 #include "ScriptingLibrary/TPAPI.h"
 #include "ScriptingLibrary/Util.h"
+#include "ScriptingLibrary/WebSocket.h"
 
 #if !SCRIPT_ENGINE_USE_QML
 // use privates to inject Locale and Date/Number formatting features normally in QQmlEngine into QJSEngine
@@ -152,6 +155,8 @@ void ScriptEngine::initScriptEngine()
 	se->globalObject().setProperty("AbortController", se->newQMetaObject<ScriptLib::AbortController>());
 	se->globalObject().setProperty("AbortSignal", se->newQMetaObject<ScriptLib::AbortSignal>());
 	se->globalObject().setProperty("DynamicScript", se->newQMetaObject<DynamicScript>());
+	se->globalObject().setProperty("Socket", se->newQMetaObject<QAbstractSocket>());
+	se->globalObject().setProperty("WebSocket", se->newQMetaObject<ScriptLib::WebSocket>());
 	se->globalObject().setProperty("globalThis", se->globalObject());
 #if !SCRIPT_ENGINE_USE_QML
 	se->globalObject().setProperty("Locale", se->newQMetaObject(&QQmlLocale::staticMetaObject));  // HACK - makes Locale namespace enums available

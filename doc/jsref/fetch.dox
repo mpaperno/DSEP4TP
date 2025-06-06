@@ -4,9 +4,6 @@
 namespace Net {
 
 /*!
-\fn Promise fetch(String url, object options = {})
-\static
-
 The `Net.fetch()` method starts the process of fetching a resource from the network, returning a Promise object which is fulfilled once a result is available.
 
 The `fetch()` method itself works the same as the standard (see, eg. [MDN %fetch()](https://developer.mozilla.org/en-US/docs/Web/API/fetch) for details),
@@ -49,11 +46,9 @@ Net.fetch("https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png")
 See [Fetch and Notify](@ref example_fetch_and_notify) for a more complete example using JSON a data request.
 
 */
-static Promise fetch(String url, object options = {});
+static Promise<Response> fetch(String url, object options = {});
 
 /*!
-\fn Response request(String url, object options = {})
-\static
 This is a fully synchronous version of `Net.fetch()`. Instead of returning a Promise, `Net.request()` returns a `Request` object type.
 The returned `Request` can then be used to invoke its methods which actually send the request: `Request.get()`, `Request.head()`, `Request.post()`, and `Request.put()`.
 These are all shorthand for the respective HTTP methods. See the linked documentation for details.
@@ -79,7 +74,52 @@ If error trapping isn't important, the image data could be returned directly fro
 object's `signal` property in order to terminate the request from another process (eg. a timer).
 
 */
-static Promise request(String url, object options = {});
+static Response request(String url, object options = {});
+
+
+/*!
+The `Net.wsGet()` function initiates a `WebSocket` request to the given URL, optionally sends a message after connection is established,
+and resolves the returned `Promise` with the contents of the first message received from the server.
+In case of errors, the `Promise` is rejected with an `Error` or `DOMException`.
+
+This is a convenience wrapper around the full `WebSocket` functionality for easily retrieving a single message asynchronously. Note that
+if you only need to _send_ a message, w/out needing a reply, use the `Net.wsSend()` function instead.
+
+\param url URL of the web socket server to connect to. Must use `ws:` or `wss:` scheme. If no scheme is in the given URL, the default is `ws:`.
+\param message A message to send to the server once connected. `null` (default) or `undefined` to not send any message.
+\param options Options to pass to the `WebSocket` constructor. The options object properties may consist of:
+  \li Any of the options specified in the `WebSocket::Options` documention. If you need to specify sub-protocol(s), specify it/them using the `protocols` property (string or array of strings).
+  \li `receiveTimeout` {number} - %Number of milliseconds to wait for a message from the server before giving up. Set this to `<= 0` to wait indefinitely. __Default__: 30,000 (30 seconds).\n
+    If the timeout expires before a message is received, the returned `Promise` is rejected with a `DOMException` named `TimeoutError` (error code constant `DOMException.TIMEOUT_ERR`).\n
+    Note that this timer starts _after_ a successful connection to the server. The initial connection timeout is controlled via the `handshakeTimeout` options property.
+  \li `binary` {boolean} - Send the given message as binary data if `true`. Passed to `WebSocket::send()`. Default is to auto-detect the type.
+  \li `signal` {AbortSignal} - Sets an `AbortSignal` which was obtained from an `AbortController` to use for aborting the network request.
+\returns A `Promise` which resolves with the contents of the first message received from the server, or rejects with an `Error` or `DOMException` in case of WebSocket error or message receive timeout, respectively.
+
+\sa WebSocket, Net.wsSend()
+*/
+static Promise<String|ArrayBuffer> wsGet(String url, any message = null, object options = {});
+
+/*!
+The `Net.wsSend()` function initiates a `WebSocket` request to the given URL and, optionally, sends a message after connection is established.
+If a message is sent, it resolves the returned `Promise` with the number of bytes sent, otherwise the `Promise` is resolved when the socket closes, with a value of `0`.
+In case of errors, the `Promise` is rejected with an `Error` object.
+
+This is a convenience wrapper around the full `WebSocket` functionality for easily retrieving a single message asynchronously. Note that
+if you need to _receive_ a message, use the `Net.wsGet()` function instead.
+
+\param url URL of the web socket server to connect to. Must use `ws:` or `wss:` scheme. If no scheme is in the given URL, the default is `ws:`.
+\param message A message to send to the server once connected. `null` (default) or `undefined` to not send any message.
+\param options Options to pass to the `WebSocket` constructor. The options object properties may consist of:
+  \li Any of the options specified in the `WebSocket::Options` documention. If you need to specify sub-protocol(s), specify it/them using the `protocols` property (string or array of strings).
+  \li `binary` {boolean} - Send the given message as binary data if `true`. Passed to `WebSocket::send()`. Default is to auto-detect the type.
+  \li `signal` {AbortSignal} - Sets an `AbortSignal` which was obtained from an `AbortController` to use for aborting the network request.
+\returns A `Promise` which resolves with the with the number of bytes sent (zero if `message` is `null`/`undefined`), or rejects with an `Error` object in case of any error.
+
+\sa WebSocket, Net.wsGet()
+*/
+static Promise<number> wsSend(String url, any message = null, object options = {});
+
 
 }  // namespace Net
 
@@ -109,34 +149,34 @@ thrown as a result of request errors (passed to `catch()` handler).  See the loc
 
 /*!
 
-\fn <Promise|Response> get()
+\fn <Promise<Response>|Response> get()
 \memberof Request
 Performs a "GET" request on the current `url`.
 \returns
-- If `async` property is `true` then a `Promise` object, same as `Net.fetch()` would return.
+- If `async` property is `true` then a `Promise` object which resolves with a `Response`, same as `Net.fetch()` would return.
 - If `async` property is `false` then a `Response` object, same as `Net.request()` would return.
 
-\fn <Promise|Response> head()
+\fn <Promise<Response>|Response> head()
 \memberof Request
 Performs a "HEAD" request on the current `url`.
 \returns
-- If `async` property is `true` then a `Promise` object, same as `Net.fetch()` would return.
+- If `async` property is `true` then a `Promise` object which resolves with a `Response`, same as `Net.fetch()` would return.
 - If `async` property is `false` then a `Response` object, same as `Net.request()` would return.
 
-\fn <Promise|Response> post(data)
+\fn <Promise<Response>|Response> post(data)
 \memberof Request
 Performs a "POST" request on the current `url`.
 \param data The data to send in the post request body, if any.
 \returns
-- If `async` property is `true` then a `Promise` object, same as `Net.fetch()` would return.
+- If `async` property is `true` then a `Promise` object which resolves with a `Response`, same as `Net.fetch()` would return.
 - If `async` property is `false` then a `Response` object, same as `Net.request()` would return.
 
-\fn <Promise|Response> put(data)
+\fn <Promise<Response>|Response> put(data)
 \memberof Request
 Performs a "PUT" request on the current `url`.
 \param data The data to send in the put request body, if any.
 \returns
-- If `async` property is `true` then a `Promise` object, same as `Net.fetch()` would return.
+- If `async` property is `true` then a `Promise` object which resolves with a `Response`, same as `Net.fetch()` would return.
 - If `async` property is `false` then a `Response` object, same as `Net.request()` would return.
 
 */
@@ -146,7 +186,7 @@ class Request
   \internal
   \property bool async
   \memberof Request
-  Indicates whether to use asynchronous network request type _and_ whether . Default is `true`. In practice this makes little difference when used with
+  Indicates whether to use asynchronous network request type. Default is `true`. In practice this makes little difference when used with
   `Net.fetch()` since promises themselves are async (to make a synchronous request that returns a result w/out promises, use `Net.request()`).
   This setting is forced to `false` when used with `Net.request()`.
 */
@@ -322,7 +362,7 @@ public:
 
 /*!
 
-\fn <Promise|ArrayBuffer> arrayBuffer()
+\fn <Promise<ArrayBuffer>|ArrayBuffer> arrayBuffer()
 \memberof Response
 \returns
 - If `async` property is `true` then `bufferAsync()`.
@@ -339,7 +379,7 @@ Returns a Promise that resolves with an `ArrayBuffer` representation of the resp
 Returns an `ArrayBuffer` representation of the response body. Same as `bodyAs("arraybuffer")`.
 
 
-\fn <Promise|string> base64()
+\fn <Promise<string>|string> base64()
 \memberof Response
 \returns
 - If `async` property is `true` then `base64Async()`.
@@ -371,7 +411,7 @@ If the data is malformed or not of the requested type at all, an exception may t
 To ensure the result is in a specific format, first check for appropriate response header(s) before calling this method.
 
 
-\fn <Promise|Object|Array> json()
+\fn <Promise<Object|Array>|Object|Array> json()
 \memberof Response
 \returns
 - If `async` property is `true` then `jsonAsync()`.
@@ -388,7 +428,7 @@ the parser (same as would be with `JSON.parse()`). To ensure the result is in JS
 Returns `body` as the result of parsing the response body text as JSON (either a JS Object or an Array). Same as `bodyAs("json")`.
 
 
-\fn <Promise|string> text()
+\fn <Promise<string>|string> text()
 \memberof Response
 \returns
 - If `async` property is `true` then `textAsync()`.
@@ -403,7 +443,7 @@ Returns a Promise that resolves with a text representation of the response body.
 Returns a text representation of the response body. Same as `bodyAs("text")`.
 
 
-\fn <Promise|XMLDocument> xml()
+\fn <Promise<XMLDocument>|XMLDocument> xml()
 \memberof Response
 \returns
 - If `async` property is `true` then `xmlAsync()`.
@@ -529,3 +569,37 @@ parsed JSON object/array, XML Document, or plain text).  \sa bodyAs(), getText()
   Q_PROPERTY(XMLHttpRequest xhr READ xhr)
 
 };
+
+//! \ingroup NetAPI
+//! The `Socket` namespace contains constants relating to network socket operations.
+namespace Socket {
+
+//! Error code value constants. These values correspond to the `code` property of errors emitted in the `error` event and the value returned for the `errorCode` property.
+enum SocketError {
+  ConnectionRefusedError,  //!< ( 0)  The connection was refused by the peer (or timed out).
+  RemoteHostClosedError,   //!< ( 1)  The remote host closed the connection. Note that the client socket (i.e., this socket) will be closed after the remote close notification has been sent.
+  HostNotFoundError,       //!< ( 2)  The host address was not found.
+  SocketAccessError,       //!< ( 3)  The socket operation failed because the application lacked the required privileges.
+  SocketResourceError,     //!< ( 4)  The local system ran out of resources (e.g., too many sockets).
+  SocketTimeoutError,      //!< ( 5)  The socket operation timed out.
+  DatagramTooLargeError,   //!< ( 6)  The datagram was larger than the operating system's limit (which can be as low as 8192 bytes).
+  NetworkError,            //!< ( 7)  An error occurred with the network (e.g., the network cable was accidentally plugged out).
+  AddressInUseError,       //!< ( 8)  The address specified to `bind()` is already in use and was set to be exclusive.
+  SocketAddressNotAvailableError,   //!< ( 9)  The address specified to QAbstractSocket::bind() does not belong to the host.
+  UnsupportedSocketOperationError,  //!< (10)  The requested socket operation is not supported by the local operating system (e.g., lack of IPv6 support).
+  UnfinishedSocketOperationError,   //!< (11)  The last operation attempted has not finished yet (still in progress in the background).
+  ProxyAuthenticationRequiredError, //!< (12)  The socket is using a proxy, and the proxy requires authentication.
+  SslHandshakeFailedError,      //!< (13)  The SSL/TLS handshake failed, so the connection was closed (only used in QSslSocket)
+  ProxyConnectionRefusedError,  //!< (14)  Could not contact the proxy server because the connection to that server was denied
+  ProxyConnectionClosedError,   //!< (15)  The connection to the proxy server was closed unexpectedly (before the connection to the final peer was established)
+  ProxyConnectionTimeoutError,  //!< (16)  The connection to the proxy server timed out or the proxy server stopped responding in the authentication phase.
+  ProxyNotFoundError,           //!< (17)  The proxy address set with setProxy() (or the application proxy) was not found.
+  ProxyProtocolError,           //!< (18)  The connection negotiation with the proxy server failed, because the response from the proxy server could not be understood.
+  OperationError,           //!< (19)  An operation was attempted while the socket was in a state that did not permit it.
+  SslInternalError,         //!< (20)  The SSL library being used reported an internal error. This is probably the result of a bad installation or misconfiguration of the library.
+  SslInvalidUserDataError,  //!< (21)  Invalid data (certificate, key, cypher, etc.) was provided and its use resulted in an error in the SSL library.
+  TemporaryError,           //!< (22)  A temporary error occurred (e.g., operation would block and socket is non-blocking).
+  UnknownSocketError = -1   //!< (-1)  An unidentified error occurred.
+};
+
+}  Socket namespace

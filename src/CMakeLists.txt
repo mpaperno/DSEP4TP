@@ -91,6 +91,8 @@ target_sources(${PROJECT_NAME} PRIVATE
   ScriptingLibrary/RunProcess.h
   ScriptingLibrary/TPAPI.h
   ScriptingLibrary/Util.h
+  ScriptingLibrary/WebSocket.h
+  ScriptingLibrary/WebSocket.cpp
 
   resources/resources.qrc
 )
@@ -135,6 +137,7 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
   Sql
   Gui
   Svg
+  WebSockets
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -144,6 +147,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   Qt${QT_VERSION_MAJOR}::Sql
   Qt${QT_VERSION_MAJOR}::Gui
   Qt${QT_VERSION_MAJOR}::Svg
+  Qt${QT_VERSION_MAJOR}::WebSockets
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${Qt${QT_VERSION_MAJOR}Qml_PRIVATE_INCLUDE_DIRS})
@@ -203,7 +207,7 @@ elseif(isLinux)
   set(qt_libs "")
   foreach(qt_lib
     Qt${qt_ver}Core.so.${qt_ver} Qt${qt_ver}Network.so.${qt_ver} Qt${qt_ver}Qml.so.${qt_ver} Qt${qt_ver}Sql.so.${qt_ver}
-    Qt${qt_ver}Gui.so.${qt_ver} Qt${qt_ver}Svg.so.${qt_ver} Qt${qt_ver}DBus.so.${qt_ver} Qt${qt_ver}OpenGL.so.${qt_ver}
+    Qt${qt_ver}Gui.so.${qt_ver} Qt${qt_ver}Svg.so.${qt_ver} Qt${qt_ver}DBus.so.${qt_ver} Qt${qt_ver}OpenGL.so.${qt_ver} Qt${qt_ver}WebSockets.so.${qt_ver}
     Qt${qt_ver}XcbQpa.so.${qt_ver} Qt${qt_ver}EglFSDeviceIntegration.so.${qt_ver} Qt${qt_ver}EglFsKmsSupport.so.${qt_ver}
     Qt${qt_ver}WaylandClient.so.${qt_ver} Qt${qt_ver}WaylandEglClientHwIntegration.so.${qt_ver} Qt${qt_ver}WlShellIntegration.so.${qt_ver}
     icui18n.so.56 icuuc.so.56 icudata.so.56

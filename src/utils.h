@@ -75,6 +75,23 @@ inline QJSValueList jsArrayToValueList(const QJSValue &array)
 	return list;
 }
 
+// unpacks an value which is a JS array into a list of individual JS values
+inline QStringList jsArrayToStringList(const QJSValue &array)
+{
+	QStringList list;
+	QJSValue tmp;
+	int e = 0;
+	if (array.isArray() && (e = array.property("length").toInt()) > 0) {
+		list.reserve(e);
+		for (int i=0; i < e; ++i) {
+			tmp = array.property(i);
+			if (tmp.isString())
+				list << tmp.toString();
+		}
+	}
+	return list;
+}
+
 // Sets a JS-side property on a QObject instance which has an associated QJSEngine context.
 inline void setScriptProperty(QObject *o, const char *prop, QJSValue val)
 {
