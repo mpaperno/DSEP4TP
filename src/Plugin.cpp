@@ -22,6 +22,7 @@ to any 3rd-party components used within.
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMetaObject>
+#include <QRegularExpression>
 #include <QThread>
 
 #include "common.h"
@@ -43,6 +44,7 @@ to any 3rd-party components used within.
 
 using namespace DseNS;
 using namespace Strings;
+using namespace Qt::Literals::StringLiterals;
 
 enum TimerEventType : quint8 {
 	TE_None,
@@ -172,6 +174,11 @@ static int stringToInt(QStringView str, int defaultValue = 0)
 	bool ok;
 	const int ret = str.toInt(&ok);
 	return ok ? ret : defaultValue;
+}
+
+static bool stringToBool(QStringView val) {
+	static const QRegularExpression boolRx(uR"RX((on|1|true|yes))RX"_s, QRegularExpression::DontCaptureOption);
+	return val.contains(boolRx);
 }
 
 
@@ -1269,6 +1276,9 @@ void Plugin::handleSettings(const QJsonObject &settings) const
 	}
 	if (!(val = settings.value(tokenToName(ST_LoadScriptAtStart))).isUndefined()) {
 		QSettings().setValue(SETTINGS_GROUP_PLUGIN "/" SETTINGS_KEY_STARTUP_SCRIPT, val.toString().trimmed());
+	}
+	if (!(val = settings.value(tokenToName(ST_UseEngineThreads))).isUndefined()) {
+		DSE::usePrivateEngineThreads = stringToBool(val.toString());
 	}
 	if (!g_startupComplete && !(val = settings.value(tokenToName(ST_SettingsVersion))).isUndefined()) {
 		// Currently not actually doing anything based on stored plugin settings, except a log message. Reserved for future use.

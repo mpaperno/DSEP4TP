@@ -95,6 +95,17 @@ const entry_base =
             },
         },
         {
+            name: "Run Script Engines In New Threads",
+            type: "switch",
+            default: "off",
+            readOnly: false,
+            tooltip: {
+                body: "Enable this option to use separate system threads for each Private Script Engine Instance. The recommended and default setting is \"Off\".\n" +
+                    "Enabling this option may lead to plugin instability! Object lifespans must be carefully managed, especially with asyncronous events.\n" +
+                    "Existing engine instances must be re-created before changes to this setting will take effect.",
+            },
+        },
+        {
             name: "Settings Version",
             type: "text",
             default: "",

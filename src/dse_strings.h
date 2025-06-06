@@ -114,7 +114,7 @@ static constexpr const char * g_tokenStrings[STRING_TOKENS_COUNT]
 	"alias"
 };
 
-static const char * const * tokenStrings() { return g_tokenStrings; }
+inline const char * const * tokenStrings() { return g_tokenStrings; }
 
 
 enum ChoiceListIdToken
@@ -135,7 +135,7 @@ static constexpr const char * g_listTokenStrings[CLID_ENUM_MAX]
 	"plugin.instance.name",
 };
 
-static const char * const * choiceListTokenStrings() { return g_listTokenStrings; }
+inline const char * const * choiceListTokenStrings() { return g_listTokenStrings; }
 
 enum ActionTokens {
 	AT_Unknown = STRING_TOKENS_COUNT + 1,
@@ -151,6 +151,7 @@ enum ActionTokens {
 	ST_ScriptsBaseDir,
 	ST_SettingsVersion,
 	ST_LoadScriptAtStart,
+	ST_UseEngineThreads,
 
 	AT_Script,
 	AT_Engine,
@@ -197,6 +198,7 @@ static QByteArray tokenToName(int token, const QByteArray &deflt = QByteArray())
 	  { ST_ScriptsBaseDir, "Script Files Base Directory" },
 	  { ST_SettingsVersion,   "Settings Version" },
 	  { ST_LoadScriptAtStart, "Load Script At Startup" },
+	  { ST_UseEngineThreads,  "Run Script Engines In New Threads" },
 
 	  // Plugin running state State values, used in Event evaluation.
 	  { AT_Starting,  "Starting" },
@@ -221,7 +223,7 @@ static QByteArray tokenToName(int token, const QByteArray &deflt = QByteArray())
 	return hash.value(token, deflt);
 }
 
-static QByteArray tokenToId(int token, const QByteArray &deflt = QByteArray())
+inline QByteArray tokenToId(int token, const QByteArray &deflt = QByteArray())
 {
 	static const QHash<int, QByteArray> hash = {
 	  { AHID_Script, g_tokenStrings[AHID_Script] },
@@ -249,7 +251,7 @@ static QByteArray tokenToId(int token, const QByteArray &deflt = QByteArray())
 	return hash.value(token, deflt);
 }
 
-static int tokenFromName(const QByteArray &name, int deflt = AT_Unknown)
+inline int tokenFromName(const QByteArray &name, int deflt = AT_Unknown)
 {
 	static const QHash<QByteArray, int> hash = {
 		{ g_tokenStrings[AHID_Script],  AHID_Script },
@@ -277,6 +279,7 @@ static int tokenFromName(const QByteArray &name, int deflt = AT_Unknown)
 	  { tokenToName(ST_ScriptsBaseDir),    ST_ScriptsBaseDir },
 	  { tokenToName(ST_SettingsVersion),   ST_SettingsVersion },
 	  { tokenToName(ST_LoadScriptAtStart), ST_LoadScriptAtStart },
+	  { tokenToName(ST_UseEngineThreads),  ST_UseEngineThreads },
 
 	  { tokenToName(AT_Script),    AT_Script },
 	  { tokenToName(AT_Engine),    AT_Engine },
