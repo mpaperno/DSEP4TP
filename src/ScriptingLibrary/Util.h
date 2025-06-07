@@ -23,6 +23,7 @@ to any 3rd-party components used within.
 #include <QAbstractEventDispatcher>
 #include <QCryptographicHash>
 #include <QCoreApplication>
+#include <QDesktopServices>
 #include <QDir>
 #include <QHash>
 #include <QJSValue>
@@ -427,6 +428,7 @@ class Util : public QObject
 		Q_INVOKABLE static bool    urlIsLocalPath(const QString &url)    { return QUrl(url).isLocalFile(); }
 		Q_INVOKABLE static QString urlFromLocalPath(const QString &file) { return QUrl::fromLocalFile(file).toString(); }
 		Q_INVOKABLE static QString urlToLocalPath(const QString &url)    { return QDir::toNativeSeparators(QUrl(url).toString(QUrl::PreferLocalFile)); }
+		Q_INVOKABLE static bool    openUrl(const QUrl &url)              { return QDesktopServices::openUrl(url); }
 		//! \}
 
 };

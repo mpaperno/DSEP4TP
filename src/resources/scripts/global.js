@@ -32,6 +32,7 @@ var
   hash = Util.hash,
   include = Util.include,
   require = Util.require,
+  openUrlExternally = Util.openUrl,
   locale = Qt ? Qt.locale : function() {},
   TP = TPAPI,
   registeredModules = {
