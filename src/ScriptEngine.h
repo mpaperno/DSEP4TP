@@ -142,7 +142,8 @@ class ScriptEngine : public QObject
 		void throwError(QJSValue::ErrorType type, const QString &msg, const QJSValue &cause, const QByteArray &instName = QByteArray()) const;
 		void throwError(QJSValue::ErrorType type, const QString &msg, const QByteArray &instName) const;
 		void throwError(QJSValue::ErrorType type, const QString &msg) const;
-		//void onScriptResultReady(const QVariant &vres) { if (se) emit resultReady(se->toScriptValue(vres)); }
+		//! Calls GC with a mutex lock -- do not use synchronously from inside scripts.
+		void collectGarbage();
 
 		QJSValue expressionValue(const QString &fromValue, const QByteArray &instName = QByteArray());
 		QJSValue scriptValue(const QString &fileName, const QString &expr, const QByteArray &instName = QByteArray());

@@ -89,6 +89,7 @@ class Util : public QObject
 		ScriptEngine *se = nullptr;
 		QReadWriteLock m_timersMutex;
 		std::atomic_int m_nextTimerId = 0;
+		std::atomic_bool m_gcScheduled { false };
 		QHash<int, TimerData> m_timers;
 
 		// Timers implementation
@@ -312,6 +313,18 @@ class Util : public QObject
 			QString str;
 			QDebug(&str) << "Current thread:" << QThread::currentThread() << "; Main thread:" << qApp->thread();
 			return str;
+		}
+
+		// Runs script engine garbage collection after a short timeout, consolidating all calls made within that timeout into one.
+		// Has no effect if GC has already been scheduled.
+		Q_INVOKABLE void gcLater() {
+			if (m_gcScheduled)
+				return;
+			m_gcScheduled = true;
+			QTimer::singleShot(5000, this, [this]() {
+				se->collectGarbage();
+				m_gcScheduled = false;
+			});
 		}
 
 		// \}

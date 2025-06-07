@@ -267,6 +267,12 @@ void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg) cons
 	throwError(se->newErrorObject(type, msg), QByteArray());
 }
 
+void ScriptEngine::collectGarbage()
+{
+	QMutexLocker lock(&m_mutex);
+	se->collectGarbage();
+}
+
 // static
 QString ScriptEngine::stackTrace(QJSEngine *se)
 {

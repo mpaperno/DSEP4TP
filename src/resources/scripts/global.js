@@ -25,6 +25,8 @@ var
   clearInterval = Util.clearInterval,
   clearAllTimers = Util.clearAllTimers,
   clearInstanceTimers = Util.clearInstanceTimers,
+  callLater = Qt.callLater,
+  gcLater = Util.gcLater,
   btoa = Util.btoa,
   atob = Util.atob,
   hash = Util.hash,
