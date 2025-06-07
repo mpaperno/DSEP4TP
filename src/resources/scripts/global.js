@@ -39,6 +39,8 @@ var
   }
 ;
 
+// Internal QObject signals to script slots event handling helpers. These are invoked from C++ side in event_utils.h.
+
 function _getNamedEventSignal(obj, ev) {
   const f = obj[ev];
   if (typeof f != 'function')
@@ -55,16 +57,24 @@ function _namedEventOnceHandler(obj, ev, r, t) {
 }
 
 function _namedEventOffHandler(obj, ev, r, t) {
-  return _offEventHandler(_getNamedEventSignal(obj, ev), r, t);
+  _offEventHandler(_getNamedEventSignal(obj, ev), r, t);
 }
 
-function _onEventHandler(sender, receiver, thisObj)
+function _connectSignalHandler(obj, ev, r, t) {
+  _connectEventHandler(_getNamedEventSignal(obj, ev), r, t);
+}
+
+function _connectEventHandler(sender, receiver, thisObj)
 {
   if (!!thisObj && typeof receiver === 'function')
     sender.connect(thisObj, receiver);
   else
     sender.connect(receiver);
+}
 
+function _onEventHandler(sender, receiver, thisObj)
+{
+  _connectEventHandler(sender, receiver, thisObj);
   var ref = new WeakSet([sender, receiver]);
   return function() {
     if (ref.delete(sender) && ref.delete(receiver))
@@ -93,6 +103,9 @@ function _offEventHandler(sender, receiver, thisObj)
     sender?.disconnect(receiver);
 }
 
+
+// Public event connection global functions.
+
 function connectEvent(sender, receiver, thisObj = null)
 {
   if (typeof sender != 'function' || !receiver)
@@ -113,6 +126,9 @@ function disconnectEvent(sender, receiver, thisObj = null)
     throw new TypeError("sender and receiver must be valid function objects.");
   _offEventHandler(sender, receiver, thisObj)
 }
+
+
+// Global init script fired at end of engine init.
 
 function _global_init()
 {

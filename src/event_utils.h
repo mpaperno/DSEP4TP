@@ -25,6 +25,9 @@ to any 3rd-party components used within.
 #include <QJSValue>
 #include <QPair>
 
+// Note: See resources/scripts/global.js for the JS functions being called from these methods.
+// These must be coordinated!
+
 #define NAMED_EVENT_HANDLER(...)                             \
 	protected:                                                 \
 	static QString evNameToSignal(const QString &ev) {         \
@@ -39,7 +42,7 @@ to any 3rd-party components used within.
 		return EventUtils::callHandler(this, "_namedEventOnceHandler", { evNameToSignal(ev), cb, thisObj });  \
 	}                                                                                                       \
 	Q_INVOKABLE void off(const QString &ev, QJSValue cb, QJSValue thisObj = QJSValue()) {                   \
-		EventUtils::callHandler(this, "_namedEventOffHandler", { evNameToSignal(ev), cb, thisObj });          \
+		EventUtils::callHandler(this, "_namedEventOffHandler", { evNameToSignal(ev), cb, thisObj }, false);   \
 	}                                                                                                       \
 	Q_INVOKABLE QJSValue addEventListener(const QString &ev, QJSValue cb, QJSValue o = QJSValue()) {   \
 		bool os;                                                                                         \
@@ -57,19 +60,19 @@ to any 3rd-party components used within.
 
 #define EVENT_PROPERTY(NAME)                                      \
 	Q_PROPERTY(QJSValue on##NAME READ _on_##NAME WRITE _on_##NAME)  \
-	QPair<QJSValue, QJSValue> _ev_##NAME {};                        \
-	QJSValue _on_##NAME() const { return _ev_##NAME.first; }        \
+	QJSValue _ev_##NAME {};                                         \
+	QJSValue _on_##NAME() const { return _ev_##NAME; }              \
 	void _on_##NAME(QJSValue cb) {                                  \
-		if (_ev_##NAME.second.isCallable())                           \
-			_ev_##NAME.second.call();                                   \
+		if (_ev_##NAME.isCallable())                                  \
+			off(#NAME, _ev_##NAME);                                     \
 		if (cb.isCallable()) {                                        \
-			if (QJSValue df = on(#NAME, cb); df.isCallable()) {         \
-				_ev_##NAME.first = cb;                                    \
-				_ev_##NAME.second = std::move(df);                        \
+			const QJSValue df = EventUtils::callHandler(this, "_connectSignalHandler", { evNameToSignal(#NAME), cb }, false);  \
+			if (!df.isNull()) {    \
+				_ev_##NAME = cb;                                          \
 				return;                                                   \
 			}                                                           \
 		}                                                             \
-		_ev_##NAME.first = _ev_##NAME.second = QJSValue();            \
+		_ev_##NAME = QJSValue();                                      \
 	}
 
 #define EVENT_PROPERTY_ALIAS(NAME, ALIAS)                         \
@@ -85,7 +88,8 @@ to any 3rd-party components used within.
 
 namespace EventUtils {
 
-inline QJSValue callHandler(QObject *o, const char *handler, QJSValueList vals)
+// Returns a QJSValue::NullValue if handler couldn't be invoked or it returns an error or expectFunctionReturn == true and handler returns a non-callable result.
+inline QJSValue callHandler(QObject *o, const char *handler, QJSValueList vals, bool expectFunctionReturn = true)
 {
 
 	if (QJSEngine *jse = qjsEngine(o)) {
@@ -98,7 +102,7 @@ inline QJSValue callHandler(QObject *o, const char *handler, QJSValueList vals)
 			const QJSValue ret = hdlr.call(vals);
 			if (ret.isError())
 				jse->throwError(ret);
-			else if (!ret.isCallable())
+			else if (expectFunctionReturn && !ret.isCallable())
 				jse->throwError(jse->newErrorObject(QJSValue::TypeError, QStringLiteral("Event handler '%1' returned invalid value.").arg(handler)));
 			else
 				return ret;
@@ -107,7 +111,7 @@ inline QJSValue callHandler(QObject *o, const char *handler, QJSValueList vals)
 	else {
 		qCWarning(lcDse) << "callHandler(" << handler << "): Could not find QJSEngine for this object" << o;
 	}
-	return QJSValue();
+	return QJSValue(QJSValue::NullValue);
 }
 
 inline QJSValue resolveListenerOptions(const QJSValue o, bool *once = nullptr) {
