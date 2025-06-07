@@ -204,17 +204,14 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, const QByteArray &pluginI
 		DSE::valueStatePrefix = m_pluginId + '.';
 
 	client->setHostProperties(tpHost, tpPort);
+
 	// Set up constant IDs of things we send to TP like states and choice list updates.
-	{
-		auto const &tokens = tokenStrings();
-		for (int i = 0; i < SID_ENUM_MAX; ++i)
-			m_stateIds[i] =  m_pluginId + QByteArrayLiteral(".state.") + tokens[i];
-	}
-	{
-		auto const &tokens = choiceListTokenStrings();
-		for (int i = 0; i < CLID_ENUM_MAX; ++i)
-			m_choiceListIds[i] =  m_pluginId + QByteArrayLiteral(".act.") + tokens[i];
-	}
+	for (int i = 0; i < SID_ENUM_MAX; ++i)
+		m_stateIds[i] = m_pluginId + QByteArrayLiteral(".state.") + g_tokenStrings[i];
+	for (int i = 0; i < CLID_ENUM_MAX; ++i)
+		m_choiceListIds[i] = m_pluginId + QByteArrayLiteral(".act.") + g_listTokenStrings[i];
+	for (int i = 0; i < EID_ENUM_MAX; ++i)
+		m_eventIds[i] = m_pluginId + QByteArrayLiteral(".event.") + g_eventTokenStrings[i];
 
 	connect(qApp, &QCoreApplication::aboutToQuit, this, &Plugin::quit);
 	connect(this, &Plugin::loggerRotateLogs, Logger::instance(), &Logger::rotateLogs);
@@ -231,6 +228,7 @@ Plugin::Plugin(const QString &tpHost, uint16_t tpPort, const QByteArray &pluginI
 	connect(this, &Plugin::tpChoiceUpdateInstance, client, qOverload<const QByteArray &, const QByteArray &, const QByteArrayList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpConnectorUpdateShort, client, qOverload<const QByteArray&, uint8_t>(&TPClientQt::connectorUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpSettingUpdate, client, qOverload<const QByteArray&, const QByteArray &>(&TPClientQt::settingUpdate), Qt::QueuedConnection);
+	connect(this, &Plugin::tpTriggerEvent, client, qOverload<const QByteArray &, const QJsonObject &>(&TPClientQt::triggerEvent), Qt::QueuedConnection);
 	// These are just for scripting engine user functions, not used by plugin directly. Emitted by ScriptEngine.
 	connect(this, &Plugin::tpChoiceUpdateStrList, client, qOverload<const QByteArray &, const QStringList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
 	connect(this, &Plugin::tpChoiceUpdateInstanceStrList, client, qOverload<const QByteArray &, const QByteArray &, const QStringList &>(&TPClientQt::choiceUpdate), Qt::QueuedConnection);
@@ -639,6 +637,10 @@ void Plugin::updateInstanceChoices(int token, const QByteArray &instId) const
 	else {
 		Q_EMIT tpChoiceUpdateInstance(m_choiceListIds[CLID_PluginControlInstanceName], instId, nameArry);
 	}
+}
+
+void Plugin::triggerGenericScriptEvent(const QJsonObject &states) {
+	Q_EMIT tpTriggerEvent(m_eventIds[EID_GenericEvent], states);
 }
 
 // Only used by deprecated CA_SetStateValue action.

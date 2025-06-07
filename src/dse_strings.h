@@ -137,6 +137,21 @@ static constexpr const char * g_listTokenStrings[CLID_ENUM_MAX]
 
 inline const char * const * choiceListTokenStrings() { return g_listTokenStrings; }
 
+
+enum EventIdToken {
+	EID_GenericEvent,
+
+	EID_ENUM_MAX
+};
+
+static constexpr const char * g_eventTokenStrings[EID_ENUM_MAX]
+{
+	"genericScriptEvent",
+};
+
+inline const char * const * eventTokenStrings() { return g_eventTokenStrings; }
+
+
 enum ActionTokens {
 	AT_Unknown = STRING_TOKENS_COUNT + 1,
 

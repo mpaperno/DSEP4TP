@@ -57,6 +57,7 @@ class Plugin : public QObject
 		void tpConnectorUpdateShort(const QByteArray &, quint8) const;
 		void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList &) const;
 		void tpSettingUpdate(const QByteArray &, const QByteArray &);
+		void tpTriggerEvent(const QByteArray &, const QJsonObject &) const;
 
 		void tpMessageEvent(const QJsonObject &msg);
 		void tpNotificationClicked(const QString &, const QString &) const;
@@ -103,6 +104,7 @@ class Plugin : public QObject
 
 	public Q_SLOTS:
 		void onStateUpdateByName(const QByteArray &name, const QByteArray &value) const;  // used by TPAPI
+		void triggerGenericScriptEvent(const QJsonObject &states);
 
 	protected Q_SLOTS:
 		void timerEvent(QTimerEvent *ev) override;
@@ -133,6 +135,7 @@ class Plugin : public QObject
 		QThread *clientThread = nullptr;
 		QTimer m_loadSettingsTmr;
 		QByteArray m_stateIds[Strings::SID_ENUM_MAX];
+		QByteArray m_eventIds[Strings::EID_ENUM_MAX];
 		QByteArray m_choiceListIds[Strings::CLID_ENUM_MAX];
 
 		friend class DynamicScript;

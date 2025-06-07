@@ -123,17 +123,7 @@ const entry_base =
             states: [],
             actions: [],
             connectors: [],
-            events: [
-                {
-                    id: PLUGIN_ID + ".event.pluginState",
-                    name: "Plugin running state change",
-                    format: "When the plugin runnings state changes to $val",
-                    type: "communicate",
-                    valueType: "choice",
-                    valueStateId: PLUGIN_ID + ".state.pluginState",
-                    valueChoices: ["Stopped", "Starting", "Started"],
-                },
-            ]
+            events: []
         },
         {
             id: PLUGIN_ID + ".cat.plugin",
@@ -195,6 +185,27 @@ function addState(id, desc, def = "", choices = null, cat = 1)
   }
   // push to category
   entry_base.categories[cat].states.push(state);
+}
+
+function addEvent(id, name, format, stateId = "", states = null, choices = null, cat = 0)
+{
+  const event = {
+    id: PLUGIN_ID + ".event." + id,
+    name: name,
+    format: SHORT_NAME + ": " + format,
+    type: "communicate",
+    valueType: "text",
+    valueStateId: !stateId ? "" : PLUGIN_ID + ".state." + stateId,
+  };
+
+  if (choices) {
+    event.valueChoices = choices;
+    event.valueType = "choice";
+  }
+  if (states)
+    event.localstates = states
+
+  entry_base.categories[cat].events.push(event);
 }
 
 function addAction(id, name, descript, format, data, hold = false) {
@@ -476,6 +487,24 @@ function addSystemActions()
     }
 }
 
+function addEvents()
+{
+    addEvent("pluginState", "Plugin running state change", "When the plugin runnings state changes to $val", "pluginState", null, ["Stopped", "Starting", "Started"]);
+
+    const states = [
+        { id: "ScriptEvent.name", name: "Event Type Name" },
+    ]
+    for (let i=1; i < 11; ++i)
+        states.push({ id: `ScriptEvent.value.${i}`, name: `Event Value ${i}` });
+    addEvent(
+        "genericScriptEvent",
+        "Generic Script Event",
+        "When a script triggers a custom event.\nThis event may be used by scripts for various purposes. The event local values will contain futher details.",
+        null,
+        states
+    );
+}
+
 
 // ------------------------
 // Build the full entry.tp object for JSON dump
@@ -488,6 +517,8 @@ addState("actRepeatRate",     "Default held action Repeat Rate (ms)");
 addState("tpDataPath",        "Touch Portal data folder (current user)");
 addState("currentPage",       "Name of Page currently active on TP device");
 addState("pluginState",       "Plugin running state",  "Unknown", ["Stopped", "Starting", "Started"]);
+
+addEvents();
 
 addEvalAction("Evaluate Expression");
 addScriptAction("Load Script from File");

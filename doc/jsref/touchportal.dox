@@ -183,6 +183,45 @@ public:
   \since v1.2
 */
 
+/*!
+  \fn void triggerEvent(String id, object states = {})
+  \memberof TP
+  \static
+  Trigger a Touch Portal Event with the ID `id` and optional local state values defined in `states`.
+  `states` should be an object with the local state IDs as keys (as defined in the entry.tp event description) and string values. Only strings are allowed.
+  \note This only works for events of the current plugin, as defined in corresponding entry.tp file.
+
+  \sa [Touch Portal Event API](https://www.touch-portal.com/api/index.php?section=description_file_events), [TP triggerEvent](https://www.touch-portal.com/api/index.php?section=communication_trigger_event), triggerGenericEvent()
+  \since v1.3
+*/
+
+/*!
+  \fn void triggerGenericEvent(String name, <String|number|boolean> ... stateValues)
+  \memberof TP
+  \static
+  Trigger the plugin's "Generic Script Event" Touch Portal Event.
+  This event is meant as a way for scripts to trigger Touch Portal events with attached structured data, as an alternative to listening for state changes.
+  Events must be defined in a plugin's entry.tp file and we cannot create new Events dynamically. So this "generic" event is provided.
+
+  Each event must have a `name` to distinguish it from others. This is used as the first "local state" of the event, which shows up as "Event Type Name" in the Touch Portal value selector.
+  Then conditional logic inside an event handler can be used to process or ignore that event type.
+
+  Up to 10 other "local state" `values` can be provided as well (in the Touch Portal value selector these show up as "Value 1", "Value 2", etc).
+
+  Local state values can be passed as individual arguments (up to 10) or as an array.  Only primitive value types are allowed (string, numeric, boolean, undefined/null).
+  All values get converted to strings before sending to Touch Portal. If fewer than 10 values are provided as arguments, the rest are sent as empty strings.
+
+  \sa [Touch Portal Event API](https://www.touch-portal.com/api/index.php?section=description_file_events), [TP triggerEvent](https://www.touch-portal.com/api/index.php?section=communication_trigger_event)
+  \since v1.3
+*/
+
+/*!
+  \fn void triggerGenericEvent(String name, Array<String|number|boolean> stateValues)
+  \memberof TP
+  \static
+  Overload of `triggerGenericEvent()`. In this version the local state values can be specified as an array.
+*/
+
 //! \}
 
 /*!

@@ -72,6 +72,8 @@ class TPAPI : public QObject
 			connect(this, &TPAPI::connectorUpdate, plugin, &Plugin::tpConnectorUpdateShort, ctype);
 			connect(this, &TPAPI::settingUpdate, plugin, &Plugin::tpSettingUpdate, ctype);
 			connect(this, &TPAPI::tpNotification, plugin, &Plugin::tpNotification, ctype);
+			connect(this, &TPAPI::triggerEvent, plugin, &Plugin::tpTriggerEvent, ctype);
+			connect(this, &TPAPI::triggerGenericScriptEvent, plugin, &Plugin::triggerGenericScriptEvent, ctype);
 		}
 
 		void connectInstance(const DynamicScript *ds)
@@ -151,6 +153,7 @@ class TPAPI : public QObject
 		void connectorUpdateByLongId(const QByteArray &, uint8_t, bool = false);
 		void connectorUpdate(const QByteArray &, uint8_t);
 		void settingUpdate(const QByteArray &name, const QByteArray &value);
+		void triggerEvent(const QByteArray &, const QJsonObject & = QJsonObject()) const;
 
 		// Connectable by scripts
 		void messageEvent(const QJsonObject &message);
@@ -207,6 +210,35 @@ class TPAPI : public QObject
 		inline void stateUpdateById(const QByteArray &id, const QByteArray &value) { Q_EMIT stateValueUpdateById(id, value); }
 		inline void connectorUpdateShort(const QByteArray &id, uint8_t val) { Q_EMIT connectorUpdate(id, val); }
 
+		void triggerGenericEvent(const QString &name, const QList<QJSPrimitiveValue> &values = QList<QJSPrimitiveValue>()) const
+		{
+			static const QString valueIdTemplate(QLatin1String("ScriptEvent.value.%1"));
+
+			QJsonObject states;
+			states[QLatin1String("ScriptEvent.name")] = name;
+
+			for (int i=0; i < 10; ++i)
+				states[valueIdTemplate.arg(i+1)] = values.value(i, QJSPrimitiveValue(QStringLiteral(""))).toString();
+
+			// qCDebug(lcDse) << "Sending generic event trigger with" << states;
+			Q_EMIT triggerGenericScriptEvent(states);
+		}
+
+		void triggerGenericEvent(
+			const QString &name,   QJSPrimitiveValue v0,
+			QJSPrimitiveValue v1 = QJSPrimitiveValue(QStringLiteral("")),
+			QJSPrimitiveValue v2 = QJSPrimitiveValue(QStringLiteral("")),
+			QJSPrimitiveValue v3 = QJSPrimitiveValue(QStringLiteral("")),
+			QJSPrimitiveValue v4 = QJSPrimitiveValue(QStringLiteral("")),
+			QJSPrimitiveValue v5 = QJSPrimitiveValue(QStringLiteral("")),
+			QJSPrimitiveValue v6 = QJSPrimitiveValue(QStringLiteral("")),
+			QJSPrimitiveValue v7 = QJSPrimitiveValue(QStringLiteral("")),
+			QJSPrimitiveValue v8 = QJSPrimitiveValue(QStringLiteral("")),
+			QJSPrimitiveValue v9 = QJSPrimitiveValue(QStringLiteral("")) ) const
+		{
+			triggerGenericEvent(name, {v0, v1, v2, v3, v4, v5, v6, v7, v8, v9});
+		}
+
 		void showNotification(const QByteArray &id, const QByteArray &title, const QByteArray &msg, QVariantList options = QVariantList(), QJSValue callback = QJSValue())
 		{
 			if (options.isEmpty())
@@ -256,6 +288,7 @@ class TPAPI : public QObject
 		Q_SIGNAL void stateValueUpdateById(const QByteArray &, const QByteArray &);
 		Q_SIGNAL void tpNotification(const QByteArray &, const QByteArray &, const QByteArray &, const QVariantList & = QVariantList());
 		Q_SIGNAL void tpStateCreate(const QByteArray &, const QByteArray &, const QByteArray &, const QByteArray &, bool force = false);
+		Q_SIGNAL void triggerGenericScriptEvent(const QJsonObject &) const;
 
 		ConnectorData *connectorData()
 		{
