@@ -257,10 +257,16 @@ See [Event Handling](@ref EventHandlers) for more details about connecting handl
 - `console.count()`
 - `console.profile()`
 - `console.profileEnd()`
-- `console.exception()` - like error() but prints stack trace.
-- `print()` - same as console.log()
-- `printf()` - writes formatted strings
 - `console.dir(obj [,options])` - logs an object's properties, with recursion. Uses `inspect()` to get the output to print. Equivalent to `console.debug(inspect(obj, options))`. See `inspect()` for `options` details.
+
+__Extended functionality:__
+- `console.exception()` - like `console.error()` but also prints stack trace.
+- `print()` - same as console.log()
+- `printf(format, ...args)` - writes formatted strings to the console log at "debug" level. Equivalent to `console.log(sprintf(format, ...args))`. See `sprintf()` for details.
+- `console.logf(format, ...args)`, `console.debugf(format, ...args)`, `console.printf(format, ...args)` - same as `printf()`
+- `console.infof(format, ...args)` - writes formatted string to console at "info" level. Equivalent to `console.info(sprintf(format, ...args))`.
+- `console.warnf(format, ...args)` - writes formatted string to console at "warning" level. Equivalent to `console.warn(sprintf(format, ...args))`.
+- `console.errorf(format, ...args)` - writes formatted string to console at "error" level. Equivalent to `console.error(sprintf(format, ...args))`.
 
 
 ### XMLHttpRequest  {#stdlib-xmlhttpreq}

@@ -52,8 +52,21 @@ if (!console.dir) {
   };
 }
 
-if (!globalThis.printf) {
-  globalThis.printf = function(format, ...args) {
+if (!console.printf) {
+  console.printf = console.logf = console.debugf = function(format, ...args) {
     console.log(sprintf(format, ...args));
-  }
+  };
+  console.infof = function(format, ...args) {
+    console.info(sprintf(format, ...args));
+  };
+  console.warnf = function(format, ...args) {
+    console.warn(sprintf(format, ...args));
+  };
+  console.errorf = function(format, ...args) {
+    console.error(sprintf(format, ...args));
+  };
+}
+
+if (!globalThis.printf) {
+  globalThis.printf = console.printf;
 }
