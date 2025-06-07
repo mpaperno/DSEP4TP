@@ -229,7 +229,7 @@ var Request = function(init, url = "")
 	this.xhr = null;
 	this.error = null;
 
-	if (typeof init === 'string' || init instanceof URL)
+	if (typeof init === 'string' || isInstanceOfURL(init))
 		init = { url: init };
 	return Object.assign(this, Request.GlobalDefaults, init); // {...this, ...init};
 }

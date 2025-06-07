@@ -48,40 +48,6 @@ to any 3rd-party components used within.
 	if (ScriptEngine *_scriptEngine = JSE->property("ScriptEngine").value<ScriptEngine *>()) { \
 		_scriptEngine->checkErrors(); }
 
-
-#if SCRIPT_ENGINE_USE_QML
-// Used with QQmlEngine for XMLHttpRequest
-#include <QQmlNetworkAccessManagerFactory>
-class NetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
-{
-	private:
-		QMutex m_mutex;
-		QVector<QNetworkAccessManager *> m_managers {};
-
-	public:
-		QNetworkAccessManager *create(QObject * = nullptr) override
-		{
-			QMutexLocker lock(&m_mutex);
-			QNetworkAccessManager *nam = new QNetworkAccessManager();
-#if false && QT_CONFIG(networkproxy)
-			if (!proxyHost.isEmpty()) {
-				QNetworkProxy proxy(QNetworkProxy::HttpCachingProxy, proxyHost, proxyPort);
-				nam->setProxy(proxy);
-			}
-#endif // networkproxy
-			m_managers.append(nam);
-			return nam;
-		}
-
-		~NetworkAccessManagerFactory() {
-			QMutexLocker lock(&m_mutex);
-			for (auto nam : qAsConst(m_managers))
-				if (nam)
-					nam->deleteLater();
-		}
-};
-#endif
-
 class DynamicScript;
 
 namespace ScriptLib {
@@ -109,6 +75,7 @@ class ScriptEngine : public QObject
 		inline QByteArray name() const { return m_name; }
 		inline QByteArray currentInstanceName() const { return dse->instanceName; }
 		inline ScriptLib::TPAPI *tpApiObject() const { return tpapi; }
+		// called by custom XmlHttpRequest implementation
 		inline QNetworkAccessManager *networkAccessManager()
 		{
 			if (!m_nam)
@@ -182,9 +149,6 @@ class ScriptEngine : public QObject
 		bool m_isShared = false;
 		QMutex m_mutex;
 		QNetworkAccessManager *m_nam = nullptr;
-#if SCRIPT_ENGINE_USE_QML
-		NetworkAccessManagerFactory m_factory;
-#endif
 
 		void initScriptEngine();
 		bool resolveFilePath(const QString &fileName, QString &resolvedFile) const;

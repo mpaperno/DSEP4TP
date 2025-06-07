@@ -25,21 +25,19 @@ to any 3rd-party components used within.
 #include "ScriptingLibrary/AbortController.h"
 #include "ScriptingLibrary/Clipboard.h"
 #include "ScriptingLibrary/Dir.h"
+#include "ScriptingLibrary/DOMException.h"
 #include "ScriptingLibrary/File.h"
 #include "ScriptingLibrary/FileInfo.h"
 #include "ScriptingLibrary/RunProcess.h"
 #include "ScriptingLibrary/TPAPI.h"
 #include "ScriptingLibrary/Util.h"
+#include "ScriptingLibrary/XmlHttpRequest.h"
 #include "ScriptingLibrary/WebSocket.h"
 
-#if !SCRIPT_ENGINE_USE_QML
 // use privates to inject Locale and Date/Number formatting features normally in QQmlEngine into QJSEngine
 #include <private/qqmllocale_p.h>
 #include <private/qv4global_p.h>
 #include <private/qv4engine_p.h>
-#include "ScriptingLibrary/DOMException.h"
-#include "ScriptingLibrary/XmlHttpRequest.h"
-#endif
 
 using namespace Utils;
 using namespace ScriptLib;
@@ -131,18 +129,18 @@ void ScriptEngine::initScriptEngine()
 	se->setProperty("ScriptEngine", QVariant::fromValue(this));  // used by library scripts to access this instance
 
 #if !SCRIPT_ENGINE_USE_QML
-	//se->installExtensions(QJSEngine::AllExtensions);
-	se->handle()->initializeGlobal();    // HACK - this injects Date/Number formatting features... also XMLHttpRequest but using that crashes the program.
-	dse_add_qmlxmlhttprequest(se->handle());  // so we inject our own version which is modified to use a fixed netowrk manager and doesn't rely on qmlEngine.
-	dse_add_domexceptions(se->handle());
+	// this invokes `QJSEngine::installExtensions(QJSEngine::AllExtensions)` and also injects Date/Number formatting features; also XMLHttpRequest but we replace it later
+	se->handle()->initializeGlobal();
 #else
-	se->setNetworkAccessManagerFactory(&m_factory);
 	se->setOutputWarningsToStandardError(false);
-	connect(se, &QQmlEngine::warnings, this, [=](const QList<QQmlError> &w) {
+	connect(se, &QQmlEngine::warnings, this, [](const QList<QQmlError> &w) {
 		for (const auto &ww : w)
-			qCWarning(lcPlugin).nospace() << ww;
+			qCWarning(lcDse).nospace() << ww;
 	}, Qt::DirectConnection);
 #endif
+	// we inject our own XMLHttpRequest which is modified with extra features and doesn't rely on QQmlEngine.
+	dse_add_qmlxmlhttprequest(se->handle());
+	dse_add_domexceptions(se->handle());
 
 	se->globalObject().setProperty("DSE", se->newQObject(dse));                         // CPP ownership
 	se->globalObject().setProperty("Util", se->newQObject(ulib));                       // CPP ownership

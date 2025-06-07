@@ -128,6 +128,12 @@ function disconnectEvent(sender, receiver, thisObj = null)
 }
 
 
+// Helper function to determine if an object instance is a URL type
+// Net.Request uses this. Workaround for running in a QQmlEngine instance.
+function isInstanceOfURL(instance) {
+  return Object.prototype.toString.call(instance)?.endsWith("URL]");
+}
+
 // Global init script fired at end of engine init.
 
 function _global_init()
@@ -150,11 +156,15 @@ function _global_init()
     [ WebSocket,       "WebSocket"       ],
   ].forEach((o) => addHasInstance(o[0], o[1]))
 
-  Object.defineProperty(URL, Symbol.hasInstance, {
-    configurable: true,
-    value(instance) {
-      return Object.prototype.toString.call(instance)?.endsWith("URL]");
-    },
-  });
+  try {
+    // This will throw if we're running in a QQmlEngine instead of a QJSEngine
+    Object.defineProperty(URL, Symbol.hasInstance, {
+      configurable: true,
+      value(instance) {
+        return isInstanceOfURL(instance);
+      },
+    });
+  }
+  catch (_) { }
 
 }
