@@ -255,7 +255,7 @@ void WebSocket::setListeners(const QJSValue &listeners)
 
 // ---------------------------------------
 
-void WebSocket::open()
+void WebSocket::open(QJSValue callback)
 {
 	if (!m_request.url().isValid()) {
 		setError(tr("Invalid URL."), QAbstractSocket::OperationError);
@@ -269,6 +269,11 @@ void WebSocket::open()
 
 	if (!m_webSocket)
 		setSocket();
+	if (callback.isCallable()) {
+		m_onOpenCallback = callback;
+		CONNECT_EVENT_HANDLER(opened, callback);
+	}
+
 	m_webSocket->open(m_request, m_options.handshake);
 }
 
@@ -304,7 +309,7 @@ void WebSocket::ping(const QByteArray &payload) const
 qint64 WebSocket::send(const QJSValue &message, bool isBinary)
 {
 	if (!isBinary && !message.isObject())
-		return sendText(message.toString());
+		return sendText(message);
 
 	if (QJSEngine *jse = qjsEngine(this)) {
 		const QByteArray ba = jse->fromScriptValue<QByteArray>(message);
@@ -321,13 +326,13 @@ qint64 WebSocket::send(const QJSValue &message, bool isBinary)
 	return -1;
 }
 
-qint64 WebSocket::sendText(const QString &message)
+qint64 WebSocket::sendText(const QJSValue &message)
 {
 	if (m_status != OPEN) {
 		setError(tr("Messages can only be sent when the socket is open."), QAbstractSocket::OperationError);
 		return -1;
 	}
-	return m_webSocket->sendTextMessage(message);
+	return m_webSocket->sendTextMessage(message.toString());
 }
 
 qint64 WebSocket::sendBinary(const QByteArray &message)
@@ -511,6 +516,12 @@ void WebSocket::setStatus(WebSocket::ReadyState status)
 			{ "reason",   closeReason() },
 			{ "wasClean", closeCode() < ProtocolErrorCloseCode },
 		});
+	}
+	// disconnect one-time on-open event handler, if any, unless we're still connecting
+	// it would have been already invoked if status changed to OPEN
+	if (status != CONNECTING && m_onOpenCallback.isCallable()) {
+		off("opened", m_onOpenCallback);
+		m_onOpenCallback = QJSValue();
 	}
 }
 

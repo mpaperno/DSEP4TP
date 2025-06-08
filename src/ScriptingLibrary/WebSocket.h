@@ -324,14 +324,22 @@ class WebSocket : public QObject
 		//! Immediately terminate any open connection. As opposed to `close()`, this method doesn't attempt to process any pending data.
 		//! \sa close()
 		void abort() const;
-		//! Gracefully closes the server connection by initiating a closing handshake. Any pending data is flushed before the socket is closed.
+		//! Gracefully closes the server connection by initiating a closing handshake. Any pending data is flushed before the socket is closed, if possible.
 		//! \param closeCode Optional code to indicate reason for closure. Typically one of the standard protocol codes, as enumerated by `WebSocket.CloseCode`. Default is `1000`, or "normal."
 		//! \param reason Optional reason text for the closure. Default is an empty string.
 		//!
 		//! \sa abort()
 		void close(qint16 closeCode = CloseCode::NormalCloseCode, const QString &reason = "");
 		//! Attempts to open a connection to the server.
-		void open();
+		//!
+		//! An optional `callback` Function may be provided as the first argument, which will then be invoked upon a successful connection, as if it was a handler for the usual `opened` event.
+		//! The callback handler is always removed after this connection attempt, even if it fails (errors are emitted in the `error` event as usual).
+		//! Any successive calls to `open()` would need to specify the callback again.
+#ifdef DOXYGEN
+		void open(Function callback = undefined);
+#else
+		void open(QJSValue callback = QJSValue());
+#endif
 		// Extended, Node ws compatible
 		//! Send a "ping" to the connected server. The server should respond with a "pong" message.
 		//! \param payload Optional data to send with the ping. This will be returned by the server in the "pong" message. Default payload value is empty.
@@ -352,9 +360,14 @@ class WebSocket : public QObject
 		qint64 send(const QJSValue &data, bool isBinary = false);
 		qint64 send(const QJSValue &data, const QVariantMap &options) { return send(data, options.value("binary", false).toBool()); }
 #endif
-		//! Sends text \a message to the server as UTF-8 text. Returns the number of bytes written to the socket or `-1` in case of error.
+		//! Sends \a message to the server as UTF-8 text. `message` values that are not already strings are coerced to strings.
+		//! Returns the number of bytes written to the socket or `-1` in case of error.
 		//! \sa send(), sendBinary()
-		qint64 sendText(const QString &message);
+#ifdef DOXYGEN
+		int sendText(any message);
+#else
+		qint64 sendText(const QJSValue &message);
+#endif
 		//! Sends the contents of \a bytes array buffer to the server. Returns the number of bytes written to the socket or `-1` in case of error.
 		//! \sa send(), sendText()
 		qint64 sendBinary(const QByteArray &bytes);
@@ -495,6 +508,7 @@ class WebSocket : public QObject
 		QNetworkRequest m_request;
 		WsOptions m_options;
 		QString m_errorString;
+		QJSValue m_onOpenCallback;
 
 };
 
