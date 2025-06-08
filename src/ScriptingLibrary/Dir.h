@@ -82,16 +82,21 @@ class Dir : public QObject
 		Q_INVOKABLE static bool rmdir(const QString &dirName, bool recurse = false)  { return recurse ? QDir(dirName).removeRecursively() : QDir().rmdir(dirName);  }
 
 		//! \}
-		// Dir info
+		// Directory Info
 		//! \{
 
 		//! Returns `true` if `path` exists in the file system, `false` otherwise.
 		Q_INVOKABLE static bool exists(const QString &path)     { return QDir(path).exists(); }
 		//! Returns `true` if `path` is absolute (that is, from a root directory), `false` otherwise (if it relative).
 		Q_INVOKABLE static bool isAbs(const QString &path)      { return QDir::isAbsolutePath(path); }
+		//! Returns a `FileInfo` object describing the file or directory at the given `path`.
+		//! Relative paths are resolved against the current working directory (`Dir.cwd()`). This function is equivalent to `File.info()`.
+		//! \since 1.2.1
+		Q_INVOKABLE static FileInfo info(const QString &path) { return FileInfo(path); }
+
 
 		//! \}
-		// Paths
+		// System Paths
 		//! \{
 
 		//! Returns the absolute path of the application's current directory. The current directory is the directory at which this application was started at by the parent process.
@@ -99,33 +104,39 @@ class Dir : public QObject
 		//! Returns the absolute path of the user's home directory. (Under Windows this function will return the directory of the current user's profile, eg `C:/Users/Username`)
 		//! Under non-Windows operating systems the HOME environment variable is used if it exists, otherwise the path returned by the rootPath().
 		Q_INVOKABLE static QString home()  { return QDir::homePath(); }
+		//! Returns the absolute path of the root directory. For Windows file systems this normally returns the boot drive letter (typically "c:/"). For Unix/Mac operating systems this returns "/".
+		Q_INVOKABLE static QString root()  { return QDir::rootPath(); }
 		//! Returns the absolute canonical path of the system's temporary directory. On Unix/Linux systems this is the path in the TMPDIR environment variable or /tmp if TMPDIR is not defined.
 		//! On Windows this is usually the path in the TEMP or TMP environment variable. The path returned by this method doesn't end with a directory separator unless it is the root directory (of a drive).
 		Q_INVOKABLE static QString temp()  { return QDir::tempPath(); }
-		//! Returns the absolute path of the root directory. For Windows file systems this normally returns the boot drive letter (typically "c:/"). For Unix/Mac operating systems this returns "/".
-		Q_INVOKABLE static QString root()  { return QDir::rootPath(); }
 
+		//! \}
+		// Path Info & Conversions
+		//! \{
+
+		//! Returns the absolute path (a path that starts with "/" or with a drive specification), which may contain symbolic links, but never contains redundant ".", ".." or multiple separators.
+		Q_INVOKABLE static QString abs(const QString &path)    { return QDir(path).absolutePath(); }
+		//! Returns path with directory separators normalized (that is, platform-native separators converted to "/") and redundant ones removed, and "."s and ".."s resolved (as far as possible). Symbolic links are kept
+		//! Note that unlike `normalize()`, the existence of the `path` target is _not_ verified. This method always returns non-empty string, assuming `path` argument wasn't empty in the first place.
+		//! \sa normalize()
+		Q_INVOKABLE static QString clean(const QString &path)  { return QDir::cleanPath(path); }
+		//! Returns pathName using '/' as file separator.
+		//! \sa toNative()
+		Q_INVOKABLE static QString fromNative(const QString &path) { return QDir::fromNativeSeparators(path); }
+		//! Returns the canonical path, i.e. a path without symbolic links or redundant "." or ".." elements.
+		//! \note The target of the normalized path _must exist_, otherwise this method returns an empty string.
+		//! To simplify a path w/out validating or resolving links, use `clean()`.
+		//! \sa clean()
+		Q_INVOKABLE static QString normalize(const QString &path)  { return QDir(path).canonicalPath(); }
 		//! Returns the native directory separator: "/" under Unix and "\" under Windows. Note: You do not need to use this function to build file paths. You can always use "/" and it will be adjusted if needed.
 		Q_INVOKABLE static QString separator()             { return QDir::separator(); }
 		//! Returns pathName with the '/' separators converted to separators that are appropriate for the underlying operating system.
+		//! \sa fromNative(), separator()
 		Q_INVOKABLE static QString toNative(const QString &path) { return QDir::toNativeSeparators(path); }
-		//! Returns pathName using '/' as file separator.
-		Q_INVOKABLE static QString fromNative(const QString &path) { return QDir::fromNativeSeparators(path); }
-		//! Returns path with directory separators normalized (that is, platform-native separators converted to "/") and redundant ones removed, and "."s and ".."s resolved (as far as possible). Symbolic links are kept
-		Q_INVOKABLE static QString clean(const QString &path)  { return QDir::cleanPath(path); }
-		//! Returns the absolute path (a path that starts with "/" or with a drive specification), which may contain symbolic links, but never contains redundant ".", ".." or multiple separators.
-		Q_INVOKABLE static QString abs(const QString &path)    { return QDir(path).absolutePath(); }
-		//! Returns the canonical path, i.e. a path without symbolic links or redundant "." or ".." elements.
-		Q_INVOKABLE static QString normalize(const QString &path)  { return QDir(path).canonicalPath(); }
 
 		//! \}
-		// Listings
+		// Directory Listing
 		//! \{
-
-		//! Returns a `FileInfo` object describing the file or directory at the given `path`.
-		//! Relative paths are resolved against the current working directory (`Dir.cwd()`). This function is equivalent to `File.info()`.
-		//! \since 1.2.1
-		Q_INVOKABLE static FileInfo info(const QString &path) { return FileInfo(path); }
 
 		//! Returns an array of directory entry names in the given `path`.
 		//! \param path The directory to list. Relative paths are resolved against the current working directory (`Dir.cwd()`).
