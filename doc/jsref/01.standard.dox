@@ -132,6 +132,7 @@ Any object type listed above but not here is presumed to have full compatibility
 - encodeURIComponent(uriComponent)
 - escape(string)
 - unescape(string)
+- structuredClone(value [, options]) - via [@ungap/structured-clone](https://github.com/ungap/structured-clone) polyfill (supported `options` properties are extended). __Since v1.3__
 
 \sa Global object extensions
 

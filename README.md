@@ -193,6 +193,10 @@ Uses and includes the `sprintf` function from
 [Locutus](https://github.com/locutusjs/locutus) project,
 used under the terms of the Locutus license.
 
+Uses and includes the
+[@ungap/structured-clone](https://github.com/ungap/structured-clone)
+polyfill, under terms of the ISC license.
+
 Documentation generated with [Doxygen](https://www.doxygen.nl/) and styled with the most excellent [Doxygen Awesome](https://jothepro.github.io/doxygen-awesome-css).
 
 -------------

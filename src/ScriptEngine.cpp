@@ -178,6 +178,8 @@ void ScriptEngine::initScriptEngine()
 	QJSValue modules = registeredModules();
 	modules.setProperty("clipboard", se->newQObject(ScriptLib::Clipboard::instance()));
 	se->registerModule("clipboard", modules.property("clipboard"));
+	if (se->globalObject().property(QStringLiteral("structuredClone")).isUndefined())
+		se->globalObject().setProperty(QStringLiteral("structuredClone"), loadModule(QStringLiteral(":/scripts/structured-clone/index.js")).property("default"));
 
 	const QJSValue res = se->evaluate("_global_init()");
 	if (res.isError())

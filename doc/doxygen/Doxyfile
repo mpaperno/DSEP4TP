@@ -128,7 +128,9 @@ FILE_PATTERNS          = *.c \
                          *.vhdl \
                          *.ucf \
 
-EXCLUDE                = ../../src/ScriptingLibrary/XmlHttpRequest.cpp
+EXCLUDE                = \
+                         ../../src/ScriptingLibrary/XmlHttpRequest.cpp   \
+                         ../../src/resources/scripts/structured-clone
 EXCLUDE_PATTERNS       = \
                          .* \
                          _*.* \

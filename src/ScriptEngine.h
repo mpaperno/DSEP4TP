@@ -166,6 +166,15 @@ class ScriptEngine : public QObject
 				qCCritical(lcPlugin) << "Exception in script" << fn << "at line" << res.property("lineNumber").toInt() << ":" << res.toString();
 		}
 
+		QJSValue loadModule(const QString &fn) const
+		{
+			const QJSValue res = se->importModule(fn);
+			if (!res.isError())
+				return res;
+			qCCritical(lcPlugin) << "Exception in module" << fn << "at line" << res.property("lineNumber").toInt() << ":" << res.toString();
+			return QJSValue();
+		}
+
 		inline QByteArray readFile(const QString &fn, bool *ok = nullptr) const
 		{
 			QFile scriptFile(fn);
