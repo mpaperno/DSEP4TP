@@ -53,6 +53,9 @@ to any 3rd-party components used within.
 		off(ev, cb, EventUtils::resolveListenerOptions(o));                                              \
 	}
 
+#define CONNECT_EVENT_HANDLER(NAME, CB) \
+	EventUtils::callHandler(this, "_connectSignalHandler", { evNameToSignal(#NAME), CB }, false)
+
 #define ON_NAMED_EVENT(EV_NAME)                                                     \
 	Q_INVOKABLE QJSValue on ## EV_NAME(QJSValue cb, QJSValue thisObj = QJSValue()) {  \
 		return on(#EV_NAME, cb, thisObj);                                               \
@@ -66,8 +69,8 @@ to any 3rd-party components used within.
 		if (_ev_##NAME.isCallable())                                  \
 			off(#NAME, _ev_##NAME);                                     \
 		if (cb.isCallable()) {                                        \
-			const QJSValue df = EventUtils::callHandler(this, "_connectSignalHandler", { evNameToSignal(#NAME), cb }, false);  \
-			if (!df.isNull()) {    \
+			const QJSValue df = CONNECT_EVENT_HANDLER(NAME, cb);        \
+			if (!df.isNull()) {                                         \
 				_ev_##NAME = cb;                                          \
 				return;                                                   \
 			}                                                           \
