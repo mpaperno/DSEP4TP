@@ -173,6 +173,7 @@ void ScriptEngine::initScriptEngine()
 	//evalScript(QStringLiteral(":/scripts/sprintf.js"));
 	//evalScript(QStringLiteral(":/scripts/string.js"));
 	//evalScript(QStringLiteral(":/scripts/stringformat.js"));
+	//evalScript(QStringLiteral(":/scripts/url.js"));
 	//evalScript(QStringLiteral(":/scripts/global.js"));
 
 	QJSValue modules = registeredModules();

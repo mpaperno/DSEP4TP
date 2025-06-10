@@ -1,0 +1,191 @@
+
+/*!
+	Extends the standard Web API [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL) type with some static utility functions and
+	instance prototype properties & methods, especially for working with local paths and "file://" type %URLs.
+	\since v1.3
+*/
+class URL {
+	/*! Returns `true` if this URL has no data; otherwise returns `false`. */
+	Q_PROPERTY(boolean isEmpty READ v)
+
+	/*! Returns `true` if this URL is pointing to a local file path. A URL is a local file path if the scheme is "file". */
+	Q_PROPERTY(boolean isLocalPath READ v)
+
+	/*! Returns `true` if this URL is relative; otherwise returns `false`. A %URL is relative reference if its scheme is undefined. */
+	Q_PROPERTY(boolean isRelative READ v)
+
+	/*! Returns `true` if this URL is non-empty and valid; otherwise returns `false`.
+		This URL's value is run through a conformance test. Every part of the %URL must conform to the standard encoding rules of the URI standard for the %URL to be reported as valid. */
+	Q_PROPERTY(boolean isValid READ v)
+}
+
+/*!
+	\fn URL resolved(<string|URL> relative)
+	\memberof URL
+	Returns the result of the merge of this URL with `relative`. This URL is used as a base to convert relative %URLs to absolute.
+
+	If `relative` is not a relative %URL, this method will return `relative` directly.
+	Otherwise, the paths of the two %URLs are merged, and the new %URL returned has the scheme and authority of the base %URL, but with the merged path, as in the following example:
+	```js
+	const base = new URL("https://dse.tpp.max.paperno.us/images");
+	const relative = "../class_u_r_l.html";
+
+	base.resolved(relative);    // returns  "https://dse.tpp.max.paperno.us/class_u_r_l.html"
+	```
+*/
+
+/*!
+	\fn string toLocalPath()
+	\memberof URL
+	Returns this URL formatted as a local file path.
+	The path returned will use native directory separators.
+
+	If this URL contains a non-empty hostname, it will be encoded in the returned value in the form found on SMB networks (for example, "//servername/path/to/file.txt").
+
+	```js
+	new URL("file:///c:/temp/file.txt").toLocalPath()    // returns "c:\temp\file.txt"
+	new URL("file:///home/user/file.txt").toLocalPath()  // returns "/home/user/file.txt"
+
+	// The following example uses `URL.url()` static method because `new URL("file.txt")` would throw an exception
+	URL.url("file.txt").toLocalPath()                    // returns ""  (because input %URL had no valid scheme)
+	```
+
+	Note: if the path component of this URL contains a non-UTF-8 binary sequence (such as `%80`), the behavior of this method is undefined.
+*/
+
+
+/*!
+	\fn URL fromLocalPath(string path)
+	\memberof URL
+	\static
+	Returns a `URL` representation of `path`, interpreted as a local file path.
+	This function accepts paths separated by slashes as well as the native separator for this platform.
+
+	This function also accepts paths with a doubled leading slash (or backslash) to indicate a remote file, as in "//servername/path/to/file.txt".
+
+	```js
+	URL.fromLocalPath("c:/temp/file.txt")     // returns "file:///c:/temp/file.txt"
+	URL.fromLocalPath("/home/user/file.txt")  // returns "file:///home/user/file.txt"
+	// Note that using relative paths will return an valid but probably useless URL:
+	URL.fromLocalPath("file.txt")             // returns "file:file.txt"  (probably not what you want)
+	```
+*/
+
+/*!
+	\fn URL fromPathOrUrl(string input, string baseDirectory = "")
+	\memberof URL
+	\static
+	Returns a valid `URL` from `input` string if one can be deduced, or if that is not possible, returns an invalid (empty) URL.
+
+	This function can be useful when processing arbitrary user input, for example, when the user may provide an actual %URL, or a relative or absolute system file path.
+
+	When the string is not already a valid %URL, a best guess is performed, making various assumptions:
+	- In the case the string corresponds to a valid file path on the system, a "file://" %URL is constructed, using `URL.fromLocalPath()`.
+	- If that is not the case, an attempt is made to turn the string into a "http://" or "ftp://" %URL.
+		The latter in the case the string starts with 'ftp'. The result is then passed through a tolerant parser, and in the case or success, a valid URL is returned, or else an empty invalid one.
+
+	In order to be able to handle relative paths, this method takes an optional `basePath` path argument against which relative paths are resolved into absolute paths.
+	If `baseDirectory` is empty, no handling of relative paths will be done (an invalid (empty) URL will be returned for relative paths).
+
+	Input strings that look like relative paths will always return a valid %URL, even if the file doesn't actually exist on the system.
+
+	Some examples:
+	```js
+	URL.fromPathOrUrl("c:\\temp\\file.txt")           // returns "file:///c:/temp/file.txt"
+	URL.fromPathOrUrl("file.txt", "c:/temp")          // returns "file:///c:/temp/file.txt"
+	URL.fromPathOrUrl("./user/file.txt", "/home")     // returns "file:///home/user/file.txt"
+	URL.fromPathOrUrl("/root/file.txt", "/home")      // returns "file:///root/file.txt"  (`baseDirectory` argument is ignored)
+	URL.fromPathOrUrl("https://google.com", "/home")  // returns "https://google.com"  (`baseDirectory` also ignored)
+	```
+
+	Although similar to the `new URL()` constructor or `URL.parse()`, this function:
+	- Handles local file paths and properly converts them to "file://" URLs.
+	- Ignores the the 2nd argument (`baseDirectory`) if the input is already a fully qualified %URL or absolute path.
+	- Doesn't throw exceptions (like URL() constructor does) and returns an empty URL if parsing fails (not `null`, like `URL.parse()` does).
+*/
+
+/*!
+	\fn boolean isEmpty(<string|URL> input)
+	\memberof URL
+	\static
+	Returns `true` if the `input` URL has no data; otherwise returns `false`.
+*/
+
+/*!
+	\fn boolean isLocalPath(<string|URL> input)
+	\memberof URL
+	\static
+	Returns `true` if the `input` %URL is pointing to a local file path. A %URL is a local file path if the scheme is "file".
+*/
+
+/*!
+	\fn boolean isRelative(<string|URL> input)
+	\memberof URL
+	\static
+	Returns `true` if the `input` %URL is relative; otherwise returns `false`. A %URL is relative reference if its scheme is undefined.
+*/
+
+/*!
+	\fn boolean isValid(<string|URL> input)
+	\memberof URL
+	\static
+	Returns `true` if the `input` %URL is non-empty and valid; otherwise returns `false`.
+	The `input` value is run through a conformance test. Every part of the %URL must conform to the standard encoding rules of the URI standard for the %URL to be reported as valid.
+*/
+
+/*!
+	\fn URL resolved(<string|URL> base, <string|URL> relative)
+	\memberof URL
+	\static
+	Returns the result of the merge of `base` %URL with `relative`. The `base` %URL is used as a base to convert relative %URLs to absolute.
+
+	If `relative` is not a relative %URL, this function will return `relative` directly.
+	Otherwise, the paths of the two %URLs are merged, and the new %URL returned has the scheme and authority of the base %URL, but with the merged path, as in the following example:
+	```js
+	const base = "https://dse.tpp.max.paperno.us/images";
+	const relative = "../class_u_r_l.html";
+	URL.resolved(base, relative);    // returns  "https://dse.tpp.max.paperno.us/class_u_r_l.html"
+	```
+*/
+
+/*!
+	\fn string scheme(<string|URL> url)
+	\memberof URL
+	\static
+	Returns the scheme of the given `url`, up to, but not including, the `:` separator ("http", "ftp", "file", etc).
+	If an empty string is returned, this means the scheme is undefined and the %URL is then relative.
+
+	The scheme can only contain US-ASCII letters or digits, which means it cannot contain any character that would otherwise require encoding.
+	Additionally, schemes are always returned in lowercase form.
+
+	On Windows, if the url is a local file path starting with a drive letter (eg. "c:\temp"), then that drive letter is returned as the scheme. Since no actual %URL schemes are one character long,
+	one can then assume it is a file path, not an actual %URL.
+*/
+
+/*!
+	\fn string toLocalPath(<string|URL> url)
+	\memberof URL
+	\static
+	Returns the `url` %URL formatted as a local file path.
+	The path returned will use native directory separators.
+
+	If `url` contains a non-empty hostname, it will be encoded in the returned value in the form found on SMB networks (for example, "//servername/path/to/file.txt").
+
+	```js
+	URL.toLocalPath("file:///c:/temp/file.txt")    // returns "c:\temp\file.txt"
+	URL.toLocalPath("file:///home/user/file.txt")  // returns "/home/user/file.txt"
+	URL.toLocalPath("file.txt")                    // returns ""  (because input %URL had no valid scheme)
+	```
+
+	Note: if the path component of `url` contains a non-UTF-8 binary sequence (such as `%80`), the behavior of this function is undefined.
+*/
+
+/*!
+	\fn URL url(<string|URL> input)
+	\memberof URL
+	\static
+	Returns a new `URL` instance verbatim from given `input`, which can be a string or another URL instance.
+	The input is not parsed or validated. This can be used to force a type coercion to `URL`. In contrast to `new URL()` or `URL.parse()`,
+	`URL.url()` always returns a `URL` object, even if the input is an invalid %URL.
+	You can check validity with `newUrl.isValid` or `URL.isValid(newUrl)`.
+*/

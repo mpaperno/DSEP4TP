@@ -328,6 +328,8 @@ class Util : public QObject
 			});
 		}
 
+		Q_INVOKABLE static bool openUrl(const QUrl &url) { return QDesktopServices::openUrl(url); }
+
 		// \}
 
 		//! \name Text Processing
@@ -422,13 +424,31 @@ class Util : public QObject
 		//! \name URL helpers.
 		//! \{
 		Q_INVOKABLE static QString urlScheme(const QString &url)         { return QUrl(url).scheme(); }
+		Q_INVOKABLE static QString urlScheme(const QUrl &url)            { return url.scheme(); }
 		Q_INVOKABLE static bool    urlIsValid(const QString &url)        { return QUrl(url).isValid(); }
+		Q_INVOKABLE static bool    urlIsValid(const QUrl &url)           { return url.isValid(); }
 		Q_INVOKABLE static bool    urlIsEmpty(const QString &url)        { return QUrl(url).isEmpty(); }
+		Q_INVOKABLE static bool    urlIsEmpty(const QUrl &url)           { return url.isEmpty(); }
 		Q_INVOKABLE static bool    urlIsRelative(const QString &url)     { return QUrl(url).isRelative(); }
+		Q_INVOKABLE static bool    urlIsRelative(const QUrl &url)        { return url.isRelative(); }
 		Q_INVOKABLE static bool    urlIsLocalPath(const QString &url)    { return QUrl(url).isLocalFile(); }
-		Q_INVOKABLE static QString urlFromLocalPath(const QString &file) { return QUrl::fromLocalFile(file).toString(); }
+		Q_INVOKABLE static bool    urlIsLocalPath(const QUrl &url)       { return url.isLocalFile(); }
+		Q_INVOKABLE static QUrl    urlFromLocalPath(const QString &file) { return QUrl::fromLocalFile(file); }
 		Q_INVOKABLE static QString urlToLocalPath(const QString &url)    { return QDir::toNativeSeparators(QUrl(url).toString(QUrl::PreferLocalFile)); }
-		Q_INVOKABLE static bool    openUrl(const QUrl &url)              { return QDesktopServices::openUrl(url); }
+		Q_INVOKABLE static QString urlToLocalPath(const QUrl &url)       { return QDir::toNativeSeparators(url.toString(QUrl::PreferLocalFile)); }
+		Q_INVOKABLE static QUrl    urlFromInput(const QString &i, const QString &wd = QString(), int o = QUrl::AssumeLocalFile) {
+			return QUrl::fromUserInput(i, wd, QUrl::UserInputResolutionOptions(o));
+		}
+		Q_INVOKABLE static QUrl    urlResolved(const QString &base, const QString &relative) {
+			return QUrl(base).resolved(relative);
+		}
+		Q_INVOKABLE static QUrl    urlResolved(const QUrl &base, const QString &relative) {
+			return base.resolved(relative);
+		}
+		Q_INVOKABLE static QUrl    urlResolved(const QUrl &base, const QUrl &relative) {
+			return base.resolved(relative);
+		}
+
 		//! \}
 
 };

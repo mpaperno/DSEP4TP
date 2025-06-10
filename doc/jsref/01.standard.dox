@@ -15,7 +15,7 @@ items which do not fully match what is published on [MDN](https://developer.mozi
 per object type are shown below the main list and "details" links are provided. <br />
 [Green links](@ref JSExt) are to internal documentation details, [blue links](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) are external (MDN).
 
-In some cases the standard objects are also [extended](@ref JSExt) (ArrayBuffer, Date, Math, Number, String), as is the [Global object](@ref Global),
+In some cases the standard objects are also [extended](@ref JSExt) (ArrayBuffer, Date, Math, Number, String, URL), as is the [Global object](@ref Global),
 which is documented separately.
 
 [Nullish Coalescing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator) (??) and
@@ -105,9 +105,9 @@ Portions of this text are originally from the Qt library's QJSEngine/QQmlEngine 
 - [AbortController, AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)  ([implementation details](#stdlib-abort))
 - [DOMException](https://developer.mozilla.org/en-US/docs/Web/API/DOMException)
 - [fetch, Headers, Request, Response](https://developer.mozilla.org/en-US/docs/Web/API/fetch) ([implementation details](@ref NetAPI))
-- [URL & URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL)
 - [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/) ([implementation details](@ref WebSocket))
 - [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)  ([implementation details](#stdlib-xmlhttpreq)))
+- [URL & URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) ([extended implementation](@ref URL))
 
 ## Details by object type
 

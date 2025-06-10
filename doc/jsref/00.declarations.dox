@@ -283,3 +283,8 @@ Contains general utility classes and modules.
 	\ingroup JSExt
 	Extends [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) object.
 */
+
+/*!
+	\class URL
+	\ingroup JSExt
+*/
