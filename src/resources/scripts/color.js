@@ -25,10 +25,29 @@ The library has been extended with extra functions described below. For the rest
 please see original reference at https://github.com/bgrins/TinyColor#usage<br />
 There is also a basic demo page with some more details at http://bgrins.github.io/TinyColor/
 
+The official documentation has examples, but as a summary, a new Color instance may be created from a wide variety of input formats and types.
+- Supported string format examples:
+    - Named [standard CSS color](https://www.w3.org/TR/css-color-4/#named-colors), eg: "red"
+    - "#f00" or "f00"
+    - "#ff0000" or "ff0000"
+    - "#ff000000" or "ff000000"
+    - "rgb 255 0 0" or "rgb (255, 0, 0)"
+    - "rgb 1.0 0 0" or "rgb (1, 0, 0)"
+    - "rgba (255, 0, 0, 1)" or "rgba 255, 0, 0, 1"
+    - "rgba (1.0, 0, 0, 1)" or "rgba 1.0, 0, 0, 1"
+    - "hsl(0, 100%, 50%)" or "hsl 0 100% 50%"
+    - "hsla(0, 100%, 50%, 1)" or "hsla 0 100% 50%, 1"
+    - "hsv(0, 100%, 100%)" or "hsv 0 100% 100%"
+
+- Object types in various color models:
+    - `{r, g, b [, a]}`
+    - `{h, s, l [, a]}`
+    - `{h, s, v [, a]}`
+
 The following methods are aliases of their longer counterparts (unlinked ones are documented at TinyColor site):
 
 - `originalInput()` = getOriginalInput();
-- `%format()`        = getFormat();
+- `%format()`       = getFormat();
 - `alpha()`         = getAlpha();
 - `brightness()`    = getBrightness();
 - `luminance()`     = getLuminance();
@@ -59,6 +78,15 @@ Returns color formatted in `#AARRGGBB` format.
 Alias: `argb()`, `tpcolor()`
 \par
 In addition, the `toString()` method is extended with "argb" and "hex8a" format specifiers (both are analogous).
+
+
+\fn string toWebColor(allowShortFormat = false)
+\memberof Color
+Returns color formatted in `#RRGGBB` _or_ `#RRGGBBAA` format if this color's alpha channel is not fully opaque.
+If `allowShortFormat` is set to `true` then may return `#RBA` or `#RGBA` format if current color can be accurately expressed that way.
+\par
+Aliases: `web()`, `toString("web")`
+
 
 \fn number getSaturation()
 \memberof Color
@@ -254,6 +282,9 @@ tinycolor.prototype = {
     toArgbHexString: function() {
         return '#' + this.toArgbHex();
     },
+    toWebColor: function(allowShort) {
+        return '#' + rgbaToHexOptionalAlpha(this._r, this._g, this._b, this._a, allowShort);
+    },
     // } mod - MP
     toRgb: function() {
         return { r: mathRound(this._r), g: mathRound(this._g), b: mathRound(this._b), a: this._a };
@@ -326,6 +357,8 @@ tinycolor.prototype = {
             case "hex8a":
             case "argb":
                 return this.toArgbHexString();
+            case "web":
+                return this.toWebColor();
             case "name":
                 return this.toName() || this.toHexString();
             case "hsl":
@@ -471,6 +504,7 @@ tinycolor.prototype.hsl           = tinycolor.prototype.toHslString;
 tinycolor.prototype.hex           = tinycolor.prototype.toHexString;
 tinycolor.prototype.rgba          = tinycolor.prototype.toHex8String;
 tinycolor.prototype.argb          = tinycolor.prototype.toArgbHexString;
+tinycolor.prototype.web           = tinycolor.prototype.toWebColor;
 tinycolor.prototype.tpcolor       = tinycolor.prototype.toArgbHexString;  // special alias for Touch Portal use
 tinycolor.prototype.rgb           = tinycolor.prototype.toRgbString;
 tinycolor.prototype.prgb          = tinycolor.prototype.toPercentageRgbString;
@@ -495,6 +529,17 @@ tinycolor.fromRatio = function(color, opts) {
     }
 
     return tinycolor(color, opts);
+};
+
+/**
+    \fn Color fromArgb(string argbString)
+    \memberof Color
+    \static
+    Returns a new Color instance from an "#AARRGGBB" or "#RRGGBB" string input. The leading "#" is optional.
+    \sa argb2rgba()
+*/
+tinycolor.fromArgb = function(argbString) {
+    return new tinycolor(tinycolor.argb2rgba(argbString));
 };
 
 // Given a string or object, convert that input to RGB
@@ -726,7 +771,7 @@ function rgbToHex(r, g, b, allow3Char) {
 }
 
 // `rgbaToHex`
-// Converts an RGBA color plus alpha transparency to hex
+// Converts an RGB color plus alpha transparency to hex
 // Assumes r, g, b are contained in the set [0, 255] and
 // a in [0, 1]. Returns a 4 or 8 character rgba hex
 function rgbaToHex(r, g, b, a, allow4Char) {
@@ -744,6 +789,17 @@ function rgbaToHex(r, g, b, a, allow4Char) {
     }
 
     return hex.join("");
+}
+
+// Converts an RGB color plus alpha transparency to hex digits in RRGGBB[AA],
+// or RGB[A] format if `allowShort` is truthy.
+// The alpha channel is only included if it is not fully opaque (1.0).
+// Assumes r, g, b are contained in the set [0, 255] and
+// a in [0, 1]. Returns a 4 or 8 character rgba hex
+function rgbaToHexOptionalAlpha(r, g, b, a, allowShort) {
+    if (a < 1)
+        return rgbaToHex(r, g, b, a, allowShort);
+    return rgbToHex(r, g, b, allowShort);
 }
 
 // `rgbaToArgbHex`
@@ -776,6 +832,21 @@ tinycolor.random = function() {
     });
 };
 
+/**
+    \fn string argb2rgba(string argbString)
+    \memberof Color
+    \static
+    Converts a "#AARRGGBB" color format string to "#RRGGBBAA" format.
+    The leading "#" is optional in the input string, but will always be present in the output.
+    If input is less than 8 hex characters long then no conversion is done and the original string is returned (with "#" prepended if necessary).
+    \sa fromArgb()
+*/
+tinycolor.argb2rgba = function(argbString) {
+    return (/^#?[0-9a-f]{8}/i).match(argbString) ?
+        argbString.replace(/^#?([0-9a-f]{2})([0-9a-f]{6})/i, '#$2$1') :
+        argbString.startsWith('#') ? argbString :
+        "#" + argbString;
+};
 
 // Modification Functions
 // ----------------------
