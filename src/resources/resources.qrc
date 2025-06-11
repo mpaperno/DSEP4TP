@@ -13,6 +13,7 @@
         <file alias="printf.js">scripts/sprintf.js</file>
         <file alias="string.js">scripts/string.js</file>
         <file alias="stringformat.js">scripts/stringformat.js</file>
+        <file alias="TPButton.js">scripts/TPButton.js</file>
         <file alias="url.js">scripts/url.js</file>
         <file alias="jslib.min.js">scripts/jslib.min.js</file>
         <file alias="structured-clone/deserialize.js">scripts/structured-clone/deserialize.js</file>

@@ -225,11 +225,15 @@ Contains static types and object classes for working with files and directories.
 \defgroup TPAPI Touch Portal API (TP)
 Functions, data, and events for interacting with Touch Portal directly, such as updating state values or sending notifications.
 
-All functionality is provided by static members of the global `TP` namespace object, used with `TP.` qualifier, eg. `TP.stateUpdate("Hello!");`.
+Most functionality is provided by static members of the global `TP` namespace object, used with `TP.` qualifier, eg. `TP.stateUpdate("Hello!");`.
 
 Note that the "Touch Portal API" documented here, while closely related to Touch Portal's Plugin API, is not always an exact match, nor can always provide all the features
 a full plugin could have (such as custom Actions). Nevertheless it can be helpful to understand how Touch Portal interacts with data sent from plugins in the first place,
 since all those limits would apply here as well (in other words, this plugin can only work with the API features which are available to us in the first place).
+
+- `TP` - A namespace container for all Touch Portal API methods.
+- `TPButton` - A helper class to change Touch Portal button visuals via state updates.
+- `ConnectorRecord` - Provides information about Touch Portal Connector (Slider) instances.
 
 \sa [Touch Portal Plugin API](https://www.touch-portal.com/api)
 

@@ -176,9 +176,8 @@ void ScriptEngine::initScriptEngine()
 	//evalScript(QStringLiteral(":/scripts/url.js"));
 	//evalScript(QStringLiteral(":/scripts/global.js"));
 
-	QJSValue modules = registeredModules();
-	modules.setProperty("clipboard", se->newQObject(ScriptLib::Clipboard::instance()));
-	se->registerModule("clipboard", modules.property("clipboard"));
+	registerModule(QStringLiteral("clipboard"), se->newQObject(ScriptLib::Clipboard::instance()));
+	registerModule(QStringLiteral("tpbutton"), loadModule(QStringLiteral(":/scripts/TPButton.js")));
 	if (se->globalObject().property(QStringLiteral("structuredClone")).isUndefined())
 		se->globalObject().setProperty(QStringLiteral("structuredClone"), loadModule(QStringLiteral(":/scripts/structured-clone/index.js")).property("default"));
 

@@ -1,0 +1,325 @@
+
+/*!
+  \class TPButton
+  \ingroup TPAPI
+  A helper class to update Touch Portal button visuals by simply changing properties on an instance of this object.
+
+  Each TPButton instance must have a corresponding actual button on a Touch Portal page to be effective.
+  The visual changes are then triggered via state updates from this plugin, with each state having a unique
+  name & ID specifically for that button. (One `%TPButton` instance could affect multiple actual %TP buttons,
+  as long as they all use the same state IDs.)
+
+  Though of course limited in terms of how much of a button it can affect directly,
+  the basics of text, text color, background color, and the background image can be changed quite easily.
+
+  Most other properties can be set by examining the corresponding state values with some logic inside a state change event handler.
+  For example vertical text alignment state can have one of 3 values, "top", "middle", or "bottom."
+  The button's text alignment can then be set with some IF actions in the change event handler for the corresponding state.
+  As in "If [alignment state value] equals 'top' then change button visuals -> vertical alignment to 'Top'."\n
+  A bit tedious but it works.
+
+  A corresponding button template/example file is available which can be quickly modified in any plain-text editor to make copies.
+  See \ref tpbutton_templates.
+
+  Changes to a `TPButton` instance's property values are automatically sent to Touch Portal. The state names and IDs used
+  for each instance are crated based on the button `name` property, which is required
+  to be provided when the class is created and cannot be modified after that.
+
+  All visual states are created with an empty string as default, so in the button's state
+  change handlers these can be ignored (eg. "When the plug-in state does not change to [empty value]").
+
+  States are only created when a corresponding button property is explicitly set for the first time. This avoids creating
+  a plethora of empty states which may never be used.
+
+  In addition to setting button visuals, "Restore button visuals" actions can also be triggered (see `restoreBgVisuals()` and friends).
+
+  Button states are named with a prefix which starts with the \ref stateNamePrefix property value and includes the button's name.
+  By default this prefix is "Button - " (note the trailing space).
+  If you prefer a different, or no, prefix, it is best to set this when calling the class [constructor](\ref TPButton()), in the `init` argument object.
+
+  Also, button states are created in a sub-group of the plugin's main states list (though in some places in the %TP UI they don't show up grouped).
+  By default this group is the button's name prefixed with the `stateNamePrefix` property.
+  For example: "Button - [name]" where `[name]` is name the assigned in TPButton's constructor.
+  This can be changed using the \ref parentGroup property, which can also be set in the constructor's `init` argument object.
+
+  This class is available as a module and must be imported or "required" before use. For example:
+  ```js
+  // for standalone scripts:
+  var { TPButton } = require('tpbutton');
+
+  // for modules:
+  import TPButton from 'tpbutton';
+
+  var btn = new TPButton("My Button");
+  // ....
+  ```
+
+  \since v1.3
+
+  ---
+
+  ### Button Templates {#tpbutton_templates}
+
+  The quickest way to set up a new %TP button for each instance of TPButton is of course by copying an existing one.
+  But with many states to modify for each instance, this is quickly tedious. However, we can export and import buttons
+  to/from files. These ".tpb" files are plain-text and can be modified in any text editor
+  (they're in JSON format, BTW, but compacted to one long line).
+
+  Then it becomes a simple matter of using search & replace to change all the state IDs from the original exported version
+  to the state ID that will be used by another TPButton instace (which is based on its \ref name, as mentioned).
+  Any text editor should be able to do that.
+
+  Pre-made button template(s) are available at link(s) below. In these templates, the button name/ID is `DSE_BUTTON_NAME`.
+  Open the template in a plain-text editor, search for that string,
+  and replace it with whatever you named your TPButton in the constructor (exactly, w/out any quotes of course).
+  Then save the file with a new name (I use the button name, to keep them straight), and import it into Touch Portal.
+
+  #### Download
+
+  - [TPButton-TEMPLATE-v1-tpv4.tpb](https://github.com/mpaperno/DSEP4TP/raw/next/resources/examples/TPButton/TPButton-TEMPLATE-v1-tpv4.tpb) - Implements
+    change handlers for most properties supported by TPv4 and above, except text offsets, and with limited font size support.
+    _Even_ font sizes 6 through 30 are handled (6, 8, 10, etc), but odd sizes (7, 9, etc) will reset the sizing back to "Auto," as will any value > 30.
+
+
+  ---
+*/
+class TPButton {
+  //! \name Button Instance Properties
+  //! \{
+
+  //! The name assigned to this button. This is a read-only property, it cannot be changed after class contruction.
+  Q_PROPERTY(string name READ v)
+
+  /*!
+    The value of this property will will change how the button's state names are presented.
+    By default it is "Button - " (note the trailing space). This will create states in the form of "Button - [name] [property]"
+    where `[name]` is the button's name and `[property]` is the name of the related property.\n
+    For example "Button - My Button Text Color". The `stateNamePrefix` value replaces the "Button - " part of the state name.
+
+    To omit any prefix, this can be set to an empty string.
+
+    This property is also used to format the default \ref parentGroup property name (see below).
+
+    \note Changes to this property will not take effect until new state(s) are created. Best to specify it in the constructor's `init` argument.
+    Alternatively, all existing states can be removed with `removeStates()` and will be re-created automatically when properties are modified.
+  */
+  Q_PROPERTY(string stateNamePrefix READ v WRITE v)
+
+  /*!
+    The value of this property will be used to group the button's states in the %TP UI.
+    By default this is the button's name prefixed with the value of \ref stateNamePrefix
+    (so eg. if the button's `name` is "My Button" the default parent group will be "Button - My Button").
+
+    \note Changes to this property will not take effect until new state(s) are created. Best to specify it in the constructor's `init` argument.
+    Alternatively, all existing states can be removed with `removeStates()` and will be re-created automatically when properties are modified.
+  */
+  Q_PROPERTY(string parentGroup READ v WRITE v)
+
+  //! \}
+  //! \name Button Visual Properties
+  //! \{
+
+  /*!
+    The button's background color.
+    This property value can be set with any string or object type supported by the `Color` constructor, or with an existing instance of `Color`.
+    The input gets converted to a string in the `#AARRGGBB` format required by Touch Portal's <i>"Set visuals by plug-in state"</i> action for the "Background Color" option.
+
+    To reset this property to default, set it to an empty string.
+    \throws TypeError if input value couldn't be converted to a valid color.
+  */
+  Q_PROPERTY(color bgColor READ v WRITE v)
+
+  /*!
+    The button's background gradient starting color.
+    This property is meant to be used in Touch Portal's <i>"Set button visuals" -> "Background Color RAW"</i> option (%TP v4.5+).
+
+    This property value can be set with any string or object type supported by the `Color` constructor, or with an existing instance of `Color`.
+    The input gets converted to a string in the `#RRGGBB` or `#RRGGBBAA` formats required by the "Background Color RAW" option.
+
+    To reset this property to default, set it to an empty string.
+    \throws TypeError if input value couldn't be converted to a valid color.
+    \note This property is only useful for Touch Portal v4.5+ which added "Background Color RAW" button visuals option.
+  */
+  Q_PROPERTY(color bgColorStart READ v WRITE v)
+
+  /*!
+    The button's background gradient ending color.
+    Sets the 2nd value of Touch Portal's <i>"Set button visuals" -> "Background Color RAW"</i> option (%TP v4.5+).
+    See \ref bgColorStart for more details.
+    \throws TypeError if input value couldn't be converted to a valid color.
+  */
+  Q_PROPERTY(color bgColorEnd READ v WRITE v)
+
+  //! The button's background gradient orientation. Should be one of: "vertical", "horizontal", or "diagonal" (or "v"/"h"/"d" for short).
+  Q_PROPERTY(string bgOrient READ v WRITE v)
+
+  //! Flag indicating if the button's background should be rounded. A `null` value indicates that this property hasn't been set.
+  Q_PROPERTY(boolean bgRounded READ v WRITE v)
+
+  /*!
+    The button's icon image.
+    Ultimately this must be image data in a format %TP can display (GIF, PNG, JPEG), encoded as a base-64 string.
+
+    The property can be set using either a base-64 string or a file path/URL.
+    In the latter case the image is loaded asynchronously and the icon state updated once (and if) it loads.
+
+    Relative file paths are resolved against the directory the current script is being loaded from (`File.path(DSE.currentInstance().scriptFileResolved)` to be exact).
+
+    \throws TypeError if a relative system file path cannot be resolved to an existing file or if a given URL is otherwise invalid.\n
+    If asynchronous loading of a file or remote %URL fails, an error message is logged to the plugin's console.log file but no exception is thrown.
+    \sa DynamicScript.scriptFileResolved
+  */
+  Q_PROPERTY(string icon READ v WRITE v)
+
+  //! Flag indicating if the button's icon should be shown full size. A `null` value indicates that this property hasn't been set.
+  //! Note that this only affects icons set directly via Touch Portal, not the icons set by the \ref icon property of this button.
+  Q_PROPERTY(boolean iconFullSize READ v WRITE v)
+
+  //! The button's text (label) value.
+  Q_PROPERTY(string text READ v WRITE v)
+
+  /**
+    The button's text (foreground) color.
+    This property value can be set with any string or object type supported by the `Color` constructor, or with an existing instance of `Color`.
+
+    The input gets converted to a string in the `#AARRGGBB` format required by Touch Portal's "Set visuals by plug-in state" action for the "Text Color" option.
+    However this format is not recognized as valid when _setting_ this property (since it is ambagious whether the alpha value should be first or last).
+
+    To reset this property to default, set it to an empty string.
+    \throws TypeError if input value couldn't be converted to a valid color.
+  */
+  Q_PROPERTY(color textColor READ v WRITE v)
+
+  //! Font family name. Should be one of the font names supported by Touch Portal.
+  Q_PROPERTY(string font READ v WRITE v)
+  //! Font size. Should be a positive integer. A `-1` value indicates that this property hasn't been set.
+  Q_PROPERTY(int fontSize READ v WRITE v)
+
+  //! Horizontal text alignment. One of: "left", "right", or "center".
+  Q_PROPERTY(string halign READ v WRITE v)
+  //! Horizontal text offset. Should be a positive integer. A `-1` value indicates that this property hasn't been set.
+  Q_PROPERTY(int hoffset READ v WRITE v)
+  //! Vertical text alignment. One of: "top", "bottom", or "middle".
+  Q_PROPERTY(string valign READ v WRITE v)
+  //! Vertical text offset. Should be a positive integer. A `-1` value indicates that this property hasn't been set.
+  Q_PROPERTY(int voffset READ v WRITE v)
+
+  //! \}
+
+  public:
+  /**
+    The class constructor requires a name for this button instance.
+
+    The optional `init` argument can be an object containing any of the settable properties supported by this class (`parentGroup`, `text`, `bgColor`, etc).
+    The values will serve as the initial values for the related properties (and the respective state(s) will be created & updated immediately).
+    \throws TypeError if the `name` argument is `undefined`, `null`, empty, or only whitespace.
+  */
+  TPButton(string name, object init = {});
+
+  /**
+    Adds a new property to this button instance.
+    Once added, the property can be set like any of the built-in properties, and it will create and update a corresponding Touch Portal state for this button.\n
+    (To be useful, the corresponding Touch Portal button(s) would need to have event handlers defined for any new properties you add, of course.)
+
+    \param name The new property name. You can then access the new property using this name. It will also be used as part of the generated state ID.
+      It should be unique but short, preferably with no spaces or special characters so it is simple to use.\n
+      __Note__: Adding a property with the same name as an existing property will replace the existing one!
+    \param stateName This is the name which will be shown in the %TP UI state selector for this state. It will be prefixed with the value of \ref stateNamePrefix.
+    \param type The type of property value. The following types are used: `string` (default), `number`, `boolean`, `color-argb`, `color-rgb`, and `image`.\n
+      The first 3 are self-explanatory, but the others require some details:
+      - `color-argb` - When setting a property with this type, the value is validated and converted to a string in "#AARRGGBB" format.
+        This format is used in "Change button visual by plug-in state" actions for setting background and text colors.
+      - `color-rgba` - The value being set is validated and converted to a color value in "#RRGGBB"/"#RRGGBBAA" format.
+        This format is used in "Background Color RAW" button visual changes.
+      - `image` - This type of property is treated the same way as the \ref icon built-in property,
+        meaning base-64 encoding is required but it will also attempt to load file paths or URLs for you. See \ref icon property for details.
+    \param defaultValue The initial, default, value for this new property. Property states are only created if/when the property value first
+      changes from this default value to any other value (same as with the built-in properties).\n
+      If not specified, the following defaults are used, depending on the property `type`:
+      - `number` - default is `-1`
+      - `boolean` - default is `null`
+      - For all other types the default is an empty string (`""`).
+
+    If you find yourself adding the same properties to multiple button instances, it may be simpler to create a new button class which inherits from `TPButton`
+    and adds the new properties in the constructor. Or use the `clone()` method to make copies of a prototype.
+
+    \throws TypeError if the `name` or `stateName` arguments are `undefined`, `null`, empty, or only whitespace.
+  */
+  void addProperty(string name, string stateName, string type = "string", <string|number|boolean|null> defaultValue = "");
+
+  /**
+    Creates a new `TPButton` instance with all property values copied from this one
+    \param newName A name for the copy must be provided as the first argument.
+    \param options Options to pass onto the constructor for the new TPButton instance as the `init` argument. Note that the \ref parentGroup
+      property is _not_ copied, since by default it contains the original button name. If you're using a custom `parentGroup` for this instance,
+      you should specify a `parentGroup` property in this `options` object. This will become the parent group of the new instance.\n
+      The \ref stateNamePrefix property _is_ copied to the new instance. If using a custom prefix, and it is not appropriate for this new instance for some reason,
+      specify a new `stateNamePrefix` property in `options`.
+
+    %TP states for all properties which are not set to the default values are immediately created and updated during the clone operation.
+
+    Icon images still being loaded asynchronously by this original instance at the time `clone()` is called will also be loaded asynchronously into the copy.
+    Images which are already in base-64 encoding are copied directly.
+
+    Custom properties added with `addProperty()` are also copied to the new instance.
+    \throws TypeError if the `newName` argument is `undefined`, `null`, empty, only whitespace, or the same as this instance's name.
+  */
+  TPButton clone(string newName, object options = {});
+
+  /**
+    This method can be used to make Touch Portal re-evaluate all button visual change handlers for properties set by this TPButton.
+    What it does, for each modified property, is first send a state update with an empty value. Then a millisecond later it sends another update
+    for the same state with the actual current value of the property. This causes %TP to see the 2nd update as a change in state value, and it will then apply
+    those style changes. This works well as long as the button's event handlers are set up to ignore empty (blank) state values (as mentioned in the main TPButton class docs).
+  */
+  void forceUpdate();
+
+  /** Removes all states created by this button. States will be re-created again if any visual button properties are modified after this call. */
+  void removeStates();
+
+  /**
+    Resets all the button's visual style properties to their default values.
+    For all properties which have been modified (not currently same as default value), a Touch Portal state update is sent with a blank (empty) value.
+    Any pending asynchronous icon image loading requests are also cancelled.
+
+    Note that individual properties can be reset in the same fashion by setting them to their default value.
+    The default for numeric property types is `-1`, for booleans it is `null` and for all other types it is an empty string (`""`).
+  */
+  void resetToDefaults();
+
+  /**
+    Creates/sends a special property named `restore` with a string value of `bg`.
+    This can be used in a button's event handler to trigger a "Restore button visuals" %TP action, with the "Background Settings" selected as the reset type to perform.
+
+    Once created, this special state is named "Restore Button Visuals" and is also used to perform icon and text visual resets.
+
+    There is also an alias for this method: `restoreBackgroundVisuals()`
+    \sa restoreIconVisuals(), restoreTextVisuals()
+  */
+  void restoreBgVisuals();
+
+  /**
+    Creates/sends a special property named `restore` with a string value of `icon`.
+    This can be used in a button's event handler to trigger a "Restore button visuals" %TP action, with the "Icon Settings" selected as the reset type to perform.
+
+    Once created, this special state is named "Restore Button Visuals" and is also used to perform background and text visual resets.
+
+    \note As of Touch Portal v4.4, the "Restore button visuals" %TP action with "Icon Settings" selected does _not_ clear an icon set using a plugin state (like it would be for a TPButton).
+    It only works for icons set in the button editor itself. (Bug report has been filed.)
+
+    \sa restoreBgVisuals(), restoreTextVisuals()
+  */
+  void restoreIconVisuals();
+
+  /**
+    Creates/sends a special property named `restore` with a string value of `text`.
+    This can be used in a button's event handler to trigger a "Restore button visuals" %TP action, with the "Text Settings" selected as the reset type to perform.
+
+    Once created, this special state is named "Restore Button Visuals" and is also used to perform background and icon visual resets.
+    \sa restoreBgVisuals(), restoreIconVisuals()
+  */
+  void restoreTextVisuals();
+
+  /** Prints all defined properties and their current values to the console log. */
+  void debug();
+};

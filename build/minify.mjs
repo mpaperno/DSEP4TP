@@ -33,19 +33,27 @@ export default function minify(src = null, dst = null, exclude = [])
       continue;
     const fn = join(src, dirent.name);
     console.log("Reading source file " + fn);
-    const js = readFileSync(fn).toString();
+    const js = readFileSync(fn, 'utf8').toString();
     const minified = babel.transform(js,
     {
       presets: [["babel-preset-minify", { builtIns: false }]],
       plugins: ["@babel/plugin-syntax-import-meta"],
-      comments: false
+      comments: false,
+      // generatorOpts: {
+      //   jsescOption: {
+      //     minimal: true,
+      //   }
+      // }
     });
     code += '\n' + minified.code;
   }
 
-  writeFileSync(dst, code);
+  writeFileSync(dst, code, 'utf8');
 
   console.log("Wrote minified source to " + dst);
 }
 
-minify(/*null, null, ['global.js']*/);
+minify(null, null, [
+  // 'global.js',
+  'TPButton.js',
+]);

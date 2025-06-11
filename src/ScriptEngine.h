@@ -175,6 +175,13 @@ class ScriptEngine : public QObject
 			return QJSValue();
 		}
 
+		void registerModule(const QString &name, QJSValue module)
+		{
+			QJSValue modules = registeredModules();
+			modules.setProperty(name, std::move(module));
+			se->registerModule(name, modules.property(name));
+		}
+
 		inline QByteArray readFile(const QString &fn, bool *ok = nullptr) const
 		{
 			QFile scriptFile(fn);
