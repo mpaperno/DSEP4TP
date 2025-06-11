@@ -156,9 +156,9 @@ var sprintf = function() {
       case 'b':
         return _formatBaseX(value, 2, leftJustify, minWidth, precision, padChar)
       case 'o':
-        if (typeof value == "object")
-          return globalThis.inspect(value, { depth: minWidth, showHidden: true });
-        return _formatBaseX(value, 8, leftJustify, minWidth, precision, padChar)
+        if (typeof value == "number")
+            return _formatBaseX(value, 8, leftJustify, minWidth, precision, padChar)
+        return globalThis.inspect(value, { depth: minWidth, showHidden: true });
       case 'x':
         return _formatBaseX(value, 16, leftJustify, minWidth, precision, padChar)
       case 'X':
