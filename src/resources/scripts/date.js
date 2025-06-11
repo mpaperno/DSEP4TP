@@ -26,7 +26,7 @@ Date.prototype.clone = function(){
    return new Date(+this);
 };
 
-//! \fn Date addSeconds(seconds)
+//! \fn Date addSeconds(number seconds)
 //! \memberof Date
 //! Adds `seconds` to current date and returns new Date object.
 //! `seconds` can be negative to subtract from current time and can be in any integer value range.
@@ -37,7 +37,7 @@ Date.prototype.addSeconds = function(seconds) {
    return date;
 };
 
-//! \fn Date addMinutes(seconds)
+//! \fn Date addMinutes(number seconds)
 //! \memberof Date
 //! Adds `minutes` to current date and returns new Date object.
 //! `minutes` can be negative to subtract from current time and can be in any integer value range.
@@ -48,7 +48,7 @@ Date.prototype.addMinutes = function(minutes) {
    return date;
 };
 
-//! \fn Date addHours(seconds)
+//! \fn Date addHours(number seconds)
 //! \memberof Date
 //! Adds `hours` to current date and returns new Date object.
 //! `hours` can be negative to subtract from current time and can be in any integer value range.
@@ -59,7 +59,7 @@ Date.prototype.addHours = function(hours) {
    return date;
 };
 
-//! \fn Date addDays(days)
+//! \fn Date addDays(number days)
 //! \memberof Date
 //! Adds `days` to current date and returns new Date object.
 //! `days` can be negative to subtract from current date and can be in any integer value range.
@@ -70,7 +70,7 @@ Date.prototype.addDays = function(days) {
    return date;
 };
 
-//! \fn Date addMonths(months)
+//! \fn Date addMonths(number months)
 //! \memberof Date
 //! Adds `months` to current date and returns new Date object.
 //! `months` can be negative to subtract from current date and can be in any integer value range.
@@ -81,7 +81,7 @@ Date.prototype.addMonths = function(months) {
    return date;
 };
 
-//! \fn Date addYears(years)
+//! \fn Date addYears(number years)
 //! \memberof Date
 //! Adds `years` to current date and returns new Date object.
 //! `years` can be negative to subtract from current date and can be in any integer value range.
@@ -92,7 +92,7 @@ Date.prototype.addYears = function(years) {
    return date;
 };
 
-//! \fn Date compareToDate(otherDate)
+//! \fn Date compareToDate(Date otherDate)
 //! \memberof Date
 //! Compares this Date to `otherDate` based only on the year, month and day parts, ignoring time part.
 //! Returns -1 if `otherDate` is earlier than this date, 0 if the dates match, and 1 if `otherDate` is later than this date.
@@ -111,7 +111,7 @@ Date.prototype.compareToDate = function (otherDate)  {
 
 /*!
 
-   \fn string format(format)
+   \fn string format(string format)
    \memberof Date
    Formats this date according the specified .NET-style `format` string.
    This function emulates the .NET `DateTime.ToString()` method.
@@ -125,7 +125,7 @@ Date.prototype.compareToDate = function (otherDate)  {
    \sa String.format(), toLocaleString(), toLocaleDateString(), toLocaleTimeString()
 
 
-   \fn Date fromLocaleDateString(locale, dateString, format)
+   \fn Date fromLocaleDateString(Locale locale, string dateString, <string|number> format)
    \memberof Date
    \static
    Converts the date string `dateString` to a `Date` object using given `locale` and `format`.
@@ -145,7 +145,7 @@ Date.prototype.compareToDate = function (otherDate)  {
    \sa locale(), Locale
 
 
-   \fn Date fromLocaleString(locale, dateTimeString, format)
+   \fn Date fromLocaleString(Locale locale, string dateTimeString, <string | number> format)
    \memberof Date
    \static
    Converts the date string `dateTimeString` to a `Date` object using given `locale` and `format`.
@@ -165,7 +165,7 @@ Date.prototype.compareToDate = function (otherDate)  {
    \sa locale(), Locale
 
 
-   \fn Date fromLocaleTimeString(locale, timeString, format)
+   \fn Date fromLocaleTimeString(Locale locale, string timeString, <string | number> format)
    \memberof Date
    Converts the date string `timeString` to a Date object using given `locale` and `format`.
    \param locale A Locale object, obtained with the global `locale()` method.
@@ -183,7 +183,7 @@ Date.prototype.compareToDate = function (otherDate)  {
    \sa locale(), Locale
 
 
-   \fn string toLocaleDateString(locale, format)
+   \fn string toLocaleDateString(Locale locale, string format)
    \memberof Date
    Converts the Date to a string containing the date suitable for the specified `locale` in the specified `format`.
    \param locale A Locale object, obtained with the global `locale()` method.
@@ -200,7 +200,7 @@ Date.prototype.compareToDate = function (otherDate)  {
    \sa locale(), Locale
 
 
-   \fn string toLocaleString(locale, format)
+   \fn string toLocaleString(Locale locale, string format)
    \memberof Date
    Converts the Date to a string containing the date and time suitable for the specified `locale` in the specified `format`.
    \param locale A Locale object, obtained with the global `locale()` method.
@@ -217,7 +217,7 @@ Date.prototype.compareToDate = function (otherDate)  {
    \sa locale(), Locale
 
 
-   \fn string toLocaleTimeString(locale, format)
+   \fn string toLocaleTimeString(Locale locale, string format)
    \memberof Date
    Converts the Date to a string containing the time suitable for the specified `locale` in the specified `format`.
    \param locale A Locale object, obtained with the global `locale()` method.

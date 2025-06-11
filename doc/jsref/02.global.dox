@@ -10,7 +10,7 @@
   `data` can be a string or `ArrayBuffer` (or similar collection of ASCII bytes).
   Note that strings are automatically converted to ASCII (Latin 1 encoding). To avoid any conversion, pass an `ArrayBuffer` (or similar).
 
-	\fn String btoa(any data)
+	\fn string btoa(any data)
 	\memberof Global
   \static
   Returns `data` bytes as base-64 encoded plain text ("binary to ascii"). `data` can be a `ArrayBuffer` or a string.
@@ -67,7 +67,7 @@
   \since v1.3
 
 
-  \fn String hash(any data, String algorithm = "md5")
+  \fn string hash(any data, string algorithm = "md5")
   \memberof Global
   \static
   Returns a cryptographic hash of `data` using given `algorithm` as a string of hexadecimal characters.
@@ -94,7 +94,7 @@
   Throws a `TypeError` if `algorithm` isn't one of the types listed above.
 
 
-  \fn void include(String scriptFile)
+  \fn void include(string scriptFile)
   \memberof Global
   \static
   Read and evaluate `scriptFile` as JavaScript in the current scripting engine context (global object) at the location of this function call.
@@ -112,7 +112,7 @@
   \sa require()
 
 
-  \fn String inspect(any obj, object options = {})
+  \fn string inspect(any obj, object options = {})
   \memberof Global
   \static
   Returns a string representation of object `obj` that is intended for debugging.
@@ -126,7 +126,7 @@
   \since v1.3
 
 
-  \fn bool openUrlExternally(<String | URL> url)
+  \fn bool openUrlExternally(<string | URL> url)
   \memberof Global
   \static
   Attempts to open the specified target `url` in an external application, based on the user's desktop preferences. Returns `true` if it succeeds, `false` otherwise.
@@ -138,7 +138,7 @@
   \since v1.3
 
 
-  \fn void require(String id)
+  \fn void require(string id)
   \memberof Global
   \static
   Used to import all or part of JavaScript modules or JSON objects. The `id` parameter specifies the name of a module or file to import from,
@@ -212,13 +212,13 @@
   \n If country is not present, or is not a valid ISO 3166 code, the most appropriate country is chosen for the specified language.
 
 
-	\fn String Format(String format)
+	\fn string Format(string format)
 	\memberof Global
   \static
 	Equivalent to the `String.format()` extension method. Provides .NET style string formatting.
 
 
-  \fn String sprintf(String format, any ...args)
+  \fn string sprintf(string format, any ...args)
   \memberof Global
   \static
 
@@ -270,7 +270,7 @@
     ```
 
   If a non-object value type is given as the argument for a `%%o` or `%%O` specifier, it will be output as it's string representation.
-  Actual String type values will be quoted. For numeric values, `%%o` falls back to the standard output in an octal (base 8) format (`%%O` has no special meaning).
+  Actual string type values will be quoted. For numeric values, `%%o` falls back to the standard output in an octal (base 8) format (`%%O` has no special meaning).
 
   Note that there is also a global `printf(format, ...args)` function available which writes the output of `sprintf()` to the console log.
   It is equivalent to writing `console.log(sprintf(format, args))`.
@@ -288,7 +288,7 @@
   \sa `String.format()` for .NET style formatted strings.
 
 
-  \fn String printf(String format, any ...args)
+  \fn string printf(string format, any ...args)
   \memberof Global
   \static
 

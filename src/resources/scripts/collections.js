@@ -19,7 +19,7 @@ to any 3rd-party components used within.
 */
 
 /*!
-	\fn String fromBase64(any data)
+	\fn string fromBase64(any data)
 	\memberof ArrayBuffer
 	\static
 	Creates and returns a new `ArrayBuffer` from the contents of Base64-encoded string `data`.
@@ -30,7 +30,7 @@ to any 3rd-party components used within.
 ArrayBuffer.fromBase64 = function(data) { return Util.fromBase64(data); };
 
 /*!
-	\fn String toBase64()
+	\fn string toBase64()
 	\memberof ArrayBuffer
 	Returns the contents of this buffer as a Base64-encoded string.
 	Equivalent to `btoa(buffer)`.  \sa fromBase64(), btoa()
@@ -38,7 +38,7 @@ ArrayBuffer.fromBase64 = function(data) { return Util.fromBase64(data); };
 ArrayBuffer.prototype.toBase64 = function() { return Util.toBase64(this); };
 
 /*!
-  \fn String toHex(char separator)
+  \fn string toHex(char separator)
   \memberof ArrayBuffer
   Returns the contents of this buffer as a hex encoded string.
   \param separator Optional **single** separator character to place between each byte in the output.

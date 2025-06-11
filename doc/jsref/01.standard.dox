@@ -18,8 +18,8 @@ per object type are shown below the main list and "details" links are provided. 
 In some cases the standard objects are also [extended](@ref JSExt) (ArrayBuffer, Date, Math, Number, String, URL), as is the [Global object](@ref Global),
 which is documented separately.
 
-[Nullish Coalescing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator) (??) and
-[Optional Chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) (?.) are also implemented.
+[Nullish Coalescing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator) (`??`) and
+[Optional Chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) (`?.`) are also implemented.
 
 __Note__ that _all_ `Math` functions are also available in the global scope, w/out the `%Math.` qualifier.
 
@@ -37,9 +37,9 @@ Portions of this text are originally from the Qt library's QJSEngine/QQmlEngine 
 - [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
 
 ### Numbers and dates
-- [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)
-- [Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
-- [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
+- [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) ([extended implementation](@ref Number))
+- [Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) ([extended implementation](@ref Math))
+- [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) ([extended implementation](@ref Date))
 
 (Note lack of support for BigInt types.)
 
@@ -69,7 +69,7 @@ Portions of this text are originally from the Qt library's QJSEngine/QQmlEngine 
 - [WeakSet](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet)
 
 ### Structured data
-- [ArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer)
+- [ArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) ([extended implementation](@ref ArrayBuffer))
 - [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer)
 - [Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics)
 - [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView)
@@ -105,9 +105,9 @@ Portions of this text are originally from the Qt library's QJSEngine/QQmlEngine 
 - [AbortController, AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)  ([implementation details](#stdlib-abort))
 - [DOMException](https://developer.mozilla.org/en-US/docs/Web/API/DOMException)
 - [fetch, Headers, Request, Response](https://developer.mozilla.org/en-US/docs/Web/API/fetch) ([implementation details](@ref NetAPI))
-- [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/) ([implementation details](@ref WebSocket))
-- [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)  ([implementation details](#stdlib-xmlhttpreq)))
 - [URL & URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) ([extended implementation](@ref URL))
+- [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/) ([implementation & extention details](@ref WebSocket))
+- [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)  ([implementation details](#stdlib-xmlhttpreq))
 
 ## Details by object type
 
@@ -235,10 +235,10 @@ See [Event Handling](@ref EventHandlers) for more details about connecting handl
   For example:
   ```js
   var xhr = XMLHttpRequest();
-  ...
+  // ...
   xhr.send();
-  setTimeout( [ xhr.abort, xhr ], 1000);    // works
-  setTimeout(() => { xhr.abort() }, 1000);  // works
+  setTimeout( [ xhr.abort, xhr ], 1000);    // works (efficiently)
+  setTimeout(() => { xhr.abort() }, 1000);  // works but creates unnecessary function and capture
   setTimeout(xhr.abort, 1000);              // possibly fails if the 'this' context for `xhr` is lost
   ```
 - See also `clearAllTimers()` and `clearInstanceTimers()`

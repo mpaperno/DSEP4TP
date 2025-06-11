@@ -120,7 +120,7 @@
 */
 
 /*!
-	\fn string appendLine(String line, int maxLines, separator = '\n')
+	\fn string appendLine(string line, int maxLines, separator = '\n')
 	\memberof String
 	Appends string `line` to current string, and returns a new block with up to `maxLines` lines.
 	If `maxLines` is zero or negative, returns the full resulting string.
@@ -128,7 +128,7 @@
 */
 
 /*!
-	\fn string appendLine(String text, String line, int maxLines, String separator = '\n')
+	\fn string appendLine(string text, string line, int maxLines, string separator = '\n')
 	\memberof String
 	\static
 	Appends string `line` to `text` and returns a new block with up to `maxLines` lines.
@@ -136,7 +136,7 @@
 */
 
 /*!
-	\fn string getLines(int maxLines, int fromLine = 0, String separator = '\n')
+	\fn string getLines(int maxLines, int fromLine = 0, string separator = '\n')
 	\memberof String
 	Splits string `text` into lines based on `separator` and returns `maxLines` of text starting at `fromLine` (zero-based index).
 	Default `maxLines` is 1,  `fromLine` is zero (the start) and default `separator` is "\n". Specify a negative `fromLine` to count lines from the end
@@ -144,7 +144,7 @@
 */
 
 /*!
-	\fn string getLines(String text, int maxLines, int fromLine = 0, String separator = '\n')
+	\fn string getLines(string text, int maxLines, int fromLine = 0, string separator = '\n')
 	\memberof String
 	\static
 	Splits string `text` into lines based on `separator` and returns `maxLines` of text starting at `fromLine` (zero-based index).

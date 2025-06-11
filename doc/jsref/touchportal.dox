@@ -13,23 +13,23 @@ public:
 //! \{
 
 /*!
-  \fn void stateUpdate(String value)
+  \fn void stateUpdate(string value)
   \memberof TP
   \static
   Send a State update to Touch Portal with given `value` for the current script instance. This only works with instances in a `Private` script engine.
-  \sa stateUpdate(String, String)
+  \sa stateUpdate(string, string)
 */
 
 /*!
-  \fn void stateUpdate(String name, String value)
+  \fn void stateUpdate(string name, string value)
   \memberof TP
   \static
   Send a State update to Touch Portal for a DSE instance named `name` with given `value`. This works with any type of engine instance, `Shared` or `Private`.
-  The `name` will be turned into a fully qualified state ID as necessary (adding the required prefix to match default DSE state IDs). \sa stateUpdate(String)
+  The `name` will be turned into a fully qualified state ID as necessary (adding the required prefix to match default DSE state IDs). \sa stateUpdate(string)
 */
 
 /*!
-  \fn void stateUpdateById(String id, String value)
+  \fn void stateUpdateById(string id, string value)
   \memberof TP
   \static
   Send a State update to Touch Portal for any arbitrary state/value matching the `id`, with given `value`.
@@ -37,7 +37,7 @@ public:
 */
 
 /*!
-  \fn void stateCreate(String id, String parentGroup, String description, String defaultValue = "", boolean forceUpdate = false, int delayMs = 0)
+  \fn void stateCreate(string id, string parentGroup, string description, string defaultValue = "", boolean forceUpdate = false, int delayMs = 0)
   \memberof TP
   \static
   Create a new Touch Portal dynamic State (if it doesn't already exist).
@@ -55,7 +55,7 @@ public:
   \since v1.2.1 added `forceUpdate` and `delayMs` arguments, `defaultValue` is optional.
 
 
-  \fn void stateCreate(String id, String description, String defaultValue = "", int delayMs = 0)
+  \fn void stateCreate(string id, string description, string defaultValue = "", int delayMs = 0)
   \memberof TP
   \static
   \brief Overload of `stateCreate()` - Create a new Touch Portal dynamic State (if it doesn't already exist).
@@ -68,7 +68,7 @@ public:
   \since v1.2.1
 
 
-  \fn void stateCreate(String id, String description, object options = {})
+  \fn void stateCreate(string id, string description, object options = {})
   \memberof TP
   \static
   Overload of `stateCreate()` - Create a new Touch Portal dynamic State (if it doesn't already exist).
@@ -90,14 +90,14 @@ public:
 */
 
 /*!
-  \fn void stateRemove(String id)
+  \fn void stateRemove(string id)
   \memberof TP
   \static
   Remove a Touch Portal dynamic State (if it exists).  The `id` must be fully qualified to match the ID of the existing state.
 */
 
 /*!
-  \fn void choiceUpdate(String id, Array<String> values)
+  \fn void choiceUpdate(string id, Array<string> values)
   \memberof TP
   \static
   Update a list of choices for a selector with given `id`, which must be a fully qualified ID of some existing action data member (from some plugin).
@@ -105,7 +105,7 @@ public:
 */
 
 /*!
-  \fn void choiceUpdateInstance(String id, String instanceId, Array<String> values)
+  \fn void choiceUpdateInstance(string id, string instanceId, Array<string> values)
   \memberof TP
   \static
   Update a list of choices for a selector with given `id` and specific `instanceId`.
@@ -117,7 +117,7 @@ public:
 */
 
 /*!
-  \fn void connectorUpdate(String shortId, int value)
+  \fn void connectorUpdate(string shortId, int value)
   \memberof TP
   \static
   Sends a connector (slider) update with given `value` which should be an integer in the range of 0 - 100.
@@ -133,7 +133,7 @@ public:
 */
 
 /*!
-  \fn void connectorUpdateByLongId(String connectorId, int value)
+  \fn void connectorUpdateByLongId(string connectorId, int value)
   \memberof TP
   \static
   Sends a connector (slider) update with given `value` which should be an integer in the range of 0 - 100.
@@ -146,7 +146,7 @@ public:
 */
 
 /*!
-  \fn void showNotification(String notificationId, String title, String message, Array<Object> options = [], <Function|String|Array> callback = null)
+  \fn void showNotification(string notificationId, string title, string message, Array<Object> options = [], <Function|string|Array> callback = null)
   \memberof TP
   \static
   Creates or raises a user notification in the Touch Portal window. See TP API docs for details on notifications.
@@ -176,7 +176,7 @@ public:
 */
 
 /*!
-  \fn void settingUpdate(String name, String value)
+  \fn void settingUpdate(string name, string value)
   \memberof TP
   \static
   Update a plugin Setting in Touch Portal named `name` to `value`.  This only works for settings of the current plugin (defined in corresponding entry.tp).
@@ -184,7 +184,7 @@ public:
 */
 
 /*!
-  \fn void triggerEvent(String id, object states = {})
+  \fn void triggerEvent(string id, object states = {})
   \memberof TP
   \static
   Trigger a Touch Portal Event with the ID `id` and optional local state values defined in `states`.
@@ -196,7 +196,7 @@ public:
 */
 
 /*!
-  \fn void triggerGenericEvent(String name, <String|number|boolean> ... stateValues)
+  \fn void triggerGenericEvent(string name, <string|number|boolean> ... stateValues)
   \memberof TP
   \static
   Trigger the plugin's "Generic Script Event" Touch Portal Event.
@@ -216,7 +216,7 @@ public:
 */
 
 /*!
-  \fn void triggerGenericEvent(String name, Array<String|number|boolean> stateValues)
+  \fn void triggerGenericEvent(string name, Array<string|number|boolean> stateValues)
   \memberof TP
   \static
   Overload of `triggerGenericEvent()`. In this version the local state values can be specified as an array.
@@ -234,7 +234,7 @@ public:
 //! \{
 
 /*!
-  \fn Array<String> getConnectorShortIds(Object criteria = {})
+  \fn Array<string> getConnectorShortIds(Object criteria = {})
   \memberof TP
   \static
   Returns zero or more connector "short IDs" based on the given `criteria` from the currently logged connector notification data.
@@ -282,7 +282,7 @@ public:
 */
 
 /*!
-  \fn ConnectorRecord getConnectorByShortId(String shortId)
+  \fn ConnectorRecord getConnectorByShortId(string shortId)
   \memberof TP
   \static
   Returns a `ConnectorRecord` based on the given `shortId` from the currently logged connector notification data, if any.
@@ -307,7 +307,7 @@ public:
 //! \{
 
 /*!
-  \fn String currentPageName()
+  \fn string currentPageName()
   \memberof TP
   \static
   Returns the name of the page the user last opened on their Touch Portal device (_not_ in the desktop page editor).
@@ -343,7 +343,7 @@ public:
 */
 
 /*!
-  \fn void broadcastEvent(String event, Object data)
+  \fn void broadcastEvent(string event, Object data)
   \memberof TP
   \static
   This event is emitted when Touch Portal sends a `broadcast` message to all plugins.
@@ -361,7 +361,7 @@ public:
 */
 
 /*!
-  \fn void connectorIdsChanged(String instanceName, String shortId)
+  \fn void connectorIdsChanged(string instanceName, string shortId)
   \memberof TP
   \static
   This event is emitted whenever a `shortConnectorIdNotification` message from Touch Portal has been received, parsed, and added to the tracking database.

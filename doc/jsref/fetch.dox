@@ -46,7 +46,7 @@ Net.fetch("https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png")
 See [Fetch and Notify](@ref example_fetch_and_notify) for a more complete example using JSON a data request.
 
 */
-static Promise<Response> fetch(String url, object options = {});
+static Promise<Response> fetch(<string|URL> url, object options = {});
 
 /*!
 This is a fully synchronous version of `Net.fetch()`. Instead of returning a Promise, `Net.request()` returns a `Request` object type.
@@ -74,7 +74,7 @@ If error trapping isn't important, the image data could be returned directly fro
 object's `signal` property in order to terminate the request from another process (eg. a timer).
 
 */
-static Response request(String url, object options = {});
+static Response request(<string|URL> url, object options = {});
 
 
 /*!
@@ -98,7 +98,7 @@ if you only need to _send_ a message, w/out needing a reply, use the `Net.wsSend
 
 \sa WebSocket, Net.wsSend()
 */
-static Promise<String|ArrayBuffer> wsGet(String url, any message = null, object options = {});
+static Promise<string|ArrayBuffer> wsGet(<string|URL> url, any message = null, object options = {});
 
 /*!
 The `Net.wsSend()` function initiates a `WebSocket` request to the given URL and, optionally, sends a message after connection is established.
@@ -118,7 +118,7 @@ if you need to _receive_ a message, use the `Net.wsGet()` function instead.
 
 \sa WebSocket, Net.wsGet()
 */
-static Promise<number> wsSend(String url, any message = null, object options = {});
+static Promise<number> wsSend(<string|URL> url, any message = null, object options = {});
 
 
 }  // namespace Net
