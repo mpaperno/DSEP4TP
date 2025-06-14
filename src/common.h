@@ -53,3 +53,9 @@ DISABLE_GCC_WARNING(-Wunused-function,
 static Q_LOGGING_CATEGORY(lcPlugin, PLUGIN_SYSTEM_NAME, LOGMINLEVEL)
 static Q_LOGGING_CATEGORY(lcDse,    "DSE", QtDebugMsg)
 )
+
+
+#define Q_ENUM_NS_N(ENUM, NS) \
+  Q_ENUMS(ENUM) \
+  inline constexpr const QMetaObject *qt_getEnumMetaObject(ENUM) noexcept { return & NS::staticMetaObject; } \
+  inline constexpr const char *qt_getEnumName(ENUM) noexcept { return #ENUM; }

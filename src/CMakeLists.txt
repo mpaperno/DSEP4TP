@@ -89,6 +89,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   ScriptingLibrary/FS.h
   ScriptingLibrary/Dir.h
   ScriptingLibrary/RunProcess.h
+  ScriptingLibrary/ScriptLibNS.h
   ScriptingLibrary/TPAPI.h
   ScriptingLibrary/Util.h
   ScriptingLibrary/WebSocket.h

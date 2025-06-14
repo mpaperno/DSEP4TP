@@ -21,27 +21,14 @@ to any 3rd-party components used within.
 #pragma once
 
 #include <private/qv4scopedvalue_p.h>
-#include <private/qv4domerrors_p.h>
-
-#define DOMEXCEPTION_SECURITY_ERR      18
-#define DOMEXCEPTION_NETWORK_ERR       19
-#define DOMEXCEPTION_ABORT_ERR         20
-#define DOMEXCEPTION_URL_MISMATCH_ERR  21
-#define DOMEXCEPTION_QUOTA_EXCEEDED_ERR  22
-#define DOMEXCEPTION_TIMEOUT_ERR       23
-#define DOMEXCEPTION_INVALID_NODE_ERR  24
-#define DOMEXCEPTION_DATA_CLONE_ERR    25
-
-#undef THROW_DOM
-
-#define THROW_DOM(error, string, name) { \
-  return throwDomError(scope.engine, error, QStringLiteral(string), QStringLiteral(name)); \
-}
 
 namespace QV4 {
 struct ExecutionEngine;
 
-extern ReturnedValue throwDomError(ExecutionEngine *e, int error, const QString &message, const QString &name = QString());
+extern QV4::ReturnedValue newDomError(QV4::ExecutionEngine *e, int error, const QString &message = QString(), const QString &name = QString());
+extern QV4::ReturnedValue throwDomError(QV4::ExecutionEngine *e, int error, const QString &message = QString(), const QString &name = QString());
+extern QJSValue newDomErrorObject(QV4::ExecutionEngine *e, int error, const QString &message = QString(), const QString &name = QString());
+extern QJSValue newDomErrorObject(QV4::ExecutionEngine *e, const QString &name, const QString &message = QString());
 }
 
 void dse_add_domexceptions(QV4::ExecutionEngine *e);

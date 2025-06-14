@@ -3,12 +3,13 @@
 
 #include "XmlHttpRequest.h"
 #include "DOMException.h"
+#include "ScriptLibNS.h"
 #include "ScriptEngine.h"
 
 #include <QtCore/qglobal.h>
 #include <private/qqmlglobal_p.h>
-#include <qqmlengine.h>
-#include <private/qqmlengine_p.h>
+#include <qjsengine.h>
+#include <private/qjsengine_p.h>
 #include <private/qqmlrefcount_p.h>
 //#include <private/qv4domerrors_p.h>
 #include <private/qv4engine_p.h>
@@ -38,6 +39,7 @@
 
 
 using namespace QV4;
+using namespace ScriptLib;
 
 #define V4THROW_REFERENCE(string) \
     do { \
@@ -46,9 +48,9 @@ using namespace QV4;
     } while (false)
 
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-	#define EGINE_FREEZE_OBJECT(p)  engine->v8Engine->freezeObject(p)
+	#define ENGINE_FREEZE_OBJECT(p)  engine->v8Engine->freezeObject(p)
 #else
-	#define EGINE_FREEZE_OBJECT(p)  engine->freezeObject(p)
+	#define ENGINE_FREEZE_OBJECT(p)  engine->freezeObject(p)
 #endif
 
 DEFINE_BOOL_CONFIG_OPTION(xhrDump, QML_XHR_DUMP);
@@ -56,14 +58,14 @@ DEFINE_BOOL_CONFIG_OPTION(xhrFileWrite, QML_XHR_ALLOW_FILE_WRITE);
 DEFINE_BOOL_CONFIG_OPTION(xhrFileRead, QML_XHR_ALLOW_FILE_READ);
 
 
-// Woraround for QNetworkRequest/Reply bug not properly getting status responses.
+// Workaround for QNetworkRequest/Reply bug not properly getting status responses.
 static QLatin1String httpResponseTextForCode(quint16 code)
 {
 	static QHash<quint16, QLatin1String> s {
-		{ 100, QLatin1String(QLatin1String("Continue")) },
-		{ 101, QLatin1String(QLatin1String("Switching Protocols")) },
-		{ 102, QLatin1String(QLatin1String("Processing")) },
-		{ 103, QLatin1String(QLatin1String("Early Hints")) },
+		{ 100, QLatin1String("Continue") },
+		{ 101, QLatin1String("Switching Protocols") },
+		{ 102, QLatin1String("Processing") },
+		{ 103, QLatin1String("Early Hints") },
 		{ 200, QLatin1String("OK") },
 		{ 201, QLatin1String("Created") },
 		{ 202, QLatin1String("Accepted") },
@@ -653,7 +655,7 @@ ReturnedValue NodePrototype::getProto(ExecutionEngine *engine)
     if (d->nodePrototype.isUndefined()) {
         ScopedObject p(scope, engine->memoryManager->allocate<NodePrototype>());
         d->nodePrototype.set(engine, p);
-        EGINE_FREEZE_OBJECT(p);
+        ENGINE_FREEZE_OBJECT(p);
     }
     return d->nodePrototype.value();
 }
@@ -702,7 +704,7 @@ ReturnedValue Element::prototype(ExecutionEngine *engine)
         p->setPrototypeUnchecked((pp = NodePrototype::getProto(engine)));
         p->defineAccessorProperty(QStringLiteral("tagName"), NodePrototype::method_get_nodeName, nullptr);
         d->elementPrototype.set(engine, p);
-        EGINE_FREEZE_OBJECT(p);
+        ENGINE_FREEZE_OBJECT(p);
     }
     return d->elementPrototype.value();
 }
@@ -719,7 +721,7 @@ ReturnedValue Attr::prototype(ExecutionEngine *engine)
         p->defineAccessorProperty(QStringLiteral("value"), method_value, nullptr);
         p->defineAccessorProperty(QStringLiteral("ownerElement"), method_ownerElement, nullptr);
         d->attrPrototype.set(engine, p);
-        EGINE_FREEZE_OBJECT(p);
+        ENGINE_FREEZE_OBJECT(p);
     }
     return d->attrPrototype.value();
 }
@@ -775,7 +777,7 @@ ReturnedValue CharacterData::prototype(ExecutionEngine *engine)
         p->defineAccessorProperty(QStringLiteral("data"), NodePrototype::method_get_nodeValue, nullptr);
         p->defineAccessorProperty(QStringLiteral("length"), method_length, nullptr);
         d->characterDataPrototype.set(engine, p);
-        EGINE_FREEZE_OBJECT(p);
+        ENGINE_FREEZE_OBJECT(p);
     }
     return d->characterDataPrototype.value();
 }
@@ -811,7 +813,7 @@ ReturnedValue Text::prototype(ExecutionEngine *engine)
         p->defineAccessorProperty(QStringLiteral("isElementContentWhitespace"), method_isElementContentWhitespace, nullptr);
         p->defineAccessorProperty(QStringLiteral("wholeText"), method_wholeText, nullptr);
         d->textPrototype.set(engine, p);
-        EGINE_FREEZE_OBJECT(p);
+        ENGINE_FREEZE_OBJECT(p);
     }
     return d->textPrototype.value();
 }
@@ -826,7 +828,7 @@ ReturnedValue CDATA::prototype(ExecutionEngine *engine)
         ScopedObject pp(scope);
         p->setPrototypeUnchecked((pp = Text::prototype(engine)));
         d->cdataPrototype.set(engine, p);
-        EGINE_FREEZE_OBJECT(p);
+        ENGINE_FREEZE_OBJECT(p);
     }
     return d->cdataPrototype.value();
 }
@@ -844,7 +846,7 @@ ReturnedValue Document::prototype(ExecutionEngine *engine)
         p->defineAccessorProperty(QStringLiteral("xmlStandalone"), method_xmlStandalone, nullptr);
         p->defineAccessorProperty(QStringLiteral("documentElement"), method_documentElement, nullptr);
         d->documentPrototype.set(engine, p);
-        EGINE_FREEZE_OBJECT(p);
+        ENGINE_FREEZE_OBJECT(p);
     }
     return d->documentPrototype.value();
 }
@@ -2306,11 +2308,11 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_open(const FunctionObject *b, const
 		if (argc) {
 			QString method = argv[0].toQStringNoThrow().toUpper();
 			if (!isValidRequestMethod(method))
-				THROW_DOM(DOMEXCEPTION_VALIDATION_ERR, "Unsupported HTTP method type", "ValidationError");
+				return throwDomError(scope.engine, DOMException::ValidationError, "Unsupported HTTP method type");
 			r->setMethod(method);
 		}
 		else if (r->method().isEmpty()) {
-			THROW_DOM(DOMEXCEPTION_VALIDATION_ERR, "HTTP method type is required before or in open().", "ValidationError");
+			return throwDomError(scope.engine, DOMException::ValidationError, "HTTP method type is required before or in open().");
 		}
 
     // Argument 1 - URL
@@ -2340,7 +2342,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_open(const FunctionObject *b, const
 			r->setUrl(url);
 		}
 		else if (!r->url().isValid()) {
-			THROW_DOM(DOMEXCEPTION_VALIDATION_ERR, "A URL is required before or in open().", "ValidationError");
+			return throwDomError(scope.engine, DOMException::ValidationError, "A URL is required before or in open().");
 		}
 
     // Argument 2 - async (optional)
@@ -2362,10 +2364,10 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_setRequestHeader(const FunctionObje
     QQmlXMLHttpRequest *r = w->d()->request;
 
     if (argc != 2)
-        THROW_DOM(DOMEXCEPTION_SYNTAX_ERR, "Incorrect argument count", "SyntaxError");
+        return throwDomError(scope.engine, DOMException::SyntaxError, "Incorrect argument count");
 
     if (r->readyState() != QQmlXMLHttpRequest::Opened || r->sendFlag())
-        THROW_DOM(DOMEXCEPTION_INVALID_STATE_ERR, "Invalid state", "InvalidState");
+        return throwDomError(scope.engine, DOMException::InvalidStateError, "Invalid state");
 
     QString name = argv[0].toQStringNoThrow();
     QString value = argv[1].toQStringNoThrow();
@@ -2410,7 +2412,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_send(const FunctionObject *b, const
 
     if (r->readyState() != QQmlXMLHttpRequest::Opened ||
         r->sendFlag())
-        THROW_DOM(DOMEXCEPTION_INVALID_STATE_ERR, "Invalid state", "InvalidState");
+        return throwDomError(scope.engine, DOMException::InvalidStateError, "Invalid state");
 
     QByteArray data;
     if (argc > 0) {
@@ -2444,12 +2446,12 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_getResponseHeader(const FunctionObj
     QQmlXMLHttpRequest *r = w->d()->request;
 
     if (argc != 1)
-        THROW_DOM(DOMEXCEPTION_SYNTAX_ERR, "Incorrect argument count", "SyntaxError");
+        return throwDomError(scope.engine, DOMException::SyntaxError, "Incorrect argument count");
 
     if (r->readyState() != QQmlXMLHttpRequest::Loading &&
         r->readyState() != QQmlXMLHttpRequest::Done &&
         r->readyState() != QQmlXMLHttpRequest::HeadersReceived)
-        THROW_DOM(DOMEXCEPTION_INVALID_STATE_ERR, "Invalid state", "InvalidState");
+        return throwDomError(scope.engine, DOMException::InvalidStateError, "Invalid state");
 
     return Encode(scope.engine->newString(r->header(argv[0].toQStringNoThrow())));
 }
@@ -2463,10 +2465,10 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_getAllResponseHeaders(const Functio
     QQmlXMLHttpRequest *r = w->d()->request;
 
     if (argc != 0)
-        THROW_DOM(DOMEXCEPTION_SYNTAX_ERR, "Incorrect argument count", "SyntaxError");
+        return throwDomError(scope.engine, DOMException::SyntaxError, "Incorrect argument count");
 
     if (r->readyState() < QQmlXMLHttpRequest::HeadersReceived)
-        THROW_DOM(DOMEXCEPTION_INVALID_STATE_ERR, "Invalid state", "InvalidState");
+        return throwDomError(scope.engine, DOMException::InvalidStateError, "Invalid state");
 
 		return Encode(scope.engine->newString(r->headers()));
 }
@@ -2480,7 +2482,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_overrideMimeType(const FunctionObje
   QQmlXMLHttpRequest *r = w->d()->request;
 
   if (r->readyState() > QQmlXMLHttpRequest::Opened || r->sendFlag())
-      THROW_DOM(DOMEXCEPTION_INVALID_STATE_ERR, "Invalid state, cannot set MIME type after send().", "InvalidState");
+      return throwDomError(scope.engine, DOMException::InvalidStateError, "Invalid state, cannot set MIME type after send().");
 
   QByteArray data;
   if (argc > 0)
@@ -2511,7 +2513,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_get_status(const FunctionObject *b,
 
     if (r->readyState() == QQmlXMLHttpRequest::Unsent ||
         r->readyState() == QQmlXMLHttpRequest::Opened)
-        THROW_DOM(DOMEXCEPTION_INVALID_STATE_ERR, "Invalid state", "InvalidState");
+        return throwDomError(scope.engine, DOMException::InvalidStateError, "Invalid state");
 
     if (r->errorFlag())
         return Encode(0);
@@ -2529,7 +2531,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_get_statusText(const FunctionObject
 
     if (r->readyState() == QQmlXMLHttpRequest::Unsent ||
         r->readyState() == QQmlXMLHttpRequest::Opened)
-        THROW_DOM(DOMEXCEPTION_INVALID_STATE_ERR, "Invalid state", "InvalidState");
+        return throwDomError(scope.engine, DOMException::InvalidStateError, "Invalid state");
 
 //    if (r->errorFlag())
 //        return Encode(scope.engine->newString(QString()));
@@ -2617,7 +2619,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_set_responseType(const FunctionObje
     QQmlXMLHttpRequest *r = w->d()->request;
 
     if (argc < 1)
-        THROW_DOM(DOMEXCEPTION_SYNTAX_ERR, "Incorrect argument count", "SyntaxError");
+        return throwDomError(scope.engine, DOMException::SyntaxError, "Incorrect argument count");
 
     // Argument 0 - response type
     r->setResponseType(argv[0].toQStringNoThrow());
@@ -2644,7 +2646,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_set_timeout(const FunctionObject *b
   QQmlXMLHttpRequest *r = w->d()->request;
 
   if (argc < 1)
-      THROW_DOM(DOMEXCEPTION_SYNTAX_ERR, "Incorrect argument count", "SyntaxError");
+      return throwDomError(scope.engine, DOMException::SyntaxError, "Incorrect argument count");
 
   // Argument 0 - timeout value in ms
   r->setTimeout(argv[0].toInt32());
@@ -2669,7 +2671,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_set_withCredentials(const FunctionO
       V4THROW_REFERENCE("Not an XMLHttpRequest object");
   QQmlXMLHttpRequest *r = w->d()->request;
   if (argc < 1)
-      THROW_DOM(DOMEXCEPTION_SYNTAX_ERR, "Incorrect argument count", "SyntaxError");
+      return throwDomError(scope.engine, DOMException::SyntaxError, "Incorrect argument count");
   // Argument 0 - true/false
   r->setWithCredentials(argv[0].toBoolean());
 	return Encode::undefined();
@@ -2739,11 +2741,11 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_set_method(const FunctionObject *b,
       V4THROW_REFERENCE("Not an XMLHttpRequest object");
   QQmlXMLHttpRequest *r = w->d()->request;
   if (argc < 1)
-      THROW_DOM(DOMEXCEPTION_SYNTAX_ERR, "Incorrect argument count", "SyntaxError");
+      return throwDomError(scope.engine, DOMException::SyntaxError, "Incorrect argument count");
 	// Argument 0 - method name
 	QString method = argv[0].toQStringNoThrow().toUpper();
 	if (!isValidRequestMethod(method))
-      THROW_DOM(DOMEXCEPTION_VALIDATION_ERR, "Unsupported HTTP method type", "ValidationError");
+      return throwDomError(scope.engine, DOMException::ValidationError, "Unsupported HTTP method type");
 
   r->setMethod(method);
 	return Encode::undefined();
@@ -2772,7 +2774,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_set_url(const FunctionObject *b, co
       V4THROW_REFERENCE("Not an XMLHttpRequest object");
   QQmlXMLHttpRequest *r = w->d()->request;
   if (argc < 1)
-      THROW_DOM(DOMEXCEPTION_SYNTAX_ERR, "Incorrect argument count", "SyntaxError");
+      return throwDomError(scope.engine, DOMException::SyntaxError, "Incorrect argument count");
 	// Argument 0 - URL
   QUrl url = QUrl(argv[0].toQStringNoThrow());
   if (url.isRelative()) {
@@ -2807,7 +2809,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_set_async(const FunctionObject *b, 
       V4THROW_REFERENCE("Not an XMLHttpRequest object");
   QQmlXMLHttpRequest *r = w->d()->request;
   if (argc < 1)
-      THROW_DOM(DOMEXCEPTION_SYNTAX_ERR, "Incorrect argument count", "SyntaxError");
+      return throwDomError(scope.engine, DOMException::SyntaxError, "Incorrect argument count");
   // Argument 0 - true/false
   r->setLoadType(argv[0].toBoolean() ? QQmlXMLHttpRequest::AsynchronousLoad : QQmlXMLHttpRequest::SynchronousLoad);
 	return Encode::undefined();
@@ -2850,7 +2852,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_set_redirect(const FunctionObject *
       V4THROW_REFERENCE("Not an XMLHttpRequest object");
   QQmlXMLHttpRequest *r = w->d()->request;
   if (argc < 1)
-      THROW_DOM(DOMEXCEPTION_SYNTAX_ERR, "Incorrect argument count", "SyntaxError");
+      return throwDomError(scope.engine, DOMException::SyntaxError, "Incorrect argument count");
 
   // Argument 0 - redirect type string
 	const QString policy(argv[0].toQStringNoThrow().toLower());
@@ -2866,7 +2868,7 @@ ReturnedValue QQmlXMLHttpRequestCtor::method_set_redirect(const FunctionObject *
 	else if (!policy.compare(QLatin1String("same-origin")))
 		redir = QNetworkRequest::SameOriginRedirectPolicy;
 	else
-		THROW_DOM(DOMEXCEPTION_SYNTAX_ERR, "Invalid redirect argument value", "SyntaxError");
+		return throwDomError(scope.engine, DOMException::SyntaxError, "Invalid redirect argument value");
 
 	r->setRedirect(redir);
 	return Encode::undefined();
