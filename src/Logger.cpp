@@ -33,8 +33,8 @@
 #include <QRegularExpression>
 #include <qlogging.h>
 
-#include <cstdlib>
-#include <iostream>
+// #include <cstdlib>
+// #include <iostream>
 #include <filesystem>
 
 static QString normalizePath(const QString& messyPath, bool withFile = true) {
@@ -114,6 +114,8 @@ static const QByteArray defaultCategoryPattern {"[%1] [%2] |%3| %7\n"};
 static const QString logDateTimeFormat = QStringLiteral("MM-dd HH:mm:ss.zzz");
 #endif
 
+static const uchar utf8bom[] = { 0xEF, 0xBB, 0xBF };
+
 using CategoryPatternsHash = QHash<QByteArray, QByteArray>;
 Q_GLOBAL_STATIC_WITH_ARGS(const CategoryPatternsHash, categoryPatterns, ({
 	{ "js",  "[%1] [%2] |%3| %4 @%6 %5() - %7\n" },
@@ -181,7 +183,7 @@ class LogFileDevice : public QFile
 				QByteArray::number(context.line),
 				context.msg.toUtf8()
 			});
-			write(qPrintable(pattern));
+			write(pattern);
 			//write("\n");
 			flush();
 			if (pos() >= APP_DBG_HANDLER_ABS_MAX_FILE_SIZE) {
@@ -193,7 +195,7 @@ class LogFileDevice : public QFile
 		void log(const QString &msg, quint8 level, const QByteArray &cat)
 		{
 			if (isOpen() && m_logLevel <= level && (m_category.isEmpty() || m_category.contains(cat))) {
-				write(qPrintable(msg));
+				write(msg.toUtf8());
 				write("\n");
 				flush();
 				if (pos() >= APP_DBG_HANDLER_ABS_MAX_FILE_SIZE) {
@@ -239,6 +241,8 @@ class LogFileDevice : public QFile
 				if (!setFileTime(QDateTime::currentDateTime(), FileBirthTime))
 					if (!setFileTime(QDateTime::currentDateTime(), FileMetadataChangeTime))
 						setFileTime(QDateTime::currentDateTime(), FileAccessTime);
+				// start with UTF8 BOM
+				write((const char *)utf8bom, 3);
 			}
 			write("=+=+=+=+=+=+=+=+= " + QDateTime::currentDateTime().toString("MM-dd HH:mm:ss.zzz").toUtf8() + " Log Started =+=+=+=+=+=+=+=+=\n");
 			flush();
@@ -323,7 +327,7 @@ Logger::~Logger()
 {
 	QReadLocker locker(&m_mutex);
 	m_rotateTimer.stop();
-	for (const auto &d : qAsConst(m_outputDevices)) {
+	for (const auto &d : std::as_const(m_outputDevices)) {
 		if (LogFileDevice *fd = qobject_cast<LogFileDevice*>(d.device)) {
 			fd->stop();
 			fd->deleteLater();
@@ -348,7 +352,7 @@ void Logger::addOutputDevice(QIODevice *device, quint8 level, const QByteArrayLi
 		return;
 	QWriteLocker locker(&m_mutex);
 	if (m_haveFileDevices)
-		for (const auto &d : qAsConst(m_outputDevices))
+		for (const auto &d : std::as_const(m_outputDevices))
 			if (d.device == device)
 				return;
 	m_outputDevices.append({device, level, category});
@@ -361,7 +365,7 @@ void Logger::removeOutputDevice(QIODevice *device)
 		return;
 	QWriteLocker locker(&m_mutex);
 	int i = 0;
-	for (const auto &d : qAsConst(m_outputDevices)) {
+	for (const auto &d : std::as_const(m_outputDevices)) {
 		if (d.device == device) {
 			m_outputDevices.remove(i);
 			if (d.device->parent() == this) {
@@ -378,7 +382,7 @@ void Logger::removeOutputDevice(QIODevice *device)
 void Logger::addFileDevice(const QString &file, quint8 level, const QByteArrayList &category, bool rotate, int keep)
 {
 	QWriteLocker locker(&m_mutex);
-	for (const auto &d : qAsConst(m_outputDevices)) {
+	for (const auto &d : std::as_const(m_outputDevices)) {
 		if (LogFileDevice *fd = qobject_cast<LogFileDevice*>(d.device)) {
 			if (fd->isSameFile(file))
 				return;
@@ -409,7 +413,7 @@ void Logger::removeFileDevice(const QString &file)
 {
 	QWriteLocker locker(&m_mutex);
 	int i = 0;
-	for (const auto &d : qAsConst(m_outputDevices)) {
+	for (const auto &d : std::as_const(m_outputDevices)) {
 		if (LogFileDevice *fd = qobject_cast<LogFileDevice*>(d.device)) {
 			if (fd->isSameFile(file)) {
 				m_outputDevices.remove(i);
