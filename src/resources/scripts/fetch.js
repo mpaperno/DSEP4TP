@@ -132,7 +132,7 @@ var Response = class
 			get() { return this._xhr.async; }
 		});
 		Object.defineProperty(this, 'body', {
-			enumerable: true,
+			enumerable: false,
 			get() { return this.bodyAs(); }
 		});
 		Object.defineProperty(this, 'bodyUsed', {
@@ -348,11 +348,11 @@ var Net = {
 				if (!req.rejectOnError || (req.xhr.status / 100 | 0) === 2)
 					resolve(response());
 				else
-					reject(domError(`Server responded with status code ${req.xhr.status}`, "NetworkError", DOMException.NETWORK_ERR));
+					reject(domError(`Server responded with status code ${req.xhr.status}`, DOMException.NetworkError));
 			};
-			req.xhr.onerror   = () => { reject(domError("Request network error", "NetworkError", DOMException.NETWORK_ERR)); };
-			req.xhr.ontimeout = () => { reject(domError("Request timed out", "TimeoutError", DOMException.TIMEOUT_ERR)); };
-			req.xhr.onabort   = () => { reject(domError("Request aborted", "AbortError", DOMException.ABORT_ERR)); };
+			req.xhr.onerror   = () => { reject(domError("Request network error", DOMException.NetworkError)); };
+			req.xhr.ontimeout = () => { reject(domError("Request timed out", DOMException.TimeoutError)); };
+			req.xhr.onabort   = () => { reject(domError("Request aborted", DOMException.AbortError)); };
 
 			if (typeof req.onprogress === 'function')
 				req.xhr.onprogress = req.onprogress;
@@ -402,10 +402,10 @@ var Net = {
 		if (status == 1 || req.noThrow)
 			return response();
 		if (status == 2)
-			throw domError("Request timed out", "TimeoutError", DOMException.TIMEOUT_ERR);
+			throw domError("Request timed out", DOMException.TimeoutError);
 		if (status == 3)
-			throw domError("Request aborted", "AbortError", DOMException.ABORT_ERR);
-		throw domError("Request network error", "NetworkError", DOMException.NETWORK_ERR);
+			throw domError("Request aborted", DOMException.AbortError);
+		throw domError("Request network error", DOMException.NetworkError);
 
 		function response() { return new Response(req.xhr); }
 
@@ -430,7 +430,7 @@ var Net = {
 				raiseTimeout = () => {
 					timeoutTim = undefined;
 					ws?.close();
-					reject(new DOMException("Request timed out", "TimeoutError", DOMException.TIMEOUT_ERR));
+					reject(new DOMException("Request timed out", DOMException.TimeoutError));
 				},
 				cancelTimeout = () => {
 					if (timeoutTim) {
@@ -460,7 +460,7 @@ var Net = {
 				}
 				ws = null;
 				cancelTimeout();
-				// setTimeout(gc, 1000);
+				// gcLater();
 			});
 			if (options.signal && typeof options.signal.abort === 'function')
 				options.signal.abort.connect(ws, ws.abort);
@@ -498,7 +498,7 @@ var Net = {
 					resolve(0);
 				}
 				ws = null;
-				// setTimeout(gc, 1000);
+				// gcLater();
 			});
 			if (options.signal && typeof options.signal.abort === 'function')
 				options.signal.abort.connect(ws, ws.abort);
