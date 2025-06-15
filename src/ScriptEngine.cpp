@@ -225,12 +225,17 @@ void ScriptEngine::checkErrors() const
 #endif
 }
 
+void ScriptEngine::checkErrorsLater() const {
+	QTimer::singleShot(0, this, qOverload<>(&ScriptEngine::checkErrors));
+}
+
 void ScriptEngine::throwError(const QJSValue &err) const
 {
 	if (!err.isUndefined() && !err.isNull()) {
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
 		se->throwError(err);
-		checkErrors();
+		// checkErrors();
+		checkErrorsLater();
 #else
 		JSError jse(res);
 		if (jse.stack.isEmpty())
