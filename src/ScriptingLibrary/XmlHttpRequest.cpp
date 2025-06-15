@@ -1296,7 +1296,7 @@ private:
 		{
 			if (m_nam)
 				return;
-			if (ScriptEngine *se = e->publicEngine->property("ScriptEngine").value<ScriptEngine *>()) {
+			if (ScriptEngine *se = scriptEngine(e->publicEngine)) {
 				m_nam = se->networkAccessManager();
 				m_ownNam = false;
 				return;
@@ -2128,16 +2128,7 @@ void QQmlXMLHttpRequest::dispatchCb(Object *thisObj, const QString &eventName)
 	callback->call(jsCallData);
 	//qDebug() << eventName << scope.hasException();
 	if (scope.engine->jsEngine())
-		SCRIPT_ENGINE_CHECK_ERRORS(scope.engine->jsEngine())
-  //if (scope.hasException()) {
-		//		ScopedObject exception(scope, scope.engine->catchException());
-		//		//scope.engine->throwError(exception);
-		//		ReturnedValue se = scope.engine->globalObject->get(ScopedString(scope, scope.engine->newString("ScriptEngine")));
-		//		ReturnedValue te = Value::fromReturnedValue(se).objectValue()->get(ScopedString(scope, scope.engine->newString("throwError")));
-		//		JSCallArguments cd(scope, 1);
-		//		cd.args[0] = exception;
-		//		Value::fromReturnedValue(te).as<FunctionObject>()->call(cd);
-	//}
+		ScriptEngine::checkErrorsLater(scope.engine->jsEngine());
 }
 
 namespace QV4 {

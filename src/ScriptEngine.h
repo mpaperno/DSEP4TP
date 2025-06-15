@@ -35,20 +35,20 @@ to any 3rd-party components used within.
 #include <QJsonDocument>
 #include <QJSValue>
 #include <QJSValueIterator>
+#include <QMetaObject>
 #include <QMutex>
 #include <QNetworkAccessManager>
 #include <QObject>
 #include <QThread>
 
 #include "common.h"
-#include "DSE.h"
+#include "DSE_NS.h"
 #include "JSError.h"
+#include "ScriptLibNS.h"
 
-#define SCRIPT_ENGINE_CHECK_ERRORS(JSE) \
-	if (ScriptEngine *_scriptEngine = JSE->property("ScriptEngine").value<ScriptEngine *>()) { \
-		_scriptEngine->checkErrors(); }
-
+class DSE;
 class DynamicScript;
+class ScriptEngine;
 
 namespace ScriptLib {
 	class TPAPI;
@@ -56,9 +56,13 @@ namespace ScriptLib {
 	struct TimerData;
 }
 
+ScriptEngine *scriptEngine(const QJSEngine *jse);
+ScriptEngine *scriptEngine(const QObject *o);
+
 class ScriptEngine : public QObject
 {
 	Q_OBJECT
+
 	public:
 		static ScriptEngine *sharedInstance;
 		static ScriptEngine *instance() { return sharedInstance; }
@@ -73,8 +77,8 @@ class ScriptEngine : public QObject
 		inline bool isSharedInstance() const { return m_isShared; }
 		inline DseNS::EngineInstanceType instanceType() const { return m_isShared ? DseNS::EngineInstanceType::SharedInstance : DseNS::EngineInstanceType::PrivateInstance; }
 		inline QByteArray name() const { return m_name; }
-		inline QByteArray currentInstanceName() const { return dse->instanceName; }
 		inline ScriptLib::TPAPI *tpApiObject() const { return tpapi; }
+		QByteArray currentInstanceName() const;
 		// called by custom XmlHttpRequest implementation
 		inline QNetworkAccessManager *networkAccessManager()
 		{
@@ -111,6 +115,10 @@ class ScriptEngine : public QObject
 		void throwError(QJSValue::ErrorType type, const QString &msg, const QJSValue &cause, const QByteArray &instName = QByteArray()) const;
 		void throwError(QJSValue::ErrorType type, const QString &msg, const QByteArray &instName) const;
 		void throwError(QJSValue::ErrorType type, const QString &msg) const;
+
+		void throwDomError(int code, const QString &msg, const QString &name = QString()) const;
+		QJSValue newDomError(int code, const QString &msg, const QString &name = QString()) const;
+
 		//! Calls GC with a mutex lock -- do not use synchronously from inside scripts.
 		void collectGarbage();
 
@@ -121,25 +129,40 @@ class ScriptEngine : public QObject
 		void include(const QString &file) const;
 		QJSValue require(const QString &file) const;
 
-		static void checkErrors(QJSEngine *e) {
-			if (!e)
-				return;
-			if (ScriptEngine *se = e->property("ScriptEngine").value<ScriptEngine *>())
+		// public static
+
+		static inline void checkErrors(const QObject *o) { checkErrors(qjsEngine(o)); }
+		static inline void checkErrors(QJSEngine *jse) {
+			if (ScriptEngine *se = scriptEngine(jse))
 				se->checkErrors();
 		}
 
-		static void checkErrors(ScriptEngine *se) { if (se) se->checkErrors(); }
-
-		static void throwError(QJSEngine *e, const QJSValue &err) {
-			if (!e)
-				return;
-			if (ScriptEngine *se = e->property("ScriptEngine").value<ScriptEngine *>())
-				se->throwError(err);
+		static inline void checkErrorsLater(const QObject *o) { checkErrors(qjsEngine(o)); }
+		static inline void checkErrorsLater(QJSEngine *jse) {
+			if (ScriptEngine *se = scriptEngine(jse))
+				se->checkErrorsLater();
 		}
 
-		static void throwError(QObject *o, const QJSValue &err) {
-			ScriptEngine::throwError(qjsEngine(o), err);
+		static inline bool throwError(const QObject *o, const QJSValue &err)          { return throwError(qjsEngine(o), err); }
+		static inline bool throwError(const QObject *o, int type, const QString &msg) { return throwError(qjsEngine(o), newErrorObject(o, type, msg)); }
+		static inline bool throwError(QJSEngine *jse, int type, const QString &msg)   { return throwError(jse, newErrorObject(jse, type, msg)); }
+		static bool throwError(QJSEngine *jse, const QJSValue &err);
+
+		static inline QJSValue newErrorObject(const QObject *o, int type, const QString &msg) { return newErrorObject(qjsEngine(o), type, msg); }
+		static QJSValue newErrorObject(QJSEngine *jse, int type, const QString &msg)
+		{
+			if (ScriptLib::isDomError(type))
+				return newDomError(jse, ScriptLib::domFromCustomError(type), msg);
+			if (jse)
+				return jse->newErrorObject(QJSValue::ErrorType(type), msg);
+			QJSValue err;
+			err.setProperty("name", ScriptLib::errorTypeName(type));
+			err.setProperty("message", msg);
+			return err;
 		}
+
+		static inline QJSValue newDomError(const QObject *o, int code, const QString &msg, const QString &name = QString()) { return newDomError(qjsEngine(o), code, msg, name); }
+		static QJSValue newDomError(QJSEngine *jse, int code, const QString &msg, const QString &name = QString());
 
 	private:
 		SCRIPT_ENGINE_BASE_TYPE *se = nullptr;

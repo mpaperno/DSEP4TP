@@ -20,6 +20,7 @@ to any 3rd-party components used within.
 
 #include <QAbstractSocket>
 
+#include "DSE.h"
 #include "ScriptEngine.h"
 #include "Plugin.h"
 #include "ScriptingLibrary/AbortController.h"
@@ -114,6 +115,8 @@ ScriptEngine::~ScriptEngine()
 	}
 	//qCDebug(lcPlugin) << this << m_name << "Destroyed";
 }
+
+QByteArray ScriptEngine::currentInstanceName() const { return dse->instanceName; }
 
 void ScriptEngine::initScriptEngine()
 {
@@ -229,6 +232,23 @@ void ScriptEngine::checkErrorsLater() const {
 	QTimer::singleShot(0, this, qOverload<>(&ScriptEngine::checkErrors));
 }
 
+// static
+bool ScriptEngine::throwError(QJSEngine *jse, const QJSValue &err) {
+	if (ScriptEngine *se = scriptEngine(jse)) {
+		se->throwError(err);
+		return true;
+	}
+	else if (jse) {
+		jse->throwError(err);
+		return true;
+	}
+	if (err.isError())
+		qCWarning(lcDse) << err.toString();
+	else
+		qCWarning(lcDse).nospace() << err.property("name").toString() << ": " << err.property("message").toString();
+	return false;
+}
+
 void ScriptEngine::throwError(const QJSValue &err) const
 {
 	if (!err.isUndefined() && !err.isNull()) {
@@ -262,14 +282,31 @@ void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg, cons
 	throwError(err, instName);
 }
 
-void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg, const QByteArray &instName) const
-{
+void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg, const QByteArray &instName) const {
 	throwError(se->newErrorObject(type, msg), instName);
 }
 
-void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg) const
-{
+void ScriptEngine::throwError(QJSValue::ErrorType type, const QString &msg) const {
 	throwError(se->newErrorObject(type, msg), QByteArray());
+}
+
+void ScriptEngine::throwDomError(int code, const QString &msg, const QString &name) const {
+	QV4::throwDomError(se->handle(), code, msg, name);
+}
+
+QJSValue ScriptEngine::newDomError(int code, const QString &msg, const QString &name) const {
+	return QV4::newDomErrorObject(se->handle(), code, msg, name);
+}
+
+// static
+QJSValue ScriptEngine::newDomError(QJSEngine *jse, int code, const QString &msg, const QString &name) {
+	if (jse)
+		return QV4::newDomErrorObject(jse->handle(), code, msg, name);
+	QJSValue err;
+	err.setProperty("code", code);
+	err.setProperty("message", msg);
+	err.setProperty("name", name.isEmpty() ? DOMException::errorName(code) : name);
+	return err;
 }
 
 void ScriptEngine::collectGarbage()
@@ -501,6 +538,16 @@ QJSValue ScriptEngine::require(const QString &file) const
 	else
 		return mod;
 	return se->newObject();
+}
+
+ScriptEngine *scriptEngine(const QJSEngine *jse) {
+	if (jse)
+		return jse->property("ScriptEngine").value<ScriptEngine *>();
+	return nullptr;
+}
+
+ScriptEngine *scriptEngine(const QObject *o) {
+	return scriptEngine(qjsEngine(o));
 }
 
 #include "moc_ScriptEngine.cpp"

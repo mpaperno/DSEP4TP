@@ -59,14 +59,9 @@ class AbortSignal : public QObject
 		NAMED_EVENT_HANDLER();
 
 	public Q_SLOTS:
-		void throwIfAborted()
-		{
-			if (!m_aborted)
-				return;
-			if (QJSEngine *jse = qjsEngine(this)) {
-				jse->throwError(m_reason);
-				SCRIPT_ENGINE_CHECK_ERRORS(jse)
-			}
+		void throwIfAborted() const {
+			if (m_aborted)
+				ScriptEngine::throwError(this, m_reason);
 		}
 
 	Q_SIGNALS:
