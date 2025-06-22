@@ -88,7 +88,6 @@ namespace DOMException {
 		TimeoutError,
 		InvalidNodeTypeError,
 		DataCloneError,
-		STD_ERROR_LAST = DataCloneError,
 		// custom codes for standard error types
 		EncodingError,
 		NotReadableError,
@@ -100,6 +99,7 @@ namespace DOMException {
 		VersionError,
 		OperationError,
 		NotAllowedError,
+		STD_ERROR_LAST = DataCloneError,
 		DOM_ERROR_LAST = NotAllowedError,
 	};
 	Q_ENUM_NS_N(ErrorCode, DOMException)

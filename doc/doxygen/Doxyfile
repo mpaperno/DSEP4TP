@@ -129,6 +129,7 @@ FILE_PATTERNS          = *.c \
                          *.ucf \
 
 EXCLUDE                = \
+                         ../../src/ScriptingLibrary/DOMException.cpp   \
                          ../../src/ScriptingLibrary/XmlHttpRequest.cpp   \
                          ../../src/resources/scripts/structured-clone
 EXCLUDE_PATTERNS       = \
@@ -253,7 +254,7 @@ PREDEFINED = \
         nullptr="null"\
         static=\
         const=\
-        MEMBER=READ\
+        MEMBER="READ member WRITE"\
         Q_INVOKABLE=\
         Q_SLOTS=\
         Q_GADGET="Q_OBJECT"\

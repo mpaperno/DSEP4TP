@@ -32,6 +32,7 @@ struct JSError
 	QString stack;
 	QString instanceName;
 	QJSValue cause;
+	int code {-1};
 
 	JSError() {}
 
@@ -62,11 +63,16 @@ struct JSError
 			if (stack.isEmpty() && cause.isObject() && !(tmp = cause.property(QStringLiteral("stack"))).isUndefined())
 				stack = tmp.toString();
 		}
+		if ((tmp = err.property(QStringLiteral("code"))).isNumber())
+			code = tmp.toNumber();
 	}
 
 	QString toString(QStringView msg = QStringView()) const
 	{
-		QString ret = name + ": " + message;
+		QString ret = name;
+		if (code > -1)
+			ret += " (" + QString::number(code) + ')';
+		ret += ": " + message;
 		if (!fileName.isEmpty()) {
 			ret += " (in file '" + fileName + '\'';
 			if (!lineNumber.isEmpty())
