@@ -684,18 +684,18 @@ void Plugin::raiseScriptError(const QByteArray &dsName, const QString &msg, cons
 {
 	const uint32_t count = ++g_errorCount;
 	Q_EMIT tpStateUpdate(m_stateIds[SID_ErrorCount], QByteArray::number(count));
-	QByteArray v;
-	if (dsName.isEmpty()) {
-		v = QStringLiteral("%1 [%2] %3").arg(count, 3, 10, QLatin1Char('0')).arg(QTime::currentTime().toString("HH:mm:ss.zzz"), msg).toUtf8();
-		qCWarning(lcDse).noquote().nospace() << type << " [" << count << "] " << msg;
-	}
-	else {
-		v = QStringLiteral("%1 [%2] %3 %4").arg(count, 3, 10, QLatin1Char('0')).arg(QTime::currentTime().toString("HH:mm:ss.zzz"), dsName, msg).toUtf8();
-		qCWarning(lcDse).noquote().nospace() << type << " [" << count << "] for script instance '" << dsName << "': " << msg;
-	}
-	if (!stack.isEmpty())
-		qCWarning(lcDse).noquote().nospace() << "Stack trace [" << count << "]:\n" << stack.toUtf8();
-	Q_EMIT tpStateUpdate(m_stateIds[SID_LastError], v);
+
+	QString v = QString::number(count).rightJustified(3, '0') + " ["_L1 + QTime::currentTime().toString("HH:mm:ss.zzz") + ']'_L1;
+	if (!dsName.isEmpty())
+		v += ' '_L1 + dsName;
+	v += ": "_L1 + msg;
+	Q_EMIT tpStateUpdate(m_stateIds[SID_LastError], v.toUtf8());
+
+	qCWarning(lcDse).noquote().nospace()
+		<< type << " [" << count << "]"
+		<< (dsName.isEmpty() ? u""_s : " for script instance '"_L1 + dsName  + '\''_L1)
+		<< ": " << msg
+		<< (stack.isEmpty() ? u""_s : "\n-- Stack trace:\n"_L1 + stack);
 }
 
 void Plugin::clearScriptErrors()
@@ -756,7 +756,7 @@ void Plugin::onScriptError(const JSError &e) const
 {
 	//qDebug() << sender() << e.stack;
 	if (DynamicScript *ds = qobject_cast<DynamicScript *>(sender()))
-		raiseScriptError(ds->name, e.message, tr("SCRIPT EXCEPTION"), e.stack);
+		raiseScriptError(ds->name, e.toString(), tr("SCRIPT EXCEPTION"), e.stack);
 }
 
 void Plugin::onEngineError(const JSError &e) const
