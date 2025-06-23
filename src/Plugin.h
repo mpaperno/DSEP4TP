@@ -64,6 +64,7 @@ class Plugin : public QObject
 		void tpBroadcast(const QString &, const QVariantMap &) const;
 
 		void setActionRepeatProperty(quint8 property, quint8 action, int ms, const QByteArray &forInstance, bool repeat) const;
+		void aboutToQuit() const;
 
 		void loggerRotateLogs() const;
 

@@ -354,6 +354,10 @@ class DSE : public QObject
 			\{
 		*/
 
+		//! This event is emitted just before the plugin process exits, but allows one cycle for event handlers to take some synchronous action(s).
+		//! Do not run any async process from this handler (timer, net request, etc) since it will never get a chance complete.
+		void aboutToQuit() const;
+
 		//! This event is emitted when the value of the \ref defaultActionRepeatRate property changes.
 		//! The `ms` parameter value reflects the current (new) \ref defaultActionRepeatRate property value.
 		//! \sa \ref EventHandlers

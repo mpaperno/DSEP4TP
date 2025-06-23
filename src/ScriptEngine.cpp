@@ -77,6 +77,7 @@ ScriptEngine::ScriptEngine(const QByteArray &instanceName, QObject *p) :
 
 	tpapi->connectSignals(Plugin::instance);
 	tpapi->connectSlots(Plugin::instance, Qt::QueuedConnection);
+	connect(Plugin::instance, &Plugin::aboutToQuit, dse, &DSE::aboutToQuit);
 
 	initScriptEngine();
 

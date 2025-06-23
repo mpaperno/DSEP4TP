@@ -285,6 +285,9 @@ void Plugin::quit()
 		killTimer(timId);
 	tl.unlock();
 
+	Q_EMIT aboutToQuit();
+	QCoreApplication::processEvents(QEventLoop::ExcludeSocketNotifiers);
+
 	if (client) {
 		disconnect(client, nullptr, this, nullptr);
 		disconnect(this, nullptr, client, nullptr);
