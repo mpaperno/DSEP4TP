@@ -310,7 +310,7 @@ class Util : public QObject
 		Q_INVOKABLE static QString baToHex(const QByteArray &ba, const QChar &sep = '\0') { return ba.toHex(sep.toLatin1()); }
 
 
-		Q_INVOKABLE QString currentThread() {
+		Q_INVOKABLE static QString currentThread() {
 			QString str;
 			QDebug(&str) << "Current thread:" << QThread::currentThread() << "; Main thread:" << qApp->thread();
 			return str;
