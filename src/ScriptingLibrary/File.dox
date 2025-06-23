@@ -126,10 +126,11 @@
 		- `data` - The contents of the file if no error occurred (an `ArrayBuffer` or `String`, depending on options), or `null` if there was an error.
 
 	Available method signatures and their possible return types:
-	- `readAsync(string file [, Function callback]) => <Promise<%ArrayBuffer> | void>`\n Opens `file` in text mode (`FS.O_TEXT`) and returns the contents as a raw `ArrayBuffer` of bytes read, with no decoding.\n
+	- `readAsync(string file [, Function callback]) => <Promise<%ArrayBuffer> | void>` \n
+  	Opens `file` in text mode (`FS.O_TEXT`) and returns the contents as a raw `ArrayBuffer` of bytes read, with no decoding.\n
 		Note that if eventually using the byte results as a string, UTF-8 encoding will be assumed (which also works for Latin1/ASCII encodings, but not 16 or 32-bit UTF files).
-	- `readAsync(string file, <string | FS.OpenMode> mode [, Function callback]) => < Promise<%ArrayBuffer> | void>`\n Opens `file` using specified FS.OpenMode `mode` flag(s) (which can be a string or enumeration values)
-		and returns the contents as an `ArrayBuffer` of bytes read.
+	- `readAsync(string file, <string | FS.OpenMode> mode [, Function callback]) => < Promise<%ArrayBuffer> | void>`\n
+  	Opens `file` using specified FS.OpenMode `mode` flag(s) (which can be a string or enumeration values) and returns the contents as an `ArrayBuffer` of bytes read.
 	- `readAsync(string file, string encoding [, Function callback]) => <Promise<string> | void> `\n Opens `file` as text and returns it as a `String` after decoding the contents using the specified `encoding`.
 	- `readAsync(string file, object options [, Function callback]) => <Promise< %ArrayBuffer | string > | void>`\n Opens `file` using settings specified in `options` object.
 		Returns data as a decoded `String` if an encoding type was specified in `options`, otherwise as a raw `ArrayBuffer` of bytes.
@@ -146,24 +147,79 @@
 
 	\sa read() for the synchronous version
 	\since v1.3
+*/
 
-
+/*!
 	\fn string readLines(string file, int maxLines, int fromLine = 0, bool trimTrailingNewlines = true)
 	\memberof File
 	\static
-	Reads up to `maxLines` lines from `file` starting at `fromLine` (default = 0, start of file) and returns the contents as a string. Can search from start or end of file.
-	\n `maxLines` can be `0` in which case all remaining lines in the file are returned. This is useful when `fromLine != 0` to skip a number of lines
+	Reads up to `maxLines` lines from `file` starting at `fromLine` (default = 0, start of file) and returns the contents as a string.
+	Can search from start or end of file.
+
+	\param file The file to read lines from. Relative paths are resolved from the plugin's working directory -- absolute paths are recommended.
+	\param maxLines Required. Can be `0` in which case all remaining lines in the file are returned. This is useful when `fromLine != 0` to skip a number of lines
 	and then return the rest.
-	\n `fromLine` can be negative, in which case the file will be read from the end, backwards. In this case `-1` means starting at the end of the file,
-	`-2` means to skip one line ("start at second-to-last line"), and so on.
-	\n Set `trimTrailingNewlines` to `true` (default) to trim/skip over any empty lines from the end of the file. When searching backwards,
-	setting `trimTrailingNewlines` to `false` will count every newline from the end, including any potential newline at end of the last line of the file.
+	\param fromLine Which line to start from. Optional, default is `0` (zero).
+		This Can be negative, in which case the file will be read from the end, backwards. In this case `-1` means starting at the end of the file,
+		`-2` means to skip one line ("start at second-to-last line"), and so on.
+	\param trimTrailingNewlines Optional. If `true` (default) trims/skips over any empty lines from the end of the file. When searching backwards,
+		setting `trimTrailingNewlines` to `false` will count every newline from the end, including any potential newline at end of the last line of the file.
 
-	\throws ReferenceError is thrown if file loading fails (file not found/etc) and returns and empty string.
-	\note Note that if no newlines are found in the file then the full contents will be returned (a potentially expensive operation).
 	This operation works on all text files regardless of line endings.
+	The file encoding is determined automatically, although for UTF-16 and UTF-32 formats this requires the files to have a leading byte order mark (BOM) header.
+
+	\throws TypeError if argument validation fails.
+	\throws DOMException.NotFoundError if source file doesn't exist.
+	\throws DOMException.OperationError for other errors when trying to open a file (like lack of permissions).
+	\throws DOMException.InvalidStateError for file system errors during the actual read operation.
+
+	Exceptions are only thrown if the current value of \ref throwExceptions is `true` (the default).
+
+	\note Note that if no newlines are found in the file then the full contents will be returned (a potentially expensive operation).
+	\sa readLinesAsync()
 
 
+	\fn <Promise | void> readLinesAsync(string file, int maxLines, <int|undefined> fromLine = 0, <boolean|undefined> trimTrailingNewlines, <Function|undefined> callback)
+	\memberof File
+	\static
+	Asynchronously Reads up to `maxLines` lines from `file` starting at `fromLine` (default = 0, start of file) and returns the contents as a string using a callback or `Promise` to handle the results.
+
+	Can search from start or end of file.
+
+	\param file The file to read lines from. Relative paths are resolved from the plugin's working directory -- absolute paths are recommended.
+	\param maxLines Required. Can be `0` in which case all remaining lines in the file are returned. This is useful when `fromLine != 0` to skip a number of lines
+	and then return the rest.
+	\param fromLine Which line to start from. Optional, default is `0` (zero).
+		This Can be negative, in which case the file will be read from the end, backwards. In this case `-1` means starting at the end of the file,
+		`-2` means to skip one line ("start at second-to-last line"), and so on.
+	\param trimTrailingNewlines Optional. If `true` (default) trims/skips over any empty lines from the end of the file. When searching backwards,
+		setting `trimTrailingNewlines` to `false` will count every newline from the end, including any potential newline at end of the last line of the file.
+	\param callback Optional.
+		- If a callback is given, it will be invoked with the results of the read operation (the lines read or an `Error`) and this method returns `undefined`.\n
+			The callback function is passed 2 arguments:  `callback(error, data)`
+  		- `error` - An `Error` object if any exception occurred while trying to read the file. See below for more details on returned error types.
+  			If there was no error this argument value will be `null`.
+  		- `data` - The contents of the file if no error occurred (an `ArrayBuffer` or `String`, depending on options), or `null` if there was an error.
+  	- If no callback is passed in, `readAsync()` will return a `Promise` which resolves with the contents of the file (an `ArrayBuffer` or `String`, depending on options), or rejects
+  		with an `Error` argument.
+
+	This operation works on all text files regardless of line endings.
+	The file encoding is determined automatically, although for UTF-16 and UTF-32 formats this requires the files to have a leading byte order mark (BOM) header.
+
+	### Exceptions
+	<i>All</i> errors and exceptions are reported asynchronously, via either a rejected `Promise` or in the `error` argument passed to the callback. This method doesn't throw exceptions.\n
+	- Argument validation issues are reported as `TypeError` types.
+	- `DOMException.NotFoundError` if source file doesn't exist.
+	- Other errors when trying to open a file (like lack of permissions) are reported as a `DOMException.OperationError`.
+	- System errors during the actual read operation are reported as `DOMException.InvalidStateError`.
+
+	\note Note that if no newlines are found in the file then the full contents will be returned (a potentially expensive operation).
+
+	\sa readLines() for the synchronous version
+	\since v1.3
+*/
+
+/*!
 	\fn string readText(string file)
 	\memberof File
 	\static
