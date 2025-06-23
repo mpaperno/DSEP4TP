@@ -21,22 +21,30 @@ to any 3rd-party components used within.
 #pragma once
 
 #include <QDateTime>
-#include <QDir>
 #include <QFile>
-#include <QQmlEngine>
 #include <QObject>
-#include <QUrl>
+#include <QStringConverter>
 
-#include "common.h"
+// #include "common.h"
 #include "FS.h"
 #include "FileInfo.h"
-//#include "ScriptEngine.h"
+#include "ScriptLibNS.h"
 
 //! \file
 
 #if defined(Q_OS_WIN) && (QT_VERSION < QT_VERSION_CHECK(6, 6, 0))
 extern Q_CORE_EXPORT int qt_ntfs_permission_lookup;  // for NTFS permission checking, see QFile docs.
 #endif
+
+#ifdef Q_OS_WIN
+	#define OS_LINE_END_CRLF true
+#else
+	#define OS_LINE_END_CRLF false
+#endif
+
+QT_BEGIN_NAMESPACE
+class QJEngine;
+QT_END_NAMESPACE
 
 class ScriptEngine;
 
@@ -46,34 +54,79 @@ namespace ScriptLib {
 #define QByteArray ArrayBuffer
 #endif
 
-//! \ingroup FileSystem
-//! The File class provides access to... files.  Shocking.
-//!
-//! It has many static functions which are accessed in JS with the `File.` qualifier. These are "atomic" operations, eg. read a whole file at once
-//! or check if a file name exists, etc.
-//! \note On Windows all file path arguments passed to functions in this class can use the `/` directory separator (recommended) as well as `\`
-//! (which needs to be escaped as "\\"" per JS syntax rules).
+class AbortSignal;
+
+// Note: additional documentation in ./File.dox
+
+/*!
+	\class File
+	\ingroup FileSystem
+	The File class provides access to... files!
+
+	It has many static functions which are accessed in JS with the `File.` qualifier. These are "atomic" operations, eg. read a whole file at once
+	or check if a file name exists, etc.
+
+	File operations such as reading, writing, or copying have synchronous and asynchronous versions. The async versions can return a `Promise` or
+	invoke a callback function to return results (see the individual methods for details). Async operations run in a separate thread taken from a shared pool.
+
+	As of %DSE v1.3, the synchronous versions of `copy()`, `read()`, `remove()`, and `rename()` methods will throw exceptions for all errors.
+	Prior to v1.3, exceptions were only thrown when a file couldn't be opened for `read()` but otherwise would simply return a status
+	indicator result (eg. `true`/`false`). To disable exceptions and revert to the old behavior, set the \ref throwExceptions
+	property to `false`.
+
+	\note On all operating systems, including Windows, all file path arguments passed to functions in this class should use the `/` directory separator.
+
+	\sa FileHandle
+*/
 class File : public QObject
 {
 	private:
 		Q_OBJECT
+		/*!
+			The `throwExceptions` global property controls if exceptions are thrown for synchronous file operations `copy()`, `read()`, `remove()`, `rename()`, and `write()`.
 
-		explicit File(bool isStatic) : File(nullptr)
+			If set to `true` (the default), these functions will throw exceptions when any error is encountered
+			(either with argument validation or from the file system itself).
+
+			If set to `false` then these functions will not throw but instead return some value indicating failure, as per their documentation
+			(eg. `false` or `-1` for bytes written with `write()`). There is no way to programmatically determine the nature of the error this way.
+			However, the generated error message will instead be written to the plugin's log files (plugin.log and console.log).
+
+			\note The value of this property is "global" in that it affects __all__ `File` operations for the whole script engine environment/instance.
+		*/
+		Q_PROPERTY(bool throwExceptions MEMBER m_throwExceptions)
+
+	protected:
+		enum SafeWrite { WriteNormal, WriteSafe, WriteSafeFallback };
+
+		struct FileOptions
 		{
-			if (isStatic)
-				QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
-		}
+			bool async { false };
+			bool autodetectEnc { true };
+			bool writeBom { false };
+			bool writeCr { OS_LINE_END_CRLF };
+			OpenMode mode { OpenModeFlag::O_TEXT };
+			SafeWrite safeWrite { SafeWrite::WriteNormal };
+			std::optional<QStringConverter::Encoding> encoding { std::nullopt };
+			int64_t chunkSize { 0 };
+			int64_t maxSize { -1 };
+			AbortSignal *signal { nullptr };
+			QJSValue callback {};
+		};
+
+		bool m_throwExceptions { true };
 
 	public:
-		static File *instance()
-		{
-			static File instance(true);
-			return &instance;
-		}
+		using FileOpResult = QPair<int, QVariant>;
 
 		explicit File(QObject *p = nullptr) : QObject(p)
 		{
 			setObjectName("File");
+			// QJSEngine::setObjectOwnership(this, QJSEngine::CppOwnership);
+
+			// signal->slot to trigger async file operation result reporting from other threads
+			// connect(this, &File::resultReady, this, &File::onResultReady, Qt::QueuedConnection);
+
 #ifdef Q_OS_WIN
 			// turn NTFS checking on
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 6, 0))
@@ -97,106 +150,38 @@ class File : public QObject
 		}
 
 		// File Actions
-		//! \{
+		// Documentation in ./File.dox
+		// Note that there are related File helper functions in resources/scripts/io.js which call the `*AsyncCb()` methods.
+		// `*AsyncCb()` methods are not documented, only their `*Async()` helper counterparts which can return a Promise or pass on a callback argument.
 
-		//! Reads a file and returns the contents as a byte array.
-		//! Set `mode` to `FS.O_BIN` to read in binary mode. Default is to read as text.
-		//! \throws ReferenceError is thrown if file loading fails (file not found/etc) and returns and empty string.
-		Q_INVOKABLE QByteArray read(const QString &file, FS::OpenMode mode = FS::O_TEXT) const { return read_impl(qjsEngine(this), file, mode); }
-		//! Reads a file and returns the contents as a byte array.
-		//! Set `mode` to 'b' to read in binary mode. Default is to read as text.
-		//! \throws ReferenceError is thrown if file loading fails (file not found/etc) and returns and empty string.
-		Q_INVOKABLE QByteArray read(const QString &file, const QString &mode) const { return read(file, modeToFlags(mode)); }
+		Q_INVOKABLE QVariant read(const QString &file, QJSValue mode = QJSValue()) const;
+		Q_INVOKABLE QString readText(const QString &file) const { return read(file, O_TEXT).toString(); }
+		Q_INVOKABLE void readAsyncCb(const QString &file, QJSValue mode_opt_cb, QJSValue callback = QJSValue());
 
-		//! Reads a file in text mode and returns the contents as a string.
-		//! This is a convenience method which is equivalent to calling `String(File.read(file));`
-		//! \throws ReferenceError is thrown if file loading fails (file not found/etc) and returns and empty string.
-		Q_INVOKABLE QString readText(const QString &file) const { return QString(read(file, O_TEXT)); }
+		Q_INVOKABLE QString readLines(const QString &file, int maxLines, int fromLine = 0, bool trimTrailingNewlines = true) const;
+		Q_INVOKABLE void readLinesAsyncCb(const QString &file, int maxLines, QJSValue callback) { readLinesAsyncCb(file, maxLines, 0, true, callback); }
+		Q_INVOKABLE void readLinesAsyncCb(const QString &file, int maxLines, int fromLine, QJSValue callback) { readLinesAsyncCb(file, maxLines, fromLine, true, callback); }
+		Q_INVOKABLE void readLinesAsyncCb(const QString &file, int maxLines, int fromLine, bool trimTrailingNewlines, QJSValue callback = QJSValue());
 
+		Q_INVOKABLE qint64 write(const QString &file, const QJSValue &data, QJSValue options = QJSValue()) const;
+		Q_INVOKABLE void writeAsyncCb(const QString &file, QJSValue data, QJSValue options, QJSValue callback = QJSValue());
 
-		//! Reads up to `maxLines` lines from `file` starting at `fromLine` (default = 0, start of file) and returns the contents as a string. Can search from start or end of file.
-		//! \n `maxLines` can be `0` in which case all remaining lines in the file are returned. This is useful when `fromLine != 0` to skip a number of lines
-		//! and then return the rest.
-		//! \n `fromLine` can be negative, in which case the file will be read from the end, backwards. In this case `-1` means starting at the end of the file,
-		//! `-2` means to skip one line ("start at second-to-last line"), and so on.
-		//! \n Set `trimTrailingNewlines` to `true` (default) to trim/skip over any empty lines from the end of the file. When searching backwards,
-		//! setting `trimTrailingNewlines` to `false` will count every newline from the end, including any potential newline at end of the last line of the file.
-		//!
-		//! \throws ReferenceError is thrown if file loading fails (file not found/etc) and returns and empty string.
-		//! \note Note that if no newlines are found in the file then the full contents will be returned (a potentially expensive operation).
-		//! This operation works on all text files regardless of line endings.
-		Q_INVOKABLE QString readLines(const QString &file, int maxLines, int fromLine = 0, bool trimTrailingNewlines = true)
-		{
-			if (maxLines < 0)
-				return QString();
-			QFile fh(file);
-			if (!open_impl(fh, qjsEngine(this), O_RDONLY /*| O_TEXT*/))
-				return QString();
-			if (fh.size() < 2) {
-				fh.close();
-				return QString();
-			}
-			QString ret;
-			if (fromLine >= 0) {
-				ret = readLinesFromStart(fh, maxLines, fromLine, trimTrailingNewlines);
-			}
-			else {
-				fh.seek(fh.size() - 1);
-				ret = readLinesFromEnd(fh, maxLines, fromLine, trimTrailingNewlines);
-			}
-			fh.close();
-			//qCDebug(lcPlugin) << ret.toUtf8().toHex(':');
-			return ret;
-		}
+		Q_INVOKABLE bool copy(const QString &from, const QString &to, FS::OverwriteMode mode = FS::OW_EXCL) const;
+		Q_INVOKABLE void copyAsyncCb(const QString &from, const QString &to, QJSValue mode_cb, QJSValue callback = QJSValue());
 
+		Q_INVOKABLE bool rename(const QString &from, const QString &to, FS::OverwriteMode mode = FS::OW_EXCL) const;
+		Q_INVOKABLE void renameAsyncCb(const QString &from, const QString &to, QJSValue mode_cb, QJSValue callback = QJSValue());
 
-		//! Writes `data` to `file` and returns the number of bytes written. Returns `-1` on error. `mode` flags can be a combination of `FileLib::OpenModeFlag` enums:
-		//!		* `FS.O_BIN` write in binary mode (default is to write as text).
-		//!   * `FS.O_APPEND` to append to file (default is to truncate/replace it).
-		//!   * `FS.O_EXCL` to fail if the file exists, or `FS.O_NOCREAT` to to fail if the file _doesn't_ already exist (both will return an error if the condition isn't met).
-		//!
-		//! \throws Error is thrown if the file writing fails for any reason.
-		Q_INVOKABLE qint64 write(const QString &file, const QByteArray &data, FS::OpenMode mode = FS::O_TEXT) const
-		{
-			qint64 ret;
-			QFile fh(file);
-			if (fh.open(toQfileFlags(mode.setFlag(O_RDONLY, false).setFlag(O_WRONLY)))) {
-				ret = fh.write(data);
-				fh.close();
-			}
-			else {
-				ret = -1;
-				if (QJSEngine *jse = qjsEngine(this))
-					jse->throwError(QJSValue::GenericError, "Could not write to file '" + file + "': " + fh.errorString());
-				else
-					qCWarning(lcPlugin) << "Could not write file" << file << ":" << fh.errorString();
-			}
-			return ret;
-		}
+		Q_INVOKABLE bool remove(const QString &file) const;
+		Q_INVOKABLE void removeAsyncCb(const QString &file, QJSValue callback);
 
-		//! Writes `data` to `file` and returns the number of bytes written. Returns `-1` on error.
-		//! `mode` flags can be a combination of the following (in any order):
-		//!		* `b` write in binary mode (default is to write as text).
-		//!   * `a` to append to file (default is to truncate/replace it).
-		//!   * `x` to fail if the file exists, or `n` to to fail if the file _doesn't_ already exist (both will return an error if the condition isn't met).
-		//!
-		//! \throws Error is thrown if the file writing fails for any reason.
-		Q_INVOKABLE qint64 write(const QString &file, const QByteArray &data, const QString &mode) const { return write(file, data, modeToFlags(mode)); }
-
-		//! Removes the file specified by `file`. Returns `true` if successful; otherwise returns `false`.
-		Q_INVOKABLE static bool remove(const QString &file)                    { return QFile::remove(file); }
-		//! Renames the `from` file to a file specified in `to`. Returns `true` if successful; otherwise returns `false`. If a file with the name `to` already exists, `rename()` returns `false`.
-		Q_INVOKABLE static bool rename(const QString &from, const QString &to) { return QFile::rename(from, to); }
-		//! Copies the `from` file to a file specified in `to`. Returns `true` if successful; otherwise returns `false`. If a file with the name `to` already exists, `copy()` returns `false`.
-		Q_INVOKABLE static bool copy(const QString &from, const QString &to)   { return QFile::copy(from, to); }
-		//! Creates a link named linkName that points to the file fileName. What a link is depends on the underlying filesystem (be it a shortcut on Windows or a symbolic link on Unix). Returns true if successful; otherwise returns false.
 		Q_INVOKABLE static bool link(const QString &fileName, const QString &linkName)  { return QFile::link(fileName, linkName); }
 
-		//! \}
-		// Checks
+
+		//! \name File Information
 		//! \{
 
-		// File info
+		//! \static
 		//! Returns a `FileInfo` object describing the file or directory at the given `path`. This function is equivalent to `Dir.info()`.
 		//! If you wish to access multiple attributes about the same file,
 		//! this is more efficient than separately calling individual `File` status functions on the same file (like `File.size(file)` then `File.isReadable(file)`
@@ -205,100 +190,102 @@ class File : public QObject
 		//! \since 1.2.1
 		Q_INVOKABLE static FileInfo info(const QString &path) { return FileInfo(path); }
 
-		//! Returns `true` if `file` exists; otherwise returns `false`.
+		//! Returns `true` if `file` exists; otherwise returns `false`. \static
 		Q_INVOKABLE static bool exists(const QString &file)      { return QFileInfo::exists(file); }
-		//! Returns `true` if `path` points to a file or to a symbolic link to a file. Returns `false` if the object points to something which isn't a file, such as a directory.
+		//! Returns `true` if `path` points to a file or to a symbolic link to a file. Returns `false` if the object points to something which isn't a file, such as a directory. \static
 		Q_INVOKABLE static bool isFile(const QString &path)      { return QFileInfo(path).isFile(); }
-		//! Returns `true` if `path` points to a directory or to a symbolic link to a directory; otherwise returns `false`.
+		//! Returns `true` if `path` points to a directory or to a symbolic link to a directory; otherwise returns `false`. \static
 		Q_INVOKABLE static bool isDir(const QString &path)       { return QFileInfo(path).isDir(); }
-		//! Returns `true` if the user can read the file `file`; otherwise returns `false`.
+		//! Returns `true` if the user can read the file `file`; otherwise returns `false`. \static
 		Q_INVOKABLE static bool isReadable(const QString &file)  { return QFileInfo(file).isReadable(); }
-		//! Returns `true` if the user can write to the file `file`; otherwise returns `false`.
+		//! Returns `true` if the user can write to the file `file`; otherwise returns `false`. \static
 		Q_INVOKABLE static bool isWritable(const QString &file)  { return QFileInfo(file).isWritable(); }
-		//! Returns `true` if the file path name is absolute, otherwise returns `false` if the path is relative
+		//! Returns `true` if the file path name is absolute, otherwise returns `false` if the path is relative. \static
 		Q_INVOKABLE static bool isAbs(const QString &file)       { return QFileInfo(file).isAbsolute(); }
-		//! Returns `true` if the file is executable; otherwise returns `false`.
+		//! Returns `true` if the file is executable; otherwise returns `false`. \static
 		Q_INVOKABLE static bool isExec(const QString &file)      { return QFileInfo(file).isExecutable(); }
-
-		//! \}
-		// Path info
-		//! \{
-
-		//! Returns the file's path, excluding the file name.
-		Q_INVOKABLE static QString path(const QString &file)          { return QFileInfo(file).path(); }
-		//! Returns the name of a file (with suffix), excluding the path.
-		Q_INVOKABLE static QString name(const QString &file)          { return QFileInfo(file).fileName(); }
-		//! Returns the file name, including the path (which may be absolute or relative).
-		Q_INVOKABLE static QString filePath(const QString &file)      { return QFileInfo(file).filePath(); }
-		//! Returns the base name of the file without the path. The base name consists of all characters in the file up to (but not including) the first '.' character.
-		Q_INVOKABLE static QString baseName(const QString &file)      { return QFileInfo(file).baseName(); }
-		//! Returns the complete base name of the file without the path. The full base name consists of all characters in the file up to (but not including) the last '.' character.
-		Q_INVOKABLE static QString fullBaseName(const QString &file)  { return QFileInfo(file).completeBaseName(); }
-		//! Returns the suffix (extension) of the file.	The suffix consists of all characters in the file after (but not including) the last '.'.
-		Q_INVOKABLE static QString suffix(const QString &file)        { return QFileInfo(file).suffix(); }
-		//! Returns the "full" suffix (extension) of the file. The full suffix consists of all characters in the file after (but not including) the first '.'.
-		Q_INVOKABLE static QString fullSuffix(const QString &file)    { return QFileInfo(file).completeSuffix(); }
-		//! Returns the file's absolute path, excluding the file name.
-		Q_INVOKABLE static QString absPath(const QString &path)       { return QFileInfo(path).absolutePath(); }
-		//! Returns the file's absolute path, including the file name (with extension).
-		Q_INVOKABLE static QString absFilePath(const QString &file)   { return QFileInfo(file).absoluteFilePath(); }
-		//! Returns the file's path canonical path (excluding the file name), i.e. an absolute path without symbolic links or redundant "." or ".." elements.
-		Q_INVOKABLE static QString normPath(const QString &path)      { return QFileInfo(path).canonicalPath(); }
-		//! Returns the canonical path including the file name, i.e. an absolute path without symbolic links or redundant "." or ".." elements.
-		Q_INVOKABLE static QString normFilePath(const QString &file)  { return QFileInfo(file).canonicalFilePath(); }
-
-		//! \}
-		// Stat
-		//! \{
-
-		//! Returns the file size in bytes. If the file does not exist or cannot be fetched, 0 is returned.
+		//! Returns the file size in bytes. If the file does not exist or cannot be fetched, 0 is returned. \static
 		Q_INVOKABLE static quint32 size(const QString &file)        { return (quint32)QFileInfo(file).size(); }
-		//! Returns the date and time when the file was created / born.	If the file birth time is not available, this function returns an invalid Date object.
-		Q_INVOKABLE static QDateTime btime(const QString &file)   { return QFileInfo(file).birthTime(); }
-		//! Returns the date and local time when the file was last modified. If the file is not available, this function returns an invalid Date object.
-		Q_INVOKABLE static QDateTime mtime(const QString &file)  { return QFileInfo(file).lastModified(); }
-		//! Returns the date and local time when the file was last accessed (read). If the file is not available, this function returns an invalid Date object.
-		Q_INVOKABLE static QDateTime atime(const QString &file)  { return QFileInfo(file).lastRead(); }
-		//! Returns the date and time when the file metadata (status, eg. permissions) was changed. If the file is not available, this function returns an invalid Date object.
-		Q_INVOKABLE static QDateTime ctime(const QString &file)  { return QFileInfo(file).metadataChangeTime(); }
-		//! Returns the complete OR-ed together combination of `FS.Permissions` for the file.
+		//! Returns the complete OR-ed together combination of `FS.Permissions` for the file. \static
 		Q_INVOKABLE static FS::Permissions permissions(const QString &file)  { return (Permissions)(quint16)QFileInfo(file).permissions(); }
-		//! Sets the permissions for `file` to the `FS.Permissions` flags specified in `p`. Returns `true` if successful, or `false` if the permissions cannot be modified.
-		Q_INVOKABLE bool setPermissions(const QString &file, FS::Permissions p) { return QFile(file).setPermissions((QFileDevice::Permissions)(int)p); }
+		//! Sets the permissions for `file` to the `FS.Permissions` flags specified in `p`. Returns `true` if successful, or `false` if the permissions cannot be modified. \static
+		Q_INVOKABLE static bool setPermissions(const QString &file, FS::Permissions p) { return QFile(file).setPermissions((QFileDevice::Permissions)(int)p); }
 
 		//! \}
+		//! \name Path Information
+		//! \{
+
+		//! Returns the file's absolute path, excluding the file name. \static
+		Q_INVOKABLE static QString absPath(const QString &path)       { return QFileInfo(path).absolutePath(); }
+		//! Returns the file's absolute path, including the file name (with extension). \static
+		Q_INVOKABLE static QString absFilePath(const QString &file)   { return QFileInfo(file).absoluteFilePath(); }
+		//! Returns the base name of the file without the path. The base name consists of all characters in the file up to (but not including) the first '.' character. \static
+		Q_INVOKABLE static QString baseName(const QString &file)      { return QFileInfo(file).baseName(); }
+		//! Returns the file name, including the path (which may be absolute or relative). \static
+		Q_INVOKABLE static QString filePath(const QString &file)      { return QFileInfo(file).filePath(); }
+		//! Returns the complete base name of the file without the path. The full base name consists of all characters in the file up to (but not including) the last '.' character. \static
+		Q_INVOKABLE static QString fullBaseName(const QString &file)  { return QFileInfo(file).completeBaseName(); }
+		//! Returns the "full" suffix (extension) of the file. The full suffix consists of all characters in the file after (but not including) the first '.'. \static
+		Q_INVOKABLE static QString fullSuffix(const QString &file)    { return QFileInfo(file).completeSuffix(); }
+		//! Returns the name of a file (with suffix), excluding the path. \static
+		Q_INVOKABLE static QString name(const QString &file)          { return QFileInfo(file).fileName(); }
+		//! Returns the file's path canonical path (excluding the file name), i.e. an absolute path without symbolic links or redundant "." or ".." elements. \static
+		Q_INVOKABLE static QString normPath(const QString &path)      { return QFileInfo(path).canonicalPath(); }
+		//! Returns the canonical path including the file name, i.e. an absolute path without symbolic links or redundant "." or ".." elements. \static
+		Q_INVOKABLE static QString normFilePath(const QString &file)  { return QFileInfo(file).canonicalFilePath(); }
+		//! Returns the file's path, excluding the file name. \static
+		Q_INVOKABLE static QString path(const QString &file)          { return QFileInfo(file).path(); }
+		//! Returns the suffix (extension) of the file.	The suffix consists of all characters in the file after (but not including) the last '.'. \static
+		Q_INVOKABLE static QString suffix(const QString &file)        { return QFileInfo(file).suffix(); }
+
+		//! \}
+		//! \name Timestamps
+		//! \{
+
+		//! Returns the date and local time when the file was last accessed (read). If the file is not available, this function returns an invalid Date object. \static
+		Q_INVOKABLE static QDateTime atime(const QString &file)  { return QFileInfo(file).lastRead(); }
+		//! Returns the date and time when the file was created / born.	If the file birth time is not available, this function returns an invalid Date object. \static
+		Q_INVOKABLE static QDateTime btime(const QString &file)   { return QFileInfo(file).birthTime(); }
+		//! Returns the date and time when the file metadata (status, eg. permissions) was changed. If the file is not available, this function returns an invalid Date object. \static
+		Q_INVOKABLE static QDateTime ctime(const QString &file)  { return QFileInfo(file).metadataChangeTime(); }
+		//! Returns the date and local time when the file was last modified. If the file is not available, this function returns an invalid Date object. \static
+		Q_INVOKABLE static QDateTime mtime(const QString &file)  { return QFileInfo(file).lastModified(); }
+
+		//! \}
+
+	protected Q_SLOTS:
+		void onResultReady(const QVariant &data, QJSValue callback, int error) const;
+		void raiseError(int type, const QString &msg, QJSValue handler = QJSValue()) const;
 
 	protected:
 		friend class ::ScriptEngine;
 
-		static const QString STR_INVALID_OP() {
-			static const QString str = tr("Invalid operation on static instance of %1").arg(File::staticMetaObject.className());
-			return str;
+		bool parseFileOptions(FileOptions &fo, const QString &file, QJSValue mode_opt_cb, QJSValue callback = QJSValue()) const;
+		// Q_SIGNAL void resultReady(const QVariant &data, QJSValue callback, int isError) const;
+		static File::FileOpResult readFile(const QString &file, const FileOptions &fo);
+		static File::FileOpResult readFileLines(const QString &file, int maxLines, int fromLine = 0, bool trimTrailingNewlines = true);
+		static File::FileOpResult writeFile(const QString &file, const QJSValue &data, const FileOptions &fo);
+
+		enum FileOp { FileCopy, FileRename };
+		static File::FileOpResult doOverwriteFileOp(File::FileOp op, const QString &from, const QString &to, FS::OverwriteMode mode = FS::OW_EXCL);
+		static File::FileOpResult copyFile(const QString &from, const QString &to, FS::OverwriteMode mode = FS::OW_EXCL) {
+			return doOverwriteFileOp(FileOp::FileCopy, from, to, mode);
+		}
+		static File::FileOpResult renameFile(const QString &from, const QString &to, FS::OverwriteMode mode = FS::OW_EXCL) {
+			return doOverwriteFileOp(FileOp::FileRename, from, to, mode);
 		}
 
-		static bool open_impl(QFile &fh, QJSEngine *jse, FS::OpenMode mode)
-		{
-			if (fh.open(toQfileFlags(mode)))
-				return true;
-			if (jse)
-				jse->throwError(QJSValue::ReferenceError, tr("Could not read file '%1': %2").arg(fh.fileName(), fh.errorString()));
-			else
-				qCWarning(lcPlugin) << "Could not read file" << fh.fileName() << ":" << fh.errorString();
-			return false;
-		}
+		static File::FileOpResult removeFile(const QString &file);
 
-		static QByteArray read_impl(QJSEngine *jse, const QString &file, FS::OpenMode mode = FS::O_TEXT)
-		{
-			QFile fh(file);
-			if (!open_impl(fh, jse, mode.setFlag(O_WRONLY, false).setFlag(O_RDONLY)))
-				return QByteArray();
-			QByteArray ret = fh.readAll();
-			fh.close();
-			return ret;
-		}
+		static int open_impl(QFileDevice &fh, QJSEngine *jse, FS::OpenMode mode, QString *err = nullptr);
+		// used only by ScriptEngine::include() for now
+		static QByteArray fileReadAll(QJSEngine *jse, const QString &file, FS::OpenMode mode);
+
+		static QString readLinesForward(QFile &fh, int maxLines, int fromLine, bool trimTrailing, std::optional<QStringConverter::Encoding> encoding = std::nullopt);
+		static QString readLinesBackward(QFile &fh, int maxLines, int fromLine, bool trimTrailing, std::optional<QStringConverter::Encoding> encoding = std::nullopt);
 
 		// Truncates str to exclude trailing newline(s) including any CRs.
-		static QString &trimTrailingNewlines(QString &str)
+		static inline QString &trimTrailingNewlines(QString &str)
 		{
 			for (int n = str.size() - 1; n > -1; --n) {
 				const QChar &ch = str.at(n);
@@ -310,105 +297,7 @@ class File : public QObject
 			return str;
 		}
 
-		static QString readLinesFromStart(QFile &fh, int maxLines, int fromLine, bool trimTrailing)
-		{
-			// Seek forward
-			int count = 0;
-			if (fromLine > 0) {
-				// Skip lines
-				const qint64 len = fh.size() - fh.pos();
-				int p = 0;
-				char ch;
-				for ( ; p < len; ++p)
-					if (fh.read(&ch, 1) != 1 || (ch == '\n' && ++count == fromLine))
-						break;
-				if (p >= len)
-					return QString();
-				count = 0;
-			}
-			QString ret;
-			// If !maxLines then returns the rest of the file from current position, otherwise add line-by-line.
-			if (maxLines) {
-				QTextStream strm(&ret, QIODevice::WriteOnly);
-				while (count < maxLines && !fh.atEnd()) {
-					const QString l = fh.readLine();
-					strm << l;
-					// end or error is signaled by empty return or lack of nl
-					if (l.isEmpty() || !l.endsWith('\n'))
-						break;
-					++count;
-				}
-			}
-			else {
-				ret = fh.readAll();
-			}
-			return trimTrailing ? trimTrailingNewlines(ret) : ret;
-		}
-
-		static QString readLinesFromEnd(QFile &fh, int maxLines, int fromLine, bool trimTrailing)
-		{
-			// Seek backwards
-			int count = 0;
-			int skipLines = (1 + fromLine) * -1;
-			qint64 p = fh.pos();
-			if (p < 1)
-				return QString();
-			char ch;
-
-			// ignore trailing newlines
-			if (trimTrailing) {
-				while (p >= 0 && fh.peek(&ch, 1) == 1 && (ch == '\n' || ch == '\r'))
-					fh.seek(--p);
-			}
-
-			qint64 endPos = p;
-			//  loop backward through file until count == maxLines or start of file is reached
-			while (p >= 0) {
-				if (fh.peek(&ch, 1) != 1)
-					break;
-				// is this newline and then did we get enough lines yet?
-				if (ch == '\n') {
-					// check for a CR before of this NL
-					quint8 skipChars = 1;
-					if (fh.seek(p-1) && fh.peek(&ch, 1) == 1) {
-						if (ch == '\r') {
-							--p;
-							skipChars = 2;
-						}
-						else {
-							fh.seek(p);
-						}
-					}
-					// check if this line should be skipped
-					if (skipLines) {
-						--skipLines;
-						endPos = p - 1;
-						//qDebug() << endPos << p << skipLines;
-					}
-					else if (maxLines && ++count == maxLines) {
-						fh.seek(p += skipChars);  // don't include the last newline we found
-						--p;
-						break;
-					}
-				}
-				// check the previous character on next iteration.
-				fh.seek(--p);
-			}
-//			if (trimTrailing && endPos) {
-//				fh.seek(endPos);
-//				while (endPos >= 0 && fh.peek(&ch, 1) == 1 && (ch == '\n' || ch == '\r'))
-//					fh.seek(--endPos);
-//				fh.seek(p);
-//			}
-
-			//qDebug() << endPos << p << skipLines << maxLines << count;
-			// Read all bytes from current position to end position
-			if (!skipLines && endPos > p)
-				return fh.read(endPos - p);
-			return QString();
-		}
-
-		static OpenMode modeToFlags(const QString &mode)
+		static inline OpenMode modeToFlags(const QString &mode)
 		{
 			OpenMode f;
 			bool hasA = mode.contains('a');
@@ -429,6 +318,36 @@ class File : public QObject
 			return f;
 		}
 
+		static inline int fileErrorToJsError(int fe)
+		{
+			switch (fe) {
+				case FileError::NoError:
+					return ErrorType::NoError;
+				case FileError::ReadError:
+					return domToCustomError(DOMException::NotReadableError);
+				case FileError::AbortError:
+					return domToCustomError(DOMException::AbortError);
+				case FileError::TimeOutError:
+					return domToCustomError(DOMException::TimeoutError);
+				case FileError::UnspecifiedError:
+					return domToCustomError(DOMException::UnknownError);
+				case FileError::PermissionsError:
+					return domToCustomError(DOMException::SecurityError);
+				case FileError::PositionError:
+					return domToCustomError(DOMException::InvalidStateError);
+				case FileError::CopyError:
+				case FileError::FatalError:
+				case FileError::OpenError:
+				case FileError::RemoveError:
+				case FileError::RenameError:
+				case FileError::ResizeError:
+				case FileError::ResourceError:
+				case FileError::WriteError:
+				default:
+					return domToCustomError(DOMException::OperationError);
+			}
+		}
+
 };
 
 //! \ingroup FileSystem
@@ -441,23 +360,6 @@ class FileHandle : private File
 		Q_OBJECT
 		QFile m_file;
 		QFileInfo m_fi;
-
-	public:
-		//! Creates a new object instance with given `fileName`. The file name could be empty and specified later by setting the `fileName` property.
-		//! The name can have no path, a relative path, or an absolute path. Relative paths are based on current application directory (see `Dir.cwd()`).
-		//! \n **Note** that the directory separator "/" works for all operating systems. On Windows backslash ("\") can also be used but must be escaped as "\\".
-		Q_INVOKABLE explicit FileHandle(const QString &fileName = QString()) : File(nullptr)
-		{
-			setObjectName("FileHandle");
-			if (!fileName.isEmpty())
-				setFileName(fileName);
-		}
-
-		~FileHandle() {
-			if (m_file.isOpen())
-				m_file.close();
-			//qCDebug(lcPlugin) << this << "Destroyed";
-		}
 
 		//! \{
 		//! Name of current file, as set in constructor or using this property. This property can also set the name of the file  (eg. `fh.fileName = "myfile.txt"`).
@@ -536,6 +438,23 @@ class FileHandle : private File
 		Q_PROPERTY(FileInfo info READ info)
 		//! \}
 
+	public:
+		//! Creates a new object instance with given `fileName`. The file name could be empty and specified later by setting the `fileName` property.
+		//! The name can have no path, a relative path, or an absolute path. Relative paths are based on current application directory (see `Dir.cwd()`).
+		//! \n **Note** that the directory separator "/" works for all operating systems. On Windows backslash ("\") can also be used but must be escaped as "\\".
+		Q_INVOKABLE explicit FileHandle(const QString &fileName = QString()) : File(nullptr)
+		{
+			setObjectName("FileHandle");
+			if (!fileName.isEmpty())
+				setFileName(fileName);
+		}
+
+		~FileHandle() {
+			if (m_file.isOpen())
+				m_file.close();
+			//qCDebug(lcPlugin) << this << "Destroyed";
+		}
+
 		QString fileName() const { return m_file.fileName(); }
 		void setFileName(const QString &name) { m_file.setFileName(name); m_fi = QFileInfo(name); }
 		QString errorString() const { return m_file.errorString(); }
@@ -558,6 +477,22 @@ class FileHandle : private File
 
 		FS::OpenMode openMode() const { return OpenMode((quint8)m_file.openMode()); }
 		FS::Permissions permissions()  const { return (Permissions)(quint16)m_file.permissions(); }
+
+		// File Info properties for current instance
+		bool isAbs()           const { return m_fi.isAbsolute(); }
+		bool isExec()          const { return m_fi.isExecutable(); }
+		QString path()         const { return m_fi.path(); }
+		QString name()         const { return m_fi.fileName(); }
+		QString filePath()     const { return m_fi.filePath(); }
+		QString baseName()     const { return m_fi.baseName(); }
+		QString fullBaseName() const { return m_fi.completeBaseName(); }
+		QString suffix()       const { return m_fi.suffix(); }
+		QString fullSuffix()   const { return m_fi.completeSuffix(); }
+		QString absPath()      const { return m_fi.absolutePath(); }
+		QString absFilePath()  const { return m_fi.absoluteFilePath(); }
+		QString normPath()     const { return m_fi.canonicalPath(); }
+		QString normFilePath() const { return m_fi.canonicalFilePath(); }
+		FileInfo info()        const { return FileInfo(m_fi); }
 
 		//! \{
 
@@ -635,41 +570,10 @@ class FileHandle : private File
 		//! \throws Error is thrown if the file reading fails for any reason.
 		//! \note - The file should be opened in binary (not text) mode, otherwise results are unpredictable depending on line ending type.
 		//! \note \n - If no newlines are found in the file then the full contents will be returned (a potentially expensive operation).
-		Q_INVOKABLE QString readLines(int maxLines, int fromLine = 0, bool trimTrailingNewlines = true)
-		{
-			if (maxLines < 0 || !m_file.isOpen() || !m_file.isReadable() || !m_file.size()) {
-				if (QJSEngine *jse = qjsEngine(this))
-					jse->throwError(QJSValue::GenericError, tr("Could not readLines(%1, %2) on file '%3': File not open/readable, is empty, or maxLines is < 0.").arg(maxLines).arg(fromLine).arg(m_file.fileName()));
-				return QString();
-			}
-			if (fromLine >= 0)
-				return readLinesFromStart(m_file, maxLines, fromLine, trimTrailingNewlines);
-			if (m_file.pos() < 2) {
-				if (QJSEngine *jse = qjsEngine(this))
-					jse->throwError(QJSValue::GenericError, tr("Could not readLines(%1, %2) on file '%3': Current position is invalid or at start.").arg(maxLines).arg(fromLine).arg(m_file.fileName()));
-				return QString();
-			}
-			return readLinesFromEnd(m_file, maxLines, 0, trimTrailingNewlines);
-		}
+		Q_INVOKABLE QString readLines(int maxLines, int fromLine = 0, bool trimTrailingNewlines = true);
 
 		//! \}
 
-		// File Info for current instance
-
-		bool isAbs()           const { return m_fi.isAbsolute(); }
-		bool isExec()          const { return m_fi.isExecutable(); }
-		QString path()         const { return m_fi.path(); }
-		QString name()         const { return m_fi.fileName(); }
-		QString filePath()     const { return m_fi.filePath(); }
-		QString baseName()     const { return m_fi.baseName(); }
-		QString fullBaseName() const { return m_fi.completeBaseName(); }
-		QString suffix()       const { return m_fi.suffix(); }
-		QString fullSuffix()   const { return m_fi.completeSuffix(); }
-		QString absPath()      const { return m_fi.absolutePath(); }
-		QString absFilePath()  const { return m_fi.absoluteFilePath(); }
-		QString normPath()     const { return m_fi.canonicalPath(); }
-		QString normFilePath() const { return m_fi.canonicalFilePath(); }
-		FileInfo info()        const { return FileInfo(m_fi); }
 };
 
 #ifndef DOXYGEN

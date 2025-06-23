@@ -85,6 +85,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   ScriptingLibrary/AbortController.h
   ScriptingLibrary/Clipboard.h
   ScriptingLibrary/File.h
+  ScriptingLibrary/File.cpp
   ScriptingLibrary/FileInfo.h
   ScriptingLibrary/FS.h
   ScriptingLibrary/Dir.h
@@ -133,6 +134,7 @@ endif()
 
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
   Core
+  Concurrent
   Network
   Qml
   Sql
@@ -143,6 +145,7 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
   Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Concurrent
   Qt${QT_VERSION_MAJOR}::Network
   Qt${QT_VERSION_MAJOR}::Qml
   Qt${QT_VERSION_MAJOR}::Sql

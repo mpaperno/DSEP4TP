@@ -170,6 +170,7 @@ void ScriptEngine::initScriptEngine()
 	//evalScript(QStringLiteral(":/scripts/date.js"));
 	//evalScript(QStringLiteral(":/scripts/env.js"));
 	//evalScript(QStringLiteral(":/scripts/fetch.js"));
+	//evalScript(QStringLiteral(":/scripts/io.js"));
 	//evalScript(QStringLiteral(":/scripts/math.js"));
 	//evalScript(QStringLiteral(":/scripts/number.js"));
 	//evalScript(QStringLiteral(":/scripts/promise.js"));
@@ -483,9 +484,9 @@ void ScriptEngine::include(const QString &file) const
 		throwError(QJSValue::URIError, tr("File not found for include('%1'). Resolved file path: '%2'").arg(file, resolvedFile));
 		return;
 	}
-	const QString script(File::read_impl(se, resolvedFile, ScriptLib::FS::O_TEXT));
+	const QString script(File::fileReadAll(se, resolvedFile, FS::O_TEXT | FS::O_RDONLY));
 	if (script.isEmpty()) {
-		checkErrors();
+		// fileReadAll() will throw error if needed
 		return;
 	}
 

@@ -7,6 +7,7 @@
         <file alias="env.js">scripts/env.js</file>
         <file alias="fetch.js">scripts/fetch.js</file>
         <file alias="global.js">scripts/global.js</file>
+        <file alias="io.js">scripts/io.js</file>
         <file alias="math.js">scripts/math.js</file>
         <file alias="number.js">scripts/number.js</file>
         <file alias="promise.js">scripts/promise.js</file>

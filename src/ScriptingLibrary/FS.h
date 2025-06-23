@@ -2,6 +2,7 @@
 
 #include <QDir>
 #include <QFile>
+#include <QMetaEnum>
 
 //! \file
 
@@ -22,28 +23,34 @@ namespace FS
 
 Q_NAMESPACE
 
-	//! File handling mode flags. \sa OpenMode
+	//! File handling mode flags.
+	//!
+	//! In most cases these can be specified as OR'd enumeration values (eg. `FS.O_TEXT | FS.O_WRONLY | FS.O_EXCL') or using the equivalent character flag(s) as a string (eg. `"twx"`).
+	//! The character equivalents, when available, are shown in parenthesis before the description.
+	//! \sa OpenMode
 	enum OpenModeFlag : quint8  {
 		O_NOTOPEN = QIODevice::NotOpen,       //!< The file is not open in any mode, or no explicit mode flags are specified.
 		O_DEFAULT = O_NOTOPEN,                //!< Default options for selected operation (depending on method/function being invoked).
-		O_RDONLY  = QIODevice::ReadOnly,      //!< Read mode. Text value: 'r'
-		O_WRONLY  = QIODevice::WriteOnly,     //!< Write mode. Default is usually to truncate/overwrite the destination file. Text value: 'w'
-		O_RDWR    = QIODevice::ReadWrite,     //!< Read+Write mode. Text value: 'rw' or 'r+' or 'w+'
-		O_APPEND  = QIODevice::Append,        //!< Append to file (implies O_WRONLY). Text value: 'a'
+		O_RDONLY  = QIODevice::ReadOnly,      //!< (`"r"`) Read mode. Text value: 'r'
+		O_WRONLY  = QIODevice::WriteOnly,     //!< (`"w"`) Write mode. Default is usually to truncate/overwrite the destination file. Text value: 'w'
+		O_RDWR    = QIODevice::ReadWrite,     //!< (`"rw"`) Read+Write mode. Text value: 'rw' or 'r+' or 'w+'
+		O_APPEND  = QIODevice::Append,        //!< (`"a"`) Append to file (implies O_WRONLY). Text value: 'a'
 		O_TRUNC   = QIODevice::Truncate,      //!< Truncate file (implies O_WRONLY). Text value: no value, this is the default mode.
-		O_TEXT    = QIODevice::Text,          //!< Handle file in text mode (returns strings instead of bytes, handles Windows line endings).  Text value: 't'
-		O_BIN     = O_DEFAULT,                //!< Handle file in binary mode (returns results as byte arrays).  Text value: 'b'
-		O_DIRECT  = QIODevice::Unbuffered,    //!< Open in un-buffered mode.   Text value: 's'
-		O_EXCL    = QIODevice::NewOnly,       //!< Do not overwrite existing file when writing (returns error if file exists).  Text value: 'x'
-		O_NOCREAT = QIODevice::ExistingOnly,  //!< Only write to file if it exists (returns error otherwise).  Text value: 'n'
+		O_TEXT    = QIODevice::Text,          //!< (`"t"`) When _reading_, the end-of-line terminators are translated to '\n'. When _writing_, the end-of-line terminators are translated to the local encoding, for example '\r\n' for Windows.  Text value: 't'
+		O_BIN     = O_DEFAULT,                //!< (`"b"`) Handle file in binary mode (returns results as byte arrays).  Text value: 'b'
+		O_DIRECT  = QIODevice::Unbuffered,    //!< (`"s"`) Open in un-buffered (synchronous) mode. Text value: 's'. Note: This is a system-level setting that bypasses some buffers. It doesn't change an asynchronous method call to an synchronous one.
+		O_EXCL    = QIODevice::NewOnly,       //!< (`"x"`) Do not overwrite existing file when writing (returns error if file exists).  Text value: 'x'
+		O_NOCREAT = QIODevice::ExistingOnly,  //!< (`"n"`) Only write to file if it exists (returns error otherwise).  Text value: 'n'
 	};
 	Q_FLAG_NS(OpenModeFlag)
 	//! The `FS.OpenMode` type stores an OR combination of `FS.OpenModeFlag` values.
 	Q_DECLARE_FLAGS(OpenMode, OpenModeFlag)
 
-	static inline QIODevice::OpenMode toQfileFlags(OpenMode mode) { return static_cast<QIODevice::OpenMode>((quint8)mode); }
+	inline QIODevice::OpenMode toQfileFlags(OpenMode mode) { return static_cast<QIODevice::OpenMode>((quint8)mode); }
+	inline const QMetaEnum openModeMeta() { static const QMetaEnum m = QMetaEnum::fromType<ScriptLib::FS::OpenModeFlag>(); return m; }
 
-	//! File date/time enumerations for `FileHandle.fileTime()` and `FileHandle.setFileTime()`. The names are meant to follow GNU/POSIX file info `stat` structure names.
+
+	//! File date/time enumerations for `FileInfo.fileTime()`, `FileHandle.fileTime()` and `FileHandle.setFileTime()`. The names are meant to follow GNU/POSIX file info `stat` structure names.
 	enum FileTime : qint8 {
 		S_ATIME = QFileDevice::FileAccessTime,          //!< Access time.
 		S_BTIME = QFileDevice::FileBirthTime,           //!< Birth/creation time (may not be available).
@@ -78,6 +85,16 @@ Q_NAMESPACE
 	//! The `FS.Permissions` type stores an OR combination of `FS.Permission` values.
 	Q_DECLARE_FLAGS(Permissions, Permission)
 
+	//! These values define behavior to use when a copy or rename/move operation encounters an existing entry with the same name as the destination.
+	//! \since v1.3
+	enum OverwriteMode : qint8 {
+		OW_EXCL,     //!< No overwrite, operation fails if destination already exists.
+		OW_SAFE,     //!< Renames destination file, then performs copy/move, then removes renamed destination. Fails if any of those steps fail.
+		OW_SAFE_FB,  //!< Like `OW_SAFE` but if any intermediate steps fail then falls back to `OW_DELETE`.
+		OW_DELETE,   //!< Deletes existing destination first, then performs copy/move. If the copy/move fails then no destination remains.
+	};
+	Q_ENUM_NS(OverwriteMode)
+
 	//! Error type enumeration returned by the `FileHandle.error()` method.
 	enum FileError : qint8 {
 		NoError = QFileDevice::NoError, //!< No error occurred.
@@ -98,7 +115,7 @@ Q_NAMESPACE
 	};
 	Q_ENUM_NS(FileError)
 
-	//! This enum describes the filtering options available for `Dir.list()` `Dir.infoList()`. The sort value is specified by OR-ing together values from the following list.
+	//! This enum describes the filtering options available for `Dir.list()` `Dir.infoList()`. The filter value is specified by OR-ing together values from the following list.
 	enum DirFilter {
 		NoFilter       = QDir::NoFilter      ,  //!< Do not apply any filtering to the list results.
 		Dirs           = QDir::Dirs          ,  //!< List directories that match the filters.
@@ -155,6 +172,7 @@ Q_NAMESPACE
 
 Q_DECLARE_METATYPE(ScriptLib::FS::FileError)
 Q_DECLARE_METATYPE(ScriptLib::FS::FileTime)
+Q_DECLARE_METATYPE(ScriptLib::FS::OverwriteMode)
 Q_DECLARE_METATYPE(ScriptLib::FS::OpenMode)
 Q_DECLARE_OPERATORS_FOR_FLAGS(ScriptLib::FS::OpenMode)
 Q_DECLARE_METATYPE(ScriptLib::FS::Permissions)

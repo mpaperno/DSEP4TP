@@ -1,0 +1,445 @@
+
+/*!
+	\name File Actions
+	\{
+*/
+
+/*!
+	\fn bool copy(string from, string to, FS.OverwriteMode overwriteMode = FS.OW_EXCL)
+	\memberof File
+	\static
+	Synchronously copies the `from` file to a file or directory specified in `to`. Returns `true` if successful; otherwise returns `false` or throws an exception if \ref throwExceptions is `true` (the default).
+
+	If `to` is a directory, the file name part of `from` is automatically appended to it. For a name to be recognized as a directory it must already exist
+	in the file system or end in a slash (`/`). Otherwise it is interpreted as a file name.
+
+	Destination directory tree must already exist or an error is thrown.
+
+	If a file with the name `to` already exists, behavior depends on the value of `overwriteMode` argument. By default existing files are not overwritten and an exception will be generated.\n
+	Setting `overwriteMode` to one of the other `FS.OverwriteMode` values will instead attempt to overwrite the existing file. See enumeration documentation for options.
+
+	If the copied file is a symbolic link (symlink), the file it refers to is copied, not the link itself. With the exception of permissions, which are copied, no other file metadata is copied.
+
+	If copy fails before it is complete (for example due to a full disk partition), any partially written file is removed.
+
+	\throws TypeError if argument validation fails.
+	\throws DOMException.NotFoundError if source file doesn't exist.
+	\throws DOMException.InvalidAccessError if destination file already exists and `overwriteMode` is `FS.OW_EXCL` or if a safe overwrite failed (eg. could not rename old destination file).
+	\throws DOMException.OperationError if any other file system error occurred during the copy operation.
+
+	Exceptions are only thrown if the current value of \ref throwExceptions is `true` (the default).
+
+	\sa copyAsync()
+
+
+	\fn <Promise | void> copyAsync(string from, string to, <FS.OverwriteMode | Function> mode_or_callback, <Function|undefined> callback)
+	\memberof File
+	\static
+	Asynchronously copies the `from` file to a file or directory specified in `to`.
+	Results of the write operation are available either as a `Promise` or by providing a callback function.
+
+	This method has multiple possible signatures. Each version takes an optional callback Function as the last argument.
+	- If no callback is passed in, `copyAsync()` will return a `Promise` which resolves with a boolean value of `true`, or rejects with an `Error` argument.
+	- If a callback is given, it will be invoked with the results of the copy operation (boolean `true` or an `Error`) and this method returns `undefined`.\n
+		The callback function is passed 2 arguments:  `callback(error, success)`
+		- `error` - An `Error` object if any exception occurred while trying to copy the file. See below for more details on returned error types.
+			If there was no error this argument value will be `null`.
+		- `success` - boolean value of `true` if copy was successful, or `null` if there was an error.
+
+	Available method signatures:
+	- `copyAsync(string from, string to [, Function callback])`\n
+	Tries to copy `from` to `to` with `FS.OW_EXCL` overwrite mode (copy fails if destination file exists).
+	- `copyAsync(string from, string to, FS.OverwriteMode overwriteMode [, Function callback])`\n
+	Tries to copy `from` to `to` using `overwriteMode` value to determine what to do in case destination already exists.
+
+	If `to` is a directory, the file name part of `from` is automatically appended to it. For a name to be recognized as a directory it must already exist
+	in the file system or end in a slash (`/`). Otherwise it is interpreted as a file name.
+
+	Destination directory tree must already exist or an error occurs.
+
+	If a file with the name `to` already exists, behavior depends on the value of `overwriteMode` argument. By default existing files are not overwritten and an exception will be generated.\n
+	Setting `overwriteMode` to one of the other `FS.OverwriteMode` values will instead attempt to overwrite the existing file. See enumeration documentation for options.
+
+	If the copied file is a symbolic link (symlink), the file it refers to is copied, not the link itself. With the exception of permissions, which are copied, no other file metadata is copied.
+
+	If copy fails before it is complete (for example due to a full disk partition), any partially written file is removed.
+
+	### Exceptions
+	<i>All</i> errors and exceptions are reported asynchronously, via either a rejected `Promise` or in the `error` argument passed to the callback. This method doesn't throw exceptions.\n
+	- `TypeError` if argument validation fails.
+	- `DOMException.NotFoundError` if source file doesn't exist.
+	- `DOMException.InvalidAccessError` if destination file already exists and `overwriteMode` is `FS.OW_EXCL` or if a safe overwrite failed (eg. could not rename old destination file).
+	- `DOMException.OperationError` if any other file system error occurred during the copy operation.
+
+	\sa copy() for the synchronous version
+	\since v1.3
+*/
+
+/*!
+
+	\fn bool link(string fileName, string linkName)
+	\memberof File
+	\static
+	Creates a link named linkName that points to the file fileName. What a link is depends on the underlying filesystem (be it a shortcut on Windows or a symbolic link on Unix). Returns true if successful; otherwise returns false.
+
+*/
+
+/*!
+	\fn <ArrayBuffer|String> read(string file, <Options | string | FS.OpenMode | undefined> options)
+	\memberof File
+	\static
+	Synchronously reads the contents of a file and returns them as a `String` or `ArrayBuffer`. If reading fails, returns an empty string/array or throws an exception if \ref throwExceptions is `true` (the default).
+
+	Available method signatures and their return types:
+	- `read(string file) => %ArrayBuffer`\n Opens `file` in text mode (`FS.O_TEXT`) and returns the contents as a raw `ArrayBuffer` of bytes read, with no decoding.\n
+		Note that if eventually using the byte results as a string, UTF-8 encoding will be assumed (which also works for Latin1/ASCII encodings, but not 16 or 32-bit UTF files).
+	- `read(string file, <string | FS.OpenMode> mode) => %ArrayBuffer`\n Opens `file` using specified FS.OpenMode `mode` flag(s) (which can be a string or enumeration values)
+		and returns the contents as an `ArrayBuffer` of bytes read.
+	- `read(string file, string encoding) => string`\n Opens `file` as text and returns it as a `String` after decoding the contents using the specified `encoding`.
+	- `read(string file, Options options) => <%ArrayBuffer |  string>`\n Opens `file` using settings specified in `options` object.
+		Returns data as a decoded `String` if an encoding type was specified in `options`, otherwise as a raw `ArrayBuffer` of bytes.
+
+	See the shared \ref Options documentation for more details on supported options and encoding types.
+
+	\throws TypeError if argument validation fails.
+	\throws DOMException.NotFoundError if source file doesn't exist.
+	\throws DOMException.OperationError for other errors when trying to open a file (like lack of permissions).
+	\throws DOMException.InvalidStateError for file system errors during the actual read operation.
+
+	Exceptions are only thrown if the current value of \ref throwExceptions is `true` (the default).
+
+	\sa readAsync()
+
+
+	\fn <Promise | void> readAsync(string file, <Options | string | FS.OpenMode | Function | undefined> options, <Function | undefined> callback)
+	\memberof File
+	\static
+	Read the contents of a file asynchronously using a callback or `Promise` to handle the results.
+
+	This method has multiple possible signatures. Each version takes an optional callback Function as the last argument.
+	- If no callback is passed in, `readAsync()` will return a `Promise` which resolves with the contents of the file (an `ArrayBuffer` or `String`, depending on options), or rejects
+		with an `Error` argument.
+	- If a callback is given, it will be invoked with the results of the read operation (the file contents or an `Error`) and this method returns `undefined`.\n
+		The callback function is passed 2 arguments:  `callback(error, data)`
+		- `error` - An `Error` object if any exception occurred while trying to read the file. See below for more details on returned error types.
+			If there was no error this argument value will be `null`.
+		- `data` - The contents of the file if no error occurred (an `ArrayBuffer` or `String`, depending on options), or `null` if there was an error.
+
+	Available method signatures and their possible return types:
+	- `readAsync(string file [, Function callback]) => <Promise<%ArrayBuffer> | void>`\n Opens `file` in text mode (`FS.O_TEXT`) and returns the contents as a raw `ArrayBuffer` of bytes read, with no decoding.\n
+		Note that if eventually using the byte results as a string, UTF-8 encoding will be assumed (which also works for Latin1/ASCII encodings, but not 16 or 32-bit UTF files).
+	- `readAsync(string file, <string | FS.OpenMode> mode [, Function callback]) => < Promise<%ArrayBuffer> | void>`\n Opens `file` using specified FS.OpenMode `mode` flag(s) (which can be a string or enumeration values)
+		and returns the contents as an `ArrayBuffer` of bytes read.
+	- `readAsync(string file, string encoding [, Function callback]) => <Promise<string> | void> `\n Opens `file` as text and returns it as a `String` after decoding the contents using the specified `encoding`.
+	- `readAsync(string file, object options [, Function callback]) => <Promise< %ArrayBuffer | string > | void>`\n Opens `file` using settings specified in `options` object.
+		Returns data as a decoded `String` if an encoding type was specified in `options`, otherwise as a raw `ArrayBuffer` of bytes.
+
+	See the shared \ref Options documentation for more details on supported options and encoding types.
+
+	### Exceptions
+	<i>All</i> errors and exceptions are reported asynchronously, via either a rejected `Promise` or in the `error` argument passed to the callback. This method doesn't throw exceptions.\n
+	- Argument validation issues are reported as `TypeError` types.
+	- `DOMException.NotFoundError` if source file doesn't exist.
+	- Other errors when trying to open a file (like lack of permissions) are reported as a `DOMException.OperationError`.
+	- System errors during the actual read operation are reported as `DOMException.InvalidStateError`.
+	- If an async operation is canceled using an `AbortSignal` (passed on `options` argument) then a `DOMException.AbortError` is generated.
+
+	\sa read() for the synchronous version
+	\since v1.3
+
+
+	\fn string readLines(string file, int maxLines, int fromLine = 0, bool trimTrailingNewlines = true)
+	\memberof File
+	\static
+	Reads up to `maxLines` lines from `file` starting at `fromLine` (default = 0, start of file) and returns the contents as a string. Can search from start or end of file.
+	\n `maxLines` can be `0` in which case all remaining lines in the file are returned. This is useful when `fromLine != 0` to skip a number of lines
+	and then return the rest.
+	\n `fromLine` can be negative, in which case the file will be read from the end, backwards. In this case `-1` means starting at the end of the file,
+	`-2` means to skip one line ("start at second-to-last line"), and so on.
+	\n Set `trimTrailingNewlines` to `true` (default) to trim/skip over any empty lines from the end of the file. When searching backwards,
+	setting `trimTrailingNewlines` to `false` will count every newline from the end, including any potential newline at end of the last line of the file.
+
+	\throws ReferenceError is thrown if file loading fails (file not found/etc) and returns and empty string.
+	\note Note that if no newlines are found in the file then the full contents will be returned (a potentially expensive operation).
+	This operation works on all text files regardless of line endings.
+
+
+	\fn string readText(string file)
+	\memberof File
+	\static
+	Reads a file in text mode and returns the contents as a string.
+	This is a convenience method which is equivalent to calling `String(File.read(file));`
+	\throws ReferenceError is thrown if file loading fails (file not found/etc) and returns and empty string.
+
+*/
+
+/*!
+	\fn bool remove(string file)
+	\memberof File
+	\static
+	Synchronously deletes the file specified by `file`. Returns `true` if successful; otherwise returns `false` or throws an exception if \ref throwExceptions is `true` (the default).
+
+	\throws TypeError if argument validation fails (`file` argument is empty).
+	\throws DOMException.NotFoundError if `file` doesn't exist.
+	\throws DOMException.OperationError if any other file system error occurred during the delete operation.
+
+	Exceptions are only thrown if the current value of \ref throwExceptions is `true` (the default).
+
+	\sa removeAsync()
+
+
+	\fn <Promise | void> removeAsync(string file, <Function|undefined> callback)
+	\memberof File
+	\static
+	Asynchronously deletes the file specified by `file`.
+	Results of the deletion operation are available either as a `Promise` or by providing a callback function.
+
+	- If no `callback` argument is given, `removeAsync()` will return a `Promise` which resolves with a boolean value of `true`, or rejects with an `Error` argument.
+	- If a callback is given, it will be invoked with the results of the delete operation (boolean `true` or an `Error`) and this method returns `undefined`.\n
+		The callback function is passed 2 arguments:  `callback(error, success)`
+		- `error` - An `Error` object if any exception occurred while trying to delete the file. See below for more details on returned error types.
+			If there was no error this argument value will be `null`.
+		- `success` - boolean value of `true` if rename was successful, or `null` if there was an error.
+
+	### Exceptions
+	<i>All</i> errors and exceptions are reported asynchronously, via either a rejected `Promise` or in the `error` argument passed to the callback. This method doesn't throw exceptions.\n
+	- `TypeError` if argument validation fails.
+	- `DOMException.NotFoundError` if source file doesn't exist.
+	- `DOMException.OperationError` if any other file system error occurred during the copy operation.
+
+	\sa remove() for the synchronous version
+	\since v1.3
+*/
+
+
+/*!
+	\fn bool rename(string oldName, string destination, FS.OverwriteMode overwriteMode = FS.OW_EXCL)
+	\memberof File
+	\static
+	Synchronously renames (or moves) the `oldName` file to a file or directory specified in `destination`. Returns `true` if successful; otherwise returns `false` or throws an exception if \ref throwExceptions is `true` (the default).
+
+	If `destination` is a directory, the file name part of `oldName` is automatically appended to it. For a name to be recognized as a directory it must already exist
+	in the file system or end in a slash (`/`). Otherwise it is interpreted as a file name.
+
+	Destination directory tree must already exist or an error is thrown.
+
+	If a file with the name `destination` already exists, behavior depends on the value of `overwriteMode` argument. By default existing files are not overwritten and an exception will be generated.\n
+	Setting `overwriteMode` to one of the other `FS.OverwriteMode` values will instead attempt to overwrite the existing file. See enumeration documentation for options.
+
+	If the rename operation fails initially, this will attempt to copy `oldName` file's contents to `destination`, and then remove the `oldName` file, keeping only `destination`.
+	If that copy operation fails or the `oldName` file can't be removed, the destination file `destination` is removed to restore the old state.
+
+	\throws TypeError if argument validation fails.
+	\throws DOMException.NotFoundError if either the source file or destination directory don't exist.
+	\throws DOMException.InvalidAccessError if destination file already exists and `overwriteMode` is `FS.OW_EXCL` or if a safe overwrite failed (eg. could not rename old destination file).
+	\throws DOMException.OperationError if any other file system error occurred during the copy operation.
+
+	Exceptions are only thrown if the current value of \ref throwExceptions is `true` (the default).
+
+	\sa renameAsync()
+
+
+	\fn <Promise | void> renameAsync(string oldName, string destination, <FS.OverwriteMode | Function> mode_or_callback, <Function|undefined> callback)
+	\memberof File
+	\static
+	Asynchronously renames (or moves) the `oldName` file to a file or directory specified in `destination`.
+	Results of the write operation are available either as a `Promise` or by providing a callback function.
+
+	This method has multiple possible signatures. Each version takes an optional callback Function as the last argument.
+	- If no callback is passed in, `renameAsync()` will return a `Promise` which resolves with a boolean value of `true`, or rejects with an `Error` argument.
+	- If a callback is given, it will be invoked with the results of the rename operation (boolean `true` or an `Error`) and this method returns `undefined`.\n
+		The callback function is passed 2 arguments:  `callback(error, success)`
+		- `error` - An `Error` object if any exception occurred while trying to copy the file. See below for more details on returned error types.
+			If there was no error this argument value will be `null`.
+		- `success` - boolean value of `true` if rename was successful, or `null` if there was an error.
+
+	Available method signatures:
+	- `renameAsync(string oldName, string destination [, Function callback])`\n
+	Tries to rename/move `oldName` to `destination` with `FS.OW_EXCL` overwrite mode (fails if destination file exists).
+	- `renameAsync(string oldName, string destination, FS.OverwriteMode overwriteMode [, Function callback])`\n
+	Tries to rename/move `oldName` to `destination` using `overwriteMode` value to determine what to do in case destination already exists.
+
+	If `destination` is a directory, the file name part of `oldName` is automatically appended to it. For a name to be recognized as a directory it must already exist
+	in the file system or end in a slash (`/`). Otherwise it is interpreted as a file name.
+
+	Destination directory tree must already exist or an error occurs.
+
+	If a file with the name `destination` already exists, behavior depends on the value of `overwriteMode` argument. By default existing files are not overwritten and an exception will be generated.\n
+	Setting `overwriteMode` to one of the other `FS.OverwriteMode` values will instead attempt to overwrite the existing file. See enumeration documentation for options.
+
+	If the rename operation fails initially, this will attempt to copy `oldName` file's contents to `destination`, and then remove the `oldName` file, keeping only `destination`.
+	If that copy operation fails or the `oldName` file can't be removed, the `destination` file is removed to restore the old state.
+
+	### Exceptions
+	<i>All</i> errors and exceptions are reported asynchronously, via either a rejected `Promise` or in the `error` argument passed to the callback. This method doesn't throw exceptions.\n
+	- `TypeError` if argument validation fails.
+	- `DOMException.NotFoundError` if source file doesn't exist.
+	- `DOMException.InvalidAccessError` if destination file already exists and `overwriteMode` is `FS.OW_EXCL` or if a safe overwrite failed (eg. could not rename old destination file).
+	- `DOMException.OperationError` if any other file system error occurred during the copy operation.
+
+	\sa rename() for the synchronous version
+	\since v1.3
+*/
+
+
+/*!
+
+	\fn int write(string file, <string | ArrayBuffer> data, <Options | string | FS.OpenMode | undefined> options)
+	\memberof File
+	\static
+	Synchronously writes `data` to `file` and returns the number of bytes written. Returns `-1` on error or throws an exception if \ref throwExceptions is `true` (the default).
+
+	Available method signatures:
+	- `write(string file, <string | ArrayBuffer> data)`\n Writes `data` to `file` in text mode (`FS.O_TEXT`). No specific text encoding is applied to `data`, but on Windows line endings may be converted to `\r\n`.
+	- `write(string file, <string | ArrayBuffer> data, <string | FS.OpenMode> mode)`\n Writes `data` to `file` using specified FS.OpenMode `mode` flag(s) when opening/creating the file (which can be a string or enumeration values).\n
+		This form should be used  when writing binary files and no other options are required.
+	- `write(string file, <string | ArrayBuffer> data, string encoding)`\n Writes `data` to `file` after encoding it as text using the specified `encoding` type.
+	- `write(string file, <string | ArrayBuffer> data, Options options)`\n Writes `data` to `file` using settings specified in `options` object.
+
+	See the shared \ref Options documentation for more details on supported options and encoding types.
+
+	By default `file` is overwritten with the contents of `data` (otherwise known as "truncating" the file). To append to an existing file instead, set the `FS.O_APPEND` (or `"a"`) file mode flag. To return an error if the file
+	already exists, set the `FS.O_EXCL` (`"x"`) flag. Rr, conversely, to only write to existing files use the `FS.O_NOCREAT` (`"n"`) flag.
+
+	Note that if writing UTF text with a byte order mark, the BOM size will be included in the resulting count of bytes written (3 bytes for UTF-8, 2 bytes for UTF-16, and 4 bytes for UTF-32).
+
+	\throws TypeError if argument validation fails.
+	\throws DOMException.OperationError when trying to open a file (like lack of permissions, bad file path, etc).
+	\throws DOMException.InvalidStateError for file system errors during the actual write operation.
+
+	Exceptions are only thrown if the current value of \ref throwExceptions is `true` (the default).
+
+	\sa writeAsync()
+
+
+	\fn <Promise<int> | void> writeAsync(string file, <string | ArrayBuffer> data, <Options | string | FS.OpenMode | Function | undefined> options, <Function | undefined> callback)
+	\memberof File
+	\static
+	Asynchronously writes `data` to `file`.
+	Results of the write operation are available either as a `Promise` or by providing a callback function.
+
+	This method has multiple possible signatures. Each version takes an optional callback Function as the last argument.
+	- If no callback is passed in, `writeAsync()` will return a `Promise` which resolves with the number of bytes written, or rejects with an `Error` argument.
+	- If a callback is given, it will be invoked with the results of the write operation (number of bytes written or an `Error`) and this method returns `undefined`.\n
+		The callback function is passed 2 arguments:  `callback(error, bytesWritten)`
+		- `error` - An `Error` object if any exception occurred while trying to read the file. See below for more details on returned error types.
+			If there was no error this argument value will be `null`.
+		- `bytesWritten` - The number of bytes written to `file`, or `null` if there was an error.
+
+	Available method signatures:
+	- `write(string file, <string | ArrayBuffer> data [, Function callback])`\n Writes `data` to `file` in text mode (`FS.O_TEXT`). No specific text encoding is applied to `data`, but on Windows line endings may be converted to `\r\n`.
+	- `write(string file, <string | ArrayBuffer> data, <string | FS.OpenMode> mode [, Function callback])`\n Writes `data` to `file` using specified FS.OpenMode `mode` flag(s) when opening/creating the file (which can be a string or enumeration values).\n
+		This form should be used  when writing binary files and no other options are required.
+	- `write(string file, <string | ArrayBuffer> data, string encoding [, Function callback])`\n Writes `data` to `file` after encoding it as text using the specified `encoding` type.
+	- `write(string file, <string | ArrayBuffer> data, Options options [, Function callback])`\n Writes `data` to `file` using settings specified in `options` object.
+
+	See the shared \ref Options documentation for more details on supported options and encoding types.
+
+	By default `file` is overwritten with the contents of `data` (otherwise known as "truncating" the file). To append to an existing file instead, set the `FS.O_APPEND` (or `"a"`) file mode flag. To return an error if the file
+	already exists, set the `FS.O_EXCL` (`"x"`) flag. Rr, conversely, to only write to existing files use the `FS.O_NOCREAT` (`"n"`) flag.
+
+	Note that if writing UTF text with a byte order mark, the BOM size will be included in the resulting count of bytes written (3 bytes for UTF-8, 2 bytes for UTF-16, and 4 bytes for UTF-32).
+
+	### Exceptions
+	<i>All</i> errors and exceptions are reported asynchronously, via either a rejected `Promise` or in the `error` argument passed to the callback. This method doesn't throw exceptions.\n
+	- Argument validation issues are reported as `TypeError` types.
+	- Errors when trying to open a file (like lack of permissions, bad file path, etc) are reported as a `DOMException.OperationError`.
+	- System errors during the actual write operation are reported as `DOMException.InvalidStateError`.
+	- If an async operation is canceled using an `AbortSignal` (passed on `options` argument) then a `DOMException.AbortError` is generated.
+
+	\sa write() for synchronous version
+	\since v1.3
+*/
+
+//! \}
+
+class File {
+
+	public:
+		//! %Options object which can be passed as an argument to various file reading and writing methods. All properties are optional.
+		struct Options {
+				/*!
+				Some file operations, like `read()`/`readAsync()` and `write()`/`writeAsync()`, will operate on "byte chunks" of a file at a time.
+
+				By default the system tries to determine an optimal chunk size (the block size of the partition being accessed, eg. typically 4KB on an NTFS volume), but can be overridden with this setting.
+
+				This may especially be relevant if wanting to abort an operatin in progress (with `signal`, see below), since system file operations can only be aborted
+				between reads/writes of each chunk. For example it is essentially not possible to abort reading a file which is smaller than one chunk size.
+
+				This value is set in bytes.
+			*/
+			int chunkSize;
+
+			/*!
+				Specify the name of a text encoding type to use for reading or writing text files.
+
+				Specifying an encoding when _reading_ files will always return the results as a UTF-8 string (even if the file `mode` flag option specifies binary).\n
+				When _writing_ files, specifying an encoding will implicitly convert the input data to a string and write it as text.
+
+				Note that text files in UTF-8 and compatible formats generally don't require any special handling, the default behavior when reading/writing in text mode is usually sufficient.\n
+				Some of the other options documented here are only relevant when an encoding is specified.
+
+				<b>Supported encoding types</b> (dashes, spaces and case in names are ignored, eg. `"utf16le"` == `"UTF-16LE"` == `"utf 16 LE"` == etc..):
+				- `auto` - Automatically detrmine the encoding. When _reading_ files this can be used to force a String return type w/out specifying an explicit encoding. When _writing_ files this sets the encoding to UTF-8 on all platforms.
+				- `utf-8` - Convert to/from  UTF-8 format.
+				- `utf-16` - Convert to or from UTF-16. When _reading_, the byte order will get automatically detected by a leading byte order mark. If none exists, or when _writing_, the system byte order will be assumed.
+				- `utf-16le` - Convert to or from little-endian UTF-16.
+				- `utf-16be` - Convert to or from big-endian UTF-16.
+				- `utf-32` - Convert to or from UTF-32. When _reading_, the byte order will get automatically detected by a leading byte order mark. If none exists, or when _writing_, the system byte order will be assumed.
+				- `utf-32le` - Convert to or from little-endian UTF-32.
+				- `utf-32be` - Convert to or from big-endian UTF-32.
+				- `latin1`/`ISO-8859-1` - Use 8-bit ASCII character set
+				- `locale` - Uses the default system encoding. On Windows, this converts to and from the locale code page. For Unix based systems this is always assumed to be UTF-8.
+			*/
+			string encoding;
+
+			//! A string or enumeration corresponding to the FS.OpenMode flag value(s) to use when opening files. For most file operations the default is usually `FS.O_TEXT`.
+			<FS.OpenMode | string> mode;
+
+			//! An `AbortSignal` obtained from an `AbortController` may be used to cancel long-running asynchronous file operations.
+			//!
+			//! Note that cancellation happens on a "best efforts" basis since we cannot interrupt the
+			//! system-level operations (see `chunkSize` description). It may be possible the file operation(s) complete before an abort request is detected, etc.
+			AbortSignal signal;
+
+			//! When reading files, sets the maximum number of bytes to read. Default is to read the whole file.\n
+			//! Ignored when writing files.
+			int readMaxSize;
+
+			//! When writing text files with a UTF-type `encoding` specified, this controls if a byte order mark is generated in the output.
+			//!
+			//! If not specified, by default a BOM is written for UTF-16 and UTF-32 encodings, but not for UTF-8. To add a BOM to UTF-8 text files, set this option to `true`.
+			//!
+			//! Ignored when reading files or when an `encoding` isn't specified.
+			boolean writeBOM;
+
+			//! When writing text files with an `encoding` specified, this sets if the line endings should include the Carriage Return character (`\r\n`) or not (`\n`).
+			//!
+			//! By default this is `true` on Windows and `false` otherwise.
+			//!
+			//! Ignored when reading files or when an `encoding` isn't specified.
+			boolean writeCR;
+
+			/*!
+			When writing files, this option can enable using a temporary intermediate file as a fallback mechanism.
+
+			When enabled, the data is written to a temporary file first. If that completes without errors, then the temporary file is moved to the actual requested location (possibly overwriting any existing file).
+			If writing the temporary file fails for any reason, it is automatically removed afterwards.
+
+			This ensures that no data in the original file is lost in case an error happens while writing, and no partially-written file is ever present at the final location.
+
+			However, when overwriting existing files, this requires that\n
+			__a)__ The current application has permission to create new files in the same folder as the destination file, and\n
+			__b)__ that there is enough space on the partition to accommodate a temporary copy.\n
+			By default, either of these issues will cause the write operation to fail, but a fallback mode can be enabled which will then try to overwrite the original file directly.
+
+			This option can have one of 3 values:
+			- `false` <boolean> - Disable the feature (default).
+			- `true` <boolean>- Enable the feature and fail if temporary file couldn't be created.
+			- `"fallback"` <string> - Enable the feature but fall back to direct writing if creating a temporary file fails.
+
+			Ignored when reading files.
+			*/
+			<boolean | string> writeSafe;
+		};
+}
