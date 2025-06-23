@@ -88,6 +88,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   ScriptingLibrary/File.cpp
   ScriptingLibrary/FileInfo.h
   ScriptingLibrary/FS.h
+  ScriptingLibrary/FSWatcher.h
   ScriptingLibrary/Dir.h
   ScriptingLibrary/RunProcess.h
   ScriptingLibrary/ScriptLibNS.h

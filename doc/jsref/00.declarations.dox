@@ -220,6 +220,7 @@ Contains static types and object classes for working with files and directories.
 - `FileHandle` - provides an object instance for working with a file in multiple steps (stat, open, read/write bytes, etc).
 - `FileInfo` - provides read-only information about a file system object (file or directory).
 - `FS` - The `FS` namespace holds constants related to file system tasks, such as flags for file open and permissions operations, error types, etc.
+- `FSWatcher` - Provides an interface for monitoring files and directories for modifications.
 
 
 \defgroup TPAPI Touch Portal API (TP)

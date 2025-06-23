@@ -153,6 +153,7 @@ function _global_init()
     [ AbortSignal,     "AbortSignal"     ],
     [ DynamicScript,   "DynamicScript"   ],
     [ FileHandle,      "FileHandle"      ],
+    [ FSWatcher,       "FSWatcher"       ],
     [ Process,         "Process"         ],
     [ WebSocket,       "WebSocket"       ],
   ].forEach((o) => addHasInstance(o[0], o[1]))

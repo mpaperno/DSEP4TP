@@ -29,6 +29,7 @@ to any 3rd-party components used within.
 #include "ScriptingLibrary/DOMException.h"
 #include "ScriptingLibrary/File.h"
 #include "ScriptingLibrary/FileInfo.h"
+#include "ScriptingLibrary/FSWatcher.h"
 #include "ScriptingLibrary/RunProcess.h"
 #include "ScriptingLibrary/TPAPI.h"
 #include "ScriptingLibrary/Util.h"
@@ -153,6 +154,7 @@ void ScriptEngine::initScriptEngine()
 	se->globalObject().setProperty("File", se->newQObject(new ScriptLib::File));        // QJSEngine has ownership
 	se->globalObject().setProperty("FS", se->newQMetaObject(&ScriptLib::FS::staticMetaObject));
 	se->globalObject().setProperty("FileHandle", se->newQMetaObject<ScriptLib::FileHandle>());
+	se->globalObject().setProperty("FSWatcher", se->newQMetaObject<ScriptLib::FSWatcher>());
 	se->globalObject().setProperty("Process", se->newQMetaObject<ScriptLib::Process>());
 	se->globalObject().setProperty("AbortController", se->newQMetaObject<ScriptLib::AbortController>());
 	se->globalObject().setProperty("AbortSignal", se->newQMetaObject<ScriptLib::AbortSignal>());
