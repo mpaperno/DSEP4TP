@@ -58,13 +58,19 @@ WebSocket::WebSocket(QWebSocket *socket, QObject *parent) :
 	setSocket(socket);
 }
 
-WebSocket::WebSocket(const QString &url, const QStringList &protocols, const QJSValue &options) :
-  WebSocket()
+WebSocket::WebSocket(const Options &options) :
+  WebSocket((QObject *)nullptr)
 {
-	setUrl(url);
-	setRequestedSubprotocols(protocols);
 	if (options.isObject())
 		setOptions(options);
+}
+
+WebSocket::WebSocket(const QString &url, const QStringList &protocols, const QJSValue &options) :
+  WebSocket(options)
+{
+	setUrl(url);
+	if (!protocols.isEmpty())
+		setRequestedSubprotocols(protocols);
 }
 
 WebSocket::~WebSocket()

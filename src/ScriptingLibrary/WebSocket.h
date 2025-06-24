@@ -206,7 +206,7 @@ class WebSocket : public QObject
 		//! Values for the \ref readyState read-only property.
 		enum ReadyState
 		{
-			CONNECTING  = 0,  //!< (0) Socket has been created but the connection is not yet open.
+			CONNECTING  = 0,  //!< (0) %Socket has been created but the connection is not yet open.
 			OPEN        = 1,  //!< (1) The connection is open and ready to communicate.
 			CLOSING     = 2,  //!< (2) The connection is in the process of closing.
 			CLOSED      = 3   //!< (3) The connection is closed or couldn't be opened.
@@ -266,9 +266,11 @@ class WebSocket : public QObject
 		// c'tors
 		explicit WebSocket(QObject *parent);
 
-		//! Creates a new WebSocket instance with no URL or other options. The `url` property must be set before trying to open a connection with this instance.
-		//! \sa url, setOptions
-		Q_INVOKABLE explicit WebSocket() : WebSocket((QObject *)nullptr) { }
+		//! Creates a new WebSocket instance with no URL.  Further options may be specified in the `options` argument.
+		//!
+		//! The `url` property must be set before trying to open a connection with this instance.
+		//! \sa url, Options, setOptions
+		Q_INVOKABLE explicit WebSocket(const Options &options = Options());
 		//! Creates a new WebSocket instance with the given server URL. Further options may be specified in the `options` argument.
 		//! \sa url, Options, setOptions()
 		Q_INVOKABLE explicit WebSocket(const QString &url, const Options &options = Options()) : WebSocket(url, QStringList(), options) { }
