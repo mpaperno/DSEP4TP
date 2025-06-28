@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
    </div>
   </td>
  </tr>
@@ -127,10 +127,10 @@ $(document).ready(function(){initNavTree('plugin_basics.html',''); initResizable
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md44">General Theory and Terminology</a><ul><li class="level2"><a href="#doc-script-engine">The Engine</a></li>
+<ul><li class="level1"><a href="#autotoc_md50">General Theory and Terminology</a><ul><li class="level2"><a href="#doc-script-engine">The Engine</a></li>
 <li class="level2"><a href="#doc-engine-instance-types">Engine instances</a></li>
 <li class="level2"><a href="#doc-named-state-instances">Script instances</a></li>
-<li class="level2"><a href="#autotoc_md45">Creating and Using States - Important</a><ul><li class="level3"><a href="#autotoc_md46">Touch Portal State ID vs. Name</a></li>
+<li class="level2"><a href="#autotoc_md51">Creating and Using States - Important</a><ul><li class="level3"><a href="#autotoc_md52">Touch Portal State ID vs. Name</a></li>
 </ul>
 </li>
 </ul>
@@ -138,11 +138,11 @@ $(document).ready(function(){initNavTree('plugin_basics.html',''); initResizable
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_pages_Basic"></a></p>
-<h1><a class="anchor" id="autotoc_md44"></a>
+<h1><a class="anchor" id="autotoc_md50"></a>
 General Theory and Terminology</h1>
 <p >The plugin <b>evaluates JavaScript-compatible expressions</b>, from simple math to running (relatively) complex programs.</p>
 <p >For the most part this is useful for getting information/data back to Touch Portal, for example to get the result of a math expression as soon as some dynamic value (used in the expression) changes. Such results would be sent to Touch Portal as plug-in "States" (which I will refer to with a capital letter to help avoid confusion with any other kind of state).</p>
-<p >That's not an exclusive usage &ndash; scripts can also be run that simply do something useful but do not return any result. <em>Or</em> they may run in the background and send Touch Portal State (capital!) updates when new data becomes available (such as watching a file for changes or downloading from a URL). But more on that later.</p>
+<p >That's not an exclusive usage &ndash; scripts can also be run that simply do something useful but do not return any result. <em>Or</em> they may run in the background and send Touch Portal State (capital!) updates when new data becomes available (such as watching a file for changes or downloading from a <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a>). But more on that later.</p>
 <h2><a class="anchor" id="doc-script-engine"></a>
 The Engine</h2>
 <p >Expressions/scripts are evaluated by the plugin using an <b>evaluation engine</b>. An <b>engine instance</b> is a complete and isolated environment that can run JavaScript scripts, like a <b>mini Web browser</b> or a continuously-running Node.js application (it's not either of those things, but that's the best analogy I have for now).</p>
@@ -169,7 +169,7 @@ Script instances</h2>
 </li>
 <li>These "Instance Names" are referenced in the plugin's other action(s), such as where you can delete one or reset its engine environment (described on a following page).</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md45"></a>
+<h2><a class="anchor" id="autotoc_md51"></a>
 Creating and Using States - Important</h2>
 <p >To get any kind of result back from the plugin to Touch Portal the plugin creates Touch Portal States dynamically <b>once you tell it to</b>.</p>
 <p >Meaning that to be able to select the new State from Touch Portal's interface you have to first send one of the plugin's actions which creates that State in the first place (with a name of your choice, as you'll see on the next page). It's a bit of a <a href="https://en.wikipedia.org/wiki/Catch-22_(logic)" target="_blank">catch-22</a> and this is sometimes a point of confusion.</p>
@@ -178,7 +178,7 @@ Creating and Using States - Important</h2>
 <li>Then activate this action once somehow (on button press, for example) &ndash; assuming there are no errors in the expression/script (another good reason to start simple), this will crate the new State in Touch Portal.</li>
 <li>Now go back and finish setting up your button/event once the new State has been created and will be available in the various places you can select States from.</li>
 </ol>
-<h3><a class="anchor" id="autotoc_md46"></a>
+<h3><a class="anchor" id="autotoc_md52"></a>
 Touch Portal State ID vs. Name</h3>
 <p >As a "final" detail, note that <b>States in Touch Portal are tracked and uniquely identified by an ID</b>, not the Name displayed in most places. You can see these actual IDs when selecting a State or Value from the <code>+</code> buttons next to text entry fields and such... they're the part in <code>${value:...}</code> macros after the "value:" part and before the closing "}".</p>
 <p >When you create a new State/Instance using this plugin's actions (or connectors), the State ID is generated by adding a <code>dsep.</code> prefix to the Instance Name you specify. This is to help make sure the IDs are unique and not going to overwrite/compete with any other States.</p>
@@ -194,7 +194,7 @@ Touch Portal State ID vs. Name</h3>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

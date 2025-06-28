@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
    </div>
   </td>
  </tr>
@@ -136,6 +136,28 @@ $(document).ready(function(){initNavTree('class_color.html',''); initResizable()
 <p >Library originally from <a href="https://github.com/bgrins/TinyColor" target="_blank">TinyColor</a>. This object can also be invoked with <code>tinycolor()</code>.</p>
 <p >The library has been extended with extra functions described below. For the rest of the documentation, with examples, please see original reference at <a href="https://github.com/bgrins/TinyColor#usage">https://github.com/bgrins/TinyColor#usage</a><br  />
  There is also a basic demo page with some more details at <a href="http://bgrins.github.io/TinyColor/">http://bgrins.github.io/TinyColor/</a></p>
+<p >The official documentation has examples, but as a summary, a new <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> instance may be created from a wide variety of input formats and types.</p><ul>
+<li>Supported string format examples:<ul>
+<li>Named <a href="https://www.w3.org/TR/css-color-4/#named-colors" target="_blank">standard CSS color</a>, eg: "red"</li>
+<li>"#f00" or "f00"</li>
+<li>"#ff0000" or "ff0000"</li>
+<li>"#ff000000" or "ff000000"</li>
+<li>"rgb 255 0 0" or "rgb (255, 0, 0)"</li>
+<li>"rgb 1.0 0 0" or "rgb (1, 0, 0)"</li>
+<li>"rgba (255, 0, 0, 1)" or "rgba 255, 0, 0, 1"</li>
+<li>"rgba (1.0, 0, 0, 1)" or "rgba 1.0, 0, 0, 1"</li>
+<li>"hsl(0, 100%, 50%)" or "hsl 0 100% 50%"</li>
+<li>"hsla(0, 100%, 50%, 1)" or "hsla 0 100% 50%, 1"</li>
+<li>"hsv(0, 100%, 100%)" or "hsv 0 100% 100%"</li>
+</ul>
+</li>
+<li>Object types in various color models:<ul>
+<li><code>{r, g, b [, a]}</code></li>
+<li><code>{h, s, l [, a]}</code></li>
+<li><code>{h, s, v [, a]}</code></li>
+</ul>
+</li>
+</ul>
 <p >The following methods are aliases of their longer counterparts (unlinked ones are documented at TinyColor site):</p>
 <ul>
 <li><code>originalInput()</code> = getOriginalInput();</li>
@@ -162,6 +184,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a4569b96c0298ecd4296dddbc68306ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31c6fb63b3f241f7809c38e9a55633fa"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a31c6fb63b3f241f7809c38e9a55633fa">toArgbHexString</a> ()</td></tr>
 <tr class="separator:a31c6fb63b3f241f7809c38e9a55633fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7012ac0d39e1a0f3040300cb8e33220b"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a7012ac0d39e1a0f3040300cb8e33220b">toWebColor</a> (allowShortFormat=false)</td></tr>
+<tr class="separator:a7012ac0d39e1a0f3040300cb8e33220b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45d3734fd6c897723acd3cb8e5e6fa3b"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a45d3734fd6c897723acd3cb8e5e6fa3b">getSaturation</a> ()</td></tr>
 <tr class="separator:a45d3734fd6c897723acd3cb8e5e6fa3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae07b8254db57a444acc32e446e6fb218"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#ae07b8254db57a444acc32e446e6fb218">mixWith</a> (<a class="el" href="class_color.html">Color</a> color2, number amount)</td></tr>
@@ -187,6 +211,10 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a4bea24310dc9c4b833d21a3fadd6d75e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a4bea24310dc9c4b833d21a3fadd6d75e">fromArgb</a> (string argbString)</td></tr>
+<tr class="separator:a4bea24310dc9c4b833d21a3fadd6d75e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af062636ff7e7a3a6b2f563a3fceaaf5f"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#af062636ff7e7a3a6b2f563a3fceaaf5f">argb2rgba</a> (string argbString)</td></tr>
+<tr class="separator:af062636ff7e7a3a6b2f563a3fceaaf5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e32bf312e0c39dbb0a853d929f0605a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a3e32bf312e0c39dbb0a853d929f0605a">mix</a> (<a class="el" href="class_color.html">Color</a> color1, <a class="el" href="class_color.html">Color</a> color2, number amount)</td></tr>
 <tr class="separator:a3e32bf312e0c39dbb0a853d929f0605a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fc004088e75e937fa38926bf70617ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_color.html#a8fc004088e75e937fa38926bf70617ec">tint</a> (<a class="el" href="class_color.html">Color</a> color, number amount)</td></tr>
@@ -264,6 +292,27 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Returns color formatted in <code>#AARRGGBB</code> format. </p>
 <p >Alias: <code>argb()</code>, <code><a class="el" href="class_color.html#af7a57ec62f370d92e749c92e43e62f68" title="Returns color formatted in #AARRGGBB format (this is suitable for use with Touch Portal&#39;s &quot;Set Text/B...">tpcolor()</a></code> </p><dl class="section user"><dt></dt><dd>In addition, the <code>toString()</code> method is extended with "argb" and "hex8a" format specifiers (both are analogous). </dd></dl>
+
+</div>
+</div>
+<a id="a7012ac0d39e1a0f3040300cb8e33220b" name="a7012ac0d39e1a0f3040300cb8e33220b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7012ac0d39e1a0f3040300cb8e33220b">&#9670;&nbsp;</a></span>toWebColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string toWebColor </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>allowShortFormat</em> = <code>false</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns color formatted in <code>#RRGGBB</code> <em>or</em> <code>#RRGGBBAA</code> format if this color's alpha channel is not fully opaque. </p>
+<p >If <code>allowShortFormat</code> is set to <code>true</code> then may return <code>#RBA</code> or <code>#RGBA</code> format if current color can be accurately expressed that way. </p><dl class="section user"><dt></dt><dd>Aliases: <code>web()</code>, <code>toString("web")</code> </dd></dl>
 
 </div>
 </div>
@@ -497,6 +546,64 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Return the opposite value of <a class="el" href="class_color.html#ae4ffb7737a4edd129b571a1bcd9e428a" title="Returns true if the color is warmer i.e, has more red value.">isWarmer()</a>. </p>
+
+</div>
+</div>
+<a id="a4bea24310dc9c4b833d21a3fadd6d75e" name="a4bea24310dc9c4b833d21a3fadd6d75e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bea24310dc9c4b833d21a3fadd6d75e">&#9670;&nbsp;</a></span>fromArgb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_color.html">Color</a> fromArgb </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>argbString</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a new <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> instance from an "#AARRGGBB" or "#RRGGBB" string input. </p>
+<p >The leading "#" is optional. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_color.html#af062636ff7e7a3a6b2f563a3fceaaf5f" title="Converts a &quot;#AARRGGBB&quot; color format string to &quot;#RRGGBBAA&quot; format.">argb2rgba()</a> </dd></dl>
+
+</div>
+</div>
+<a id="af062636ff7e7a3a6b2f563a3fceaaf5f" name="af062636ff7e7a3a6b2f563a3fceaaf5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af062636ff7e7a3a6b2f563a3fceaaf5f">&#9670;&nbsp;</a></span>argb2rgba()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string argb2rgba </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>argbString</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts a "#AARRGGBB" color format string to "#RRGGBBAA" format. </p>
+<p >The leading "#" is optional in the input string, but will always be present in the output. If input is less than 8 hex characters long then no conversion is done and the original string is returned (with "#" prepended if necessary). </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_color.html#a4bea24310dc9c4b833d21a3fadd6d75e" title="Returns a new Color instance from an &quot;#AARRGGBB&quot; or &quot;#RRGGBB&quot; string input.">fromArgb()</a> </dd></dl>
 
 </div>
 </div>
@@ -859,7 +966,7 @@ Static Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_color.html">Color</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

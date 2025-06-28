@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['plugin_20api_0',['Plugin API',['../group___plugin_a_p_i.html',1,'']]]
+  ['network_20apis_0',['Network APIs',['../group___net_a_p_i.html',1,'']]]
 ];

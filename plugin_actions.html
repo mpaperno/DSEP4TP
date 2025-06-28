@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
    </div>
   </td>
  </tr>
@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('plugin_actions.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md39">Available Actions</a><ul><li class="level2"><a href="#plugin_actions_evaluate">Evaluate Expression</a></li>
+<ul><li class="level1"><a href="#autotoc_md45">Available Actions</a><ul><li class="level2"><a href="#plugin_actions_evaluate">Evaluate Expression</a></li>
 <li class="level2"><a href="#plugin_actions_script">Load Script File</a></li>
 <li class="level2"><a href="#plugin_actions_module">Import Module File</a></li>
 <li class="level2"><a href="#plugin_actions_update">Update Existing Instance</a></li>
@@ -138,7 +138,7 @@ $(document).ready(function(){initNavTree('plugin_actions.html',''); initResizabl
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_pages_Actions"></a></p>
-<h1><a class="anchor" id="autotoc_md39"></a>
+<h1><a class="anchor" id="autotoc_md45"></a>
 Available Actions</h1>
 <p ><img src="images/actions/actions-list-v1_2.png" alt="" usemap="#image-map" class="inline"/></p>
 <hr  />
@@ -162,10 +162,10 @@ Evaluate Expression</h2>
 <li><b>Engine Instance</b> - This is an important distinction about how and "where" your script is run. Most one-line scripts will probably want to use the <code>Shared</code> types, while more complex scripts (described below) will likely want to use the <code>Private</code> types (but this is not a rule). Here is the difference:<ul>
 <li><b>Shared</b> - All expressions/scripts are run in the same script evaluation engine instance, with a shared "global scope" as if they were all, to continue the poor analogies, running in the same "browser window" or "Node.js process."<br  />
  This means, for example you could share variables or functions between script instances. It also means one expression/script could overwrite variables/functions of another script in the same shared engine. For one-line expressions this is usually not an issue since they likely won't create variables anyway, but for the other actions types (below), it may.<br  />
- <b>All Shared engine instances run in the same processing thread.</b> That means they cannot run at exactly the same time, one will need to finish before the next one will be processed. This is typically more efficient for relatively quick operations like math or text formatting or really anything that isn't going to take significant time, like reading a file or requesting a URL might.</li>
+ <b>All Shared engine instances run in the same processing thread.</b> That means they cannot run at exactly the same time, one will need to finish before the next one will be processed. This is typically more efficient for relatively quick operations like math or text formatting or really anything that isn't going to take significant time, like reading a file or requesting a <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> might.</li>
 <li><b>Private</b> - An isolated evaluation engine instance with its own "global scope." Multiple "Private" engines can be created, and each will persist until the plugin is stopped or it is explicitly deleted/removed by the user.<br  />
  <b>Private engine instances run in their own processing thread.</b> This means multiple scripts can be running at the same time in parallel, and slower ones will not delay other processing.<br  />
- The above all makes "Private" instances better suited for more complex scripts, which for example may need to create global variables or launch longer-running operation like reading a file or requesting a URL. On the other hand, each Private instance uses its own set of the computer's resources (mostly just some RAM), so creating a new engine for every simple script may add unnecessary overhead.<br  />
+ The above all makes "Private" instances better suited for more complex scripts, which for example may need to create global variables or launch longer-running operation like reading a file or requesting a <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a>. On the other hand, each Private instance uses its own set of the computer's resources (mostly just some RAM), so creating a new engine for every simple script may add unnecessary overhead.<br  />
  <b>Multiple Script instances can share a single "Private" engine instance.</b><br  />
  When you create a Script instance and select "Private" for the <em>Engine Instance</em> option, this actually creates a named Engine Instance with the same <em>Instance Name</em> as the Script. Once this Engine instance is created, it can be selected to be used by other Script instances.<br  />
  In the image above I have two additional options available in <em>Engine Instance</em> selector because they have already been created by other actions that have already executed/activated and created their corresponding Private engines.</li>
@@ -231,7 +231,7 @@ Import Module File</h2>
 <ul>
 <li><b>import * as (alias)</b> - To use a function from a loaded module, the module must have an alias (these are JS rules). In typical JS syntax you'd usually use something like <code>import * as MyModule from "mymodule.js"</code> and then call functions from the module as <code>MyModule.someFunction()</code>. This <em>alias</em> field is the equivalent of the "as name" part of the import statement.<br  />
  The default import alias is just "M" to keep things short, but you can use whatever you want.</li>
-<li><b>from file</b> - Specify the module's script file to load. This is just a path to a file, the same as described in the <a class="el" href="md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html#autotoc_md26">Load Script File</a> action above. Some conventions use an ".mjs" file extension to denote modules, but this is not required.</li>
+<li><b>from file</b> - Specify the module's script file to load. This is just a path to a file, the same as described in the Load Script File action above. Some conventions use an ".mjs" file extension to denote modules, but this is not required.</li>
 <li><b>Evaluate expression</b> - Again this is like in the <em>Load Script File</em> action above. The expression gets invoked after the module has been imported. You can use it to call a function from the loaded module, for example. To call a module function the alias must be used here, as shown.<br  />
  <b>Note</b> that modules must explicitly <code>export</code> a function (or variable) before it can be used from outside the module. The same applies here, the function you call in the expression must be marked as exported in the module itself, otherwise you get an undefined value TypeError.</li>
 </ul>
@@ -247,7 +247,7 @@ Update Existing Instance</h2>
 <li><p class="startli"><b>Instance</b> - Any Script instance which has already been created by another Action can be selected from the list. When this action is activated, it will essentially replace the <em>Evaluate Expression</em> of the selected Script instance with the expression specified in this action.</p>
 <p class="startli"><b>Default Shared</b> instance - this is special Script instance which always exists and can evaluate any arbitrary expression in the Shared engine scope. If the Shared engine has scripts or modules loaded, functions from those can also be invoked, as one might expect. This makes it very similar to using the <em>Evaluate Expression</em> action in the Shared engine scope, with the main difference being that it cannot automatically create a State.</p>
 </li>
-<li><b>Evaluate Expression</b> - This is just like the corresponding <em>Evaluate Expression</em> fields in the previous 3 actions, respectively. Meaning that you can just evaluate any arbitrary JavaScript, <em>or</em> use a function from a script file if one has been loaded by a previous <em>Load Script <a class="el" href="class_file.html" title="The File class provides access to... files. Shocking.">File</a></em> action, <em>or</em> invoke a module's function if a module has already been imported (using the same syntax, eg. with the <code>M.</code> alias prefix).</li>
+<li><b>Evaluate Expression</b> - This is just like the corresponding <em>Evaluate Expression</em> fields in the previous 3 actions, respectively. Meaning that you can just evaluate any arbitrary JavaScript, <em>or</em> use a function from a script file if one has been loaded by a previous <em>Load Script <a class="el" href="class_file.html" title="The File class provides access to... files!">File</a></em> action, <em>or</em> invoke a module's function if a module has already been imported (using the same syntax, eg. with the <code>M.</code> alias prefix).</li>
 </ul>
 <p >The "On Hold" field is the same as described in the <em>Evaluate Expression</em> action.</p>
 <hr  />
@@ -311,7 +311,7 @@ Set Held Action Repeat Rate/Delay</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

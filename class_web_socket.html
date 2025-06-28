@@ -1,0 +1,1473 @@
+<!-- HTML header for doxygen 1.9.4-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dynamic Script Engine Plugin for Touch Portal: WebSocket</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md11']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/mpaperno/DSEP4TP" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" fill="url(#gradient)"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    <linearGradient id="gradient" x1="0.5" x2="0.5" y1="0" y2="1">
+        <stop class="first-stop" offset="0%"></stop>
+        <stop class="last-stop" offset="100%"></stop>
+    </linearGradient>
+    </svg>
+</a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
+  <td id="projectalign">
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_web_socket.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Member Objects</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#properties">Properties</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="class_web_socket-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">WebSocket<div class="ingroups"><a class="el" href="group___net_a_p_i.html">Network APIs</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><p >Implementation of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket" target="_blank">WebSocket Web API</a> </p>
+<dl class="section since"><dt>Since</dt><dd>1.3</dd></dl>
+<p><em>WebSockets</em> is a web technology providing full-duplex communications channels over a single TCP connection.</p>
+<p >The WebSocket object provides the API for creating and managing a WebSocket connection to a server, as well as for sending and receiving data on the connection.</p>
+<p >This implementation replicates all of the standard interface and most of the behavior and options, except as noted below. There are also many additions, some of which replicate the Node-js <a href="https://github.com/websockets/ws/blob/master/doc/ws.md" target="_blank">websockets/ws</a> implementation.</p>
+<h3><a class="anchor" id="autotoc_md123"></a>
+Major differences vs. typical standard implementations:</h3>
+<ul>
+<li>The socket is <em>not</em> automatically opened when a <code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> instance is created. <b>You must explicitly call the <code><a class="el" href="class_web_socket.html#a1e62cf41ec252698b295e8422367c5f2" title="Attempts to open a connection to the server.">open()</a></code> method to initiate a connection.</b> Do this <em>after</em> connecting all your event listeners/handlers.</li>
+<li><code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> doesn't throw any exceptions. All errors are reported in the <code>error</code> event.</li>
+<li>HTTP redirects are not supported (<a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> will report an "Unhandled http status code: 301" error). This includes redirects from <code>ws:</code> to <code>wss:</code> protocol URLs.</li>
+<li>The <code>binaryType</code> property only supports "arraybuffer", which is the default. (Note that a new type "fragments" is available, similar to the Node-js version).</li>
+<li>A connected <code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> instance automatically responds to all "ping" messages from the server.</li>
+<li>No websocket protocol "extensions" are supported, notably <em>per-message-deflate</em> (compression of individual messages). (Note that extensions are <em>not</em> the same as "sub-protocols" describing the message exchange format, such as "json" or "xml".)</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md124"></a>
+Example</h3>
+<p >Exchange messages with an "echo" WebSockets server. </p><div class="fragment"><div class="line"><span class="comment">// Create instance and specify the server URL. This public &quot;echo&quot; service sends back whatever we send it.</span></div>
+<div class="line"><span class="keyword">const</span> ws = <span class="keyword">new</span> <a class="code hl_class" href="class_web_socket.html">WebSocket</a>(<span class="stringliteral">&#39;wss://websocket-echo.com/&#39;</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// The &quot;open&quot; event is triggered once a connection to the server is established.</span></div>
+<div class="line">ws.onopen = <span class="keyword">function</span>() {</div>
+<div class="line">  console.log(<span class="stringliteral">&#39;WebSocket client connected at&#39;</span>, <a class="code hl_class" href="class_date.html">Date</a>.now());</div>
+<div class="line">  <span class="comment">// Send a text message with the current timestamp.</span></div>
+<div class="line">  ws.send(<a class="code hl_class" href="class_date.html">Date</a>.now());</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// The &quot;message&quot; event is triggered when a message arrives from the server.</span></div>
+<div class="line"><span class="comment">// In this case it will be the echo reply to the message we sent in the &quot;open&quot; event handler above.</span></div>
+<div class="line">ws.onmessage = <span class="keyword">function</span>(messageEvent) {</div>
+<div class="line">  <span class="comment">// Prints the time difference between current time and the time we sent to the echo server.</span></div>
+<div class="line">  console.log(`Round-trip time: ${<a class="code hl_class" href="class_date.html">Date</a>.now() - messageEvent.data} ms`);</div>
+<div class="line">  <span class="comment">// Once we&#39;re done with the socket, close it.  The code and reason are optional.</span></div>
+<div class="line">  ws.close(1000, <span class="stringliteral">&quot;Finished!&quot;</span>);</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// The &quot;close&quot; event happens when the socket disconnects.</span></div>
+<div class="line">ws.onclose = <span class="keyword">function</span>(closeEvent) {</div>
+<div class="line">  console.log(`Disconnected at ${<a class="code hl_class" href="class_date.html">Date</a>.now()} with code: ${closeEvent.code} reason: ${closeEvent.reason || <span class="stringliteral">&quot;[none given]&quot;</span>}`);</div>
+<div class="line">  <span class="comment">// This is a good place to delete the WebSocket instance __if we&#39;re not going to use it again__.</span></div>
+<div class="line">  ws = <span class="keyword">null</span>;</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Error handler. The argument would be an instance of a generic `Error` type. Just connect to console output for this example.</span></div>
+<div class="line">ws.onerror = console.error;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Start the connection</span></div>
+<div class="line">ws.open();</div>
+<div class="ttc" id="aclass_date_html"><div class="ttname"><a href="class_date.html">Date</a></div><div class="ttdoc">Date prototype extension methods</div></div>
+<div class="ttc" id="aclass_web_socket_html"><div class="ttname"><a href="class_web_socket.html">WebSocket</a></div><div class="ttdoc">Implementation of the WebSocket Web API</div><div class="ttdef"><b>Definition:</b> WebSocket.h:128</div></div>
+</div><!-- fragment --> </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Member Objects</h2></td></tr>
+<tr class="memitem:struct_web_socket_1_1_options"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a></td></tr>
+<tr class="separator:struct_web_socket_1_1_options"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ad425ee7b450be9db57868d524ef0cdf5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5">ReadyState</a> </td></tr>
+<tr class="separator:ad425ee7b450be9db57868d524ef0cdf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4340f6002fe776e340cc2e535016d40"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40">CloseCode</a> </td></tr>
+<tr class="separator:af4340f6002fe776e340cc2e535016d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:aedd715fb51464149449c5db31987a2ec"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#aedd715fb51464149449c5db31987a2ec">binaryType</a></td></tr>
+<tr class="separator:aedd715fb51464149449c5db31987a2ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d4d56d24399760d02853df112e53934"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a7d4d56d24399760d02853df112e53934">bufferedAmount</a></td></tr>
+<tr class="separator:a7d4d56d24399760d02853df112e53934"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c4ae10d1c54658bb5d6c1060fd0e39c"><td class="memItemLeft" align="right" valign="top">qint16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a0c4ae10d1c54658bb5d6c1060fd0e39c">closeCode</a></td></tr>
+<tr class="separator:a0c4ae10d1c54658bb5d6c1060fd0e39c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c524cad388f1878274fa09ec77e4d0a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a1c524cad388f1878274fa09ec77e4d0a">closeReason</a></td></tr>
+<tr class="separator:a1c524cad388f1878274fa09ec77e4d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afeeba043e36801ba0809a68b6e895856"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_socket.html#a5979e493f4fd1b1a41a6e61c7ff9807b">Socket::SocketError</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#afeeba043e36801ba0809a68b6e895856">errorCode</a></td></tr>
+<tr class="separator:afeeba043e36801ba0809a68b6e895856"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4fd75229ea037779249665faae94a40"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#ae4fd75229ea037779249665faae94a40">errorString</a></td></tr>
+<tr class="separator:ae4fd75229ea037779249665faae94a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11a6ffa789525afeeae81e96e0581ad4"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a11a6ffa789525afeeae81e96e0581ad4">extensions</a></td></tr>
+<tr class="separator:a11a6ffa789525afeeae81e96e0581ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fce353e3bf795659bd9536259fd0d24"><td class="memItemLeft" align="right" valign="top">Object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a7fce353e3bf795659bd9536259fd0d24">headers</a></td></tr>
+<tr class="separator:a7fce353e3bf795659bd9536259fd0d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac4d38dfb3c28b4a674bf90ed22e6d2c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#aac4d38dfb3c28b4a674bf90ed22e6d2c">localAddress</a></td></tr>
+<tr class="separator:aac4d38dfb3c28b4a674bf90ed22e6d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa39be6f00f10d19652570a3bd35e1da8"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#aa39be6f00f10d19652570a3bd35e1da8">localPort</a></td></tr>
+<tr class="separator:aa39be6f00f10d19652570a3bd35e1da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f573ea29d1883aca33af476b36bee3c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a7f573ea29d1883aca33af476b36bee3c">peerAddress</a></td></tr>
+<tr class="separator:a7f573ea29d1883aca33af476b36bee3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a955e2cee42926faa5bdefdaa2cc8d045"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a955e2cee42926faa5bdefdaa2cc8d045">peerName</a></td></tr>
+<tr class="separator:a955e2cee42926faa5bdefdaa2cc8d045"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d98ac6741f46df7a2aee9f50ea54174"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a4d98ac6741f46df7a2aee9f50ea54174">peerPort</a></td></tr>
+<tr class="separator:a4d98ac6741f46df7a2aee9f50ea54174"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb72b6e20d3a581dcdede91beb824d9f"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#aeb72b6e20d3a581dcdede91beb824d9f">protocol</a></td></tr>
+<tr class="separator:aeb72b6e20d3a581dcdede91beb824d9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa225156a3bd5507c53b5c6aad1ab7e9a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5">WebSocket::ReadyState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#aa225156a3bd5507c53b5c6aad1ab7e9a">readyState</a></td></tr>
+<tr class="separator:aa225156a3bd5507c53b5c6aad1ab7e9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13b78ed9bfac7e1d7c6ca35411c35c47"><td class="memItemLeft" align="right" valign="top">Array&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a13b78ed9bfac7e1d7c6ca35411c35c47">requestedProtocols</a></td></tr>
+<tr class="separator:a13b78ed9bfac7e1d7c6ca35411c35c47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa03c1ef4c41f36b048cf58d5aade7653"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#aa03c1ef4c41f36b048cf58d5aade7653">url</a></td></tr>
+<tr class="separator:aa03c1ef4c41f36b048cf58d5aade7653"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad880fc4455c253781e8968f2239d56f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#aad880fc4455c253781e8968f2239d56f">version</a></td></tr>
+<tr class="separator:aad880fc4455c253781e8968f2239d56f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a99414f35ba44cb5e2f33cbfff8658bdd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a99414f35ba44cb5e2f33cbfff8658bdd">WebSocket</a> (<a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a> &amp;options=<a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a>())</td></tr>
+<tr class="separator:a99414f35ba44cb5e2f33cbfff8658bdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e10bda5c21b46a386c01ccd7a251fce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a0e10bda5c21b46a386c01ccd7a251fce">WebSocket</a> (string &amp;<a class="el" href="class_web_socket.html#aa03c1ef4c41f36b048cf58d5aade7653">url</a>, <a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a> &amp;options=<a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a>())</td></tr>
+<tr class="separator:a0e10bda5c21b46a386c01ccd7a251fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a448cdc2b7dc5661b8ad981fc7a25fb41"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a448cdc2b7dc5661b8ad981fc7a25fb41">WebSocket</a> (string &amp;<a class="el" href="class_web_socket.html#aa03c1ef4c41f36b048cf58d5aade7653">url</a>, Array&lt; string &gt; &amp;protocols, <a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a> &amp;options=<a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a>())</td></tr>
+<tr class="separator:a448cdc2b7dc5661b8ad981fc7a25fb41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae29e7909cace17559ad86bf8a10ed2f0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#ae29e7909cace17559ad86bf8a10ed2f0">WebSocket</a> (string &amp;<a class="el" href="class_web_socket.html#aa03c1ef4c41f36b048cf58d5aade7653">url</a>, string &amp;<a class="el" href="class_web_socket.html#aeb72b6e20d3a581dcdede91beb824d9f">protocol</a>, <a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a> &amp;options=<a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a>())</td></tr>
+<tr class="separator:ae29e7909cace17559ad86bf8a10ed2f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac54f53dc342019e8db34f4aa581a5792"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#ac54f53dc342019e8db34f4aa581a5792">abort</a> ()</td></tr>
+<tr class="separator:ac54f53dc342019e8db34f4aa581a5792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acff08ccfc622c12c43b6a7ac8c2d05cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#acff08ccfc622c12c43b6a7ac8c2d05cd">close</a> (qint16 <a class="el" href="class_web_socket.html#a0c4ae10d1c54658bb5d6c1060fd0e39c">closeCode</a>=CloseCode::NormalCloseCode, string &amp;reason=&quot;&quot;)</td></tr>
+<tr class="separator:acff08ccfc622c12c43b6a7ac8c2d05cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e62cf41ec252698b295e8422367c5f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a1e62cf41ec252698b295e8422367c5f2">open</a> (Function callback=undefined)</td></tr>
+<tr class="separator:a1e62cf41ec252698b295e8422367c5f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0e13bc740c8b66b92680ff98d5c85f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#aa0e13bc740c8b66b92680ff98d5c85f4">ping</a> (<a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;payload=<a class="el" href="class_array_buffer.html">ArrayBuffer</a>())</td></tr>
+<tr class="separator:aa0e13bc740c8b66b92680ff98d5c85f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaec267b4b075d8f45679ddbace1a7f22"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#aaec267b4b075d8f45679ddbace1a7f22">send</a> (any data,&lt; object|boolean &gt; options=false)</td></tr>
+<tr class="separator:aaec267b4b075d8f45679ddbace1a7f22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a388be2f79e46348ed2b5681fc4b9e767"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a388be2f79e46348ed2b5681fc4b9e767">sendText</a> (any <a class="el" href="class_web_socket.html#a8ca6b3e12dd353427feba19f06116a6b">message</a>)</td></tr>
+<tr class="separator:a388be2f79e46348ed2b5681fc4b9e767"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d8a16061b6c3c358b396820c9029517"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a2d8a16061b6c3c358b396820c9029517">sendBinary</a> (<a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;bytes)</td></tr>
+<tr class="separator:a2d8a16061b6c3c358b396820c9029517"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1c02614cc897d8e962ac37ac4eeb673"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#ae1c02614cc897d8e962ac37ac4eeb673">setOptions</a> (<a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a> &amp;options)</td></tr>
+<tr class="separator:ae1c02614cc897d8e962ac37ac4eeb673"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74a45d2648335936561898c390281a6a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a74a45d2648335936561898c390281a6a">terminate</a> ()</td></tr>
+<tr class="separator:a74a45d2648335936561898c390281a6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Events</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section see"><dt>See also</dt><dd><a class="el" href="group___event_handlers.html">Event Handling</a> for general information about connecting listeners to events. </dd></dl>
+</div></td></tr>
+<tr class="memitem:ac86d5cb16894fb6007e97cfcc3c68e35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#ac86d5cb16894fb6007e97cfcc3c68e35">bytesWritten</a> (int bytes)</td></tr>
+<tr class="separator:ac86d5cb16894fb6007e97cfcc3c68e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d8a07997df035dadf08aa3380fbfafb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a8d8a07997df035dadf08aa3380fbfafb">closed</a> (Object &amp;closeEvent)</td></tr>
+<tr class="separator:a8d8a07997df035dadf08aa3380fbfafb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab43a21c12caa87fc5c757fd5182a1e8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#ab43a21c12caa87fc5c757fd5182a1e8e">error</a> (Error error)</td></tr>
+<tr class="separator:ab43a21c12caa87fc5c757fd5182a1e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7378c84ca1bc8c764c4010d6de36f456"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a7378c84ca1bc8c764c4010d6de36f456">opened</a> ()</td></tr>
+<tr class="separator:a7378c84ca1bc8c764c4010d6de36f456"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ca6b3e12dd353427feba19f06116a6b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a8ca6b3e12dd353427feba19f06116a6b">message</a> (Object &amp;messageEvent)</td></tr>
+<tr class="separator:a8ca6b3e12dd353427feba19f06116a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dba32b4ef1dfa009e8ef53f7c6be6d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a1dba32b4ef1dfa009e8ef53f7c6be6d0">readyStateChanged</a> (<a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5">WebSocket::ReadyState</a> newState)</td></tr>
+<tr class="separator:a1dba32b4ef1dfa009e8ef53f7c6be6d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f412aa5d450bfb62d126e1aafaabe35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html#a7f412aa5d450bfb62d126e1aafaabe35">pong</a> (quint64 elapsedTime, <a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;payload)</td></tr>
+<tr class="separator:a7f412aa5d450bfb62d126e1aafaabe35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="struct_web_socket_1_1_options" id="struct_web_socket_1_1_options"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#struct_web_socket_1_1_options">&#9670;&nbsp;</a></span>WebSocket::Options</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct WebSocket::Options</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p >Options object for use in <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> constructor or <code><a class="el" href="class_web_socket.html#ae1c02614cc897d8e962ac37ac4eeb673" title="Sets options on this WebSocket instance. Note that some options must be set before the socket is init...">setOptions()</a></code> method. All properties are optional. </p>
+</div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="a13693258a12fcb5828fbc1eb6e9e9e66" name="a13693258a12fcb5828fbc1eb6e9e9e66"></a>int</td>
+<td class="fieldname">
+protocolVersion</td>
+<td class="fielddoc">
+WebSockets protocol version to use. Supported versions are: 0, 4, 5, 6, 7, 8, and 13 (default). Note that the protocol version must be set <em>before</em> the initial call to <code><a class="el" href="class_web_socket.html#a1e62cf41ec252698b295e8422367c5f2" title="Attempts to open a connection to the server.">open()</a></code>. </td></tr>
+<tr><td class="fieldtype">
+<a id="af2a5d7d79368a7e5b76c3c994c9db1b5" name="af2a5d7d79368a7e5b76c3c994c9db1b5"></a>string</td>
+<td class="fieldname">
+origin</td>
+<td class="fielddoc">
+Value for the <code>Origin</code> or <code>Sec-WebSocket-Origin</code> header (depending on the <code>protocolVersion</code>). Note that the origin must be set <em>before</em> the initial call to <code><a class="el" href="class_web_socket.html#a1e62cf41ec252698b295e8422367c5f2" title="Attempts to open a connection to the server.">open()</a></code>. To change the origin afterwards, re-create the <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> instance entirely. </td></tr>
+<tr><td class="fieldtype">
+<a id="a018941da51ede602cee20256e5448257" name="a018941da51ede602cee20256e5448257"></a>&lt; string|string[] &gt;</td>
+<td class="fieldname">
+protocols</td>
+<td class="fielddoc">
+A single string or an array of strings representing the sub-protocol(s) that the client would like to use, in order of preference. This is an alternative to setting the protocol(s) in the <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> constructor, and will override any specified there. </td></tr>
+<tr><td class="fieldtype">
+<a id="aedd715fb51464149449c5db31987a2ec" name="aedd715fb51464149449c5db31987a2ec"></a>string</td>
+<td class="fieldname">
+binaryType</td>
+<td class="fielddoc">
+A string indicating the type of binary data being transmitted by the connection. This should be one of "arraybuffer" or "fragments". See <code><a class="el" href="class_web_socket.html#aedd715fb51464149449c5db31987a2ec" title="A string indicating the type of binary data being transmitted by the connection.">WebSocket::binaryType</a></code> property for details. </td></tr>
+<tr><td class="fieldtype">
+<a id="afa39640b2eada63ee85993a64ff88395" name="afa39640b2eada63ee85993a64ff88395"></a>object</td>
+<td class="fieldname">
+headers</td>
+<td class="fielddoc">
+Extra headers to include with the <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> requests. Object of <code>{ header_name: "header_value" }</code> pairs. Sets the <code><a class="el" href="class_web_socket.html#a7fce353e3bf795659bd9536259fd0d24" title="Extra headers to include with the WebSocket requests. Object of `{ header_name: &quot;header_value&quot; } pair...">WebSocket::headers</a></code> property. </td></tr>
+<tr><td class="fieldtype">
+<a id="a937775f0af36bec66392542b45e954ef" name="a937775f0af36bec66392542b45e954ef"></a>int</td>
+<td class="fieldname">
+maxIncomingMessageSize</td>
+<td class="fielddoc">
+Sets the maximum allowed size of an incoming websocket message. If an incoming message exceeds this limit, the peer gets disconnected. </td></tr>
+<tr><td class="fieldtype">
+<a id="a26ee0fe1485d1217642f33708bfd70e8" name="a26ee0fe1485d1217642f33708bfd70e8"></a>int</td>
+<td class="fieldname">
+maxIncomingFrameSize</td>
+<td class="fielddoc">
+Sets the maximum allowed size of an incoming websocket frame. If an incoming frame exceeds this limit, the peer gets disconnected. </td></tr>
+<tr><td class="fieldtype">
+<a id="ad62967b46b0aa948b54e288c937d00fb" name="ad62967b46b0aa948b54e288c937d00fb"></a>int</td>
+<td class="fieldname">
+maxOutgoingFrameSize</td>
+<td class="fielddoc">
+Sets the maximum size of an outgoing websocket frame. Default is 512KB. </td></tr>
+<tr><td class="fieldtype">
+<a id="af733a099817ad7545d995132487e1ddd" name="af733a099817ad7545d995132487e1ddd"></a>int</td>
+<td class="fieldname">
+maxPayload</td>
+<td class="fielddoc">
+The maximum allowed message size in bytes. This is the same as setting <code>maxIncomingMessageSize</code>, <code>maxIncomingFrameSize</code>, and <code>maxOutgoingFrameSize</code> properties all to the same value. If this property is present, the other 3 are ignored. </td></tr>
+<tr><td class="fieldtype">
+<a id="aeb044e8e4d330ba5f5ef2b213fc28fb7" name="aeb044e8e4d330ba5f5ef2b213fc28fb7"></a>int</td>
+<td class="fieldname">
+handshakeTimeout</td>
+<td class="fielddoc">
+Timeout for the initial server connection, in milliseconds. </td></tr>
+<tr><td class="fieldtype">
+<a id="a493b57f443cc38b3d3df9c1e584d9d82" name="a493b57f443cc38b3d3df9c1e584d9d82"></a>int</td>
+<td class="fieldname">
+timeout</td>
+<td class="fielddoc">
+Alias for <code>handshakeTimeout</code>. Timeout for the initial server connection, in milliseconds. </td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="ad425ee7b450be9db57868d524ef0cdf5" name="ad425ee7b450be9db57868d524ef0cdf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad425ee7b450be9db57868d524ef0cdf5">&#9670;&nbsp;</a></span>ReadyState</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5">ReadyState</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Values for the <a class="el" href="class_web_socket.html#aa225156a3bd5507c53b5c6aad1ab7e9a">readyState</a> read-only property. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad425ee7b450be9db57868d524ef0cdf5a06b876bcf37a32fed1dbadf4273827bf" name="ad425ee7b450be9db57868d524ef0cdf5a06b876bcf37a32fed1dbadf4273827bf"></a>CONNECTING&#160;</td><td class="fielddoc"><p >(0) Socket has been created but the connection is not yet open. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad425ee7b450be9db57868d524ef0cdf5a0e0143636c29971736eab47415868eae" name="ad425ee7b450be9db57868d524ef0cdf5a0e0143636c29971736eab47415868eae"></a>OPEN&#160;</td><td class="fielddoc"><p >(1) The connection is open and ready to communicate. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad425ee7b450be9db57868d524ef0cdf5a8ab2cae69d2b33297ab24a5818213f18" name="ad425ee7b450be9db57868d524ef0cdf5a8ab2cae69d2b33297ab24a5818213f18"></a>CLOSING&#160;</td><td class="fielddoc"><p >(2) The connection is in the process of closing. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad425ee7b450be9db57868d524ef0cdf5a929f0327e17604ce9713b2a6117bd603" name="ad425ee7b450be9db57868d524ef0cdf5a929f0327e17604ce9713b2a6117bd603"></a>CLOSED&#160;</td><td class="fielddoc"><p >(3) The connection is closed or couldn't be opened. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="af4340f6002fe776e340cc2e535016d40" name="af4340f6002fe776e340cc2e535016d40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4340f6002fe776e340cc2e535016d40">&#9670;&nbsp;</a></span>CloseCode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40">CloseCode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The close codes supported by WebSockets V13. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40ab26140ce7c446d256729a9769b31a260" name="af4340f6002fe776e340cc2e535016d40ab26140ce7c446d256729a9769b31a260"></a>NormalCloseCode&#160;</td><td class="fielddoc"><p >(1000) Normal closure. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40af915bb7a4a624d9c96cb5663b1ac69b7" name="af4340f6002fe776e340cc2e535016d40af915bb7a4a624d9c96cb5663b1ac69b7"></a>GoingAwayCloseCode&#160;</td><td class="fielddoc"><p >(1001) Going away. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40adce525c730b4593d30f5d55c4e4c7812" name="af4340f6002fe776e340cc2e535016d40adce525c730b4593d30f5d55c4e4c7812"></a>ProtocolErrorCloseCode&#160;</td><td class="fielddoc"><p >(1002) Protocol error. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40a1a41aacc6827c68ad466fa66efbd243d" name="af4340f6002fe776e340cc2e535016d40a1a41aacc6827c68ad466fa66efbd243d"></a>DatatypeNotSupportedCloseCode&#160;</td><td class="fielddoc"><p >(1003) Unsupported data. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40a4c9a6194e405ac0441b0eb3eb20ecbc4" name="af4340f6002fe776e340cc2e535016d40a4c9a6194e405ac0441b0eb3eb20ecbc4"></a>Reserved1004CloseCode&#160;</td><td class="fielddoc"><p >(1004) Reserved. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40a6d0f16295100aaa7f3ef8241831b6e6e" name="af4340f6002fe776e340cc2e535016d40a6d0f16295100aaa7f3ef8241831b6e6e"></a>MissingStatusCodeCloseCode&#160;</td><td class="fielddoc"><p >(1005) No status received. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40ae10317a7cf1fed88bea27bb0d9148df0" name="af4340f6002fe776e340cc2e535016d40ae10317a7cf1fed88bea27bb0d9148df0"></a>AbnormalDisconnectionCloseCode&#160;</td><td class="fielddoc"><p >(1006) Abnormal closure. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40aaf12d5559a6a3bfd7c2284716efa675d" name="af4340f6002fe776e340cc2e535016d40aaf12d5559a6a3bfd7c2284716efa675d"></a>WrongDatatypeCloseCode&#160;</td><td class="fielddoc"><p >(1007) Invalid frame payload data. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40a6b1efb7c346a196507866db155634591" name="af4340f6002fe776e340cc2e535016d40a6b1efb7c346a196507866db155634591"></a>PolicyViolatedCloseCode&#160;</td><td class="fielddoc"><p >(1008) Policy violation. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40afa5942e5f57e75e7050431a13386a96a" name="af4340f6002fe776e340cc2e535016d40afa5942e5f57e75e7050431a13386a96a"></a>TooMuchDataCloseCode&#160;</td><td class="fielddoc"><p >(1009) Message too big. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40a5844c70ca415436a37407e73fe4e52df" name="af4340f6002fe776e340cc2e535016d40a5844c70ca415436a37407e73fe4e52df"></a>MissingExtensionCloseCode&#160;</td><td class="fielddoc"><p >(1010) Mandatory extension missing. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40a0ff43690e58a13fda2c374b6f093e5ed" name="af4340f6002fe776e340cc2e535016d40a0ff43690e58a13fda2c374b6f093e5ed"></a>BadOperationCloseCode&#160;</td><td class="fielddoc"><p >(1011) Internal server error. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af4340f6002fe776e340cc2e535016d40a070c2b8e3f31204054ffaa090182f258" name="af4340f6002fe776e340cc2e535016d40a070c2b8e3f31204054ffaa090182f258"></a>TlsHandshakeFailedCloseCode&#160;</td><td class="fielddoc"><p >(1015) TLS handshake failed. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a99414f35ba44cb5e2f33cbfff8658bdd" name="a99414f35ba44cb5e2f33cbfff8658bdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99414f35ba44cb5e2f33cbfff8658bdd">&#9670;&nbsp;</a></span>WebSocket() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_web_socket.html">WebSocket</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em> = <code><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a>()</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> instance with no <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a>. Further options may be specified in the <code>options</code> argument. </p>
+<p >The <code>url</code> property must be set before trying to open a connection with this instance. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#aa03c1ef4c41f36b048cf58d5aade7653" title="Server URL to connect to. The URL must have one of 2 protocols: ws:// or wss://. When not supplied,...">url</a>, <a class="el" href="class_web_socket.html#struct_web_socket_1_1_options" title="Options object for use in WebSocket constructor or setOptions() method. All properties are optional.">Options</a>, <a class="el" href="class_web_socket.html#ae1c02614cc897d8e962ac37ac4eeb673" title="Sets options on this WebSocket instance. Note that some options must be set before the socket is init...">setOptions</a> </dd></dl>
+
+</div>
+</div>
+<a id="a0e10bda5c21b46a386c01ccd7a251fce" name="a0e10bda5c21b46a386c01ccd7a251fce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e10bda5c21b46a386c01ccd7a251fce">&#9670;&nbsp;</a></span>WebSocket() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_web_socket.html">WebSocket</a> </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em> = <code><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> instance with the given server <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a>. Further options may be specified in the <code>options</code> argument. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#aa03c1ef4c41f36b048cf58d5aade7653" title="Server URL to connect to. The URL must have one of 2 protocols: ws:// or wss://. When not supplied,...">url</a>, <a class="el" href="class_web_socket.html#struct_web_socket_1_1_options" title="Options object for use in WebSocket constructor or setOptions() method. All properties are optional.">Options</a>, <a class="el" href="class_web_socket.html#ae1c02614cc897d8e962ac37ac4eeb673" title="Sets options on this WebSocket instance. Note that some options must be set before the socket is init...">setOptions()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a448cdc2b7dc5661b8ad981fc7a25fb41" name="a448cdc2b7dc5661b8ad981fc7a25fb41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a448cdc2b7dc5661b8ad981fc7a25fb41">&#9670;&nbsp;</a></span>WebSocket() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_web_socket.html">WebSocket</a> </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Array&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>protocols</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em> = <code><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> instance with the given server <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> and an array of sub-protocol names that the client would like to use, in order of preference. Further options may be specified in the <code>options</code> argument. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#aa03c1ef4c41f36b048cf58d5aade7653" title="Server URL to connect to. The URL must have one of 2 protocols: ws:// or wss://. When not supplied,...">url</a>, <a class="el" href="class_web_socket.html#a13b78ed9bfac7e1d7c6ca35411c35c47" title="The list of WebSocket subprotocols to send in the WebSocket handshake.">requestedProtocols</a>, <a class="el" href="class_web_socket.html#aeb72b6e20d3a581dcdede91beb824d9f" title="The WebSocket subprotocol that has been negotiated with the server.">protocol</a>, <a class="el" href="class_web_socket.html#struct_web_socket_1_1_options" title="Options object for use in WebSocket constructor or setOptions() method. All properties are optional.">Options</a>, <a class="el" href="class_web_socket.html#ae1c02614cc897d8e962ac37ac4eeb673" title="Sets options on this WebSocket instance. Note that some options must be set before the socket is init...">setOptions()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae29e7909cace17559ad86bf8a10ed2f0" name="ae29e7909cace17559ad86bf8a10ed2f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae29e7909cace17559ad86bf8a10ed2f0">&#9670;&nbsp;</a></span>WebSocket() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_web_socket.html">WebSocket</a> </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>protocol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em> = <code><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> instance with the given server <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> and a single sub-protocol name. Further options may be specified in the <code>options</code> argument. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#aa03c1ef4c41f36b048cf58d5aade7653" title="Server URL to connect to. The URL must have one of 2 protocols: ws:// or wss://. When not supplied,...">url</a>, <a class="el" href="class_web_socket.html#a13b78ed9bfac7e1d7c6ca35411c35c47" title="The list of WebSocket subprotocols to send in the WebSocket handshake.">requestedProtocols</a>, <a class="el" href="class_web_socket.html#aeb72b6e20d3a581dcdede91beb824d9f" title="The WebSocket subprotocol that has been negotiated with the server.">protocol</a>, <a class="el" href="class_web_socket.html#struct_web_socket_1_1_options" title="Options object for use in WebSocket constructor or setOptions() method. All properties are optional.">Options</a>, <a class="el" href="class_web_socket.html#ae1c02614cc897d8e962ac37ac4eeb673" title="Sets options on this WebSocket instance. Note that some options must be set before the socket is init...">setOptions()</a> </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="aedd715fb51464149449c5db31987a2ec" name="aedd715fb51464149449c5db31987a2ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedd715fb51464149449c5db31987a2ec">&#9670;&nbsp;</a></span>binaryType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string binaryType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A string indicating the type of binary data being transmitted by the connection. </p>
+<p >This should be one of "arraybuffer" or "fragments". Defaults to "arraybuffer".</p>
+<p >Type "fragments" will emit the array of fragments as received from the sender, without copyfull concatenation, is useful for the performance of binary protocols transferring large messages with multiple fragments. The <code><a class="el" href="class_web_socket.html#a8ca6b3e12dd353427feba19f06116a6b" title="Emitted when a message is received. An object with the following properties is passed as an argument ...">message()</a></code> event's <code>isLast</code> property will be <code>false</code> for all fragments of a message except the final one. </p>
+
+</div>
+</div>
+<a id="a7d4d56d24399760d02853df112e53934" name="a7d4d56d24399760d02853df112e53934"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d4d56d24399760d02853df112e53934">&#9670;&nbsp;</a></span>bufferedAmount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int bufferedAmount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of bytes of data that have been queued using calls to <a class="el" href="class_web_socket.html#aaec267b4b075d8f45679ddbace1a7f22" title="Sends a message to the server.">send()</a> but not yet transmitted to the network. </p>
+
+</div>
+</div>
+<a id="a0c4ae10d1c54658bb5d6c1060fd0e39c" name="a0c4ae10d1c54658bb5d6c1060fd0e39c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c4ae10d1c54658bb5d6c1060fd0e39c">&#9670;&nbsp;</a></span>closeCode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qint16 closeCode</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the code indicating why the socket was closed. </p>
+
+</div>
+</div>
+<a id="a1c524cad388f1878274fa09ec77e4d0a" name="a1c524cad388f1878274fa09ec77e4d0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c524cad388f1878274fa09ec77e4d0a">&#9670;&nbsp;</a></span>closeReason</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string closeReason</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the reason why the socket was closed. </p>
+
+</div>
+</div>
+<a id="afeeba043e36801ba0809a68b6e895856" name="afeeba043e36801ba0809a68b6e895856"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afeeba043e36801ba0809a68b6e895856">&#9670;&nbsp;</a></span>errorCode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_socket.html#a5979e493f4fd1b1a41a6e61c7ff9807b">Socket::SocketError</a> errorCode</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the type of error that last occurred, if any, or <code><a class="el" href="namespace_socket.html#a5979e493f4fd1b1a41a6e61c7ff9807ba4738422c3b0b5960e434d815f79032fa" title="(-1) An unidentified error occurred.">Socket.UnknownSocketError</a></code> if no error has been raised. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#ae4fd75229ea037779249665faae94a40" title="Contains a description of the last error that occurred. When no error occurred, this string is empty.">errorString</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae4fd75229ea037779249665faae94a40" name="ae4fd75229ea037779249665faae94a40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4fd75229ea037779249665faae94a40">&#9670;&nbsp;</a></span>errorString</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string errorString</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Contains a description of the last error that occurred. When no error occurred, this string is empty. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#afeeba043e36801ba0809a68b6e895856" title="Returns the type of error that last occurred, if any, or Socket.UnknownSocketError if no error has be...">errorCode</a> </dd></dl>
+
+</div>
+</div>
+<a id="a11a6ffa789525afeeae81e96e0581ad4" name="a11a6ffa789525afeeae81e96e0581ad4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11a6ffa789525afeeae81e96e0581ad4">&#9670;&nbsp;</a></span>extensions</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string extensions</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>WS Extensions are not supported. This read-only property always returns an empty string. </p>
+
+</div>
+</div>
+<a id="a7fce353e3bf795659bd9536259fd0d24" name="a7fce353e3bf795659bd9536259fd0d24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fce353e3bf795659bd9536259fd0d24">&#9670;&nbsp;</a></span>headers</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Object headers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Extra headers to include with the <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> requests. Object of `{ header_name: "header_value" } pairs.<br  />
+Note that setting the headers on an open (connected) socket will not have any effect until the connection is closed and re-opened. </p>
+
+</div>
+</div>
+<a id="aac4d38dfb3c28b4a674bf90ed22e6d2c" name="aac4d38dfb3c28b4a674bf90ed22e6d2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac4d38dfb3c28b4a674bf90ed22e6d2c">&#9670;&nbsp;</a></span>localAddress</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string localAddress</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the local IP address of this socket. </p>
+
+</div>
+</div>
+<a id="aa39be6f00f10d19652570a3bd35e1da8" name="aa39be6f00f10d19652570a3bd35e1da8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa39be6f00f10d19652570a3bd35e1da8">&#9670;&nbsp;</a></span>localPort</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint localPort</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the local IP port of this socket. </p>
+
+</div>
+</div>
+<a id="a7f573ea29d1883aca33af476b36bee3c" name="a7f573ea29d1883aca33af476b36bee3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f573ea29d1883aca33af476b36bee3c">&#9670;&nbsp;</a></span>peerAddress</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string peerAddress</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the peered server IP address. </p>
+
+</div>
+</div>
+<a id="a955e2cee42926faa5bdefdaa2cc8d045" name="a955e2cee42926faa5bdefdaa2cc8d045"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a955e2cee42926faa5bdefdaa2cc8d045">&#9670;&nbsp;</a></span>peerName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string peerName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the peered server host name, if it can be resolved, or the IP address otherwise. </p>
+
+</div>
+</div>
+<a id="a4d98ac6741f46df7a2aee9f50ea54174" name="a4d98ac6741f46df7a2aee9f50ea54174"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d98ac6741f46df7a2aee9f50ea54174">&#9670;&nbsp;</a></span>peerPort</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint peerPort</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the peered server IP port. </p>
+
+</div>
+</div>
+<a id="aeb72b6e20d3a581dcdede91beb824d9f" name="aeb72b6e20d3a581dcdede91beb824d9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb72b6e20d3a581dcdede91beb824d9f">&#9670;&nbsp;</a></span>protocol</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string protocol</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> subprotocol that has been negotiated with the server. </p>
+
+</div>
+</div>
+<a id="aa225156a3bd5507c53b5c6aad1ab7e9a" name="aa225156a3bd5507c53b5c6aad1ab7e9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa225156a3bd5507c53b5c6aad1ab7e9a">&#9670;&nbsp;</a></span>readyState</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5">WebSocket::ReadyState</a> readyState</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Status of the <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a>. </p>
+<p >The state can have the following values: </p><ul>
+<li><code><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5a06b876bcf37a32fed1dbadf4273827bf" title="(0) Socket has been created but the connection is not yet open.">WebSocket.CONNECTING</a></code> (0) </li>
+<li><code><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5a0e0143636c29971736eab47415868eae" title="(1) The connection is open and ready to communicate.">WebSocket.OPEN</a></code> (1) </li>
+<li><code><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5a8ab2cae69d2b33297ab24a5818213f18" title="(2) The connection is in the process of closing.">WebSocket.CLOSING</a></code> (2) </li>
+<li><code><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5a929f0327e17604ce9713b2a6117bd603" title="(3) The connection is closed or couldn&#39;t be opened.">WebSocket.CLOSED</a></code> (3)</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#a1dba32b4ef1dfa009e8ef53f7c6be6d0" title="This event is emitted when the readyState property changes.">readyStateChanged()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a13b78ed9bfac7e1d7c6ca35411c35c47" name="a13b78ed9bfac7e1d7c6ca35411c35c47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13b78ed9bfac7e1d7c6ca35411c35c47">&#9670;&nbsp;</a></span>requestedProtocols</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt;string&gt; requestedProtocols</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The list of <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> subprotocols to send in the <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> handshake. </p>
+
+</div>
+</div>
+<a id="aa03c1ef4c41f36b048cf58d5aade7653" name="aa03c1ef4c41f36b048cf58d5aade7653"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa03c1ef4c41f36b048cf58d5aade7653">&#9670;&nbsp;</a></span>url</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string url</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Server <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> to connect to. The <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> must have one of 2 protocols: <em>ws://</em> or <em>wss://</em>. When not supplied, then <em>ws://</em> is used. If setting this property while a connection is already open then the current connection will first be closed, then re-opened with the new <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a>. </p>
+
+</div>
+</div>
+<a id="aad880fc4455c253781e8968f2239d56f" name="aad880fc4455c253781e8968f2239d56f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad880fc4455c253781e8968f2239d56f">&#9670;&nbsp;</a></span>version</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int version</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the protocol version the socket is currently using. Read-only. Returns <code>-1</code> if version is unknown for some reason. The desired protocol version can be set with <code><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options" title="Options object for use in WebSocket constructor or setOptions() method. All properties are optional.">WebSocket::Options</a></code> either in the constructor or with <code><a class="el" href="class_web_socket.html#ae1c02614cc897d8e962ac37ac4eeb673" title="Sets options on this WebSocket instance. Note that some options must be set before the socket is init...">setOptions()</a></code> method, before the initial call to <code><a class="el" href="class_web_socket.html#a1e62cf41ec252698b295e8422367c5f2" title="Attempts to open a connection to the server.">open()</a></code>. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ac54f53dc342019e8db34f4aa581a5792" name="ac54f53dc342019e8db34f4aa581a5792"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac54f53dc342019e8db34f4aa581a5792">&#9670;&nbsp;</a></span>abort()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void abort </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Immediately terminate any open connection. As opposed to <code><a class="el" href="class_web_socket.html#acff08ccfc622c12c43b6a7ac8c2d05cd" title="Gracefully closes the server connection by initiating a closing handshake. Any pending data is flushe...">close()</a></code>, this method doesn't attempt to process any pending data. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#acff08ccfc622c12c43b6a7ac8c2d05cd" title="Gracefully closes the server connection by initiating a closing handshake. Any pending data is flushe...">close()</a> </dd></dl>
+
+</div>
+</div>
+<a id="acff08ccfc622c12c43b6a7ac8c2d05cd" name="acff08ccfc622c12c43b6a7ac8c2d05cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acff08ccfc622c12c43b6a7ac8c2d05cd">&#9670;&nbsp;</a></span>close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void close </td>
+          <td>(</td>
+          <td class="paramtype">qint16&#160;</td>
+          <td class="paramname"><em>closeCode</em> = <code>CloseCode::NormalCloseCode</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>reason</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gracefully closes the server connection by initiating a closing handshake. Any pending data is flushed before the socket is closed, if possible. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">closeCode</td><td>Optional code to indicate reason for closure. Typically one of the standard protocol codes, as enumerated by <code><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40" title="The close codes supported by WebSockets V13.">WebSocket.CloseCode</a></code>. Default is <code>1000</code>, or "normal." </td></tr>
+    <tr><td class="paramname">reason</td><td>Optional reason text for the closure. Default is an empty string.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#ac54f53dc342019e8db34f4aa581a5792" title="Immediately terminate any open connection. As opposed to close(), this method doesn&#39;t attempt to proc...">abort()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1e62cf41ec252698b295e8422367c5f2" name="a1e62cf41ec252698b295e8422367c5f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e62cf41ec252698b295e8422367c5f2">&#9670;&nbsp;</a></span>open()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void open </td>
+          <td>(</td>
+          <td class="paramtype">Function&#160;</td>
+          <td class="paramname"><em>callback</em> = <code>undefined</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Attempts to open a connection to the server. </p>
+<p >An optional <code>callback</code> Function may be provided as the first argument, which will then be invoked upon a successful connection, as if it was a handler for the usual <code>opened</code> event. The callback handler is always removed after this connection attempt, even if it fails (errors are emitted in the <code>error</code> event as usual). Any successive calls to <code><a class="el" href="class_web_socket.html#a1e62cf41ec252698b295e8422367c5f2" title="Attempts to open a connection to the server.">open()</a></code> would need to specify the callback again. </p>
+
+</div>
+</div>
+<a id="aa0e13bc740c8b66b92680ff98d5c85f4" name="aa0e13bc740c8b66b92680ff98d5c85f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0e13bc740c8b66b92680ff98d5c85f4">&#9670;&nbsp;</a></span>ping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ping </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;&#160;</td>
+          <td class="paramname"><em>payload</em> = <code><a class="el" href="class_array_buffer.html">ArrayBuffer</a>()</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Send a "ping" to the connected server. The server should respond with a "pong" message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">payload</td><td>Optional data to send with the ping. This will be returned by the server in the "pong" message. Default payload value is empty.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#a7f412aa5d450bfb62d126e1aafaabe35" title="Emitted when a &quot;pong&quot; message is received from the current server. Two arguments are passed to event ...">pong()</a> event </dd></dl>
+
+</div>
+</div>
+<a id="aaec267b4b075d8f45679ddbace1a7f22" name="aaec267b4b075d8f45679ddbace1a7f22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaec267b4b075d8f45679ddbace1a7f22">&#9670;&nbsp;</a></span>send()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int send </td>
+          <td>(</td>
+          <td class="paramtype">any&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; object|boolean &gt;&#160;</td>
+          <td class="paramname"><em>options</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sends a message to the server. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>{ primitive | <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a> | TypedArray | DataView } The data to send. </td></tr>
+    <tr><td class="paramname">options</td><td>{ object | boolean } Optional object specifying additional sending options. If the argument is a boolean type, it is interpreted as the <code>binary</code> option described below. <ul>
+<li><code>binary</code> {boolean} Specifies whether <code>data</code> should be sent as a binary or not. Default is auto-detected based on <code>data</code> type (any primitive convertible to a string vs. an ArrayBuffer/typed array/view). </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of bytes written to the socket or <code>-1</code> in case of error.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#a388be2f79e46348ed2b5681fc4b9e767" title="Sends message to the server as UTF-8 text. message values that are not already strings are coerced to...">sendText()</a>, <a class="el" href="class_web_socket.html#a2d8a16061b6c3c358b396820c9029517" title="Sends the contents of bytes array buffer to the server. Returns the number of bytes written to the so...">sendBinary()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a388be2f79e46348ed2b5681fc4b9e767" name="a388be2f79e46348ed2b5681fc4b9e767"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a388be2f79e46348ed2b5681fc4b9e767">&#9670;&nbsp;</a></span>sendText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sendText </td>
+          <td>(</td>
+          <td class="paramtype">any&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sends <em>message</em> to the server as UTF-8 text. <code>message</code> values that are not already strings are coerced to strings. Returns the number of bytes written to the socket or <code>-1</code> in case of error. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#aaec267b4b075d8f45679ddbace1a7f22" title="Sends a message to the server.">send()</a>, <a class="el" href="class_web_socket.html#a2d8a16061b6c3c358b396820c9029517" title="Sends the contents of bytes array buffer to the server. Returns the number of bytes written to the so...">sendBinary()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a2d8a16061b6c3c358b396820c9029517" name="a2d8a16061b6c3c358b396820c9029517"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d8a16061b6c3c358b396820c9029517">&#9670;&nbsp;</a></span>sendBinary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sendBinary </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;&#160;</td>
+          <td class="paramname"><em>bytes</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sends the contents of <em>bytes</em> array buffer to the server. Returns the number of bytes written to the socket or <code>-1</code> in case of error. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#aaec267b4b075d8f45679ddbace1a7f22" title="Sends a message to the server.">send()</a>, <a class="el" href="class_web_socket.html#a388be2f79e46348ed2b5681fc4b9e767" title="Sends message to the server as UTF-8 text. message values that are not already strings are coerced to...">sendText()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae1c02614cc897d8e962ac37ac4eeb673" name="ae1c02614cc897d8e962ac37ac4eeb673"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1c02614cc897d8e962ac37ac4eeb673">&#9670;&nbsp;</a></span>setOptions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setOptions </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options">Options</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets options on this <code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> instance.<br  />
+Note that some options must be set before the socket is initially opened. And some options will not take effect until the <em>next</em> time the socket is opened.<br  />
+The same options can be specified here as in the various constructor overloads. Any options not included in the <code>options</code> argument object are left unchanged. </p>
+
+</div>
+</div>
+<a id="a74a45d2648335936561898c390281a6a" name="a74a45d2648335936561898c390281a6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74a45d2648335936561898c390281a6a">&#9670;&nbsp;</a></span>terminate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void terminate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Alias for <code><a class="el" href="class_web_socket.html#ac54f53dc342019e8db34f4aa581a5792" title="Immediately terminate any open connection. As opposed to close(), this method doesn&#39;t attempt to proc...">abort()</a></code> method. </p>
+
+</div>
+</div>
+<a id="ac86d5cb16894fb6007e97cfcc3c68e35" name="ac86d5cb16894fb6007e97cfcc3c68e35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac86d5cb16894fb6007e97cfcc3c68e35">&#9670;&nbsp;</a></span>bytesWritten()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bytesWritten </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>bytes</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Emitted after data has been sent to the server (with <code><a class="el" href="class_web_socket.html#aaec267b4b075d8f45679ddbace1a7f22" title="Sends a message to the server.">send()</a></code> method). The event listener argument is the number of bytes transferred. </p>
+<p >This event has a corresponding <code>onbytesWritten</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#a7d4d56d24399760d02853df112e53934" title="The number of bytes of data that have been queued using calls to send() but not yet transmitted to th...">bufferedAmount</a> </dd></dl>
+
+</div>
+</div>
+<a id="a8d8a07997df035dadf08aa3380fbfafb" name="a8d8a07997df035dadf08aa3380fbfafb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d8a07997df035dadf08aa3380fbfafb">&#9670;&nbsp;</a></span>closed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void closed </td>
+          <td>(</td>
+          <td class="paramtype">Object &amp;&#160;</td>
+          <td class="paramname"><em>closeEvent</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Emitted when a connection is closed. An object with the following properties is passed as an argument to event handlers: </p>
+<ul>
+<li><code>code</code> {number} - Numeric value indicating the status code explaining why the connection has been closed. This could be one of the standard websocket close codes as enumerated by <code><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40" title="The close codes supported by WebSockets V13.">WebSocket::CloseCode</a></code>.</li>
+<li><code>reason</code> {string} - May contain a textual explanation of the reason for the socket closure.</li>
+<li><code>wasClean</code> {boolean} - A flag indicating if the socket closure was expected/"clean" (<code>true</code>) or not (<code>false</code>).</li>
+</ul>
+<p >This event has a corresponding <code>onclose</code> property to which a single event handler may be assigned (also aliased as <code>onclosed</code>). <br  />
+When connecting to this event with <code>on()</code> or <code>addEventListener()</code> methods, the event name may be specified as either "close" or "closed". </p>
+
+</div>
+</div>
+<a id="ab43a21c12caa87fc5c757fd5182a1e8e" name="ab43a21c12caa87fc5c757fd5182a1e8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab43a21c12caa87fc5c757fd5182a1e8e">&#9670;&nbsp;</a></span>error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void error </td>
+          <td>(</td>
+          <td class="paramtype">Error&#160;</td>
+          <td class="paramname"><em>error</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Emitted when an error occurs. A standard <code>Error</code> type object is passed as an argument to event handlers. </p>
+<ul>
+<li><code>message</code> {string} - This standard property will contain text describing the error.</li>
+<li><code>code</code> {number} - Custom property indicating the corresponding error code. This should be one of the values enumerated by <code><a class="el" href="namespace_socket.html#a5979e493f4fd1b1a41a6e61c7ff9807b" title="Error code value constants. These values correspond to the code property of errors emitted in the err...">Socket.SocketError</a></code>.</li>
+</ul>
+<p >This event has a corresponding <code>onerror</code> property to which a single event handler may be assigned.</p>
+<dl class="section note"><dt>Note</dt><dd>If no listener is assigned to this event then errors will bubble up to the global level and will be reported &amp; logged as an "engine instance" error. </dd></dl>
+
+</div>
+</div>
+<a id="a7378c84ca1bc8c764c4010d6de36f456" name="a7378c84ca1bc8c764c4010d6de36f456"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7378c84ca1bc8c764c4010d6de36f456">&#9670;&nbsp;</a></span>opened()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void opened </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Emitted when a connection is established. This event passes no arguments to the handler. </p>
+<p >This event has a corresponding <code>onopen</code> property to which a single event handler may be assigned (also aliased as <code>onopened</code>). <br  />
+When connecting to this event with <code>on()</code> or <code>addEventListener()</code> methods, the event name may be specified as either "open" or "opened". </p>
+
+</div>
+</div>
+<a id="a8ca6b3e12dd353427feba19f06116a6b" name="a8ca6b3e12dd353427feba19f06116a6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ca6b3e12dd353427feba19f06116a6b">&#9670;&nbsp;</a></span>message()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void message </td>
+          <td>(</td>
+          <td class="paramtype">Object &amp;&#160;</td>
+          <td class="paramname"><em>messageEvent</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Emitted when a message is received. An object with the following properties is passed as an argument to event handlers: </p>
+<ul>
+<li><code>data</code> { <a class="el" href="class_string.html" title="Extends String object.">String</a> | <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a> } - The message content.</li>
+<li><code>isBinary</code> {boolean} - specifies whether the message in <code>data</code> is binary or not.</li>
+<li><code>isLast</code> {boolean} - Used when <code>binaryType</code> is set to "fragments". This will be <code>false</code> for all fragments of a message except the final one.</li>
+</ul>
+<p >This event has a corresponding <code>onmessage</code> property to which a single event handler may be assigned. </p>
+
+</div>
+</div>
+<a id="a1dba32b4ef1dfa009e8ef53f7c6be6d0" name="a1dba32b4ef1dfa009e8ef53f7c6be6d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dba32b4ef1dfa009e8ef53f7c6be6d0">&#9670;&nbsp;</a></span>readyStateChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void readyStateChanged </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5">WebSocket::ReadyState</a>&#160;</td>
+          <td class="paramname"><em>newState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is emitted when the <code>readyState</code> property changes. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newState</td><td>- the current state value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This event has a corresponding <code>onreadyStateChanged</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#aa225156a3bd5507c53b5c6aad1ab7e9a" title="Status of the WebSocket.">readyState</a>, <a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5" title="Values for the readyState read-only property.">WebSocket.ReadyState</a> </dd></dl>
+
+</div>
+</div>
+<a id="a7f412aa5d450bfb62d126e1aafaabe35" name="a7f412aa5d450bfb62d126e1aafaabe35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f412aa5d450bfb62d126e1aafaabe35">&#9670;&nbsp;</a></span>pong()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pong </td>
+          <td>(</td>
+          <td class="paramtype">quint64&#160;</td>
+          <td class="paramname"><em>elapsedTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;&#160;</td>
+          <td class="paramname"><em>payload</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Emitted when a "pong" message is received from the current server. Two arguments are passed to event listeners: </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">elapsedTime</td><td>{number} - Round-trip time in milliseconds. </td></tr>
+    <tr><td class="paramname">payload</td><td>{<a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a>} - Optional payload data that was sent with the original "ping" message.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This event has a corresponding <code>onpong</code> property to which a single event handler may be assigned. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html#aa0e13bc740c8b66b92680ff98d5c85f4" title="Send a &quot;ping&quot; to the connected server. The server should respond with a &quot;pong&quot; message.">ping()</a> </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.4-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_web_socket.html">WebSocket</a></li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
+</body>
+</html>

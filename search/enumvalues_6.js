@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lastexprdefault_0',['LastExprDefault',['../class_d_s_e.html#a5387fcb91b27ac7566ac968e6138cf8ea79f133a532e8cf488d53527321681a4a',1,'DSE']]]
+  ['goingawayclosecode_0',['GoingAwayCloseCode',['../class_web_socket.html#af4340f6002fe776e340cc2e535016d40af915bb7a4a624d9c96cb5663b1ac69b7',1,'WebSocket']]]
 ];

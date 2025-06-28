@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
    </div>
   </td>
  </tr>
@@ -124,202 +124,1325 @@ $(document).ready(function(){initNavTree('class_file.html',''); initResizable();
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Member Objects</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="class_file-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">File<div class="ingroups"><a class="el" href="group___file_system.html">File System</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p >The <a class="el" href="class_file.html" title="The File class provides access to... files. Shocking.">File</a> class provides access to... files. Shocking. </p>
-<p >It has many static functions which are accessed in JS with the <code><a class="el" href="class_file.html" title="The File class provides access to... files. Shocking.">File</a>.</code> qualifier. These are "atomic" operations, eg. read a whole file at once or check if a file name exists, etc. </p><dl class="section note"><dt>Note</dt><dd>On Windows all file path arguments passed to functions in this class can use the <code>/</code> directory separator (recommended) as well as <code>\</code> (which needs to be escaped as "\\"" per JS syntax rules). </dd></dl>
+<div class="textblock"><p >The <a class="el" href="class_file.html" title="The File class provides access to... files!">File</a> class provides access to... files! </p>
+<p >It has many static functions which are accessed in JS with the <code><a class="el" href="class_file.html" title="The File class provides access to... files!">File</a>.</code> qualifier. These are "atomic" operations, eg. read a whole file at once or check if a file name exists, etc.</p>
+<p ><a class="el" href="class_file.html" title="The File class provides access to... files!">File</a> operations such as reading, writing, or copying have synchronous and asynchronous versions. The async versions can return a <code>Promise</code> or invoke a callback function to return results (see the individual methods for details). Async operations run in a separate thread taken from a shared pool.</p>
+<p >As of DSE v1.3, the synchronous versions of <code><a class="el" href="class_file.html#a90655c27a84ae209cc6d60c47e9b1fa4" title="Synchronously copies the from file to a file or directory specified in to.">copy()</a></code>, <code><a class="el" href="class_file.html#a45d28b03b34862e0bdeb824c6b72b3e4" title="Synchronously reads the contents of a file and returns them as a String or ArrayBuffer.">read()</a></code>, <code><a class="el" href="class_file.html#a862c2cd74f45601ae9b895c4368ca4ec" title="Synchronously deletes the file specified by file.">remove()</a></code>, and <code><a class="el" href="class_file.html#a3be2bd612d4e70b48e24f8cc87240d94" title="Synchronously renames (or moves) the oldName file to a file or directory specified in destination.">rename()</a></code> methods will throw exceptions for all errors. Prior to v1.3, exceptions were only thrown when a file couldn't be opened for <code><a class="el" href="class_file.html#a45d28b03b34862e0bdeb824c6b72b3e4" title="Synchronously reads the contents of a file and returns them as a String or ArrayBuffer.">read()</a></code> but otherwise would simply return a status indicator result (eg. <code>true</code>/<code>false</code>). To disable exceptions and revert to the old behavior, set the <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> property to <code>false</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>On all operating systems, including Windows, all file path arguments passed to functions in this class should use the <code>/</code> directory separator.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file_handle.html" title="FileHandle provides an object instance for working with a file in multiple steps (stat,...">FileHandle</a> </dd></dl>
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr class="memitem:a4d140ee4fb966bacd2f38c955072a4c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_array_buffer.html">ArrayBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a4d140ee4fb966bacd2f38c955072a4c6">read</a> (<a class="el" href="class_string.html">String</a> &amp;file, <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS::OpenMode</a> mode=<a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda7b813e976f542da72304156db0479802">FS::O_TEXT</a>)</td></tr>
-<tr class="separator:a4d140ee4fb966bacd2f38c955072a4c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1531ed22351f15393f888fb99647433d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_array_buffer.html">ArrayBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a1531ed22351f15393f888fb99647433d">read</a> (<a class="el" href="class_string.html">String</a> &amp;file, <a class="el" href="class_string.html">String</a> &amp;mode)</td></tr>
-<tr class="separator:a1531ed22351f15393f888fb99647433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22b1c4d4cc1ae85a1d288ec0b2bb8845"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a22b1c4d4cc1ae85a1d288ec0b2bb8845">readText</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a22b1c4d4cc1ae85a1d288ec0b2bb8845"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7901992c21e2cbef3a9d0edfcb0b4e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#af7901992c21e2cbef3a9d0edfcb0b4e5">readLines</a> (<a class="el" href="class_string.html">String</a> &amp;file, int maxLines, int fromLine=0, bool trimTrailingNewlines=true)</td></tr>
-<tr class="separator:af7901992c21e2cbef3a9d0edfcb0b4e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a882dcbde6a66ff0f8c926c5014a6a319"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a882dcbde6a66ff0f8c926c5014a6a319">write</a> (<a class="el" href="class_string.html">String</a> &amp;file, <a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;data, <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS::OpenMode</a> mode=<a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda7b813e976f542da72304156db0479802">FS::O_TEXT</a>)</td></tr>
-<tr class="separator:a882dcbde6a66ff0f8c926c5014a6a319"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a091f9568c28f966a9831ac07da95267a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a091f9568c28f966a9831ac07da95267a">write</a> (<a class="el" href="class_string.html">String</a> &amp;file, <a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;data, <a class="el" href="class_string.html">String</a> &amp;mode)</td></tr>
-<tr class="separator:a091f9568c28f966a9831ac07da95267a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a010aaca24d57b4a0dde604740c49eac5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a010aaca24d57b4a0dde604740c49eac5">remove</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a010aaca24d57b4a0dde604740c49eac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e8f47a7a8f1214b58a3251f6a403d16"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a1e8f47a7a8f1214b58a3251f6a403d16">rename</a> (<a class="el" href="class_string.html">String</a> &amp;from, <a class="el" href="class_string.html">String</a> &amp;to)</td></tr>
-<tr class="separator:a1e8f47a7a8f1214b58a3251f6a403d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b2ba3135d9955302ea751e957a9e598"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a3b2ba3135d9955302ea751e957a9e598">copy</a> (<a class="el" href="class_string.html">String</a> &amp;from, <a class="el" href="class_string.html">String</a> &amp;to)</td></tr>
-<tr class="separator:a3b2ba3135d9955302ea751e957a9e598"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6055daa2eb7e4e6038eba067986cf556"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a6055daa2eb7e4e6038eba067986cf556">link</a> (<a class="el" href="class_string.html">String</a> &amp;fileName, <a class="el" href="class_string.html">String</a> &amp;linkName)</td></tr>
-<tr class="separator:a6055daa2eb7e4e6038eba067986cf556"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr class="memitem:a922e01e478d30dcdb75603e1e7fa621c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_file_info.html">FileInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a922e01e478d30dcdb75603e1e7fa621c">info</a> (<a class="el" href="class_string.html">String</a> &amp;<a class="el" href="class_file.html#afe813edb882f61f036f23051faf6bdcf">path</a>)</td></tr>
-<tr class="separator:a922e01e478d30dcdb75603e1e7fa621c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f3550bae0d274d91d8cba4fa784feae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a5f3550bae0d274d91d8cba4fa784feae">exists</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a5f3550bae0d274d91d8cba4fa784feae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07ee9c58bafcd0c700a7cf611473f268"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a07ee9c58bafcd0c700a7cf611473f268">isFile</a> (<a class="el" href="class_string.html">String</a> &amp;<a class="el" href="class_file.html#afe813edb882f61f036f23051faf6bdcf">path</a>)</td></tr>
-<tr class="separator:a07ee9c58bafcd0c700a7cf611473f268"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a402662f873efee3be3e08481865d84f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a402662f873efee3be3e08481865d84f6">isDir</a> (<a class="el" href="class_string.html">String</a> &amp;<a class="el" href="class_file.html#afe813edb882f61f036f23051faf6bdcf">path</a>)</td></tr>
-<tr class="separator:a402662f873efee3be3e08481865d84f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a012b3ad7082c5e1ddcc49bb383fb704e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a012b3ad7082c5e1ddcc49bb383fb704e">isReadable</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a012b3ad7082c5e1ddcc49bb383fb704e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74faade1110a2a23b37227d77df06850"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a74faade1110a2a23b37227d77df06850">isWritable</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a74faade1110a2a23b37227d77df06850"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e5aceec7e2ec5700398bdf33273e73b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a7e5aceec7e2ec5700398bdf33273e73b">isAbs</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a7e5aceec7e2ec5700398bdf33273e73b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaef68e8964b55fb1db4feb272f0a60a3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#aaef68e8964b55fb1db4feb272f0a60a3">isExec</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:aaef68e8964b55fb1db4feb272f0a60a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr class="memitem:afe813edb882f61f036f23051faf6bdcf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#afe813edb882f61f036f23051faf6bdcf">path</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:afe813edb882f61f036f23051faf6bdcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e679ab466d407a9b3957629c871c843"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a1e679ab466d407a9b3957629c871c843">name</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a1e679ab466d407a9b3957629c871c843"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83d2d7818d8c7d6d8a1f4ddb76a30438"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a83d2d7818d8c7d6d8a1f4ddb76a30438">filePath</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a83d2d7818d8c7d6d8a1f4ddb76a30438"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc3ac9e41ee3051b67a15402f4584825"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#acc3ac9e41ee3051b67a15402f4584825">baseName</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:acc3ac9e41ee3051b67a15402f4584825"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a183a41449c9daa7389f1c4856f358599"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a183a41449c9daa7389f1c4856f358599">fullBaseName</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a183a41449c9daa7389f1c4856f358599"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0ce737cabcf2df49881ae64ce1b155e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#aa0ce737cabcf2df49881ae64ce1b155e">suffix</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:aa0ce737cabcf2df49881ae64ce1b155e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ea33e588f05d49ef359cdcefb333216"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a1ea33e588f05d49ef359cdcefb333216">fullSuffix</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a1ea33e588f05d49ef359cdcefb333216"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90f0754f984af1fda4617dea078c6c30"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a90f0754f984af1fda4617dea078c6c30">absPath</a> (<a class="el" href="class_string.html">String</a> &amp;<a class="el" href="class_file.html#afe813edb882f61f036f23051faf6bdcf">path</a>)</td></tr>
-<tr class="separator:a90f0754f984af1fda4617dea078c6c30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18773c9521930e0f190fe819ab9f8219"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a18773c9521930e0f190fe819ab9f8219">absFilePath</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a18773c9521930e0f190fe819ab9f8219"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae011a5a2595d840d2e455973951d2f28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#ae011a5a2595d840d2e455973951d2f28">normPath</a> (<a class="el" href="class_string.html">String</a> &amp;<a class="el" href="class_file.html#afe813edb882f61f036f23051faf6bdcf">path</a>)</td></tr>
-<tr class="separator:ae011a5a2595d840d2e455973951d2f28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8aec2fe724ce8d4e3192ae4e05de9db2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a8aec2fe724ce8d4e3192ae4e05de9db2">normFilePath</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a8aec2fe724ce8d4e3192ae4e05de9db2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr class="memitem:af66ad0f9ec292cb8dd9ce4fb754e774a"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#af66ad0f9ec292cb8dd9ce4fb754e774a">size</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:af66ad0f9ec292cb8dd9ce4fb754e774a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac21f502ea823d9bcd5bfa5342a4cec78"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#ac21f502ea823d9bcd5bfa5342a4cec78">btime</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:ac21f502ea823d9bcd5bfa5342a4cec78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26099edec4cfd59632376ca7a3265e84"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a26099edec4cfd59632376ca7a3265e84">mtime</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a26099edec4cfd59632376ca7a3265e84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad08885745e364306c0d6c88f56766e01"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#ad08885745e364306c0d6c88f56766e01">atime</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:ad08885745e364306c0d6c88f56766e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7d36d329db0846f619e2592cf325b34"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#ab7d36d329db0846f619e2592cf325b34">ctime</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:ab7d36d329db0846f619e2592cf325b34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19d38d78cec3629b75aebaacff4b2b45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48">FS::Permissions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a19d38d78cec3629b75aebaacff4b2b45">permissions</a> (<a class="el" href="class_string.html">String</a> &amp;file)</td></tr>
-<tr class="separator:a19d38d78cec3629b75aebaacff4b2b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a147dcf58dc2418ffdc21052be843a6e1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a147dcf58dc2418ffdc21052be843a6e1">setPermissions</a> (<a class="el" href="class_string.html">String</a> &amp;file, <a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48">FS::Permissions</a> p)</td></tr>
-<tr class="separator:a147dcf58dc2418ffdc21052be843a6e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Member Objects</h2></td></tr>
+<tr class="memitem:struct_file_1_1_options"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#struct_file_1_1_options">Options</a></td></tr>
+<tr class="separator:struct_file_1_1_options"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:adfcafefcb91077b1fe634f8393db9c78"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a></td></tr>
+<tr class="separator:adfcafefcb91077b1fe634f8393db9c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr><td colspan="2"><div class="groupHeader">File Information</div></td></tr>
+<tr class="memitem:ad3ed384e419a4f7317433b0e13189e7f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_file_info.html">FileInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#ad3ed384e419a4f7317433b0e13189e7f">info</a> (string &amp;<a class="el" href="class_file.html#ad37a50591d00f62ce0877976010f4d19">path</a>)</td></tr>
+<tr class="separator:ad3ed384e419a4f7317433b0e13189e7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f84dc5dfaeabc1f1ab3989aee71ed6d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a6f84dc5dfaeabc1f1ab3989aee71ed6d">exists</a> (string &amp;file)</td></tr>
+<tr class="separator:a6f84dc5dfaeabc1f1ab3989aee71ed6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18f645763bfae56a70c7624833863b55"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a18f645763bfae56a70c7624833863b55">isFile</a> (string &amp;<a class="el" href="class_file.html#ad37a50591d00f62ce0877976010f4d19">path</a>)</td></tr>
+<tr class="separator:a18f645763bfae56a70c7624833863b55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a391e9dfea962836d922ee488b75d6c58"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a391e9dfea962836d922ee488b75d6c58">isDir</a> (string &amp;<a class="el" href="class_file.html#ad37a50591d00f62ce0877976010f4d19">path</a>)</td></tr>
+<tr class="separator:a391e9dfea962836d922ee488b75d6c58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6910344def72514e929c6787fb24d765"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a6910344def72514e929c6787fb24d765">isReadable</a> (string &amp;file)</td></tr>
+<tr class="separator:a6910344def72514e929c6787fb24d765"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e32c0a55413ef4a490844d2298a246b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a6e32c0a55413ef4a490844d2298a246b">isWritable</a> (string &amp;file)</td></tr>
+<tr class="separator:a6e32c0a55413ef4a490844d2298a246b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad34d77865d8ca31c52d64bf87516850b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#ad34d77865d8ca31c52d64bf87516850b">isAbs</a> (string &amp;file)</td></tr>
+<tr class="separator:ad34d77865d8ca31c52d64bf87516850b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa75258b1c3d7bdbc7d08f01f134fafff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#aa75258b1c3d7bdbc7d08f01f134fafff">isExec</a> (string &amp;file)</td></tr>
+<tr class="separator:aa75258b1c3d7bdbc7d08f01f134fafff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7eb1ce11f85a540444aef9f51520997f"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a7eb1ce11f85a540444aef9f51520997f">size</a> (string &amp;file)</td></tr>
+<tr class="separator:a7eb1ce11f85a540444aef9f51520997f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf96670365d498fd70bec6c8510d7960"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48">FS::Permissions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#abf96670365d498fd70bec6c8510d7960">permissions</a> (string &amp;file)</td></tr>
+<tr class="separator:abf96670365d498fd70bec6c8510d7960"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a322c29f081594d328ba00cb88b941873"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a322c29f081594d328ba00cb88b941873">setPermissions</a> (string &amp;file, <a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48">FS::Permissions</a> p)</td></tr>
+<tr class="separator:a322c29f081594d328ba00cb88b941873"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Path Information</div></td></tr>
+<tr class="memitem:ad9a44801414788f25e264a4dc83234a9"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#ad9a44801414788f25e264a4dc83234a9">absPath</a> (string &amp;<a class="el" href="class_file.html#ad37a50591d00f62ce0877976010f4d19">path</a>)</td></tr>
+<tr class="separator:ad9a44801414788f25e264a4dc83234a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cfab06c71b857487db722f8a677c60f"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a7cfab06c71b857487db722f8a677c60f">absFilePath</a> (string &amp;file)</td></tr>
+<tr class="separator:a7cfab06c71b857487db722f8a677c60f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac36238a6664a5e61aeed57f46012b1b1"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#ac36238a6664a5e61aeed57f46012b1b1">baseName</a> (string &amp;file)</td></tr>
+<tr class="separator:ac36238a6664a5e61aeed57f46012b1b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0969d28ccceaaee66756a9a0312b68f"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#ac0969d28ccceaaee66756a9a0312b68f">filePath</a> (string &amp;file)</td></tr>
+<tr class="separator:ac0969d28ccceaaee66756a9a0312b68f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90b09632f8ba5716d399ed77cc70e158"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a90b09632f8ba5716d399ed77cc70e158">fullBaseName</a> (string &amp;file)</td></tr>
+<tr class="separator:a90b09632f8ba5716d399ed77cc70e158"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a634679b8e96dc980b7378b7bfc442a2b"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a634679b8e96dc980b7378b7bfc442a2b">fullSuffix</a> (string &amp;file)</td></tr>
+<tr class="separator:a634679b8e96dc980b7378b7bfc442a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2607728007dd72745c7c332950646bfd"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a2607728007dd72745c7c332950646bfd">name</a> (string &amp;file)</td></tr>
+<tr class="separator:a2607728007dd72745c7c332950646bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85ab9b5ebeaa332667e85e58d9396883"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a85ab9b5ebeaa332667e85e58d9396883">normPath</a> (string &amp;<a class="el" href="class_file.html#ad37a50591d00f62ce0877976010f4d19">path</a>)</td></tr>
+<tr class="separator:a85ab9b5ebeaa332667e85e58d9396883"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a642f76573d9d07ed7a41c19aa6cf0e8c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a642f76573d9d07ed7a41c19aa6cf0e8c">normFilePath</a> (string &amp;file)</td></tr>
+<tr class="separator:a642f76573d9d07ed7a41c19aa6cf0e8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad37a50591d00f62ce0877976010f4d19"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#ad37a50591d00f62ce0877976010f4d19">path</a> (string &amp;file)</td></tr>
+<tr class="separator:ad37a50591d00f62ce0877976010f4d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7993471e6def0b11f32248cbbad1217"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#af7993471e6def0b11f32248cbbad1217">suffix</a> (string &amp;file)</td></tr>
+<tr class="separator:af7993471e6def0b11f32248cbbad1217"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Timestamps</div></td></tr>
+<tr class="memitem:a08400507894207938743b0f812a18a17"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a08400507894207938743b0f812a18a17">atime</a> (string &amp;file)</td></tr>
+<tr class="separator:a08400507894207938743b0f812a18a17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09b46822af82f91f131de87ece3c9fed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a09b46822af82f91f131de87ece3c9fed">btime</a> (string &amp;file)</td></tr>
+<tr class="separator:a09b46822af82f91f131de87ece3c9fed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46333cd52f38f985e8df49af635c1749"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a46333cd52f38f985e8df49af635c1749">ctime</a> (string &amp;file)</td></tr>
+<tr class="separator:a46333cd52f38f985e8df49af635c1749"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a951c22a247bcb6ca4aa1a2051defd853"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_date.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a951c22a247bcb6ca4aa1a2051defd853">mtime</a> (string &amp;file)</td></tr>
+<tr class="separator:a951c22a247bcb6ca4aa1a2051defd853"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">File Actions</div></td></tr>
+<tr class="memitem:a90655c27a84ae209cc6d60c47e9b1fa4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a90655c27a84ae209cc6d60c47e9b1fa4">copy</a> (string from, string to, <a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf">FS.OverwriteMode</a> overwriteMode=<a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cfaa6ba04023dab24cb76ba105ff3e659a9">FS.OW_EXCL</a>)</td></tr>
+<tr class="separator:a90655c27a84ae209cc6d60c47e9b1fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e4adf46ca5d0922ba35699cf71ff566"><td class="memItemLeft" align="right" valign="top">&lt; Promise|void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a9e4adf46ca5d0922ba35699cf71ff566">copyAsync</a> (string from, string to,&lt; <a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf">FS.OverwriteMode</a>|Function &gt; mode_or_callback,&lt; Function|undefined &gt; callback)</td></tr>
+<tr class="separator:a9e4adf46ca5d0922ba35699cf71ff566"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbd2d8ca557370a49eb1a40d97ca5055"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#abbd2d8ca557370a49eb1a40d97ca5055">link</a> (string fileName, string linkName)</td></tr>
+<tr class="separator:abbd2d8ca557370a49eb1a40d97ca5055"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45d28b03b34862e0bdeb824c6b72b3e4"><td class="memItemLeft" align="right" valign="top">&lt; <a class="el" href="class_array_buffer.html">ArrayBuffer</a>|<a class="el" href="class_string.html">String</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a45d28b03b34862e0bdeb824c6b72b3e4">read</a> (string file,&lt; <a class="el" href="class_file.html#struct_file_1_1_options">Options</a>|string|<a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS.OpenMode</a>|undefined &gt; options)</td></tr>
+<tr class="separator:a45d28b03b34862e0bdeb824c6b72b3e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29a477885c40c602f2836ef4254a13ca"><td class="memItemLeft" align="right" valign="top">&lt; Promise|void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a29a477885c40c602f2836ef4254a13ca">readAsync</a> (string file,&lt; <a class="el" href="class_file.html#struct_file_1_1_options">Options</a>|string|<a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS.OpenMode</a>|Function|undefined &gt; options,&lt; Function|undefined &gt; callback)</td></tr>
+<tr class="separator:a29a477885c40c602f2836ef4254a13ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d93042851c9b6adc2ab07fe8809d4ae"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a9d93042851c9b6adc2ab07fe8809d4ae">readLines</a> (string file, int maxLines, int fromLine=0, bool trimTrailingNewlines=true)</td></tr>
+<tr class="separator:a9d93042851c9b6adc2ab07fe8809d4ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf1e0a9ac145494d90dde956075d2a19"><td class="memItemLeft" align="right" valign="top">&lt; Promise|void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#aaf1e0a9ac145494d90dde956075d2a19">readLinesAsync</a> (string file, int maxLines,&lt; int|undefined &gt; fromLine=0,&lt; boolean|undefined &gt; trimTrailingNewlines,&lt; Function|undefined &gt; callback)</td></tr>
+<tr class="separator:aaf1e0a9ac145494d90dde956075d2a19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab32c3b3023c4927b26ce2e09590ed3f4"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#ab32c3b3023c4927b26ce2e09590ed3f4">readText</a> (string file)</td></tr>
+<tr class="separator:ab32c3b3023c4927b26ce2e09590ed3f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a862c2cd74f45601ae9b895c4368ca4ec"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a862c2cd74f45601ae9b895c4368ca4ec">remove</a> (string file)</td></tr>
+<tr class="separator:a862c2cd74f45601ae9b895c4368ca4ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49d8be9ec51a5009811c94f471dc2943"><td class="memItemLeft" align="right" valign="top">&lt; Promise|void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a49d8be9ec51a5009811c94f471dc2943">removeAsync</a> (string file,&lt; Function|undefined &gt; callback)</td></tr>
+<tr class="separator:a49d8be9ec51a5009811c94f471dc2943"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3be2bd612d4e70b48e24f8cc87240d94"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a3be2bd612d4e70b48e24f8cc87240d94">rename</a> (string oldName, string destination, <a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf">FS.OverwriteMode</a> overwriteMode=<a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cfaa6ba04023dab24cb76ba105ff3e659a9">FS.OW_EXCL</a>)</td></tr>
+<tr class="separator:a3be2bd612d4e70b48e24f8cc87240d94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69fed1c86fcb6e1667993d8034481bcf"><td class="memItemLeft" align="right" valign="top">&lt; Promise|void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a69fed1c86fcb6e1667993d8034481bcf">renameAsync</a> (string oldName, string destination,&lt; <a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf">FS.OverwriteMode</a>|Function &gt; mode_or_callback,&lt; Function|undefined &gt; callback)</td></tr>
+<tr class="separator:a69fed1c86fcb6e1667993d8034481bcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62908e467f503b988d88a12841767868"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a62908e467f503b988d88a12841767868">write</a> (string file,&lt; string|<a class="el" href="class_array_buffer.html">ArrayBuffer</a> &gt; data,&lt; <a class="el" href="class_file.html#struct_file_1_1_options">Options</a>|string|<a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS.OpenMode</a>|undefined &gt; options)</td></tr>
+<tr class="separator:a62908e467f503b988d88a12841767868"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b72060b9136700e5a0fb0c2b69aada0"><td class="memItemLeft" align="right" valign="top">&lt; Promise&lt; int &gt;|void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_file.html#a7b72060b9136700e5a0fb0c2b69aada0">writeAsync</a> (string file,&lt; string|<a class="el" href="class_array_buffer.html">ArrayBuffer</a> &gt; data,&lt; <a class="el" href="class_file.html#struct_file_1_1_options">Options</a>|string|<a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS.OpenMode</a>|Function|undefined &gt; options,&lt; Function|undefined &gt; callback)</td></tr>
+<tr class="separator:a7b72060b9136700e5a0fb0c2b69aada0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="struct_file_1_1_options" id="struct_file_1_1_options"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#struct_file_1_1_options">&#9670;&nbsp;</a></span>File::Options</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct File::Options</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p >Options object which can be passed as an argument to various file reading and writing methods. All properties are optional. </p>
+</div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="a3ff79c439d7a64caed833c65520c974a" name="a3ff79c439d7a64caed833c65520c974a"></a>int</td>
+<td class="fieldname">
+chunkSize</td>
+<td class="fielddoc">
+Some file operations, like <code><a class="el" href="class_file.html#a45d28b03b34862e0bdeb824c6b72b3e4" title="Synchronously reads the contents of a file and returns them as a String or ArrayBuffer.">read()</a></code>/<code><a class="el" href="class_file.html#a29a477885c40c602f2836ef4254a13ca" title="Read the contents of a file asynchronously using a callback or Promise to handle the results.">readAsync()</a></code> and <code><a class="el" href="class_file.html#a62908e467f503b988d88a12841767868" title="Synchronously writes data to file and returns the number of bytes written.">write()</a></code>/<code><a class="el" href="class_file.html#a7b72060b9136700e5a0fb0c2b69aada0" title="Asynchronously writes data to file.">writeAsync()</a></code>, will operate on "byte chunks" of a file at a time. <p >By default the system tries to determine an optimal chunk size (the block size of the partition being accessed, eg. typically 4KB on an NTFS volume), but can be overridden with this setting.</p>
+<p >This may especially be relevant if wanting to abort an operatin in progress (with <code>signal</code>, see below), since system file operations can only be aborted between reads/writes of each chunk. For example it is essentially not possible to abort reading a file which is smaller than one chunk size.</p>
+<p >This value is set in bytes. </p>
+</td></tr>
+<tr><td class="fieldtype">
+<a id="ab2f79dbd756dfca5b760471b315b0fb6" name="ab2f79dbd756dfca5b760471b315b0fb6"></a>string</td>
+<td class="fieldname">
+encoding</td>
+<td class="fielddoc">
+Specify the name of a text encoding type to use for reading or writing text files. <p >Specifying an encoding when <em>reading</em> files will always return the results as a UTF-8 string (even if the file <code>mode</code> flag option specifies binary).<br  />
+When <em>writing</em> files, specifying an encoding will implicitly convert the input data to a string and write it as text.</p>
+<p >Note that text files in UTF-8 and compatible formats generally don't require any special handling, the default behavior when reading/writing in text mode is usually sufficient.<br  />
+Some of the other options documented here are only relevant when an encoding is specified.</p>
+<p ><b>Supported encoding types</b> (dashes, spaces and case in names are ignored, eg. <code>"utf16le"</code> == <code>"UTF-16LE"</code> == <code>"utf 16 LE"</code> == etc..):</p><ul>
+<li><code>auto</code> - Automatically detrmine the encoding. When <em>reading</em> files this can be used to force a <a class="el" href="class_string.html" title="Extends String object.">String</a> return type w/out specifying an explicit encoding. When <em>writing</em> files this sets the encoding to UTF-8 on all platforms.</li>
+<li><code>utf-8</code> - Convert to/from UTF-8 format.</li>
+<li><code>utf-16</code> - Convert to or from UTF-16. When <em>reading</em>, the byte order will get automatically detected by a leading byte order mark. If none exists, or when <em>writing</em>, the system byte order will be assumed.</li>
+<li><code>utf-16le</code> - Convert to or from little-endian UTF-16.</li>
+<li><code>utf-16be</code> - Convert to or from big-endian UTF-16.</li>
+<li><code>utf-32</code> - Convert to or from UTF-32. When <em>reading</em>, the byte order will get automatically detected by a leading byte order mark. If none exists, or when <em>writing</em>, the system byte order will be assumed.</li>
+<li><code>utf-32le</code> - Convert to or from little-endian UTF-32.</li>
+<li><code>utf-32be</code> - Convert to or from big-endian UTF-32.</li>
+<li><code>latin1</code>/<code>ISO-8859-1</code> - Use 8-bit ASCII character set</li>
+<li><code>locale</code> - Uses the default system encoding. On Windows, this converts to and from the locale code page. For Unix based systems this is always assumed to be UTF-8. </li>
+</ul>
+</td></tr>
+<tr><td class="fieldtype">
+<a id="af736b4e0270d26dfe97b4e9fc1d5bb3c" name="af736b4e0270d26dfe97b4e9fc1d5bb3c"></a>&lt; <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS.OpenMode</a>|string &gt;</td>
+<td class="fieldname">
+mode</td>
+<td class="fielddoc">
+A string or enumeration corresponding to the <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd" title="The FS.OpenMode type stores an OR combination of FS.OpenModeFlag values.">FS.OpenMode</a> flag value(s) to use when opening files. For most file operations the default is usually <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda7b813e976f542da72304156db0479802" title="(&quot;t&quot;) When reading, the end-of-line terminators are translated to &#39; &#39;.">FS.O_TEXT</a></code>. </td></tr>
+<tr><td class="fieldtype">
+<a id="aead108ef6bfe9932e71eeb32b9b2fcd2" name="aead108ef6bfe9932e71eeb32b9b2fcd2"></a>AbortSignal</td>
+<td class="fieldname">
+signal</td>
+<td class="fielddoc">
+An <code>AbortSignal</code> obtained from an <code>AbortController</code> may be used to cancel long-running asynchronous file operations. <p >Note that cancellation happens on a "best efforts" basis since we cannot interrupt the system-level operations (see <code>chunkSize</code> description). It may be possible the file operation(s) complete before an abort request is detected, etc. </p>
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a5e9f35d92b3903461e9c2da2507a613e" name="a5e9f35d92b3903461e9c2da2507a613e"></a>int</td>
+<td class="fieldname">
+readMaxSize</td>
+<td class="fielddoc">
+When reading files, sets the maximum number of bytes to read. Default is to read the whole file.<br  />
+Ignored when writing files. </td></tr>
+<tr><td class="fieldtype">
+<a id="a402760bece96fd51dbcd304991d42a45" name="a402760bece96fd51dbcd304991d42a45"></a>boolean</td>
+<td class="fieldname">
+writeBOM</td>
+<td class="fielddoc">
+When writing text files with a UTF-type <code>encoding</code> specified, this controls if a byte order mark is generated in the output. <p >If not specified, by default a BOM is written for UTF-16 and UTF-32 encodings, but not for UTF-8. To add a BOM to UTF-8 text files, set this option to <code>true</code>.</p>
+<p >Ignored when reading files or when an <code>encoding</code> isn't specified. </p>
+</td></tr>
+<tr><td class="fieldtype">
+<a id="adb9d38aa27fe639725f7a7bb2c282d4d" name="adb9d38aa27fe639725f7a7bb2c282d4d"></a>boolean</td>
+<td class="fieldname">
+writeCR</td>
+<td class="fielddoc">
+When writing text files with an <code>encoding</code> specified, this sets if the line endings should include the Carriage Return character (<code>\r\n</code>) or not (<code>\n</code>). <p >By default this is <code>true</code> on Windows and <code>false</code> otherwise.</p>
+<p >Ignored when reading files or when an <code>encoding</code> isn't specified. </p>
+</td></tr>
+<tr><td class="fieldtype">
+<a id="ad4baaebc41e61f352639230c0e7529a9" name="ad4baaebc41e61f352639230c0e7529a9"></a>&lt; boolean|string &gt;</td>
+<td class="fieldname">
+writeSafe</td>
+<td class="fielddoc">
+When writing files, this option can enable using a temporary intermediate file as a fallback mechanism. <p >When enabled, the data is written to a temporary file first. If that completes without errors, then the temporary file is moved to the actual requested location (possibly overwriting any existing file). If writing the temporary file fails for any reason, it is automatically removed afterwards.</p>
+<p >This ensures that no data in the original file is lost in case an error happens while writing, and no partially-written file is ever present at the final location.</p>
+<p >However, when overwriting existing files, this requires that<br  />
+<b>a)</b> The current application has permission to create new files in the same folder as the destination file, and<br  />
+<b>b)</b> that there is enough space on the partition to accommodate a temporary copy.<br  />
+By default, either of these issues will cause the write operation to fail, but a fallback mode can be enabled which will then try to overwrite the original file directly.</p>
+<p >This option can have one of 3 values:</p><ul>
+<li><code>false</code> &lt;boolean&gt; - Disable the feature (default).</li>
+<li><code>true</code> &lt;boolean&gt;- Enable the feature and fail if temporary file couldn't be created.</li>
+<li><code>"fallback"</code> &lt;string&gt; - Enable the feature but fall back to direct writing if creating a temporary file fails.</li>
+</ul>
+<p >Ignored when reading files. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="adfcafefcb91077b1fe634f8393db9c78" name="adfcafefcb91077b1fe634f8393db9c78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfcafefcb91077b1fe634f8393db9c78">&#9670;&nbsp;</a></span>throwExceptions</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool throwExceptions</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The <code>throwExceptions</code> global property controls if exceptions are thrown for synchronous file operations <code><a class="el" href="class_file.html#a90655c27a84ae209cc6d60c47e9b1fa4" title="Synchronously copies the from file to a file or directory specified in to.">copy()</a></code>, <code><a class="el" href="class_file.html#a45d28b03b34862e0bdeb824c6b72b3e4" title="Synchronously reads the contents of a file and returns them as a String or ArrayBuffer.">read()</a></code>, <code><a class="el" href="class_file.html#a862c2cd74f45601ae9b895c4368ca4ec" title="Synchronously deletes the file specified by file.">remove()</a></code>, <code><a class="el" href="class_file.html#a3be2bd612d4e70b48e24f8cc87240d94" title="Synchronously renames (or moves) the oldName file to a file or directory specified in destination.">rename()</a></code>, and <code><a class="el" href="class_file.html#a62908e467f503b988d88a12841767868" title="Synchronously writes data to file and returns the number of bytes written.">write()</a></code>. </p>
+<p >If set to <code>true</code> (the default), these functions will throw exceptions when any error is encountered (either with argument validation or from the file system itself).</p>
+<p >If set to <code>false</code> then these functions will not throw but instead return some value indicating failure, as per their documentation (eg. <code>false</code> or <code>-1</code> for bytes written with <code><a class="el" href="class_file.html#a62908e467f503b988d88a12841767868" title="Synchronously writes data to file and returns the number of bytes written.">write()</a></code>). There is no way to programmatically determine the nature of the error this way. However, the generated error message will instead be written to the plugin's log files (plugin.log and console.log).</p>
+<dl class="section note"><dt>Note</dt><dd>The value of this property is "global" in that it affects <b>all</b> <code><a class="el" href="class_file.html" title="The File class provides access to... files!">File</a></code> operations for the whole script engine environment/instance. </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4d140ee4fb966bacd2f38c955072a4c6" name="a4d140ee4fb966bacd2f38c955072a4c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d140ee4fb966bacd2f38c955072a4c6">&#9670;&nbsp;</a></span>read() <span class="overload">[1/2]</span></h2>
+<a id="ad3ed384e419a4f7317433b0e13189e7f" name="ad3ed384e419a4f7317433b0e13189e7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3ed384e419a4f7317433b0e13189e7f">&#9670;&nbsp;</a></span>info()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> read </td>
+          <td class="memname"><a class="el" href="class_file_info.html">FileInfo</a> info </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS::OpenMode</a>&#160;</td>
-          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda7b813e976f542da72304156db0479802">FS::O_TEXT</a></code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Reads a file and returns the contents as a byte array. Set <code>mode</code> to <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdadcd9e5869d34c47e0dd71778b660837e" title="Handle file in binary mode (returns results as byte arrays).">FS.O_BIN</a></code> to read in binary mode. Default is to read as text. </p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">ReferenceError</td><td>is thrown if file loading fails (file not found/etc) and returns and empty string. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Returns a <code><a class="el" href="class_file_info.html" title="FileInfo provides read-only information about a file system object (file or directory)....">FileInfo</a></code> object describing the file or directory at the given <code>path</code>. This function is equivalent to <code><a class="el" href="class_dir.html#ad3ed384e419a4f7317433b0e13189e7f" title="Returns a FileInfo object describing the file or directory at the given path. Relative paths are reso...">Dir.info()</a></code>. If you wish to access multiple attributes about the same file, this is more efficient than separately calling individual <code><a class="el" href="class_file.html" title="The File class provides access to... files!">File</a></code> status functions on the same file (like <code>File.size(file)</code> then <code>File.isReadable(file)</code> followed by <code>File.isWritable(file)</code>, for example). Relative paths are resolved against the current working directory (<code><a class="el" href="class_dir.html#a4b69d9dff5aafb800a2e457923f06194" title="Returns the absolute path of the application&#39;s current directory. The current directory is the direct...">Dir.cwd()</a></code>). </p>
+<dl class="section since"><dt>Since</dt><dd>1.2.1 </dd></dl>
 
 </div>
 </div>
-<a id="a1531ed22351f15393f888fb99647433d" name="a1531ed22351f15393f888fb99647433d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1531ed22351f15393f888fb99647433d">&#9670;&nbsp;</a></span>read() <span class="overload">[2/2]</span></h2>
+<a id="a6f84dc5dfaeabc1f1ab3989aee71ed6d" name="a6f84dc5dfaeabc1f1ab3989aee71ed6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f84dc5dfaeabc1f1ab3989aee71ed6d">&#9670;&nbsp;</a></span>exists()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> read </td>
+          <td class="memname">bool exists </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>mode</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Reads a file and returns the contents as a byte array. Set <code>mode</code> to 'b' to read in binary mode. Default is to read as text. </p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">ReferenceError</td><td>is thrown if file loading fails (file not found/etc) and returns and empty string. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a22b1c4d4cc1ae85a1d288ec0b2bb8845" name="a22b1c4d4cc1ae85a1d288ec0b2bb8845"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22b1c4d4cc1ae85a1d288ec0b2bb8845">&#9670;&nbsp;</a></span>readText()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> readText </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramtype">string &amp;&#160;</td>
           <td class="paramname"><em>file</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Reads a file in text mode and returns the contents as a string. This is a convenience method which is equivalent to calling <code><a class="el" href="class_string.html" title="Extends String object.">String</a>(File.read(file));</code> </p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">ReferenceError</td><td>is thrown if file loading fails (file not found/etc) and returns and empty string. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Returns <code>true</code> if <code>file</code> exists; otherwise returns <code>false</code>. </p>
 
 </div>
 </div>
-<a id="af7901992c21e2cbef3a9d0edfcb0b4e5" name="af7901992c21e2cbef3a9d0edfcb0b4e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7901992c21e2cbef3a9d0edfcb0b4e5">&#9670;&nbsp;</a></span>readLines()</h2>
+<a id="a18f645763bfae56a70c7624833863b55" name="a18f645763bfae56a70c7624833863b55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18f645763bfae56a70c7624833863b55">&#9670;&nbsp;</a></span>isFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> readLines </td>
+          <td class="memname">bool isFile </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if <code>path</code> points to a file or to a symbolic link to a file. Returns <code>false</code> if the object points to something which isn't a file, such as a directory. </p>
+
+</div>
+</div>
+<a id="a391e9dfea962836d922ee488b75d6c58" name="a391e9dfea962836d922ee488b75d6c58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a391e9dfea962836d922ee488b75d6c58">&#9670;&nbsp;</a></span>isDir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isDir </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if <code>path</code> points to a directory or to a symbolic link to a directory; otherwise returns <code>false</code>. </p>
+
+</div>
+</div>
+<a id="a6910344def72514e929c6787fb24d765" name="a6910344def72514e929c6787fb24d765"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6910344def72514e929c6787fb24d765">&#9670;&nbsp;</a></span>isReadable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isReadable </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if the user can read the file <code>file</code>; otherwise returns <code>false</code>. </p>
+
+</div>
+</div>
+<a id="a6e32c0a55413ef4a490844d2298a246b" name="a6e32c0a55413ef4a490844d2298a246b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e32c0a55413ef4a490844d2298a246b">&#9670;&nbsp;</a></span>isWritable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isWritable </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if the user can write to the file <code>file</code>; otherwise returns <code>false</code>. </p>
+
+</div>
+</div>
+<a id="ad34d77865d8ca31c52d64bf87516850b" name="ad34d77865d8ca31c52d64bf87516850b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad34d77865d8ca31c52d64bf87516850b">&#9670;&nbsp;</a></span>isAbs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isAbs </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if the file path name is absolute, otherwise returns <code>false</code> if the path is relative. </p>
+
+</div>
+</div>
+<a id="aa75258b1c3d7bdbc7d08f01f134fafff" name="aa75258b1c3d7bdbc7d08f01f134fafff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa75258b1c3d7bdbc7d08f01f134fafff">&#9670;&nbsp;</a></span>isExec()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isExec </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if the file is executable; otherwise returns <code>false</code>. </p>
+
+</div>
+</div>
+<a id="a7eb1ce11f85a540444aef9f51520997f" name="a7eb1ce11f85a540444aef9f51520997f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7eb1ce11f85a540444aef9f51520997f">&#9670;&nbsp;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint size </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the file size in bytes. If the file does not exist or cannot be fetched, 0 is returned. </p>
+
+</div>
+</div>
+<a id="abf96670365d498fd70bec6c8510d7960" name="abf96670365d498fd70bec6c8510d7960"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf96670365d498fd70bec6c8510d7960">&#9670;&nbsp;</a></span>permissions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48">FS::Permissions</a> permissions </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the complete OR-ed together combination of <code><a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48" title="The FS.Permissions type stores an OR combination of FS.Permission values.">FS.Permissions</a></code> for the file. </p>
+
+</div>
+</div>
+<a id="a322c29f081594d328ba00cb88b941873" name="a322c29f081594d328ba00cb88b941873"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a322c29f081594d328ba00cb88b941873">&#9670;&nbsp;</a></span>setPermissions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool setPermissions </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48">FS::Permissions</a>&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the permissions for <code>file</code> to the <code><a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48" title="The FS.Permissions type stores an OR combination of FS.Permission values.">FS.Permissions</a></code> flags specified in <code>p</code>. Returns <code>true</code> if successful, or <code>false</code> if the permissions cannot be modified. </p>
+
+</div>
+</div>
+<a id="ad9a44801414788f25e264a4dc83234a9" name="ad9a44801414788f25e264a4dc83234a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9a44801414788f25e264a4dc83234a9">&#9670;&nbsp;</a></span>absPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string absPath </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the file's absolute path, excluding the file name. </p>
+
+</div>
+</div>
+<a id="a7cfab06c71b857487db722f8a677c60f" name="a7cfab06c71b857487db722f8a677c60f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cfab06c71b857487db722f8a677c60f">&#9670;&nbsp;</a></span>absFilePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string absFilePath </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the file's absolute path, including the file name (with extension). </p>
+
+</div>
+</div>
+<a id="ac36238a6664a5e61aeed57f46012b1b1" name="ac36238a6664a5e61aeed57f46012b1b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac36238a6664a5e61aeed57f46012b1b1">&#9670;&nbsp;</a></span>baseName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string baseName </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the base name of the file without the path. The base name consists of all characters in the file up to (but not including) the first '.' character. </p>
+
+</div>
+</div>
+<a id="ac0969d28ccceaaee66756a9a0312b68f" name="ac0969d28ccceaaee66756a9a0312b68f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0969d28ccceaaee66756a9a0312b68f">&#9670;&nbsp;</a></span>filePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string filePath </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the file name, including the path (which may be absolute or relative). </p>
+
+</div>
+</div>
+<a id="a90b09632f8ba5716d399ed77cc70e158" name="a90b09632f8ba5716d399ed77cc70e158"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90b09632f8ba5716d399ed77cc70e158">&#9670;&nbsp;</a></span>fullBaseName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string fullBaseName </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the complete base name of the file without the path. The full base name consists of all characters in the file up to (but not including) the last '.' character. </p>
+
+</div>
+</div>
+<a id="a634679b8e96dc980b7378b7bfc442a2b" name="a634679b8e96dc980b7378b7bfc442a2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a634679b8e96dc980b7378b7bfc442a2b">&#9670;&nbsp;</a></span>fullSuffix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string fullSuffix </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the "full" suffix (extension) of the file. The full suffix consists of all characters in the file after (but not including) the first '.'. </p>
+
+</div>
+</div>
+<a id="a2607728007dd72745c7c332950646bfd" name="a2607728007dd72745c7c332950646bfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2607728007dd72745c7c332950646bfd">&#9670;&nbsp;</a></span>name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string name </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the name of a file (with suffix), excluding the path. </p>
+
+</div>
+</div>
+<a id="a85ab9b5ebeaa332667e85e58d9396883" name="a85ab9b5ebeaa332667e85e58d9396883"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85ab9b5ebeaa332667e85e58d9396883">&#9670;&nbsp;</a></span>normPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string normPath </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the file's path canonical path (excluding the file name), i.e. an absolute path without symbolic links or redundant "." or ".." elements. </p>
+
+</div>
+</div>
+<a id="a642f76573d9d07ed7a41c19aa6cf0e8c" name="a642f76573d9d07ed7a41c19aa6cf0e8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a642f76573d9d07ed7a41c19aa6cf0e8c">&#9670;&nbsp;</a></span>normFilePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string normFilePath </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the canonical path including the file name, i.e. an absolute path without symbolic links or redundant "." or ".." elements. </p>
+
+</div>
+</div>
+<a id="ad37a50591d00f62ce0877976010f4d19" name="ad37a50591d00f62ce0877976010f4d19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad37a50591d00f62ce0877976010f4d19">&#9670;&nbsp;</a></span>path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string path </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the file's path, excluding the file name. </p>
+
+</div>
+</div>
+<a id="af7993471e6def0b11f32248cbbad1217" name="af7993471e6def0b11f32248cbbad1217"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7993471e6def0b11f32248cbbad1217">&#9670;&nbsp;</a></span>suffix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string suffix </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the suffix (extension) of the file. The suffix consists of all characters in the file after (but not including) the last '.'. </p>
+
+</div>
+</div>
+<a id="a08400507894207938743b0f812a18a17" name="a08400507894207938743b0f812a18a17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08400507894207938743b0f812a18a17">&#9670;&nbsp;</a></span>atime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_date.html">Date</a> atime </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the date and local time when the file was last accessed (read). If the file is not available, this function returns an invalid <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> object. </p>
+
+</div>
+</div>
+<a id="a09b46822af82f91f131de87ece3c9fed" name="a09b46822af82f91f131de87ece3c9fed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09b46822af82f91f131de87ece3c9fed">&#9670;&nbsp;</a></span>btime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_date.html">Date</a> btime </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the date and time when the file was created / born. If the file birth time is not available, this function returns an invalid <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> object. </p>
+
+</div>
+</div>
+<a id="a46333cd52f38f985e8df49af635c1749" name="a46333cd52f38f985e8df49af635c1749"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46333cd52f38f985e8df49af635c1749">&#9670;&nbsp;</a></span>ctime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_date.html">Date</a> ctime </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the date and time when the file metadata (status, eg. permissions) was changed. If the file is not available, this function returns an invalid <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> object. </p>
+
+</div>
+</div>
+<a id="a951c22a247bcb6ca4aa1a2051defd853" name="a951c22a247bcb6ca4aa1a2051defd853"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a951c22a247bcb6ca4aa1a2051defd853">&#9670;&nbsp;</a></span>mtime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_date.html">Date</a> mtime </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the date and local time when the file was last modified. If the file is not available, this function returns an invalid <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> object. </p>
+
+</div>
+</div>
+<a id="a90655c27a84ae209cc6d60c47e9b1fa4" name="a90655c27a84ae209cc6d60c47e9b1fa4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90655c27a84ae209cc6d60c47e9b1fa4">&#9670;&nbsp;</a></span>copy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool copy </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>from</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>to</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf">FS.OverwriteMode</a>&#160;</td>
+          <td class="paramname"><em>overwriteMode</em> = <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cfaa6ba04023dab24cb76ba105ff3e659a9">FS.OW_EXCL</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Synchronously copies the <code>from</code> file to a file or directory specified in <code>to</code>. </p>
+<p >Returns <code>true</code> if successful; otherwise returns <code>false</code> or throws an exception if <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> is <code>true</code> (the default).</p>
+<p >If <code>to</code> is a directory, the file name part of <code>from</code> is automatically appended to it. For a name to be recognized as a directory it must already exist in the file system or end in a slash (<code>/</code>). Otherwise it is interpreted as a file name.</p>
+<p >Destination directory tree must already exist or an error is thrown.</p>
+<p >If a file with the name <code>to</code> already exists, behavior depends on the value of <code>overwriteMode</code> argument. By default existing files are not overwritten and an exception will be generated.<br  />
+Setting <code>overwriteMode</code> to one of the other <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf" title="These values define behavior to use when a copy or rename/move operation encounters an existing entry...">FS.OverwriteMode</a></code> values will instead attempt to overwrite the existing file. See enumeration documentation for options.</p>
+<p >If the copied file is a symbolic link (symlink), the file it refers to is copied, not the link itself. With the exception of permissions, which are copied, no other file metadata is copied.</p>
+<p >If copy fails before it is complete (for example due to a full disk partition), any partially written file is removed.</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">TypeError</td><td>if argument validation fails. </td></tr>
+    <tr><td class="paramname">DOMException.NotFoundError</td><td>if source file doesn't exist. </td></tr>
+    <tr><td class="paramname">DOMException.InvalidAccessError</td><td>if destination file already exists and <code>overwriteMode</code> is <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cfaa6ba04023dab24cb76ba105ff3e659a9" title="No overwrite, operation fails if destination already exists.">FS.OW_EXCL</a></code> or if a safe overwrite failed (eg. could not rename old destination file). </td></tr>
+    <tr><td class="paramname">DOMException.OperationError</td><td>if any other file system error occurred during the copy operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Exceptions are only thrown if the current value of <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> is <code>true</code> (the default).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#a9e4adf46ca5d0922ba35699cf71ff566" title="Asynchronously copies the from file to a file or directory specified in to.">copyAsync()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a9e4adf46ca5d0922ba35699cf71ff566" name="a9e4adf46ca5d0922ba35699cf71ff566"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e4adf46ca5d0922ba35699cf71ff566">&#9670;&nbsp;</a></span>copyAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; Promise|void &gt; copyAsync </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>from</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>to</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; <a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf">FS.OverwriteMode</a>|Function &gt;&#160;</td>
+          <td class="paramname"><em>mode_or_callback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; Function|undefined &gt;&#160;</td>
+          <td class="paramname"><em>callback</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Asynchronously copies the <code>from</code> file to a file or directory specified in <code>to</code>. </p>
+<p >Results of the write operation are available either as a <code>Promise</code> or by providing a callback function.</p>
+<p >This method has multiple possible signatures. Each version takes an optional callback Function as the last argument.</p><ul>
+<li>If no callback is passed in, <code><a class="el" href="class_file.html#a9e4adf46ca5d0922ba35699cf71ff566" title="Asynchronously copies the from file to a file or directory specified in to.">copyAsync()</a></code> will return a <code>Promise</code> which resolves with a boolean value of <code>true</code>, or rejects with an <code>Error</code> argument.</li>
+<li>If a callback is given, it will be invoked with the results of the copy operation (boolean <code>true</code> or an <code>Error</code>) and this method returns <code>undefined</code>.<br  />
+ The callback function is passed 2 arguments: <code>callback(error, success)</code><ul>
+<li><code>error</code> - An <code>Error</code> object if any exception occurred while trying to copy the file. See below for more details on returned error types. If there was no error this argument value will be <code>null</code>.</li>
+<li><code>success</code> - boolean value of <code>true</code> if copy was successful, or <code>null</code> if there was an error.</li>
+</ul>
+</li>
+</ul>
+<p >Available method signatures:</p><ul>
+<li><code>copyAsync(string from, string to [, Function callback])</code><br  />
+Tries to copy <code>from</code> to <code>to</code> with <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cfaa6ba04023dab24cb76ba105ff3e659a9" title="No overwrite, operation fails if destination already exists.">FS.OW_EXCL</a></code> overwrite mode (copy fails if destination file exists).</li>
+<li><code>copyAsync(string from, string to, <a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf" title="These values define behavior to use when a copy or rename/move operation encounters an existing entry...">FS.OverwriteMode</a> overwriteMode [, Function callback])</code><br  />
+Tries to copy <code>from</code> to <code>to</code> using <code>overwriteMode</code> value to determine what to do in case destination already exists.</li>
+</ul>
+<p >If <code>to</code> is a directory, the file name part of <code>from</code> is automatically appended to it. For a name to be recognized as a directory it must already exist in the file system or end in a slash (<code>/</code>). Otherwise it is interpreted as a file name.</p>
+<p >Destination directory tree must already exist or an error occurs.</p>
+<p >If a file with the name <code>to</code> already exists, behavior depends on the value of <code>overwriteMode</code> argument. By default existing files are not overwritten and an exception will be generated.<br  />
+Setting <code>overwriteMode</code> to one of the other <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf" title="These values define behavior to use when a copy or rename/move operation encounters an existing entry...">FS.OverwriteMode</a></code> values will instead attempt to overwrite the existing file. See enumeration documentation for options.</p>
+<p >If the copied file is a symbolic link (symlink), the file it refers to is copied, not the link itself. With the exception of permissions, which are copied, no other file metadata is copied.</p>
+<p >If copy fails before it is complete (for example due to a full disk partition), any partially written file is removed.</p>
+<h3><a class="anchor" id="autotoc_md117"></a>
+Exceptions</h3>
+<p ><em>All</em> errors and exceptions are reported asynchronously, via either a rejected <code>Promise</code> or in the <code>error</code> argument passed to the callback. This method doesn't throw exceptions.<br  />
+</p><ul>
+<li><code>TypeError</code> if argument validation fails.</li>
+<li><code>DOMException.NotFoundError</code> if source file doesn't exist.</li>
+<li><code>DOMException.InvalidAccessError</code> if destination file already exists and <code>overwriteMode</code> is <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cfaa6ba04023dab24cb76ba105ff3e659a9" title="No overwrite, operation fails if destination already exists.">FS.OW_EXCL</a></code> or if a safe overwrite failed (eg. could not rename old destination file).</li>
+<li><code>DOMException.OperationError</code> if any other file system error occurred during the copy operation.</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#a90655c27a84ae209cc6d60c47e9b1fa4" title="Synchronously copies the from file to a file or directory specified in to.">copy()</a> for the synchronous version </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v1.3 </dd></dl>
+
+</div>
+</div>
+<a id="abbd2d8ca557370a49eb1a40d97ca5055" name="abbd2d8ca557370a49eb1a40d97ca5055"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbd2d8ca557370a49eb1a40d97ca5055">&#9670;&nbsp;</a></span>link()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool link </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>fileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>linkName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a link named linkName that points to the file fileName. </p>
+<p >What a link is depends on the underlying filesystem (be it a shortcut on Windows or a symbolic link on Unix). Returns true if successful; otherwise returns false. </p>
+
+</div>
+</div>
+<a id="a45d28b03b34862e0bdeb824c6b72b3e4" name="a45d28b03b34862e0bdeb824c6b72b3e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45d28b03b34862e0bdeb824c6b72b3e4">&#9670;&nbsp;</a></span>read()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; <a class="el" href="class_array_buffer.html">ArrayBuffer</a>|<a class="el" href="class_string.html">String</a> &gt; read </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; <a class="el" href="class_file.html#struct_file_1_1_options">Options</a>|string|<a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS.OpenMode</a>|undefined &gt;&#160;</td>
+          <td class="paramname"><em>options</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Synchronously reads the contents of a file and returns them as a <code><a class="el" href="class_string.html" title="Extends String object.">String</a></code> or <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code>. </p>
+<p >If reading fails, returns an empty string/array or throws an exception if <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> is <code>true</code> (the default).</p>
+<p >Available method signatures and their return types:</p><ul>
+<li><code>read(string file) =&gt; ArrayBuffer</code><br  />
+ Opens <code>file</code> in text mode (<code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda7b813e976f542da72304156db0479802" title="(&quot;t&quot;) When reading, the end-of-line terminators are translated to &#39; &#39;.">FS.O_TEXT</a></code>) and returns the contents as a raw <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> of bytes read, with no decoding.<br  />
+ Note that if eventually using the byte results as a string, UTF-8 encoding will be assumed (which also works for Latin1/ASCII encodings, but not 16 or 32-bit UTF files).</li>
+<li><code>read(string file, &lt;string | <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd" title="The FS.OpenMode type stores an OR combination of FS.OpenModeFlag values.">FS.OpenMode</a>&gt; mode) =&gt; ArrayBuffer</code><br  />
+ Opens <code>file</code> using specified <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd" title="The FS.OpenMode type stores an OR combination of FS.OpenModeFlag values.">FS.OpenMode</a> <code>mode</code> flag(s) (which can be a string or enumeration values) and returns the contents as an <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> of bytes read.</li>
+<li><code>read(string file, string encoding) =&gt; string</code><br  />
+ Opens <code>file</code> as text and returns it as a <code><a class="el" href="class_string.html" title="Extends String object.">String</a></code> after decoding the contents using the specified <code>encoding</code>.</li>
+<li><code>read(string file, Options options) =&gt; &lt;ArrayBuffer | string&gt;</code><br  />
+ Opens <code>file</code> using settings specified in <code>options</code> object. Returns data as a decoded <code><a class="el" href="class_string.html" title="Extends String object.">String</a></code> if an encoding type was specified in <code>options</code>, otherwise as a raw <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> of bytes.</li>
+</ul>
+<p >See the shared <a class="el" href="class_file.html">Options</a> documentation for more details on supported options and encoding types.</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">TypeError</td><td>if argument validation fails. </td></tr>
+    <tr><td class="paramname">DOMException.NotFoundError</td><td>if source file doesn't exist. </td></tr>
+    <tr><td class="paramname">DOMException.OperationError</td><td>for other errors when trying to open a file (like lack of permissions). </td></tr>
+    <tr><td class="paramname">DOMException.InvalidStateError</td><td>for file system errors during the actual read operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Exceptions are only thrown if the current value of <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> is <code>true</code> (the default).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#a29a477885c40c602f2836ef4254a13ca" title="Read the contents of a file asynchronously using a callback or Promise to handle the results.">readAsync()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a29a477885c40c602f2836ef4254a13ca" name="a29a477885c40c602f2836ef4254a13ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29a477885c40c602f2836ef4254a13ca">&#9670;&nbsp;</a></span>readAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; Promise|void &gt; readAsync </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; <a class="el" href="class_file.html#struct_file_1_1_options">Options</a>|string|<a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS.OpenMode</a>|Function|undefined &gt;&#160;</td>
+          <td class="paramname"><em>options</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; Function|undefined &gt;&#160;</td>
+          <td class="paramname"><em>callback</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read the contents of a file asynchronously using a callback or <code>Promise</code> to handle the results. </p>
+<p >This method has multiple possible signatures. Each version takes an optional callback Function as the last argument.</p><ul>
+<li>If no callback is passed in, <code><a class="el" href="class_file.html#a29a477885c40c602f2836ef4254a13ca" title="Read the contents of a file asynchronously using a callback or Promise to handle the results.">readAsync()</a></code> will return a <code>Promise</code> which resolves with the contents of the file (an <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> or <code><a class="el" href="class_string.html" title="Extends String object.">String</a></code>, depending on options), or rejects with an <code>Error</code> argument.</li>
+<li>If a callback is given, it will be invoked with the results of the read operation (the file contents or an <code>Error</code>) and this method returns <code>undefined</code>.<br  />
+ The callback function is passed 2 arguments: <code>callback(error, data)</code><ul>
+<li><code>error</code> - An <code>Error</code> object if any exception occurred while trying to read the file. See below for more details on returned error types. If there was no error this argument value will be <code>null</code>.</li>
+<li><code>data</code> - The contents of the file if no error occurred (an <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> or <code><a class="el" href="class_string.html" title="Extends String object.">String</a></code>, depending on options), or <code>null</code> if there was an error.</li>
+</ul>
+</li>
+</ul>
+<p >Available method signatures and their possible return types:</p><ul>
+<li><code>readAsync(string file [, Function callback]) =&gt; &lt;Promise&lt;ArrayBuffer&gt; | void&gt;</code> <br  />
+ Opens <code>file</code> in text mode (<code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda7b813e976f542da72304156db0479802" title="(&quot;t&quot;) When reading, the end-of-line terminators are translated to &#39; &#39;.">FS.O_TEXT</a></code>) and returns the contents as a raw <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> of bytes read, with no decoding.<br  />
+ Note that if eventually using the byte results as a string, UTF-8 encoding will be assumed (which also works for Latin1/ASCII encodings, but not 16 or 32-bit UTF files).</li>
+<li><code>readAsync(string file, &lt;string | <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd" title="The FS.OpenMode type stores an OR combination of FS.OpenModeFlag values.">FS.OpenMode</a>&gt; mode [, Function callback]) =&gt; &lt; Promise&lt;ArrayBuffer&gt; | void&gt;</code><br  />
+ Opens <code>file</code> using specified <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd" title="The FS.OpenMode type stores an OR combination of FS.OpenModeFlag values.">FS.OpenMode</a> <code>mode</code> flag(s) (which can be a string or enumeration values) and returns the contents as an <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> of bytes read.</li>
+<li><code>readAsync(string file, string encoding [, Function callback]) =&gt; &lt;Promise&lt;string&gt; | void&gt;</code><br  />
+ Opens <code>file</code> as text and returns it as a <code><a class="el" href="class_string.html" title="Extends String object.">String</a></code> after decoding the contents using the specified <code>encoding</code>.</li>
+<li><code>readAsync(string file, object options [, Function callback]) =&gt; &lt;Promise&lt; ArrayBuffer | string &gt; | void&gt;</code><br  />
+ Opens <code>file</code> using settings specified in <code>options</code> object. Returns data as a decoded <code><a class="el" href="class_string.html" title="Extends String object.">String</a></code> if an encoding type was specified in <code>options</code>, otherwise as a raw <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> of bytes.</li>
+</ul>
+<p >See the shared <a class="el" href="class_file.html">Options</a> documentation for more details on supported options and encoding types.</p>
+<h3><a class="anchor" id="autotoc_md118"></a>
+Exceptions</h3>
+<p ><em>All</em> errors and exceptions are reported asynchronously, via either a rejected <code>Promise</code> or in the <code>error</code> argument passed to the callback. This method doesn't throw exceptions.<br  />
+</p><ul>
+<li>Argument validation issues are reported as <code>TypeError</code> types.</li>
+<li><code>DOMException.NotFoundError</code> if source file doesn't exist.</li>
+<li>Other errors when trying to open a file (like lack of permissions) are reported as a <code>DOMException.OperationError</code>.</li>
+<li>System errors during the actual read operation are reported as <code>DOMException.InvalidStateError</code>.</li>
+<li>If an async operation is canceled using an <code>AbortSignal</code> (passed on <code>options</code> argument) then a <code>DOMException.AbortError</code> is generated.</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#a45d28b03b34862e0bdeb824c6b72b3e4" title="Synchronously reads the contents of a file and returns them as a String or ArrayBuffer.">read()</a> for the synchronous version </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v1.3 </dd></dl>
+
+</div>
+</div>
+<a id="a9d93042851c9b6adc2ab07fe8809d4ae" name="a9d93042851c9b6adc2ab07fe8809d4ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d93042851c9b6adc2ab07fe8809d4ae">&#9670;&nbsp;</a></span>readLines()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string readLines </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>file</em>, </td>
         </tr>
         <tr>
@@ -346,744 +1469,222 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Reads up to <code>maxLines</code> lines from <code>file</code> starting at <code>fromLine</code> (default = 0, start of file) and returns the contents as a string. Can search from start or end of file. <br  />
- <code>maxLines</code> can be <code>0</code> in which case all remaining lines in the file are returned. This is useful when <code>fromLine != 0</code> to skip a number of lines and then return the rest. <br  />
- <code>fromLine</code> can be negative, in which case the file will be read from the end, backwards. In this case <code>-1</code> means starting at the end of the file, <code>-2</code> means to skip one line ("start at second-to-last line"), and so on. <br  />
- Set <code>trimTrailingNewlines</code> to <code>true</code> (default) to trim/skip over any empty lines from the end of the file. When searching backwards, setting <code>trimTrailingNewlines</code> to <code>false</code> will count every newline from the end, including any potential newline at end of the last line of the file. </p>
+<p>Reads up to <code>maxLines</code> lines from <code>file</code> starting at <code>fromLine</code> (default = 0, start of file) and returns the contents as a string. </p>
+<p >Can search from start or end of file.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file</td><td>The file to read lines from. Relative paths are resolved from the plugin's working directory &ndash; absolute paths are recommended. </td></tr>
+    <tr><td class="paramname">maxLines</td><td>Required. Can be <code>0</code> in which case all remaining lines in the file are returned. This is useful when <code>fromLine != 0</code> to skip a number of lines and then return the rest. </td></tr>
+    <tr><td class="paramname">fromLine</td><td>Which line to start from. Optional, default is <code>0</code> (zero). This Can be negative, in which case the file will be read from the end, backwards. In this case <code>-1</code> means starting at the end of the file, <code>-2</code> means to skip one line ("start at second-to-last line"), and so on. </td></tr>
+    <tr><td class="paramname">trimTrailingNewlines</td><td>Optional. If <code>true</code> (default) trims/skips over any empty lines from the end of the file. When searching backwards, setting <code>trimTrailingNewlines</code> to <code>false</code> will count every newline from the end, including any potential newline at end of the last line of the file.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This operation works on all text files regardless of line endings. The file encoding is determined automatically, although for UTF-16 and UTF-32 formats this requires the files to have a leading byte order mark (BOM) header.</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">TypeError</td><td>if argument validation fails. </td></tr>
+    <tr><td class="paramname">DOMException.NotFoundError</td><td>if source file doesn't exist. </td></tr>
+    <tr><td class="paramname">DOMException.OperationError</td><td>for other errors when trying to open a file (like lack of permissions). </td></tr>
+    <tr><td class="paramname">DOMException.InvalidStateError</td><td>for file system errors during the actual read operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Exceptions are only thrown if the current value of <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> is <code>true</code> (the default).</p>
+<dl class="section note"><dt>Note</dt><dd>Note that if no newlines are found in the file then the full contents will be returned (a potentially expensive operation). </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#aaf1e0a9ac145494d90dde956075d2a19" title="Asynchronously Reads up to maxLines lines from file starting at fromLine (default = 0,...">readLinesAsync()</a> </dd></dl>
+
+</div>
+</div>
+<a id="aaf1e0a9ac145494d90dde956075d2a19" name="aaf1e0a9ac145494d90dde956075d2a19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf1e0a9ac145494d90dde956075d2a19">&#9670;&nbsp;</a></span>readLinesAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; Promise|void &gt; readLinesAsync </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxLines</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; int|undefined &gt;&#160;</td>
+          <td class="paramname"><em>fromLine</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; boolean|undefined &gt;&#160;</td>
+          <td class="paramname"><em>trimTrailingNewlines</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; Function|undefined &gt;&#160;</td>
+          <td class="paramname"><em>callback</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Asynchronously Reads up to <code>maxLines</code> lines from <code>file</code> starting at <code>fromLine</code> (default = 0, start of file) and returns the contents as a string using a callback or <code>Promise</code> to handle the results. </p>
+<p >Can search from start or end of file.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file</td><td>The file to read lines from. Relative paths are resolved from the plugin's working directory &ndash; absolute paths are recommended. </td></tr>
+    <tr><td class="paramname">maxLines</td><td>Required. Can be <code>0</code> in which case all remaining lines in the file are returned. This is useful when <code>fromLine != 0</code> to skip a number of lines and then return the rest. </td></tr>
+    <tr><td class="paramname">fromLine</td><td>Which line to start from. Optional, default is <code>0</code> (zero). This Can be negative, in which case the file will be read from the end, backwards. In this case <code>-1</code> means starting at the end of the file, <code>-2</code> means to skip one line ("start at second-to-last line"), and so on. </td></tr>
+    <tr><td class="paramname">trimTrailingNewlines</td><td>Optional. If <code>true</code> (default) trims/skips over any empty lines from the end of the file. When searching backwards, setting <code>trimTrailingNewlines</code> to <code>false</code> will count every newline from the end, including any potential newline at end of the last line of the file. </td></tr>
+    <tr><td class="paramname">callback</td><td>Optional.<ul>
+<li>If a callback is given, it will be invoked with the results of the read operation (the lines read or an <code>Error</code>) and this method returns <code>undefined</code>.<br  />
+ The callback function is passed 2 arguments: <code>callback(error, data)</code><ul>
+<li><code>error</code> - An <code>Error</code> object if any exception occurred while trying to read the file. See below for more details on returned error types. If there was no error this argument value will be <code>null</code>.</li>
+<li><code>data</code> - The contents of the file if no error occurred (an <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> or <code><a class="el" href="class_string.html" title="Extends String object.">String</a></code>, depending on options), or <code>null</code> if there was an error.</li>
+</ul>
+</li>
+<li>If no callback is passed in, <code><a class="el" href="class_file.html#a29a477885c40c602f2836ef4254a13ca" title="Read the contents of a file asynchronously using a callback or Promise to handle the results.">readAsync()</a></code> will return a <code>Promise</code> which resolves with the contents of the file (an <code><a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a></code> or <code><a class="el" href="class_string.html" title="Extends String object.">String</a></code>, depending on options), or rejects with an <code>Error</code> argument.</li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This operation works on all text files regardless of line endings. The file encoding is determined automatically, although for UTF-16 and UTF-32 formats this requires the files to have a leading byte order mark (BOM) header.</p>
+<h3><a class="anchor" id="autotoc_md119"></a>
+Exceptions</h3>
+<p ><em>All</em> errors and exceptions are reported asynchronously, via either a rejected <code>Promise</code> or in the <code>error</code> argument passed to the callback. This method doesn't throw exceptions.<br  />
+</p><ul>
+<li>Argument validation issues are reported as <code>TypeError</code> types.</li>
+<li><code>DOMException.NotFoundError</code> if source file doesn't exist.</li>
+<li>Other errors when trying to open a file (like lack of permissions) are reported as a <code>DOMException.OperationError</code>.</li>
+<li>System errors during the actual read operation are reported as <code>DOMException.InvalidStateError</code>.</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>Note that if no newlines are found in the file then the full contents will be returned (a potentially expensive operation).</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#a9d93042851c9b6adc2ab07fe8809d4ae" title="Reads up to maxLines lines from file starting at fromLine (default = 0, start of file) and returns th...">readLines()</a> for the synchronous version </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v1.3 </dd></dl>
+
+</div>
+</div>
+<a id="ab32c3b3023c4927b26ce2e09590ed3f4" name="ab32c3b3023c4927b26ce2e09590ed3f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab32c3b3023c4927b26ce2e09590ed3f4">&#9670;&nbsp;</a></span>readText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string readText </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads a file in text mode and returns the contents as a string. </p>
+<p >This is a convenience method which is equivalent to calling <code><a class="el" href="class_string.html" title="Extends String object.">String</a>(File.read(file));</code> </p><dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">ReferenceError</td><td>is thrown if file loading fails (file not found/etc) and returns and empty string. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>Note that if no newlines are found in the file then the full contents will be returned (a potentially expensive operation). This operation works on all text files regardless of line endings. </dd></dl>
 
 </div>
 </div>
-<a id="a882dcbde6a66ff0f8c926c5014a6a319" name="a882dcbde6a66ff0f8c926c5014a6a319"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a882dcbde6a66ff0f8c926c5014a6a319">&#9670;&nbsp;</a></span>write() <span class="overload">[1/2]</span></h2>
+<a id="a862c2cd74f45601ae9b895c4368ca4ec" name="a862c2cd74f45601ae9b895c4368ca4ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a862c2cd74f45601ae9b895c4368ca4ec">&#9670;&nbsp;</a></span>remove()</h2>
 
 <div class="memitem">
 <div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int write </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS::OpenMode</a>&#160;</td>
-          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda7b813e976f542da72304156db0479802">FS::O_TEXT</a></code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Writes <code>data</code> to <code>file</code> and returns the number of bytes written. Returns <code>-1</code> on error. <code>mode</code> flags can be a combination of <code>FileLib::OpenModeFlag</code> enums: </p>
-<ul>
-<li><code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdadcd9e5869d34c47e0dd71778b660837e" title="Handle file in binary mode (returns results as byte arrays).">FS.O_BIN</a></code> write in binary mode (default is to write as text).</li>
-<li><code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdad69fd252a0668f86f5d95be1e1066bc5" title="Append to file (implies O_WRONLY).">FS.O_APPEND</a></code> to append to file (default is to truncate/replace it).</li>
-<li><code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdad9093f399230205743567677b59b435f" title="Do not overwrite existing file when writing (returns error if file exists).">FS.O_EXCL</a></code> to fail if the file exists, or <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdacc42cb13d42626b4a74bb04be2e1bcc0" title="Only write to file if it exists (returns error otherwise).">FS.O_NOCREAT</a></code> to to fail if the file <em>doesn't</em> already exist (both will return an error if the condition isn't met).</li>
-</ul>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">Error</td><td>is thrown if the file writing fails for any reason. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a091f9568c28f966a9831ac07da95267a" name="a091f9568c28f966a9831ac07da95267a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a091f9568c28f966a9831ac07da95267a">&#9670;&nbsp;</a></span>write() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int write </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_array_buffer.html">ArrayBuffer</a> &amp;&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>mode</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Writes <code>data</code> to <code>file</code> and returns the number of bytes written. Returns <code>-1</code> on error. <code>mode</code> flags can be a combination of the following (in any order): </p>
-<ul>
-<li><code>b</code> write in binary mode (default is to write as text).</li>
-<li><code>a</code> to append to file (default is to truncate/replace it).</li>
-<li><code>x</code> to fail if the file exists, or <code>n</code> to to fail if the file <em>doesn't</em> already exist (both will return an error if the condition isn't met).</li>
-</ul>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">Error</td><td>is thrown if the file writing fails for any reason. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a010aaca24d57b4a0dde604740c49eac5" name="a010aaca24d57b4a0dde604740c49eac5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a010aaca24d57b4a0dde604740c49eac5">&#9670;&nbsp;</a></span>remove()</h2>
-
-<div class="memitem">
-<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool remove </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>file</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Removes the file specified by <code>file</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. </p>
+<p>Synchronously deletes the file specified by <code>file</code>. </p>
+<p >Returns <code>true</code> if successful; otherwise returns <code>false</code> or throws an exception if <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> is <code>true</code> (the default).</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">TypeError</td><td>if argument validation fails (<code>file</code> argument is empty). </td></tr>
+    <tr><td class="paramname">DOMException.NotFoundError</td><td>if <code>file</code> doesn't exist. </td></tr>
+    <tr><td class="paramname">DOMException.OperationError</td><td>if any other file system error occurred during the delete operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Exceptions are only thrown if the current value of <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> is <code>true</code> (the default).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#a49d8be9ec51a5009811c94f471dc2943" title="Asynchronously deletes the file specified by file.">removeAsync()</a> </dd></dl>
 
 </div>
 </div>
-<a id="a1e8f47a7a8f1214b58a3251f6a403d16" name="a1e8f47a7a8f1214b58a3251f6a403d16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e8f47a7a8f1214b58a3251f6a403d16">&#9670;&nbsp;</a></span>rename()</h2>
+<a id="a49d8be9ec51a5009811c94f471dc2943" name="a49d8be9ec51a5009811c94f471dc2943"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49d8be9ec51a5009811c94f471dc2943">&#9670;&nbsp;</a></span>removeAsync()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool rename </td>
+          <td class="memname">&lt; Promise|void &gt; removeAsync </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>from</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>to</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Renames the <code>from</code> file to a file specified in <code>to</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. If a file with the name <code>to</code> already exists, <code><a class="el" href="class_file.html#a1e8f47a7a8f1214b58a3251f6a403d16" title="Renames the from file to a file specified in to. Returns true if successful; otherwise returns false....">rename()</a></code> returns <code>false</code>. </p>
-
-</div>
-</div>
-<a id="a3b2ba3135d9955302ea751e957a9e598" name="a3b2ba3135d9955302ea751e957a9e598"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b2ba3135d9955302ea751e957a9e598">&#9670;&nbsp;</a></span>copy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool copy </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>from</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>to</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Copies the <code>from</code> file to a file specified in <code>to</code>. Returns <code>true</code> if successful; otherwise returns <code>false</code>. If a file with the name <code>to</code> already exists, <code><a class="el" href="class_file.html#a3b2ba3135d9955302ea751e957a9e598" title="Copies the from file to a file specified in to. Returns true if successful; otherwise returns false....">copy()</a></code> returns <code>false</code>. </p>
-
-</div>
-</div>
-<a id="a6055daa2eb7e4e6038eba067986cf556" name="a6055daa2eb7e4e6038eba067986cf556"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6055daa2eb7e4e6038eba067986cf556">&#9670;&nbsp;</a></span>link()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool link </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>fileName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>linkName</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Creates a link named linkName that points to the file fileName. What a link is depends on the underlying filesystem (be it a shortcut on Windows or a symbolic link on Unix). Returns true if successful; otherwise returns false. </p>
-
-</div>
-</div>
-<a id="a922e01e478d30dcdb75603e1e7fa621c" name="a922e01e478d30dcdb75603e1e7fa621c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a922e01e478d30dcdb75603e1e7fa621c">&#9670;&nbsp;</a></span>info()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_file_info.html">FileInfo</a> info </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns a <code><a class="el" href="class_file_info.html" title="FileInfo provides read-only information about a file system object (file or directory)....">FileInfo</a></code> object describing the file or directory at the given <code>path</code>. This function is equivalent to <code><a class="el" href="class_dir.html#a922e01e478d30dcdb75603e1e7fa621c" title="Returns a FileInfo object describing the file or directory at the given path. Relative paths are reso...">Dir.info()</a></code>. If you wish to access multiple attributes about the same file, this is more efficient than separately calling individual <code><a class="el" href="class_file.html" title="The File class provides access to... files. Shocking.">File</a></code> status functions on the same file (like <code>File.size(file)</code> then <code>File.isReadable(file)</code> followed by <code>File.isWritable(file)</code>, for example). Relative paths are resolved against the current working directory (<code><a class="el" href="class_dir.html#addc54481170a265c9ddcb61fe2626bdc" title="Returns the absolute path of the application&#39;s current directory. The current directory is the direct...">Dir.cwd()</a></code>). </p>
-<dl class="section since"><dt>Since</dt><dd>1.2.1 </dd></dl>
-
-</div>
-</div>
-<a id="a5f3550bae0d274d91d8cba4fa784feae" name="a5f3550bae0d274d91d8cba4fa784feae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f3550bae0d274d91d8cba4fa784feae">&#9670;&nbsp;</a></span>exists()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool exists </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns <code>true</code> if <code>file</code> exists; otherwise returns <code>false</code>. </p>
-
-</div>
-</div>
-<a id="a07ee9c58bafcd0c700a7cf611473f268" name="a07ee9c58bafcd0c700a7cf611473f268"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07ee9c58bafcd0c700a7cf611473f268">&#9670;&nbsp;</a></span>isFile()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool isFile </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns <code>true</code> if <code>path</code> points to a file or to a symbolic link to a file. Returns <code>false</code> if the object points to something which isn't a file, such as a directory. </p>
-
-</div>
-</div>
-<a id="a402662f873efee3be3e08481865d84f6" name="a402662f873efee3be3e08481865d84f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a402662f873efee3be3e08481865d84f6">&#9670;&nbsp;</a></span>isDir()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool isDir </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns <code>true</code> if <code>path</code> points to a directory or to a symbolic link to a directory; otherwise returns <code>false</code>. </p>
-
-</div>
-</div>
-<a id="a012b3ad7082c5e1ddcc49bb383fb704e" name="a012b3ad7082c5e1ddcc49bb383fb704e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a012b3ad7082c5e1ddcc49bb383fb704e">&#9670;&nbsp;</a></span>isReadable()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool isReadable </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns <code>true</code> if the user can read the file <code>file</code>; otherwise returns <code>false</code>. </p>
-
-</div>
-</div>
-<a id="a74faade1110a2a23b37227d77df06850" name="a74faade1110a2a23b37227d77df06850"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74faade1110a2a23b37227d77df06850">&#9670;&nbsp;</a></span>isWritable()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool isWritable </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns <code>true</code> if the user can write to the file <code>file</code>; otherwise returns <code>false</code>. </p>
-
-</div>
-</div>
-<a id="a7e5aceec7e2ec5700398bdf33273e73b" name="a7e5aceec7e2ec5700398bdf33273e73b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e5aceec7e2ec5700398bdf33273e73b">&#9670;&nbsp;</a></span>isAbs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool isAbs </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns <code>true</code> if the file path name is absolute, otherwise returns <code>false</code> if the path is relative. </p>
-
-</div>
-</div>
-<a id="aaef68e8964b55fb1db4feb272f0a60a3" name="aaef68e8964b55fb1db4feb272f0a60a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaef68e8964b55fb1db4feb272f0a60a3">&#9670;&nbsp;</a></span>isExec()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool isExec </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns <code>true</code> if the file is executable; otherwise returns <code>false</code>. </p>
-
-</div>
-</div>
-<a id="afe813edb882f61f036f23051faf6bdcf" name="afe813edb882f61f036f23051faf6bdcf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe813edb882f61f036f23051faf6bdcf">&#9670;&nbsp;</a></span>path()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> path </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the file's path, excluding the file name. </p>
-
-</div>
-</div>
-<a id="a1e679ab466d407a9b3957629c871c843" name="a1e679ab466d407a9b3957629c871c843"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e679ab466d407a9b3957629c871c843">&#9670;&nbsp;</a></span>name()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> name </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the name of a file (with suffix), excluding the path. </p>
-
-</div>
-</div>
-<a id="a83d2d7818d8c7d6d8a1f4ddb76a30438" name="a83d2d7818d8c7d6d8a1f4ddb76a30438"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83d2d7818d8c7d6d8a1f4ddb76a30438">&#9670;&nbsp;</a></span>filePath()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> filePath </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the file name, including the path (which may be absolute or relative). </p>
-
-</div>
-</div>
-<a id="acc3ac9e41ee3051b67a15402f4584825" name="acc3ac9e41ee3051b67a15402f4584825"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc3ac9e41ee3051b67a15402f4584825">&#9670;&nbsp;</a></span>baseName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> baseName </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the base name of the file without the path. The base name consists of all characters in the file up to (but not including) the first '.' character. </p>
-
-</div>
-</div>
-<a id="a183a41449c9daa7389f1c4856f358599" name="a183a41449c9daa7389f1c4856f358599"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a183a41449c9daa7389f1c4856f358599">&#9670;&nbsp;</a></span>fullBaseName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> fullBaseName </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the complete base name of the file without the path. The full base name consists of all characters in the file up to (but not including) the last '.' character. </p>
-
-</div>
-</div>
-<a id="aa0ce737cabcf2df49881ae64ce1b155e" name="aa0ce737cabcf2df49881ae64ce1b155e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0ce737cabcf2df49881ae64ce1b155e">&#9670;&nbsp;</a></span>suffix()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> suffix </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the suffix (extension) of the file. The suffix consists of all characters in the file after (but not including) the last '.'. </p>
-
-</div>
-</div>
-<a id="a1ea33e588f05d49ef359cdcefb333216" name="a1ea33e588f05d49ef359cdcefb333216"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ea33e588f05d49ef359cdcefb333216">&#9670;&nbsp;</a></span>fullSuffix()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> fullSuffix </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the "full" suffix (extension) of the file. The full suffix consists of all characters in the file after (but not including) the first '.'. </p>
-
-</div>
-</div>
-<a id="a90f0754f984af1fda4617dea078c6c30" name="a90f0754f984af1fda4617dea078c6c30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90f0754f984af1fda4617dea078c6c30">&#9670;&nbsp;</a></span>absPath()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> absPath </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the file's absolute path, excluding the file name. </p>
-
-</div>
-</div>
-<a id="a18773c9521930e0f190fe819ab9f8219" name="a18773c9521930e0f190fe819ab9f8219"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18773c9521930e0f190fe819ab9f8219">&#9670;&nbsp;</a></span>absFilePath()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> absFilePath </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the file's absolute path, including the file name (with extension). </p>
-
-</div>
-</div>
-<a id="ae011a5a2595d840d2e455973951d2f28" name="ae011a5a2595d840d2e455973951d2f28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae011a5a2595d840d2e455973951d2f28">&#9670;&nbsp;</a></span>normPath()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> normPath </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the file's path canonical path (excluding the file name), i.e. an absolute path without symbolic links or redundant "." or ".." elements. </p>
-
-</div>
-</div>
-<a id="a8aec2fe724ce8d4e3192ae4e05de9db2" name="a8aec2fe724ce8d4e3192ae4e05de9db2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8aec2fe724ce8d4e3192ae4e05de9db2">&#9670;&nbsp;</a></span>normFilePath()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_string.html">String</a> normFilePath </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the canonical path including the file name, i.e. an absolute path without symbolic links or redundant "." or ".." elements. </p>
-
-</div>
-</div>
-<a id="af66ad0f9ec292cb8dd9ce4fb754e774a" name="af66ad0f9ec292cb8dd9ce4fb754e774a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af66ad0f9ec292cb8dd9ce4fb754e774a">&#9670;&nbsp;</a></span>size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint size </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the file size in bytes. If the file does not exist or cannot be fetched, 0 is returned. </p>
-
-</div>
-</div>
-<a id="ac21f502ea823d9bcd5bfa5342a4cec78" name="ac21f502ea823d9bcd5bfa5342a4cec78"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac21f502ea823d9bcd5bfa5342a4cec78">&#9670;&nbsp;</a></span>btime()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_date.html">Date</a> btime </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the date and time when the file was created / born. If the file birth time is not available, this function returns an invalid <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> object. </p>
-
-</div>
-</div>
-<a id="a26099edec4cfd59632376ca7a3265e84" name="a26099edec4cfd59632376ca7a3265e84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26099edec4cfd59632376ca7a3265e84">&#9670;&nbsp;</a></span>mtime()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_date.html">Date</a> mtime </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the date and local time when the file was last modified. If the file is not available, this function returns an invalid <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> object. </p>
-
-</div>
-</div>
-<a id="ad08885745e364306c0d6c88f56766e01" name="ad08885745e364306c0d6c88f56766e01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad08885745e364306c0d6c88f56766e01">&#9670;&nbsp;</a></span>atime()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_date.html">Date</a> atime </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the date and local time when the file was last accessed (read). If the file is not available, this function returns an invalid <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> object. </p>
-
-</div>
-</div>
-<a id="ab7d36d329db0846f619e2592cf325b34" name="ab7d36d329db0846f619e2592cf325b34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7d36d329db0846f619e2592cf325b34">&#9670;&nbsp;</a></span>ctime()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_date.html">Date</a> ctime </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the date and time when the file metadata (status, eg. permissions) was changed. If the file is not available, this function returns an invalid <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a> object. </p>
-
-</div>
-</div>
-<a id="a19d38d78cec3629b75aebaacff4b2b45" name="a19d38d78cec3629b75aebaacff4b2b45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19d38d78cec3629b75aebaacff4b2b45">&#9670;&nbsp;</a></span>permissions()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48">FS::Permissions</a> permissions </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the complete OR-ed together combination of <code><a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48" title="The FS.Permissions type stores an OR combination of FS.Permission values.">FS.Permissions</a></code> for the file. </p>
-
-</div>
-</div>
-<a id="a147dcf58dc2418ffdc21052be843a6e1" name="a147dcf58dc2418ffdc21052be843a6e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a147dcf58dc2418ffdc21052be843a6e1">&#9670;&nbsp;</a></span>setPermissions()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool setPermissions </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a> &amp;&#160;</td>
+          <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>file</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48">FS::Permissions</a>&#160;</td>
-          <td class="paramname"><em>p</em>&#160;</td>
+          <td class="paramtype">&lt; Function|undefined &gt;&#160;</td>
+          <td class="paramname"><em>callback</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1091,9 +1692,331 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Sets the permissions for <code>file</code> to the <code><a class="el" href="class_f_s.html#a4a0bad9b304b3c72ca7957c0c2852e48" title="The FS.Permissions type stores an OR combination of FS.Permission values.">FS.Permissions</a></code> flags specified in <code>p</code>. Returns <code>true</code> if successful, or <code>false</code> if the permissions cannot be modified. </p>
+<p>Asynchronously deletes the file specified by <code>file</code>. </p>
+<p >Results of the deletion operation are available either as a <code>Promise</code> or by providing a callback function.</p>
+<ul>
+<li>If no <code>callback</code> argument is given, <code><a class="el" href="class_file.html#a49d8be9ec51a5009811c94f471dc2943" title="Asynchronously deletes the file specified by file.">removeAsync()</a></code> will return a <code>Promise</code> which resolves with a boolean value of <code>true</code>, or rejects with an <code>Error</code> argument.</li>
+<li>If a callback is given, it will be invoked with the results of the delete operation (boolean <code>true</code> or an <code>Error</code>) and this method returns <code>undefined</code>.<br  />
+ The callback function is passed 2 arguments: <code>callback(error, success)</code><ul>
+<li><code>error</code> - An <code>Error</code> object if any exception occurred while trying to delete the file. See below for more details on returned error types. If there was no error this argument value will be <code>null</code>.</li>
+<li><code>success</code> - boolean value of <code>true</code> if rename was successful, or <code>null</code> if there was an error.</li>
+</ul>
+</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md120"></a>
+Exceptions</h3>
+<p ><em>All</em> errors and exceptions are reported asynchronously, via either a rejected <code>Promise</code> or in the <code>error</code> argument passed to the callback. This method doesn't throw exceptions.<br  />
+</p><ul>
+<li><code>TypeError</code> if argument validation fails.</li>
+<li><code>DOMException.NotFoundError</code> if source file doesn't exist.</li>
+<li><code>DOMException.OperationError</code> if any other file system error occurred during the copy operation.</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#a862c2cd74f45601ae9b895c4368ca4ec" title="Synchronously deletes the file specified by file.">remove()</a> for the synchronous version </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v1.3 </dd></dl>
+
+</div>
+</div>
+<a id="a3be2bd612d4e70b48e24f8cc87240d94" name="a3be2bd612d4e70b48e24f8cc87240d94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3be2bd612d4e70b48e24f8cc87240d94">&#9670;&nbsp;</a></span>rename()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rename </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>oldName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>destination</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf">FS.OverwriteMode</a>&#160;</td>
+          <td class="paramname"><em>overwriteMode</em> = <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cfaa6ba04023dab24cb76ba105ff3e659a9">FS.OW_EXCL</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Synchronously renames (or moves) the <code>oldName</code> file to a file or directory specified in <code>destination</code>. </p>
+<p >Returns <code>true</code> if successful; otherwise returns <code>false</code> or throws an exception if <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> is <code>true</code> (the default).</p>
+<p >If <code>destination</code> is a directory, the file name part of <code>oldName</code> is automatically appended to it. For a name to be recognized as a directory it must already exist in the file system or end in a slash (<code>/</code>). Otherwise it is interpreted as a file name.</p>
+<p >Destination directory tree must already exist or an error is thrown.</p>
+<p >If a file with the name <code>destination</code> already exists, behavior depends on the value of <code>overwriteMode</code> argument. By default existing files are not overwritten and an exception will be generated.<br  />
+Setting <code>overwriteMode</code> to one of the other <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf" title="These values define behavior to use when a copy or rename/move operation encounters an existing entry...">FS.OverwriteMode</a></code> values will instead attempt to overwrite the existing file. See enumeration documentation for options.</p>
+<p >If the rename operation fails initially, this will attempt to copy <code>oldName</code> file's contents to <code>destination</code>, and then remove the <code>oldName</code> file, keeping only <code>destination</code>. If that copy operation fails or the <code>oldName</code> file can't be removed, the destination file <code>destination</code> is removed to restore the old state.</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">TypeError</td><td>if argument validation fails. </td></tr>
+    <tr><td class="paramname">DOMException.NotFoundError</td><td>if either the source file or destination directory don't exist. </td></tr>
+    <tr><td class="paramname">DOMException.InvalidAccessError</td><td>if destination file already exists and <code>overwriteMode</code> is <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cfaa6ba04023dab24cb76ba105ff3e659a9" title="No overwrite, operation fails if destination already exists.">FS.OW_EXCL</a></code> or if a safe overwrite failed (eg. could not rename old destination file). </td></tr>
+    <tr><td class="paramname">DOMException.OperationError</td><td>if any other file system error occurred during the copy operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Exceptions are only thrown if the current value of <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> is <code>true</code> (the default).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#a69fed1c86fcb6e1667993d8034481bcf" title="Asynchronously renames (or moves) the oldName file to a file or directory specified in destination.">renameAsync()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a69fed1c86fcb6e1667993d8034481bcf" name="a69fed1c86fcb6e1667993d8034481bcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69fed1c86fcb6e1667993d8034481bcf">&#9670;&nbsp;</a></span>renameAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; Promise|void &gt; renameAsync </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>oldName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>destination</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; <a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf">FS.OverwriteMode</a>|Function &gt;&#160;</td>
+          <td class="paramname"><em>mode_or_callback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; Function|undefined &gt;&#160;</td>
+          <td class="paramname"><em>callback</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Asynchronously renames (or moves) the <code>oldName</code> file to a file or directory specified in <code>destination</code>. </p>
+<p >Results of the write operation are available either as a <code>Promise</code> or by providing a callback function.</p>
+<p >This method has multiple possible signatures. Each version takes an optional callback Function as the last argument.</p><ul>
+<li>If no callback is passed in, <code><a class="el" href="class_file.html#a69fed1c86fcb6e1667993d8034481bcf" title="Asynchronously renames (or moves) the oldName file to a file or directory specified in destination.">renameAsync()</a></code> will return a <code>Promise</code> which resolves with a boolean value of <code>true</code>, or rejects with an <code>Error</code> argument.</li>
+<li>If a callback is given, it will be invoked with the results of the rename operation (boolean <code>true</code> or an <code>Error</code>) and this method returns <code>undefined</code>.<br  />
+ The callback function is passed 2 arguments: <code>callback(error, success)</code><ul>
+<li><code>error</code> - An <code>Error</code> object if any exception occurred while trying to copy the file. See below for more details on returned error types. If there was no error this argument value will be <code>null</code>.</li>
+<li><code>success</code> - boolean value of <code>true</code> if rename was successful, or <code>null</code> if there was an error.</li>
+</ul>
+</li>
+</ul>
+<p >Available method signatures:</p><ul>
+<li><code>renameAsync(string oldName, string destination [, Function callback])</code><br  />
+Tries to rename/move <code>oldName</code> to <code>destination</code> with <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cfaa6ba04023dab24cb76ba105ff3e659a9" title="No overwrite, operation fails if destination already exists.">FS.OW_EXCL</a></code> overwrite mode (fails if destination file exists).</li>
+<li><code>renameAsync(string oldName, string destination, <a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf" title="These values define behavior to use when a copy or rename/move operation encounters an existing entry...">FS.OverwriteMode</a> overwriteMode [, Function callback])</code><br  />
+Tries to rename/move <code>oldName</code> to <code>destination</code> using <code>overwriteMode</code> value to determine what to do in case destination already exists.</li>
+</ul>
+<p >If <code>destination</code> is a directory, the file name part of <code>oldName</code> is automatically appended to it. For a name to be recognized as a directory it must already exist in the file system or end in a slash (<code>/</code>). Otherwise it is interpreted as a file name.</p>
+<p >Destination directory tree must already exist or an error occurs.</p>
+<p >If a file with the name <code>destination</code> already exists, behavior depends on the value of <code>overwriteMode</code> argument. By default existing files are not overwritten and an exception will be generated.<br  />
+Setting <code>overwriteMode</code> to one of the other <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cf" title="These values define behavior to use when a copy or rename/move operation encounters an existing entry...">FS.OverwriteMode</a></code> values will instead attempt to overwrite the existing file. See enumeration documentation for options.</p>
+<p >If the rename operation fails initially, this will attempt to copy <code>oldName</code> file's contents to <code>destination</code>, and then remove the <code>oldName</code> file, keeping only <code>destination</code>. If that copy operation fails or the <code>oldName</code> file can't be removed, the <code>destination</code> file is removed to restore the old state.</p>
+<h3><a class="anchor" id="autotoc_md121"></a>
+Exceptions</h3>
+<p ><em>All</em> errors and exceptions are reported asynchronously, via either a rejected <code>Promise</code> or in the <code>error</code> argument passed to the callback. This method doesn't throw exceptions.<br  />
+</p><ul>
+<li><code>TypeError</code> if argument validation fails.</li>
+<li><code>DOMException.NotFoundError</code> if source file doesn't exist.</li>
+<li><code>DOMException.InvalidAccessError</code> if destination file already exists and <code>overwriteMode</code> is <code><a class="el" href="class_f_s.html#a09104c5af81744264a8e45a1a050a9cfaa6ba04023dab24cb76ba105ff3e659a9" title="No overwrite, operation fails if destination already exists.">FS.OW_EXCL</a></code> or if a safe overwrite failed (eg. could not rename old destination file).</li>
+<li><code>DOMException.OperationError</code> if any other file system error occurred during the copy operation.</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#a3be2bd612d4e70b48e24f8cc87240d94" title="Synchronously renames (or moves) the oldName file to a file or directory specified in destination.">rename()</a> for the synchronous version </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v1.3 </dd></dl>
+
+</div>
+</div>
+<a id="a62908e467f503b988d88a12841767868" name="a62908e467f503b988d88a12841767868"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62908e467f503b988d88a12841767868">&#9670;&nbsp;</a></span>write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int write </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_array_buffer.html">ArrayBuffer</a> &gt;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; <a class="el" href="class_file.html#struct_file_1_1_options">Options</a>|string|<a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS.OpenMode</a>|undefined &gt;&#160;</td>
+          <td class="paramname"><em>options</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Synchronously writes <code>data</code> to <code>file</code> and returns the number of bytes written. </p>
+<p >Returns <code>-1</code> on error or throws an exception if <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> is <code>true</code> (the default).</p>
+<p >Available method signatures:</p><ul>
+<li><code>write(string file, &lt;string | <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a>&gt; data)</code><br  />
+ Writes <code>data</code> to <code>file</code> in text mode (<code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda7b813e976f542da72304156db0479802" title="(&quot;t&quot;) When reading, the end-of-line terminators are translated to &#39; &#39;.">FS.O_TEXT</a></code>). No specific text encoding is applied to <code>data</code>, but on Windows line endings may be converted to <code>\r\n</code>.</li>
+<li><code>write(string file, &lt;string | <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a>&gt; data, &lt;string | <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd" title="The FS.OpenMode type stores an OR combination of FS.OpenModeFlag values.">FS.OpenMode</a>&gt; mode)</code><br  />
+ Writes <code>data</code> to <code>file</code> using specified <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd" title="The FS.OpenMode type stores an OR combination of FS.OpenModeFlag values.">FS.OpenMode</a> <code>mode</code> flag(s) when opening/creating the file (which can be a string or enumeration values).<br  />
+ This form should be used when writing binary files and no other options are required.</li>
+<li><code>write(string file, &lt;string | <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a>&gt; data, string encoding)</code><br  />
+ Writes <code>data</code> to <code>file</code> after encoding it as text using the specified <code>encoding</code> type.</li>
+<li><code>write(string file, &lt;string | <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a>&gt; data, <a class="el" href="class_file.html#struct_file_1_1_options" title="Options object which can be passed as an argument to various file reading and writing methods....">Options</a> options)</code><br  />
+ Writes <code>data</code> to <code>file</code> using settings specified in <code>options</code> object.</li>
+</ul>
+<p >See the shared <a class="el" href="class_file.html">Options</a> documentation for more details on supported options and encoding types.</p>
+<p >By default <code>file</code> is overwritten with the contents of <code>data</code> (otherwise known as "truncating" the file). To append to an existing file instead, set the <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdad69fd252a0668f86f5d95be1e1066bc5" title="(&quot;a&quot;) Append to file (implies O_WRONLY).">FS.O_APPEND</a></code> (or <code>"a"</code>) file mode flag. To return an error if the file already exists, set the <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdad9093f399230205743567677b59b435f" title="(&quot;x&quot;) Do not overwrite existing file when writing (returns error if file exists).">FS.O_EXCL</a></code> (<code>"x"</code>) flag. Rr, conversely, to only write to existing files use the <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdacc42cb13d42626b4a74bb04be2e1bcc0" title="(&quot;n&quot;) Only write to file if it exists (returns error otherwise).">FS.O_NOCREAT</a></code> (<code>"n"</code>) flag.</p>
+<p >Note that if writing UTF text with a byte order mark, the BOM size will be included in the resulting count of bytes written (3 bytes for UTF-8, 2 bytes for UTF-16, and 4 bytes for UTF-32).</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">TypeError</td><td>if argument validation fails. </td></tr>
+    <tr><td class="paramname">DOMException.OperationError</td><td>when trying to open a file (like lack of permissions, bad file path, etc). </td></tr>
+    <tr><td class="paramname">DOMException.InvalidStateError</td><td>for file system errors during the actual write operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Exceptions are only thrown if the current value of <a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78">throwExceptions</a> is <code>true</code> (the default).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#a7b72060b9136700e5a0fb0c2b69aada0" title="Asynchronously writes data to file.">writeAsync()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a7b72060b9136700e5a0fb0c2b69aada0" name="a7b72060b9136700e5a0fb0c2b69aada0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b72060b9136700e5a0fb0c2b69aada0">&#9670;&nbsp;</a></span>writeAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt; Promise&lt; int &gt;|void &gt; writeAsync </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_array_buffer.html">ArrayBuffer</a> &gt;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; <a class="el" href="class_file.html#struct_file_1_1_options">Options</a>|string|<a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd">FS.OpenMode</a>|Function|undefined &gt;&#160;</td>
+          <td class="paramname"><em>options</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; Function|undefined &gt;&#160;</td>
+          <td class="paramname"><em>callback</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Asynchronously writes <code>data</code> to <code>file</code>. </p>
+<p >Results of the write operation are available either as a <code>Promise</code> or by providing a callback function.</p>
+<p >This method has multiple possible signatures. Each version takes an optional callback Function as the last argument.</p><ul>
+<li>If no callback is passed in, <code><a class="el" href="class_file.html#a7b72060b9136700e5a0fb0c2b69aada0" title="Asynchronously writes data to file.">writeAsync()</a></code> will return a <code>Promise</code> which resolves with the number of bytes written, or rejects with an <code>Error</code> argument.</li>
+<li>If a callback is given, it will be invoked with the results of the write operation (number of bytes written or an <code>Error</code>) and this method returns <code>undefined</code>.<br  />
+ The callback function is passed 2 arguments: <code>callback(error, bytesWritten)</code><ul>
+<li><code>error</code> - An <code>Error</code> object if any exception occurred while trying to read the file. See below for more details on returned error types. If there was no error this argument value will be <code>null</code>.</li>
+<li><code>bytesWritten</code> - The number of bytes written to <code>file</code>, or <code>null</code> if there was an error.</li>
+</ul>
+</li>
+</ul>
+<p >Available method signatures:</p><ul>
+<li><code>write(string file, &lt;string | <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a>&gt; data [, Function callback])</code><br  />
+ Writes <code>data</code> to <code>file</code> in text mode (<code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bda7b813e976f542da72304156db0479802" title="(&quot;t&quot;) When reading, the end-of-line terminators are translated to &#39; &#39;.">FS.O_TEXT</a></code>). No specific text encoding is applied to <code>data</code>, but on Windows line endings may be converted to <code>\r\n</code>.</li>
+<li><code>write(string file, &lt;string | <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a>&gt; data, &lt;string | <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd" title="The FS.OpenMode type stores an OR combination of FS.OpenModeFlag values.">FS.OpenMode</a>&gt; mode [, Function callback])</code><br  />
+ Writes <code>data</code> to <code>file</code> using specified <a class="el" href="class_f_s.html#a7be6482aea7db661a3686265110283dd" title="The FS.OpenMode type stores an OR combination of FS.OpenModeFlag values.">FS.OpenMode</a> <code>mode</code> flag(s) when opening/creating the file (which can be a string or enumeration values).<br  />
+ This form should be used when writing binary files and no other options are required.</li>
+<li><code>write(string file, &lt;string | <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a>&gt; data, string encoding [, Function callback])</code><br  />
+ Writes <code>data</code> to <code>file</code> after encoding it as text using the specified <code>encoding</code> type.</li>
+<li><code>write(string file, &lt;string | <a class="el" href="class_array_buffer.html" title="ArrayBuffer Object Extensions">ArrayBuffer</a>&gt; data, <a class="el" href="class_file.html#struct_file_1_1_options" title="Options object which can be passed as an argument to various file reading and writing methods....">Options</a> options [, Function callback])</code><br  />
+ Writes <code>data</code> to <code>file</code> using settings specified in <code>options</code> object.</li>
+</ul>
+<p >See the shared <a class="el" href="class_file.html">Options</a> documentation for more details on supported options and encoding types.</p>
+<p >By default <code>file</code> is overwritten with the contents of <code>data</code> (otherwise known as "truncating" the file). To append to an existing file instead, set the <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdad69fd252a0668f86f5d95be1e1066bc5" title="(&quot;a&quot;) Append to file (implies O_WRONLY).">FS.O_APPEND</a></code> (or <code>"a"</code>) file mode flag. To return an error if the file already exists, set the <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdad9093f399230205743567677b59b435f" title="(&quot;x&quot;) Do not overwrite existing file when writing (returns error if file exists).">FS.O_EXCL</a></code> (<code>"x"</code>) flag. Rr, conversely, to only write to existing files use the <code><a class="el" href="class_f_s.html#aac80d97c6b72c72f21cd2ebcef18f2bdacc42cb13d42626b4a74bb04be2e1bcc0" title="(&quot;n&quot;) Only write to file if it exists (returns error otherwise).">FS.O_NOCREAT</a></code> (<code>"n"</code>) flag.</p>
+<p >Note that if writing UTF text with a byte order mark, the BOM size will be included in the resulting count of bytes written (3 bytes for UTF-8, 2 bytes for UTF-16, and 4 bytes for UTF-32).</p>
+<h3><a class="anchor" id="autotoc_md122"></a>
+Exceptions</h3>
+<p ><em>All</em> errors and exceptions are reported asynchronously, via either a rejected <code>Promise</code> or in the <code>error</code> argument passed to the callback. This method doesn't throw exceptions.<br  />
+</p><ul>
+<li>Argument validation issues are reported as <code>TypeError</code> types.</li>
+<li>Errors when trying to open a file (like lack of permissions, bad file path, etc) are reported as a <code>DOMException.OperationError</code>.</li>
+<li>System errors during the actual write operation are reported as <code>DOMException.InvalidStateError</code>.</li>
+<li>If an async operation is canceled using an <code>AbortSignal</code> (passed on <code>options</code> argument) then a <code>DOMException.AbortError</code> is generated.</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html#a62908e467f503b988d88a12841767868" title="Synchronously writes data to file and returns the number of bytes written.">write()</a> for synchronous version </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v1.3 </dd></dl>
 
 </div>
 </div>
@@ -1104,7 +2027,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_file.html">File</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

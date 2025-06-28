@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
    </div>
   </td>
  </tr>
@@ -130,15 +130,27 @@ $(document).ready(function(){initNavTree('group___net_a_p_i.html',''); initResiz
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<p >The Network API (<code><a class="el" href="namespace_net.html" title="The Net namespace contains static functions for working with network requests.">Net</a></code>) provides an interface for requesting and sending network or local resources. </p>
-<p >This contains an implementation of the common Web Fetch API as described, for example, <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank">on MDN</a>, with a few differences and an expanded feature set.</p>
-<p >The two main interfaces for the Fetch API are the <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> and <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> functions, which are both essentially wrappers around an <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a> object. <code>fetch()</code> provides an asynchronous Promise-based interface, while <code>request()</code> returns results directly (synchronously).</p>
-<p >The Fetch API further extends <code>XMLHttpRequest</code> with formalized classes/objects for <a href="https://developer.mozilla.org/en-US/docs/Web/API/Headers" target="_blank">Headers</a>, <a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a>, and <a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a> types.<br  />
- (Note that the <code>Headers</code> type is not documented here locally since the implementation matches what is already documented at MDN.) </p>
+<p >Network APIs provide interfaces for exchanging data with remote or local sources. </p>
+<ul>
+<li>The <code><a class="el" href="namespace_net.html" title="The Net namespace contains static functions for working with network requests.">Net</a></code> namespace contains:<ul>
+<li><p class="startli">An implementation of the common Web <b>Fetch API</b> as described, for example, <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank">on MDN</a>, with a few differences and an expanded feature set.</p>
+<p class="startli">The two main interfaces for the Fetch API are the <code><a class="el" href="namespace_net.html#a4549287fd3aec57019081a6075d56214" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> and <code><a class="el" href="namespace_net.html#adaf75747e92df59d79e04df9c5ee8008" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> functions, which are both essentially wrappers around an <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a> object. <code>fetch()</code> provides an asynchronous Promise-based interface, while <code>request()</code> returns results directly (synchronously).</p>
+</li>
+<li><code><a class="el" href="namespace_net.html#acdf9e2ecbd12b12c4fec16831ac7fbf1" title="The Net.wsGet() function initiates a WebSocket request to the given URL, optionally sends a message a...">Net.wsGet()</a></code> and <code><a class="el" href="namespace_net.html#a1198d13de49b14a4fb05e1740b7e881e" title="The Net.wsSend() function initiates a WebSocket request to the given URL and, optionally,...">Net.wsSend()</a></code> static methods for receiving and sending single messages via <code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> client requests.</li>
+</ul>
+</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Headers" target="_blank">Headers</a> - The <code>Headers</code> interface of the Fetch API allows you to perform various actions on HTTP request and response headers. (Implementation matches MDN documentation.)</li>
+<li><code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> - The <a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a> interface of the Fetch API represents a resource request.</li>
+<li><code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> - The <a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a> interface of the Fetch API represents the response to a request.</li>
+<li><code><a class="el" href="namespace_socket.html" title="The Socket namespace contains constants relating to network socket operations.">Socket</a></code> - The <a class="el" href="namespace_socket.html" title="The Socket namespace contains constants relating to network socket operations.">Socket</a> namespace contains constants relating to network socket operations, such as WebSockets.</li>
+<li><code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> - Implementation of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket" target="_blank">WebSocket Web API</a> client, with extensions similar to the NodeJS version. </li>
+</ul>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespace_net"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_net.html">Net</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespace_socket"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_socket.html">Socket</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -147,6 +159,8 @@ Members</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_response.html">Response</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_web_socket.html">WebSocket</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -154,7 +168,7 @@ Members</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

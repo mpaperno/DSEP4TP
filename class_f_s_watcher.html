@@ -1,0 +1,441 @@
+<!-- HTML header for doxygen 1.9.4-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dynamic Script Engine Plugin for Touch Portal: FSWatcher</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md11']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/mpaperno/DSEP4TP" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" fill="url(#gradient)"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    <linearGradient id="gradient" x1="0.5" x2="0.5" y1="0" y2="1">
+        <stop class="first-stop" offset="0%"></stop>
+        <stop class="last-stop" offset="100%"></stop>
+    </linearGradient>
+    </svg>
+</a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
+  <td id="projectalign">
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_f_s_watcher.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="class_f_s_watcher-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">FSWatcher<div class="ingroups"><a class="el" href="group___file_system.html">File System</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><p >The <code><a class="el" href="class_f_s_watcher.html" title="The FSWatcher class provides an interface for monitoring files and directories for modifications.">FSWatcher</a></code> class provides an interface for monitoring files and directories for modifications. </p>
+<p ><code>FSWatcher</code> monitors the file system for changes to files and directories by watching a list of specified paths.</p>
+<p >Call <code><a class="el" href="class_f_s_watcher.html#a9eea76275b9a397b6fd01e3d6c6a81d5" title="Adds path to the file system watcher if path exists.">addPath()</a></code> to watch a particular file or directory. Multiple paths can be added using the <code><a class="el" href="class_f_s_watcher.html#a9f687f79177ec4c6e824a9dafaaca921" title="Adds each path in paths to the file system watcher.">addPaths()</a></code> method. Existing paths can be removed by using the <code><a class="el" href="class_f_s_watcher.html#a94ee67abacc61bce6f821325d10ae6ba" title="Removes the specified path from the file system watcher.">removePath()</a></code> and <code><a class="el" href="class_f_s_watcher.html#ae907391f807fb8b5c8cd78c63610d1bb" title="Removes the specified paths from the file system watcher.">removePaths()</a></code> methods.</p>
+<p ><code>FSWatcher</code> examines each path added to it. Files that have been added to the <code>FSWatcher</code> can be accessed using the <code><a class="el" href="class_f_s_watcher.html#ac966687e297ebcdc1778a5b8164f19e2" title="Returns a list of paths to files that are being watched.">files()</a></code> method, and directories using <code><a class="el" href="class_f_s_watcher.html#a7728cb120e1b0d212f45e737416a4374" title="Returns a list of paths to directories that are being watched.">directories()</a></code>.</p>
+<p >The <code><a class="el" href="class_f_s_watcher.html#a3251462ed8fc3a16d7a8261caf31d9fa" title="This event is emitted when the file at the specified path is modified, renamed or removed from disk.">fileChanged()</a></code> event is emitted when a file has been modified, renamed or removed from disk. Similarly, the <code><a class="el" href="class_f_s_watcher.html#ab4fdb99792ac8cf9bae998ecb0b3c00d" title="This event is emitted when the directory at a specified path is modified (e.g., when a file is added ...">directoryChanged()</a></code> event is emitted when a directory or its contents is modified or removed. Note that <code>FSWatcher</code> stops monitoring files once they have been renamed or removed from disk, and directories once they have been removed from disk.</p>
+<p >Keep in mind that the instance of <code>FSWatcher</code> must persist for as long as you need the path(s) to be watched. If the variable holding the instance goes out of scope, it may get garbage-collected at any point and stop emitting events.</p>
+<p >To terminate watching all paths and delete an instance of <code>FSWatcher</code>, use the <code><a class="el" href="class_f_s_watcher.html#a3a80b6032f86a56bec74609034b3246f" title="Stops watching all paths and destroys this instance of FSWatcher. Trying to use this instance after c...">destroy()</a></code> method and set your instance variable value to <code>null</code> or <code>undefined</code>.</p>
+<p >Notes:</p><ul>
+<li>On systems running a Linux kernel without inotify support, file systems that contain watched paths cannot be unmounted.</li>
+<li>The act of monitoring files and directories for modifications consumes system resources. This implies there is a limit to the number of files and directories your process can monitor simultaneously. Some system limits the number of open file descriptors to 256 by default. This means that <code><a class="el" href="class_f_s_watcher.html#a9eea76275b9a397b6fd01e3d6c6a81d5" title="Adds path to the file system watcher if path exists.">addPath()</a></code> and <code><a class="el" href="class_f_s_watcher.html#a9f687f79177ec4c6e824a9dafaaca921" title="Adds each path in paths to the file system watcher.">addPaths()</a></code> will fail if your process tries to add more than 256 files or directories to the file system monitor. Also note that your process may have other file descriptors open in addition to the ones for files being monitored, and these other open descriptors also count in the total. MacOS uses a different backend and does not suffer from this issue.</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>The <code>FSWatcher</code> class is a proxy for <a href="https://doc.qt.io/qt-6/qfilesystemwatcher.html" target="_blank">QFileSystemWatcher</a>, part of the underlying Qt C++ library. Most of the documentation text here is originally from the QFileSystemWatcher documentation (used under the GNU Free Documentation License version 1.3).</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_file.html" title="The File class provides access to... files!">File</a>, <a class="el" href="class_dir.html" title="The Dir class provides static functions for directory operations, which are accessed in JS with the D...">Dir</a> </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v1.3 </dd></dl>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ad0aeb1f30b14840df9d22e48e5f303f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_watcher.html#ad0aeb1f30b14840df9d22e48e5f303f3">FSWatcher</a> ()</td></tr>
+<tr class="separator:ad0aeb1f30b14840df9d22e48e5f303f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1edaaf7ba42967a3d0b9af0cadbb6576"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_watcher.html#a1edaaf7ba42967a3d0b9af0cadbb6576">FSWatcher</a> (Array&lt; string &gt; &amp;paths)</td></tr>
+<tr class="separator:a1edaaf7ba42967a3d0b9af0cadbb6576"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9eea76275b9a397b6fd01e3d6c6a81d5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_watcher.html#a9eea76275b9a397b6fd01e3d6c6a81d5">addPath</a> (string &amp;path)</td></tr>
+<tr class="separator:a9eea76275b9a397b6fd01e3d6c6a81d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f687f79177ec4c6e824a9dafaaca921"><td class="memItemLeft" align="right" valign="top">Array&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_watcher.html#a9f687f79177ec4c6e824a9dafaaca921">addPaths</a> (Array&lt; string &gt; &amp;paths)</td></tr>
+<tr class="separator:a9f687f79177ec4c6e824a9dafaaca921"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94ee67abacc61bce6f821325d10ae6ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_watcher.html#a94ee67abacc61bce6f821325d10ae6ba">removePath</a> (string &amp;path)</td></tr>
+<tr class="separator:a94ee67abacc61bce6f821325d10ae6ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae907391f807fb8b5c8cd78c63610d1bb"><td class="memItemLeft" align="right" valign="top">Array&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_watcher.html#ae907391f807fb8b5c8cd78c63610d1bb">removePaths</a> (Array&lt; string &gt; &amp;paths)</td></tr>
+<tr class="separator:ae907391f807fb8b5c8cd78c63610d1bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7728cb120e1b0d212f45e737416a4374"><td class="memItemLeft" align="right" valign="top">Array&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_watcher.html#a7728cb120e1b0d212f45e737416a4374">directories</a> ()</td></tr>
+<tr class="separator:a7728cb120e1b0d212f45e737416a4374"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac966687e297ebcdc1778a5b8164f19e2"><td class="memItemLeft" align="right" valign="top">Array&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_watcher.html#ac966687e297ebcdc1778a5b8164f19e2">files</a> ()</td></tr>
+<tr class="separator:ac966687e297ebcdc1778a5b8164f19e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a80b6032f86a56bec74609034b3246f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_watcher.html#a3a80b6032f86a56bec74609034b3246f">destroy</a> ()</td></tr>
+<tr class="separator:a3a80b6032f86a56bec74609034b3246f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Events</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p >See <a class="el" href="group___event_handlers.html">Event Handling</a> for details about connecting handlers to events. </p>
+</div></td></tr>
+<tr class="memitem:a3251462ed8fc3a16d7a8261caf31d9fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_watcher.html#a3251462ed8fc3a16d7a8261caf31d9fa">fileChanged</a> (string path)</td></tr>
+<tr class="separator:a3251462ed8fc3a16d7a8261caf31d9fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4fdb99792ac8cf9bae998ecb0b3c00d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_watcher.html#ab4fdb99792ac8cf9bae998ecb0b3c00d">directoryChanged</a> (string path)</td></tr>
+<tr class="separator:ab4fdb99792ac8cf9bae998ecb0b3c00d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ad0aeb1f30b14840df9d22e48e5f303f3" name="ad0aeb1f30b14840df9d22e48e5f303f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0aeb1f30b14840df9d22e48e5f303f3">&#9670;&nbsp;</a></span>FSWatcher() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_f_s_watcher.html">FSWatcher</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a new file system watcher object that isn't monitoring any paths. Path(s) can be added later with <code><a class="el" href="class_f_s_watcher.html#a9eea76275b9a397b6fd01e3d6c6a81d5" title="Adds path to the file system watcher if path exists.">addPath()</a></code> or <code><a class="el" href="class_f_s_watcher.html#a9f687f79177ec4c6e824a9dafaaca921" title="Adds each path in paths to the file system watcher.">addPaths()</a></code>. </p>
+
+</div>
+</div>
+<a id="a1edaaf7ba42967a3d0b9af0cadbb6576" name="a1edaaf7ba42967a3d0b9af0cadbb6576"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1edaaf7ba42967a3d0b9af0cadbb6576">&#9670;&nbsp;</a></span>FSWatcher() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_f_s_watcher.html">FSWatcher</a> </td>
+          <td>(</td>
+          <td class="paramtype">Array&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>paths</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a new file system watcher object which monitors the specified paths list. See <code><a class="el" href="class_f_s_watcher.html#a9f687f79177ec4c6e824a9dafaaca921" title="Adds each path in paths to the file system watcher.">addPaths()</a></code> for details of how the <code>paths</code> argument is treated. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9eea76275b9a397b6fd01e3d6c6a81d5" name="a9eea76275b9a397b6fd01e3d6c6a81d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9eea76275b9a397b6fd01e3d6c6a81d5">&#9670;&nbsp;</a></span>addPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool addPath </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adds <code>path</code> to the file system watcher if <code>path</code> exists. </p>
+<p >The path is not added if it does not exist, or if it is already being monitored by this file system watcher.</p>
+<p >If <code>path</code> specifies a directory, the <code><a class="el" href="class_f_s_watcher.html#ab4fdb99792ac8cf9bae998ecb0b3c00d" title="This event is emitted when the directory at a specified path is modified (e.g., when a file is added ...">directoryChanged()</a></code> event will be emitted when <code>path</code> is modified or removed from disk; otherwise the <code><a class="el" href="class_f_s_watcher.html#a3251462ed8fc3a16d7a8261caf31d9fa" title="This event is emitted when the file at the specified path is modified, renamed or removed from disk.">fileChanged()</a></code> event is emitted when <code>path</code> is modified, renamed or removed.</p>
+<p >If the watch was successful, <code>true</code> is returned.</p>
+<p >Reasons for a watch failure are generally system-dependent, but may include the resource not existing, access failures, or the total watch count limit, if the platform has one.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_f_s_watcher.html#a9f687f79177ec4c6e824a9dafaaca921" title="Adds each path in paths to the file system watcher.">addPaths()</a>, <a class="el" href="class_f_s_watcher.html#a94ee67abacc61bce6f821325d10ae6ba" title="Removes the specified path from the file system watcher.">removePath()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a9f687f79177ec4c6e824a9dafaaca921" name="a9f687f79177ec4c6e824a9dafaaca921"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f687f79177ec4c6e824a9dafaaca921">&#9670;&nbsp;</a></span>addPaths()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; string &gt; addPaths </td>
+          <td>(</td>
+          <td class="paramtype">Array&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>paths</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adds each path in <em>paths</em> to the file system watcher. </p>
+<p >Paths are not added if they do not exist, or if they are already being monitored by the file system watcher.</p>
+<p >If a path specifies a directory, the <code><a class="el" href="class_f_s_watcher.html#ab4fdb99792ac8cf9bae998ecb0b3c00d" title="This event is emitted when the directory at a specified path is modified (e.g., when a file is added ...">directoryChanged()</a></code> signal will be emitted when the path is modified or removed from disk; otherwise the <code><a class="el" href="class_f_s_watcher.html#a3251462ed8fc3a16d7a8261caf31d9fa" title="This event is emitted when the file at the specified path is modified, renamed or removed from disk.">fileChanged()</a></code> signal is emitted when the path is modified, renamed, or removed.</p>
+<p >The return value is a list of paths that could <b>not</b> be watched.</p>
+<p >Reasons for a watch failure are generally system-dependent, but may include the resource not existing, access failures, or the total watch count limit, if the platform has one.</p>
+<dl class="section note"><dt>Note</dt><dd>There may be a system dependent limit to the number of files and directories that can be monitored simultaneously. If this limit has been reached, the excess <em>paths</em> will not be monitored, and they will be added to the returned list.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_f_s_watcher.html#a9eea76275b9a397b6fd01e3d6c6a81d5" title="Adds path to the file system watcher if path exists.">addPath()</a>, <a class="el" href="class_f_s_watcher.html#ae907391f807fb8b5c8cd78c63610d1bb" title="Removes the specified paths from the file system watcher.">removePaths()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a94ee67abacc61bce6f821325d10ae6ba" name="a94ee67abacc61bce6f821325d10ae6ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94ee67abacc61bce6f821325d10ae6ba">&#9670;&nbsp;</a></span>removePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool removePath </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes the specified <em>path</em> from the file system watcher. </p>
+<p >If the watch is successfully removed, <code>true</code> is returned.</p>
+<p >Reasons for watch removal failing are generally system-dependent, but may be due to the path having already been deleted, for example. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_f_s_watcher.html#ae907391f807fb8b5c8cd78c63610d1bb" title="Removes the specified paths from the file system watcher.">removePaths()</a>, <a class="el" href="class_f_s_watcher.html#a9eea76275b9a397b6fd01e3d6c6a81d5" title="Adds path to the file system watcher if path exists.">addPath()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae907391f807fb8b5c8cd78c63610d1bb" name="ae907391f807fb8b5c8cd78c63610d1bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae907391f807fb8b5c8cd78c63610d1bb">&#9670;&nbsp;</a></span>removePaths()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; string &gt; removePaths </td>
+          <td>(</td>
+          <td class="paramtype">Array&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>paths</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes the specified <em>paths</em> from the file system watcher. </p>
+<p >The return value is a list of paths which were <b>not</b> able to be un-watched successfully.</p>
+<p >Reasons for watch removal failing are generally system-dependent, but may be due to the path having already been deleted, for example. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_f_s_watcher.html#a94ee67abacc61bce6f821325d10ae6ba" title="Removes the specified path from the file system watcher.">removePath()</a>, <a class="el" href="class_f_s_watcher.html#a9f687f79177ec4c6e824a9dafaaca921" title="Adds each path in paths to the file system watcher.">addPaths()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a7728cb120e1b0d212f45e737416a4374" name="a7728cb120e1b0d212f45e737416a4374"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7728cb120e1b0d212f45e737416a4374">&#9670;&nbsp;</a></span>directories()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; string &gt; directories </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a list of paths to directories that are being watched. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_f_s_watcher.html#ac966687e297ebcdc1778a5b8164f19e2" title="Returns a list of paths to files that are being watched.">files()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ac966687e297ebcdc1778a5b8164f19e2" name="ac966687e297ebcdc1778a5b8164f19e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac966687e297ebcdc1778a5b8164f19e2">&#9670;&nbsp;</a></span>files()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; string &gt; files </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a list of paths to files that are being watched. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_f_s_watcher.html#a7728cb120e1b0d212f45e737416a4374" title="Returns a list of paths to directories that are being watched.">directories()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a3a80b6032f86a56bec74609034b3246f" name="a3a80b6032f86a56bec74609034b3246f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a80b6032f86a56bec74609034b3246f">&#9670;&nbsp;</a></span>destroy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void destroy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Stops watching all paths and destroys this instance of <a class="el" href="class_f_s_watcher.html" title="The FSWatcher class provides an interface for monitoring files and directories for modifications.">FSWatcher</a>. Trying to use this instance after calling <code><a class="el" href="class_f_s_watcher.html#a3a80b6032f86a56bec74609034b3246f" title="Stops watching all paths and destroys this instance of FSWatcher. Trying to use this instance after c...">destroy()</a></code> is undefined behavior. </p>
+
+</div>
+</div>
+<a id="a3251462ed8fc3a16d7a8261caf31d9fa" name="a3251462ed8fc3a16d7a8261caf31d9fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3251462ed8fc3a16d7a8261caf31d9fa">&#9670;&nbsp;</a></span>fileChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fileChanged </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is emitted when the file at the specified <em>path</em> is modified, renamed or removed from disk. </p>
+<dl class="section note"><dt>Note</dt><dd>As a safety measure, many applications save an open file by writing a new file and then deleting the old one. In your handler function, you can check if <code>watcher.files().contains(path)</code>. If it returns <code>false</code>, check whether the file still exists and then call <code><a class="el" href="class_f_s_watcher.html#a9eea76275b9a397b6fd01e3d6c6a81d5" title="Adds path to the file system watcher if path exists.">addPath()</a></code> to continue watching it. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_f_s_watcher.html#ab4fdb99792ac8cf9bae998ecb0b3c00d" title="This event is emitted when the directory at a specified path is modified (e.g., when a file is added ...">directoryChanged()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ab4fdb99792ac8cf9bae998ecb0b3c00d" name="ab4fdb99792ac8cf9bae998ecb0b3c00d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4fdb99792ac8cf9bae998ecb0b3c00d">&#9670;&nbsp;</a></span>directoryChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void directoryChanged </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This event is emitted when the directory at a specified <em>path</em> is modified (e.g., when a file is added or deleted) or removed from disk. </p>
+<p >Note that if there are several changes during a short period of time, some of the changes might not emit this event. However, the last change in the sequence of changes will always generate this event. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_f_s_watcher.html#a3251462ed8fc3a16d7a8261caf31d9fa" title="This event is emitted when the file at the specified path is modified, renamed or removed from disk.">fileChanged()</a> </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.4-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_f_s_watcher.html">FSWatcher</a></li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['scripting_20syntax_20and_20caveats_0',['Scripting Syntax and Caveats',['../plugin_scripting.html',1,'documentation']]],
-  ['settings_2c_20states_20and_20events_1',['Settings, States and Events',['../plugin_states_page.html',1,'documentation']]],
-  ['status_20and_20logging_2',['Status and Logging',['../plugin_status_and_logging.html',1,'documentation']]]
+  ['readme_0',['README',['../md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p_resources_examples__g_h_u_b_monitor__r_e_a_d_m_e.html',1,'']]]
 ];

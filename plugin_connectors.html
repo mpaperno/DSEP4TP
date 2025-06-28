@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
    </div>
   </td>
  </tr>
@@ -127,9 +127,9 @@ $(document).ready(function(){initNavTree('plugin_connectors.html',''); initResiz
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md48">Using Connectors</a></li>
-<li class="level1"><a href="#autotoc_md49">Considerations</a></li>
-<li class="level1"><a href="#autotoc_md50">Available Connectors</a><ul><li class="level2"><a href="#plugin_connector_evaluate">Evaluate Expression</a></li>
+<ul><li class="level1"><a href="#autotoc_md54">Using Connectors</a></li>
+<li class="level1"><a href="#autotoc_md55">Considerations</a></li>
+<li class="level1"><a href="#autotoc_md56">Available Connectors</a><ul><li class="level2"><a href="#plugin_connector_evaluate">Evaluate Expression</a></li>
 <li class="level2"><a href="#plugin_connector_module">Import Module File</a></li>
 <li class="level2"><a href="#plugin_connector_update">Update Existing Instance</a></li>
 <li class="level2"><a href="#plugin_connector_repeat_property">Set Held Action Repeat Rate/Delay</a></li>
@@ -141,7 +141,7 @@ $(document).ready(function(){initNavTree('plugin_connectors.html',''); initResiz
 <div class="textblock"><p ><a class="anchor" id="md_pages_Connectors"></a></p>
 <p >"Connectors" in Touch Portal-speak are essentially the equivalent of Actions for Buttons, but can (only) be used on Slider type controls (and of course vice versa that Actions can't be used on Sliders). This plugin provides 4 of its Actions, documented on the previous page, as Connectors.</p>
 <p ><img src="images/connectors/connectors-list.png" alt="" class="inline"/></p>
-<h1><a class="anchor" id="autotoc_md48"></a>
+<h1><a class="anchor" id="autotoc_md54"></a>
 Using Connectors</h1>
 <p >Besides the obvious difference in the "physical" control between buttons and sliders, the only practical difference as far as this plugin goes is that a connector/slider can, optionally, pass the slider's current position value (0 - 100 range) to the expression/module function being invoked.</p>
 <p >This is done by putting a special placeholder "token," or macro, wherever you'd like the slider's current position value to appear in your expression, eg. in a function invocation parameter, or as part of some expression calculation. The placeholder gets replaced <em>by the plugin</em> with a numeric value representing the slider position (an integer in the range of 0 through 100).</p>
@@ -149,14 +149,14 @@ Using Connectors</h1>
 <p >Here is an example shot of an "Update" type connector (from the <a class="el" href="example_color_picker.html">Color Mixer Example</a>):</p>
 <p ><a href="images/connectors/color-picker-update.png" target="fullSizeImg"><img src="images/connectors/color-picker-update.png" alt="" class="inline"/></a></p>
 <p >Here the <em>DSE_ColorPicker</em> is an existing instance which imports a module. This connector invokes the <code>setGreen()</code> function in that module, and passes the slider's current value as the only parameter to the function. When the plugin receives this connector event, it will replace <code>${connector_value}</code> with the actual numeric value of the slider's position before invoking the <code>setGreen()</code> function. The end result would, for example, be <code>M.setGreen(35)</code>.</p>
-<h1><a class="anchor" id="autotoc_md49"></a>
+<h1><a class="anchor" id="autotoc_md55"></a>
 Considerations</h1>
 <p >Sliders/connectors can produce events very quickly when they are being moved, up to around 10 updates per second (each). In theory a user could move as many sliders at the same time as they have fingers, but even with just a couple of them moving at once, that's significantly fast input. If you try to do any operation when a slider value changes that takes more than a few milliseconds to run, this could generally not end very well.</p>
 <p >This is why a "Load Script" type connector is not included. Believe me you do not want to be loading files from disk at 10Hz. The Module type works fine because the modules are cached after first load, based purely on file name (there's not even a modification timestamp check or anything "expensive" like that).</p>
 <p >Likewise, the <em>Instance Persistence -&gt; Saved</em> sub-options are removed. If needed, they must be set using an Action and are then preserved if using a Connector with "Saved" persistence selected.</p>
 <p >The most efficient type of Connector is "Update Existing Instance" since that needs the least amount of pre-processing by the plugin before actually being evaluated.</p>
 <p ><b>Note</b>: As of v3.1, Touch Portal does not display any descriptions above the connector actions.</p>
-<h1><a class="anchor" id="autotoc_md50"></a>
+<h1><a class="anchor" id="autotoc_md56"></a>
 Available Connectors</h1>
 <p >The options here are all pretty much as described for the corresponding Actions (on the previous page), so I'm not going to delve into all the details again. The overall differences are already noted above. Only any specific differences are noted below.</p>
 <p >Also of course there are no "On Hold" options for connectors since they do not provide such functionality.</p>
@@ -207,10 +207,10 @@ Updating Sliders from Scripts</h1>
 <p >One of the benefits of having "native" sliders in this plugin itself is that we can track their use on pages and update their positions dynamically if we want to. For example to reflect the value of some variable which was changed independently of the user moving the connector (eg. a volume was adjusted externally and the slider position should represent the current value). Due to the nature of the Touch Portal Connectors API, it is difficult-to-impossible to update sliders provided by Touch Portal itself (like "Set Value" connector), or other plugins [*].</p>
 <p >To update the position of a Slider used on a Touch Portal page the program needs to know that Slider's special unique ID string. This could be a "long" ID comprised of all the options currently selected in the connector (and some other parts), or a "short ID" which Touch Portal generates for each Slider instance. The "long ID" has a limit of 200 characters, and is cumbersome to use in general, so this option usually isn't very useful. We pretty much need to use the generated "short IDs," but the challenge is knowing which ID corresponds to which actual Slider/connector instance since that data is only available from Touch Portal itself and may easily change.</p>
 <p >To help with this conundrum Touch Portal sends special "short connector ID generated" messages to a plugin whenever that plugin's connectors are added to a page or edited to reflect a new unique combination of options. These notifications are one-time and transitory, meaning if one needs to store the data for later reference (eg. which short ID to update later when a value changes), one must implement that inside the plugin itself. A slew of these notifications may be sent when the plugin first starts up, as Touch Portal sends one for each existing Slider instance. Notably though, these notifications are <em>only</em> sent to the plugin which "provided" the connectors in the first place... which is why we need "native" sliders in this plugin in order to be able to track their use properly.</p>
-<p >So, the end result of all this is an in-memory database which this plugin maintains to store each Slider "short ID" reported by Touch Portal. Scripts can then query/search this data to find the short IDs they may need, at any time. Once the script has the correct ID, sending an update is just a function call to <code><a class="el" href="class_t_p.html#ae18d5fec12d5b68429d55edd2362f65f" title="Sends a connector (slider) update with given value which should be an integer in the range of 0 - 100...">TP.connectorUpdate()</a></code> with the ID and a numeric value.</p>
+<p >So, the end result of all this is an in-memory database which this plugin maintains to store each Slider "short ID" reported by Touch Portal. Scripts can then query/search this data to find the short IDs they may need, at any time. Once the script has the correct ID, sending an update is just a function call to <code><a class="el" href="class_t_p.html#ab09860faf461263a8ca4ada043c53bf1" title="Sends a connector (slider) update with given value which should be an integer in the range of 0 - 100...">TP.connectorUpdate()</a></code> with the ID and a numeric value.</p>
 <p >The full API is documented over in the <a class="el" href="group___t_p_a_p_i.html">Touch Portal API (TP)</a> section, and access to the ID data specifically in the "Connector Data" subsection.<br  />
  The <a class="el" href="example_color_picker.html">Color Mixer Example</a> makes extensive use of Sliders, both as input to change color values and for visual feedback of current values.</p>
-<p ><code>*</code> As of Touch Portal v3.1, a Slider with <em>Set Value</em> action can be adjusted externally by setting the corresponding Value, eg. with a <code><a class="el" href="class_t_p.html#abc30c9dbb5074f0b2e36307a25f16ef3" title="Send a State update to Touch Portal for any arbitrary state/value matching the id,...">TP.stateUpdateById()</a></code> call using that Value's ID. However this is currently considered a TP bug and may change in future versions.</p>
+<p ><code>*</code> As of Touch Portal v3.1, a Slider with <em>Set Value</em> action can be adjusted externally by setting the corresponding Value, eg. with a <code><a class="el" href="class_t_p.html#a132e16e43339d24eeb5c3ff6c4d1d5e7" title="Send a State update to Touch Portal for any arbitrary state/value matching the id,...">TP.stateUpdateById()</a></code> call using that Value's ID. However this is currently considered a TP bug and may change in future versions.</p>
 <hr  />
 <p ><span class="next_section_button"> Read Next: <a class="el" href="plugin_states_page.html#md_pages_States">Settings, States and Events</a> </span> </p>
 </div></div><!-- contents -->
@@ -221,7 +221,7 @@ Updating Sliders from Scripts</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="documentation.html">Plugin Documentation</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

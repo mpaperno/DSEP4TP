@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
    </div>
   </td>
  </tr>
@@ -127,12 +127,12 @@ $(document).ready(function(){initNavTree('example_basic.html',''); initResizable
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><ul><li class="level2"><a href="#autotoc_md100">Round a value to a whole number</a></li>
-<li class="level2"><a href="#autotoc_md101">Convert feet to meters</a></li>
-<li class="level2"><a href="#autotoc_md102">Format a string to include a numeric value</a></li>
-<li class="level2"><a href="#autotoc_md103">Inline conditional (ternary operator) results</a></li>
-<li class="level2"><a href="#autotoc_md104">Get an image from the Internet for a button icon</a></li>
-<li class="level2"><a href="#autotoc_md105">Dynamic color background on a button</a></li>
+<ul><ul><li class="level2"><a href="#autotoc_md125">Round a value to a whole number</a></li>
+<li class="level2"><a href="#autotoc_md126">Convert feet to meters</a></li>
+<li class="level2"><a href="#autotoc_md127">Format a string to include a numeric value</a></li>
+<li class="level2"><a href="#autotoc_md128">Inline conditional (ternary operator) results</a></li>
+<li class="level2"><a href="#autotoc_md129">Get an image from the Internet for a button icon</a></li>
+<li class="level2"><a href="#autotoc_md130">Dynamic color background on a button</a></li>
 </ul>
 </ul>
 </div>
@@ -141,29 +141,29 @@ $(document).ready(function(){initNavTree('example_basic.html',''); initResizable
  The dynamic values (State names) are all in Touch Portal's usual <code>${value:value_name}</code> format as they appear when selected with the <code>+</code> button.</p>
 <p ><br  clear="all" />
 </p>
-<h2><a class="anchor" id="autotoc_md100"></a>
+<h2><a class="anchor" id="autotoc_md125"></a>
 Round a value to a whole number</h2>
 <p >Uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed" target="_blank">Number.toFixed()</a> standard JavaScript function.</p>
 <p ><a href="ex_basic_round.png" target="image" title="Click for full version in new window."><img src="ex_basic_round.png" alt="" class="inline"/></a></p>
-<h2><a class="anchor" id="autotoc_md101"></a>
+<h2><a class="anchor" id="autotoc_md126"></a>
 Convert feet to meters</h2>
 <p >Simple math operation on any numeric value (there are 0.3048 meters to one foot).</p>
 <p ><a href="ex_basic_convert_value.png" target="image" title="Click for full version in new window."><img src="ex_basic_convert_value.png" alt="" class="inline"/></a></p>
-<h2><a class="anchor" id="autotoc_md102"></a>
+<h2><a class="anchor" id="autotoc_md127"></a>
 Format a string to include a numeric value</h2>
-<p >This example results in "Ground Speed: 12 mph" based on current ground speed in knots (there are 1.150779448 knots to one mile). It uses the <a class="el" href="class_global.html#a27f7e21ddf66fa9aaaf37ec4734f504c">Format</a> function.</p>
+<p >This example results in "Ground Speed: 12 mph" based on current ground speed in knots (there are 1.150779448 knots to one mile). It uses the <a class="el" href="class_global.html#a9d305dff356391748c3f96922a4444d6">Format</a> function.</p>
 <p ><a href="ex_basic_format_number.png" target="image" title="Click for full version in new window."><img src="ex_basic_format_number.png" alt="" class="inline"/></a></p>
-<h2><a class="anchor" id="autotoc_md103"></a>
+<h2><a class="anchor" id="autotoc_md128"></a>
 Inline conditional (ternary operator) results</h2>
 <p >A <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator" target="_blank">ternary operator</a> means, in English, "if condition is true then do A, otherwise do B". The corresponding syntax is <code>condition ? A : B</code><br  />
  This example sets the 'MSFS_StallWarning' state to "STALL" when the warning is active and to an empty string when the warning is not.</p>
 <p ><a href="ex_basic_ternary_string.png" target="image" title="Click for full version in new window."><img src="ex_basic_ternary_string.png" alt="" class="inline"/></a></p>
-<h2><a class="anchor" id="autotoc_md104"></a>
+<h2><a class="anchor" id="autotoc_md129"></a>
 Get an image from the Internet for a button icon</h2>
-<p >Uses <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> to get an image from a URL and send it to Touch Portal to be used as a button icon.</p>
+<p >Uses <code><a class="el" href="namespace_net.html#adaf75747e92df59d79e04df9c5ee8008" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> to get an image from a <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> and send it to Touch Portal to be used as a button icon.</p>
 <p ><a href="ex_basic_request_image.png" target="image" title="Click for full version in new window."><img src="ex_basic_request_image.png" alt="" class="inline"/></a><br  />
  Download example button: <a href="https://github.com/mpaperno/DSEP4TP/tree/main/resources/examples/basic/DSE_RequestImageExample.tpb">DSE_RequestImageExample.tpb</a></p>
-<h2><a class="anchor" id="autotoc_md105"></a>
+<h2><a class="anchor" id="autotoc_md130"></a>
 Dynamic color background on a button</h2>
 <p >This example reacts to either a button press or a change in a test Touch Portal Value (with name/id <code>dse.Example.numeric_1</code>).<br  />
  One could add this Value in the Touch Portal <em>Values</em> tab, and then for example set up a Slider to change the value (this varies the value between 0 and 100). Moving the slider will then run through the whole gamut of color hues.</p>
@@ -178,7 +178,7 @@ Dynamic color background on a button</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="plugin_examples.html">Examples</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

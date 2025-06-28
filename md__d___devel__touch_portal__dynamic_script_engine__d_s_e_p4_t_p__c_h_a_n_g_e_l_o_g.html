@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
    </div>
   </td>
  </tr>
@@ -128,6 +128,55 @@ $(document).ready(function(){initNavTree('md__d___devel__touch_portal__dynamic_s
 <div class="contents">
 <div class="textblock"><p ><b>Dynamic Script Engine Plugin for Touch Portal</b>: changes by version number and release date.</p>
 <h1><a class="anchor" id="autotoc_md21"></a>
+1.3.0.0 (28-Jun-2025)</h1>
+<div class="hide-on-site"> Note: Reading these notes <a href="https://dse.tpp.max.paperno.us/md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html">at the documentation's site</a> will provide links to all the new API features. </div><h2><a class="anchor" id="autotoc_md22"></a>
+Plugin Core</h2>
+<ul>
+<li>The plugin's scripting engines now run in a single system thread by default. This should provide greater stability when running scripts, especially more complex ones with asynchronous event handlers, timers, the new WebSockets client, and so forth. In most cases there should be no appreciable practical difference. However, the old multi-threaded behavior can be restored using the new related plugin setting. If your current scripts runs stable and you think benefit from multi-threading, you may re-enable this feature (at your own risk :) ).</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md23"></a>
+New JS Library Features</h2>
+<ul>
+<li>Added a full-featured <code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> client and simplified <code><a class="el" href="namespace_net.html#acdf9e2ecbd12b12c4fec16831ac7fbf1" title="The Net.wsGet() function initiates a WebSocket request to the given URL, optionally sends a message a...">Net.wsGet()</a></code> and <code><a class="el" href="namespace_net.html#a1198d13de49b14a4fb05e1740b7e881e" title="The Net.wsSend() function initiates a WebSocket request to the given URL and, optionally,...">Net.wsSend()</a></code> utility functions.</li>
+<li>Added <code><a class="el" href="class_f_s_watcher.html" title="The FSWatcher class provides an interface for monitoring files and directories for modifications.">FSWatcher</a></code> class for monitoring changes to files and directories.</li>
+<li>The <code><a class="el" href="class_file.html" title="The File class provides access to... files!">File</a></code> utility type gets many enchancements (see docs for details):<ul>
+<li>Added async methods: <code><a class="el" href="class_file.html#a29a477885c40c602f2836ef4254a13ca" title="Read the contents of a file asynchronously using a callback or Promise to handle the results.">readAsync()</a></code>, <code><a class="el" href="class_file.html#aaf1e0a9ac145494d90dde956075d2a19" title="Asynchronously Reads up to maxLines lines from file starting at fromLine (default = 0,...">readLinesAsync()</a></code>, <code><a class="el" href="class_file.html#a9e4adf46ca5d0922ba35699cf71ff566" title="Asynchronously copies the from file to a file or directory specified in to.">copyAsync()</a></code>, <code><a class="el" href="class_file.html#a69fed1c86fcb6e1667993d8034481bcf" title="Asynchronously renames (or moves) the oldName file to a file or directory specified in destination.">renameAsync()</a></code>, <code><a class="el" href="class_file.html#a49d8be9ec51a5009811c94f471dc2943" title="Asynchronously deletes the file specified by file.">removeAsync()</a></code> and <code><a class="el" href="class_file.html#a7b72060b9136700e5a0fb0c2b69aada0" title="Asynchronously writes data to file.">writeAsync()</a></code>. These can return a <code>Promise</code> or accept a callback argument.</li>
+<li>Added support for text file encoding and decoding of UTF-16 and UTF-32 LE/BE formats. When reading files, encoding can be detected automatically (if a BOM is present), or specified explicitly.</li>
+<li>Added "safe" options for <code><a class="el" href="class_file.html#a62908e467f503b988d88a12841767868" title="Synchronously writes data to file and returns the number of bytes written.">write()</a></code>, <code><a class="el" href="class_file.html#a90655c27a84ae209cc6d60c47e9b1fa4" title="Synchronously copies the from file to a file or directory specified in to.">copy()</a></code> and <code><a class="el" href="class_file.html#a3be2bd612d4e70b48e24f8cc87240d94" title="Synchronously renames (or moves) the oldName file to a file or directory specified in destination.">rename()</a></code> functions (and their new async counterparts) which can handle errors more gracefully. <code><a class="el" href="class_file.html#a90655c27a84ae209cc6d60c47e9b1fa4" title="Synchronously copies the from file to a file or directory specified in to.">copy()</a></code> and <code><a class="el" href="class_file.html#a3be2bd612d4e70b48e24f8cc87240d94" title="Synchronously renames (or moves) the oldName file to a file or directory specified in destination.">rename()</a></code> can now be set to overwrite existing files instead of failing.</li>
+<li>Added option of writing Windows or "Unix" line endings for text files (CR+LF or LF, default depends on current OS).</li>
+<li>Added option to write a BOM header for UTF-encoded files.</li>
+<li>Calling synchronous function can now be configured to throw exceptions on error or fail "silently" (but log the error); see new <code><a class="el" href="class_file.html#adfcafefcb91077b1fe634f8393db9c78" title="The throwExceptions global property controls if exceptions are thrown for synchronous file operations...">File.throwExceptions</a></code> property.</li>
+</ul>
+</li>
+<li>Added a "Generic Script Event" Touch Portal Event with "local states" feature which can be triggered from scripts with an event name and up to 10 other arbitrary local state values using <code><a class="el" href="class_t_p.html#a98a49e7501f147093f7f37fda3630532" title="Trigger the plugin&#39;s &quot;Generic Script Event&quot; Touch Portal Event.">TP.triggerGenericEvent()</a></code>.</li>
+<li>Added <code><a class="el" href="class_t_p_button.html" title="A helper class to update Touch Portal button visuals by simply changing properties on an instance of ...">TPButton</a></code> utility class which can synchronize visual state properties with an actual Touch Portal button via automatic state updates (see docs for details and button template).</li>
+<li>Added new event handler connection options and documentation, eg. <code>on()</code>, <code>off()</code> and <code>once()</code> methods, more inline with common standards. General documentation in new <a href="https://dse.tpp.max.paperno.us/group___event_handlers.html" target="_blank"><code>Event Handling</code></a> section. Also updated docs for all events throughout the various APIs.</li>
+<li>Added debugging utilities for dumping object properties and formatting output (similar to NodeJS): <code><a class="el" href="class_global.html#abcfe043af39babca84a0753131a6a5c5" title="Returns a string representation of object obj that is intended for debugging.">inspect()</a></code>, <code>console.dir()</code>, <code><a class="el" href="class_global.html#a8a34e0781e89be08983bfaa5fbfe1a76" title="printf() is simply a shortcut for console.log(sprintf(format, ...args)).">printf()</a></code> and <code>%o</code>/<code>%O</code> specifier support for <code><a class="el" href="class_global.html#a099000798b9de9749a8b540bef8882e6" title="For formatting strings, works like the classic C printf() function.">sprintf()</a></code>/<code><a class="el" href="class_global.html#a8a34e0781e89be08983bfaa5fbfe1a76" title="printf() is simply a shortcut for console.log(sprintf(format, ...args)).">printf()</a></code>. Also convenience formatting functions <code>console.infof()</code>, <code>console.warnf()</code>, <code>console.errorf()</code>.</li>
+<li>Added global <code>structuredClone()</code> JS standard function (as polyfill).</li>
+<li>Added <code><a class="el" href="class_global.html#aa191caeb54be1a83beb6413d9bfb4e24" title="Attempts to open the specified target url in an external application, based on the user&#39;s desktop pre...">openUrlExternally()</a></code> global function which launches the system-defined handler for various <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> schemes or file types.</li>
+<li>Added <code><a class="el" href="class_global.html#a6d3b9ef5f69962d1dfe08ae1ba091586" title="Use this function to eliminate redundant calls to a function.">callLater()</a></code> and <code><a class="el" href="class_global.html#a2c3ca81e6fad30803e9921aa641ef02b" title="Runs the garbage collector after a short timeout, consolidating all gcLater() calls made within that ...">gcLater()</a></code> global functions which automatically consolidate multiple calls.</li>
+<li>Added <code><a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a></code> class extensions (eg. for working with local file URLs) and also the missing <code>URL.parse()</code> and <code>URL.canParse()</code> standards. <code><a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a></code> type now has own documentation section.</li>
+<li>Added <code><a class="el" href="class_string.html#a034e9e9e4757f6746f26c06b2aad9ff9" title="Left-trims this string to maxLen characters and adds an ellipsis character (…) at the start if the in...">String.elideLeft()</a></code>, <code><a class="el" href="class_string.html#a28f15a54ed58a5f00b860948abb162ee" title="Removes characters from the middle of this string so that the total remaining length doesn&#39;t exceed m...">String.elideMiddle()</a></code>, and <code><a class="el" href="class_string.html#ade2090341b89807c92e228f5cb48de66" title="Right-trims this string to maxLen characters and adds an ellipsis character (…) to the end if the inp...">String.elideRight()</a></code> methods and static functions for trimming strings with an added visual indicator.</li>
+<li>Added <code><a class="el" href="class_color.html#a7012ac0d39e1a0f3040300cb8e33220b" title="Returns color formatted in #RRGGBB or #RRGGBBAA format if this color&#39;s alpha channel is not fully opa...">Color.toWebColor()</a></code>/<code>Color.web()</code> methods to return RGB/RRGGBB/RGBA/RRGGBBAA format based on alpha value being opaque or not, and static <code><a class="el" href="class_color.html#a4bea24310dc9c4b833d21a3fadd6d75e" title="Returns a new Color instance from an &quot;#AARRGGBB&quot; or &quot;#RRGGBB&quot; string input.">Color.fromArgb()</a></code> and <code><a class="el" href="class_color.html#af062636ff7e7a3a6b2f563a3fceaaf5f" title="Converts a &quot;#AARRGGBB&quot; color format string to &quot;#RRGGBBAA&quot; format.">Color.argb2rgba()</a></code> functions. Updated documentation to list the many suppoorted color input formats.</li>
+<li>Added <code><a class="el" href="class_d_s_e.html#a0771bb93ebb45da3a1b7132d7fda4963" title="This event is emitted just before the plugin process exits, but allows one cycle for event handlers t...">DSE.aboutToQuit</a></code> event which is fired just before plugin exits (stops running for whatever reason, besides crashing).</li>
+<li>Added <code>DOMException</code> constant equivalents of all standard exception names (eg. <code>DOMException.AbortError</code>), which can be compared to <code>code</code> property instead of using string names. Constructor also accepts constant as 2nd argument instead of name.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md24"></a>
+Fixes</h2>
+<ul>
+<li>In some cases scripts will now get a better chance of capturing errors (with try/catch) instead of them being caught/reported by the script engine itself before the catch clause can be invoked. Previously, the script engine could be capturing some errors before returning to the main event loop, preventing any user code from running and catching them. Now it will check "lazily" and allow user events to run before checking for uncaught exceptions.</li>
+<li>Fixed that an expression value couldn't be cleared (deleted) in Script <a class="el" href="class_file.html" title="The File class provides access to... files!">File</a> and Module actions after initially set to some non-empty value (had to delete the script instance first).</li>
+<li><code>instanceof DOMException</code> now evaluates correctly for <code>DOMException</code> types. Note that <code>DOMException</code> inherits from <code>Error</code> so <code>instanceof Error</code> also returns <code>true</code>, which it already did prior to this fix.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md25"></a>
+Other Changes</h2>
+<ul>
+<li>When loading a module-type script, the plugin will log a warning if a different module has already been loaded into the current script environment using the same module alias.</li>
+<li>Log files are now written with a leading UTF-8 BOM.</li>
+</ul>
+<p ><b>Full log:</b> <a href="https://github.com/mpaperno/DSEP4TP/compare/1.2.1.0...1.3.0.0" target="_blank">v1.2.1...v1.3.0</a></p>
+<hr  />
+ <h1><a class="anchor" id="autotoc_md27"></a>
 1.2.1.0 (14-May-2025)</h1>
 <ul>
 <li>Changes for "On Hold" action options:<ul>
@@ -145,20 +194,20 @@ $(document).ready(function(){initNavTree('md__d___devel__touch_portal__dynamic_s
 </ul>
 </li>
 <li>Added methods for getting file system directory listings and details about individual files/folders:<ul>
-<li>New <code><a class="el" href="class_dir.html#a169d7889066ffe7d024cf562233f3879" title="Returns an array of directory entry names in the given path.">Dir.list()</a></code> and <code><a class="el" href="class_dir.html#a530b11e24c2173c68d13191516cdb7d6" title="Returns an array of directory entries in the given path as FileInfo objects.">Dir.infoList()</a></code> methods to list directory contents, with filtering and sorting options.</li>
-<li>New <code><a class="el" href="class_dir.html#a922e01e478d30dcdb75603e1e7fa621c" title="Returns a FileInfo object describing the file or directory at the given path. Relative paths are reso...">Dir.info()</a></code> and <code><a class="el" href="class_file.html#a922e01e478d30dcdb75603e1e7fa621c" title="Returns a FileInfo object describing the file or directory at the given path. This function is equiva...">File.info()</a></code> methods to get details about individual file system entries (the methods are equivalent and return information about either files or folders).</li>
-<li>New <code><a class="el" href="class_file_info.html" title="FileInfo provides read-only information about a file system object (file or directory)....">FileInfo</a></code> object type containing details about a file system object (name, type, size, timestamps, etc). Returned by <code><a class="el" href="class_dir.html#a922e01e478d30dcdb75603e1e7fa621c" title="Returns a FileInfo object describing the file or directory at the given path. Relative paths are reso...">Dir.info()</a></code>/<code><a class="el" href="class_file.html#a922e01e478d30dcdb75603e1e7fa621c" title="Returns a FileInfo object describing the file or directory at the given path. This function is equiva...">File.info()</a></code> or as a list of entries from <code><a class="el" href="class_dir.html#a530b11e24c2173c68d13191516cdb7d6" title="Returns an array of directory entries in the given path as FileInfo objects.">Dir.infoList()</a></code>.</li>
+<li>New <code><a class="el" href="class_dir.html#a26ea4681121152cb53dc4910d4790516" title="Returns an array of directory entry names in the given path.">Dir.list()</a></code> and <code><a class="el" href="class_dir.html#a41f230ad85be17bf9534f9171056a790" title="Returns an array of directory entries in the given path as FileInfo objects.">Dir.infoList()</a></code> methods to list directory contents, with filtering and sorting options.</li>
+<li>New <code><a class="el" href="class_dir.html#ad3ed384e419a4f7317433b0e13189e7f" title="Returns a FileInfo object describing the file or directory at the given path. Relative paths are reso...">Dir.info()</a></code> and <code><a class="el" href="class_file.html#ad3ed384e419a4f7317433b0e13189e7f" title="Returns a FileInfo object describing the file or directory at the given path. This function is equiva...">File.info()</a></code> methods to get details about individual file system entries (the methods are equivalent and return information about either files or folders).</li>
+<li>New <code><a class="el" href="class_file_info.html" title="FileInfo provides read-only information about a file system object (file or directory)....">FileInfo</a></code> object type containing details about a file system object (name, type, size, timestamps, etc). Returned by <code><a class="el" href="class_dir.html#ad3ed384e419a4f7317433b0e13189e7f" title="Returns a FileInfo object describing the file or directory at the given path. Relative paths are reso...">Dir.info()</a></code>/<code><a class="el" href="class_file.html#ad3ed384e419a4f7317433b0e13189e7f" title="Returns a FileInfo object describing the file or directory at the given path. This function is equiva...">File.info()</a></code> or as a list of entries from <code><a class="el" href="class_dir.html#a41f230ad85be17bf9534f9171056a790" title="Returns an array of directory entries in the given path as FileInfo objects.">Dir.infoList()</a></code>.</li>
 </ul>
 </li>
 <li>Added a short delay after creating new states for script instances and before the plugin tries to update that new state with a value. This is a workaround for the <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> issue where it may not register the new state before handling the state update message, which can result in <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> log warnings about the state being updated "not belonging to this plugin".</li>
 <li>Added new arguments &amp; overloads for <code>DSE.stateCreate()</code> method:<ul>
-<li><code>delayMs</code> (integer) argument to delay further execution after creating a state to allow <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> to process the state creation message before sending a <code><a class="el" href="class_t_p.html#a9a7f39df44a32f7073aee63a76d68935" title="Send a State update to Touch Portal with given value for the current script instance.">stateUpdate()</a></code> for the new state. (See previous item about using this as workaround for <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> issue.)</li>
+<li><code>delayMs</code> (integer) argument to delay further execution after creating a state to allow <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> to process the state creation message before sending a <code><a class="el" href="class_t_p.html#aa1882a7402350f2167a46a3d346e7bfc" title="Send a State update to Touch Portal with given value for the current script instance.">stateUpdate()</a></code> for the new state. (See previous item about using this as workaround for <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> issue.)</li>
 <li><code>force</code> (boolean) argument to force <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> to evaluate the default value in action flows as if it was a state update (otherwise it ignores the default in "plug-in state changed" events).</li>
 <li><code>stateCreate(id, description, defaultValue = "", delayMs = 0)</code> overload that automatically populates the parent category field.</li>
 <li><code>stateCreate(id, description, options)</code> overload taking an object of all optional arguments (see docs for details).</li>
 </ul>
 </li>
-<li>Added new <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> v4 properties to the <code><a class="el" href="class_t_p.html#a3a83390c18003bfe554072ad76484d72" title="This event is emitted when Touch Portal sends a broadcast message to all plugins.">TP.broadcastEvent</a></code> event data for <code>pageChange</code> event (<code>previousPageName</code>, <code>deviceName</code>, <code>deviceId</code>, <code>deviceIp</code>).</li>
+<li>Added new <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a> v4 properties to the <code><a class="el" href="class_t_p.html#aeb92ea71c58a6d605d0ccbbc30beef44" title="This event is emitted when Touch Portal sends a broadcast message to all plugins.">TP.broadcastEvent</a></code> event data for <code>pageChange</code> event (<code>previousPageName</code>, <code>deviceName</code>, <code>deviceId</code>, <code>deviceIp</code>).</li>
 <li>Fixed that <code>AbortSignal</code>'s <code>aborted</code> property was never set to <code>true</code> after the parent <code>AbortController</code>'s <code>abort()</code> method was called (the <code>abort</code> event was still emitted, but the property value didn't change).</li>
 <li>Fixed a possible (but apparently very rare) issue with none of the plugin's actions working on some particular setups due to "silent" Touch Portal error which resulted in the action never being sent to the plugin at all (thanks to <code>@Raeas</code> on <a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a>'s Discord for reporting and troubleshooting with us).</li>
 <li>The plugin's actions/connectors are now sorted into the Touch Portal "Tools" category instead of "Misc."</li>
@@ -166,10 +215,10 @@ $(document).ready(function(){initNavTree('md__d___devel__touch_portal__dynamic_s
 </ul>
 <p ><b>Full log:</b> <a href="https://github.com/mpaperno/DSEP4TP/compare/1.2.0.1...1.2.1.0" target="_blank">v1.2.0-beta1...v1.2.1</a></p>
 <hr  />
- <h1><a class="anchor" id="autotoc_md23"></a>
+ <h1><a class="anchor" id="autotoc_md29"></a>
 1.2.0.1-beta1 (20-Feb-2023)</h1>
 <p >This version bring a number of fundamental changes, all of which hopefully make the system more flexible overall. I've preserved backwards compatibility with actions/connectors from the previous versions, except in the case of the "One-Time" action (details below). I encourage everyone to update to the new versions of the actions/connectors, but please do let me know if you find "regression" issues which break existing actions/connectors. An update to the new version is meant to be as seamless as possible.</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md30"></a>
 Plugin Core</h2>
 <ul>
 <li>New paradigm decouples "Script" (Expression/File/Module) instances from Engine instances and from Touch Portal States:<ul>
@@ -197,7 +246,7 @@ Plugin Core</h2>
 <li>The Touch Portal network client (responsible for core communications) has also been moved to its own thread.</li>
 <li>Miscellaneous optimizations, cleanups, and stability improvements.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 Changes to Actions/Connectors</h2>
 <ul>
 <li>Added "Create State" option to each of the primary Script actions (Expression/File/Module). This is now also where the State's default value type is set.</li>
@@ -226,16 +275,16 @@ Changes to Actions/Connectors</h2>
 </li>
 <li>Added "Set Held Action Repeat Rate/Delay" action &amp; connector to set/adjust repeat rate/delay at both global default and instance-specific levels.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md32"></a>
 New States/Event</h2>
 <ul>
 <li>Added "Plugin running state" (stopped/starting/started) Touch Portal State and Event;</li>
 <li>Added "Default held action Repeat Delay" and "Default held action Repeat Rate" States;</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md33"></a>
 JavaScript Library</h2>
 <ul>
-<li>Added global <code><a class="el" href="class_global.html#a8d2c911c2adcaa8d385d699deb7b8b5b" title="Used to import all or part of JavaScript modules or JSON objects.">require()</a></code> function to import JS modules or JSON objects (whole or individual components) into any script, as an alternative to the <code>import ... from ...</code> syntax (which only works from other modules). This mimics the Node.js/CommonJS function(ality) of the same name.</li>
+<li>Added global <code><a class="el" href="class_global.html#a610272df896f8a7bb6dc131073e6af2b" title="Used to import all or part of JavaScript modules or JSON objects.">require()</a></code> function to import JS modules or JSON objects (whole or individual components) into any script, as an alternative to the <code>import ... from ...</code> syntax (which only works from other modules). This mimics the Node.js/CommonJS function(ality) of the same name.</li>
 <li>Script Instance properties and methods are now exposed to the JavaScript environment as <code><a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a></code> objects (see docs for details).<ul>
 <li>This essentially gives direct access to all properties of the Touch Portal action/connector which is being used to create or run the Script instance, as well as extended features and options which are not practical to configure using the Touch Portal interface.</li>
 <li>Among other features, scripts can now control the parent category their State will be sorted into as well as the "friendly" name displayed in Touch Portal selector lists (which no longer has to match the underlying State ID).</li>
@@ -244,36 +293,36 @@ JavaScript Library</h2>
 <li>Added native <code><a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a></code> module for interacting with operating system clipboard features.</li>
 <li>Added properties and methods to <code><a class="el" href="class_d_s_e.html" title="The DSE object contains constants and functions related to the plugin environment....">DSE</a></code> object for working with <code><a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a></code> and Engine instances. A few properties have also been deprecated.<ul>
 <li>Added properties:<ul>
-<li><code><a class="el" href="class_d_s_e.html#a9fcb9184f94fe30ca21b38a79a50b8fc" title="This property contains the name of the Touch Portal parent cateogry into which newly created States w...">DSE.VALUE_STATE_PARENT_CATEOGRY</a></code></li>
+<li><code><a class="el" href="class_d_s_e.html#af5adc9b501b412f2d79888adcfa63ab8" title="This property contains the name of the Touch Portal parent cateogry into which newly created States w...">DSE.VALUE_STATE_PARENT_CATEOGRY</a></code></li>
 <li><code><a class="el" href="class_d_s_e.html#a508c23fed1db2def9dcc5909e6058537" title="The global default action repeat rate (interval), in milliseconds. The rate is the amount of time to ...">DSE.defaultActionRepeatRate</a></code>, <code><a class="el" href="class_d_s_e.html#a160ac07aa28b67916ac5de14ddf7967e" title="The global default action repeat delay, in milliseconds. The delay is the amount of time before a hel...">DSE.defaultActionRepeatDelay</a></code></li>
-<li><code><a class="el" href="class_d_s_e.html#ab9a5bce1c70c8e0ce149b14c61883c76" title="Returns the engine instance type associated with the current script instance, one of DSE....">DSE.engineInstanceType</a></code>, <code><a class="el" href="class_d_s_e.html#a8fdafb6d79f0dda3eb452e47ed26b99e" title="Returns the name of the engine instance associated with the current script instance....">DSE.engineInstanceName</a></code>, <code><a class="el" href="class_d_s_e.html#aa49a3f2dca5af1a80e61b7a7676580d3" title="The Instance Name of the script currently being evaluated, as specified in the corresponding Touch Po...">DSE.currentInstanceName</a></code></li>
+<li><code><a class="el" href="class_d_s_e.html#ab9a5bce1c70c8e0ce149b14c61883c76" title="Returns the engine instance type associated with the current script instance, one of DSE....">DSE.engineInstanceType</a></code>, <code><a class="el" href="class_d_s_e.html#af5c520e951e0099e7f84cf8c837f59f6" title="Returns the name of the engine instance associated with the current script instance....">DSE.engineInstanceName</a></code>, <code><a class="el" href="class_d_s_e.html#a539f1a23a86479cca49e167bd24bff54" title="The Instance Name of the script currently being evaluated, as specified in the corresponding Touch Po...">DSE.currentInstanceName</a></code></li>
 </ul>
 </li>
 <li>Added methods:<ul>
-<li><code><a class="el" href="class_d_s_e.html#a75772c2c90dcccaa883c44867c7da11a" title="Returns the script instance with given name, if any, otherwise returns null.">DSE.instance()</a></code>, <code><a class="el" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01" title="Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....">DSE.currentInstance()</a></code>, <code>DSE.instanceNames()</code>;</li>
-<li><code><a class="el" href="class_d_s_e.html#a8f0f47c9fbd3c17983601884938c4c64" title="Convenience method to set the action repeat rate and/or delay prooperties on either the global defaul...">DSE.setActionRepeat()</a></code>, <code><a class="el" href="class_d_s_e.html#ade0fa026012b57c6b704f6bd84d9c93d" title="Convenience method to adjust the action repeat rate and/or delay prooperties on either the global def...">DSE.adjustActionRepeat()</a></code></li>
+<li><code>DSE.instance()</code>, <code><a class="el" href="class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01" title="Returns the current script Instance. This is equivalent to calling DSE.instance(DSE....">DSE.currentInstance()</a></code>, <code><a class="el" href="class_d_s_e.html#a706b7da3421fa8ec5df4f27284cbab32" title="Returns all currently existing script instance names as an array of strings.">DSE.instanceNames()</a></code>;</li>
+<li><code>DSE.setActionRepeat()</code>, <code>DSE.adjustActionRepeat()</code></li>
 </ul>
 </li>
 <li>Added enumeration constants for various <code><a class="el" href="class_dynamic_script.html" title="DynamicScript represents an instance of an expression, script file, or module being evaluated using a...">DynamicScript</a></code> property values.</li>
 <li><b>DEPRECATED:</b> These will continue to work for now but will be removed in the next major version. See documentation for alternatives.<ul>
 <li><code><a class="el" href="class_d_s_e.html#a4481c249770248e82fdfde844b20eda7" title="Gets Touch Portal State ID of the current script&#39;s instance. This is what Touch Portal actually uses ...">DSE.instanceStateId()</a></code> method;</li>
-<li><code><a class="el" href="class_d_s_e.html#a11574da2b0d598cf85e836ca8f931e59" title="The scope of the current script&#39;s engine, either &quot;Shared&quot; or &quot;Private&quot;.">DSE.INSTANCE_TYPE</a></code>, <code><a class="el" href="class_d_s_e.html#a0c06106c7b24661aa69a420c329b7231" title="The the current script&#39;s Instance Name, as specified in the corresponding Touch Portal action which i...">DSE.INSTANCE_NAME</a></code>, <code><a class="el" href="class_d_s_e.html#a266a028521364de9b0fba0a4e11be447" title="This is the default value as specified in the action which created this script instance,...">DSE.INSTANCE_DEFAULT_VALUE</a></code> properties;</li>
+<li><code><a class="el" href="class_d_s_e.html#a2d9dd2c901ea161154a7b6332fcb9529" title="The scope of the current script&#39;s engine, either &quot;Shared&quot; or &quot;Private&quot;.">DSE.INSTANCE_TYPE</a></code>, <code><a class="el" href="class_d_s_e.html#a1e78730852abb347d721c67d232da19e" title="The the current script&#39;s Instance Name, as specified in the corresponding Touch Portal action which i...">DSE.INSTANCE_NAME</a></code>, <code><a class="el" href="class_d_s_e.html#afbc17e1d0bf379972369588407c8b84e" title="This is the default value as specified in the action which created this script instance,...">DSE.INSTANCE_DEFAULT_VALUE</a></code> properties;</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>Touch Portal API:<ul>
 <li>Added <code><a class="el" href="class_t_p.html#a8bfa677ae39341fe9fc6afa0499a7ae1" title="This event is emitted upon every Touch Portal message received by this plugin.">TP.messageEvent()</a></code> which passes through every command/data message received from Touch Portal by the plugin.</li>
-<li>Added <code><a class="el" href="class_t_p.html#acae20c335934ed5d1c2177a533c352a6" title="Update a list of choices for a selector with given id and specific instanceId.">TP.choiceUpdateInstance()</a></code> and <code><a class="el" href="class_t_p.html#a88679c0a062fe4043425cf7a3dd9286e" title="Update a plugin Setting in Touch Portal named name to value.">TP.settingUpdate()</a></code> methods.</li>
+<li>Added <code><a class="el" href="class_t_p.html#a109f8f39d081a08a4eb427611f228c7f" title="Update a list of choices for a selector with given id and specific instanceId.">TP.choiceUpdateInstance()</a></code> and <code><a class="el" href="class_t_p.html#ae6368090e4aaf3d7981c646aa3712071" title="Update a plugin Setting in Touch Portal named name to value.">TP.settingUpdate()</a></code> methods.</li>
 </ul>
 </li>
 <li>Fixed that <code><a class="el" href="namespace_net.html" title="The Net namespace contains static functions for working with network requests.">Net</a></code> API functions (internal and public) were mistakenly available in global scope.</li>
 <li>Moved/renamed <code>GlobalRequestDefaults</code> to <code><a class="el" href="class_request.html#ab379177f5504e2f6930ac675d4848a1a" title="This global static object can be used to set default values on any created Request (either implicitly...">Request.GlobalDefaults</a></code> (the former is now an alias for the latter but will be removed in a future version).</li>
 <li>Added <code><a class="el" href="class_math.html#aca3c234211640bee981aaf576117dc87" title="Scales percentValue into the numeric range specified by rangeMin and rangeMax and returns the new val...">Math.percentOfRange()</a></code> and <code><a class="el" href="class_math.html#a8b78a995ae584997966b29aea5579042" title="Returns the percentage of the rangeMin through rangeMax numeric range represented by value....">Math.rangeValueToPercent()</a></code> functions.</li>
 <li>Fixed <code><a class="el" href="class_color.html#adfb086b470804a4f7dc911d2dd148cab" title="Returns an array of up to n colors harmonious with this color.">Color.polyad()</a></code>, <code>Color.splitcomplement()</code> and <code>Color.analogous()</code> to preserve original alpha channel value.</li>
-<li><b>CHANGED:</b> The global <code><a class="el" href="class_global.html#a9a2f63936ebd900b99db0f306f6bd491" title="Read and evaluate scriptFile as JavaScript in the current scripting engine context (global object) at...">include()</a></code> function when used with relative paths will now first try to resolve the specified file relative to the <em>current script/module file's location</em>. If that fails, it falls back to the previous behavior using the plugin's <em>Script Files Base Directory</em> setting.</li>
+<li><b>CHANGED:</b> The global <code><a class="el" href="class_global.html#a6de7d2398ea7fcdee0b8cb30a417c3b2" title="Read and evaluate scriptFile as JavaScript in the current scripting engine context (global object) at...">include()</a></code> function when used with relative paths will now first try to resolve the specified file relative to the <em>current script/module file's location</em>. If that fails, it falls back to the previous behavior using the plugin's <em>Script Files Base Directory</em> setting.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="autotoc_md34"></a>
 Documentation</h2>
 <ul>
 <li>Updated main <em>Plugin Documentation</em> pages to reflect changes in actions/connectors and features (including the new overall relationship between Script instances, Engine instances, and Touch Portal States).</li>
@@ -283,14 +332,14 @@ Documentation</h2>
 <li>Added and updated references for all new or changed API.</li>
 </ul>
 <hr  />
- <h1><a class="anchor" id="autotoc_md30"></a>
+ <h1><a class="anchor" id="autotoc_md36"></a>
 1.1.0.2 (20-Feb-2023)</h1>
 <ul>
 <li>No changes since 1.1.0.1-beta1.</li>
 <li>Final version in the v1.1.x series.</li>
 </ul>
 <hr  />
- <h1><a class="anchor" id="autotoc_md32"></a>
+ <h1><a class="anchor" id="autotoc_md38"></a>
 1.1.0.1-beta1 (05-Jan-2023)</h1>
 <ul>
 <li>Added Connector (Slider) counterparts for most of the plugin's existing Actions (except "Load Script").</li>
@@ -300,12 +349,12 @@ Documentation</h2>
 <li>Touch Portal API:<ul>
 <li>Added methods and an event for Connector ID lookup/search/tracking, eg. for sending Slider position updates to Touch Portal.</li>
 <li>Added Touch Portal "broadcast" message event passthrough (eg. to notify scripts when user navigates to a new page).</li>
-<li>Added <code><a class="el" href="class_t_p.html#a417e3c190b82210f1884750cd1722dad" title="Returns the name of the page the user last opened on their Touch Portal device (not in the desktop pa...">TP.currentPageName()</a></code> lookup function.</li>
+<li>Added <code><a class="el" href="class_t_p.html#a516313706b20ff53a37deb14f13366c4" title="Returns the name of the page the user last opened on their Touch Portal device (not in the desktop pa...">TP.currentPageName()</a></code> lookup function.</li>
 </ul>
 </li>
 <li>JavaScript Library:<ul>
-<li>Added <code><a class="el" href="class_string.html#ab59b43907986e8261cb52502dde01807" title="Appends string line to current string, and returns a new block with up to maxLines lines.">String.appendLine()</a></code> and <code><a class="el" href="class_string.html#a01d64a40d4b7e1ddac8408d3651d59fa" title="Splits string text into lines based on separator and returns maxLines of text starting at fromLine (z...">String.getLines()</a></code> functions (both static and prototype).</li>
-<li>Added <code><a class="el" href="class_d_s_e.html#ad4c637593248bf85390e0b0360b57070" title="Contains the value of the current system user&#39;s Touch Portal settings directory path....">DSE.TP_USER_DATA_PATH</a></code> property (current system user's Touch Portal settings directory), <code><a class="el" href="class_d_s_e.html#a3ab530ca47f957d165666f7f06ddec55" title="Numeric version of currently connected Touch Portal desktop application. eg. 301007">DSE.TP_VERSION_CODE</a></code> and <code><a class="el" href="class_d_s_e.html#a99fa779327f953e68be75c4c35637c67" title="String version of currently connected Touch Portal desktop application. eg. &quot;3.1.7....">DSE.TP_VERSION_STR</a></code>.</li>
+<li>Added <code><a class="el" href="class_string.html#ac6295f5e9a67fda262325eaba7d3d0be" title="Appends string line to current string, and returns a new block with up to maxLines lines.">String.appendLine()</a></code> and <code><a class="el" href="class_string.html#ada7bb955d4ef6c59e3586a553378833d" title="Splits string text into lines based on separator and returns maxLines of text starting at fromLine (z...">String.getLines()</a></code> functions (both static and prototype).</li>
+<li>Added <code><a class="el" href="class_d_s_e.html#ad5a80c95be245b8eee3fac73e0ef663e" title="Contains the value of the current system user&#39;s Touch Portal settings directory path....">DSE.TP_USER_DATA_PATH</a></code> property (current system user's Touch Portal settings directory), <code><a class="el" href="class_d_s_e.html#a3ab530ca47f957d165666f7f06ddec55" title="Numeric version of currently connected Touch Portal desktop application. eg. 301007">DSE.TP_VERSION_CODE</a></code> and <code><a class="el" href="class_d_s_e.html#a4b88126165c67ba76c10c5094384cfc4" title="String version of currently connected Touch Portal desktop application. eg. &quot;3.1.7....">DSE.TP_VERSION_STR</a></code>.</li>
 </ul>
 </li>
 <li>Documentation &amp; Examples:<ul>
@@ -318,18 +367,18 @@ Documentation</h2>
 </ul>
 <p >Thanks for everyone's input so far!</p>
 <hr  />
- <h1><a class="anchor" id="autotoc_md34"></a>
+ <h1><a class="anchor" id="autotoc_md40"></a>
 1.0.0.3 (05-Jan-2023)</h1>
 <ul>
 <li>Fix evaluation at startup of default value expressions for saved states when the default type was set to "use action's expression" and the default value field was left blank.</li>
 <li>Fix "Anonymous (One-Shot)" type script instances not being properly deleted after finishing.</li>
 <li>Touch Portal API:<ul>
-<li>Set default <a class="el" href="class_t_p.html#a4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">showNotification()</a> option name to a minimal required empty space character instead of "Dismiss" prompt which doesn't actually do anything anyway.</li>
+<li>Set default <a class="el" href="class_t_p.html#aba8f2532419b60dd36029fadf90ecce9" title="Creates or raises a user notification in the Touch Portal window.">showNotification()</a> option name to a minimal required empty space character instead of "Dismiss" prompt which doesn't actually do anything anyway.</li>
 </ul>
 </li>
 </ul>
 <hr  />
- <h1><a class="anchor" id="autotoc_md36"></a>
+ <h1><a class="anchor" id="autotoc_md42"></a>
 1.0.0.2-beta2 (28-Dec-2022)</h1>
 <ul>
 <li>Fix crash on engine environment reset action.</li>
@@ -338,7 +387,7 @@ Documentation</h2>
 <li>Add <a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a> and <a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> Picker examples.</li>
 </ul>
 <hr  />
- <h1><a class="anchor" id="autotoc_md38"></a>
+ <h1><a class="anchor" id="autotoc_md44"></a>
 1.0.0.1-beta1 (26-Dec-2022)</h1>
 <ul>
 <li>Initial release! </li>
@@ -350,7 +399,7 @@ Documentation</h2>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

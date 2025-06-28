@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
    </div>
   </td>
  </tr>
@@ -130,13 +130,20 @@ $(document).ready(function(){initNavTree('group___t_p_a_p_i.html',''); initResiz
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <p >Functions, data, and events for interacting with Touch Portal directly, such as updating state values or sending notifications. </p>
-<p >All functionality is provided by static members of the global <code><a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a></code> namespace object, used with <code><a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a>.</code> qualifier, eg. <code><a class="el" href="class_t_p.html#a9a7f39df44a32f7073aee63a76d68935" title="Send a State update to Touch Portal with given value for the current script instance.">TP.stateUpdate</a>("Hello!");</code>.</p>
+<p >Most functionality is provided by static members of the global <code><a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a></code> namespace object, used with <code><a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a>.</code> qualifier, eg. <code><a class="el" href="class_t_p.html#aa1882a7402350f2167a46a3d346e7bfc" title="Send a State update to Touch Portal with given value for the current script instance.">TP.stateUpdate</a>("Hello!");</code>.</p>
 <p >Note that the "Touch Portal API" documented here, while closely related to Touch Portal's Plugin API, is not always an exact match, nor can always provide all the features a full plugin could have (such as custom Actions). Nevertheless it can be helpful to understand how Touch Portal interacts with data sent from plugins in the first place, since all those limits would apply here as well (in other words, this plugin can only work with the API features which are available to us in the first place).</p>
+<ul>
+<li><code><a class="el" href="class_t_p.html" title="The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...">TP</a></code> - A namespace container for all Touch Portal API methods.</li>
+<li><code><a class="el" href="class_t_p_button.html" title="A helper class to update Touch Portal button visuals by simply changing properties on an instance of ...">TPButton</a></code> - A helper class to change Touch Portal button visuals via state updates.</li>
+<li><code><a class="el" href="class_connector_record.html" title="The ConnectorRecord object holds information about a Touch Portal Connector (Slider) instance.">ConnectorRecord</a></code> - Provides information about Touch Portal Connector (Slider) instances.</li>
+</ul>
 <dl class="section see"><dt>See also</dt><dd><a href="https://www.touch-portal.com/api" target="_blank">Touch Portal Plugin API</a> </dd></dl>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Members</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p.html">TP</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_p_button.html">TPButton</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connector_record.html">ConnectorRecord</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,7 +154,7 @@ Members</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

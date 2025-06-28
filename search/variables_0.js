@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['globaldefaults_0',['GlobalDefaults',['../class_request.html#ab379177f5504e2f6930ac675d4848a1a',1,'Request']]]
+  ['binarytype_0',['binaryType',['../class_web_socket.html#aedd715fb51464149449c5db31987a2ec',1,'WebSocket::Options']]]
 ];

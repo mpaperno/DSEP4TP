@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
    </div>
   </td>
  </tr>
@@ -133,22 +133,26 @@ $(document).ready(function(){initNavTree('namespace_net.html',''); initResizable
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae0594817334294e60ee81b39a8e912a6"><td class="memItemLeft" align="right" valign="top">Promise&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6">fetch</a> (<a class="el" href="class_string.html">String</a> url, object options={})</td></tr>
-<tr class="separator:ae0594817334294e60ee81b39a8e912a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6b66955bd9fde4c8263c03f3547e0b9"><td class="memItemLeft" align="right" valign="top">Promise&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9">request</a> (<a class="el" href="class_string.html">String</a> url, object options={})</td></tr>
-<tr class="separator:ad6b66955bd9fde4c8263c03f3547e0b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4549287fd3aec57019081a6075d56214"><td class="memItemLeft" align="right" valign="top">Promise&lt; <a class="el" href="class_response.html">Response</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_net.html#a4549287fd3aec57019081a6075d56214">fetch</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; url, object options={})</td></tr>
+<tr class="separator:a4549287fd3aec57019081a6075d56214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaf75747e92df59d79e04df9c5ee8008"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_response.html">Response</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_net.html#adaf75747e92df59d79e04df9c5ee8008">request</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; url, object options={})</td></tr>
+<tr class="separator:adaf75747e92df59d79e04df9c5ee8008"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdf9e2ecbd12b12c4fec16831ac7fbf1"><td class="memItemLeft" align="right" valign="top">Promise&lt; string|<a class="el" href="class_array_buffer.html">ArrayBuffer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_net.html#acdf9e2ecbd12b12c4fec16831ac7fbf1">wsGet</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; url, any message=null, object options={})</td></tr>
+<tr class="separator:acdf9e2ecbd12b12c4fec16831ac7fbf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1198d13de49b14a4fb05e1740b7e881e"><td class="memItemLeft" align="right" valign="top">Promise&lt; number &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_net.html#a1198d13de49b14a4fb05e1740b7e881e">wsSend</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; url, any message=null, object options={})</td></tr>
+<tr class="separator:a1198d13de49b14a4fb05e1740b7e881e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ae0594817334294e60ee81b39a8e912a6" name="ae0594817334294e60ee81b39a8e912a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0594817334294e60ee81b39a8e912a6">&#9670;&nbsp;</a></span>fetch()</h2>
+<a id="a4549287fd3aec57019081a6075d56214" name="a4549287fd3aec57019081a6075d56214"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4549287fd3aec57019081a6075d56214">&#9670;&nbsp;</a></span>fetch()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Promise fetch </td>
+          <td class="memname">Promise&lt; <a class="el" href="class_response.html">Response</a> &gt; fetch </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
           <td class="paramname"><em>url</em>, </td>
         </tr>
         <tr>
@@ -165,38 +169,38 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> method starts the process of fetching a resource from the network, returning a Promise object which is fulfilled once a result is available. </p>
-<p >The <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> method itself works the same as the standard (see, eg. <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch" target="_blank">MDN fetch()</a> for details), as it is simply a wrapper around other API objects. The returned Promise is resolved on a successful request/response, or rejected on failure.</p>
+<p>The <code><a class="el" href="namespace_net.html#a4549287fd3aec57019081a6075d56214" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code> method starts the process of fetching a resource from the network, returning a Promise object which is fulfilled once a result is available. </p>
+<p >The <code><a class="el" href="namespace_net.html#a4549287fd3aec57019081a6075d56214" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> method itself works the same as the standard (see, eg. <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch" target="_blank">MDN fetch()</a> for details), as it is simply a wrapper around other API objects. The returned Promise is resolved on a successful request/response, or rejected on failure.</p>
 <p >Specifically:</p><ul>
 <li>In case of success (<code>XMLHttpRequest.onload()</code>), the promise is resolved with a <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> object as the argument.<ul>
-<li>Note: the non-standard option <code>rejectOnError</code> can be set to <code>true</code>, in which case <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> will <em>reject</em> the promise if the returned HTTP status code is not in the 200-299 range, in the same way as if a network error occurred (see below).</li>
+<li>Note: the non-standard option <code>rejectOnError</code> can be set to <code>true</code>, in which case <code><a class="el" href="namespace_net.html#a4549287fd3aec57019081a6075d56214" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> will <em>reject</em> the promise if the returned HTTP status code is not in the 200-299 range, in the same way as if a network error occurred (see below).</li>
 </ul>
 </li>
 <li>In case of errors in <code>options</code> values or during configuration of the underlying <code>XMLHttpRequest</code> object the promise is rejected with <code>TypeError</code> or <code>ReferenceError</code>.</li>
 <li>In case of any <em>network</em> error (<code>XMLHttpRequest.onerror()</code>), or if <code>rejectOnError</code> was set to <code>true</code> and the result status was not in the 200-299 range, the promise is rejected with a <code>DOMException</code> type named <code>NetworkError</code> (legacy ID <code>DOMException.NETWORK_ERR</code>).<br  />
  The exception object has a custom property named <code>response</code>, which contains a <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> object which holds whatever results <em>could</em> be retrieved, if any. If the request failed altogether (eg. server not found), the <code>response.status</code> will be <code>0</code>.</li>
-<li>In case of a network timeout (<code>XMLHttpRequest.ontimeout()</code>) the promise is rejected with a <code>DOMException</code> type named <code>TimeoutError</code> (legacy ID <code>DOMException.TIMEOUT_ERR</code>). This exception object also has a custom property named <code>response</code>, as described above (it <em>may</em> contain some actual response, for example in case of a redirect where the new URL timed out, the original response data may be available).<br  />
+<li>In case of a network timeout (<code>XMLHttpRequest.ontimeout()</code>) the promise is rejected with a <code>DOMException</code> type named <code>TimeoutError</code> (legacy ID <code>DOMException.TIMEOUT_ERR</code>). This exception object also has a custom property named <code>response</code>, as described above (it <em>may</em> contain some actual response, for example in case of a redirect where the new <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> timed out, the original response data may be available).<br  />
  Note that the promise is rejected with the timeout exception first, <em>before</em> the general error rejection described above.</li>
 <li>In case the request was aborted (<code>XMLHttpRequest.onabort()</code>) the promise is rejected with a <code>DOMException</code> type named <code>AbortError</code> (legacy ID <code>DOMException.ABORT_ERR</code>). This exception object also has a custom property named <code>response</code>, as described above (it <em>may</em> contain some actual response, for example if the request was aborted after the headers were already loaded).<br  />
  Note that the promise is rejected with the abort exception first, <em>before</em> the general error rejection described above.</li>
 </ul>
 <p >The few other differences of this implementation are in the <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> and <code><a class="el" href="class_response.html" title="The Response interface of the Fetch API represents the response to a request.">Response</a></code> objects which are used to initialize the request and return the results, respectively. These are documented on their own pages.</p>
-<p >The optional <code>options</code> argument passed to <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> can, as in the standard, be either a basic object of option/value keys (eg. <code>{ method: "GET", timeout: 5000 }</code>) or a <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> object set up with the desired options. The available options are all the <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> properties, which are documented there.</p>
+<p >The optional <code>options</code> argument passed to <code><a class="el" href="namespace_net.html#a4549287fd3aec57019081a6075d56214" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> can, as in the standard, be either a basic object of option/value keys (eg. <code>{ method: "GET", timeout: 5000 }</code>) or a <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> object set up with the desired options. The available options are all the <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> properties, which are documented there.</p>
 <p >Basic example of sending an image to Touch Portal for use as an icon: </p><div class="fragment"><div class="line"><a class="code hl_namespace" href="namespace_net.html">Net</a>.fetch(<span class="stringliteral">&quot;https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png&quot;</span>)</div>
 <div class="line">.then(response =&gt; response.base64())</div>
 <div class="line">.then((b64data) =&gt; {</div>
-<div class="line">    <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="class_t_p.html#a9a7f39df44a32f7073aee63a76d68935">stateUpdate</a>(b64data);</div>
+<div class="line">    <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="class_t_p.html#aa1882a7402350f2167a46a3d346e7bfc">stateUpdate</a>(b64data);</div>
 <div class="line">})</div>
 <div class="line">.<span class="keywordflow">catch</span>((e) =&gt; { console.error(e); })</div>
 <div class="ttc" id="aclass_t_p_html"><div class="ttname"><a href="class_t_p.html">TP</a></div><div class="ttdoc">The global TP namespace is used as a container for all Touch Portal API methods, which are invoked wi...</div><div class="ttdef"><b>Definition:</b> touchportal.dox:6</div></div>
-<div class="ttc" id="aclass_t_p_html_a9a7f39df44a32f7073aee63a76d68935"><div class="ttname"><a href="class_t_p.html#a9a7f39df44a32f7073aee63a76d68935">TP::stateUpdate</a></div><div class="ttdeci">void stateUpdate(String value)</div><div class="ttdoc">Send a State update to Touch Portal with given value for the current script instance.</div></div>
+<div class="ttc" id="aclass_t_p_html_aa1882a7402350f2167a46a3d346e7bfc"><div class="ttname"><a href="class_t_p.html#aa1882a7402350f2167a46a3d346e7bfc">TP::stateUpdate</a></div><div class="ttdeci">void stateUpdate(string value)</div><div class="ttdoc">Send a State update to Touch Portal with given value for the current script instance.</div></div>
 <div class="ttc" id="anamespace_net_html"><div class="ttname"><a href="namespace_net.html">Net</a></div><div class="ttdoc">The Net namespace contains static functions for working with network requests.</div><div class="ttdef"><b>Definition:</b> fetch.dox:4</div></div>
 </div><!-- fragment --><p >See <a class="el" href="example_fetch_and_notify.html">Fetch and Notify</a> for a more complete example using JSON a data request. </p>
 
 </div>
 </div>
-<a id="ad6b66955bd9fde4c8263c03f3547e0b9" name="ad6b66955bd9fde4c8263c03f3547e0b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6b66955bd9fde4c8263c03f3547e0b9">&#9670;&nbsp;</a></span>request()</h2>
+<a id="adaf75747e92df59d79e04df9c5ee8008" name="adaf75747e92df59d79e04df9c5ee8008"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaf75747e92df59d79e04df9c5ee8008">&#9670;&nbsp;</a></span>request()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,7 +208,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="class_response.html">Response</a> request </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_string.html">String</a>&#160;</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
           <td class="paramname"><em>url</em>, </td>
         </tr>
         <tr>
@@ -221,17 +225,126 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>This is a fully synchronous version of <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code>. </p>
-<p >Instead of returning a Promise, <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> returns a <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> object type. The returned <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> can then be used to invoke its methods which actually send the request: <code><a class="el" href="class_request.html#ad8421577f9c123b41380edac65f16e0c" title="Performs a &quot;GET&quot; request on the current url.">Request.get()</a></code>, <code><a class="el" href="class_request.html#ac64e4007cda33e87c55c652985109190" title="Performs a &quot;HEAD&quot; request on the current url.">Request.head()</a></code>, <code><a class="el" href="class_request.html#ada2849f5eb9fd4375cd60ce0e5519427" title="Performs a &quot;POST&quot; request on the current url.">Request.post()</a></code>, and <code><a class="el" href="class_request.html#acb0f45f7a2f073eeb1ae86f4dbaee869" title="Performs a &quot;PUT&quot; request on the current url.">Request.put()</a></code>. These are all shorthand for the respective HTTP methods. See the linked documentation for details.</p>
-<p >The optional <code>options</code> argument passed to <code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">request()</a></code> can, as with <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code>, be either a basic object of option/value keys (eg. &lsquo;{ timeout: 5000, redirect: 'error&rsquo; }<code>) or a</code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a><code>object set up with the desired options. The available options are all the</code>Request` properties, which are documented there.</p>
-<p >Unless the <code><a class="el" href="class_request.html#aca4d890d4e5c2adc392b4560ec07b8d9" title="This options only applies to Net.request().">Request.noThrow</a></code> option is set to <code>true</code>, synchronous requests may throw one of the <code>DOMException</code> types mentioned in the <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> documentation, or a <code>TypeError</code> or <code>ReferenceError</code> if invalid options are passed or an exception is caught during configuration of the underlying <code>XMLHttpRequest</code> object.</p>
-<p >Here is a synchronous version of the <code><a class="el" href="namespace_net.html#ae0594817334294e60ee81b39a8e912a6" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> example above: </p><div class="fragment"><div class="line"><span class="keywordflow">try</span> {</div>
+<p>This is a fully synchronous version of <code><a class="el" href="namespace_net.html#a4549287fd3aec57019081a6075d56214" title="The Net.fetch() method starts the process of fetching a resource from the network,...">Net.fetch()</a></code>. </p>
+<p >Instead of returning a Promise, <code><a class="el" href="namespace_net.html#adaf75747e92df59d79e04df9c5ee8008" title="This is a fully synchronous version of Net.fetch().">Net.request()</a></code> returns a <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> object type. The returned <code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a></code> can then be used to invoke its methods which actually send the request: <code><a class="el" href="class_request.html#aec243d7c56d19bc7aab41d4733b4261b" title="Performs a &quot;GET&quot; request on the current url.">Request.get()</a></code>, <code><a class="el" href="class_request.html#a6f139a3d85803d1a184d5ac8f1d676b6" title="Performs a &quot;HEAD&quot; request on the current url.">Request.head()</a></code>, <code><a class="el" href="class_request.html#a8448e1e5c4852a68a9883b365a267bec" title="Performs a &quot;POST&quot; request on the current url.">Request.post()</a></code>, and <code><a class="el" href="class_request.html#af009e11100a54803c69a126e8e8a047c" title="Performs a &quot;PUT&quot; request on the current url.">Request.put()</a></code>. These are all shorthand for the respective HTTP methods. See the linked documentation for details.</p>
+<p >The optional <code>options</code> argument passed to <code><a class="el" href="namespace_net.html#adaf75747e92df59d79e04df9c5ee8008" title="This is a fully synchronous version of Net.fetch().">request()</a></code> can, as with <code><a class="el" href="namespace_net.html#a4549287fd3aec57019081a6075d56214" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code>, be either a basic object of option/value keys (eg. &lsquo;{ timeout: 5000, redirect: 'error&rsquo; }<code>) or a</code><a class="el" href="class_request.html" title="The Request interface of the Fetch API represents a resource request.">Request</a><code>object set up with the desired options. The available options are all the</code>Request` properties, which are documented there.</p>
+<p >Unless the <code><a class="el" href="class_request.html#aca4d890d4e5c2adc392b4560ec07b8d9" title="This options only applies to Net.request().">Request.noThrow</a></code> option is set to <code>true</code>, synchronous requests may throw one of the <code>DOMException</code> types mentioned in the <code><a class="el" href="namespace_net.html#a4549287fd3aec57019081a6075d56214" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> documentation, or a <code>TypeError</code> or <code>ReferenceError</code> if invalid options are passed or an exception is caught during configuration of the underlying <code>XMLHttpRequest</code> object.</p>
+<p >Here is a synchronous version of the <code><a class="el" href="namespace_net.html#a4549287fd3aec57019081a6075d56214" title="The Net.fetch() method starts the process of fetching a resource from the network,...">fetch()</a></code> example above: </p><div class="fragment"><div class="line"><span class="keywordflow">try</span> {</div>
 <div class="line">  <span class="keyword">const</span> b64data = <a class="code hl_namespace" href="namespace_net.html">Net</a>.request(<span class="stringliteral">&quot;https://mpaperno.github.io/DSEP4TP/images/logo/icon_64.png&quot;</span>).get().base64();</div>
-<div class="line">  <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="class_t_p.html#a9a7f39df44a32f7073aee63a76d68935">stateUpdate</a>(b64data);</div>
+<div class="line">  <a class="code hl_class" href="class_t_p.html">TP</a>.<a class="code hl_function" href="class_t_p.html#aa1882a7402350f2167a46a3d346e7bfc">stateUpdate</a>(b64data);</div>
 <div class="line">}</div>
 <div class="line"><span class="keywordflow">catch</span> (e) { console.error(e); }</div>
 </div><!-- fragment --><p >If error trapping isn't important, the image data could be returned directly from a single-line expression.</p>
 <dl class="section note"><dt>Note</dt><dd>This method blocks until the request completes or the timeout specified in options expires. An <code>AbortSignal</code> may be passed in the <code>options</code> object's <code>signal</code> property in order to terminate the request from another process (eg. a timer). </dd></dl>
+
+</div>
+</div>
+<a id="acdf9e2ecbd12b12c4fec16831ac7fbf1" name="acdf9e2ecbd12b12c4fec16831ac7fbf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdf9e2ecbd12b12c4fec16831ac7fbf1">&#9670;&nbsp;</a></span>wsGet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Promise&lt; string|<a class="el" href="class_array_buffer.html">ArrayBuffer</a> &gt; wsGet </td>
+          <td>(</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">any&#160;</td>
+          <td class="paramname"><em>message</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>options</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The <code><a class="el" href="namespace_net.html#acdf9e2ecbd12b12c4fec16831ac7fbf1" title="The Net.wsGet() function initiates a WebSocket request to the given URL, optionally sends a message a...">Net.wsGet()</a></code> function initiates a <code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> request to the given <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a>, optionally sends a message after connection is established, and resolves the returned <code>Promise</code> with the contents of the first message received from the server. </p>
+<p >In case of errors, the <code>Promise</code> is rejected with an <code>Error</code> or <code>DOMException</code>.</p>
+<p >This is a convenience wrapper around the full <code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> functionality for easily retrieving a single message asynchronously. Note that if you only need to <em>send</em> a message, w/out needing a reply, use the <code><a class="el" href="namespace_net.html#a1198d13de49b14a4fb05e1740b7e881e" title="The Net.wsSend() function initiates a WebSocket request to the given URL and, optionally,...">Net.wsSend()</a></code> function instead.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td><a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> of the web socket server to connect to. Must use <code>ws:</code> or <code>wss:</code> scheme. If no scheme is in the given <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a>, the default is <code>ws:</code>. </td></tr>
+    <tr><td class="paramname">message</td><td>A message to send to the server once connected. <code>null</code> (default) or <code>undefined</code> to not send any message. </td></tr>
+    <tr><td class="paramname">options</td><td>Options to pass to the <code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> constructor. The options object properties may consist of: <ul>
+<li>Any of the options specified in the <code><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options" title="Options object for use in WebSocket constructor or setOptions() method. All properties are optional.">WebSocket::Options</a></code> documention. If you need to specify sub-protocol(s), specify it/them using the <code>protocols</code> property (string or array of strings). </li>
+<li><code>receiveTimeout</code> {number} - Number of milliseconds to wait for a message from the server before giving up. Set this to <code>&lt;= 0</code> to wait indefinitely. <b>Default</b>: 30,000 (30 seconds).<br  />
+ If the timeout expires before a message is received, the returned <code>Promise</code> is rejected with a <code>DOMException</code> named <code>TimeoutError</code> (error code constant <code>DOMException.TIMEOUT_ERR</code>).<br  />
+ Note that this timer starts <em>after</em> a successful connection to the server. The initial connection timeout is controlled via the <code>handshakeTimeout</code> options property. </li>
+<li><code>binary</code> {boolean} - Send the given message as binary data if <code>true</code>. Passed to <code><a class="el" href="class_web_socket.html#aaec267b4b075d8f45679ddbace1a7f22" title="Sends a message to the server.">WebSocket::send()</a></code>. Default is to auto-detect the type. </li>
+<li><code>signal</code> {AbortSignal} - Sets an <code>AbortSignal</code> which was obtained from an <code>AbortController</code> to use for aborting the network request. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>Promise</code> which resolves with the contents of the first message received from the server, or rejects with an <code>Error</code> or <code>DOMException</code> in case of <a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a> error or message receive timeout, respectively.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a>, <a class="el" href="namespace_net.html#a1198d13de49b14a4fb05e1740b7e881e" title="The Net.wsSend() function initiates a WebSocket request to the given URL and, optionally,...">Net.wsSend()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1198d13de49b14a4fb05e1740b7e881e" name="a1198d13de49b14a4fb05e1740b7e881e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1198d13de49b14a4fb05e1740b7e881e">&#9670;&nbsp;</a></span>wsSend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Promise&lt; number &gt; wsSend </td>
+          <td>(</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">any&#160;</td>
+          <td class="paramname"><em>message</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>options</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The <code><a class="el" href="namespace_net.html#a1198d13de49b14a4fb05e1740b7e881e" title="The Net.wsSend() function initiates a WebSocket request to the given URL and, optionally,...">Net.wsSend()</a></code> function initiates a <code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> request to the given <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> and, optionally, sends a message after connection is established. </p>
+<p >If a message is sent, it resolves the returned <code>Promise</code> with the number of bytes sent, otherwise the <code>Promise</code> is resolved when the socket closes, with a value of <code>0</code>. In case of errors, the <code>Promise</code> is rejected with an <code>Error</code> object.</p>
+<p >This is a convenience wrapper around the full <code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> functionality for easily retrieving a single message asynchronously. Note that if you need to <em>receive</em> a message, use the <code><a class="el" href="namespace_net.html#acdf9e2ecbd12b12c4fec16831ac7fbf1" title="The Net.wsGet() function initiates a WebSocket request to the given URL, optionally sends a message a...">Net.wsGet()</a></code> function instead.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td><a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> of the web socket server to connect to. Must use <code>ws:</code> or <code>wss:</code> scheme. If no scheme is in the given <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a>, the default is <code>ws:</code>. </td></tr>
+    <tr><td class="paramname">message</td><td>A message to send to the server once connected. <code>null</code> (default) or <code>undefined</code> to not send any message. </td></tr>
+    <tr><td class="paramname">options</td><td>Options to pass to the <code><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a></code> constructor. The options object properties may consist of: <ul>
+<li>Any of the options specified in the <code><a class="el" href="class_web_socket.html#struct_web_socket_1_1_options" title="Options object for use in WebSocket constructor or setOptions() method. All properties are optional.">WebSocket::Options</a></code> documention. If you need to specify sub-protocol(s), specify it/them using the <code>protocols</code> property (string or array of strings). </li>
+<li><code>binary</code> {boolean} - Send the given message as binary data if <code>true</code>. Passed to <code><a class="el" href="class_web_socket.html#aaec267b4b075d8f45679ddbace1a7f22" title="Sends a message to the server.">WebSocket::send()</a></code>. Default is to auto-detect the type. </li>
+<li><code>signal</code> {AbortSignal} - Sets an <code>AbortSignal</code> which was obtained from an <code>AbortController</code> to use for aborting the network request. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>Promise</code> which resolves with the with the number of bytes sent (zero if <code>message</code> is <code>null</code>/<code>undefined</code>), or rejects with an <code>Error</code> object in case of any error.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_web_socket.html" title="Implementation of the WebSocket Web API">WebSocket</a>, <a class="el" href="namespace_net.html#acdf9e2ecbd12b12c4fec16831ac7fbf1" title="The Net.wsGet() function initiates a WebSocket request to the given URL, optionally sends a message a...">Net.wsGet()</a> </dd></dl>
 
 </div>
 </div>
@@ -242,7 +355,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespace_net.html">Net</a></li>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

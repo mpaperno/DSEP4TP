@@ -66,7 +66,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
   <td id="projectalign">
-   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.2.1.0</span>
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
    </div>
   </td>
  </tr>
@@ -179,31 +179,31 @@ One-liner Expressions</h2>
 </ul>
 </li>
 <li>Send an image to use as a Touch Portal button icon. E.g. with dynamic image name:<ul>
-<li>&lsquo;<a class="el" href="class_file.html#a4d140ee4fb966bacd2f38c955072a4c6" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("images/status_icon_${value:MyVariable}.png", 'b&rsquo;).<a class="el" href="class_array_buffer.html#a1db415f2f252811818848b7c55570ba6" title="Returns the contents of this buffer as a Base64-encoded string.">toBase64()</a>`</li>
+<li>&lsquo;File.read("images/status_icon_${value:MyVariable}.png", 'b&rsquo;).<a class="el" href="class_array_buffer.html#aba7b605c9d75b159455e8231fbb43ca7" title="Returns the contents of this buffer as a Base64-encoded string.">toBase64()</a>`</li>
 </ul>
 </li>
 <li>Get an image from the Internet for a button icon:<ul>
-<li><code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request</a>("https://dse.tpp.max.paperno.us/images/logo/icon_64.png").<a class="el" href="class_request.html#ad8421577f9c123b41380edac65f16e0c" title="Performs a &quot;GET&quot; request on the current url.">get()</a>.<a class="el" href="class_response.html#a2aadfd39a6cb5ad16b449b1f603398de">base64()</a></code></li>
+<li><code><a class="el" href="namespace_net.html#adaf75747e92df59d79e04df9c5ee8008" title="This is a fully synchronous version of Net.fetch().">Net.request</a>("https://dse.tpp.max.paperno.us/images/logo/icon_64.png").<a class="el" href="class_request.html#aec243d7c56d19bc7aab41d4733b4261b" title="Performs a &quot;GET&quot; request on the current url.">get()</a>.<a class="el" href="class_response.html#a4f7503ced3d8686cdede8002f13487ea">base64()</a></code></li>
 </ul>
 </li>
 <li>Read any number of lines from a file, starting from beginning, end, or a specific line number. E.g. read the last 5 lines of a log with a dynamic name:<ul>
-<li><code><a class="el" href="class_file.html#af7901992c21e2cbef3a9d0edfcb0b4e5" title="Reads up to maxLines lines from file starting at fromLine (default = 0, start of file) and returns th...">File.readLines</a>(`../logs/console-${new <a class="el" href="class_date.html" title="Date prototype extension methods">Date()</a>.format("yyyyMMdd")}.log`, 5, -1))</code></li>
+<li><code>File.readLines(`../logs/console-${new <a class="el" href="class_date.html" title="Date prototype extension methods">Date()</a>.format("yyyyMMdd")}.log`, 5, -1))</code></li>
 </ul>
 </li>
 <li>Extract a value from a JSON object in a file:<ul>
-<li><code>JSON.parse(<a class="el" href="class_file.html#a4d140ee4fb966bacd2f38c955072a4c6" title="Reads a file and returns the contents as a byte array. Set mode to FS.O_BIN to read in binary mode....">File.read</a>("data.json")).myProperty</code></li>
+<li><code>JSON.parse(File.read("data.json")).myProperty</code></li>
 </ul>
 </li>
 <li>Or get JSON from a Web site and display a named value from the data:<ul>
-<li><code><a class="el" href="namespace_net.html#ad6b66955bd9fde4c8263c03f3547e0b9" title="This is a fully synchronous version of Net.fetch().">Net.request</a>("https://jsonplaceholder.typicode.com/todos/1").<a class="el" href="class_request.html#ad8421577f9c123b41380edac65f16e0c" title="Performs a &quot;GET&quot; request on the current url.">get()</a>.<a class="el" href="class_response.html#a4fdd4b681730e8d1ff673920760d1ee8">json()</a>.title</code></li>
+<li><code><a class="el" href="namespace_net.html#adaf75747e92df59d79e04df9c5ee8008" title="This is a fully synchronous version of Net.fetch().">Net.request</a>("https://jsonplaceholder.typicode.com/todos/1").<a class="el" href="class_request.html#aec243d7c56d19bc7aab41d4733b4261b" title="Performs a &quot;GET&quot; request on the current url.">get()</a>.<a class="el" href="class_response.html#a3f954b59c9ee3048db4558a2f304b7bf">json()</a>.title</code></li>
 </ul>
 </li>
 <li>Update any State or Value in Touch Portal:<ul>
-<li><code><a class="el" href="class_t_p.html#abc30c9dbb5074f0b2e36307a25f16ef3" title="Send a State update to Touch Portal for any arbitrary state/value matching the id,...">TP.stateUpdateById</a>("MyVariable", ${value:MyVariable} * 25)</code></li>
+<li><code><a class="el" href="class_t_p.html#a132e16e43339d24eeb5c3ff6c4d1d5e7" title="Send a State update to Touch Portal for any arbitrary state/value matching the id,...">TP.stateUpdateById</a>("MyVariable", ${value:MyVariable} * 25)</code></li>
 </ul>
 </li>
 <li>Send yourself a notification via Touch Portal:<ul>
-<li><code><a class="el" href="class_t_p.html#a4cb619ba8002feed0b4ac0de9a4beac4" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification</a>("myNotififyId", "Something Happened", "Hey, something happened, check it out!")</code></li>
+<li><code><a class="el" href="class_t_p.html#aba8f2532419b60dd36029fadf90ecce9" title="Creates or raises a user notification in the Touch Portal window.">TP.showNotification</a>("myNotififyId", "Something Happened", "Hey, something happened, check it out!")</code></li>
 </ul>
 </li>
 </ul>
@@ -212,7 +212,7 @@ Scripts</h2>
 <ul>
 <li>JavaScript scripts of any complexity can be loaded from file(s) and functions within those scripts can be invoked with dynamic arguments (eg. from Touch Portal states/values).</li>
 <li>Use simple "standalone" scripts or full <b>JS modules</b>, which can import other modules and are also cached between uses for excellent performance.</li>
-<li>An <code><a class="el" href="class_global.html#a9a2f63936ebd900b99db0f306f6bd491" title="Read and evaluate scriptFile as JavaScript in the current scripting engine context (global object) at...">include()</a></code> function is available to read an evaluate any block of code from another file, and <code><a class="el" href="class_global.html#a8d2c911c2adcaa8d385d699deb7b8b5b" title="Used to import all or part of JavaScript modules or JSON objects.">require()</a></code> to import modules or parts of them, both available for easy code re-use within standalone scripts or modules.</li>
+<li>An <code><a class="el" href="class_global.html#a6de7d2398ea7fcdee0b8cb30a417c3b2" title="Read and evaluate scriptFile as JavaScript in the current scripting engine context (global object) at...">include()</a></code> function is available to read an evaluate any block of code from another file, and <code><a class="el" href="class_global.html#a610272df896f8a7bb6dc131073e6af2b" title="Used to import all or part of JavaScript modules or JSON objects.">require()</a></code> to import modules or parts of them, both available for easy code re-use within standalone scripts or modules.</li>
 <li>Full <code>console.log()</code> (and family) support for debugging/etc; output is sent to a separate plugin log file dedicated for scripting output and errors.</li>
 <li>Scripts can <b>run in the background</b>, for example processing timed events or callbacks from asynchronous processes (eg. a network request or file system watcher).</li>
 <li>Scripts can <b>send State/Value updates to Touch Portal</b> at any time, and they can also create and remove states, among other things (you can literally write a simple Touch Portal "plugin" using the scripting engine itself).</li>
@@ -222,7 +222,7 @@ Overall</h2>
 <ul>
 <li>Extensive support for <b>ECMAScript level 7</b>, plus custom extensions:<ul>
 <li><b><a class="el" href="group___file_system.html">File system</a></b> interaction, from one-line read/write utilities to full byte-by-byte access.</li>
-<li>Flexible <b>string, date, and number formatting</b> with .NET <a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String.Format style</a> or <a class="el" href="class_global.html#aa4c3e7234b2093ab35795ec8e12751fd">&quot;printf&quot;</a> style functions.</li>
+<li>Flexible <b>string, date, and number formatting</b> with .NET <a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String.Format style</a> or <a class="el" href="class_global.html#a099000798b9de9749a8b540bef8882e6">&quot;printf&quot;</a> style functions.</li>
 <li>Support for <b>timed/recurring operations</b> with <code>setTimeout()</code>/<code>setInterval()</code>.</li>
 <li><b>Network requests</b> supported via familiar Fetch API and <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a>.</li>
 <li><b>Touch Portal <a class="el" href="class_t_p.html">interaction</a></b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and much more (in fact full interaction with Touch Portal, as a plugin, is available to the script environment).</li>
@@ -295,6 +295,7 @@ Credits</h1>
 <p >Uses and includes a slightly modified version of the <a href="https://github.com/dmester/sffjs" target="_blank">String.format for JavaScript</a> library, used under the terms of the zlib license.</p>
 <p >Uses and includes a modified version of the <a href="https://github.com/bgrins/TinyColor" target="_blank">TinyColor</a> library, used under the terms of the MIT license.</p>
 <p >Uses and includes the <code>sprintf</code> function from <a href="https://github.com/locutusjs/locutus" target="_blank">Locutus</a> project, used under the terms of the Locutus license.</p>
+<p >Uses and includes the <a href="https://github.com/ungap/structured-clone" target="_blank">@ungap/structured-clone</a> polyfill, under terms of the ISC license.</p>
 <p >Documentation generated with <a href="https://www.doxygen.nl/" target="_blank">Doxygen</a> and styled with the most excellent <a href="https://jothepro.github.io/doxygen-awesome-css" target="_blank">Doxygen Awesome</a>.</p>
 <hr  />
  <h1><a class="anchor" id="autotoc_md19"></a>
@@ -315,7 +316,7 @@ Copyright, License, and Disclaimer</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.2.1.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

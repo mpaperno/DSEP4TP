@@ -1,0 +1,689 @@
+<!-- HTML header for doxygen 1.9.4-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dynamic Script Engine Plugin for Touch Portal: URL</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md11']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/mpaperno/DSEP4TP" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" fill="url(#gradient)"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    <linearGradient id="gradient" x1="0.5" x2="0.5" y1="0" y2="1">
+        <stop class="first-stop" offset="0%"></stop>
+        <stop class="last-stop" offset="100%"></stop>
+    </linearGradient>
+    </svg>
+</a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
+  <td id="projectalign">
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_u_r_l.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#properties">Properties</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="class_u_r_l-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">URL<div class="ingroups"><a class="el" href="group___j_s_ext.html">JavaScript Object Extensions</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><p >Extends the standard Web API <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL" target="_blank">URL</a> type with some static utility functions and instance prototype properties &amp; methods, especially for working with local paths and "file://" type URLs. </p>
+<dl class="section since"><dt>Since</dt><dd>v1.3 </dd></dl>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a2edd549d4c9850e57c03591ea2f4cd0c"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#a2edd549d4c9850e57c03591ea2f4cd0c">isEmpty</a></td></tr>
+<tr class="separator:a2edd549d4c9850e57c03591ea2f4cd0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adad540d929e6c07f62ff72fc26acdbc9"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#adad540d929e6c07f62ff72fc26acdbc9">isLocalPath</a></td></tr>
+<tr class="separator:adad540d929e6c07f62ff72fc26acdbc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b64c46c1bc2472112fd288a8c06da37"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#a9b64c46c1bc2472112fd288a8c06da37">isRelative</a></td></tr>
+<tr class="separator:a9b64c46c1bc2472112fd288a8c06da37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7cf6db72df564ae351329d34f49a7c7"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#ac7cf6db72df564ae351329d34f49a7c7">isValid</a></td></tr>
+<tr class="separator:ac7cf6db72df564ae351329d34f49a7c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a6e56be8588e81c2e386312630fc461eb"><td class="memItemLeft" align="right" valign="top">class URLURL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#a6e56be8588e81c2e386312630fc461eb">resolved</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; relative)</td></tr>
+<tr class="separator:a6e56be8588e81c2e386312630fc461eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0feaca637bd35fed94f0e249a14faba3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#a0feaca637bd35fed94f0e249a14faba3">toLocalPath</a> ()</td></tr>
+<tr class="separator:a0feaca637bd35fed94f0e249a14faba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a3daf8f77587b4274476484d3c41c46cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_r_l.html">URL</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#a3daf8f77587b4274476484d3c41c46cd">fromLocalPath</a> (string path)</td></tr>
+<tr class="separator:a3daf8f77587b4274476484d3c41c46cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaf89a8effb55889bdcd2e256bac2493"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_r_l.html">URL</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#afaf89a8effb55889bdcd2e256bac2493">fromPathOrUrl</a> (string input, string baseDirectory=&quot;&quot;)</td></tr>
+<tr class="separator:afaf89a8effb55889bdcd2e256bac2493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0781cbd0a921b93c731f2c7667fb4214"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#a0781cbd0a921b93c731f2c7667fb4214">isEmpty</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; input)</td></tr>
+<tr class="separator:a0781cbd0a921b93c731f2c7667fb4214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe48cd2705ec2b0ad25971a420aa143c"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#afe48cd2705ec2b0ad25971a420aa143c">isLocalPath</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; input)</td></tr>
+<tr class="separator:afe48cd2705ec2b0ad25971a420aa143c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b765cdc193f0687a094dd306b83f0d3"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#a5b765cdc193f0687a094dd306b83f0d3">isRelative</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; input)</td></tr>
+<tr class="separator:a5b765cdc193f0687a094dd306b83f0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52e630bcc3d8cee869e362e50b03930b"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#a52e630bcc3d8cee869e362e50b03930b">isValid</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; input)</td></tr>
+<tr class="separator:a52e630bcc3d8cee869e362e50b03930b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a007c1b29a6edd7d3b1b5ad07db9d080d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_r_l.html">URL</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#a007c1b29a6edd7d3b1b5ad07db9d080d">resolved</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; base,&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; relative)</td></tr>
+<tr class="separator:a007c1b29a6edd7d3b1b5ad07db9d080d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2e40da06ac4e93e9c4360783f9caca3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#ae2e40da06ac4e93e9c4360783f9caca3">scheme</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; <a class="el" href="class_u_r_l.html#ad4baf2fe49791654145fde08c32df1fb">url</a>)</td></tr>
+<tr class="separator:ae2e40da06ac4e93e9c4360783f9caca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe15d8f261c503751e962f0487a72754"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#abe15d8f261c503751e962f0487a72754">toLocalPath</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; <a class="el" href="class_u_r_l.html#ad4baf2fe49791654145fde08c32df1fb">url</a>)</td></tr>
+<tr class="separator:abe15d8f261c503751e962f0487a72754"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4baf2fe49791654145fde08c32df1fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_r_l.html">URL</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_r_l.html#ad4baf2fe49791654145fde08c32df1fb">url</a> (&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt; input)</td></tr>
+<tr class="separator:ad4baf2fe49791654145fde08c32df1fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a2edd549d4c9850e57c03591ea2f4cd0c" name="a2edd549d4c9850e57c03591ea2f4cd0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2edd549d4c9850e57c03591ea2f4cd0c">&#9670;&nbsp;</a></span>isEmpty</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean isEmpty</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if this <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> has no data; otherwise returns <code>false</code>. </p>
+
+</div>
+</div>
+<a id="adad540d929e6c07f62ff72fc26acdbc9" name="adad540d929e6c07f62ff72fc26acdbc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adad540d929e6c07f62ff72fc26acdbc9">&#9670;&nbsp;</a></span>isLocalPath</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean isLocalPath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if this <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> is pointing to a local file path. </p>
+<p >A <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> is a local file path if the scheme is "file". </p>
+
+</div>
+</div>
+<a id="a9b64c46c1bc2472112fd288a8c06da37" name="a9b64c46c1bc2472112fd288a8c06da37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b64c46c1bc2472112fd288a8c06da37">&#9670;&nbsp;</a></span>isRelative</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean isRelative</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if this <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> is relative; otherwise returns <code>false</code>. </p>
+<p >A URL is relative reference if its scheme is undefined. </p>
+
+</div>
+</div>
+<a id="ac7cf6db72df564ae351329d34f49a7c7" name="ac7cf6db72df564ae351329d34f49a7c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7cf6db72df564ae351329d34f49a7c7">&#9670;&nbsp;</a></span>isValid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean isValid</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if this <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> is non-empty and valid; otherwise returns <code>false</code>. </p>
+<p >This <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a>'s value is run through a conformance test. Every part of the URL must conform to the standard encoding rules of the URI standard for the URL to be reported as valid. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a6e56be8588e81c2e386312630fc461eb" name="a6e56be8588e81c2e386312630fc461eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e56be8588e81c2e386312630fc461eb">&#9670;&nbsp;</a></span>resolved() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class URLURL resolved </td>
+          <td>(</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>relative</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the result of the merge of this <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> with <code>relative</code>. </p>
+<p >This <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> is used as a base to convert relative URLs to absolute.</p>
+<p >If <code>relative</code> is not a relative URL, this method will return <code>relative</code> directly. Otherwise, the paths of the two URLs are merged, and the new URL returned has the scheme and authority of the base URL, but with the merged path, as in the following example: </p><div class="fragment"><div class="line"><span class="keyword">const</span> base = <span class="keyword">new</span> <a class="code hl_class" href="class_u_r_l.html">URL</a>(<span class="stringliteral">&quot;https://dse.tpp.max.paperno.us/images&quot;</span>);</div>
+<div class="line"><span class="keyword">const</span> relative = <span class="stringliteral">&quot;../class_u_r_l.html&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">base.resolved(relative);    <span class="comment">// returns  &quot;https://dse.tpp.max.paperno.us/class_u_r_l.html&quot;</span></div>
+<div class="ttc" id="aclass_u_r_l_html"><div class="ttname"><a href="class_u_r_l.html">URL</a></div><div class="ttdoc">Extends the standard Web API URL type with some static utility functions and instance prototype prope...</div><div class="ttdef"><b>Definition:</b> url.dox:7</div></div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a0feaca637bd35fed94f0e249a14faba3" name="a0feaca637bd35fed94f0e249a14faba3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0feaca637bd35fed94f0e249a14faba3">&#9670;&nbsp;</a></span>toLocalPath() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string toLocalPath </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns this <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> formatted as a local file path. </p>
+<p >The path returned will use native directory separators.</p>
+<p >If this <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> contains a non-empty hostname, it will be encoded in the returned value in the form found on SMB networks (for example, "//servername/path/to/file.txt").</p>
+<div class="fragment"><div class="line"><span class="keyword">new</span> <a class="code hl_class" href="class_u_r_l.html">URL</a>(<span class="stringliteral">&quot;file:///c:/temp/file.txt&quot;</span>).<a class="code hl_function" href="class_u_r_l.html#a0feaca637bd35fed94f0e249a14faba3">toLocalPath</a>()    <span class="comment">// returns &quot;c:\temp\file.txt&quot;</span></div>
+<div class="line"><span class="keyword">new</span> <a class="code hl_class" href="class_u_r_l.html">URL</a>(<span class="stringliteral">&quot;file:///home/user/file.txt&quot;</span>).<a class="code hl_function" href="class_u_r_l.html#a0feaca637bd35fed94f0e249a14faba3">toLocalPath</a>()  <span class="comment">// returns &quot;/home/user/file.txt&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// The following example uses `URL.url()` static method because `new URL(&quot;file.txt&quot;)` would throw an exception</span></div>
+<div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#ad4baf2fe49791654145fde08c32df1fb">url</a>(<span class="stringliteral">&quot;file.txt&quot;</span>).<a class="code hl_function" href="class_u_r_l.html#a0feaca637bd35fed94f0e249a14faba3">toLocalPath</a>()                    <span class="comment">// returns &quot;&quot;  (because input %URL had no valid scheme)</span></div>
+<div class="ttc" id="aclass_u_r_l_html_a0feaca637bd35fed94f0e249a14faba3"><div class="ttname"><a href="class_u_r_l.html#a0feaca637bd35fed94f0e249a14faba3">URL::toLocalPath</a></div><div class="ttdeci">string toLocalPath()</div><div class="ttdoc">Returns this URL formatted as a local file path.</div><div class="ttdef"><b>Definition:</b> url.js:31</div></div>
+<div class="ttc" id="aclass_u_r_l_html_ad4baf2fe49791654145fde08c32df1fb"><div class="ttname"><a href="class_u_r_l.html#ad4baf2fe49791654145fde08c32df1fb">URL::url</a></div><div class="ttdeci">URL url(&lt; string|URL &gt; input)</div><div class="ttdoc">Returns a new URL instance verbatim from given input, which can be a string or another URL instance.</div></div>
+</div><!-- fragment --><p >Note: if the path component of this <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> contains a non-UTF-8 binary sequence (such as <code>%80</code>), the behavior of this method is undefined. </p>
+
+</div>
+</div>
+<a id="a3daf8f77587b4274476484d3c41c46cd" name="a3daf8f77587b4274476484d3c41c46cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3daf8f77587b4274476484d3c41c46cd">&#9670;&nbsp;</a></span>fromLocalPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_u_r_l.html">URL</a> fromLocalPath </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a <code><a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a></code> representation of <code>path</code>, interpreted as a local file path. </p>
+<p >This function accepts paths separated by slashes as well as the native separator for this platform.</p>
+<p >This function also accepts paths with a doubled leading slash (or backslash) to indicate a remote file, as in "//servername/path/to/file.txt".</p>
+<div class="fragment"><div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#a3daf8f77587b4274476484d3c41c46cd">fromLocalPath</a>(<span class="stringliteral">&quot;c:/temp/file.txt&quot;</span>)     <span class="comment">// returns &quot;file:///c:/temp/file.txt&quot;</span></div>
+<div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#a3daf8f77587b4274476484d3c41c46cd">fromLocalPath</a>(<span class="stringliteral">&quot;/home/user/file.txt&quot;</span>)  <span class="comment">// returns &quot;file:///home/user/file.txt&quot;</span></div>
+<div class="line"><span class="comment">// Note that using relative paths will return an valid but probably useless URL:</span></div>
+<div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#a3daf8f77587b4274476484d3c41c46cd">fromLocalPath</a>(<span class="stringliteral">&quot;file.txt&quot;</span>)             <span class="comment">// returns &quot;file:file.txt&quot;  (probably not what you want)</span></div>
+<div class="ttc" id="aclass_u_r_l_html_a3daf8f77587b4274476484d3c41c46cd"><div class="ttname"><a href="class_u_r_l.html#a3daf8f77587b4274476484d3c41c46cd">URL::fromLocalPath</a></div><div class="ttdeci">URL fromLocalPath(string path)</div><div class="ttdoc">Returns a URL representation of path, interpreted as a local file path.</div></div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="afaf89a8effb55889bdcd2e256bac2493" name="afaf89a8effb55889bdcd2e256bac2493"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afaf89a8effb55889bdcd2e256bac2493">&#9670;&nbsp;</a></span>fromPathOrUrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_u_r_l.html">URL</a> fromPathOrUrl </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>baseDirectory</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a valid <code><a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a></code> from <code>input</code> string if one can be deduced, or if that is not possible, returns an invalid (empty) <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a>. </p>
+<p >This function can be useful when processing arbitrary user input, for example, when the user may provide an actual URL, or a relative or absolute system file path.</p>
+<p >When the string is not already a valid URL, a best guess is performed, making various assumptions:</p><ul>
+<li>In the case the string corresponds to a valid file path on the system, a "file://" URL is constructed, using <code><a class="el" href="class_u_r_l.html#a3daf8f77587b4274476484d3c41c46cd" title="Returns a URL representation of path, interpreted as a local file path.">URL.fromLocalPath()</a></code>.</li>
+<li>If that is not the case, an attempt is made to turn the string into a "http://" or "ftp://" URL. The latter in the case the string starts with 'ftp'. The result is then passed through a tolerant parser, and in the case or success, a valid <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> is returned, or else an empty invalid one.</li>
+</ul>
+<p >In order to be able to handle relative paths, this method takes an optional <code>basePath</code> path argument against which relative paths are resolved into absolute paths. If <code>baseDirectory</code> is empty, no handling of relative paths will be done (an invalid (empty) <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> will be returned for relative paths).</p>
+<p >Input strings that look like relative paths will always return a valid URL, even if the file doesn't actually exist on the system.</p>
+<p >Some examples: </p><div class="fragment"><div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#afaf89a8effb55889bdcd2e256bac2493">fromPathOrUrl</a>(<span class="stringliteral">&quot;c:\\temp\\file.txt&quot;</span>)           <span class="comment">// returns &quot;file:///c:/temp/file.txt&quot;</span></div>
+<div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#afaf89a8effb55889bdcd2e256bac2493">fromPathOrUrl</a>(<span class="stringliteral">&quot;file.txt&quot;</span>, <span class="stringliteral">&quot;c:/temp&quot;</span>)          <span class="comment">// returns &quot;file:///c:/temp/file.txt&quot;</span></div>
+<div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#afaf89a8effb55889bdcd2e256bac2493">fromPathOrUrl</a>(<span class="stringliteral">&quot;./user/file.txt&quot;</span>, <span class="stringliteral">&quot;/home&quot;</span>)     <span class="comment">// returns &quot;file:///home/user/file.txt&quot;</span></div>
+<div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#afaf89a8effb55889bdcd2e256bac2493">fromPathOrUrl</a>(<span class="stringliteral">&quot;/root/file.txt&quot;</span>, <span class="stringliteral">&quot;/home&quot;</span>)      <span class="comment">// returns &quot;file:///root/file.txt&quot;  (`baseDirectory` argument is ignored)</span></div>
+<div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#afaf89a8effb55889bdcd2e256bac2493">fromPathOrUrl</a>(<span class="stringliteral">&quot;https://google.com&quot;</span>, <span class="stringliteral">&quot;/home&quot;</span>)  <span class="comment">// returns &quot;https://google.com&quot;  (`baseDirectory` also ignored)</span></div>
+<div class="ttc" id="aclass_u_r_l_html_afaf89a8effb55889bdcd2e256bac2493"><div class="ttname"><a href="class_u_r_l.html#afaf89a8effb55889bdcd2e256bac2493">URL::fromPathOrUrl</a></div><div class="ttdeci">URL fromPathOrUrl(string input, string baseDirectory=&quot;&quot;)</div><div class="ttdoc">Returns a valid URL from input string if one can be deduced, or if that is not possible,...</div></div>
+</div><!-- fragment --><p >Although similar to the <code>new <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL()</a></code> constructor or <code>URL.parse()</code>, this function:</p><ul>
+<li>Handles local file paths and properly converts them to "file://" URLs.</li>
+<li>Ignores the the 2nd argument (<code>baseDirectory</code>) if the input is already a fully qualified URL or absolute path.</li>
+<li>Doesn't throw exceptions (like <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL()</a> constructor does) and returns an empty <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> if parsing fails (not <code>null</code>, like <code>URL.parse()</code> does). </li>
+</ul>
+
+</div>
+</div>
+<a id="a0781cbd0a921b93c731f2c7667fb4214" name="a0781cbd0a921b93c731f2c7667fb4214"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0781cbd0a921b93c731f2c7667fb4214">&#9670;&nbsp;</a></span>isEmpty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean isEmpty </td>
+          <td>(</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>input</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if the <code>input</code> <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> has no data; otherwise returns <code>false</code>. </p>
+
+</div>
+</div>
+<a id="afe48cd2705ec2b0ad25971a420aa143c" name="afe48cd2705ec2b0ad25971a420aa143c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe48cd2705ec2b0ad25971a420aa143c">&#9670;&nbsp;</a></span>isLocalPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean isLocalPath </td>
+          <td>(</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>input</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if the <code>input</code> URL is pointing to a local file path. </p>
+<p >A URL is a local file path if the scheme is "file". </p>
+
+</div>
+</div>
+<a id="a5b765cdc193f0687a094dd306b83f0d3" name="a5b765cdc193f0687a094dd306b83f0d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b765cdc193f0687a094dd306b83f0d3">&#9670;&nbsp;</a></span>isRelative()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean isRelative </td>
+          <td>(</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>input</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if the <code>input</code> URL is relative; otherwise returns <code>false</code>. </p>
+<p >A URL is relative reference if its scheme is undefined. </p>
+
+</div>
+</div>
+<a id="a52e630bcc3d8cee869e362e50b03930b" name="a52e630bcc3d8cee869e362e50b03930b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52e630bcc3d8cee869e362e50b03930b">&#9670;&nbsp;</a></span>isValid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean isValid </td>
+          <td>(</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>input</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <code>true</code> if the <code>input</code> URL is non-empty and valid; otherwise returns <code>false</code>. </p>
+<p >The <code>input</code> value is run through a conformance test. Every part of the URL must conform to the standard encoding rules of the URI standard for the URL to be reported as valid. </p>
+
+</div>
+</div>
+<a id="a007c1b29a6edd7d3b1b5ad07db9d080d" name="a007c1b29a6edd7d3b1b5ad07db9d080d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a007c1b29a6edd7d3b1b5ad07db9d080d">&#9670;&nbsp;</a></span>resolved() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_u_r_l.html">URL</a> resolved </td>
+          <td>(</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>relative</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the result of the merge of <code>base</code> URL with <code>relative</code>. </p>
+<p >The <code>base</code> URL is used as a base to convert relative URLs to absolute.</p>
+<p >If <code>relative</code> is not a relative URL, this function will return <code>relative</code> directly. Otherwise, the paths of the two URLs are merged, and the new URL returned has the scheme and authority of the base URL, but with the merged path, as in the following example: </p><div class="fragment"><div class="line"><span class="keyword">const</span> base = <span class="stringliteral">&quot;https://dse.tpp.max.paperno.us/images&quot;</span>;</div>
+<div class="line"><span class="keyword">const</span> relative = <span class="stringliteral">&quot;../class_u_r_l.html&quot;</span>;</div>
+<div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#a6e56be8588e81c2e386312630fc461eb">resolved</a>(base, relative);    <span class="comment">// returns  &quot;https://dse.tpp.max.paperno.us/class_u_r_l.html&quot;</span></div>
+<div class="ttc" id="aclass_u_r_l_html_a6e56be8588e81c2e386312630fc461eb"><div class="ttname"><a href="class_u_r_l.html#a6e56be8588e81c2e386312630fc461eb">URL::resolved</a></div><div class="ttdeci">class URLURL resolved(&lt; string|URL &gt; relative)</div><div class="ttdoc">Returns the result of the merge of this URL with relative.</div><div class="ttdef"><b>Definition:</b> url.dox:7</div></div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="ae2e40da06ac4e93e9c4360783f9caca3" name="ae2e40da06ac4e93e9c4360783f9caca3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2e40da06ac4e93e9c4360783f9caca3">&#9670;&nbsp;</a></span>scheme()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string scheme </td>
+          <td>(</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>url</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the scheme of the given <code>url</code>, up to, but not including, the <code>:</code> separator ("http", "ftp", "file", etc). </p>
+<p >If an empty string is returned, this means the scheme is undefined and the URL is then relative.</p>
+<p >The scheme can only contain US-ASCII letters or digits, which means it cannot contain any character that would otherwise require encoding. Additionally, schemes are always returned in lowercase form.</p>
+<p >On Windows, if the url is a local file path starting with a drive letter (eg. "c:\temp"), then that drive letter is returned as the scheme. Since no actual URL schemes are one character long, one can then assume it is a file path, not an actual URL. </p>
+
+</div>
+</div>
+<a id="abe15d8f261c503751e962f0487a72754" name="abe15d8f261c503751e962f0487a72754"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe15d8f261c503751e962f0487a72754">&#9670;&nbsp;</a></span>toLocalPath() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string toLocalPath </td>
+          <td>(</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>url</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the <code>url</code> URL formatted as a local file path. </p>
+<p >The path returned will use native directory separators.</p>
+<p >If <code>url</code> contains a non-empty hostname, it will be encoded in the returned value in the form found on SMB networks (for example, "//servername/path/to/file.txt").</p>
+<div class="fragment"><div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#a0feaca637bd35fed94f0e249a14faba3">toLocalPath</a>(<span class="stringliteral">&quot;file:///c:/temp/file.txt&quot;</span>)    <span class="comment">// returns &quot;c:\temp\file.txt&quot;</span></div>
+<div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#a0feaca637bd35fed94f0e249a14faba3">toLocalPath</a>(<span class="stringliteral">&quot;file:///home/user/file.txt&quot;</span>)  <span class="comment">// returns &quot;/home/user/file.txt&quot;</span></div>
+<div class="line"><a class="code hl_class" href="class_u_r_l.html">URL</a>.<a class="code hl_function" href="class_u_r_l.html#a0feaca637bd35fed94f0e249a14faba3">toLocalPath</a>(<span class="stringliteral">&quot;file.txt&quot;</span>)                    <span class="comment">// returns &quot;&quot;  (because input %URL had no valid scheme)</span></div>
+</div><!-- fragment --><p >Note: if the path component of <code>url</code> contains a non-UTF-8 binary sequence (such as <code>%80</code>), the behavior of this function is undefined. </p>
+
+</div>
+</div>
+<a id="ad4baf2fe49791654145fde08c32df1fb" name="ad4baf2fe49791654145fde08c32df1fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4baf2fe49791654145fde08c32df1fb">&#9670;&nbsp;</a></span>url()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_u_r_l.html">URL</a> url </td>
+          <td>(</td>
+          <td class="paramtype">&lt; string|<a class="el" href="class_u_r_l.html">URL</a> &gt;&#160;</td>
+          <td class="paramname"><em>input</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a new <code><a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a></code> instance verbatim from given <code>input</code>, which can be a string or another <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a> instance. </p>
+<p >The input is not parsed or validated. This can be used to force a type coercion to <code><a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a></code>. In contrast to <code>new <a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL()</a></code> or <code>URL.parse()</code>, <code><a class="el" href="class_u_r_l.html#ad4baf2fe49791654145fde08c32df1fb" title="Returns a new URL instance verbatim from given input, which can be a string or another URL instance.">URL.url()</a></code> always returns a <code><a class="el" href="class_u_r_l.html" title="Extends the standard Web API URL type with some static utility functions and instance prototype prope...">URL</a></code> object, even if the input is an invalid URL. You can check validity with <code>newUrl.isValid</code> or <code>URL.isValid(newUrl)</code>. </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.4-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_u_r_l.html">URL</a></li>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!-- HTML header for doxygen 1.9.4-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dynamic Script Engine Plugin for Touch Portal: Member List</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+    // hide the Documentation header and sidebar link since it's redundant when on the docs site already.
+    $(window).on('load', () => {
+      function removeElements() {
+        if (!$("a[class='index.html:autotoc_md11']").length)
+          setTimeout(removeElements, 10);
+        var el = document.getElementById("autotoc_md11"),
+          els = document.getElementsByClassName("index.html:autotoc_md11");
+        if (el)
+          el.parentNode.style.display = 'none';
+        if (els.length)
+          els[0].parentElement.parentElement.parentElement.style.display= 'none';
+      };
+      removeElements();
+    });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/mpaperno/DSEP4TP" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" fill="url(#gradient)"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    <linearGradient id="gradient" x1="0.5" x2="0.5" y1="0" y2="1">
+        <stop class="first-stop" offset="0%"></stop>
+        <stop class="last-stop" offset="100%"></stop>
+    </linearGradient>
+    </svg>
+</a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Logo.png" title="Dynamic Script Engine Plugin for Touch Portal - A complete, standalone, multi-threaded JavaScript environment available as a plugin for use with Touch Portal macro launcher software."/></td>
+  <td id="projectalign">
+   <div id="projectname"><!-- Dynamic Script Engine Plugin for Touch Portal --><span id="projectnumber">&#160;v1.3.0.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_web_socket.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">WebSocket Member List</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>This is the complete list of members for <a class="el" href="class_web_socket.html">WebSocket</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40ae10317a7cf1fed88bea27bb0d9148df0">AbnormalDisconnectionCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#ac54f53dc342019e8db34f4aa581a5792">abort</a>()</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40a0ff43690e58a13fda2c374b6f093e5ed">BadOperationCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#aedd715fb51464149449c5db31987a2ec">binaryType</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a7d4d56d24399760d02853df112e53934">bufferedAmount</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#ac86d5cb16894fb6007e97cfcc3c68e35">bytesWritten</a>(int bytes)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#acff08ccfc622c12c43b6a7ac8c2d05cd">close</a>(qint16 closeCode=CloseCode::NormalCloseCode, string &amp;reason=&quot;&quot;)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40">CloseCode</a> enum name</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a0c4ae10d1c54658bb5d6c1060fd0e39c">closeCode</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5a929f0327e17604ce9713b2a6117bd603">CLOSED</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a8d8a07997df035dadf08aa3380fbfafb">closed</a>(Object &amp;closeEvent)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#a1c524cad388f1878274fa09ec77e4d0a">closeReason</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5a8ab2cae69d2b33297ab24a5818213f18">CLOSING</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5a06b876bcf37a32fed1dbadf4273827bf">CONNECTING</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40a1a41aacc6827c68ad466fa66efbd243d">DatatypeNotSupportedCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#ab43a21c12caa87fc5c757fd5182a1e8e">error</a>(Error error)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#afeeba043e36801ba0809a68b6e895856">errorCode</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#ae4fd75229ea037779249665faae94a40">errorString</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a11a6ffa789525afeeae81e96e0581ad4">extensions</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40af915bb7a4a624d9c96cb5663b1ac69b7">GoingAwayCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a7fce353e3bf795659bd9536259fd0d24">headers</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#aac4d38dfb3c28b4a674bf90ed22e6d2c">localAddress</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#aa39be6f00f10d19652570a3bd35e1da8">localPort</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#a8ca6b3e12dd353427feba19f06116a6b">message</a>(Object &amp;messageEvent)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40a5844c70ca415436a37407e73fe4e52df">MissingExtensionCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40a6d0f16295100aaa7f3ef8241831b6e6e">MissingStatusCodeCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40ab26140ce7c446d256729a9769b31a260">NormalCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5a0e0143636c29971736eab47415868eae">OPEN</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a1e62cf41ec252698b295e8422367c5f2">open</a>(Function callback=undefined)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#a7378c84ca1bc8c764c4010d6de36f456">opened</a>()</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a7f573ea29d1883aca33af476b36bee3c">peerAddress</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#a955e2cee42926faa5bdefdaa2cc8d045">peerName</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a4d98ac6741f46df7a2aee9f50ea54174">peerPort</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#aa0e13bc740c8b66b92680ff98d5c85f4">ping</a>(ArrayBuffer &amp;payload=ArrayBuffer())</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40a6b1efb7c346a196507866db155634591">PolicyViolatedCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#a7f412aa5d450bfb62d126e1aafaabe35">pong</a>(quint64 elapsedTime, ArrayBuffer &amp;payload)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#aeb72b6e20d3a581dcdede91beb824d9f">protocol</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40adce525c730b4593d30f5d55c4e4c7812">ProtocolErrorCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#aa225156a3bd5507c53b5c6aad1ab7e9a">readyState</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#ad425ee7b450be9db57868d524ef0cdf5">ReadyState</a> enum name</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a1dba32b4ef1dfa009e8ef53f7c6be6d0">readyStateChanged</a>(WebSocket::ReadyState newState)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#a13b78ed9bfac7e1d7c6ca35411c35c47">requestedProtocols</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40a4c9a6194e405ac0441b0eb3eb20ecbc4">Reserved1004CloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#aaec267b4b075d8f45679ddbace1a7f22">send</a>(any data,&lt; object|boolean &gt; options=false)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a2d8a16061b6c3c358b396820c9029517">sendBinary</a>(ArrayBuffer &amp;bytes)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#a388be2f79e46348ed2b5681fc4b9e767">sendText</a>(any message)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#ae1c02614cc897d8e962ac37ac4eeb673">setOptions</a>(Options &amp;options)</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#a74a45d2648335936561898c390281a6a">terminate</a>()</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40a070c2b8e3f31204054ffaa090182f258">TlsHandshakeFailedCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40afa5942e5f57e75e7050431a13386a96a">TooMuchDataCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#aa03c1ef4c41f36b048cf58d5aade7653">url</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#aad880fc4455c253781e8968f2239d56f">version</a></td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a99414f35ba44cb5e2f33cbfff8658bdd">WebSocket</a>(Options &amp;options=Options())</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#a0e10bda5c21b46a386c01ccd7a251fce">WebSocket</a>(string &amp;url, Options &amp;options=Options())</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#a448cdc2b7dc5661b8ad981fc7a25fb41">WebSocket</a>(string &amp;url, Array&lt; string &gt; &amp;protocols, Options &amp;options=Options())</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_web_socket.html#ae29e7909cace17559ad86bf8a10ed2f0">WebSocket</a>(string &amp;url, string &amp;protocol, Options &amp;options=Options())</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_web_socket.html#af4340f6002fe776e340cc2e535016d40aaf12d5559a6a3bfd7c2284716efa675d">WrongDatatypeCloseCode</a> enum value</td><td class="entry"><a class="el" href="class_web_socket.html">WebSocket</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.4-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated for Dynamic Script Engine Plugin for Touch Portal &#160;v1.3.0.0 by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
+</body>
+</html>
