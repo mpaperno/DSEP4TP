@@ -226,7 +226,7 @@ bool DynamicScript::deserialize(const QByteArray &data)
 	    persist = PersistenceType::PersistSave,
 	    act = ActivationBehavior::OnRelease;
 	QString expr, file, alias;
-	QByteArray deflt;
+
 	ds >> scope >> inpType >> expr >> file >> alias >> m_defaultValue >> defType;
 
 	m_scope = (EngineInstanceType)scope;
