@@ -102,7 +102,7 @@ bool File::parseFileOptions(FileOptions &fo, const QString &file, QJSValue mode_
 	}
 	else if (mode_opt_cb.isNumber()) {
 		// numeric value must be mode flag(s)
-		fo.mode = OpenMode(mode_opt_cb.toNumber());
+		fo.mode = OpenMode((int)mode_opt_cb.toNumber());
 		if (!checkMode(fo.mode)) {
 			raiseError(ErrorType::TypeError, u"Invalid file open mode flags enumeration value '%1'"_s.arg(mode_opt_cb.toNumber()));
 			return false;
@@ -116,7 +116,7 @@ bool File::parseFileOptions(FileOptions &fo, const QString &file, QJSValue mode_
 				fo.mode = modeToFlags(p.toString());
 			}
 			else if (p.isNumber()) {
-				fo.mode = OpenMode(p.toNumber());
+				fo.mode = OpenMode((int)p.toNumber());
 			}
 			else {
 				raiseError(ErrorType::TypeError, u"'mode' option must be numeric or a string"_s);
@@ -214,7 +214,7 @@ File::FileOpResult File::readFile(const QString &file, const FileOptions &fo)
 	}
 
 	QVariant ret;
-	const int64_t readSize = fo.chunkSize > 0 ? fo.chunkSize : chunkSize;
+	const qint64 readSize = fo.chunkSize > 0 ? fo.chunkSize : chunkSize;
 
 	if (readDecoded) {
 		// Read as decoded text into a string
@@ -224,7 +224,7 @@ File::FileOpResult File::readFile(const QString &file, const FileOptions &fo)
 		// handle text translation and bypass the Text flag in the device.
 		fh.setTextModeEnabled(false);
 		while (!fh.atEnd() && !abort) {
-			int64_t sz = readSize;
+			qint64 sz = readSize;
 			if (fo.maxSize > -1)
 				sz = std::max(std::min(sz, fo.maxSize - retStr.size()), 0LL);
 			retStr.append(fromUtf16(fh.read(sz)));
@@ -239,7 +239,7 @@ File::FileOpResult File::readFile(const QString &file, const FileOptions &fo)
 		QByteArray retBa;
 		retBa.reserve(fh.size());
 		while (!fh.atEnd() && !abort) {
-			int64_t sz = readSize;
+			qint64 sz = readSize;
 			if (fo.maxSize > -1)
 				sz = std::max(std::min(sz, fo.maxSize - retBa.size()), 0LL);
 			retBa.append(fh.read(sz));
@@ -258,7 +258,7 @@ File::FileOpResult File::readFile(const QString &file, const FileOptions &fo)
 		error = domToCustomError(DOMException::AbortError);
 	}
 	else if (fh.error() != QFileDevice::NoError) {
-		ret = u"Could not read from file '%1': %2"_s.arg(file).arg(fh.errorString());
+		ret = u"Could not read from file '%1': %2"_s.arg(file, fh.errorString());
 		error = fileErrorToJsError(fh.error());
 	}
 
@@ -330,7 +330,7 @@ File::FileOpResult File::readFileLines(const QString &file, int maxLines, int fr
 		ret = readLinesBackward(fh, maxLines, fromLine, trimTrailingNewlines);
 
 	if (fh.error() != QFileDevice::NoError) {
-		ret = u"Could not read from file '%1': %2"_s.arg(file).arg(fh.errorString());
+		ret = u"Could not read from file '%1': %2"_s.arg(file, fh.errorString());
 		error = fileErrorToJsError(fh.error());
 	}
 	fh.close();
@@ -399,7 +399,7 @@ File::FileOpResult File::writeFile(const QString &file, const QJSValue &data, co
 	if ((error = File::open_impl(*fh, nullptr, mode, &errStr)) != ErrorType::NoError)
 		return { error, errStr };
 
-	const int64_t writeSz = fo.chunkSize > 0 ? fo.chunkSize : chunkSize;
+	const qint64 writeSz = fo.chunkSize > 0 ? fo.chunkSize : chunkSize;
 	int32_t written = 0;
 	QVariant ret;
 	QByteArray inBa;
@@ -432,7 +432,7 @@ File::FileOpResult File::writeFile(const QString &file, const QJSValue &data, co
 			inBa = inStr.toUtf8();
 			// assume UTF-8 BOM if we're not re-encoding
 			if (fo.writeBom)
-				inBa.push_front((const char*)utf8bom);
+				inBa.prepend((const char*)utf8bom, 3);
 		}
 	}
 	else {
@@ -441,8 +441,8 @@ File::FileOpResult File::writeFile(const QString &file, const QJSValue &data, co
 	}
 
 	if (!error) {
-		int64_t sz, bw;
-		const int64_t inLen = inBa.size();
+		qint64 sz, bw;
+		const qint64 inLen = inBa.size();
 		while (written < inLen && !abort) {
 			sz = std::min(writeSz, inLen - written);
 			bw = fh->write(inBa.constData() + written, sz);
@@ -456,7 +456,7 @@ File::FileOpResult File::writeFile(const QString &file, const QJSValue &data, co
 			error = domToCustomError(DOMException::AbortError);
 		}
 		else if (fh->error() != QFileDevice::NoError) {
-			ret = u"Could not write to file '%1': %2"_s.arg(file).arg(fh->errorString());
+			ret = u"Could not write to file '%1': %2"_s.arg(file, fh->errorString());
 			error = fileErrorToJsError(fh->error());
 		}
 		else if (written < inLen) {

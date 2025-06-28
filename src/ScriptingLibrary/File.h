@@ -108,8 +108,8 @@ class File : public QObject
 			OpenMode mode { OpenModeFlag::O_TEXT };
 			SafeWrite safeWrite { SafeWrite::WriteNormal };
 			std::optional<QStringConverter::Encoding> encoding { std::nullopt };
-			int64_t chunkSize { 0 };
-			int64_t maxSize { -1 };
+			qint64 chunkSize { 0 };
+			qint64 maxSize { -1 };
 			AbortSignal *signal { nullptr };
 			QJSValue callback {};
 		};
