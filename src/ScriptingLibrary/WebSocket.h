@@ -185,7 +185,7 @@ class WebSocket : public QObject
 		Q_PROPERTY(QString url READ url WRITE setUrl NOTIFY urlChanged)
 		//! Returns the protocol version the socket is currently using. Read-only. Returns `-1` if version is unknown for some reason.
 		//! The desired protocol version can be set with `WebSocket::Options` either in the constructor or with `setOptions()` method, before the initial call to `open()`.
-		Q_PROPERTY(qint8 version READ protocolVersion)
+		Q_PROPERTY(qint8 version READ protocolVersion CONSTANT)
 
 		EVENT_PROPERTY(bytesWritten)
 		EVENT_PROPERTY(close)
@@ -300,7 +300,7 @@ class WebSocket : public QObject
 		QAbstractSocket::SocketError errorCode() const { return Q_LIKELY(m_webSocket) ? m_webSocket->error() : QAbstractSocket::UnknownSocketError; }
 		QString errorString() const { return m_errorString; }
 		QString closeReason() const { return Q_LIKELY(m_webSocket) ? m_webSocket->closeReason() : QString(); }
-		qint16 closeCode() const { return Q_LIKELY(m_webSocket) ? m_webSocket->closeCode() : CloseCode::NormalCloseCode; }
+		int closeCode() const { return Q_LIKELY(m_webSocket) ? (int)m_webSocket->closeCode() : (int)CloseCode::NormalCloseCode; }
 		qint8 protocolVersion() const { return qint8(Q_LIKELY(m_webSocket) ? m_webSocket->version() : m_options.protocolVersion); }
 
 		QString localAddress() const { return Q_LIKELY(m_webSocket) ? m_webSocket->localAddress().toString() : QString(); }

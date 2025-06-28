@@ -90,10 +90,12 @@ WebSocket::~WebSocket()
 
 void WebSocket::setUrl(const QString &url)
 {
+	static const QRegularExpression trailingSlashesRx("^/+");
+
 	QUrl u(url);
 	// qCDebug(lcPlugin) << url << u.toString() << u.isRelative() << u.scheme();
 	if (u.isRelative() || u.scheme().isEmpty())
-		u = QUrl(QStringLiteral("ws://%1").arg(u.toString().remove(QRegularExpression("^/+"))));
+		u = QUrl(QStringLiteral("ws://%1").arg(u.toString().remove(trailingSlashesRx)));
 
 	if (m_request.url() == u)
 		return;
