@@ -280,10 +280,12 @@ void Plugin::quit()
 		return;
 	g_shuttingDown = true;
 
-	QWriteLocker tl(g_timersDataMutex);
-	for (int timId : g_timersData->keys())
-		killTimer(timId);
-	tl.unlock();
+	{
+		QWriteLocker tl(g_timersDataMutex);
+		const auto keys = g_timersData->keys();
+		for (int timId : keys)
+			killTimer(timId);
+	}
 
 	Q_EMIT aboutToQuit();
 	QCoreApplication::processEvents(QEventLoop::ExcludeSocketNotifiers);
