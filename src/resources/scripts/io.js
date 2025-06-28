@@ -32,6 +32,23 @@ if (!File.readAsync) {
 	}
 }
 
+if (!File.readLinesAsync) {
+	File.readLinesAsync = function(file, maxLines, fromLine, trimTrailing, cb) {
+		if (typeof cb === 'function')
+			return File.readLinesAsyncCb(file, maxLines, fromLine, trimTrailing, cb);
+		if (typeof trimTrailing === 'function')
+			return File.readLinesAsyncCb(file, maxLines, fromLine, trimTrailing);
+		if (typeof fromLine === 'function')
+			return File.readLinesAsyncCb(file, maxLines, fromLine);
+		return new Promise((resolve, reject) => {
+			File.readLinesAsyncCb(file, maxLines, fromLine, trimTrailing, (err, data) => {
+				if (err) reject(err);
+				else resolve(data);
+			});
+		});
+	}
+}
+
 if (!File.writeAsync) {
 	File.writeAsync = function(file, data, mode, cb) {
 		if (typeof cb === 'function' || typeof mode === 'function')
