@@ -82,20 +82,21 @@ global Value or a plugin State and will be replaced by Touch Portal with the act
 * Scripts can **run in the background**, for example processing timed events or callbacks from asynchronous processes (eg. a network request or file system watcher).
 * Scripts can **send State/Value updates to Touch Portal** at any time, and they can also create and remove states, among other things
   (you can literally write a simple Touch Portal "plugin" using the scripting engine itself).
+* Saved script instances can be **automatically loaded** at plugin startup. Scripts can also **save and restore internal state data**, providing a seamless experience when Touch Portal, or the plugin, are restarted.
 
 ### Overall
 * Extensive support for **ECMAScript level 7**, plus custom extensions:
-  * **[File system](@ref FileSystem)** interaction, from one-line read/write utilities to full byte-by-byte access.
-  * Flexible **string, date, and number formatting** with .NET [String.Format style](@ref String.format()) or ["printf"](@ref sprintf()) style functions.
+  * **[File system](https://dse.tpp.max.paperno.us/group___file_system.html)** utilities, from one-line read/write utilities to full byte-by-byte access, **directory listing** and manipulation, a **file system watcher**, and more.
+  * Flexible **string, date, and number formatting** with .NET [String.Format style](https://dse.tpp.max.paperno.us/class_string.html#a45f4c919dfa7b9606e5879d216ab416d) or ["printf"](https://dse.tpp.max.paperno.us/class_global.html#a099000798b9de9749a8b540bef8882e6) style functions.
   * Support for **timed/recurring operations** with `setTimeout()`/`setInterval()`.
-  * **Network requests** supported via familiar [Fetch API](@ref FetchAPI) and [XMLHttpRequest](@ref stdlib-xmlhttpreq).
-  * **Touch Portal [interaction](@ref TP)**: update any State or global Value, create and remove States, change Slider positions, send Notifications, and
+  * **[Network API](https://dse.tpp.max.paperno.us/group___net_a_p_i.html)** with support for [Fetch API](https://dse.tpp.max.paperno.us/namespace_net.html#a4549287fd3aec57019081a6075d56214), [XMLHttpRequest](https://dse.tpp.max.paperno.us/group___e_c_m_a_std.html#stdlib-xmlhttpreq) and a [WebSocket](https://dse.tpp.max.paperno.us/class_web_socket.html) client.
+  * **[Touch Portal interaction](https://dse.tpp.max.paperno.us/group___t_p_a_p_i.html)**: update any State or global Value, create and remove States, change Slider positions, send Notifications, and
     much more (in fact full interaction with Touch Portal, as a plugin, is available to the script environment).
-  * **Color manipulation**/utility library.
-  * **External command and application launching** with optional inter-process data exchange using `Process` class.
-  * Sophisticated system-level **Clipboard interactions** using a provided module.
-  * Lots of convenience extensions to built-in JS objects like Date, Number, Math and String.
-  * Other [global](@ref Global) object extensions and [utilities](@ref Util),
+  * **[Color](https://dse.tpp.max.paperno.us/class_color.html) manipulation**/utility library.
+  * **External command and application launching** with optional inter-process data exchange, using [Process](https://dse.tpp.max.paperno.us/class_process.html) class.
+  * Sophisticated system-level **[Clipboard](https://dse.tpp.max.paperno.us/class_clipboard.html) interactions** using a provided module.
+  * Lots of [convenience extensions](https://dse.tpp.max.paperno.us/group___j_s_ext.html) to built-in JS objects like `Date`, `Number`, `Math` and `String`.
+  * Other [global](https://dse.tpp.max.paperno.us/class_global.html) object extensions and [utilities](https://dse.tpp.max.paperno.us/group___util.html),
     eg. for encoding/decoding **base-64 data**, **environment variable** access, **locale data**, **hashing algorithms**, and more.
   * Infinitely **extensible** via either JavaScript libraries/modules _or_ C++ integration.
 * Any expression/script action can be **saved to persistent settings** and re-created automatically at startup,
@@ -139,7 +140,7 @@ Or subscribe to the [ATOM feed](https://github.com/mpaperno/DSEP4TP/releases.ato
 
 Release announcements are also made in the Touch Portal Discord Server room [#dynamic-script-engine](https://discord.gg/FhYsZNFgyw)
 
-Or use the provided [example script](@ref example_fetch_and_notify) to check for new versions right from Touch Portal!
+Or use the provided [example script](https://dse.tpp.max.paperno.us/example_fetch_and_notify.html) to check for new versions right from Touch Portal!
 
 <div class="hide-on-site">
 
@@ -222,13 +223,13 @@ of their respective licenses. The copyright notice above does not apply
 to any 3rd-party components used within.
 
 <span class="next_section_button">
-Go To: [Scripting Library Reference](modules.html)
+Go To: [Scripting Library Reference](https://dse.tpp.max.paperno.us/modules.html)
 </span>
 
 <span class="next_section_button">
-Go To: [Examples](@ref plugin_examples)
+Go To: [Examples](https://dse.tpp.max.paperno.us/plugin_examples.html)
 </span>
 
 <span class="next_section_button">
-Go To: [Plugin Documentation](@ref documentation)
+Go To: [Plugin Documentation](https://dse.tpp.max.paperno.us/documentation.html)
 </span>
