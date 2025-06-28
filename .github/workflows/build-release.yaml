@@ -92,7 +92,7 @@ jobs:
         with:
           version: 6.5.*
           tools: ${{ startsWith(matrix.os, 'windows') && 'tools_ninja tools_opensslv3_x64' || 'tools_ninja' }}
-          # modules: 'qtwebsockets'
+          modules: 'qtwebsockets'
 
       - name: Configure MSVC
         if: ${{ startsWith(matrix.os, 'windows') }}
