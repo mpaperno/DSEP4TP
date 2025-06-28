@@ -1,6 +1,54 @@
 # Change Log
 **Dynamic Script Engine Plugin for Touch Portal**: changes by version number and release date.
 
+## 1.3.0.0 (28-Jun-2025)
+
+<div class="hide-on-site">
+Note: Reading these notes <a href="https://dse.tpp.max.paperno.us/md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p__c_h_a_n_g_e_l_o_g.html">at the documentation's site</a> will provide links to all the new API features.
+</div>
+
+### Plugin Core
+- The plugin's scripting engines now run in a single system thread by default. This should provide greater stability when running scripts, especially more complex
+  ones with asynchronous event handlers, timers, the new WebSockets client, and so forth. In most cases there should be no appreciable practical difference. However,
+  the old multi-threaded behavior can be restored using the new related plugin setting. If your current scripts runs stable and you think benefit from multi-threading,
+  you may re-enable this feature (at your own risk :) ).
+
+### New JS Library Features
+- Added a full-featured `WebSocket` client and simplified `Net.wsGet()` and `Net.wsSend()` utility functions.
+- Added `FSWatcher` class for monitoring changes to files and directories.
+- The `File` utility type gets many enchancements (see docs for details):
+  - Added async methods: `readAsync()`, `readLinesAsync()`, `copyAsync()`, `renameAsync()`, `removeAsync()` and `writeAsync()`. These can return a `Promise` or accept a callback argument.
+  - Added support for text file encoding and decoding of UTF-16 and UTF-32 LE/BE formats. When reading files, encoding can be detected automatically (if a BOM is present), or specified explicitly.
+  - Added "safe" options for `write()`, `copy()` and `rename()` functions (and their new async counterparts) which can handle errors more gracefully. `copy()` and `rename()` can now be set to overwrite existing files instead of failing.
+  - Added option of writing Windows or "Unix" line endings for text files (CR+LF or LF, default depends on current OS).
+  - Added option to write a BOM header for UTF-encoded files.
+  - Calling synchronous function can now be configured to throw exceptions on error or fail "silently" (but log the error); see new `File.throwExceptions` property.
+- Added a "Generic Script Event" Touch Portal Event with "local states" feature which can be triggered from scripts with an event name and up to 10 other arbitrary local state values using `TP.triggerGenericEvent()`.
+- Added `TPButton` utility class which can synchronize visual state properties with an actual Touch Portal button via automatic state updates (see docs for details and button template).
+- Added new event handler connection options and documentation, eg. `on()`, `off()` and `once()` methods, more inline with common standards. General documentation in new [`Event Handling`](https://dse.tpp.max.paperno.us/group___event_handlers.html) section. Also updated docs for all events throughout the various APIs.
+- Added debugging utilities for dumping object properties and formatting output (similar to NodeJS): `inspect()`, `console.dir()`, `printf()` and `%%o`/`%%O` specifier support for `sprintf()`/`printf()`. Also convenience formatting functions `console.infof()`,  `console.warnf()`,  `console.errorf()`.
+- Added global `structuredClone()` JS standard function (as polyfill).
+- Added `openUrlExternally()` global function which launches the system-defined handler for various URL schemes or file types.
+- Added `callLater()` and `gcLater()` global functions which automatically consolidate multiple calls.
+- Added `URL` class extensions (eg. for working with local file URLs) and also the missing `URL.parse()` and `URL.canParse()` standards. `URL` type now has own documentation section.
+- Added `String.elideLeft()`, `String.elideMiddle()`, and `String.elideRight()` methods and static functions for trimming strings with an added visual indicator.
+- Added `Color.toWebColor()`/`Color.web()` methods to return RGB/RRGGBB/RGBA/RRGGBBAA format based on alpha value being opaque or not, and static `Color.fromArgb()` and `Color.argb2rgba()` functions. Updated documentation to list the many suppoorted color input formats.
+- Added `DSE.aboutToQuit` event which is fired just before plugin exits (stops running for whatever reason, besides crashing).
+- Added `DOMException` constant equivalents of all standard exception names (eg. `DOMException.AbortError`), which can be compared to `code` property instead of using string names. Constructor also accepts constant as 2nd argument instead of name.
+
+### Fixes
+- In some cases scripts will now get a better chance of capturing errors (with try/catch) instead of them being caught/reported by the script engine itself before the catch clause can be invoked.
+  Previously, the script engine could be capturing some errors before returning to the main event loop, preventing any user code from running and catching them. Now it will check "lazily" and allow user events to run before checking for uncaught exceptions.
+- Fixed that an expression value couldn't be cleared (deleted) in Script File and Module actions after initially set to some non-empty value (had to delete the script instance first).
+- `instanceof DOMException` now evaluates correctly for `DOMException` types. Note that `DOMException` inherits from `Error` so `instanceof Error` also returns `true`, which it already did prior to this fix.
+
+### Other Changes
+- When loading a module-type script, the plugin will log a warning if a different module has already been loaded into the current script environment using the same module alias.
+- Log files are now written with a leading UTF-8 BOM.
+
+**Full log:** [v1.2.1...v1.3.0](https://github.com/mpaperno/DSEP4TP/compare/1.2.1.0...1.3.0.0)
+
+---
 ## 1.2.1.0 (14-May-2025)
 
 - Changes for "On Hold" action options:
