@@ -29,7 +29,9 @@ to any 3rd-party components used within.
 #include <QSemaphore>
 
 #include "event_utils.h"
+#ifdef Q_OS_WIN
 #include "utils.h"
+#endif
 
 #ifndef DOXYGEN
 namespace ScriptLib {
