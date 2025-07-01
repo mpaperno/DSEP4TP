@@ -20,9 +20,10 @@ var searchData=
   ['constrain_17',['constrain',['../class_math.html#a0196c3b9b73a6da330c4fab9cfd1f851',1,'Math::constrain()'],['../class_number.html#ac9ed786aaf1627057ba774f4af4775af',1,'Number::constrain()']]],
   ['copy_18',['copy',['../class_file_handle.html#a112056b38e1fe6c7f32a6a489c4fbe81',1,'FileHandle::copy()'],['../class_file.html#a90655c27a84ae209cc6d60c47e9b1fa4',1,'File::copy(string from, string to, FS.OverwriteMode overwriteMode=FS.OW_EXCL)']]],
   ['copyasync_19',['copyAsync',['../class_file.html#a9e4adf46ca5d0922ba35699cf71ff566',1,'File']]],
-  ['ctime_20',['ctime',['../class_file.html#a46333cd52f38f985e8df49af635c1749',1,'File']]],
-  ['currencysymbol_21',['currencySymbol',['../class_locale.html#a7fae80fbd53184a570f5b234b04a4f63',1,'Locale']]],
-  ['currentinstance_22',['currentInstance',['../class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01',1,'DSE']]],
-  ['currentpagename_23',['currentPageName',['../class_t_p.html#a516313706b20ff53a37deb14f13366c4',1,'TP']]],
-  ['cwd_24',['cwd',['../class_dir.html#a4b69d9dff5aafb800a2e457923f06194',1,'Dir']]]
+  ['createstates_20',['createStates',['../class_g_h_u_b_device.html#a46a2e9612b1dccefdf71b16bcbbae833',1,'GHUBDevice']]],
+  ['ctime_21',['ctime',['../class_file.html#a46333cd52f38f985e8df49af635c1749',1,'File']]],
+  ['currencysymbol_22',['currencySymbol',['../class_locale.html#a7fae80fbd53184a570f5b234b04a4f63',1,'Locale']]],
+  ['currentinstance_23',['currentInstance',['../class_d_s_e.html#a4dc79d45688d568fdb138dac9b0c6c01',1,'DSE']]],
+  ['currentpagename_24',['currentPageName',['../class_t_p.html#a516313706b20ff53a37deb14f13366c4',1,'TP']]],
+  ['cwd_25',['cwd',['../class_dir.html#a4b69d9dff5aafb800a2e457923f06194',1,'Dir']]]
 ];

@@ -28,7 +28,7 @@ var searchData=
   ['request_25',['request',['../namespace_net.html#adaf75747e92df59d79e04df9c5ee8008',1,'Net']]],
   ['require_26',['require',['../class_global.html#a610272df896f8a7bb6dc131073e6af2b',1,'Global']]],
   ['reset_27',['reset',['../class_file_handle.html#a50910ef42a65d4c139af341f1ef2323f',1,'FileHandle']]],
-  ['resetbatterydata_28',['resetBatteryData',['../class_device.html#acdddce7f2b01a16752ca429b0cd466e4',1,'Device']]],
+  ['resetbatterydata_28',['resetBatteryData',['../class_g_h_u_b_device.html#acdddce7f2b01a16752ca429b0cd466e4',1,'GHUBDevice']]],
   ['resettodefaults_29',['resetToDefaults',['../class_t_p_button.html#afe2b0b115ecb686b03a3499a21aa633c',1,'TPButton']]],
   ['resize_30',['resize',['../class_file_handle.html#a1609500c4d3ed333eef5a66b73a08102',1,'FileHandle']]],
   ['resolved_31',['resolved',['../class_u_r_l.html#a007c1b29a6edd7d3b1b5ad07db9d080d',1,'URL::resolved(&lt; string|URL &gt; base,&lt; string|URL &gt; relative)'],['../class_u_r_l.html#a6e56be8588e81c2e386312630fc461eb',1,'URL::resolved(&lt; string|URL &gt; relative)']]],

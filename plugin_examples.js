@@ -6,5 +6,6 @@ var plugin_examples =
     [ "Color Mixer Example", "example_color_picker.html", null ],
     [ "Fetch and Notify Example - GitHub Release Version Check", "example_fetch_and_notify.html", null ],
     [ "Tail Example", "example_tail.html", null ],
-    [ "Marquee Text Example", "example_marquee.html", null ]
+    [ "Marquee Text Example", "example_marquee.html", null ],
+    [ "Logitech™ G HUB® Battery Monitor", "example_ghub_monitor.html", null ]
 ];

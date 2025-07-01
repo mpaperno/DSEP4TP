@@ -8,8 +8,9 @@ var searchData=
   ['getconnectorshortids_5',['getConnectorShortIds',['../class_t_p.html#a202324244d38cf97a8f0223b7606e424',1,'TP']]],
   ['getlines_6',['getLines',['../class_string.html#ada7bb955d4ef6c59e3586a553378833d',1,'String::getLines(int maxLines, int fromLine=0, string separator=&apos;\n&apos;)'],['../class_string.html#a33c669668c14eec4fbcec8cdae6f2dff',1,'String::getLines(string text, int maxLines, int fromLine=0, string separator=&apos;\n&apos;)']]],
   ['getsaturation_7',['getSaturation',['../class_color.html#a45d3734fd6c897723acd3cb8e5e6fa3b',1,'Color']]],
-  ['global_8',['Global',['../class_global.html',1,'']]],
-  ['globaldefaults_9',['GlobalDefaults',['../class_request.html#ab379177f5504e2f6930ac675d4848a1a',1,'Request']]],
-  ['goingawayclosecode_10',['GoingAwayCloseCode',['../class_web_socket.html#af4340f6002fe776e340cc2e535016d40af915bb7a4a624d9c96cb5663b1ac69b7',1,'WebSocket']]],
-  ['groupseparator_11',['groupSeparator',['../class_locale.html#a13880a40e90ea1540b08e909479f68cb',1,'Locale']]]
+  ['ghubdevice_8',['GHUBDevice',['../class_g_h_u_b_device.html',1,'']]],
+  ['global_9',['Global',['../class_global.html',1,'']]],
+  ['globaldefaults_10',['GlobalDefaults',['../class_request.html#ab379177f5504e2f6930ac675d4848a1a',1,'Request']]],
+  ['goingawayclosecode_11',['GoingAwayCloseCode',['../class_web_socket.html#af4340f6002fe776e340cc2e535016d40af915bb7a4a624d9c96cb5663b1ac69b7',1,'WebSocket']]],
+  ['groupseparator_12',['groupSeparator',['../class_locale.html#a13880a40e90ea1540b08e909479f68cb',1,'Locale']]]
 ];

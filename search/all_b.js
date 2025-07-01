@@ -9,5 +9,6 @@ var searchData=
   ['localaddress_6',['localAddress',['../class_web_socket.html#aac4d38dfb3c28b4a674bf90ed22e6d2c',1,'WebSocket']]],
   ['locale_7',['Locale',['../class_locale.html',1,'']]],
   ['locale_8',['locale',['../class_global.html#a7054cb6bbc5daa104eec29dd4a5f0588',1,'Global']]],
-  ['localport_9',['localPort',['../class_web_socket.html#aa39be6f00f10d19652570a3bd35e1da8',1,'WebSocket']]]
+  ['localport_9',['localPort',['../class_web_socket.html#aa39be6f00f10d19652570a3bd35e1da8',1,'WebSocket']]],
+  ['logitech™_20g_20hub®_20battery_20monitor_10',['Logitech™ G HUB® Battery Monitor',['../example_ghub_monitor.html',1,'plugin_examples']]]
 ];

@@ -36,7 +36,7 @@ var searchData=
   ['sendtext_33',['sendText',['../class_web_socket.html#a388be2f79e46348ed2b5681fc4b9e767',1,'WebSocket']]],
   ['separator_34',['separator',['../class_dir.html#aab706bd8636bb9e325b1cc684a5c5172',1,'Dir']]],
   ['setactionrepeat_35',['setActionRepeat',['../class_d_s_e.html#a8f0f47c9fbd3c17983601884938c4c64',1,'DSE']]],
-  ['setactive_36',['setActive',['../class_device.html#ad0b39f9a1f1ee3c27a10e1c3e0572114',1,'Device']]],
+  ['setactive_36',['setActive',['../class_g_h_u_b_device.html#ad0b39f9a1f1ee3c27a10e1c3e0572114',1,'GHUBDevice']]],
   ['setarguments_37',['setArguments',['../class_process.html#a3e2ab9ac2ae620b564d3eb38837ef048',1,'Process']]],
   ['setdata_38',['setData',['../class_clipboard.html#a183eae51819a0d03be5dc4b2c8bbdd8f',1,'Clipboard::setData(ArrayBuffer data, int mode=Mode.Clipboard)'],['../class_clipboard.html#a3ca1ca07dc1ea994770633ceca77fc2d',1,'Clipboard::setData(String mimeType, ArrayBuffer data, int mode=Mode.Clipboard)']]],
   ['setfiletime_39',['setFileTime',['../class_file_handle.html#a6b31a0a7b9d68071b47552e6083e819e',1,'FileHandle']]],

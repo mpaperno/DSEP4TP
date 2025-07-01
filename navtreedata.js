@@ -62,7 +62,6 @@ var NAVTREE =
     ] ],
     [ "Plugin Documentation", "documentation.html", "documentation" ],
     [ "Examples", "plugin_examples.html", "plugin_examples" ],
-    [ "README", "md__d___devel__touch_portal__dynamic_script_engine__d_s_e_p4_t_p_resources_examples__g_h_u_b_monitor__r_e_a_d_m_e.html", null ],
     [ "JavaScript Library Reference", "modules.html", "modules" ]
   ] ]
 ];

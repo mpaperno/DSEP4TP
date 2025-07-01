@@ -216,21 +216,22 @@ Scripts</h2>
 <li>Full <code>console.log()</code> (and family) support for debugging/etc; output is sent to a separate plugin log file dedicated for scripting output and errors.</li>
 <li>Scripts can <b>run in the background</b>, for example processing timed events or callbacks from asynchronous processes (eg. a network request or file system watcher).</li>
 <li>Scripts can <b>send State/Value updates to Touch Portal</b> at any time, and they can also create and remove states, among other things (you can literally write a simple Touch Portal "plugin" using the scripting engine itself).</li>
+<li>Saved script instances can be <b>automatically loaded</b> at plugin startup. Scripts can also <b>save and restore internal state data</b>, providing a seamless experience when Touch Portal, or the plugin, are restarted.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md5"></a>
 Overall</h2>
 <ul>
 <li>Extensive support for <b>ECMAScript level 7</b>, plus custom extensions:<ul>
-<li><b><a class="el" href="group___file_system.html">File system</a></b> interaction, from one-line read/write utilities to full byte-by-byte access.</li>
-<li>Flexible <b>string, date, and number formatting</b> with .NET <a class="el" href="class_string.html#a45f4c919dfa7b9606e5879d216ab416d">String.Format style</a> or <a class="el" href="class_global.html#a099000798b9de9749a8b540bef8882e6">&quot;printf&quot;</a> style functions.</li>
+<li><b><a href="https://dse.tpp.max.paperno.us/group___file_system.html" target="_blank">File system</a></b> utilities, from one-line read/write utilities to full byte-by-byte access, <b>directory listing</b> and manipulation, a <b>file system watcher</b>, and more.</li>
+<li>Flexible <b>string, date, and number formatting</b> with .NET <a href="https://dse.tpp.max.paperno.us/class_string.html#a45f4c919dfa7b9606e5879d216ab416d" target="_blank">String.Format style</a> or <a href="https://dse.tpp.max.paperno.us/class_global.html#a099000798b9de9749a8b540bef8882e6" target="_blank">"printf"</a> style functions.</li>
 <li>Support for <b>timed/recurring operations</b> with <code>setTimeout()</code>/<code>setInterval()</code>.</li>
-<li><b>Network requests</b> supported via familiar Fetch API and <a class="el" href="group___e_c_m_a_std.html#stdlib-xmlhttpreq">XMLHttpRequest</a>.</li>
-<li><b>Touch Portal <a class="el" href="class_t_p.html">interaction</a></b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and much more (in fact full interaction with Touch Portal, as a plugin, is available to the script environment).</li>
-<li><b><a class="el" href="class_color.html" title="Provides functions for working with color.">Color</a> manipulation</b>/utility library.</li>
-<li><b>External command and application launching</b> with optional inter-process data exchange using <code><a class="el" href="class_process.html" title="The Process class allows interaction with external processes, such as launching a system command or r...">Process</a></code> class.</li>
-<li>Sophisticated system-level <b><a class="el" href="class_clipboard.html" title="The Clipboard class offers a simple mechanism to copy and paste data between applications.">Clipboard</a> interactions</b> using a provided module.</li>
-<li>Lots of convenience extensions to built-in JS objects like <a class="el" href="class_date.html" title="Date prototype extension methods">Date</a>, <a class="el" href="class_number.html" title="A few convenience methods to extend the standard Number prototype.">Number</a>, <a class="el" href="class_math.html" title="Math Object Extensions">Math</a> and <a class="el" href="class_string.html" title="Extends String object.">String</a>.</li>
-<li>Other <a class="el" href="class_global.html">global</a> object extensions and <a class="el" href="group___util.html">utilities</a>, eg. for encoding/decoding <b>base-64 data</b>, <b>environment variable</b> access, <b>locale data</b>, <b>hashing algorithms</b>, and more.</li>
+<li><b><a href="https://dse.tpp.max.paperno.us/group___net_a_p_i.html" target="_blank">Network API</a></b> with support for <a href="https://dse.tpp.max.paperno.us/namespace_net.html#a4549287fd3aec57019081a6075d56214" target="_blank">Fetch API</a>, <a href="https://dse.tpp.max.paperno.us/group___e_c_m_a_std.html#stdlib-xmlhttpreq" target="_blank">XMLHttpRequest</a> and a <a href="https://dse.tpp.max.paperno.us/class_web_socket.html" target="_blank">WebSocket</a> client.</li>
+<li><b><a href="https://dse.tpp.max.paperno.us/group___t_p_a_p_i.html" target="_blank">Touch Portal interaction</a></b>: update any State or global Value, create and remove States, change Slider positions, send Notifications, and much more (in fact full interaction with Touch Portal, as a plugin, is available to the script environment).</li>
+<li><b><a href="https://dse.tpp.max.paperno.us/class_color.html" target="_blank">Color</a> manipulation</b>/utility library.</li>
+<li><b>External command and application launching</b> with optional inter-process data exchange, using <a href="https://dse.tpp.max.paperno.us/class_process.html" target="_blank">Process</a> class.</li>
+<li>Sophisticated system-level <b><a href="https://dse.tpp.max.paperno.us/class_clipboard.html" target="_blank">Clipboard</a> interactions</b> using a provided module.</li>
+<li>Lots of <a href="https://dse.tpp.max.paperno.us/group___j_s_ext.html" target="_blank">convenience extensions</a> to built-in JS objects like <code><a class="el" href="class_date.html" title="Date prototype extension methods">Date</a></code>, <code><a class="el" href="class_number.html" title="A few convenience methods to extend the standard Number prototype.">Number</a></code>, <code><a class="el" href="class_math.html" title="Math Object Extensions">Math</a></code> and <code><a class="el" href="class_string.html" title="Extends String object.">String</a></code>.</li>
+<li>Other <a href="https://dse.tpp.max.paperno.us/class_global.html" target="_blank">global</a> object extensions and <a href="https://dse.tpp.max.paperno.us/group___util.html" target="_blank">utilities</a>, eg. for encoding/decoding <b>base-64 data</b>, <b>environment variable</b> access, <b>locale data</b>, <b>hashing algorithms</b>, and more.</li>
 <li>Infinitely <b>extensible</b> via either JavaScript libraries/modules <em>or</em> C++ integration.</li>
 </ul>
 </li>
@@ -270,7 +271,7 @@ Update Notifications</h2>
 <p >In GitHub (with an account) you can <em>Watch</em> -&gt; <em>Custom</em> -&gt; <em>Releases</em> this repository (button at top right).</p>
 <p >Or subscribe to the <a href="https://github.com/mpaperno/DSEP4TP/releases.atom" target="_blank">ATOM feed</a> for release notifications.</p>
 <p >Release announcements are also made in the Touch Portal Discord Server room <a href="https://discord.gg/FhYsZNFgyw" target="_blank">#dynamic-script-engine</a></p>
-<p >Or use the provided <a class="el" href="example_fetch_and_notify.html">example script</a> to check for new versions right from Touch Portal!</p>
+<p >Or use the provided <a href="https://dse.tpp.max.paperno.us/example_fetch_and_notify.html" target="_blank">example script</a> to check for new versions right from Touch Portal!</p>
 <div class="hide-on-site"></div><div class="hide-on-site"><hr  />
  </div><h1><a class="anchor" id="autotoc_md11"></a>
 Documentation</h1>
@@ -306,9 +307,9 @@ Copyright, License, and Disclaimer</h1>
 <p >This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
 <p >A copy of the GNU General Public License is included in this repository and is also available at <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
 <p >This project may also use 3rd-party Open Source software under the terms of their respective licenses. The copyright notice above does not apply to any 3rd-party components used within.</p>
-<p ><span class="next_section_button"> Go To: <a href="modules.html" target="_blank">Scripting Library Reference</a> </span></p>
-<p ><span class="next_section_button"> Go To: <a class="el" href="plugin_examples.html">Examples</a> </span></p>
-<p ><span class="next_section_button"> Go To: <a class="el" href="documentation.html">Plugin Documentation</a> </span> </p>
+<p ><span class="next_section_button"> Go To: <a href="https://dse.tpp.max.paperno.us/modules.html" target="_blank">Scripting Library Reference</a> </span></p>
+<p ><span class="next_section_button"> Go To: <a href="https://dse.tpp.max.paperno.us/plugin_examples.html" target="_blank">Examples</a> </span></p>
+<p ><span class="next_section_button"> Go To: <a href="https://dse.tpp.max.paperno.us/documentation.html" target="_blank">Plugin Documentation</a> </span> </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
