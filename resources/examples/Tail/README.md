@@ -1,5 +1,5 @@
 # Tail Example {#example_tail}
-Example of checking a file at regular intervals and reading the last several lines of it when it changes. A.K.A "tailing" a file/log.
+Example of monitoring a text file for updates and reading the last several lines of it when it changes. A.K.A "tailing" a file/log.
 
 <div class="hide-on-site">
 

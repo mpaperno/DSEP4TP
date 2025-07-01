@@ -58,6 +58,8 @@ namespace ScriptLib {
 	To terminate watching all paths and delete an instance of `%FSWatcher`,
 	use the `destroy()` method and set your instance variable value to `null` or `undefined`.
 
+	See the @ref example_tail for sample usage.
+
 	Notes:
 	- On systems running a Linux kernel without inotify support,
 		file systems that contain watched paths cannot be unmounted.
@@ -78,7 +80,7 @@ namespace ScriptLib {
 	part of the underlying Qt C++ library. Most of the documentation text here is originally from
 	the QFileSystemWatcher documentation (used under the GNU Free Documentation License version 1.3).
 
-	\sa File, Dir
+	\sa File, Dir, @ref example_tail
 	\since v1.3
 */
 class FSWatcher : public QFileSystemWatcher
